@@ -17,9 +17,12 @@ export function PopularCars() {
           </p>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {cars.map((car) => (
-            <PremiumCard key={car.id} className="relative overflow-hidden p-6">
+            <PremiumCard
+              key={car.id}
+              className="relative overflow-hidden p-5 sm:p-6 snap-start shrink-0 w-[82%] sm:w-auto"
+            >
               <div
                 className="absolute inset-0 opacity-85"
                 style={{

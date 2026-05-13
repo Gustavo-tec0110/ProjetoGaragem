@@ -25,7 +25,7 @@ export function StylesGrid() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {styles.map((style) => (
             <motion.div
               key={style.id}
@@ -37,7 +37,7 @@ export function StylesGrid() {
                   ? { duration: 0 }
                   : { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }
               }
-              className="h-full"
+              className="h-full snap-start shrink-0 w-[82%] sm:w-auto"
             >
               <PremiumCard className="relative overflow-hidden h-full">
                 <div
@@ -45,7 +45,7 @@ export function StylesGrid() {
                   style={{ backgroundImage: style.backdrop }}
                 />
                 <div className="absolute inset-0 bg-background/55" />
-                <div className="relative p-6">
+                <div className="relative p-5 sm:p-6">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-xs text-foreground shadow-glow">
                     <Flame className="size-3 text-accent" />
                     {style.badge}

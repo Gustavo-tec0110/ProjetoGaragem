@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="px-4 sm:px-6 pb-10">
+    <footer className="hidden md:block px-4 sm:px-6 pb-10">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mt-4 rounded-4xl pg-glass px-6 py-6 md:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -38,4 +38,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-

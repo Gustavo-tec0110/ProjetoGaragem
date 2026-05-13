@@ -105,11 +105,14 @@ export default function ComunidadePage() {
               </Button>
             </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
               {highlights.map((build) => {
                 const creator = communityCreators.find((c) => c.id === build.creatorId);
                 return (
-                  <PremiumCard key={build.id} className="group relative overflow-hidden">
+                  <PremiumCard
+                    key={build.id}
+                    className="group relative overflow-hidden snap-start shrink-0 w-[86%] sm:w-auto"
+                  >
                     <div className="absolute inset-0">
                       <Image
                         src={build.image}
@@ -122,7 +125,7 @@ export default function ComunidadePage() {
                       <div className="absolute inset-0 pointer-events-none pg-particles opacity-45" />
                     </div>
 
-                    <div className="relative p-6">
+                    <div className="relative p-5 sm:p-6">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="text-xs text-muted">{build.style}</p>

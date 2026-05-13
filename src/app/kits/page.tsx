@@ -21,9 +21,9 @@ export default function KitsPage() {
             combinações ruins e te avisa com clareza.
           </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {kitTeasers.map((kit) => (
-              <Card key={kit.id} className="p-6">
+              <Card key={kit.id} className="p-5 sm:p-6 snap-start shrink-0 w-[86%] sm:w-auto">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-xs text-muted">Kit</p>
@@ -44,4 +44,3 @@ export default function KitsPage() {
     </div>
   );
 }
-

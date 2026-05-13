@@ -33,7 +33,7 @@ export default function RootLayout({
       lang="pt-BR"
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0">
         {children}
       </body>
     </html>

@@ -27,7 +27,7 @@ export default function ExplorarPage() {
             Luxo, com cara de app premium.
           </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {[...communityBuilds]
               .sort((a, b) => b.baseLikes - a.baseLikes)
               .map((build) => {
@@ -35,7 +35,7 @@ export default function ExplorarPage() {
                 return (
               <PremiumCard
                 key={build.id}
-                className="group relative overflow-hidden"
+                className="group relative overflow-hidden snap-start shrink-0 w-[86%] sm:w-auto"
               >
                 <div className="absolute inset-0">
                   <Image

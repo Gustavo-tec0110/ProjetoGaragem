@@ -35,13 +35,13 @@ export function FeaturedBuilds() {
           </Button>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {builds.map((build) => {
             const creator = communityCreators.find((c) => c.id === build.creatorId);
             return (
             <PremiumCard
               key={build.id}
-              className="group relative overflow-hidden"
+              className="group relative overflow-hidden snap-start shrink-0 w-[82%] sm:w-auto"
             >
               <div className="absolute inset-0">
                 <Image
@@ -69,7 +69,7 @@ export function FeaturedBuilds() {
                 />
               </div>
 
-              <div className="relative p-6">
+              <div className="relative p-5 sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-xs text-muted">{build.style}</p>

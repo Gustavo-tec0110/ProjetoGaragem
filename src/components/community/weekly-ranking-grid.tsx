@@ -64,9 +64,12 @@ export function WeeklyRankingGrid({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2">
         {ranking.map((item) => (
-          <PremiumCard key={item.buildId} className="relative overflow-hidden p-6">
+          <PremiumCard
+            key={item.buildId}
+            className="relative overflow-hidden p-5 sm:p-6 snap-start shrink-0 w-[86%] md:w-auto"
+          >
             <div
               className="absolute inset-0 opacity-85"
               style={{
@@ -107,4 +110,3 @@ export function WeeklyRankingGrid({ className }: { className?: string }) {
     </div>
   );
 }
-
