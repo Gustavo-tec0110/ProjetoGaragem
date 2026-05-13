@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProjetoGaragem
+
+Website automotivo premium (App Router) inspirado em Need for Speed, Forza Horizon e dashboards automotivos.
+
+**Stack**
+- Next.js (App Router) + TypeScript
+- TailwindCSS v4 (tema escuro + neon laranja)
+- Framer Motion (micro animações)
+- shadcn/ui-style components (Button/Card/Input etc)
+- Zustand (estado do builder)
 
 ## Getting Started
 
@@ -16,9 +25,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages
+- `/` Home (Hero + estilos + builds + ranking + carros)
+- `/montar` Wizard “Montar Projeto” (carro → orçamento → estilo → build + compatibilidade)
+- `/explorar`, `/projetos`, `/kits`, `/comunidade`, `/login`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Dev (Windows)
+Se `npm` estiver bloqueado por ExecutionPolicy, use `npm.cmd`:
+
+```bash
+npm.cmd run dev
+```
 
 ## Learn More
 

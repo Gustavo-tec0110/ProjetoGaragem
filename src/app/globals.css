@@ -1,26 +1,214 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@theme {
+  /* ProjetoGaragem — core palette */
+  --color-background: #0b0b0d;
+  --color-background-2: #0f1014;
+  --color-card: #14151b;
+  --color-foreground: #ffffff;
+  --color-muted: #a9acb6;
+  --color-border: #262934;
+  --color-accent: #ff2a2a;
+  --color-accent-2: #ff4d00;
+  --color-success: #00d26a;
+  --color-warning: #ffb020;
+  --color-danger: #ff3b3b;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-title: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  /* Premium depth */
+  --radius-4xl: 2rem;
+  --shadow-glow: 0 0 18px rgba(255, 42, 42, 0.25),
+    0 0 48px rgba(255, 42, 42, 0.14);
+  --shadow-elevated: 0 24px 80px rgba(0, 0, 0, 0.55);
+
+  /* Motion primitives */
+  --animate-pg-scanlines: pg-scanlines 14s linear infinite;
+  --animate-pg-particles: pg-particles 22s linear infinite;
+
+  @keyframes pg-scanlines {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 0 520px;
+    }
+  }
+
+  @keyframes pg-particles {
+    from {
+      background-position: 0 0, 0 0, 0 0, 0 0;
+    }
+    to {
+      background-position: -220px 180px, 300px -260px, -260px -220px, 240px 240px;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: --alpha(var(--color-accent) / 35%);
+    color: var(--color-foreground);
+  }
+
+  /* Subtle, premium scrollbar (Chromium/WebKit) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: --alpha(var(--color-border) / 90%);
+    border-radius: 999px;
+    border: 2px solid --alpha(var(--color-background) / 100%);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: --alpha(var(--color-background) / 100%);
+  }
+}
+
+@layer components {
+  .pg-glass {
+    background: --alpha(var(--color-card) / 78%);
+    border: 1px solid --alpha(var(--color-border) / 70%);
+    backdrop-filter: blur(14px);
+  }
+
+  .pg-grid-bg {
+    background-image: radial-gradient(
+        900px circle at 20% 5%,
+        --alpha(var(--color-accent) / 18%),
+        transparent 60%
+      ),
+      radial-gradient(
+        700px circle at 80% 20%,
+        --alpha(var(--color-accent-2) / 10%),
+        transparent 55%
+      ),
+      linear-gradient(
+        180deg,
+        --alpha(var(--color-background) / 92%),
+        var(--color-background)
+      );
+  }
+
+  .pg-border-glow {
+    position: relative;
+  }
+
+  .pg-border-glow::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      --alpha(var(--color-accent) / 85%),
+      transparent 35%,
+      --alpha(var(--color-accent-2) / 55%)
+    );
+    opacity: 0.55;
+    filter: blur(10px);
+  }
+
+  .pg-scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 5px,
+      --alpha(var(--color-foreground) / 5%) 6px
+    );
+    background-size: 100% 6px;
+    mix-blend-mode: overlay;
+    animation: var(--animate-pg-scanlines);
+  }
+
+  .pg-particles {
+    background-image:
+      radial-gradient(circle at 10% 30%, --alpha(var(--color-foreground) / 12%) 0 1px, transparent 2px),
+      radial-gradient(circle at 80% 20%, --alpha(var(--color-accent) / 10%) 0 1px, transparent 2px),
+      radial-gradient(circle at 30% 80%, --alpha(var(--color-accent-2) / 9%) 0 1px, transparent 2px),
+      radial-gradient(circle at 60% 60%, --alpha(var(--color-foreground) / 10%) 0 1px, transparent 2px);
+    background-size: 220px 220px, 300px 300px, 260px 260px, 240px 240px;
+    animation: var(--animate-pg-particles);
+  }
+
+  .pg-premium-card {
+    position: relative;
+    isolation: isolate;
+    will-change: transform;
+    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 220ms ease;
+  }
+
+  .pg-premium-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 220ms ease;
+    background:
+      radial-gradient(
+        560px circle at var(--mx, 50%) var(--my, 25%),
+        --alpha(var(--color-accent) / 20%),
+        transparent 45%
+      ),
+      radial-gradient(
+        520px circle at calc(var(--mx, 50%) + 8%) calc(var(--my, 25%) + 14%),
+        --alpha(var(--color-accent-2) / 12%),
+        transparent 55%
+      );
+  }
+
+  .pg-premium-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.55;
+    mix-blend-mode: overlay;
+    background:
+      linear-gradient(
+        180deg,
+        --alpha(var(--color-foreground) / 10%),
+        transparent 55%
+      ),
+      linear-gradient(
+        135deg,
+        transparent 0%,
+        --alpha(var(--color-foreground) / 8%) 35%,
+        transparent 65%
+      );
+  }
+
+  .pg-premium-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    border-color: --alpha(var(--color-accent) / 28%);
+  }
+
+  .pg-premium-card:hover::before {
+    opacity: 1;
+  }
 }
