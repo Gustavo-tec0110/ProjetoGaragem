@@ -1,53 +1,32 @@
 # ProjetoGaragem
 
+O app Next.js esta na pasta `projeto-garagem/`.
+
 Website automotivo premium (App Router) inspirado em Need for Speed, Forza Horizon e dashboards automotivos.
 
 **Stack**
 - Next.js (App Router) + TypeScript
 - TailwindCSS v4 (tema escuro + neon laranja)
-- Framer Motion (micro animações)
-- shadcn/ui-style components (Button/Card/Input etc)
+- Framer Motion (micro animacoes)
+- UI components (Button/Card/Input etc)
 - Zustand (estado do builder)
 
-## Getting Started
-
-First, run the development server:
+## Rodar local
 
 ```bash
+cd projeto-garagem
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Pages
-- `/` Home (Hero + estilos + builds + ranking + carros)
-- `/montar` Wizard “Montar Projeto” (carro → orçamento → estilo → build + compatibilidade)
-- `/explorar`, `/projetos`, `/kits`, `/comunidade`, `/login`
-
-## Dev (Windows)
-Se `npm` estiver bloqueado por ExecutionPolicy, use `npm.cmd`:
+Windows (se `npm` estiver bloqueado por ExecutionPolicy):
 
 ```bash
 npm.cmd run dev
 ```
 
-## Learn More
+## Pages
+- `/` Home (Hero + estilos + builds + ranking + carros)
+- `/montar` Wizard "Montar Projeto" (carro -> orcamento -> estilo -> build + compatibilidade)
+- `/builds/[id]` Build detalhada (galeria, specs, pecas, compatibilidade, custo, comentarios, likes/saves)
+- `/explorar`, `/projetos`, `/kits`, `/comunidade`, `/login`
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
