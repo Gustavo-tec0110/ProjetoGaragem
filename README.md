@@ -1,7 +1,5 @@
 # ProjetoGaragem
 
-O app Next.js esta na pasta `projeto-garagem/`.
-
 Website automotivo premium (App Router) inspirado em Need for Speed, Forza Horizon e dashboards automotivos.
 
 **Stack**
@@ -14,14 +12,15 @@ Website automotivo premium (App Router) inspirado em Need for Speed, Forza Horiz
 ## Rodar local
 
 ```bash
-cd projeto-garagem
-npm run dev
+npm install
+npm start
 ```
 
 Windows (se `npm` estiver bloqueado por ExecutionPolicy):
 
 ```bash
-npm.cmd run dev
+npm.cmd install
+npm.cmd start
 ```
 
 ## Pages
