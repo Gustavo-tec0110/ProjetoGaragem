@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { CarFront, Home, Package, Search, Users, Wrench } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useSupabaseUser } from "@/lib/supabase/use-user";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -47,6 +48,7 @@ function NavLink({
 
 export function SiteNavbar() {
   const pathname = usePathname();
+  const { user } = useSupabaseUser();
   const isActive = React.useCallback(
     (href: string) => pathname === href || pathname.startsWith(`${href}/`),
     [pathname]
@@ -82,7 +84,7 @@ export function SiteNavbar() {
 
                 <div className="hidden md:flex items-center gap-2">
                   <Button asChild variant="ghost" size="sm">
-                    <Link href="/login">Login</Link>
+                    <Link href={user ? "/perfil" : "/login"}>{user ? "Perfil" : "Login"}</Link>
                   </Button>
                   <Button asChild size="sm">
                     <Link href="/montar">Montar Projeto</Link>
@@ -91,7 +93,7 @@ export function SiteNavbar() {
 
                 <div className="md:hidden flex items-center gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href="/login">Login</Link>
+                    <Link href={user ? "/perfil" : "/login"}>{user ? "Perfil" : "Login"}</Link>
                   </Button>
                 </div>
               </div>

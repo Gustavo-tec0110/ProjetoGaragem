@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { GoogleSigninButton } from "@/components/auth/google-signin-button";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,12 @@ export default function LoginPage() {
               Entrar no ProjetoGaragem
             </h1>
             <p className="mt-2 text-sm text-muted">
-              Prototipagem — autenticação via Supabase entra na próxima etapa.
+              Login Google (Supabase) + perfil + builds salvas.
             </p>
+
+            <div className="mt-6">
+              <GoogleSigninButton />
+            </div>
 
             <div className="mt-6 grid gap-3">
               <Input placeholder="Email" type="email" />
@@ -30,7 +35,7 @@ export default function LoginPage() {
             </div>
 
             <div className="mt-5 flex flex-col gap-3">
-              <Button>Entrar</Button>
+              <Button disabled>Entrar (em breve)</Button>
               <Button variant="outline" asChild>
                 <Link href="/montar">Continuar sem login</Link>
               </Button>

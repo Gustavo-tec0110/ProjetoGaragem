@@ -29,3 +29,15 @@ npm.cmd start
 - `/builds/[id]` Build detalhada (galeria, specs, pecas, compatibilidade, custo, comentarios, likes/saves)
 - `/explorar`, `/projetos`, `/kits`, `/comunidade`, `/login`
 
+## Login Google (opcional)
+O projeto tem suporte a Login Google via Supabase (client-side) quando as envs estiverem configuradas.
+
+Crie um `.env.local`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
+
+Depois acesse `/login` e clique em **Continuar com Google**.
+
