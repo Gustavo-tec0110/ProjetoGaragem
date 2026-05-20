@@ -25,10 +25,12 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cars, styles } from "@/lib/data/home";
-import type { BuildPartCategory, CompatibilityStatus } from "@/lib/types";
+import { encodeBuildShare } from "@/lib/share/build-share";
+import type { Build, BuildPartCategory, CompatibilityStatus } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { generateBuild } from "@/lib/builder/generate-build";
 import { useBuilderStore } from "@/stores/builder-store";
+import { useBuildsStore } from "@/stores/builds-store";
 
 const steps = [
   { id: "car", label: "Carro" },
@@ -76,6 +78,85 @@ function sumImpact(parts: Array<{ impact: ImpactTotals }>): ImpactTotals {
     }),
     { suspension: 0, wheel: 0, engine: 0, aesthetics: 0, comfort: 0, dailyUse: 0 }
   );
+}
+
+async function copyToClipboard(text: string) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // ignore and fallback
+  }
+
+  try {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "true");
+    textarea.style.position = "fixed";
+    textarea.style.top = "-1000px";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(textarea);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+function normalizeKey(value: string) {
+  try {
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  } catch {
+    return value.toLowerCase();
+  }
+}
+
+type VisualStance = "stock" | "wide" | "ultra";
+type VisualHeight = "stock" | "low" | "slammed";
+
+function deriveVisualCompatibility(input: { build: Build | null; styleId: string | null }) {
+  const wheelPart =
+    input.build?.parts.find((p) => normalizeKey(p.category) === normalizeKey("Rodas")) ?? null;
+  const suspensionPart =
+    input.build?.parts.find((p) => normalizeKey(p.category) === normalizeKey("Suspensão")) ?? null;
+  const intakePart =
+    input.build?.parts.find((p) => normalizeKey(p.category) === normalizeKey("Intake")) ?? null;
+
+  const wheelImpact = wheelPart?.impact.wheel ?? 0;
+  const stance: VisualStance = wheelImpact >= 3 ? "ultra" : wheelImpact >= 2 ? "wide" : "stock";
+
+  const suspensionName = suspensionPart ? normalizeKey(suspensionPart.name) : "";
+  const height: VisualHeight =
+    suspensionName.includes("agressivo") || suspensionName.includes("agressive")
+      ? "slammed"
+      : suspensionPart
+        ? "low"
+        : "stock";
+
+  const hasTurbo = input.styleId === "turbostreet" || (intakePart?.impact.engine ?? 0) >= 4;
+  const categoryLabel = hasTurbo ? "Turbo" : "NA";
+
+  const motion = {
+    scaleX: stance === "ultra" ? 1.07 : stance === "wide" ? 1.04 : 1,
+    y: height === "slammed" ? 10 : height === "low" ? 6 : 0,
+    rotate: stance === "ultra" ? -0.35 : 0,
+    scale: height === "slammed" ? 1.03 : 1.01,
+  };
+
+  return {
+    stance,
+    height,
+    categoryLabel,
+    motion,
+  };
 }
 
 function parseAvgCostRange(text: string | undefined) {
@@ -347,9 +428,24 @@ export function BuilderWizard() {
   const [profile, setProfile] = React.useState<TuningProfile>("daily");
   const { carId, budget, styleId, build, setCarId, setBudget, setStyleId, setBuild } =
     useBuilderStore();
+  const { saveBuild } = useBuildsStore();
+
+  const [actionNote, setActionNote] = React.useState<null | "saved" | "copied" | "error">(null);
+  React.useEffect(() => {
+    if (!actionNote) return;
+    const t = window.setTimeout(() => setActionNote(null), 1700);
+    return () => window.clearTimeout(t);
+  }, [actionNote]);
 
   const car = cars.find((c) => c.id === carId) ?? null;
   const style = styles.find((s) => s.id === styleId) ?? null;
+
+  const visual = React.useMemo(
+    () => deriveVisualCompatibility({ build, styleId }),
+    [build, styleId]
+  );
+  const shareData = React.useMemo(() => (build ? encodeBuildShare(build) : null), [build]);
+  const shareHref = build && shareData ? `/builds/${build.id}?data=${shareData}` : null;
 
   const completed: Record<StepId, boolean> = {
     car: Boolean(carId),
@@ -576,6 +672,28 @@ export function BuilderWizard() {
                 <div className="absolute inset-0 pointer-events-none pg-scanlines opacity-25" />
                 <div className="absolute inset-0 pointer-events-none pg-particles opacity-55" />
 
+                <motion.div
+                  aria-hidden
+                  initial={false}
+                  animate={visual.motion}
+                  transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 140, damping: 22 }}
+                  className="absolute inset-0 pointer-events-none"
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-44">
+                    <Image
+                      src={
+                        carId === "onix" || carId === "gol-g5"
+                          ? "/ref/car-black.jpg"
+                          : "/ref/car-white.jpg"
+                      }
+                      alt=""
+                      fill
+                      className="object-cover object-center opacity-65 saturate-110 contrast-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                  </div>
+                </motion.div>
+
                 <div className="absolute left-4 top-4 right-4 flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-[10px] text-muted">Preview lateral</p>
@@ -586,6 +704,30 @@ export function BuilderWizard() {
                       {style ? style.label : "Escolha um estilo"}{" "}
                       {budget ? `• R$ ${budget.toLocaleString("pt-BR")}` : ""}
                     </p>
+                    {build ? (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Badge variant="secondary" className="gap-1">
+                          <CarFront className="size-3 text-accent" />
+                          {visual.stance === "ultra"
+                            ? "Stance wide+"
+                            : visual.stance === "wide"
+                              ? "Stance wide"
+                              : "Stance OEM"}
+                        </Badge>
+                        <Badge variant="secondary" className="gap-1">
+                          <Shield className="size-3 text-accent" />
+                          {visual.height === "slammed"
+                            ? "Altura slammed"
+                            : visual.height === "low"
+                              ? "Altura low"
+                              : "Altura stock"}
+                        </Badge>
+                        <Badge variant={visual.categoryLabel === "Turbo" ? "success" : "secondary"} className="gap-1">
+                          <Flame className="size-3" />
+                          {visual.categoryLabel === "Turbo" ? "Turbo" : "NA"}
+                        </Badge>
+                      </div>
+                    ) : null}
                   </div>
                   {hud ? (
                     <motion.div
@@ -948,19 +1090,48 @@ export function BuilderWizard() {
                   )}
 
                   <div className="flex gap-2">
-                    <Button className="flex-1">Salvar build</Button>
+                    <Button
+                      className="flex-1"
+                      disabled={!build}
+                      onClick={() => {
+                        if (!build) return;
+                        const title = `${car?.name ?? "Carro"} • ${style?.label ?? "Estilo"} • R$ ${budget.toLocaleString(
+                          "pt-BR"
+                        )}`;
+                        saveBuild({ build, title });
+                        setActionNote("saved");
+                      }}
+                    >
+                      {actionNote === "saved" ? "Salvo!" : "Salvar build"}
+                    </Button>
                     <Button
                       variant="outline"
                       className="flex-1"
-                      onClick={() => {
-                        const text = `ProjetoGaragem — ${car?.name ?? "Carro"} • ${style?.label ?? "Estilo"} • R$ ${budget.toLocaleString("pt-BR")}`;
-                        void navigator.clipboard.writeText(text);
+                      disabled={!build || !shareHref}
+                      onClick={async () => {
+                        if (!shareHref) return;
+                        const url = `${window.location.origin}${shareHref}`;
+                        const ok = await copyToClipboard(url);
+                        setActionNote(ok ? "copied" : "error");
                       }}
                     >
                       <Copy className="size-4" />
-                      Copiar
+                      {actionNote === "copied" ? "Link copiado" : "Compartilhar"}
                     </Button>
                   </div>
+
+                  {shareHref ? (
+                    <div className="mt-3 flex items-center justify-between gap-3 text-xs">
+                      <Link href={shareHref} className="text-muted underline hover:text-foreground transition">
+                        Abrir página pública
+                      </Link>
+                      {actionNote === "error" ? (
+                        <span className="text-danger">Falha ao copiar</span>
+                      ) : actionNote === "saved" ? (
+                        <span className="text-success">Build salva</span>
+                      ) : null}
+                    </div>
+                  ) : null}
 
                   <div className="rounded-3xl border border-border/70 bg-background/35 p-4">
                     <div className="flex items-center justify-between gap-3">

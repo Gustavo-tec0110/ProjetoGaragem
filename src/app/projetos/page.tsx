@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SavedBuildsGrid } from "@/components/build/saved-builds-grid";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,19 @@ export default function ProjetosPage() {
             Aqui ficarão seus projetos salvos, builds compartilhadas e históricos
             de compatibilidade.
           </p>
+
+          <div className="mt-10">
+            <p className="text-xs text-muted">Sua garagem</p>
+            <h2 className="mt-2 font-title text-2xl md:text-3xl tracking-tight">
+              Builds salvas
+            </h2>
+            <p className="mt-2 text-muted max-w-2xl">
+              Salvas localmente (demo). Login/Google entra na próxima etapa.
+            </p>
+            <div className="mt-6">
+              <SavedBuildsGrid />
+            </div>
+          </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <Card className="p-6">

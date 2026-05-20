@@ -17,6 +17,8 @@ import { generateBuild } from "@/lib/builder/generate-build";
 import { communityBuilds, communityCreators } from "@/lib/data/community";
 import { cars, styles } from "@/lib/data/home";
 import { formatBRLCompact, formatBRLRange, parseBRLRange } from "@/lib/pricing";
+import { decodeBuildShare } from "@/lib/share/build-share";
+import type { Build, CarId, StyleId } from "@/lib/types";
 
 const relatedParts = [
   {
@@ -51,24 +53,79 @@ const relatedParts = [
 
 export default async function BuildPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ data?: string | string[] | undefined }>;
 }) {
   const { id } = await params;
-  const build = communityBuilds.find((b) => b.id === id);
-  if (!build) notFound();
+  const { data } = await searchParams;
+  const shared = typeof data === "string" ? decodeBuildShare(data) : null;
+  const community = communityBuilds.find((b) => b.id === id) ?? null;
 
-  const creator = communityCreators.find((c) => c.id === build.creatorId) ?? null;
-  const car = cars.find((c) => c.id === build.carId) ?? null;
-  const style = styles.find((s) => s.id === build.styleId) ?? null;
+  if (!community && !shared) notFound();
 
-  const budgetRange = parseBRLRange(build.priceRange);
-  const budget = Math.round(budgetRange?.mid ?? 15000);
-  const generated = generateBuild({
-    carId: build.carId,
-    styleId: build.styleId,
-    budget,
-  });
+  const carId: CarId = (community?.carId ?? shared!.carId) as CarId;
+  const styleId: StyleId = (community?.styleId ?? shared!.styleId) as StyleId;
+
+  const car = cars.find((c) => c.id === carId) ?? null;
+  const style = styles.find((s) => s.id === styleId) ?? null;
+
+  const build: {
+    id: string;
+    creatorId: string | null;
+    name: string;
+    carId: CarId;
+    car: string;
+    styleId: StyleId;
+    style: string;
+    image: string;
+    priceRange: string;
+    baseLikes: number;
+    baseSaves: number;
+    baseComments: number;
+  } = community
+    ? {
+        id: community.id,
+        creatorId: community.creatorId,
+        name: community.name,
+        carId,
+        car: community.car,
+        styleId,
+        style: community.style,
+        image: community.image,
+        priceRange: community.priceRange,
+        baseLikes: community.baseLikes,
+        baseSaves: community.baseSaves,
+        baseComments: community.baseComments,
+      }
+    : {
+        id: shared!.id,
+        creatorId: null,
+        name: `Build • ${car?.name ?? "Carro"} • ${style?.label ?? "Estilo"}`,
+        carId,
+        car: car?.name ?? "Carro",
+        styleId,
+        style: style?.label ?? "Estilo",
+        image: carId === "onix" || carId === "gol-g5" ? "/ref/car-black.jpg" : "/ref/hero-car.jpg",
+        priceRange: `R$ ${shared!.budget.toLocaleString("pt-BR")}`,
+        baseLikes: 0,
+        baseSaves: 0,
+        baseComments: 0,
+      };
+
+  const creator =
+    build.creatorId ? communityCreators.find((c) => c.id === build.creatorId) ?? null : null;
+
+  const budgetRange = community ? parseBRLRange(build.priceRange) : null;
+  const budget = community ? Math.round(budgetRange?.mid ?? 15000) : shared!.budget;
+  const generated: Build = community
+    ? generateBuild({
+        carId: build.carId,
+        styleId: build.styleId,
+        budget,
+      })
+    : shared!;
 
   const totalParts = generated.parts.reduce(
     (acc, part) => {
