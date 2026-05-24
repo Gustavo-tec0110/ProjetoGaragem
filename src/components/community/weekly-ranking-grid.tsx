@@ -1,73 +1,34 @@
-"use client";
-
-import * as React from "react";
 import Link from "next/link";
 
-import { communityBuilds, communityCreators } from "@/lib/data/community";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { Badge } from "@/components/ui/badge";
-import { useSocialStore } from "@/stores/social-store";
 
 type RankingItem = {
   category: string;
-  buildId: string;
+  buildSlug: string;
   buildName: string;
   car: string;
   likes: number;
   creatorHandle: string;
-  creatorName: string;
 };
 
 function formatCount(value: number) {
   return value.toLocaleString("pt-BR");
 }
 
-export function WeeklyRankingGrid({ className }: { className?: string }) {
-  const liked = useSocialStore((s) => s.liked);
-
-  const ranking = React.useMemo(() => {
-    const likeDelta = (id: string) => (liked[id] ? 1 : 0);
-
-    const categories: Array<{ label: string; styleId: string }> = [
-      { label: "JDM", styleId: "jdm" },
-      { label: "Som", styleId: "som" },
-      { label: "Sleeper", styleId: "sleeper" },
-      { label: "Drift", styleId: "drift" },
-    ];
-
-    const items: RankingItem[] = [];
-
-    for (const category of categories) {
-      const best = communityBuilds
-        .filter((b) => b.styleId === category.styleId)
-        .slice()
-        .sort(
-          (a, b) =>
-            b.baseLikes + likeDelta(b.id) - (a.baseLikes + likeDelta(a.id))
-        )[0];
-
-      if (!best) continue;
-      const creator = communityCreators.find((c) => c.id === best.creatorId);
-      items.push({
-        category: category.label,
-        buildId: best.id,
-        buildName: best.name,
-        car: best.car,
-        likes: best.baseLikes + likeDelta(best.id),
-        creatorHandle: creator?.handle ?? "membro",
-        creatorName: creator?.name ?? "Membro",
-      });
-    }
-
-    return items;
-  }, [liked]);
-
+export function WeeklyRankingGrid({
+  items,
+  className,
+}: {
+  items: RankingItem[];
+  className?: string;
+}) {
   return (
     <div className={className}>
       <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2">
-        {ranking.map((item) => (
+        {items.map((item) => (
           <PremiumCard
-            key={item.buildId}
+            key={item.buildSlug}
             className="relative overflow-hidden p-5 sm:p-6 snap-start shrink-0 w-[86%] md:w-auto"
           >
             <div
@@ -84,7 +45,7 @@ export function WeeklyRankingGrid({ className }: { className?: string }) {
               <div className="min-w-0">
                 <Badge variant="secondary">{item.category}</Badge>
                 <Link
-                  href={`/builds/${item.buildId}`}
+                  href={`/builds/${item.buildSlug}`}
                   className="block mt-3 font-title text-lg tracking-tight hover:brightness-110 transition truncate"
                 >
                   {item.buildName}

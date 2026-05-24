@@ -8,7 +8,7 @@ export function Skeleton({ className, ...props }: SkeletonProps) {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-3xl border border-border/50 bg-background/30",
+        "pg-skeleton motion-reduce:animate-none rounded-3xl border border-border/50 bg-background/30",
         className
       )}
       {...props}

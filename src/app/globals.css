@@ -9,6 +9,8 @@
   --color-background: #0b0b0d;
   --color-background-2: #0f1014;
   --color-card: #14151b;
+  --color-surface: #111219;
+  --color-surface-2: #0e0f14;
   --color-foreground: #ffffff;
   --color-muted: #a9acb6;
   --color-border: #262934;
@@ -23,15 +25,44 @@
   --font-title: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-ui: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
-  /* Premium depth */
+  /* Radii */
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
   --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  /* Premium depth */
   --shadow-glow: 0 0 18px rgba(255, 42, 42, 0.25),
     0 0 48px rgba(255, 42, 42, 0.14);
+  --shadow-glow-strong: 0 0 22px rgba(255, 42, 42, 0.35),
+    0 0 70px rgba(255, 42, 42, 0.16);
+  --shadow-soft: 0 16px 60px rgba(0, 0, 0, 0.45);
   --shadow-elevated: 0 24px 80px rgba(0, 0, 0, 0.55);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(
+    135deg,
+    --alpha(var(--color-accent) / 95%),
+    --alpha(var(--color-accent-2) / 70%)
+  );
+  --gradient-surface: linear-gradient(
+    180deg,
+    --alpha(var(--color-surface) / 80%),
+    --alpha(var(--color-card) / 70%)
+  );
+
+  /* Motion */
+  --pg-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --pg-ease-inout: cubic-bezier(0.4, 0, 0.2, 1);
+  --pg-duration-fast: 140ms;
+  --pg-duration: 220ms;
+  --pg-duration-slow: 360ms;
 
   /* Motion primitives */
   --animate-pg-scanlines: pg-scanlines 14s linear infinite;
   --animate-pg-particles: pg-particles 22s linear infinite;
+  --animate-pg-shimmer: pg-shimmer 1.2s linear infinite;
 
   @keyframes pg-scanlines {
     from {
@@ -50,6 +81,15 @@
       background-position: -220px 180px, 300px -260px, -260px -220px, 240px 240px;
     }
   }
+
+  @keyframes pg-shimmer {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 160% 0;
+    }
+  }
 }
 
 @layer base {
@@ -62,6 +102,8 @@
     background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
   }
 
   ::selection {
@@ -87,6 +129,34 @@
 }
 
 @layer components {
+  .pg-transition {
+    transition-timing-function: var(--pg-ease-out);
+    transition-duration: var(--pg-duration);
+  }
+
+  .pg-surface {
+    background: --alpha(var(--color-card) / 72%);
+    border: 1px solid --alpha(var(--color-border) / 70%);
+    box-shadow: var(--shadow-inset);
+  }
+
+  .pg-control {
+    border: 1px solid --alpha(var(--color-border) / 70%);
+    background: --alpha(var(--color-background) / 35%);
+    color: var(--color-foreground);
+    transition: border-color var(--pg-duration) var(--pg-ease-out),
+      box-shadow var(--pg-duration) var(--pg-ease-out),
+      transform var(--pg-duration-fast) var(--pg-ease-out),
+      background var(--pg-duration) var(--pg-ease-out);
+  }
+
+  .pg-control:focus,
+  .pg-control:focus-visible {
+    border-color: --alpha(var(--color-accent) / 45%);
+    box-shadow: var(--shadow-glow);
+    outline: none;
+  }
+
   .pg-glass {
     background: --alpha(var(--color-card) / 78%);
     border: 1px solid --alpha(var(--color-border) / 70%);
@@ -157,7 +227,9 @@
     position: relative;
     isolation: isolate;
     will-change: transform;
-    transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 220ms ease;
+    transition: transform var(--pg-duration) var(--pg-ease-out),
+      border-color var(--pg-duration) ease,
+      filter var(--pg-duration) var(--pg-ease-out);
   }
 
   .pg-premium-card::before {
@@ -210,5 +282,33 @@
 
   .pg-premium-card:hover::before {
     opacity: 1;
+  }
+
+  .pg-premium-card:active {
+    transform: translateY(0px) scale(0.995);
+  }
+
+  .pg-skeleton {
+    background-image: linear-gradient(
+      90deg,
+      --alpha(var(--color-background) / 28%) 0%,
+      --alpha(var(--color-background) / 42%) 20%,
+      --alpha(var(--color-background) / 28%) 40%,
+      --alpha(var(--color-background) / 28%) 100%
+    );
+    background-size: 200% 100%;
+    animation: var(--animate-pg-shimmer);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pg-scanlines,
+    .pg-particles,
+    .pg-skeleton {
+      animation: none !important;
+    }
+
+    .pg-premium-card {
+      transition: none !important;
+    }
   }
 }

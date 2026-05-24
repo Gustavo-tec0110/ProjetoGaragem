@@ -41,7 +41,12 @@ async function copyToClipboard(text: string) {
 function formatDate(iso: string) {
   try {
     const d = new Date(iso);
-    return d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   } catch {
     return iso;
   }
@@ -59,9 +64,18 @@ export function SavedBuildsGrid({ className }: { className?: string }) {
 
   if (order.length === 0) {
     return (
-      <div className={cn("rounded-4xl border border-border/70 bg-background/25 p-6 text-sm text-muted", className)}>
-        Nenhuma build salva ainda. Monte uma build em <Link className="text-foreground underline" href="/montar">/montar</Link>{" "}
-        e clique em <span className="text-foreground font-semibold">Salvar build</span>.
+      <div
+        className={cn(
+          "rounded-4xl border border-border/70 bg-background/25 p-6 text-sm text-muted",
+          className
+        )}
+      >
+        Nenhuma build salva ainda. Monte uma build em{" "}
+        <Link className="text-foreground underline" href="/montar">
+          /montar
+        </Link>{" "}
+        e clique em{" "}
+        <span className="text-foreground font-semibold">Salvar build</span>.
       </div>
     );
   }
@@ -80,11 +94,13 @@ export function SavedBuildsGrid({ className }: { className?: string }) {
           <PremiumCard key={item.id} className="p-6">
             <p className="text-xs text-muted">Build salva</p>
             <p className="mt-2 font-title tracking-tight text-lg">{item.title}</p>
-            <p className="mt-1 text-sm text-muted">Salva em {formatDate(item.createdAt)}</p>
+            <p className="mt-1 text-sm text-muted">
+              Salva em {formatDate(item.createdAt)}
+            </p>
 
             <div className="mt-5 grid gap-2">
               <Button asChild>
-                <Link href={href}>Abrir pÃ¡gina pÃºblica</Link>
+                <Link href={href}>Abrir página pública</Link>
               </Button>
               <div className="grid grid-cols-2 gap-2">
                 <Button

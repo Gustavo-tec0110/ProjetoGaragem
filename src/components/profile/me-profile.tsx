@@ -9,7 +9,7 @@ import { SavedBuildsGrid } from "@/components/build/saved-builds-grid";
 import { Button } from "@/components/ui/button";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { supabase } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { useSupabaseUser } from "@/lib/supabase/use-user";
 
 export function MeProfile() {
@@ -20,8 +20,9 @@ export function MeProfile() {
     return (
       <div className="space-y-6">
         <div className="rounded-4xl border border-warning/30 bg-warning/10 p-5 text-sm text-muted">
-          Perfil e Login Google estÃ£o em modo demo. Configure Supabase em <span className="text-foreground font-semibold">.env.local</span>{" "}
-          para autenticaÃ§Ã£o real.
+          Perfil e Login Google estão em modo demo. Configure Supabase em{" "}
+          <span className="text-foreground font-semibold">.env.local</span> para
+          autenticação real.
         </div>
         <SavedBuildsGrid />
       </div>
@@ -57,7 +58,9 @@ export function MeProfile() {
 
           <div className="relative p-6 md:p-8">
             <p className="text-xs text-muted">Seu perfil</p>
-            <h1 className="mt-2 font-title text-3xl md:text-4xl tracking-tight">Entre para salvar</h1>
+            <h1 className="mt-2 font-title text-3xl md:text-4xl tracking-tight">
+              Entre para salvar
+            </h1>
             <p className="mt-2 text-muted max-w-2xl">
               Login Google libera perfil, builds salvas e compartilhamento.
             </p>
@@ -100,10 +103,13 @@ export function MeProfile() {
             <div className="min-w-0">
               <p className="text-xs text-muted">Perfil autenticado</p>
               <h1 className="mt-2 font-title text-3xl md:text-4xl tracking-tight truncate">
-                {user.user_metadata?.full_name ?? user.email ?? "UsuÃ¡rio"}
+                {user.user_metadata?.full_name ?? user.email ?? "Usuário"}
               </h1>
               <p className="mt-2 text-muted max-w-2xl">
-                {user.email ?? "—"} â€¢ <span className="inline-flex items-center gap-2"><Shield className="size-4 text-accent" /> SessÃ£o ativa</span>
+                {user.email ?? "—"} •{" "}
+                <span className="inline-flex items-center gap-2">
+                  <Shield className="size-4 text-accent" /> Sessão ativa
+                </span>
               </p>
             </div>
 
@@ -115,6 +121,7 @@ export function MeProfile() {
                 variant="danger"
                 disabled={busy}
                 onClick={async () => {
+                  const supabase = getSupabaseBrowserClient();
                   if (!supabase) return;
                   setBusy(true);
                   await supabase.auth.signOut();
@@ -131,9 +138,12 @@ export function MeProfile() {
 
       <div>
         <p className="text-xs text-muted">Sua garagem</p>
-        <h2 className="mt-2 font-title text-2xl md:text-3xl tracking-tight">Builds salvas</h2>
+        <h2 className="mt-2 font-title text-2xl md:text-3xl tracking-tight">
+          Builds salvas
+        </h2>
         <p className="mt-2 text-muted max-w-2xl">
-          Hoje estÃ¡ local (demo). PrÃ³ximo passo: salvar no banco + pÃ¡gina pÃºblica real por ID.
+          Hoje salvas no dispositivo. Próximo passo: salvar no banco + página pública
+          real por ID.
         </p>
         <div className="mt-6">
           <SavedBuildsGrid />
@@ -142,4 +152,3 @@ export function MeProfile() {
     </div>
   );
 }
-

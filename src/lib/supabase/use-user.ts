@@ -3,14 +3,20 @@
 import * as React from "react";
 import type { User } from "@supabase/supabase-js";
 
-import { isSupabaseConfigured, supabase } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export function useSupabaseUser() {
   const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(() => Boolean(supabase));
+  const [loading, setLoading] = React.useState(() => isSupabaseConfigured);
 
   React.useEffect(() => {
-    if (!supabase) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
 
     let mounted = true;
     void supabase.auth

@@ -1,14 +1,19 @@
 "use client";
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import { LogIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export function GoogleSigninButton() {
+  const searchParams = useSearchParams();
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+
+  const supabase = getSupabaseBrowserClient();
 
   if (!isSupabaseConfigured || !supabase) {
     return (
@@ -27,13 +32,17 @@ export function GoogleSigninButton() {
         className="w-full"
         disabled={busy}
         onClick={async () => {
-          if (!supabase) return;
           setError(null);
           setBusy(true);
+
+          const next = searchParams.get("next");
+          const redirectUrl = new URL("/auth/callback", window.location.origin);
+          if (next) redirectUrl.searchParams.set("next", next);
+
           const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
-              redirectTo: `${window.location.origin}/auth/callback`,
+              redirectTo: redirectUrl.toString(),
             },
           });
 

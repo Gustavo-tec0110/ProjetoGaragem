@@ -165,7 +165,7 @@ export function BuildSocialActions({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escreva um comentário…"
-                  className="min-h-[44px] flex-1 resize-none rounded-3xl border border-border/70 bg-background/35 px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-accent/45 focus:shadow-glow"
+                  className="pg-control min-h-[44px] flex-1 resize-none rounded-3xl px-4 py-3 text-sm placeholder:text-muted outline-none"
                 />
                 <Button
                   type="button"

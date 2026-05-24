@@ -134,6 +134,13 @@ export function SiteNavbar() {
                     <span className="text-[11px] font-ui font-semibold tracking-tight">
                       {item.label}
                     </span>
+                    <span
+                      className={cn(
+                        "h-1 w-1 rounded-full transition",
+                        active ? "bg-accent shadow-glow" : "bg-transparent"
+                      )}
+                      aria-hidden="true"
+                    />
                   </Link>
                 );
               })}

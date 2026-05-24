@@ -9,8 +9,7 @@ export function SiteFooter() {
             <div>
               <p className="font-title tracking-tight">ProjetoGaragem</p>
               <p className="mt-1 text-sm text-muted max-w-md">
-                Plataforma automotiva premium para montar builds compatíveis, salvar e
-                compartilhar — com monetização via afiliados (em breve).
+                Plataforma automotiva para builds, projetos e comunidade.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 text-sm font-ui font-semibold">
@@ -30,7 +29,7 @@ export function SiteFooter() {
           </div>
           <div className="mt-6 h-px w-full bg-border/70" />
           <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted">
-            <span>© {new Date().getFullYear()} ProjetoGaragem. Prototype UI.</span>
+            <span>© {new Date().getFullYear()} ProjetoGaragem.</span>
             <span>Next.js • Tailwind • Motion • Supabase</span>
           </div>
         </div>
@@ -38,3 +37,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+

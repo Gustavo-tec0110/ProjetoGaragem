@@ -12,7 +12,8 @@ export function PremiumCard({ className, children, ...props }: PremiumCardProps)
   return (
     <div
       ref={ref}
-      onMouseMove={(e) => {
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
         const el = ref.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
@@ -21,7 +22,7 @@ export function PremiumCard({ className, children, ...props }: PremiumCardProps)
         el.style.setProperty("--mx", `${x}%`);
         el.style.setProperty("--my", `${y}%`);
       }}
-      onMouseLeave={() => {
+      onPointerLeave={() => {
         const el = ref.current;
         if (!el) return;
         el.style.removeProperty("--mx");

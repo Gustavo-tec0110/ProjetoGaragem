@@ -44,7 +44,7 @@ export default async function PerfilPage({
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-6xl pt-24 pb-12">
+        <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
           <PremiumCard className="relative overflow-hidden">
             <div className="absolute inset-0">
               <Image

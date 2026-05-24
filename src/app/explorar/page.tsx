@@ -12,7 +12,7 @@ export default function ExplorarPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-6xl pt-24 pb-12">
+        <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
           <h1 className="font-title text-3xl md:text-4xl tracking-tight">
             Explorar Builds
           </h1>

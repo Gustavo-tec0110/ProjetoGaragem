@@ -16,7 +16,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-md pt-24 pb-12">
+        <div className="mx-auto w-full max-w-md pt-20 md:pt-24 pb-12">
           <Card className="p-6 md:p-8">
             <h1 className="font-title text-2xl tracking-tight">
               Entrar no ProjetoGaragem
@@ -34,16 +34,20 @@ export default function LoginPage() {
               <Input placeholder="Senha" type="password" />
             </div>
 
+            <p className="mt-3 text-xs text-muted">
+              Login por email/senha em breve — por enquanto, use Google.
+            </p>
+
             <div className="mt-5 flex flex-col gap-3">
-              <Button disabled>Entrar (em breve)</Button>
+              <Button disabled>Entrar</Button>
               <Button variant="outline" asChild>
                 <Link href="/montar">Continuar sem login</Link>
               </Button>
             </div>
 
             <p className="mt-6 text-xs text-muted">
-              Ao continuar, você concorda com os termos (placeholder) e aceita
-              salvar builds no seu perfil futuramente.
+              Ao continuar, você concorda com os termos e aceita salvar builds no seu
+              perfil quando estiver conectado.
             </p>
           </Card>
         </div>
