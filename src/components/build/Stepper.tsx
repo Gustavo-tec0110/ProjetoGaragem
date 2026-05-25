@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import Step1CarSelect from './Step1CarSelect';
 import Step2BudgetStyle from './Step2BudgetStyle';
