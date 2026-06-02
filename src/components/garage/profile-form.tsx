@@ -74,6 +74,15 @@ export function ProfileForm({
           </label>
         </div>
 
+        <label className="grid gap-2 text-sm text-muted">
+          Instagram
+          <Input
+            name="instagram_handle"
+            defaultValue={profile?.instagram_handle ?? ""}
+            placeholder="ex: projetogaragem"
+          />
+        </label>
+
         <label className="flex items-center gap-3 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
           <input
             type="checkbox"

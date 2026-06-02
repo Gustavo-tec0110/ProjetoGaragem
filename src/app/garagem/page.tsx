@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Bookmark, Heart, MessageCircle, Plus, Wrench } from "lucide-react";
+import { Eye, Heart, PiggyBank, Plus, Wrench } from "lucide-react";
 
 import { CarGrid } from "@/components/garage/car-card";
+import { LocalGaragePanel } from "@/components/projects/local-garage-panel";
 import { ProfileForm } from "@/components/garage/profile-form";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getCurrentProfile, qCarsByOwner, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { formatProjectCurrency } from "@/lib/projects/utils";
 
 export const metadata = {
   title: "Minha Garagem",
@@ -44,12 +46,28 @@ export default async function GaragemPage() {
         <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
           <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
-            <Card className="p-6 md:p-8">
-              <h1 className="font-title text-2xl tracking-tight">Configure o Supabase</h1>
-              <p className="mt-2 text-sm text-muted">
-                A garagem precisa de banco configurado para salvar carros e interacoes.
-              </p>
-            </Card>
+            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs text-muted">Minha Garagem</p>
+                <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
+                  Garagem local
+                </h1>
+                <p className="mt-3 max-w-2xl text-muted">
+                  Enquanto o Supabase nao esta configurado, seus projetos ficam salvos
+                  neste navegador para validar o MVP sem interrupcao.
+                </p>
+              </div>
+              <Button asChild>
+                <Link href="/carros/novo">
+                  <Plus className="size-4" />
+                  Adicionar projeto local
+                </Link>
+              </Button>
+            </div>
+
+            <div className="mt-8">
+              <LocalGaragePanel />
+            </div>
           </div>
         </main>
         <SiteFooter />
@@ -109,8 +127,9 @@ export default async function GaragemPage() {
   const myCars = myCarsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
   const likesReceived = myCars.reduce((sum, car) => sum + car.likes_count, 0);
-  const savesReceived = myCars.reduce((sum, car) => sum + car.saves_count, 0);
-  const commentsReceived = myCars.reduce((sum, car) => sum + car.comments_count, 0);
+  const viewsReceived = myCars.reduce((sum, car) => sum + car.views_count, 0);
+  const totalInvested = myCars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
+  const activeProjects = myCars.filter((car) => car.project_status !== "Finalizado").length;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -140,11 +159,16 @@ export default async function GaragemPage() {
             </div>
           </div>
 
-          <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <Stat label="Carros cadastrados" value={myCars.length} icon={Wrench} />
             <Stat label="Curtidas recebidas" value={likesReceived} icon={Heart} />
-            <Stat label="Salvos recebidos" value={savesReceived} icon={Bookmark} />
-            <Stat label="Comentarios recebidos" value={commentsReceived} icon={MessageCircle} />
+            <Stat label="Views totais" value={viewsReceived} icon={Eye} />
+            <Card className="p-5">
+              <PiggyBank className="size-5 text-accent" />
+              <p className="mt-3 text-xs text-muted">Total investido</p>
+              <p className="mt-1 font-title text-3xl">{formatProjectCurrency(totalInvested)}</p>
+            </Card>
+            <Stat label="Projetos ativos" value={activeProjects} icon={Wrench} />
           </section>
 
           <section className="mt-10">

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { CarForm } from "@/components/garage/car-form";
+import { ProjectForm } from "@/components/projects/project-form";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
@@ -23,13 +23,7 @@ export default async function NewCarPage() {
       <main className="flex-1 px-4 sm:px-6">
         <div className="mx-auto w-full max-w-5xl pt-20 md:pt-24 pb-12">
           {!supabase ? (
-            <Card className="p-6 md:p-8">
-              <h1 className="font-title text-2xl tracking-tight">Configure o Supabase</h1>
-              <p className="mt-2 text-sm text-muted">
-                Para criar carros reais, configure as variaveis NEXT_PUBLIC_SUPABASE_URL e
-                NEXT_PUBLIC_SUPABASE_ANON_KEY.
-              </p>
-            </Card>
+            <ProjectForm storageMode="local" />
           ) : !user ? (
             <Card className="p-6 md:p-8">
               <h1 className="font-title text-2xl tracking-tight">Entre para adicionar seu carro</h1>
@@ -46,7 +40,7 @@ export default async function NewCarPage() {
               </div>
             </Card>
           ) : (
-            <CarForm mode="create" />
+            <ProjectForm storageMode="supabase" />
           )}
         </div>
       </main>

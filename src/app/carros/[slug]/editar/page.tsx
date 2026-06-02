@@ -56,7 +56,14 @@ export default async function EditCarPage({ params }: PageProps) {
               </Button>
             </Card>
           ) : (
-            <CarForm mode="edit" car={car} parts={car.parts} photos={car.photos} />
+            <CarForm
+              mode="edit"
+              car={car}
+              parts={car.parts}
+              photos={car.photos}
+              updates={car.updates}
+              expenses={car.expenses}
+            />
           )}
         </div>
       </main>

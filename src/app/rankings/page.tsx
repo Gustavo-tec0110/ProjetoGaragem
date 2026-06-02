@@ -1,18 +1,17 @@
 import Link from "next/link";
 
-import { CarGrid } from "@/components/garage/car-card";
+import { ProjectGrid } from "@/components/projects/project-grid";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
-import { qRankingCars } from "@/lib/supabase/queries";
+import { getProjectRankings } from "@/lib/projects/server";
 
 export const metadata = {
   title: "Rankings",
 };
 
 export default async function RankingsPage() {
-  const result = await qRankingCars();
-  const rankings = result.data;
+  const rankings = await getProjectRankings(9);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -34,30 +33,59 @@ export default async function RankingsPage() {
             </Button>
           </div>
 
-          {result.error ? (
-            <div className="mt-8 rounded-4xl border border-danger/30 bg-danger/10 p-5 text-sm text-danger">
-              Erro ao carregar rankings: {result.error}
+          {rankings.notice ? (
+            <div className="mt-8 rounded-4xl border border-warning/30 bg-warning/10 p-5 text-sm text-muted">
+              {rankings.notice}
             </div>
           ) : null}
 
           <section className="mt-10">
-            <h2 className="font-title text-2xl tracking-tight">Mais curtidos</h2>
+            <h2 className="font-title text-2xl tracking-tight">Em alta</h2>
             <div className="mt-4">
-              <CarGrid cars={rankings?.mostLiked ?? []} emptyTitle="Ainda nao ha curtidas suficientes." />
+              <ProjectGrid
+                projects={rankings.trending}
+                emptyTitle="Ainda nao ha projetos em alta."
+              />
             </div>
           </section>
 
           <section className="mt-12">
-            <h2 className="font-title text-2xl tracking-tight">Mais salvos</h2>
+            <h2 className="font-title text-2xl tracking-tight">Mais curtidos</h2>
             <div className="mt-4">
-              <CarGrid cars={rankings?.mostSaved ?? []} emptyTitle="Ainda nao ha carros salvos suficientes." />
+              <ProjectGrid
+                projects={rankings.mostLiked}
+                emptyTitle="Ainda nao ha curtidas suficientes."
+              />
+            </div>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-title text-2xl tracking-tight">Mais vistos</h2>
+            <div className="mt-4">
+              <ProjectGrid
+                projects={rankings.mostViewed}
+                emptyTitle="Ainda nao ha visualizacoes suficientes."
+              />
+            </div>
+          </section>
+
+          <section className="mt-12">
+            <h2 className="font-title text-2xl tracking-tight">Recentemente atualizados</h2>
+            <div className="mt-4">
+              <ProjectGrid
+                projects={rankings.mostUpdated}
+                emptyTitle="Ainda nao ha atualizacoes suficientes."
+              />
             </div>
           </section>
 
           <section className="mt-12">
             <h2 className="font-title text-2xl tracking-tight">Mais recentes</h2>
             <div className="mt-4">
-              <CarGrid cars={rankings?.newest ?? []} emptyTitle="Nenhum projeto cadastrado ainda." />
+              <ProjectGrid
+                projects={rankings.mostRecent}
+                emptyTitle="Nenhum projeto cadastrado ainda."
+              />
             </div>
           </section>
         </div>

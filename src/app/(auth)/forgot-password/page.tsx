@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -10,42 +14,63 @@ export default function ForgotPasswordPage() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
     setLoading(true);
     setError("");
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + "/auth/callback?next=/reset-password",
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setError("Recuperacao indisponivel enquanto o Supabase nao estiver configurado.");
+      setLoading(false);
+      return;
+    }
+
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
     });
-    if (error) setError(error.message);
-    else setSent(true);
+
+    if (resetError) {
+      setError("Nao foi possivel enviar o link agora.");
+    } else {
+      setSent(true);
+    }
+
     setLoading(false);
   }
 
-  if (sent) {
-    return (
-      <p className="mt-4 text-sm text-muted">
-        Se o email existir, você receberá um link de redefinição.
-      </p>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Recuperar senha</h1>
-      {error && <p className="text-sm text-destructive">{error}</p>}
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="border rounded px-3 py-2"
-      />
-      <button type="submit" disabled={loading} className="bg-blue-600 text-white py-2 rounded disabled:opacity-50">
-        {loading ? "Enviando..." : "Enviar link"}
-      </button>
-      <Link href="/login" className="text-sm underline mt-2">Voltar ao login</Link>
-    </form>
+    <div className="mx-auto mt-10 max-w-md px-4">
+      <Card className="p-6">
+        <h1 className="font-title text-2xl tracking-tight">Recuperar senha</h1>
+        <p className="mt-2 text-sm text-muted">
+          Enviamos um link de redefinicao se o email existir.
+        </p>
+
+        {sent ? (
+          <p className="mt-4 text-sm text-muted">
+            Se o email existir, voce recebera um link de redefinicao.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+            {error ? <p className="text-sm text-danger">{error}</p> : null}
+            <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Enviando..." : "Enviar link"}
+            </Button>
+          </form>
+        )}
+
+        <Button asChild variant="outline" className="mt-4 w-full">
+          <Link href="/login">Voltar ao login</Link>
+        </Button>
+      </Card>
+    </div>
   );
 }

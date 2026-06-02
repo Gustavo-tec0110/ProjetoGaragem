@@ -138,6 +138,7 @@ export type ProfileRow = {
   bio: string | null;
   city: string | null;
   state: string | null;
+  instagram_handle: string | null;
   is_saves_public: boolean;
   cars_count: number;
   followers_count: number;
@@ -170,6 +171,14 @@ export type CarRow = {
   wheels: string | null;
   tires: string | null;
   brakes: string | null;
+  project_status: string | null;
+  progress_percent: number | null;
+  mileage_km: number | null;
+  torque_nm: number | null;
+  weight_kg: number | null;
+  started_at: string | null;
+  project_goal: string | null;
+  tags: string[] | null;
   is_public: boolean;
   likes_count: number;
   saves_count: number;
@@ -180,8 +189,6 @@ export type CarRow = {
   year_start?: number | null;
   year_end?: number | null;
   engine_options?: Json | null;
-  torque_nm?: number | null;
-  weight_kg?: number | null;
   transmission_options?: Json | null;
   common_issues?: string[] | null;
   avg_price_min?: number | null;
@@ -225,6 +232,29 @@ export type CarCommentRow = {
   created_at: string;
 };
 
+export type CarBuildUpdateRow = {
+  id: string;
+  car_id: string;
+  title: string;
+  description: string | null;
+  photo_url: string | null;
+  happened_at: string;
+  amount_spent: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarExpenseRow = {
+  id: string;
+  car_id: string;
+  name: string;
+  category: string;
+  amount: number;
+  spent_at: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -238,6 +268,7 @@ export interface Database {
           bio?: string | null;
           city?: string | null;
           state?: string | null;
+          instagram_handle?: string | null;
           is_saves_public?: boolean;
         }
       >;
@@ -267,6 +298,14 @@ export interface Database {
           wheels?: string | null;
           tires?: string | null;
           brakes?: string | null;
+          project_status?: string | null;
+          progress_percent?: number | null;
+          mileage_km?: number | null;
+          torque_nm?: number | null;
+          weight_kg?: number | null;
+          started_at?: string | null;
+          project_goal?: string | null;
+          tags?: string[] | null;
           is_public?: boolean;
         }
       >;
@@ -311,6 +350,29 @@ export interface Database {
       car_comments: Table<
         CarCommentRow,
         { id?: string; car_id: string; user_id: string; content: string }
+      >;
+      car_build_updates: Table<
+        CarBuildUpdateRow,
+        {
+          id?: string;
+          car_id: string;
+          title: string;
+          description?: string | null;
+          photo_url?: string | null;
+          happened_at: string;
+          amount_spent?: number | null;
+        }
+      >;
+      car_expenses: Table<
+        CarExpenseRow,
+        {
+          id?: string;
+          car_id: string;
+          name: string;
+          category: string;
+          amount: number;
+          spent_at: string;
+        }
       >;
       user_follows: Table<{
         follower_id: string;

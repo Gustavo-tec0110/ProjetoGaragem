@@ -13,20 +13,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   return getProjectRouteMetadata(
     slug,
-    "car",
-    "Carro nao encontrado",
-    "A ficha publica deste carro nao foi encontrada."
+    "project",
+    "Projeto nao encontrado",
+    "A ficha publica deste projeto nao foi encontrada."
   );
 }
 
-export default async function CarPage({ params }: PageProps) {
+export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1">
-        <ProjectPageContent slug={slug} routeVariant="car" />
+        <ProjectPageContent slug={slug} routeVariant="project" />
       </main>
       <SiteFooter />
     </div>

@@ -2,16 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Camera, Search, Share2, Wrench } from "lucide-react";
 
-import { CarGrid } from "@/components/garage/car-card";
+import { ProjectGrid } from "@/components/projects/project-grid";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { qExploreCars } from "@/lib/supabase/queries";
+import { getFeaturedProjects } from "@/lib/projects/server";
 
 export default async function Home() {
-  const featured = await qExploreCars({ sort: "likes", limit: 6 });
-  const cars = featured.data ?? [];
+  const projects = await getFeaturedProjects(6, "likes");
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -77,7 +76,11 @@ export default async function Home() {
                 <Link href="/explorar">Ver todos</Link>
               </Button>
             </div>
-            <CarGrid cars={cars} emptyTitle="Ainda nao ha projetos publicados." />
+            <ProjectGrid
+              projects={projects}
+              emptyTitle="Ainda nao ha projetos para destacar."
+              emptyDescription="Enquanto isso, o MVP pode usar os projetos demo e o cadastro local para nao ficar vazio."
+            />
           </div>
         </section>
 

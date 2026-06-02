@@ -11,15 +11,16 @@ import "@fontsource/poppins/700.css";
 import "@fontsource/poppins/800.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
+import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "Projeto Garagem",
-    template: "%s | Projeto Garagem",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Crie a ficha publica do seu carro e descubra projetos automotivos reais da comunidade.",
+  description: SITE_DESCRIPTION,
 };
 
 export const viewport: Viewport = {

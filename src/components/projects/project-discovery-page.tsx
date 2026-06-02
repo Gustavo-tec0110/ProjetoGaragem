@@ -1,0 +1,206 @@
+import Link from "next/link";
+
+import { ProjectFilters } from "@/components/projects/project-filters";
+import { ProjectGrid } from "@/components/projects/project-grid";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { getProjectCollection } from "@/lib/projects/server";
+import type { Project, ProjectFilters as ProjectFiltersType } from "@/lib/projects/types";
+import { paginateProjects, sortProjects } from "@/lib/projects/utils";
+
+function buildHref(basePath: string, filters: ProjectFiltersType, page?: number) {
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.style) params.set("style", filters.style);
+  if (filters.engine) params.set("engine", filters.engine);
+  if (filters.sort) params.set("sort", filters.sort);
+  if (page && page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query ? `${basePath}?${query}` : basePath;
+}
+
+function DiscoverySection({
+  title,
+  projects,
+  moreHref,
+}: {
+  title: string;
+  projects: Project[];
+  moreHref: string;
+}) {
+  return (
+    <section>
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs text-muted">Descoberta</p>
+          <h2 className="mt-1 font-title text-2xl tracking-tight">{title}</h2>
+        </div>
+        <Button asChild variant="outline" size="sm">
+          <Link href={moreHref}>Ver lista</Link>
+        </Button>
+      </div>
+      <ProjectGrid
+        projects={projects}
+        emptyTitle="Sem projetos suficientes nesta categoria por enquanto."
+      />
+    </section>
+  );
+}
+
+export async function ProjectDiscoveryPage({
+  basePath,
+  eyebrow,
+  title,
+  description,
+  filters,
+  page,
+}: {
+  basePath: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  filters: ProjectFiltersType;
+  page: number;
+}) {
+  const result = await getProjectCollection(filters);
+  const hasFilters = Boolean(filters.q || filters.style || filters.engine);
+  const pageData = paginateProjects(result.projects, page);
+  const emptyTitle = hasFilters
+    ? "Nenhum projeto bateu com o filtro."
+    : "Ainda nao ha projetos para exibir.";
+
+  return (
+    <div className="mx-auto w-full max-w-6xl pt-20 pb-12 md:pt-24">
+      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-xs text-muted">{eyebrow}</p>
+          <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">{title}</h1>
+          <p className="mt-3 max-w-3xl text-muted">{description}</p>
+        </div>
+        <Button asChild>
+          <Link href="/carros/novo">Adicionar meu carro</Link>
+        </Button>
+      </div>
+
+      <div className="mt-8">
+        <ProjectFilters
+          filters={filters}
+          availableStyles={result.availableStyles}
+          availableEngines={result.availableEngines}
+          actionPath={basePath}
+        />
+      </div>
+
+      {result.notice ? (
+        <div className="mt-6 rounded-4xl border border-warning/30 bg-warning/10 p-5 text-sm text-muted">
+          {result.notice}
+        </div>
+      ) : null}
+
+      <div className="mt-10 grid gap-8">
+        <DiscoverySection
+          title="Em alta"
+          projects={sortProjects(result.allProjects, "hot").slice(0, 3)}
+          moreHref={buildHref(basePath, { ...filters, sort: "hot" })}
+        />
+        <DiscoverySection
+          title="Mais curtidos"
+          projects={sortProjects(result.allProjects, "likes").slice(0, 3)}
+          moreHref={buildHref(basePath, { ...filters, sort: "likes" })}
+        />
+        <DiscoverySection
+          title="Mais vistos"
+          projects={sortProjects(result.allProjects, "views").slice(0, 3)}
+          moreHref={buildHref(basePath, { ...filters, sort: "views" })}
+        />
+        <DiscoverySection
+          title="Recentemente atualizados"
+          projects={sortProjects(result.allProjects, "updated").slice(0, 3)}
+          moreHref={buildHref(basePath, { ...filters, sort: "updated" })}
+        />
+        <DiscoverySection
+          title="Novos projetos"
+          projects={sortProjects(result.allProjects, "recent").slice(0, 3)}
+          moreHref={buildHref(basePath, { ...filters, sort: "recent" })}
+        />
+      </div>
+
+      <section className="mt-12">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs text-muted">
+              {result.source === "supabase" ? "Projetos reais" : "Modo demo"}
+            </p>
+            <h2 className="mt-1 font-title text-2xl tracking-tight">
+              {result.projects.length
+                ? `${result.projects.length.toLocaleString("pt-BR")} projetos`
+                : "Nenhum resultado"}
+            </h2>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link href={basePath}>Limpar filtros</Link>
+          </Button>
+        </div>
+
+        <ProjectGrid
+          projects={pageData.items}
+          emptyTitle={emptyTitle}
+          emptyDescription={
+            hasFilters
+              ? "Tente trocar estilo, motor ou busca. A vitrine continua viva mesmo com filtros mais especificos."
+              : "Adicione um projeto novo ou aguarde a primeira publicacao real aparecer por aqui."
+          }
+          emptyAction={
+            hasFilters ? (
+              <Button asChild>
+                <Link href={basePath}>Remover filtros</Link>
+              </Button>
+            ) : (
+              <Button asChild>
+                <Link href="/carros/novo">Adicionar meu primeiro projeto</Link>
+              </Button>
+            )
+          }
+        />
+
+        {pageData.totalPages > 1 ? (
+          <Card className="mt-6 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-muted">
+              Pagina {pageData.page} de {pageData.totalPages}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                disabled={pageData.page <= 1}
+              >
+                <Link href={buildHref(basePath, filters, pageData.page - 1)}>Anterior</Link>
+              </Button>
+              {Array.from({ length: pageData.totalPages }, (_, index) => index + 1)
+                .slice(0, 5)
+                .map((page) => (
+                  <Button
+                    key={page}
+                    asChild
+                    size="sm"
+                    variant={page === pageData.page ? "default" : "outline"}
+                  >
+                    <Link href={buildHref(basePath, filters, page)}>{page}</Link>
+                  </Button>
+                ))}
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                disabled={pageData.page >= pageData.totalPages}
+              >
+                <Link href={buildHref(basePath, filters, pageData.page + 1)}>Proxima</Link>
+              </Button>
+            </div>
+          </Card>
+        ) : null}
+      </section>
+    </div>
+  );
+}

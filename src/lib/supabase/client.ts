@@ -1,16 +1,26 @@
-import { createClient, type Session, type User } from "@supabase/supabase-js";
+import {
+  createClient,
+  type Session,
+  type SupabaseClient,
+  type User,
+} from "@supabase/supabase-js";
 
-import { supabaseAnonKey, supabaseUrl } from "./env";
+import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "./env";
 
-const fallbackUrl = "https://example.supabase.co";
-const fallbackKey = "public-anon-key";
+let client: SupabaseClient | null = null;
 
-export const supabase = createClient(
-  supabaseUrl || fallbackUrl,
-  supabaseAnonKey || fallbackKey
-);
+export function getSupabaseClient() {
+  if (!isSupabaseConfigured) return null;
+  if (client) return client;
+
+  client = createClient(supabaseUrl, supabaseAnonKey);
+  return client;
+}
 
 export const getSession = async (): Promise<Session | null> => {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
   try {
     const { data } = await supabase.auth.getSession();
     return data.session;
@@ -20,6 +30,9 @@ export const getSession = async (): Promise<Session | null> => {
 };
 
 export const getUser = async (): Promise<User | null> => {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
   try {
     const { data } = await supabase.auth.getUser();
     return data.user;

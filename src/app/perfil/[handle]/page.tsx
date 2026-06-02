@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Bookmark, Heart, MapPin, Wrench } from "lucide-react";
+import { Eye, Heart, MapPin, Wrench } from "lucide-react";
 
 import { CarGrid } from "@/components/garage/car-card";
 import { ProfileForm } from "@/components/garage/profile-form";
@@ -10,8 +10,10 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { createSeoMetadata } from "@/lib/seo";
 import { qCarsByOwner, qProfileByUsername, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { formatProjectCurrency } from "@/lib/projects/utils";
 
 type PageProps = {
   params: Promise<{ handle: string }>;
@@ -30,13 +32,23 @@ function Stat({ label, value, icon: Icon }: { label: string; value: number; icon
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { handle } = await params;
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return { title: "Perfil" };
+  if (!supabase) return createSeoMetadata({ title: "Perfil", path: `/perfil/${handle}` });
   const result = await qProfileByUsername(supabase, handle);
-  if (!result.data) return { title: "Perfil nao encontrado" };
-  return {
-    title: `${result.data.display_name} | Projeto Garagem`,
+  if (!result.data) {
+    return createSeoMetadata({
+      title: "Perfil nao encontrado",
+      description: "O perfil publico solicitado nao foi encontrado.",
+      path: `/perfil/${handle}`,
+    });
+  }
+  return createSeoMetadata({
+    title: result.data.display_name,
     description: result.data.bio ?? `Garagem publica de @${result.data.username}.`,
-  };
+    path: `/perfil/${handle}`,
+    canonicalPath: `/perfil/${handle}`,
+    image: result.data.avatar_url,
+    type: "profile",
+  });
 }
 
 export default async function PublicProfilePage({ params }: PageProps) {
@@ -58,7 +70,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const cars = carsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
   const totalLikes = cars.reduce((sum, car) => sum + car.likes_count, 0);
-  const totalSaves = cars.reduce((sum, car) => sum + car.saves_count, 0);
+  const totalViews = cars.reduce((sum, car) => sum + car.views_count, 0);
+  const totalInvested = cars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
+  const activeProjects = cars.filter((car) => car.project_status !== "Finalizado").length;
   const isOwner = user?.id === profile.id;
   const location = [profile.city, profile.state].filter(Boolean).join(", ");
   const heroImage = cars[0]?.main_photo_url ?? "/ref/hero-car.jpg";
@@ -77,11 +91,29 @@ export default async function PublicProfilePage({ params }: PageProps) {
             <div className="relative p-6 md:p-8">
               <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="min-w-0">
-                  <p className="text-xs text-muted">Perfil automotivo</p>
-                  <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
-                    {profile.display_name}
-                  </h1>
-                  <p className="mt-2 text-muted">@{profile.username}</p>
+                  <div className="mb-5 flex items-center gap-4">
+                    {profile.avatar_url ? (
+                      <Image
+                        src={profile.avatar_url}
+                        alt={profile.display_name}
+                        width={88}
+                        height={88}
+                        unoptimized
+                        className="size-20 rounded-full border border-border/70 object-cover md:size-24"
+                      />
+                    ) : (
+                      <div className="flex size-20 items-center justify-center rounded-full border border-border/70 bg-background/35 font-title text-2xl md:size-24">
+                        {profile.display_name.slice(0, 1).toUpperCase()}
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-xs text-muted">Perfil automotivo</p>
+                      <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
+                        {profile.display_name}
+                      </h1>
+                      <p className="mt-2 text-muted">@{profile.username}</p>
+                    </div>
+                  </div>
                   {profile.bio ? <p className="mt-4 max-w-2xl text-foreground/90">{profile.bio}</p> : null}
                   {location ? (
                     <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/35 px-4 py-2 text-sm text-muted">
@@ -89,12 +121,37 @@ export default async function PublicProfilePage({ params }: PageProps) {
                       {location}
                     </p>
                   ) : null}
+                  {profile.instagram_handle ? (
+                    <p className="mt-4 text-sm text-muted">
+                      Instagram:{" "}
+                      <a
+                        href={`https://instagram.com/${profile.instagram_handle.replace(/^@/, "")}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-semibold text-foreground"
+                      >
+                        @{profile.instagram_handle.replace(/^@/, "")}
+                      </a>
+                    </p>
+                  ) : null}
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-3 md:min-w-96">
+                <div className="grid gap-3 sm:grid-cols-2 md:min-w-[28rem]">
                   <Stat label="Carros" value={cars.length} icon={Wrench} />
                   <Stat label="Curtidas" value={totalLikes} icon={Heart} />
-                  <Stat label="Salvos" value={totalSaves} icon={Bookmark} />
+                  <Stat label="Views" value={totalViews} icon={Eye} />
+                  <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
+                    <p className="text-xs text-muted">Total investido</p>
+                    <p className="mt-1 font-title text-2xl">
+                      {formatProjectCurrency(totalInvested)}
+                    </p>
+                  </div>
+                  <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
+                    <p className="text-xs text-muted">Projetos ativos</p>
+                    <p className="mt-1 font-title text-2xl">
+                      {activeProjects.toLocaleString("pt-BR")}
+                    </p>
+                  </div>
                 </div>
               </div>
 

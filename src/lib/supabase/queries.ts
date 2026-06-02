@@ -1,7 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import type {
+  CarBuildUpdateRow,
   CarCommentRow,
+  CarExpenseRow,
   CarPartRow,
   CarPhotoRow,
   CarRow,
@@ -16,13 +18,24 @@ export type QueryResult<T> =
 
 export type ProfileSummary = Pick<
   ProfileRow,
-  "id" | "username" | "display_name" | "avatar_url" | "bio" | "city" | "state"
+  | "id"
+  | "username"
+  | "display_name"
+  | "avatar_url"
+  | "bio"
+  | "city"
+  | "state"
+  | "instagram_handle"
 >;
 
 export type CarCard = CarRow & {
   owner: ProfileSummary | null;
   installed_parts_count: number;
   planned_parts_count: number;
+  estimated_cost: number;
+  total_invested: number;
+  updates_count: number;
+  last_update_at: string | null;
   viewer_has_liked: boolean;
   viewer_has_saved: boolean;
 };
@@ -35,6 +48,8 @@ export type CarDetails = CarCard & {
   photos: CarPhotoRow[];
   parts: CarPartRow[];
   comments: CarCommentWithAuthor[];
+  updates: CarBuildUpdateRow[];
+  expenses: CarExpenseRow[];
 };
 
 export type ExploreFilters = {
@@ -43,7 +58,8 @@ export type ExploreFilters = {
   model?: string;
   category?: string;
   state?: string;
-  sort?: "recent" | "likes" | "saves";
+  engine?: string;
+  sort?: "recent" | "likes" | "saves" | "views";
   limit?: number;
 };
 
@@ -75,28 +91,80 @@ async function fetchProfiles(supabase: Client, ids: string[]) {
 
   const { data } = await supabase
     .from("profiles")
-    .select("id, username, display_name, avatar_url, bio, city, state")
+    .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle")
     .in("id", uniqueIds);
 
   return asProfileMap((data ?? []) as ProfileSummary[]);
 }
 
-async function countPartsByCar(supabase: Client, carIds: string[]) {
+async function aggregatePartsByCar(supabase: Client, carIds: string[]) {
   const uniqueIds = Array.from(new Set(carIds));
-  if (!uniqueIds.length) return new Map<string, { installed: number; planned: number }>();
+  if (!uniqueIds.length) {
+    return new Map<string, { installed: number; planned: number; estimatedCost: number }>();
+  }
 
   const { data } = await supabase
     .from("car_parts")
-    .select("car_id, status")
+    .select("car_id, status, price_estimate")
     .in("car_id", uniqueIds);
 
-  const map = new Map<string, { installed: number; planned: number }>();
-  for (const id of uniqueIds) map.set(id, { installed: 0, planned: 0 });
+  const map = new Map<string, { installed: number; planned: number; estimatedCost: number }>();
+  for (const id of uniqueIds) map.set(id, { installed: 0, planned: 0, estimatedCost: 0 });
 
-  for (const row of (data ?? []) as Array<{ car_id: string; status: string }>) {
-    const current = map.get(row.car_id) ?? { installed: 0, planned: 0 };
+  for (const row of (data ?? []) as Array<{ car_id: string; status: string; price_estimate: number | null }>) {
+    const current = map.get(row.car_id) ?? { installed: 0, planned: 0, estimatedCost: 0 };
     if (row.status === "installed") current.installed += 1;
     if (row.status === "planned") current.planned += 1;
+    current.estimatedCost += Math.max(0, row.price_estimate ?? 0);
+    map.set(row.car_id, current);
+  }
+
+  return map;
+}
+
+async function aggregateExpensesByCar(supabase: Client, carIds: string[]) {
+  const uniqueIds = Array.from(new Set(carIds));
+  if (!uniqueIds.length) {
+    return new Map<string, { totalInvested: number }>();
+  }
+
+  const { data } = await supabase
+    .from("car_expenses")
+    .select("car_id, amount")
+    .in("car_id", uniqueIds);
+
+  const map = new Map<string, { totalInvested: number }>();
+  for (const id of uniqueIds) map.set(id, { totalInvested: 0 });
+
+  for (const row of (data ?? []) as Array<{ car_id: string; amount: number }>) {
+    const current = map.get(row.car_id) ?? { totalInvested: 0 };
+    current.totalInvested += Math.max(0, row.amount);
+    map.set(row.car_id, current);
+  }
+
+  return map;
+}
+
+async function aggregateUpdatesByCar(supabase: Client, carIds: string[]) {
+  const uniqueIds = Array.from(new Set(carIds));
+  if (!uniqueIds.length) {
+    return new Map<string, { updatesCount: number; lastUpdateAt: string | null }>();
+  }
+
+  const { data } = await supabase
+    .from("car_build_updates")
+    .select("car_id, happened_at")
+    .in("car_id", uniqueIds);
+
+  const map = new Map<string, { updatesCount: number; lastUpdateAt: string | null }>();
+  for (const id of uniqueIds) map.set(id, { updatesCount: 0, lastUpdateAt: null });
+
+  for (const row of (data ?? []) as Array<{ car_id: string; happened_at: string }>) {
+    const current = map.get(row.car_id) ?? { updatesCount: 0, lastUpdateAt: null };
+    current.updatesCount += 1;
+    if (!current.lastUpdateAt || row.happened_at > current.lastUpdateAt) {
+      current.lastUpdateAt = row.happened_at;
+    }
     map.set(row.car_id, current);
   }
 
@@ -127,7 +195,15 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
     supabase,
     rows.map((row) => row.owner_id)
   );
-  const partCounts = await countPartsByCar(
+  const partCounts = await aggregatePartsByCar(
+    supabase,
+    rows.map((row) => row.id)
+  );
+  const expensesByCar = await aggregateExpensesByCar(
+    supabase,
+    rows.map((row) => row.id)
+  );
+  const updatesByCar = await aggregateUpdatesByCar(
     supabase,
     rows.map((row) => row.id)
   );
@@ -138,12 +214,18 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
   );
 
   return rows.map((row) => {
-    const counts = partCounts.get(row.id) ?? { installed: 0, planned: 0 };
+    const counts = partCounts.get(row.id) ?? { installed: 0, planned: 0, estimatedCost: 0 };
+    const finances = expensesByCar.get(row.id) ?? { totalInvested: 0 };
+    const updates = updatesByCar.get(row.id) ?? { updatesCount: 0, lastUpdateAt: null };
     return {
       ...row,
       owner: profileMap.get(row.owner_id) ?? null,
       installed_parts_count: counts.installed,
       planned_parts_count: counts.planned,
+      estimated_cost: counts.estimatedCost,
+      total_invested: finances.totalInvested || counts.estimatedCost,
+      updates_count: updates.updatesCount,
+      last_update_at: updates.lastUpdateAt,
       viewer_has_liked: flags.likes.has(row.id),
       viewer_has_saved: flags.saves.has(row.id),
     };
@@ -220,11 +302,14 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
   if (filters.model?.trim()) query = query.ilike("model", `%${filters.model.trim()}%`);
   if (filters.category?.trim()) query = query.eq("category", filters.category.trim());
   if (filters.state?.trim()) query = query.ilike("state", filters.state.trim());
+  if (filters.engine?.trim()) query = query.ilike("engine", `%${filters.engine.trim()}%`);
 
   if (filters.sort === "likes") {
     query = query.order("likes_count", { ascending: false }).order("created_at", { ascending: false });
   } else if (filters.sort === "saves") {
     query = query.order("saves_count", { ascending: false }).order("created_at", { ascending: false });
+  } else if (filters.sort === "views") {
+    query = query.order("views_count", { ascending: false }).order("created_at", { ascending: false });
   } else {
     query = query.order("created_at", { ascending: false });
   }
@@ -287,10 +372,22 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
 
   const [card] = await hydrateCards(supabase, [row as CarRow]);
 
-  const [{ data: photos }, { data: parts }, { data: comments }] = await Promise.all([
+  const [{ data: photos }, { data: parts }, { data: comments }, { data: updates }, { data: expenses }] = await Promise.all([
     supabase.from("car_photos").select("*").eq("car_id", card.id).order("sort_order", { ascending: true }),
     supabase.from("car_parts").select("*").eq("car_id", card.id).order("status", { ascending: true }).order("created_at", { ascending: true }),
     supabase.from("car_comments").select("*").eq("car_id", card.id).order("created_at", { ascending: false }).limit(50),
+    supabase
+      .from("car_build_updates")
+      .select("*")
+      .eq("car_id", card.id)
+      .order("happened_at", { ascending: false })
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("car_expenses")
+      .select("*")
+      .eq("car_id", card.id)
+      .order("spent_at", { ascending: false })
+      .order("created_at", { ascending: false }),
   ]);
 
   const commentRows = (comments ?? []) as CarCommentRow[];
@@ -308,6 +405,8 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
         ...comment,
         author: commentAuthorMap.get(comment.user_id) ?? null,
       })),
+      updates: (updates ?? []) as CarBuildUpdateRow[],
+      expenses: (expenses ?? []) as CarExpenseRow[],
     },
     error: null,
   };
