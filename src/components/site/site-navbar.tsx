@@ -3,36 +3,27 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CarFront, Home, Package, Search, Users, Wrench } from "lucide-react";
+import { CarFront, Home, Plus, Search, Trophy, Warehouse } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useSupabaseUser } from "@/lib/supabase/use-user";
+import { useAuth } from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/explorar", label: "Explorar" },
-  { href: "/projetos", label: "Projetos" },
-  { href: "/kits", label: "Kits" },
-  { href: "/comunidade", label: "Comunidade" },
+  { href: "/rankings", label: "Rankings" },
+  { href: "/garagem", label: "Minha Garagem" },
 ] as const;
 
 const bottomNav = [
-  { href: "/", label: "Início", icon: Home },
+  { href: "/", label: "Inicio", icon: Home },
   { href: "/explorar", label: "Explorar", icon: Search },
-  { href: "/montar", label: "Montar", icon: Wrench },
-  { href: "/kits", label: "Kits", icon: Package },
-  { href: "/comunidade", label: "Feed", icon: Users },
+  { href: "/carros/novo", label: "Adicionar", icon: Plus },
+  { href: "/garagem", label: "Garagem", icon: Warehouse },
+  { href: "/rankings", label: "Top", icon: Trophy },
 ] as const;
 
-function NavLink({
-  href,
-  label,
-  active,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-}) {
+function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
   return (
     <Link
       href={href}
@@ -48,7 +39,7 @@ function NavLink({
 
 export function SiteNavbar() {
   const pathname = usePathname();
-  const { user } = useSupabaseUser();
+  const { user, loading, signOut } = useAuth();
   const isActive = React.useCallback(
     (href: string) => pathname === href || pathname.startsWith(`${href}/`),
     [pathname]
@@ -66,34 +57,47 @@ export function SiteNavbar() {
                     <CarFront className="size-5 text-accent" />
                   </span>
                   <div className="leading-tight">
-                    <p className="font-title tracking-tight">ProjetoGaragem</p>
-                    <p className="text-[11px] text-muted">Builds • Kits • Comunidade</p>
+                    <p className="font-title tracking-tight">Projeto Garagem</p>
+                    <p className="text-[11px] text-muted">Perfis de carros reais</p>
                   </div>
                 </Link>
 
                 <nav className="hidden md:flex items-center gap-5">
                   {nav.map((item) => (
-                    <NavLink
-                      key={item.href}
-                      href={item.href}
-                      label={item.label}
-                      active={isActive(item.href)}
-                    />
+                    <NavLink key={item.href} href={item.href} label={item.label} active={isActive(item.href)} />
                   ))}
                 </nav>
 
                 <div className="hidden md:flex items-center gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                    <Link href={user ? "/perfil" : "/login"}>{user ? "Perfil" : "Login"}</Link>
-                  </Button>
+                  {user ? (
+                    <>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href="/garagem">Garagem</Link>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        disabled={loading}
+                        onClick={async () => {
+                          await signOut();
+                        }}
+                      >
+                        Sair
+                      </Button>
+                    </>
+                  ) : (
+                    <Button asChild variant="ghost" size="sm">
+                      <Link href="/login">Login</Link>
+                    </Button>
+                  )}
                   <Button asChild size="sm">
-                    <Link href="/montar">Montar Projeto</Link>
+                    <Link href="/carros/novo">Adicionar carro</Link>
                   </Button>
                 </div>
 
                 <div className="md:hidden flex items-center gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href={user ? "/perfil" : "/login"}>{user ? "Perfil" : "Login"}</Link>
+                    <Link href={user ? "/garagem" : "/login"}>{user ? "Garagem" : "Login"}</Link>
                   </Button>
                 </div>
               </div>
@@ -134,13 +138,7 @@ export function SiteNavbar() {
                     <span className="text-[11px] font-ui font-semibold tracking-tight">
                       {item.label}
                     </span>
-                    <span
-                      className={cn(
-                        "h-1 w-1 rounded-full transition",
-                        active ? "bg-accent shadow-glow" : "bg-transparent"
-                      )}
-                      aria-hidden="true"
-                    />
+                    <span className={cn("h-1 w-1 rounded-full transition", active ? "bg-accent shadow-glow" : "bg-transparent")} aria-hidden="true" />
                   </Link>
                 );
               })}
@@ -151,4 +149,3 @@ export function SiteNavbar() {
     </>
   );
 }
-

@@ -1,3 +1,11 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
 export type StyleId =
   | "jdm"
   | "sleeper"
@@ -20,12 +28,12 @@ export type CarId =
 
 export type BuildPartCategory =
   | "Rodas"
-  | "Suspensão"
+  | "Suspensao"
   | "Escape"
   | "Intake"
-  | "Multimídia"
+  | "Multimidia"
   | "Bodykit"
-  | "Iluminação"
+  | "Iluminacao"
   | "Som";
 
 export type CompatibilityStatus =
@@ -64,7 +72,7 @@ export interface Style {
   backdrop: string;
 }
 
-export interface Car {
+export interface LegacyCar {
   id: CarId;
   name: string;
   segment: string;
@@ -83,29 +91,17 @@ export interface Part {
   slug: string;
   name: string;
   category: string;
-  subcategory?: string;
-  brand?: string;
-  description?: string;
-  price_min?: number;
-  price_max?: number;
-  compatible_cars?: string[];
+  subcategory?: string | null;
+  brand?: string | null;
+  description?: string | null;
+  price_min?: number | null;
+  price_max?: number | null;
+  compatible_cars?: string[] | null;
   affiliate_url?: string | null;
   affiliate_store?: string | null;
-  image_url?: string;
-  notes?: string;
+  image_url?: string | null;
+  notes?: string | null;
   created_at: string;
-}
-  id: CarId;
-  name: string;
-  segment: string;
-  power: string;
-  fuelConsumption: string;
-  commonIssues: string;
-  avgProjectCost: string;
-  wheelClearance: {
-    maxInches: number;
-    minOffset: number;
-  };
 }
 
 export interface BuildPart {
@@ -127,248 +123,249 @@ export interface Build {
   parts: BuildPart[];
 }
 
-/** Supabase typings */
-export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+type Table<Row, Insert = Partial<Row>, Update = Partial<Row>> = {
+  Row: Row;
+  Insert: Insert;
+  Update: Update;
+  Relationships: [];
+};
+
+export type ProfileRow = {
+  id: string;
+  username: string;
+  display_name: string;
+  avatar_url: string | null;
+  bio: string | null;
+  city: string | null;
+  state: string | null;
+  is_saves_public: boolean;
+  cars_count: number;
+  followers_count: number;
+  following_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarRow = {
+  id: string;
+  owner_id: string;
+  slug: string;
+  name: string;
+  brand: string;
+  model: string;
+  year: number;
+  version: string | null;
+  category: string;
+  state: string | null;
+  city: string | null;
+  description: string | null;
+  main_photo_url: string | null;
+  photo_urls: string[];
+  engine: string | null;
+  power_cv: number | null;
+  fuel_type: string | null;
+  transmission: string | null;
+  drivetrain: string | null;
+  suspension: string | null;
+  wheels: string | null;
+  tires: string | null;
+  brakes: string | null;
+  is_public: boolean;
+  likes_count: number;
+  saves_count: number;
+  comments_count: number;
+  views_count: number;
+  created_at: string;
+  updated_at: string;
+  year_start?: number | null;
+  year_end?: number | null;
+  engine_options?: Json | null;
+  torque_nm?: number | null;
+  weight_kg?: number | null;
+  transmission_options?: Json | null;
+  common_issues?: string[] | null;
+  avg_price_min?: number | null;
+  avg_price_max?: number | null;
+};
+
+export type CarPhotoRow = {
+  id: string;
+  car_id: string;
+  url: string;
+  alt: string | null;
+  sort_order: number;
+  created_at: string;
+};
+
+export type CarPartStatus = "installed" | "planned";
+
+export type CarPartRow = {
+  id: string;
+  car_id: string;
+  name: string;
+  category: string;
+  brand: string | null;
+  description: string | null;
+  status: CarPartStatus;
+  priority: string | null;
+  price_estimate: number | null;
+  external_url: string | null;
+  affiliate_url: string | null;
+  store_name: string | null;
+  product_id: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarCommentRow = {
+  id: string;
+  car_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+};
 
 export interface Database {
   public: {
     Tables: {
-      cars: {
-        Row: {
+      profiles: Table<
+        ProfileRow,
+        {
           id: string;
+          username: string;
+          display_name: string;
+          avatar_url?: string | null;
+          bio?: string | null;
+          city?: string | null;
+          state?: string | null;
+          is_saves_public?: boolean;
+        }
+      >;
+      cars: Table<
+        CarRow,
+        {
+          id?: string;
+          owner_id: string;
           slug: string;
           name: string;
           brand: string;
           model: string;
-          year_start: number;
-          year_end: number;
-          engine_options: Json | null;
-          power_cv: number | null;
-          torque_nm: number | null;
-          weight_kg: number | null;
-          category: string | null;
-          fuel_type: string | null;
-          transmission_options: Json | null;
-          common_issues: string | null;
-          avg_price_min: number | null;
-          avg_price_max: number | null;
-          created_at: string;
-        };
-        Insert: {
+          year: number;
+          version?: string | null;
+          category: string;
+          state?: string | null;
+          city?: string | null;
+          description?: string | null;
+          main_photo_url?: string | null;
+          photo_urls?: string[];
+          engine?: string | null;
+          power_cv?: number | null;
+          fuel_type?: string | null;
+          transmission?: string | null;
+          drivetrain?: string | null;
+          suspension?: string | null;
+          wheels?: string | null;
+          tires?: string | null;
+          brakes?: string | null;
+          is_public?: boolean;
+        }
+      >;
+      car_photos: Table<
+        CarPhotoRow,
+        {
           id?: string;
-          slug: string;
-          name: string;
-          brand: string;
-          model: string;
-          year_start: number;
-          year_end: number;
-          engine_options?: Json;
-          power_cv?: number;
-          torque_nm?: number;
-          weight_kg?: number;
-          category?: string;
-          fuel_type?: string;
-          transmission_options?: Json;
-          common_issues?: string;
-          avg_price_min?: number;
-          avg_price_max?: number;
-          created_at?: string;
-        };
-        Update: {
+          car_id: string;
+          url: string;
+          alt?: string | null;
+          sort_order?: number;
+        }
+      >;
+      car_parts: Table<
+        CarPartRow,
+        {
           id?: string;
-          slug?: string;
-          name?: string;
-          brand?: string;
-          model?: string;
-          year_start?: number;
-          year_end?: number;
-          engine_options?: Json;
-          power_cv?: number;
-          torque_nm?: number;
-          weight_kg?: number;
-          category?: string;
-          fuel_type?: string;
-          transmission_options?: Json;
-          common_issues?: string;
-          avg_price_min?: number;
-          avg_price_max?: number;
-          created_at?: string;
-        };
-      };
-      parts: {
-        Row: {
-          id: string;
-          slug: string;
+          car_id: string;
           name: string;
           category: string;
-          subcategory: string | null;
-          brand: string | null;
-          description: string | null;
-          price_min: number | null;
-          price_max: number | null;
-          compatible_cars: string[] | null;
-          affiliate_url: string | null;
-          affiliate_store: string | null;
-          image_url: string | null;
-          notes: string | null;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          slug: string;
-          name: string;
-          category: string;
-          subcategory?: string;
-          brand?: string;
-          description?: string;
-          price_min?: number;
-          price_max?: number;
-          compatible_cars?: string[];
-          affiliate_url?: string;
-          affiliate_store?: string;
-          image_url?: string;
-          notes?: string;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          slug?: string;
-          name?: string;
-          category?: string;
-          subcategory?: string;
-          brand?: string;
-          description?: string;
-          price_min?: number;
-          price_max?: number;
-          compatible_cars?: string[];
-          affiliate_url?: string;
-          affiliate_store?: string;
-          image_url?: string;
-          notes?: string;
-          created_at?: string;
-        };
-      };
-      builds: {
-        Row: {
-          id: string;
-          slug: string;
-          title: string;
-          user_id: string | null;
-          car_id: string | null;
-          style: string | null;
-          budget_min: number | null;
-          budget_max: number | null;
-          compatibility_score: number | null;
-          parts: Json | null;
-          description: string | null;
-          is_public: boolean | null;
-          likes_count: number | null;
-          shares_count: number | null;
-          views_count: number | null;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          slug: string;
-          title: string;
-          user_id?: string;
-          car_id?: string;
-          style?: string;
-          budget_min?: number;
-          budget_max?: number;
-          compatibility_score?: number;
-          parts?: Json;
-          description?: string;
-          is_public?: boolean;
-          likes_count?: number;
-          shares_count?: number;
-          views_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          slug?: string;
-          title?: string;
-          user_id?: string;
-          car_id?: string;
-          style?: string;
-          budget_min?: number;
-          budget_max?: number;
-          compatibility_score?: number;
-          parts?: Json;
-          description?: string;
-          is_public?: boolean;
-          likes_count?: number;
-          shares_count?: number;
-          views_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-      profiles: {
-        Row: {
-          id: string;
-          username: string;
-          display_name: string | null;
-          avatar_url: string | null;
-          bio: string | null;
-          car_count: number | null;
-          builds_count: number | null;
-          followers_count: number | null;
-          following_count: number | null;
-          badges: Json | null;
-          reputation_score: number | null;
-          created_at: string;
-        };
-        Insert: {
-          id: string;
-          username: string;
-          display_name?: string;
-          avatar_url?: string;
-          bio?: string;
-          car_count?: number;
-          builds_count?: number;
-          followers_count?: number;
-          following_count?: number;
-          badges?: Json;
-          reputation_score?: number;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          username?: string;
-          display_name?: string;
-          avatar_url?: string;
-          bio?: string;
-          car_count?: number;
-          builds_count?: number;
-          followers_count?: number;
-          following_count?: number;
-          badges?: Json;
-          reputation_score?: number;
-          created_at?: string;
-        };
-      };
-      follows: {
-        Row: { follower_id: string; following_id: string; created_at: string };
-        Insert: { follower_id: string; following_id: string; created_at?: string };
-        Update: { follower_id?: string; following_id?: string; created_at?: string };
-      };
-      likes: {
-        Row: { user_id: string; build_id: string; created_at: string };
-        Insert: { user_id: string; build_id: string; created_at?: string };
-        Update: { user_id?: string; build_id?: string; created_at?: string };
-      };
-      comments: {
-        Row: { id: string; build_id: string; user_id: string; content: string; created_at: string };
-        Insert: { id?: string; build_id: string; user_id: string; content: string; created_at?: string };
-        Update: { id?: string; build_id?: string; user_id?: string; content?: string; created_at?: string };
+          brand?: string | null;
+          description?: string | null;
+          status: CarPartStatus;
+          priority?: string | null;
+          price_estimate?: number | null;
+          external_url?: string | null;
+          affiliate_url?: string | null;
+          store_name?: string | null;
+          product_id?: string | null;
+        }
+      >;
+      car_likes: Table<{
+        car_id: string;
+        user_id: string;
+        created_at: string;
+      }>;
+      car_saves: Table<{
+        car_id: string;
+        user_id: string;
+        created_at: string;
+      }>;
+      car_comments: Table<
+        CarCommentRow,
+        { id?: string; car_id: string; user_id: string; content: string }
+      >;
+      user_follows: Table<{
+        follower_id: string;
+        following_id: string;
+        created_at: string;
+      }>;
+      part_requirements: Table<{
+        id: string;
+        part_category: string;
+        required_category: string;
+        message: string;
+        created_at: string;
+      }>;
+      parts: Table<Part>;
+      builds: Table<{
+        id: string;
+        slug: string;
+        title: string;
+        user_id: string;
+        car_id: string;
+        style: string;
+        budget_min: number | null;
+        budget_max: number | null;
+        compatibility_score: number;
+        parts: Json | null;
+        description: string | null;
+        car_photo_url: string | null;
+        is_public: boolean;
+        likes_count: number;
+        shares_count: number;
+        views_count: number;
+        created_at: string;
+        updated_at: string;
+      }>;
+      likes: Table<{ user_id: string; build_id: string; created_at: string }>;
+      comments: Table<{
+        id: string;
+        build_id: string;
+        user_id: string;
+        content: string;
+        created_at: string;
+      }>;
+      follows: Table<{
+        follower_id: string;
+        following_id: string;
+        created_at: string;
+      }>;
+    };
+    Views: Record<string, never>;
+    Functions: {
+      weekly_build_ranking: {
+        Args: { limit_count?: number };
+        Returns: Array<{ build_id: string; likes_week: number }>;
       };
     };
-    Views: {};
-    Functions: {};
-    Enums: {};
+    Enums: Record<string, never>;
   };
 }

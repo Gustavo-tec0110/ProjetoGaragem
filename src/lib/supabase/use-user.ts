@@ -12,11 +12,7 @@ export function useSupabaseUser() {
 
   React.useEffect(() => {
     const supabase = getSupabaseBrowserClient();
-    if (!supabase) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
+    if (!supabase) return;
 
     let mounted = true;
     void supabase.auth

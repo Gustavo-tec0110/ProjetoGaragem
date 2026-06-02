@@ -9,8 +9,9 @@ import {
 
 function isProtectedPath(pathname: string) {
   return (
-    pathname.startsWith("/projetos") ||
-    pathname.startsWith("/perfil/edit") ||
+    pathname.startsWith("/garagem") ||
+    pathname === "/carros/novo" ||
+    (pathname.startsWith("/carros/") && pathname.endsWith("/editar")) ||
     pathname.startsWith("/onboarding")
   );
 }
@@ -75,4 +76,3 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
-

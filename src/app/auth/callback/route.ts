@@ -8,9 +8,9 @@ import {
 } from "@/lib/supabase/env";
 
 function safeNextPath(next: string | null) {
-  if (!next) return "/perfil";
-  if (!next.startsWith("/")) return "/perfil";
-  if (next.startsWith("//")) return "/perfil";
+  if (!next) return "/garagem";
+  if (!next.startsWith("/")) return "/garagem";
+  if (next.startsWith("//")) return "/garagem";
   return next;
 }
 

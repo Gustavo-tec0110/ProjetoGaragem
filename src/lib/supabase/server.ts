@@ -1,11 +1,7 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
-import {
-  isSupabaseConfigured,
-  supabaseAnonKey,
-  supabaseUrl,
-} from "@/lib/supabase/env";
+import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from './env';
 
 export async function getSupabaseServerClient() {
   if (!isSupabaseConfigured) return null;
@@ -17,7 +13,7 @@ export async function getSupabaseServerClient() {
       getAll() {
         return cookieStore.getAll();
       },
-      setAll(cookiesToSet, _headers) {
+      setAll(cookiesToSet) {
         try {
           for (const { name, value, options } of cookiesToSet) {
             cookieStore.set({ name, value, ...options });
