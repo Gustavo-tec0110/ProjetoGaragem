@@ -25,7 +25,7 @@ export function buildLegacyProjectHref(slug: string) {
 export function buildSearchHref(query: string) {
   const params = new URLSearchParams();
   params.set("q", query);
-  return `/buscar?${params.toString()}`;
+  return `/explorar?${params.toString()}`;
 }
 
 export function buildCompareHref(leftSlug?: string | null, rightSlug?: string | null) {
@@ -135,6 +135,18 @@ export function normalizeProjectFilters(filters?: Partial<ProjectFilters>): Proj
   };
 }
 
+export function normalizeSearchText(value: string | null | undefined) {
+  return (value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[+]/g, " plus ")
+    .replace(/#/g, " ")
+    .replace(/[^a-zA-Z0-9]+/g, " ")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
 export function uniqueStrings(values: Array<string | null | undefined>) {
   return Array.from(
     new Set(
@@ -239,6 +251,69 @@ function projectHotScore(project: Project) {
   return project.likes * 4 + project.views * 0.12 + freshness * 10 + project.comments * 2;
 }
 
+const PROJECT_THEME_ALIASES = [
+  {
+    match: ["jdm", "vtec", "honda", "toyota", "nissan", "subaru", "mitsubishi", "mazda", "lexus"],
+    aliases: ["jdm", "japanese", "japones", "vtec"],
+  },
+  {
+    match: ["off road", "offroad", "4x4", "trilha", "overland"],
+    aliases: ["off road", "offroad", "4x4", "trilha", "overland"],
+  },
+  {
+    match: ["turbo", "boost", "pressurizado"],
+    aliases: ["turbo", "boost", "pressurizado"],
+  },
+  {
+    match: ["stance", "fitment", "rebaixado", "baixo", "airride", "ar"],
+    aliases: ["stance", "fitment", "rebaixado", "baixo", "airride"],
+  },
+  {
+    match: ["track", "track day", "pista", "time attack", "autodromo"],
+    aliases: ["track", "track day", "pista", "time attack", "autodromo"],
+  },
+  {
+    match: ["sleeper", "discreto", "oem plus", "oem", "original", "clean"],
+    aliases: ["sleeper", "discreto", "oem plus", "oemplus", "original", "clean"],
+  },
+  {
+    match: ["classico", "classicos", "restomod", "antigo", "aircooled", "vintage"],
+    aliases: ["classico", "classicos", "restomod", "antigo", "aircooled", "vintage"],
+  },
+] as const;
+
+function getProjectSearchText(project: Project) {
+  const baseTerms = [
+    project.title,
+    project.carModel,
+    project.brand ?? "",
+    project.model ?? "",
+    project.ownerName,
+    project.engine,
+    project.style,
+    project.shortDescription,
+    project.description,
+    project.projectGoal ?? "",
+    ...project.tags,
+  ];
+
+  const baseText = normalizeSearchText(baseTerms.join(" "));
+  const aliasTerms = PROJECT_THEME_ALIASES.flatMap((rule) =>
+    rule.match.some((term) => baseText.includes(normalizeSearchText(term))) ? rule.aliases : []
+  );
+
+  return normalizeSearchText([...baseTerms, ...aliasTerms].join(" "));
+}
+
+export function projectMatchesTheme(project: Project, terms: string[]) {
+  const haystack = getProjectSearchText(project);
+  return terms.some((term) => haystack.includes(normalizeSearchText(term)));
+}
+
+export function getProjectEngagementScore(project: Project) {
+  return Math.round(projectHotScore(project));
+}
+
 export function enrichProject(project: ProjectSeed): Project {
   const normalizedStatus = normalizeProjectStatus(project.status);
   const normalizedTags = uniqueStrings(project.tags.map((tag) => normalizeProjectTag(tag) || tag));
@@ -295,33 +370,23 @@ export function uniqueProjects(projects: Project[]) {
 }
 
 export function filterProjects(projects: Project[], filters: ProjectFilters) {
-  const searchTerm = filters.q.toLowerCase();
-  const styleTerm = filters.style.toLowerCase();
-  const engineTerm = filters.engine.toLowerCase();
-  const tagTerm = filters.tag?.toLowerCase() ?? "";
+  const searchTerm = normalizeSearchText(filters.q);
+  const styleTerm = normalizeSearchText(filters.style);
+  const engineTerm = normalizeSearchText(filters.engine);
+  const tagTerm = normalizeSearchText(filters.tag ?? "");
 
   return projects.filter((project) => {
-    const matchesSearch =
-      !searchTerm ||
-      [
-        project.title,
-        project.carModel,
-        project.ownerName,
-        project.engine,
-        project.style,
-        project.shortDescription,
-        project.projectGoal ?? "",
-        ...project.tags,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm);
-
-    const matchesStyle = !styleTerm || project.style.toLowerCase() === styleTerm;
-    const matchesEngine =
-      !engineTerm || project.engine.toLowerCase().includes(engineTerm);
+    const searchText = getProjectSearchText(project);
+    const matchesSearch = !searchTerm || searchText.includes(searchTerm);
+    const matchesStyle =
+      !styleTerm ||
+      normalizeSearchText(project.style) === styleTerm ||
+      projectMatchesTheme(project, [styleTerm]);
+    const matchesEngine = !engineTerm || normalizeSearchText(project.engine).includes(engineTerm);
     const matchesTag =
-      !tagTerm || project.tags.some((tag) => tag.toLowerCase().includes(tagTerm));
+      !tagTerm ||
+      project.tags.some((tag) => normalizeSearchText(tag).includes(tagTerm)) ||
+      projectMatchesTheme(project, [tagTerm]);
 
     return matchesSearch && matchesStyle && matchesEngine && matchesTag;
   });
@@ -347,8 +412,8 @@ export function sortProjects(projects: Project[], sort: ProjectSortKey) {
       const leftInvested = getProjectTotalInvested(left) ?? 0;
       if (rightInvested !== leftInvested) return rightInvested - leftInvested;
     } else if (sort === "hot") {
-      const rightScore = projectHotScore(right);
-      const leftScore = projectHotScore(left);
+      const rightScore = getProjectEngagementScore(right);
+      const leftScore = getProjectEngagementScore(left);
       if (rightScore !== leftScore) return rightScore - leftScore;
     } else if (new Date(right.createdAt).getTime() !== new Date(left.createdAt).getTime()) {
       return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
@@ -411,6 +476,6 @@ export function paginateProjects(projects: Project[], page: number, pageSize = P
 
 export function getTrendingProjects(projects: Project[], limit = 6) {
   return [...projects]
-    .sort((left, right) => projectHotScore(right) - projectHotScore(left))
+    .sort((left, right) => getProjectEngagementScore(right) - getProjectEngagementScore(left))
     .slice(0, limit);
 }

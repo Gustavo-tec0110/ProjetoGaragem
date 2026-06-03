@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CarFront, Home, Plus, Search, Trophy, Warehouse } from "lucide-react";
+import { CarFront, Compass, Home, Plus, Trophy, Warehouse } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/AuthProvider";
@@ -11,18 +11,17 @@ import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/explorar", label: "Explorar" },
-  { href: "/buscar", label: "Buscar" },
   { href: "/comparar", label: "Comparar" },
-  { href: "/rankings", label: "Rankings" },
+  { href: "/rankings", label: "Ranking" },
   { href: "/garagem", label: "Minha Garagem" },
 ] as const;
 
 const bottomNav = [
   { href: "/", label: "Inicio", icon: Home },
-  { href: "/explorar", label: "Explorar", icon: Search },
+  { href: "/explorar", label: "Explorar", icon: Compass },
   { href: "/carros/novo", label: "Adicionar", icon: Plus },
   { href: "/garagem", label: "Garagem", icon: Warehouse },
-  { href: "/rankings", label: "Top", icon: Trophy },
+  { href: "/rankings", label: "Ranking", icon: Trophy },
 ] as const;
 
 function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {

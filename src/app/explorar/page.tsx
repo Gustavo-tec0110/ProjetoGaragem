@@ -20,15 +20,18 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const params = await searchParams;
   const q = param(params, "q");
+  const style = param(params, "style");
   const sort = param(params, "sort");
 
   return createSeoMetadata({
-    title: q ? `Explorar projetos: ${q}` : "Explorar projetos",
+    title: q ? `Explorar projetos: ${q}` : style ? `Explorar projetos ${style}` : "Explorar projetos",
     description:
-      sort === "hot"
-        ? "Descubra os projetos em alta, mais curtidos, mais vistos e recentemente atualizados."
-        : "Explore projetos automotivos, descubra builds em destaque e acompanhe evolucoes reais.",
-    path: `/explorar${q || sort ? `?${new URLSearchParams({ ...(q ? { q } : {}), ...(sort ? { sort } : {}) }).toString()}` : ""}`,
+      q || style
+        ? "Busque projetos por nome, marca, modelo, tags e estilos como JDM, off-road, turbo, stance e sleeper."
+        : sort === "hot"
+          ? "Descubra os projetos em alta, mais curtidos, mais vistos e recentemente atualizados."
+          : "Explore projetos automotivos, descubra builds em destaque e acompanhe evolucoes reais.",
+    path: `/explorar${q || style || sort ? `?${new URLSearchParams({ ...(q ? { q } : {}), ...(style ? { style } : {}), ...(sort ? { sort } : {}) }).toString()}` : ""}`,
     canonicalPath: "/explorar",
   });
 }
@@ -43,6 +46,7 @@ export default async function ExplorarPage({
     q: param(params, "q"),
     style: param(params, "style"),
     engine: param(params, "engine"),
+    tag: param(params, "tag"),
     sort: param(params, "sort") as
       | "recent"
       | "likes"
@@ -60,8 +64,8 @@ export default async function ExplorarPage({
         <ProjectDiscoveryPage
           basePath="/explorar"
           eyebrow="Catalogo social"
-          title="Explore projetos que evoluem de verdade"
-          description="Veja carros da comunidade, acompanhe a timeline de cada build, compare setups lado a lado e filtre por estilo, motor, dono ou tags."
+          title="Explorar projetos"
+          description="Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e estilos como JDM, off-road, turbo, stance, sleeper e track day."
           filters={filters}
           page={page}
         />

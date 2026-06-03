@@ -176,11 +176,15 @@ export async function getProjectRankings(limit = 6) {
   const allProjects = collection.allProjects;
 
   return {
+    allProjects,
     source: collection.source,
     notice: collection.notice,
     trending: getTrendingProjects(allProjects, limit),
     mostLiked: sortProjects(allProjects, "likes").slice(0, limit),
     mostViewed: sortProjects(allProjects, "views").slice(0, limit),
+    mostSaved: [...allProjects]
+      .sort((left, right) => right.saves - left.saves || right.likes - left.likes)
+      .slice(0, limit),
     mostRecent: sortProjects(allProjects, "recent").slice(0, limit),
     mostUpdated: sortProjects(allProjects, "updated").slice(0, limit),
   };

@@ -20,7 +20,7 @@ export function ProjectFilters({
   return (
     <Card className="p-4 md:p-5">
       <form
-        className="grid gap-3 lg:grid-cols-[1.5fr_0.9fr_1fr_0.9fr_auto]"
+        className="grid gap-3 xl:grid-cols-[1.7fr_0.9fr_1fr_0.95fr_auto]"
         action={actionPath}
       >
         <label className="relative">
@@ -28,7 +28,7 @@ export function ProjectFilters({
           <Input
             name="q"
             defaultValue={filters.q}
-            placeholder="Buscar por projeto, carro, dono ou tag..."
+            placeholder="Busque por projeto, Gol, Volkswagen, #turbo, JDM, off-road, stance..."
             className="pl-11"
           />
         </label>
@@ -81,6 +81,10 @@ export function ProjectFilters({
           </Button>
         </div>
       </form>
+      <p className="mt-3 text-xs text-muted">
+        Explore por nome do projeto, modelo, marca, tags e estilos como JDM, off-road,
+        turbo, stance, sleeper, original e track day.
+      </p>
     </Card>
   );
 }

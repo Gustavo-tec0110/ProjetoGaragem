@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { GoogleSigninButton } from "@/components/auth/google-signin-button";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
@@ -55,21 +56,36 @@ export default function RegisterPage() {
         <div className="mx-auto w-full max-w-md pt-20 md:pt-24 pb-12">
           <Card className="p-6 md:p-8">
             <h1 className="font-title text-2xl tracking-tight">Criar conta</h1>
+            <p className="mt-2 text-sm text-muted">
+              Entre na comunidade para publicar projetos, salvar builds e acompanhar a evolucao da sua garagem.
+            </p>
             {success ? (
               <p className="mt-4 text-sm text-muted">
                 Cadastro iniciado. Se o Supabase exigir confirmacao, verifique seu email.
               </p>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 space-y-3">
-                <Input placeholder="Nome completo" value={fullName} onChange={(event) => setFullName(event.target.value)} required />
-                <Input placeholder="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-                <Input placeholder="Senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-                <Input placeholder="Confirmar senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />
-                {error ? <p className="text-sm text-danger">{error}</p> : null}
-                <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? "Cadastrando..." : "Criar conta"}
-                </Button>
-              </form>
+              <>
+                <div className="mt-6">
+                  <GoogleSigninButton />
+                </div>
+
+                <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-muted/80">
+                  <span className="h-px flex-1 bg-border/70" />
+                  <span>ou continue com email</span>
+                  <span className="h-px flex-1 bg-border/70" />
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <Input placeholder="Nome completo" value={fullName} onChange={(event) => setFullName(event.target.value)} required />
+                  <Input placeholder="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+                  <Input placeholder="Senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+                  <Input placeholder="Confirmar senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />
+                  {error ? <p className="text-sm text-danger">{error}</p> : null}
+                  <Button type="submit" disabled={loading} className="w-full">
+                    {loading ? "Cadastrando..." : "Criar conta"}
+                  </Button>
+                </form>
+              </>
             )}
             <p className="mt-3 text-xs text-muted">
               <Link href="/login" className="underline">Ja tem conta? Entrar</Link>
