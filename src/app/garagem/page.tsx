@@ -2,12 +2,15 @@ import Link from "next/link";
 import { Eye, Heart, PiggyBank, Plus, Wrench } from "lucide-react";
 
 import { CarGrid } from "@/components/garage/car-card";
+import { InspirationPlanner } from "@/components/garage/inspiration-planner";
 import { LocalGaragePanel } from "@/components/projects/local-garage-panel";
 import { ProfileForm } from "@/components/garage/profile-form";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { demoProjects } from "@/lib/projects/demo-projects";
+import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server";
 import { getCurrentProfile, qCarsByOwner, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
@@ -58,7 +61,7 @@ export default async function GaragemPage() {
                 </p>
               </div>
               <Button asChild>
-                <Link href="/carros/novo">
+                <Link href="/criar-projeto">
                   <Plus className="size-4" />
                   Adicionar projeto local
                 </Link>
@@ -68,6 +71,15 @@ export default async function GaragemPage() {
             <div className="mt-8">
               <LocalGaragePanel />
             </div>
+
+            <section className="mt-10">
+              <InspirationPlanner
+                mode="local"
+                storageScope="local"
+                inspirationProjects={demoProjects.slice(0, 8)}
+                referenceSourceLabel="Projetos demo"
+              />
+            </section>
           </div>
         </main>
         <SiteFooter />
@@ -120,12 +132,26 @@ export default async function GaragemPage() {
     );
   }
 
-  const [myCarsResult, savedResult] = await Promise.all([
+  const [myCarsResult, savedResult, catalog] = await Promise.all([
     qCarsByOwner(user.id, true),
     qSavedCars(user.id),
+    getProjectCollection(),
   ]);
   const myCars = myCarsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
+  const myCarSlugs = myCars.map((car) => car.slug);
+  const referenceSlugs = (
+    savedCars.length
+      ? savedCars.map((car) => car.slug)
+      : catalog.allProjects
+          .filter((project) => !myCarSlugs.includes(project.slug))
+          .slice(0, 12)
+          .map((project) => project.slug)
+  ).filter(Boolean);
+  const [myProjects, referenceProjects] = await Promise.all([
+    getProjectsBySlugs(myCarSlugs),
+    getProjectsBySlugs(referenceSlugs),
+  ]);
   const likesReceived = myCars.reduce((sum, car) => sum + car.likes_count, 0);
   const viewsReceived = myCars.reduce((sum, car) => sum + car.views_count, 0);
   const totalInvested = myCars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
@@ -151,7 +177,7 @@ export default async function GaragemPage() {
                 <Link href={`/perfil/${current.profile.username}`}>Ver perfil publico</Link>
               </Button>
               <Button asChild>
-                <Link href="/carros/novo">
+                <Link href="/criar-projeto">
                   <Plus className="size-4" />
                   Adicionar carro
                 </Link>
@@ -172,13 +198,23 @@ export default async function GaragemPage() {
           </section>
 
           <section className="mt-10">
+            <InspirationPlanner
+              mode="supabase"
+              storageScope={user.id}
+              currentProjects={myProjects}
+              inspirationProjects={referenceProjects}
+              referenceSourceLabel={savedCars.length ? "Projetos salvos" : "Projetos em destaque"}
+            />
+          </section>
+
+          <section className="mt-10">
             <div className="mb-4 flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs text-muted">Seus projetos</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Meus carros</h2>
               </div>
               <Button asChild variant="outline" size="sm">
-                <Link href="/carros/novo">Adicionar</Link>
+                <Link href="/criar-projeto">Adicionar</Link>
               </Button>
             </div>
             <CarGrid
@@ -186,7 +222,7 @@ export default async function GaragemPage() {
               emptyTitle="Voce ainda nao cadastrou nenhum carro."
               emptyAction={
                 <Button asChild>
-                  <Link href="/carros/novo">Adicionar meu primeiro carro</Link>
+                  <Link href="/criar-projeto">Adicionar meu primeiro projeto</Link>
                 </Button>
               }
             />

@@ -35,7 +35,7 @@ export default async function Home() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg">
-                  <Link href="/carros/novo">Adicionar meu carro</Link>
+                  <Link href="/criar-projeto">Adicionar meu projeto</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link href="/explorar">Explorar projetos</Link>
@@ -99,7 +99,7 @@ export default async function Home() {
                   </p>
                 </div>
                 <Button asChild size="lg">
-                  <Link href="/carros/novo">Comecar agora</Link>
+                  <Link href="/criar-projeto">Comecar agora</Link>
                 </Button>
               </div>
             </Card>

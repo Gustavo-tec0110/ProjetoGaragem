@@ -81,7 +81,7 @@ export async function ProjectDiscoveryPage({
           <p className="mt-3 max-w-3xl text-muted">{description}</p>
         </div>
         <Button asChild>
-          <Link href="/carros/novo">Adicionar meu carro</Link>
+          <Link href="/criar-projeto">Adicionar meu projeto</Link>
         </Button>
       </div>
 
@@ -214,7 +214,7 @@ export async function ProjectDiscoveryPage({
               </div>
             ) : (
               <Button asChild>
-                <Link href="/carros/novo">Adicionar meu primeiro projeto</Link>
+                <Link href="/criar-projeto">Adicionar meu primeiro projeto</Link>
               </Button>
             )
           }

@@ -25,7 +25,7 @@ export function LocalGaragePanel() {
       emptyDescription="Crie um projeto em modo demo para testar cadastro, pagina individual e compartilhamento sem depender do banco."
       emptyAction={
         <Button asChild>
-          <Link href="/carros/novo">Adicionar projeto local</Link>
+          <Link href="/criar-projeto">Adicionar projeto local</Link>
         </Button>
       }
     />

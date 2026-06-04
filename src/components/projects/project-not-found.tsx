@@ -18,7 +18,7 @@ export function ProjectNotFound() {
           <Link href="/explorar">Voltar para explorar</Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/carros/novo">Adicionar um projeto</Link>
+          <Link href="/criar-projeto">Adicionar um projeto</Link>
         </Button>
       </div>
     </Card>

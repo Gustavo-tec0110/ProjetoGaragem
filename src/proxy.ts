@@ -10,7 +10,9 @@ import {
 function isProtectedPath(pathname: string) {
   return (
     pathname.startsWith("/garagem") ||
+    pathname === "/criar-projeto" ||
     pathname === "/carros/novo" ||
+    (pathname.startsWith("/projeto/") && pathname.endsWith("/editar")) ||
     (pathname.startsWith("/carros/") && pathname.endsWith("/editar")) ||
     pathname.startsWith("/onboarding")
   );

@@ -8,7 +8,7 @@ import type {
   ProjectUpdate,
 } from "@/lib/projects/types";
 import {
-  buildLegacyProjectHref,
+  buildProjectHref,
   createShortDescription,
   enrichProject,
   normalizeProjectTag,
@@ -164,7 +164,7 @@ function createBaseProject(car: CarCard | CarDetails) {
     isPublic: car.is_public,
     viewerHasLiked: car.viewer_has_liked,
     viewerHasSaved: car.viewer_has_saved,
-    editHref: buildLegacyProjectHref(car.slug) + "/editar",
+    editHref: buildProjectHref(car.slug) + "/editar",
   });
 }
 

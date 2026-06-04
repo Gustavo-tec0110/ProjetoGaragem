@@ -22,7 +22,7 @@ export function SiteFooter() {
               <Link className="text-muted hover:text-foreground" href="/garagem">
                 Minha Garagem
               </Link>
-              <Link className="text-muted hover:text-foreground" href="/carros/novo">
+              <Link className="text-muted hover:text-foreground" href="/criar-projeto">
                 Adicionar carro
               </Link>
             </div>

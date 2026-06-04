@@ -86,7 +86,7 @@ function ProjectCompareCard({
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">{project.style}</Badge>
           <Badge>{project.status}</Badge>
-          <Badge>{project.progressPercent}%</Badge>
+          {project.tags[0] ? <Badge>{project.tags[0]}</Badge> : null}
         </div>
         <div>
           <h2 className="font-title text-2xl tracking-tight">{project.title}</h2>

@@ -211,8 +211,8 @@ export function ProjectDetail({
     { label: "Carro", value: project.carModel },
     { label: "Ano", value: project.year },
     { label: "Motor", value: project.engine },
+    { label: "Categoria", value: project.style },
     { label: "Status", value: project.status },
-    { label: "Progresso", value: `${project.progressPercent}%` },
     { label: "Quilometragem", value: formatNumber(project.mileageKm, " km") },
     { label: "Potencia", value: formatNumber(project.powerCv, " cv") },
     { label: "Torque", value: formatNumber(project.torqueNm, " Nm") },
@@ -244,7 +244,6 @@ export function ProjectDetail({
             <div className="flex flex-wrap gap-2">
               <Badge variant="secondary">{project.style}</Badge>
               <Badge>{project.status}</Badge>
-              <Badge>{project.progressPercent}% concluido</Badge>
               {project.source !== "supabase" ? <Badge>Modo {project.source}</Badge> : null}
               {location ? <Badge>{location}</Badge> : null}
             </div>
@@ -272,16 +271,22 @@ export function ProjectDetail({
 
             <p className="mt-5 max-w-2xl text-foreground/90">{project.description}</p>
 
-            <div className="mt-6 max-w-2xl">
-              <div className="flex items-center justify-between text-xs text-muted">
-                <span>Progresso do build</span>
-                <span>{project.progressPercent}%</span>
+            <div className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
+              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+                <p className="text-xs text-muted">Estado atual</p>
+                <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
               </div>
-              <div className="mt-2 h-3 rounded-full bg-background/70">
-                <div
-                  className="h-full rounded-full bg-accent shadow-glow"
-                  style={{ width: `${project.progressPercent}%` }}
-                />
+              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+                <p className="text-xs text-muted">Pecas instaladas</p>
+                <p className="mt-1 font-ui text-sm font-semibold">
+                  {project.installedParts.length.toLocaleString("pt-BR")}
+                </p>
+              </div>
+              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+                <p className="text-xs text-muted">Ultima atualizacao</p>
+                <p className="mt-1 font-ui text-sm font-semibold">
+                  {formatProjectDate(project.lastUpdateAt)}
+                </p>
               </div>
             </div>
 

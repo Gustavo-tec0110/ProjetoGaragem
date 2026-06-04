@@ -19,7 +19,7 @@ const nav = [
 const bottomNav = [
   { href: "/", label: "Inicio", icon: Home },
   { href: "/explorar", label: "Explorar", icon: Compass },
-  { href: "/carros/novo", label: "Adicionar", icon: Plus },
+  { href: "/criar-projeto", label: "Criar", icon: Plus },
   { href: "/garagem", label: "Garagem", icon: Warehouse },
   { href: "/rankings", label: "Ranking", icon: Trophy },
 ] as const;
@@ -92,7 +92,7 @@ export function SiteNavbar() {
                     </Button>
                   )}
                   <Button asChild size="sm">
-                    <Link href="/carros/novo">Adicionar carro</Link>
+                    <Link href="/criar-projeto">Criar projeto</Link>
                   </Button>
                 </div>
 

@@ -80,7 +80,6 @@ export function ProjectForm({
       ? Number.parseInt(estimatedCostRaw.replace(/[^\d]/g, ""), 10)
       : null;
     const tags = parseTagString(String(formData.get("tags") ?? ""));
-    const progressPercent = Number.parseInt(String(formData.get("progress_percent") ?? "45"), 10);
 
     if (!title || !carModel || !Number.isFinite(yearValue) || !engine || !style || !description) {
       setError("Preencha nome do projeto, carro, ano, motor, estilo e descricao.");
@@ -121,7 +120,6 @@ export function ProjectForm({
       plannedParts,
       estimatedCost,
       status,
-      progressPercent: Number.isFinite(progressPercent) ? progressPercent : 45,
       likes: 0,
       saves: 0,
       views: 0,
@@ -203,13 +201,10 @@ export function ProjectForm({
           >
             {PROJECT_STATUS_VALUES.map((projectStatus) => (
               <option key={projectStatus} value={projectStatus}>
-                {projectStatus}
-              </option>
-            ))}
+              {projectStatus}
+            </option>
+          ))}
           </select>
-        </Field>
-        <Field label="Progresso (%)">
-          <Input name="progress_percent" type="number" min={0} max={100} defaultValue={45} />
         </Field>
         <Field label="Inicio do projeto">
           <Input name="started_at" type="date" />

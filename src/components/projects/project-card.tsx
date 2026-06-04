@@ -103,16 +103,18 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-border/70 bg-background/25 px-3 py-3 text-xs text-muted">
-          <div className="flex items-center justify-between gap-3">
-            <span>Ultima evolucao</span>
-            <span>{formatProjectDate(project.lastUpdateAt)}</span>
+        <div className="grid gap-2 rounded-3xl border border-border/70 bg-background/25 px-3 py-3 text-xs text-muted sm:grid-cols-2">
+          <div>
+            <p>Ultima evolucao</p>
+            <p className="mt-1 font-semibold text-foreground">
+              {formatProjectDate(project.lastUpdateAt)}
+            </p>
           </div>
-          <div className="mt-2 h-2 rounded-full bg-background/70">
-            <div
-              className="h-full rounded-full bg-accent"
-              style={{ width: `${project.progressPercent}%` }}
-            />
+          <div>
+            <p>Pecas instaladas</p>
+            <p className="mt-1 font-semibold text-foreground">
+              {project.installedParts.length.toLocaleString("pt-BR")}
+            </p>
           </div>
         </div>
 

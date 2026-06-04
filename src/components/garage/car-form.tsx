@@ -203,9 +203,6 @@ export function CarForm({
     expenses.length ? expenses.map(fromExpense) : [newExpense(), newExpense()]
   );
   const [tagInput, setTagInput] = React.useState((car?.tags ?? []).join(", "));
-  const [progressPercent, setProgressPercent] = React.useState<number>(
-    car?.progress_percent ?? 45
-  );
 
   function updatePart(localId: string, patch: Partial<PartDraft>) {
     setDraftParts((current) =>
@@ -537,23 +534,17 @@ export function CarForm({
           <Field label="Data de inicio">
             <Input name="started_at" type="date" defaultValue={isoDate(car?.started_at)} />
           </Field>
-          <Field label="Progresso" className="md:col-span-2">
-            <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-4">
-              <div className="flex items-center justify-between text-xs text-muted">
-                <span>0%</span>
-                <span className="font-semibold text-foreground">{progressPercent}%</span>
-                <span>100%</span>
-              </div>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={progressPercent}
-                onChange={(event) => setProgressPercent(Number(event.target.value))}
-                className="mt-3 w-full accent-red-500"
-              />
-              <input type="hidden" name="progress_percent" value={progressPercent} />
+          <Field label="Planejamento privado" className="md:col-span-2">
+            <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-4 text-sm text-muted">
+              A leitura de similaridade com uma build inspiracao aparece somente na sua
+              garagem privada. A pagina publica mostra estado atual, modificacoes, fotos,
+              tags e ultima atualizacao, sem porcentagem de conclusao.
             </div>
+            <input
+              type="hidden"
+              name="progress_percent"
+              value={car?.progress_percent == null ? "" : String(car.progress_percent)}
+            />
           </Field>
           <Field label="Meta do projeto" className="md:col-span-4">
             <Input
