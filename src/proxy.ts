@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 import {
+  getRequestSiteUrl,
   isSupabaseConfigured,
   supabaseAnonKey,
   supabaseUrl,
@@ -63,8 +64,7 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (!user && isProtectedPath(pathname)) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
+    const loginUrl = new URL("/login", getRequestSiteUrl(request.nextUrl.origin));
     loginUrl.searchParams.set("next", nextParam);
     return NextResponse.redirect(loginUrl);
   }

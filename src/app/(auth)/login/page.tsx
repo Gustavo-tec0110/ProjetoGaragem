@@ -12,6 +12,13 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
 
+function safeNextPath(next: string | null) {
+  if (!next) return "/garagem";
+  if (!next.startsWith("/")) return "/garagem";
+  if (next.startsWith("//")) return "/garagem";
+  return next;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { signInWithEmail } = useAuth();
@@ -34,7 +41,7 @@ export default function LoginPage() {
     }
 
     const nextPath = new URLSearchParams(window.location.search).get("next");
-    router.push(nextPath ?? "/garagem");
+    router.push(safeNextPath(nextPath));
   };
 
   return (

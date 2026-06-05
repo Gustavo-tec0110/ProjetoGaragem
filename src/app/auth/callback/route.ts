@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 import {
+  getRequestSiteUrl,
   isSupabaseConfigured,
   supabaseAnonKey,
   supabaseUrl,
@@ -15,7 +16,7 @@ function safeNextPath(next: string | null) {
 }
 
 export async function GET(request: NextRequest) {
-  const origin = request.nextUrl.origin;
+  const origin = getRequestSiteUrl(request.nextUrl.origin);
   const code = request.nextUrl.searchParams.get("code");
   const next = safeNextPath(request.nextUrl.searchParams.get("next"));
 

@@ -7,24 +7,46 @@ function trimEnvValue(value: string | undefined) {
   return value?.trim() ?? "";
 }
 
-function normalizeBaseUrl(value: string) {
-  return value.endsWith("/") ? value.slice(0, -1) : value;
+function toBaseUrl(value: string | undefined) {
+  const trimmed = trimEnvValue(value);
+  if (!trimmed) return "";
+
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return "";
+    return url.origin;
+  } catch {
+    return "";
+  }
+}
+
+function getConfiguredSiteUrl() {
+  if (process.env.NODE_ENV === "production") return DEFAULT_SITE_URL;
+
+  const envSiteUrl = toBaseUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  return envSiteUrl || DEFAULT_SITE_URL;
 }
 
 export const supabaseUrl =
   trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
 export const supabaseAnonKey =
   trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) || DEFAULT_SUPABASE_ANON_KEY;
-export const configuredSiteUrl = normalizeBaseUrl(
-  trimEnvValue(process.env.NEXT_PUBLIC_SITE_URL) || DEFAULT_SITE_URL
-);
+export const configuredSiteUrl = getConfiguredSiteUrl();
+
+export function getRequestSiteUrl(requestOrigin?: string) {
+  if (process.env.NODE_ENV === "production") return DEFAULT_SITE_URL;
+
+  const origin = toBaseUrl(requestOrigin);
+  return origin || configuredSiteUrl;
+}
 
 export function getSiteUrl() {
-  const siteUrl =
-    trimEnvValue(process.env.NEXT_PUBLIC_SITE_URL) ||
-    (typeof window !== "undefined" ? trimEnvValue(window.location.origin) : DEFAULT_SITE_URL);
+  if (process.env.NODE_ENV === "production") return DEFAULT_SITE_URL;
 
-  return normalizeBaseUrl(siteUrl || DEFAULT_SITE_URL);
+  const browserOrigin =
+    typeof window !== "undefined" ? toBaseUrl(window.location.origin) : "";
+
+  return getRequestSiteUrl(browserOrigin);
 }
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
