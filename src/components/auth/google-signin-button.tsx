@@ -5,7 +5,7 @@ import { LogIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { getSiteUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 
 export function GoogleSigninButton() {
   const [busy, setBusy] = React.useState(false);
@@ -34,7 +34,8 @@ export function GoogleSigninButton() {
           setBusy(true);
 
           const next = new URLSearchParams(window.location.search).get("next");
-          const redirectUrl = new URL("/auth/callback", window.location.origin);
+          const siteUrl = getSiteUrl();
+          const redirectUrl = new URL("/auth/callback", siteUrl);
           if (next) redirectUrl.searchParams.set("next", next);
 
           const { error } = await supabase.auth.signInWithOAuth({

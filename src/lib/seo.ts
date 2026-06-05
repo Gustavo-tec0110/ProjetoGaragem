@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 
+import { configuredSiteUrl } from "@/lib/supabase/env";
+
 export const SITE_NAME = "Projeto Garagem";
 export const SITE_DESCRIPTION =
   "Crie a ficha publica do seu carro e descubra projetos automotivos reais da comunidade.";
 export const SITE_FALLBACK_IMAGE = "/ref/hero-car.jpg";
 
-function normalizeBaseUrl(value: string) {
-  return value.endsWith("/") ? value.slice(0, -1) : value;
-}
-
 export function getSiteUrl() {
-  const raw =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    process.env.SITE_URL?.trim() ||
-    "http://localhost:3000";
-
-  return normalizeBaseUrl(raw);
+  return configuredSiteUrl;
 }
 
 export function toAbsoluteUrl(path: string | null | undefined) {
