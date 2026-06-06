@@ -148,6 +148,7 @@ export function ProjectDetail({
   project: initialProject,
   similarProjects,
   viewerLoggedIn,
+  canEdit = false,
   technicalSpecs,
   stats,
   commentThread,
@@ -156,6 +157,7 @@ export function ProjectDetail({
   project: Project;
   similarProjects: Project[];
   viewerLoggedIn: boolean;
+  canEdit?: boolean;
   technicalSpecs?: DetailSpec[];
   stats?: DetailStat[];
   commentThread?: ProjectCommentThread | null;
@@ -307,7 +309,7 @@ export function ProjectDetail({
                   Comparar
                 </Link>
               </Button>
-              {project.editHref ? (
+              {canEdit && project.editHref ? (
                 <Button asChild variant="outline">
                   <Link href={project.editHref}>Editar ficha</Link>
                 </Button>

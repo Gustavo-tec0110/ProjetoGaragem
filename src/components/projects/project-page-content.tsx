@@ -42,11 +42,13 @@ export async function ProjectPageContent({
 
   if (detail) {
     const mappedProject = mapCarDetailsToProject(detail);
+    const canEdit = user?.id === detail.owner_id;
     return (
       <ProjectDetail
         project={mappedProject}
         similarProjects={similarProjects}
         viewerLoggedIn={Boolean(user)}
+        canEdit={canEdit}
         technicalSpecs={[
           { label: "Marca", value: detail.brand },
           { label: "Modelo", value: detail.model },
@@ -81,6 +83,7 @@ export async function ProjectPageContent({
       project={project}
       similarProjects={similarProjects}
       viewerLoggedIn={Boolean(user)}
+      canEdit={false}
       alternateRoute={buildAlternateRoute(project.slug, routeVariant)}
     />
   );

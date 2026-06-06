@@ -150,4 +150,14 @@ for all to authenticated using (
   exists (select 1 from public.cars c where c.id = car_id and c.owner_id = auth.uid())
 );
 
+grant select on
+  public.car_build_updates,
+  public.car_expenses
+to anon, authenticated;
+
+grant insert, update, delete on
+  public.car_build_updates,
+  public.car_expenses
+to authenticated;
+
 commit;

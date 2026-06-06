@@ -6,6 +6,7 @@ import { Plus, Trash2 } from "lucide-react";
 
 import {
   createCarAction,
+  deleteCarAction,
   initialActionState,
   updateCarAction,
 } from "@/app/carros/actions";
@@ -178,6 +179,10 @@ export function CarForm({
 }) {
   const action = mode === "edit" ? updateCarAction : createCarAction;
   const [state, formAction, pending] = useActionState(action, initialActionState);
+  const [deleteState, deleteFormAction, deletePending] = useActionState(
+    deleteCarAction,
+    initialActionState
+  );
   const [photoUrls, setPhotoUrls] = React.useState<string[]>(() => {
     const fromPhotos = photos.map((photo) => photo.url);
     const fromCar = car?.photo_urls ?? [];
@@ -352,7 +357,7 @@ export function CarForm({
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            <Field label="Categoria">
+            <Field label="Estilo / categoria">
               <select
                 name="category"
                 defaultValue={car?.category ?? "Nacional"}
@@ -518,7 +523,7 @@ export function CarForm({
           <Field label="Freios">
             <Input name="brakes" defaultValue={car?.brakes ?? ""} />
           </Field>
-          <Field label="Status do projeto">
+          <Field label="Status atual do projeto">
             <select
               name="project_status"
               defaultValue={car?.project_status ?? "Em andamento"}
@@ -559,9 +564,9 @@ export function CarForm({
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-title text-xl tracking-tight">Pecas instaladas e planejadas</h2>
+            <h2 className="font-title text-xl tracking-tight">Modificacoes atuais e planos futuros</h2>
             <p className="mt-1 text-sm text-muted">
-              Links externos continuam disponiveis e a comparacao usa estas modificacoes.
+              Separe modificacoes atuais dos planos futuros para a ficha publica ficar clara.
             </p>
           </div>
           <div className="flex gap-2">
@@ -572,7 +577,7 @@ export function CarForm({
               onClick={() => setDraftParts((current) => [...current, newPart("installed")])}
             >
               <Plus className="size-4" />
-              Instalada
+              Modificacao atual
             </Button>
             <Button
               type="button"
@@ -581,7 +586,7 @@ export function CarForm({
               onClick={() => setDraftParts((current) => [...current, newPart("planned")])}
             >
               <Plus className="size-4" />
-              Planejada
+              Plano futuro
             </Button>
           </div>
         </div>
@@ -886,19 +891,44 @@ export function CarForm({
       ) : null}
 
       <div className="sticky bottom-[calc(88px+env(safe-area-inset-bottom))] z-20 md:static">
+        {mode === "edit" && deleteState.status === "error" ? (
+          <p className="rounded-3xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+            {deleteState.message}
+          </p>
+        ) : null}
+
         <Card className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted">
             {mode === "edit"
               ? "Salve para atualizar as rotas publica, canonica e de descoberta."
               : "Ao salvar, o projeto ja nasce com detalhe, timeline, gastos e SEO."}
           </p>
-          <Button type="submit" disabled={pending} className="sm:min-w-48">
-            {pending
-              ? "Salvando..."
-              : mode === "edit"
-                ? "Salvar alteracoes"
-                : "Criar pagina do projeto"}
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            {mode === "edit" ? (
+              <Button
+                type="submit"
+                formAction={deleteFormAction}
+                formNoValidate
+                variant="danger"
+                disabled={pending || deletePending}
+                onClick={(event) => {
+                  if (!window.confirm("Excluir este projeto definitivamente?")) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <Trash2 className="size-4" />
+                {deletePending ? "Excluindo..." : "Excluir projeto"}
+              </Button>
+            ) : null}
+            <Button type="submit" disabled={pending || deletePending} className="sm:min-w-48">
+              {pending
+                ? "Salvando..."
+                : mode === "edit"
+                  ? "Salvar alteracoes"
+                  : "Criar pagina do projeto"}
+            </Button>
+          </div>
         </Card>
       </div>
     </form>

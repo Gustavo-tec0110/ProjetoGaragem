@@ -504,6 +504,48 @@ export async function updateCarAction(
   redirect(`/projeto/${car.slug}`);
 }
 
+export async function deleteCarAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return { status: "error", message: auth.error ?? "Erro de autenticacao." };
+  }
+
+  const carId = text(formData, "car_id");
+  if (!carId) return { status: "error", message: "Projeto nao encontrado." };
+
+  const { data: current, error: readError } = await auth.supabase
+    .from("cars")
+    .select("id, owner_id, slug")
+    .eq("id", carId)
+    .maybeSingle();
+
+  if (readError) return { status: "error", message: readError.message };
+  if (!current || current.owner_id !== auth.user.id) {
+    return { status: "error", message: "Voce so pode excluir seus proprios projetos." };
+  }
+
+  const { error } = await auth.supabase
+    .from("cars")
+    .delete()
+    .eq("id", carId)
+    .eq("owner_id", auth.user.id);
+
+  if (error) return { status: "error", message: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/explorar");
+  revalidatePath("/rankings");
+  revalidatePath("/buscar");
+  revalidatePath("/comparar");
+  revalidatePath("/garagem");
+  revalidatePath(`/carros/${current.slug}`);
+  revalidatePath(`/projeto/${current.slug}`);
+  redirect("/garagem");
+}
+
 export async function toggleLikeAction(carId: string) {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para curtir.", active: false };

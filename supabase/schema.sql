@@ -468,6 +468,36 @@ drop policy if exists "part_requirements_read_all" on public.part_requirements;
 create policy "part_requirements_read_all" on public.part_requirements
 for select to anon, authenticated using (true);
 
+grant usage on schema public to anon, authenticated;
+
+grant select on
+  public.profiles,
+  public.cars,
+  public.car_photos,
+  public.car_parts,
+  public.car_likes,
+  public.car_comments,
+  public.user_follows,
+  public.part_requirements
+to anon, authenticated;
+
+grant select on public.car_saves to authenticated;
+
+grant insert, update on public.profiles to authenticated;
+
+grant insert, update, delete on
+  public.cars,
+  public.car_photos,
+  public.car_parts
+to authenticated;
+
+grant insert, delete on
+  public.car_likes,
+  public.car_saves,
+  public.car_comments,
+  public.user_follows
+to authenticated;
+
 insert into public.part_requirements (part_category, required_category, message)
 values
   ('Turbo', 'Intercooler', 'Projetos turbo geralmente pedem intercooler, alimentacao, acerto e embreagem.'),
