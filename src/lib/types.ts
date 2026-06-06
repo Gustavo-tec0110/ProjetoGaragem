@@ -134,6 +134,8 @@ export type ProfileRow = {
   id: string;
   username: string;
   display_name: string;
+  email: string | null;
+  full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
   city: string | null;
@@ -264,6 +266,8 @@ export interface Database {
           id: string;
           username: string;
           display_name: string;
+          email?: string | null;
+          full_name?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
           city?: string | null;

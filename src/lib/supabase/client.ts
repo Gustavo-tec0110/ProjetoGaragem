@@ -13,7 +13,13 @@ export function getSupabaseClient() {
   if (!isSupabaseConfigured) return null;
   if (client) return client;
 
-  client = createClient(supabaseUrl, supabaseAnonKey);
+  client = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  });
   return client;
 }
 

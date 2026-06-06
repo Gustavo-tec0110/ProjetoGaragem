@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { CarFront, Compass, Home, Plus, Trophy, Warehouse } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { CarFront, Compass, Home, LogOut, Plus, Trophy, Warehouse } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/components/AuthProvider";
+import { getAuthUserAvatar, getAuthUserName, useAuth } from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -38,13 +39,47 @@ function NavLink({ href, label, active }: { href: string; label: string; active:
   );
 }
 
+function UserAvatar({
+  avatarUrl,
+  displayName,
+  className,
+}: {
+  avatarUrl: string | null;
+  displayName: string;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "relative inline-flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/25 bg-accent/10 text-xs font-ui font-bold text-accent",
+        className
+      )}
+      aria-hidden="true"
+    >
+      {avatarUrl ? (
+        <Image src={avatarUrl} alt="" fill sizes="32px" className="object-cover" />
+      ) : (
+        displayName.slice(0, 1).toUpperCase()
+      )}
+    </span>
+  );
+}
+
 export function SiteNavbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, loading, signOut } = useAuth();
+  const displayName = getAuthUserName(user) ?? "Membro Projeto Garagem";
+  const avatarUrl = getAuthUserAvatar(user);
   const isActive = React.useCallback(
     (href: string) => pathname === href || pathname.startsWith(`${href}/`),
     [pathname]
   );
+  const handleSignOut = React.useCallback(async () => {
+    await signOut();
+    router.push("/");
+    router.refresh();
+  }, [router, signOut]);
 
   return (
     <>
@@ -72,23 +107,33 @@ export function SiteNavbar() {
                 <div className="hidden md:flex items-center gap-2">
                   {user ? (
                     <>
-                      <Button asChild variant="ghost" size="sm">
-                        <Link href="/garagem">Garagem</Link>
-                      </Button>
+                      <Link
+                        href="/garagem"
+                        className="flex min-w-0 max-w-[230px] items-center gap-2 rounded-3xl border border-border/70 bg-background/35 px-2.5 py-1.5 text-left transition hover:bg-background/55"
+                      >
+                        <UserAvatar avatarUrl={avatarUrl} displayName={displayName} />
+                        <span className="min-w-0 leading-tight">
+                          <span className="block truncate text-sm font-ui font-semibold text-foreground">
+                            {displayName}
+                          </span>
+                          {user.email && user.email !== displayName ? (
+                            <span className="block truncate text-[11px] text-muted">{user.email}</span>
+                          ) : null}
+                        </span>
+                      </Link>
                       <Button
                         variant="danger"
                         size="sm"
                         disabled={loading}
-                        onClick={async () => {
-                          await signOut();
-                        }}
+                        onClick={handleSignOut}
                       >
+                        <LogOut className="size-4" />
                         Sair
                       </Button>
                     </>
                   ) : (
                     <Button asChild variant="ghost" size="sm">
-                      <Link href="/login">Login</Link>
+                      <Link href="/login">Entrar</Link>
                     </Button>
                   )}
                   <Button asChild size="sm">
@@ -98,8 +143,30 @@ export function SiteNavbar() {
 
                 <div className="md:hidden flex items-center gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href={user ? "/garagem" : "/login"}>{user ? "Garagem" : "Login"}</Link>
+                    <Link href={user ? "/garagem" : "/login"} className="max-w-[156px] px-3">
+                      {user ? (
+                        <>
+                          <UserAvatar avatarUrl={avatarUrl} displayName={displayName} className="size-6" />
+                          <span className="min-w-0 truncate">{displayName}</span>
+                        </>
+                      ) : (
+                        "Entrar"
+                      )}
+                    </Link>
                   </Button>
+                  {user ? (
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="danger"
+                      className="size-10"
+                      disabled={loading}
+                      aria-label="Sair"
+                      onClick={handleSignOut}
+                    >
+                      <LogOut className="size-4" />
+                    </Button>
+                  ) : null}
                 </div>
               </div>
             </div>

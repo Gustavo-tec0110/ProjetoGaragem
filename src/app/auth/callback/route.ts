@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import type { User } from "@supabase/supabase-js";
 
+import { normalizeSlug } from "@/lib/garage/constants";
 import {
   getRequestSiteUrl,
   isSupabaseConfigured,
@@ -13,6 +15,33 @@ function safeNextPath(next: string | null) {
   if (!next.startsWith("/")) return "/garagem";
   if (next.startsWith("//")) return "/garagem";
   return next;
+}
+
+function metadataString(user: User, key: string) {
+  const value = user.user_metadata?.[key];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function userDisplayName(user: User) {
+  return (
+    metadataString(user, "full_name") ||
+    metadataString(user, "name") ||
+    user.email ||
+    "Membro Projeto Garagem"
+  );
+}
+
+function userAvatarUrl(user: User) {
+  return metadataString(user, "avatar_url") || metadataString(user, "picture");
+}
+
+function usernameFromUser(user: User) {
+  const source =
+    metadataString(user, "preferred_username") ||
+    user.email?.split("@")[0] ||
+    userDisplayName(user);
+
+  return normalizeSlug(`${source}-${user.id.slice(0, 6)}`).slice(0, 24);
 }
 
 export async function GET(request: NextRequest) {
@@ -32,7 +61,7 @@ export async function GET(request: NextRequest) {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet, headers) {
-        // Mantém cookies disponíveis para handlers/pages downstream nesta mesma navegação
+        // Keep cookies available for downstream handlers/pages in this navigation.
         for (const { name, value } of cookiesToSet) {
           request.cookies.set(name, value);
         }
@@ -58,7 +87,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/auth-code-error", origin));
   }
 
-  // Redireciona para onboarding se o perfil ainda não existe
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -71,7 +99,58 @@ export async function GET(request: NextRequest) {
       .maybeSingle();
 
     if (!profile) {
-      return NextResponse.redirect(new URL("/onboarding", origin));
+      const displayName = userDisplayName(user);
+      const fullName = metadataString(user, "full_name") || metadataString(user, "name");
+      const avatarUrl = userAvatarUrl(user);
+      const username = usernameFromUser(user);
+
+      const { error: insertError } = await supabase.from("profiles").insert({
+        id: user.id,
+        username,
+        display_name: displayName,
+        email: user.email ?? null,
+        full_name: fullName,
+        avatar_url: avatarUrl,
+      });
+
+      if (insertError) {
+        const { error: legacyInsertError } = await supabase.from("profiles").insert({
+          id: user.id,
+          username,
+          display_name: displayName,
+          avatar_url: avatarUrl,
+        });
+
+        if (legacyInsertError) {
+          return NextResponse.redirect(new URL("/onboarding", origin));
+        }
+      }
+    } else {
+      const fullName = metadataString(user, "full_name") || metadataString(user, "name");
+      const avatarUrl = userAvatarUrl(user);
+      const profileUpdate: Record<string, string | null> = {
+        email: user.email ?? null,
+      };
+
+      if (fullName) {
+        profileUpdate.full_name = fullName;
+      }
+
+      if (avatarUrl) {
+        profileUpdate.avatar_url = avatarUrl;
+      }
+
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update(profileUpdate)
+        .eq("id", user.id);
+
+      if (updateError && avatarUrl) {
+        await supabase
+          .from("profiles")
+          .update({ avatar_url: avatarUrl })
+          .eq("id", user.id);
+      }
     }
   }
 

@@ -3,17 +3,15 @@
 import * as React from "react";
 import { LogIn } from "lucide-react";
 
+import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
-import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
-import { getSiteUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 
 export function GoogleSigninButton() {
+  const { configured, signInWithGoogle } = useAuth();
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const supabase = getSupabaseBrowserClient();
-
-  if (!isSupabaseConfigured || !supabase) {
+  if (!configured) {
     return (
       <div className="rounded-3xl border border-warning/30 bg-warning/10 p-4 text-sm text-muted">
         Para ativar Login Google, configure <span className="text-foreground font-semibold">Supabase</span> em{" "}
@@ -33,17 +31,7 @@ export function GoogleSigninButton() {
           setError(null);
           setBusy(true);
 
-          const next = new URLSearchParams(window.location.search).get("next");
-          const siteUrl = getSiteUrl();
-          const redirectUrl = new URL("/auth/callback", siteUrl);
-          if (next) redirectUrl.searchParams.set("next", next);
-
-          const { error } = await supabase.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-              redirectTo: redirectUrl.toString(),
-            },
-          });
+          const { error } = await signInWithGoogle();
 
           if (error) {
             setError(error.message);
