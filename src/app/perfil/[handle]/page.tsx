@@ -14,6 +14,7 @@ import { Card } from "@/components/ui/card";
 import { createSeoMetadata } from "@/lib/seo";
 import {
   qCarsByOwner,
+  qFollowedCars,
   qLikedCars,
   qProfileByUsername,
   qSavedCars,
@@ -70,15 +71,17 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [carsResult, savedResult, likedResult, followingResult] = await Promise.all([
+  const [carsResult, savedResult, likedResult, followedCarsResult, followingResult] = await Promise.all([
     qCarsByOwner(profile.id, user?.id === profile.id),
     profile.is_saves_public || user?.id === profile.id ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
     profile.is_likes_public || user?.id === profile.id ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    qFollowedCars(profile.id),
     user?.id && user.id !== profile.id ? qViewerFollowsProfile(profile.id) : Promise.resolve({ data: false, error: null }),
   ]);
   const cars = carsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
   const likedCars = likedResult.data ?? [];
+  const followedCars = followedCarsResult.data ?? [];
   const viewerFollows = followingResult.data ?? false;
   const totalLikes = cars.reduce((sum, car) => sum + car.likes_count, 0);
   const totalViews = cars.reduce((sum, car) => sum + car.views_count, 0);
@@ -221,6 +224,16 @@ export default async function PublicProfilePage({ params }: PageProps) {
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos curtidos</h2>
               </div>
               <CarGrid cars={likedCars} />
+            </section>
+          ) : null}
+
+          {followedCars.length ? (
+            <section className="mt-12">
+              <div className="mb-4">
+                <p className="text-xs text-muted">Acompanhando</p>
+                <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos que segue</h2>
+              </div>
+              <CarGrid cars={followedCars} />
             </section>
           ) : null}
         </div>

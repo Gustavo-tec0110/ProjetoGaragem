@@ -4,12 +4,14 @@ import * as React from "react";
 import Link from "next/link";
 import {
   ArrowRightLeft,
+  Bookmark,
   Calendar,
-  Coins,
   Eye,
   Gauge,
+  Heart,
+  MessageCircle,
   Timer,
-  Wrench,
+  Users,
 } from "lucide-react";
 
 import { CommentForm, CommentsList } from "@/components/garage/comments";
@@ -17,7 +19,6 @@ import { ProjectFinanceChart } from "@/components/projects/project-finance-chart
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { ProjectImage } from "@/components/projects/project-image";
-import { ProjectTimeline } from "@/components/projects/project-timeline";
 import {
   ProjectSocialActions,
   syncProjectView,
@@ -34,6 +35,7 @@ import type { Project, ProjectPart } from "@/lib/projects/types";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
 import {
   buildCompareHref,
+  buildProjectHref,
   buildSearchHref,
   formatNumber,
   formatProjectCurrency,
@@ -243,35 +245,40 @@ export function ProjectDetail({
     stats ??
     [
       {
-        label: "Visualizacoes",
+        label: "Curtidas",
+        value: project.likes.toLocaleString("pt-BR"),
+        icon: Heart,
+      },
+      {
+        label: "Salvos",
+        value: project.saves.toLocaleString("pt-BR"),
+        icon: Bookmark,
+      },
+      {
+        label: "Comentários",
+        value: project.comments.toLocaleString("pt-BR"),
+        icon: MessageCircle,
+      },
+      {
+        label: "Views",
         value: views.toLocaleString("pt-BR"),
         icon: Eye,
       },
       {
-        label: "Total investido",
-        value: formatProjectCurrency(project.totalInvested ?? project.estimatedCost),
-        icon: Coins,
-      },
-      {
-        label: "Atualizacoes",
-        value: project.updatesCount.toLocaleString("pt-BR"),
-        icon: Calendar,
-      },
-      {
-        label: "Modificacoes",
-        value: project.modificationsCount.toLocaleString("pt-BR"),
-        icon: Wrench,
+        label: "Seguidores",
+        value: project.followers.toLocaleString("pt-BR"),
+        icon: Users,
       },
     ];
 
   const defaultSpecs: DetailSpec[] = [
     { label: "Carro", value: project.carModel },
     { label: "Ano", value: project.year },
-    { label: "Motor", value: project.engine },
+    { label: "Motor atual", value: project.engine },
+    { label: "Alimentação atual", value: project.currentInduction },
     { label: "Categoria", value: project.style },
-    { label: "Status", value: project.status },
     { label: "Quilometragem", value: formatNumber(project.mileageKm, " km") },
-    { label: "Potencia", value: formatNumber(project.powerCv, " cv") },
+    { label: "Potência atual", value: formatNumber(project.powerCv, " cv") },
     { label: "Torque", value: formatNumber(project.torqueNm, " Nm") },
     { label: "Peso", value: formatNumber(project.weightKg, " kg") },
     { label: "Início", value: formatProjectDate(project.startedAt) },
@@ -344,7 +351,7 @@ export function ProjectDetail({
                 <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
-                <p className="text-xs text-muted">Peças instaladas</p>
+                <p className="text-xs text-muted">Modificações instaladas</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {project.installedParts.length.toLocaleString("pt-BR")}
                 </p>
@@ -365,6 +372,8 @@ export function ProjectDetail({
                 initialSaved={project.viewerHasSaved}
                 initialLikes={project.likes}
                 initialSaves={project.saves}
+                initialFollowed={project.viewerHasFollowed}
+                initialFollowers={project.followers}
                 mode={project.source === "supabase" ? "supabase" : "local"}
                 viewerLoggedIn={viewerLoggedIn}
               />
@@ -379,6 +388,12 @@ export function ProjectDetail({
                   <Link href={project.editHref}>Editar ficha</Link>
                 </Button>
               ) : null}
+              <Button asChild variant="outline">
+                <Link href={`${buildProjectHref(project.slug)}/evolucao`}>
+                  <Calendar className="size-4" />
+                  Evolução
+                </Link>
+              </Button>
               {alternateRoute ? (
                 <Button asChild variant="outline">
                   <Link href={alternateRoute.href}>{alternateRoute.label}</Link>
@@ -390,6 +405,23 @@ export function ProjectDetail({
       </section>
 
       <div className="mx-auto w-full max-w-6xl space-y-12 px-4 sm:px-6">
+        <nav className="flex gap-2 overflow-x-auto rounded-4xl border border-border/70 bg-background/25 p-2">
+          {[
+            { href: "#visao-geral", label: "Visão geral" },
+            { href: "#modificacoes", label: "Modificações" },
+            { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
+            { href: "#comentarios", label: "Comentários" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="shrink-0 rounded-3xl border border-border/70 px-4 py-2 text-sm font-ui font-semibold text-muted transition hover:bg-background/50 hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
         {canEdit && project.editHref ? (
           <Card className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center md:p-6">
             <div className="flex items-start gap-3">
@@ -410,7 +442,7 @@ export function ProjectDetail({
           </Card>
         ) : null}
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section id="visao-geral" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {detailStats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
           ))}
@@ -465,6 +497,53 @@ export function ProjectDetail({
         </section>
 
         <section>
+          <p className="text-xs text-muted">Original x atual</p>
+          <h2 className="mt-1 font-title text-2xl tracking-tight">Comparação de especificação</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {[
+              {
+                label: "Motor",
+                factory: project.factoryEngine,
+                current: project.engine,
+              },
+              {
+                label: "Alimentação",
+                factory: project.factoryInduction,
+                current: project.currentInduction,
+              },
+              {
+                label: "Potência",
+                factory: formatNumber(project.factoryPowerCv, " cv"),
+                current: formatNumber(project.powerCv, " cv"),
+              },
+              {
+                label: "Câmbio",
+                factory: project.factoryTransmission,
+                current: detailSpecs.find((spec) => spec.label.toLowerCase().includes("cambio"))?.value,
+              },
+            ].map((row) => (
+              <Card key={row.label} className="grid gap-4 p-4 sm:grid-cols-2">
+                <div>
+                  <p className="text-xs text-muted">{row.label} de fábrica</p>
+                  <p className="mt-1 text-sm font-ui font-semibold">
+                    {formatSpecValue(row.factory)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted">{row.label} atual</p>
+                  <p className="mt-1 text-sm font-ui font-semibold">
+                    {formatSpecValue(row.current)}
+                  </p>
+                </div>
+              </Card>
+            ))}
+          </div>
+          {project.factorySpecsNote ? (
+            <p className="mt-3 text-xs text-muted">{project.factorySpecsNote}</p>
+          ) : null}
+        </section>
+
+        <section>
           <p className="text-xs text-muted">Tags</p>
           <h2 className="mt-1 font-title text-2xl tracking-tight">Identidade do build</h2>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -482,13 +561,10 @@ export function ProjectDetail({
           </div>
         </section>
 
-        <section>
-          <p className="text-xs text-muted">Timeline</p>
-          <h2 className="mt-1 font-title text-2xl tracking-tight">Evolucao do projeto</h2>
-          <div className="mt-4">
-            <ProjectTimeline project={project} />
-          </div>
-        </section>
+        <div id="modificacoes" className="space-y-8">
+          <PartsSection title="Modificações instaladas hoje" parts={project.installedParts} />
+          <PartsSection title="Planos futuros" parts={project.plannedParts} />
+        </div>
 
         <section>
           <p className="text-xs text-muted">Financeiro</p>
@@ -506,16 +582,8 @@ export function ProjectDetail({
           </div>
         </section>
 
-        <PartsSection title="Peças instaladas" parts={project.installedParts} />
-        <PartsSection title="Planos futuros" parts={project.plannedParts} />
-        <PartsSection
-          title="Peças removidas"
-          parts={project.removedParts}
-          emptyText="Nenhuma peça removida foi registrada."
-        />
-
         {commentThread ? (
-          <section className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+          <section id="comentarios" className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
             <Card className="p-5 md:p-6">
               <h2 className="font-title text-2xl tracking-tight">Comentar</h2>
               <div className="mt-4">

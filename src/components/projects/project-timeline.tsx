@@ -17,6 +17,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   rodas: "Rodas",
   motor: "Motor",
   eletrica: "Elétrica",
+  compra: "Compra",
+  antes_depois: "Antes e depois",
   outro: "Outro",
 };
 

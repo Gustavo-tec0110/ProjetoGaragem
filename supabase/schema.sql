@@ -124,6 +124,11 @@ create table if not exists public.cars (
   version_confidence text not null default 'unknown',
   factory_spec_confidence text not null default 'estimated',
   factory_specs_note text,
+  factory_engine text,
+  factory_induction text,
+  factory_power_cv integer,
+  factory_transmission text,
+  factory_drivetrain text,
   spec_confidence_percent integer not null default 20,
   original_engine_answer text not null default 'unknown',
   original_induction_answer text not null default 'unknown',
@@ -161,6 +166,7 @@ create table if not exists public.cars (
   saves_count integer not null default 0,
   comments_count integer not null default 0,
   views_count integer not null default 0,
+  project_followers_count integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint cars_year_chk check (year between 1900 and extract(year from now())::integer + 1),
@@ -175,6 +181,7 @@ create table if not exists public.cars (
     and original_interior_answer in ('yes', 'no', 'unknown')
     and original_suspension_answer in ('yes', 'no', 'unknown')
   ),
+  constraint cars_project_followers_count_chk check (project_followers_count >= 0),
   constraint cars_counts_chk check (
     likes_count >= 0 and saves_count >= 0 and comments_count >= 0 and views_count >= 0
   )
@@ -252,7 +259,7 @@ create table if not exists public.car_build_updates (
   constraint car_build_updates_title_chk check (char_length(trim(title)) between 3 and 160),
   constraint car_build_updates_amount_chk check (amount_spent is null or amount_spent >= 0),
   constraint car_build_updates_category_chk check (
-    category in ('manutencao', 'estetica', 'performance', 'interior', 'suspensao', 'rodas', 'motor', 'eletrica', 'outro')
+    category in ('manutencao', 'estetica', 'performance', 'interior', 'suspensao', 'rodas', 'motor', 'eletrica', 'compra', 'antes_depois', 'outro')
   )
 );
 
@@ -284,6 +291,29 @@ create table if not exists public.user_follows (
   constraint user_follows_no_self_chk check (follower_id <> following_id)
 );
 
+create table if not exists public.project_follows (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  car_id uuid not null references public.cars(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  constraint project_follows_unique unique (user_id, car_id)
+);
+
+create table if not exists public.notifications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  actor_id uuid references public.profiles(id) on delete set null,
+  car_id uuid references public.cars(id) on delete cascade,
+  type text not null,
+  title text not null,
+  body text,
+  read_at timestamptz,
+  created_at timestamptz not null default now(),
+  constraint notifications_type_chk check (
+    type in ('project_comment', 'project_like', 'project_save', 'project_follow', 'project_update')
+  )
+);
+
 create table if not exists public.part_requirements (
   id uuid primary key default gen_random_uuid(),
   part_category text not null,
@@ -301,6 +331,7 @@ create index if not exists idx_cars_public_recent on public.cars (is_public, cre
 create index if not exists idx_cars_brand_model on public.cars (brand, model);
 create index if not exists idx_cars_catalog_version_id on public.cars (catalog_version_id);
 create index if not exists idx_cars_category on public.cars (category);
+create index if not exists idx_cars_project_followers_count on public.cars (project_followers_count desc);
 create index if not exists idx_cars_state on public.cars (state);
 create index if not exists idx_cars_project_status on public.cars (project_status);
 create index if not exists idx_cars_started_at on public.cars (started_at desc);
@@ -315,6 +346,10 @@ create index if not exists idx_car_build_updates_car_id on public.car_build_upda
 create index if not exists idx_car_build_updates_category on public.car_build_updates (category);
 create index if not exists idx_car_expenses_car_id on public.car_expenses (car_id, spent_at desc);
 create index if not exists idx_car_expenses_public on public.car_expenses (car_id, is_public, spent_at desc);
+create index if not exists idx_project_follows_car_id on public.project_follows (car_id, created_at desc);
+create index if not exists idx_project_follows_user_id on public.project_follows (user_id, created_at desc);
+create index if not exists idx_notifications_user_unread on public.notifications (user_id, read_at, created_at desc);
+create index if not exists idx_notifications_car_id on public.notifications (car_id, created_at desc);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -537,6 +572,45 @@ begin
 end;
 $$;
 
+create or replace function public.refresh_project_followers_count(target_car_id uuid)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update public.cars
+  set project_followers_count = (
+    select count(*)::integer
+    from public.project_follows pf
+    where pf.car_id = target_car_id
+  )
+  where id = target_car_id;
+$$;
+
+create or replace function public.sync_project_followers_count()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if tg_op = 'INSERT' then
+    perform public.refresh_project_followers_count(new.car_id);
+    return new;
+  elsif tg_op = 'DELETE' then
+    perform public.refresh_project_followers_count(old.car_id);
+    return old;
+  end if;
+
+  return null;
+end;
+$$;
+
+drop trigger if exists trg_project_followers_count on public.project_follows;
+create trigger trg_project_followers_count
+after insert or delete on public.project_follows
+for each row execute function public.sync_project_followers_count();
+
 alter table public.profiles enable row level security;
 alter table public.car_catalog_models enable row level security;
 alter table public.car_catalog_versions enable row level security;
@@ -549,6 +623,8 @@ alter table public.car_comments enable row level security;
 alter table public.car_build_updates enable row level security;
 alter table public.car_expenses enable row level security;
 alter table public.user_follows enable row level security;
+alter table public.project_follows enable row level security;
+alter table public.notifications enable row level security;
 alter table public.part_requirements enable row level security;
 
 drop policy if exists "profiles_read_all" on public.profiles;
@@ -716,6 +792,30 @@ drop policy if exists "user_follows_delete_own" on public.user_follows;
 create policy "user_follows_delete_own" on public.user_follows
 for delete to authenticated using (follower_id = auth.uid());
 
+drop policy if exists "project_follows_read_all" on public.project_follows;
+create policy "project_follows_read_all" on public.project_follows
+for select to anon, authenticated using (true);
+
+drop policy if exists "project_follows_insert_own" on public.project_follows;
+create policy "project_follows_insert_own" on public.project_follows
+for insert to authenticated with check (user_id = auth.uid());
+
+drop policy if exists "project_follows_delete_own" on public.project_follows;
+create policy "project_follows_delete_own" on public.project_follows
+for delete to authenticated using (user_id = auth.uid());
+
+drop policy if exists "notifications_read_own" on public.notifications;
+create policy "notifications_read_own" on public.notifications
+for select to authenticated using (user_id = auth.uid());
+
+drop policy if exists "notifications_update_own" on public.notifications;
+create policy "notifications_update_own" on public.notifications
+for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+drop policy if exists "notifications_insert_system" on public.notifications;
+create policy "notifications_insert_system" on public.notifications
+for insert to authenticated with check (user_id <> auth.uid());
+
 drop policy if exists "part_requirements_read_all" on public.part_requirements;
 create policy "part_requirements_read_all" on public.part_requirements
 for select to anon, authenticated using (true);
@@ -734,10 +834,12 @@ grant select on
   public.car_build_updates,
   public.car_expenses,
   public.user_follows,
+  public.project_follows,
   public.part_requirements
 to anon, authenticated;
 
 grant select on public.car_saves to anon, authenticated;
+grant select, update on public.notifications to authenticated;
 
 grant insert, update on public.profiles to authenticated;
 
@@ -753,10 +855,13 @@ grant insert, delete on
   public.car_likes,
   public.car_saves,
   public.car_comments,
-  public.user_follows
+  public.user_follows,
+  public.project_follows
 to authenticated;
 
+grant insert on public.notifications to authenticated;
 grant execute on function public.increment_car_view(uuid) to anon, authenticated;
+grant execute on function public.refresh_project_followers_count(uuid) to authenticated;
 
 with model_seed (brand, model, generation_name, year_start, year_end, notes) as (
   values

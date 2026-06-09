@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Bookmark, Copy, Heart, Share2 } from "lucide-react";
+import { BellPlus, Bookmark, Copy, Heart, Share2 } from "lucide-react";
 
 import {
   incrementViewAction,
+  toggleProjectFollowAction,
   toggleLikeAction,
   toggleSaveAction,
 } from "@/app/carros/actions";
@@ -24,6 +25,8 @@ export function ProjectSocialActions({
   initialSaved,
   initialLikes,
   initialSaves,
+  initialFollowed = false,
+  initialFollowers = 0,
   mode,
   viewerLoggedIn,
 }: {
@@ -33,6 +36,8 @@ export function ProjectSocialActions({
   initialSaved: boolean;
   initialLikes: number;
   initialSaves: number;
+  initialFollowed?: boolean;
+  initialFollowers?: number;
   mode: "supabase" | "local";
   viewerLoggedIn: boolean;
 }) {
@@ -41,8 +46,10 @@ export function ProjectSocialActions({
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [serverLiked, setServerLiked] = React.useState(initialLiked);
   const [serverSaved, setServerSaved] = React.useState(initialSaved);
+  const [serverFollowed, setServerFollowed] = React.useState(initialFollowed);
   const [serverLikes, setServerLikes] = React.useState(initialLikes);
   const [serverSaves, setServerSaves] = React.useState(initialSaves);
+  const [serverFollowers, setServerFollowers] = React.useState(initialFollowers);
   const localState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
     () => getLocalProjectSocialState(slug),
@@ -52,6 +59,7 @@ export function ProjectSocialActions({
   const usingLocal = mode !== "supabase";
   const liked = usingServer ? serverLiked : usingLocal ? localState.liked : false;
   const saved = usingServer ? serverSaved : usingLocal ? localState.saved : false;
+  const followed = usingServer ? serverFollowed : false;
   const likes = usingServer
     ? serverLikes
     : usingLocal
@@ -62,6 +70,7 @@ export function ProjectSocialActions({
     : usingLocal
       ? initialSaves + (localState.saved ? 1 : 0)
       : initialSaves;
+  const followers = usingServer ? serverFollowers : initialFollowers;
 
   async function copyLink() {
     await navigator.clipboard?.writeText(window.location.href);
@@ -104,6 +113,34 @@ export function ProjectSocialActions({
         title="Entre para interagir"
         description="Faça login para curtir, salvar e acompanhar projetos reais da comunidade."
       />
+      <Button
+        type="button"
+        variant={followed ? "default" : "outline"}
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            if (usingServer && databaseId) {
+              const next = !followed;
+              setServerFollowed(next);
+              setServerFollowers((current) => Math.max(0, current + (next ? 1 : -1)));
+              const result = await toggleProjectFollowAction(databaseId);
+              if (!result.ok) {
+                setServerFollowed(!next);
+                setServerFollowers((current) => Math.max(0, current + (next ? -1 : 1)));
+              }
+              return;
+            }
+
+            if (mode === "supabase") {
+              setLoginOpen(true);
+            }
+          })
+        }
+      >
+        <BellPlus className="size-4" />
+        {followed ? "Seguindo" : "Seguir"} ({followers.toLocaleString("pt-BR")})
+      </Button>
+
       <Button
         type="button"
         variant={liked ? "default" : "outline"}

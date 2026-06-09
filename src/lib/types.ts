@@ -196,6 +196,11 @@ export type CarRow = {
   version_confidence: CarDataConfidence;
   factory_spec_confidence: CarDataConfidence;
   factory_specs_note: string | null;
+  factory_engine: string | null;
+  factory_induction: string | null;
+  factory_power_cv: number | null;
+  factory_transmission: string | null;
+  factory_drivetrain: string | null;
   spec_confidence_percent: number;
   original_engine_answer: CarDetailAnswer;
   original_induction_answer: CarDetailAnswer;
@@ -233,6 +238,7 @@ export type CarRow = {
   saves_count: number;
   comments_count: number;
   views_count: number;
+  project_followers_count: number;
   created_at: string;
   updated_at: string;
   year_start?: number | null;
@@ -316,6 +322,32 @@ export type CarExpenseRow = {
   updated_at: string;
 };
 
+export type ProjectFollowRow = {
+  id: string;
+  user_id: string;
+  car_id: string;
+  created_at: string;
+};
+
+export type NotificationType =
+  | "project_comment"
+  | "project_like"
+  | "project_save"
+  | "project_follow"
+  | "project_update";
+
+export type NotificationRow = {
+  id: string;
+  user_id: string;
+  actor_id: string | null;
+  car_id: string | null;
+  type: NotificationType;
+  title: string;
+  body: string | null;
+  read_at: string | null;
+  created_at: string;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -381,6 +413,11 @@ export interface Database {
           version_confidence?: CarDataConfidence;
           factory_spec_confidence?: CarDataConfidence;
           factory_specs_note?: string | null;
+          factory_engine?: string | null;
+          factory_induction?: string | null;
+          factory_power_cv?: number | null;
+          factory_transmission?: string | null;
+          factory_drivetrain?: string | null;
           spec_confidence_percent?: number;
           original_engine_answer?: CarDetailAnswer;
           original_induction_answer?: CarDetailAnswer;
@@ -414,6 +451,7 @@ export interface Database {
           tags?: string[] | null;
           show_expenses_public?: boolean;
           is_public?: boolean;
+          project_followers_count?: number;
         }
       >;
       car_photos: Table<
@@ -498,6 +536,30 @@ export interface Database {
         following_id: string;
         created_at: string;
       }>;
+      project_follows: Table<
+        ProjectFollowRow,
+        {
+          id?: string;
+          user_id: string;
+          car_id: string;
+        }
+      >;
+      notifications: Table<
+        NotificationRow,
+        {
+          id?: string;
+          user_id: string;
+          actor_id?: string | null;
+          car_id?: string | null;
+          type: NotificationType;
+          title: string;
+          body?: string | null;
+          read_at?: string | null;
+        },
+        {
+          read_at?: string | null;
+        }
+      >;
       part_requirements: Table<{
         id: string;
         part_category: string;

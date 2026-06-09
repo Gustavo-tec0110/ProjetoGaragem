@@ -102,6 +102,7 @@ export type ProjectSeed = {
   saves: number;
   views: number;
   comments: number;
+  followers?: number;
   tags: string[];
   mileageKm?: number | null;
   powerCv?: number | null;
@@ -126,8 +127,16 @@ export type ProjectSeed = {
   isPublic: boolean;
   showExpensesPublic?: boolean;
   specConfidencePercent?: number | null;
+  currentInduction?: string | null;
+  factoryEngine?: string | null;
+  factoryInduction?: string | null;
+  factoryPowerCv?: number | null;
+  factoryTransmission?: string | null;
+  factoryDrivetrain?: string | null;
+  factorySpecsNote?: string | null;
   viewerHasLiked: boolean;
   viewerHasSaved: boolean;
+  viewerHasFollowed?: boolean;
   editHref: string | null;
 };
 
@@ -154,6 +163,15 @@ export type Project = ProjectSeed & {
   ownerBio: string | null;
   ownerInstagram: string | null;
   specConfidencePercent: number | null;
+  currentInduction: string | null;
+  factoryEngine: string | null;
+  factoryInduction: string | null;
+  factoryPowerCv: number | null;
+  factoryTransmission: string | null;
+  factoryDrivetrain: string | null;
+  factorySpecsNote: string | null;
+  viewerHasFollowed: boolean;
+  followers: number;
 };
 
 export type ProjectFilters = {

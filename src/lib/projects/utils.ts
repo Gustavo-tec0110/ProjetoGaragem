@@ -348,6 +348,7 @@ export function enrichProject(project: ProjectSeed): Project {
     expenses,
     financeByCategory,
     totalInvested: computedInvested ?? null,
+    followers: project.followers ?? 0,
     updatesCount: project.updatesCount ?? updates.length,
     modificationsCount:
       project.modificationsCount ??
@@ -359,6 +360,14 @@ export function enrichProject(project: ProjectSeed): Project {
     ownerBio: project.ownerBio ?? null,
     ownerInstagram: project.ownerInstagram ?? null,
     specConfidencePercent: project.specConfidencePercent ?? null,
+    currentInduction: project.currentInduction ?? null,
+    factoryEngine: project.factoryEngine ?? null,
+    factoryInduction: project.factoryInduction ?? null,
+    factoryPowerCv: project.factoryPowerCv ?? null,
+    factoryTransmission: project.factoryTransmission ?? null,
+    factoryDrivetrain: project.factoryDrivetrain ?? null,
+    factorySpecsNote: project.factorySpecsNote ?? null,
+    viewerHasFollowed: project.viewerHasFollowed ?? false,
     tags: normalizedTags,
   };
 }

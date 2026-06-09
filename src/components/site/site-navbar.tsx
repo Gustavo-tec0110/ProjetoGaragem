@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CarFront, Compass, Home, LogOut, Plus, Trophy, Warehouse } from "lucide-react";
 
+import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Button } from "@/components/ui/button";
 import { getAuthUserAvatar, getAuthUserName, useAuth } from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ const nav = [
   { href: "/comparar", label: "Comparar" },
   { href: "/rankings", label: "Ranking" },
   { href: "/garagem", label: "Minha Garagem" },
+  { href: "/notificacoes", label: "Notificações" },
 ] as const;
 
 const bottomNav = [
@@ -122,6 +124,7 @@ export function SiteNavbar() {
                           ) : null}
                         </span>
                       </Link>
+                      <NotificationBell userId={user.id} />
                       <Button
                         variant="danger"
                         size="sm"
@@ -155,6 +158,9 @@ export function SiteNavbar() {
                       )}
                     </Link>
                   </Button>
+                  {user ? (
+                    <NotificationBell userId={user.id} />
+                  ) : null}
                   {user ? (
                     <Button
                       type="button"

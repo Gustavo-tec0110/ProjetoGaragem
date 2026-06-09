@@ -49,6 +49,8 @@ const UPDATE_CATEGORIES = [
   { value: "rodas", label: "Rodas" },
   { value: "motor", label: "Motor" },
   { value: "eletrica", label: "Elétrica" },
+  { value: "compra", label: "Compra" },
+  { value: "antes_depois", label: "Antes e depois" },
   { value: "outro", label: "Outro" },
 ] as const;
 
@@ -74,6 +76,7 @@ type UpdateDraft = {
   title: string;
   description: string;
   photo_url: string;
+  photo_urls: string[];
   category: string;
   happened_at: string;
   amount_spent: string;
@@ -148,6 +151,7 @@ function newUpdate(): UpdateDraft {
     title: "",
     description: "",
     photo_url: "",
+    photo_urls: [],
     category: "outro",
     happened_at: isoDate(new Date().toISOString()),
     amount_spent: "",
@@ -160,6 +164,7 @@ function fromUpdate(row: CarBuildUpdateRow): UpdateDraft {
     title: row.title,
     description: row.description ?? "",
     photo_url: row.photo_url ?? "",
+    photo_urls: row.photo_urls ?? [],
     category: row.category ?? "outro",
     happened_at: isoDate(row.happened_at),
     amount_spent: row.amount_spent ? String(row.amount_spent) : "",
@@ -381,6 +386,9 @@ export function CarForm({
         title: update.title,
         description: update.description,
         photo_url: update.photo_url,
+        photo_urls: Array.from(
+          new Set([update.photo_url, ...update.photo_urls].filter(Boolean))
+        ),
         category: update.category,
         happened_at: update.happened_at,
         amount_spent: update.amount_spent,
@@ -439,6 +447,19 @@ export function CarForm({
             suggestedFactorySpec?.notes ??
             (catalogMatches.length ? "Versão não confirmada pelo dono." : "")
           }
+        />
+        <input type="hidden" name="factory_engine" value={suggestedFactorySpec?.engineOriginal ?? ""} />
+        <input type="hidden" name="factory_induction" value={suggestedFactorySpec?.inductionOriginal ?? ""} />
+        <input type="hidden" name="factory_power_cv" value={suggestedFactorySpec?.powerHp ?? ""} />
+        <input
+          type="hidden"
+          name="factory_transmission"
+          value={suggestedFactorySpec?.transmission ?? ""}
+        />
+        <input
+          type="hidden"
+          name="factory_drivetrain"
+          value={suggestedFactorySpec?.drivetrain ?? ""}
         />
         <input
           type="hidden"
@@ -653,6 +674,11 @@ export function CarForm({
     <form action={formAction} className="space-y-6">
       <input type="hidden" name="car_id" value={car?.id ?? ""} />
       <input type="hidden" name="catalog_version_id" value={car?.catalog_version_id ?? ""} />
+      <input type="hidden" name="factory_engine" value={car?.factory_engine ?? ""} />
+      <input type="hidden" name="factory_induction" value={car?.factory_induction ?? ""} />
+      <input type="hidden" name="factory_power_cv" value={car?.factory_power_cv ?? ""} />
+      <input type="hidden" name="factory_transmission" value={car?.factory_transmission ?? ""} />
+      <input type="hidden" name="factory_drivetrain" value={car?.factory_drivetrain ?? ""} />
       <input type="hidden" name="main_photo_url" value={mainPhotoUrl} />
       <input
         type="hidden"
@@ -1245,15 +1271,19 @@ export function CarForm({
                     placeholder="2300"
                   />
                 </Field>
-                <Field label="Foto" className="md:col-span-4">
-                  <Input
-                    value={update.photo_url}
-                    onChange={(event) =>
-                      updateTimeline(update.localId, { photo_url: event.target.value })
+                <div className="md:col-span-4">
+                  <p className="mb-2 text-sm text-muted">Fotos da evolução</p>
+                  <ProjectImageUploader
+                    mainPhotoUrl={update.photo_url}
+                    photoUrls={update.photo_urls.filter((url) => url !== update.photo_url)}
+                    onMainPhotoChange={(url) =>
+                      updateTimeline(update.localId, { photo_url: url })
                     }
-                    placeholder="URL da foto da etapa ou use uma imagem da galeria"
+                    onPhotoUrlsChange={(urls) =>
+                      updateTimeline(update.localId, { photo_urls: urls })
+                    }
                   />
-                </Field>
+                </div>
                 <Field label="Descrição" className="md:col-span-4">
                   <textarea
                     value={update.description}

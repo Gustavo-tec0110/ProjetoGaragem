@@ -12,7 +12,7 @@ import { createSeoMetadata } from "@/lib/seo";
 import { buildProjectHref, formatProjectDate } from "@/lib/projects/utils";
 import { qExploreCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { CarBuildUpdateRow, CarRow } from "@/lib/types";
+import type { CarBuildUpdateRow, CarRow, ProfileRow } from "@/lib/types";
 
 export const metadata: Metadata = createSeoMetadata({
   title: "Atualizações",
@@ -30,6 +30,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   rodas: "Rodas",
   motor: "Motor",
   eletrica: "Elétrica",
+  compra: "Compra",
+  antes_depois: "Antes e depois",
   outro: "Outro",
 };
 
@@ -55,14 +57,27 @@ async function getRecentUpdates() {
     .eq("is_public", true);
 
   const carMap = new Map((cars ?? []).map((car) => [(car as CarRow).id, car as CarRow]));
+  const ownerIds = Array.from(new Set((cars ?? []).map((car) => (car as CarRow).owner_id)));
+  const { data: profiles } = ownerIds.length
+    ? await supabase
+        .from("profiles")
+        .select("id, display_name, username")
+        .in("id", ownerIds)
+    : { data: [] };
+  const profileMap = new Map(
+    ((profiles ?? []) as Array<Pick<ProfileRow, "id" | "display_name" | "username">>).map((profile) => [
+      profile.id,
+      profile,
+    ])
+  );
 
   return updateRows
     .map((update) => {
       const car = carMap.get(update.car_id);
       if (!car) return null;
-      return { update, car };
+      return { update, car, owner: profileMap.get(car.owner_id) ?? null };
     })
-    .filter((item): item is { update: CarBuildUpdateRow; car: CarRow } => Boolean(item));
+    .filter((item): item is { update: CarBuildUpdateRow; car: CarRow; owner: Pick<ProfileRow, "id" | "display_name" | "username"> | null } => Boolean(item));
 }
 
 export default async function UpdatesPage() {
@@ -122,12 +137,12 @@ export default async function UpdatesPage() {
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   {recentUpdates.length ? (
-                    recentUpdates.map(({ update, car }) => (
+                    recentUpdates.map(({ update, car, owner }) => (
                       <Card key={update.id} className="overflow-hidden">
                         <div className="grid gap-0 sm:grid-cols-[10rem_1fr]">
                           <div className="relative min-h-44 bg-surface">
                             <ProjectImage
-                              src={update.photo_url || car.main_photo_url}
+                              src={update.photo_urls[0] || update.photo_url || car.main_photo_url}
                               alt={`Atualização ${update.title}`}
                               fill
                               className="object-cover"
@@ -144,7 +159,10 @@ export default async function UpdatesPage() {
                             </div>
                             <h3 className="mt-3 font-title text-xl tracking-tight">{update.title}</h3>
                             <p className="mt-2 text-sm text-muted">
-                              {car.name} - {car.brand} {car.model}
+                              {car.name} adicionou uma nova atualização
+                            </p>
+                            <p className="mt-1 text-xs text-muted">
+                              Por {owner?.display_name ?? "Membro Projeto Garagem"} - {car.brand} {car.model}
                             </p>
                             <Button asChild variant="outline" size="sm" className="mt-4">
                               <Link href={buildProjectHref(car.slug)}>Abrir projeto</Link>

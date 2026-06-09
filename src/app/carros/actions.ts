@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 
 import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from "@/lib/car-catalog";
-import type { CarPartStatus } from "@/lib/types";
+import type { CarPartStatus, NotificationType } from "@/lib/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { parseTagString } from "@/lib/projects/utils";
@@ -41,6 +41,7 @@ type UpdateInput = {
   title: string;
   description?: string;
   photo_url?: string;
+  photo_urls?: string[];
   category?: string;
   happened_at: string;
   amount_spent?: number | null;
@@ -163,6 +164,9 @@ function parseUpdates(raw: string): UpdateInput[] {
           title: typeof item.title === "string" ? item.title.trim() : "",
           description: typeof item.description === "string" ? item.description.trim() : "",
           photo_url: typeof item.photo_url === "string" ? item.photo_url.trim() : "",
+          photo_urls: Array.isArray(item.photo_urls)
+            ? item.photo_urls.filter((url): url is string => typeof url === "string" && url.trim().length > 0)
+            : [],
           category: typeof item.category === "string" ? item.category.trim() : "outro",
           happened_at:
             typeof item.happened_at === "string" && item.happened_at.trim()
@@ -276,6 +280,73 @@ async function uniqueCarSlug(base: string, currentId?: string) {
   return `${base}-${Date.now().toString(36)}`.slice(0, 90);
 }
 
+async function notifyCarOwner({
+  ownerId,
+  actorId,
+  carId,
+  type,
+  title,
+  body,
+}: {
+  ownerId: string | null | undefined;
+  actorId: string;
+  carId: string;
+  type: NotificationType;
+  title: string;
+  body?: string | null;
+}) {
+  if (!ownerId || ownerId === actorId) return;
+
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return;
+
+  await supabase.from("notifications").insert({
+    user_id: ownerId,
+    actor_id: actorId,
+    car_id: carId,
+    type,
+    title,
+    body: body ?? null,
+  });
+  revalidatePath("/notificacoes");
+}
+
+async function notifyProjectFollowers({
+  carId,
+  ownerId,
+  carName,
+  updateTitle,
+}: {
+  carId: string;
+  ownerId: string;
+  carName: string;
+  updateTitle: string;
+}) {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return;
+
+  const { data: follows } = await supabase
+    .from("project_follows")
+    .select("user_id")
+    .eq("car_id", carId);
+
+  const rows = ((follows ?? []) as Array<{ user_id: string }>)
+    .filter((follow) => follow.user_id !== ownerId)
+    .map((follow) => ({
+      user_id: follow.user_id,
+      actor_id: ownerId,
+      car_id: carId,
+      type: "project_update" as NotificationType,
+      title: `${carName} publicou uma nova evolução`,
+      body: updateTitle,
+    }));
+
+  if (rows.length) {
+    await supabase.from("notifications").insert(rows);
+    revalidatePath("/notificacoes");
+  }
+}
+
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const name = text(formData, "name");
   const brand = text(formData, "brand");
@@ -314,6 +385,11 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
     version_confidence: versionConfidence,
     factory_spec_confidence: dataConfidence(formData, "factory_spec_confidence", mainPhoto ? "estimated" : "unknown"),
     factory_specs_note: nullableText(formData, "factory_specs_note"),
+    factory_engine: nullableText(formData, "factory_engine"),
+    factory_induction: nullableText(formData, "factory_induction"),
+    factory_power_cv: integer(formData, "factory_power_cv"),
+    factory_transmission: nullableText(formData, "factory_transmission"),
+    factory_drivetrain: nullableText(formData, "factory_drivetrain"),
     spec_confidence_percent: specConfidencePercent,
     original_engine_answer: originalEngineAnswer,
     original_induction_answer: originalInductionAnswer,
@@ -413,7 +489,9 @@ async function replaceUpdates(carId: string, updates: UpdateInput[]) {
       title: update.title,
       description: update.description || null,
       photo_url: update.photo_url || null,
-      photo_urls: update.photo_url ? [update.photo_url] : [],
+      photo_urls: Array.from(
+        new Set([update.photo_url, ...(update.photo_urls ?? [])].filter((url): url is string => Boolean(url)))
+      ),
       category: update.category || "outro",
       happened_at: update.happened_at,
       amount_spent: update.amount_spent ?? null,
@@ -547,7 +625,7 @@ export async function updateCarAction(
 
   const { data: current } = await auth.supabase
     .from("cars")
-    .select("id, owner_id, slug")
+    .select("id, owner_id, slug, name")
     .eq("id", carId)
     .maybeSingle();
 
@@ -570,7 +648,7 @@ export async function updateCarAction(
     .from("cars")
     .update(payload)
     .eq("id", carId)
-    .select("id, slug, main_photo_url")
+    .select("id, slug, name, main_photo_url")
     .maybeSingle();
 
   if (error || !car) return { status: "error", message: error?.message ?? "Nao foi possivel salvar." };
@@ -579,6 +657,15 @@ export async function updateCarAction(
   const parts = parseParts(text(formData, "parts_json"));
   const updates = parseUpdates(text(formData, "updates_json"));
   const expenses = parseExpenses(text(formData, "expenses_json"));
+  const { data: previousUpdates } = await auth.supabase
+    .from("car_build_updates")
+    .select("title, happened_at")
+    .eq("car_id", carId);
+  const previousUpdateKeys = new Set(
+    ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
+      (update) => `${update.title.trim()}|${update.happened_at}`
+    )
+  );
   const relatedError =
     (await replacePhotos(car.id, car.main_photo_url, photoUrls)) ??
     (await replaceParts(car.id, parts)) ??
@@ -590,6 +677,18 @@ export async function updateCarAction(
       status: "error",
       message: `Ficha salva, mas houve erro ao atualizar detalhes: ${relatedError}`,
     };
+  }
+
+  const newUpdate = updates.find(
+    (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)
+  );
+  if (newUpdate) {
+    await notifyProjectFollowers({
+      carId: car.id,
+      ownerId: auth.user.id,
+      carName: car.name ?? current.name,
+      updateTitle: newUpdate.title,
+    });
   }
 
   revalidatePath("/");
@@ -653,7 +752,7 @@ export async function toggleLikeAction(carId: string) {
 
   const { data: car } = await auth.supabase
     .from("cars")
-    .select("slug")
+    .select("id, slug, owner_id, name")
     .eq("id", carId)
     .maybeSingle();
 
@@ -676,6 +775,16 @@ export async function toggleLikeAction(carId: string) {
   }
 
   const { error } = await auth.supabase.from("car_likes").insert({ car_id: carId, user_id: auth.user.id });
+  if (!error && car) {
+    await notifyCarOwner({
+      ownerId: car.owner_id,
+      actorId: auth.user.id,
+      carId,
+      type: "project_like",
+      title: `${car.name} recebeu uma curtida`,
+      body: "Alguém curtiu seu projeto.",
+    });
+  }
   revalidatePath("/explorar");
   revalidatePath("/rankings");
   if (car?.slug) {
@@ -692,7 +801,7 @@ export async function toggleSaveAction(carId: string) {
 
   const { data: car } = await auth.supabase
     .from("cars")
-    .select("slug")
+    .select("id, slug, owner_id, name")
     .eq("id", carId)
     .maybeSingle();
 
@@ -714,6 +823,16 @@ export async function toggleSaveAction(carId: string) {
   }
 
   const { error } = await auth.supabase.from("car_saves").insert({ car_id: carId, user_id: auth.user.id });
+  if (!error && car) {
+    await notifyCarOwner({
+      ownerId: car.owner_id,
+      actorId: auth.user.id,
+      carId,
+      type: "project_save",
+      title: `${car.name} foi salvo`,
+      body: "Alguém salvou seu projeto na garagem.",
+    });
+  }
   revalidatePath("/garagem");
   if (car?.slug) {
     revalidatePath(`/projeto/${car.slug}`);
@@ -761,6 +880,68 @@ export async function toggleFollowUserAction(profileId: string) {
   return { ok: !error, message: error?.message, active: !error };
 }
 
+export async function toggleProjectFollowAction(carId: string) {
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return { ok: false, message: auth.error ?? "Entre para seguir projetos.", active: false };
+  }
+  await ensureProfile(auth.user);
+
+  const { data: car, error: carError } = await auth.supabase
+    .from("cars")
+    .select("id, slug, owner_id, name")
+    .eq("id", carId)
+    .maybeSingle();
+
+  if (carError || !car) {
+    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
+  }
+
+  if (car.owner_id === auth.user.id) {
+    return { ok: false, message: "Você já é dono deste projeto.", active: false };
+  }
+
+  const { data: existing } = await auth.supabase
+    .from("project_follows")
+    .select("id")
+    .eq("car_id", carId)
+    .eq("user_id", auth.user.id)
+    .maybeSingle();
+
+  if (existing) {
+    const { error } = await auth.supabase
+      .from("project_follows")
+      .delete()
+      .eq("car_id", carId)
+      .eq("user_id", auth.user.id);
+    revalidatePath("/garagem");
+    revalidatePath(`/projeto/${car.slug}`);
+    revalidatePath(`/carros/${car.slug}`);
+    return { ok: !error, message: error?.message, active: false };
+  }
+
+  const { error } = await auth.supabase.from("project_follows").insert({
+    car_id: carId,
+    user_id: auth.user.id,
+  });
+
+  if (!error) {
+    await notifyCarOwner({
+      ownerId: car.owner_id,
+      actorId: auth.user.id,
+      carId,
+      type: "project_follow",
+      title: `${car.name} ganhou um seguidor`,
+      body: "Alguém começou a acompanhar este projeto.",
+    });
+  }
+
+  revalidatePath("/garagem");
+  revalidatePath(`/projeto/${car.slug}`);
+  revalidatePath(`/carros/${car.slug}`);
+  return { ok: !error, message: error?.message, active: !error };
+}
+
 export async function incrementViewAction(carId: string, carSlug: string) {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { ok: false };
@@ -793,6 +974,12 @@ export async function createCommentAction(
   const content = text(formData, "content");
   if (!carId || content.length < 2) return { status: "error", message: "Escreva um comentario com pelo menos 2 caracteres." };
 
+  const { data: car } = await auth.supabase
+    .from("cars")
+    .select("id, owner_id, name")
+    .eq("id", carId)
+    .maybeSingle();
+
   const { error } = await auth.supabase.from("car_comments").insert({
     car_id: carId,
     user_id: auth.user.id,
@@ -800,6 +987,16 @@ export async function createCommentAction(
   });
 
   if (error) return { status: "error", message: error.message };
+  if (car) {
+    await notifyCarOwner({
+      ownerId: car.owner_id,
+      actorId: auth.user.id,
+      carId,
+      type: "project_comment",
+      title: `${car.name} recebeu um comentário`,
+      body: content.slice(0, 160),
+    });
+  }
   revalidatePath(`/projeto/${slug}`);
   revalidatePath(`/carros/${slug}`);
   return { status: "success", message: "Comentario publicado." };
@@ -812,5 +1009,21 @@ export async function deleteCommentAction(commentId: string, carSlug: string) {
   const { error } = await auth.supabase.from("car_comments").delete().eq("id", commentId);
   revalidatePath(`/projeto/${carSlug}`);
   revalidatePath(`/carros/${carSlug}`);
+  return { ok: !error, message: error?.message };
+}
+
+export async function markNotificationReadAction(notificationId: string) {
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return { ok: false, message: auth.error ?? "Entre para ver notificações." };
+  }
+
+  const { error } = await auth.supabase
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .eq("id", notificationId)
+    .eq("user_id", auth.user.id);
+
+  revalidatePath("/notificacoes");
   return { ok: !error, message: error?.message };
 }

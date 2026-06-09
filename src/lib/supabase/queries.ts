@@ -9,6 +9,7 @@ import type {
   CarPartRow,
   CarPhotoRow,
   CarRow,
+  NotificationRow,
   ProfileRow,
 } from "@/lib/types";
 import {
@@ -44,6 +45,7 @@ export type CarCard = CarRow & {
   last_update_at: string | null;
   viewer_has_liked: boolean;
   viewer_has_saved: boolean;
+  viewer_has_followed: boolean;
 };
 
 export type CarCommentWithAuthor = CarCommentRow & {
@@ -56,6 +58,11 @@ export type CarDetails = CarCard & {
   comments: CarCommentWithAuthor[];
   updates: CarBuildUpdateRow[];
   expenses: CarExpenseRow[];
+};
+
+export type NotificationWithContext = NotificationRow & {
+  actor: ProfileSummary | null;
+  car: Pick<CarRow, "id" | "slug" | "name" | "brand" | "model" | "main_photo_url"> | null;
 };
 
 export type ExploreFilters = {
@@ -181,19 +188,22 @@ async function aggregateUpdatesByCar(supabase: Client, carIds: string[]) {
 async function viewerFlagsByCar(supabase: Client, viewerId: string | null, carIds: string[]) {
   const likes = new Set<string>();
   const saves = new Set<string>();
+  const follows = new Set<string>();
   const uniqueIds = Array.from(new Set(carIds));
 
-  if (!viewerId || !uniqueIds.length) return { likes, saves };
+  if (!viewerId || !uniqueIds.length) return { likes, saves, follows };
 
-  const [{ data: likeRows }, { data: saveRows }] = await Promise.all([
+  const [{ data: likeRows }, { data: saveRows }, { data: followRows }] = await Promise.all([
     supabase.from("car_likes").select("car_id").eq("user_id", viewerId).in("car_id", uniqueIds),
     supabase.from("car_saves").select("car_id").eq("user_id", viewerId).in("car_id", uniqueIds),
+    supabase.from("project_follows").select("car_id").eq("user_id", viewerId).in("car_id", uniqueIds),
   ]);
 
   for (const row of (likeRows ?? []) as Array<{ car_id: string }>) likes.add(row.car_id);
   for (const row of (saveRows ?? []) as Array<{ car_id: string }>) saves.add(row.car_id);
+  for (const row of (followRows ?? []) as Array<{ car_id: string }>) follows.add(row.car_id);
 
-  return { likes, saves };
+  return { likes, saves, follows };
 }
 
 async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]> {
@@ -235,6 +245,7 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
       last_update_at: updates.lastUpdateAt,
       viewer_has_liked: flags.likes.has(row.id),
       viewer_has_saved: flags.saves.has(row.id),
+      viewer_has_followed: flags.follows.has(row.id),
     };
   });
 }
@@ -461,6 +472,91 @@ export async function qLikedCars(userId: string): Promise<QueryResult<CarCard[]>
 
   const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
   return { data: cards, error: null };
+}
+
+export async function qFollowedCars(userId: string): Promise<QueryResult<CarCard[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+
+  const { data: follows, error } = await supabase
+    .from("project_follows")
+    .select("car_id")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) return { data: null, error: error.message };
+
+  const ids = ((follows ?? []) as Array<{ car_id: string }>).map((follow) => follow.car_id);
+  if (!ids.length) return { data: [], error: null };
+
+  const { data: cars, error: carsError } = await supabase
+    .from("cars")
+    .select("*")
+    .in("id", ids)
+    .eq("is_public", true);
+  if (carsError) return { data: null, error: carsError.message };
+
+  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
+  return { data: cards, error: null };
+}
+
+export async function qNotifications(limit = 20): Promise<QueryResult<NotificationWithContext[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+
+  const viewerId = await getViewerId(supabase);
+  if (!viewerId) return { data: [], error: null };
+
+  const { data, error } = await supabase
+    .from("notifications")
+    .select("*")
+    .eq("user_id", viewerId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return { data: null, error: error.message };
+
+  const rows = (data ?? []) as NotificationRow[];
+  const actorMap = await fetchProfiles(
+    supabase,
+    rows.map((row) => row.actor_id ?? "")
+  );
+  const carIds = Array.from(new Set(rows.map((row) => row.car_id).filter((id): id is string => Boolean(id))));
+  const { data: cars } = carIds.length
+    ? await supabase
+        .from("cars")
+        .select("id, slug, name, brand, model, main_photo_url")
+        .in("id", carIds)
+    : { data: [] };
+  const carMap = new Map(
+    ((cars ?? []) as Array<Pick<CarRow, "id" | "slug" | "name" | "brand" | "model" | "main_photo_url">>).map((car) => [
+      car.id,
+      car,
+    ])
+  );
+
+  return {
+    data: rows.map((row) => ({
+      ...row,
+      actor: row.actor_id ? actorMap.get(row.actor_id) ?? null : null,
+      car: row.car_id ? carMap.get(row.car_id) ?? null : null,
+    })),
+    error: null,
+  };
+}
+
+export async function qUnreadNotificationCount() {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: 0, error: null };
+
+  const viewerId = await getViewerId(supabase);
+  if (!viewerId) return { data: 0, error: null };
+
+  const { count, error } = await supabase
+    .from("notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", viewerId)
+    .is("read_at", null);
+  if (error) return { data: null, error: error.message };
+  return { data: count ?? 0, error: null };
 }
 
 export async function qViewerFollowsProfile(followingId: string): Promise<QueryResult<boolean>> {
