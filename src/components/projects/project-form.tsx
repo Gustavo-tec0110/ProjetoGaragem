@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CAR_CATEGORIES, normalizeSlug } from "@/lib/garage/constants";
+import type { CarCatalogVersion } from "@/lib/car-catalog";
 import { saveLocalProject } from "@/lib/projects/local-storage";
 import {
   PROJECT_STATUS_VALUES,
@@ -51,14 +52,16 @@ function Field({
 
 export function ProjectForm({
   storageMode,
+  catalogVersions,
 }: {
   storageMode: "supabase" | "local";
+  catalogVersions?: CarCatalogVersion[];
 }) {
   const router = useRouter();
   const [error, setError] = React.useState("");
 
   if (storageMode === "supabase") {
-    return <CarForm mode="create" />;
+    return <CarForm mode="create" catalogVersions={catalogVersions ?? []} />;
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -74,6 +77,7 @@ export function ProjectForm({
     const style = String(formData.get("style") ?? "").trim();
     const description = String(formData.get("description") ?? "").trim();
     const mainImage = String(formData.get("main_image") ?? "").trim();
+    const fallbackDescription = `Projeto ${carModel} criado para completar a ficha com calma.`;
     const status = String(formData.get("status") ?? "").trim() || "Em andamento";
     const estimatedCostRaw = String(formData.get("estimated_cost") ?? "").trim();
     const estimatedCost = estimatedCostRaw
@@ -81,8 +85,8 @@ export function ProjectForm({
       : null;
     const tags = parseTagString(String(formData.get("tags") ?? ""));
 
-    if (!title || !carModel || !Number.isFinite(yearValue) || !engine || !style || !description) {
-      setError("Preencha nome do projeto, carro, ano, motor, estilo e descricao.");
+    if (!title || !carModel || !Number.isFinite(yearValue) || !mainImage) {
+      setError("Preencha nome do projeto, carro, ano e foto principal.");
       return;
     }
 
@@ -110,10 +114,10 @@ export function ProjectForm({
       brand: carModel.split(" ")[0] ?? null,
       model: carModel,
       year: yearValue,
-      engine,
-      style,
-      shortDescription: description.slice(0, 140),
-      description,
+      engine: engine || "Ficha a confirmar",
+      style: style || "Projeto automotivo",
+      shortDescription: (description || fallbackDescription).slice(0, 140),
+      description: description || fallbackDescription,
       mainImage,
       gallery: [mainImage].filter(Boolean),
       installedParts,
@@ -124,7 +128,7 @@ export function ProjectForm({
       saves: 0,
       views: 0,
       comments: 0,
-      tags: tags.length ? tags : [style, engine.split(" ")[0] ?? "Projeto", "#local"],
+      tags: tags.length ? tags : [style || "Projeto automotivo", engine.split(" ")[0] ?? "Projeto", "#local"],
       startedAt: String(formData.get("started_at") ?? "").trim() || null,
       projectGoal: String(formData.get("project_goal") ?? "").trim() || description.slice(0, 80),
       city: null,
@@ -168,14 +172,13 @@ export function ProjectForm({
           <Input name="year" type="number" min={1900} max={2100} required />
         </Field>
         <Field label="Motor">
-          <Input name="engine" placeholder="AP 1.8, Fire 1.0 turbo..." required />
+          <Input name="engine" placeholder="AP 1.8, Fire 1.0 turbo..." />
         </Field>
         <Field label="Estilo">
           <select
             name="style"
             defaultValue=""
             className="pg-control h-12 rounded-3xl px-4 text-sm"
-            required
           >
             <option value="" disabled>
               Escolha um estilo
@@ -188,7 +191,7 @@ export function ProjectForm({
           </select>
         </Field>
         <Field label="Imagem principal">
-          <Input name="main_image" placeholder="https://..." />
+          <Input name="main_image" placeholder="https://..." required />
         </Field>
         <Field label="Custo aproximado">
           <Input name="estimated_cost" inputMode="numeric" placeholder="15000" />
@@ -220,7 +223,6 @@ export function ProjectForm({
             name="description"
             className="pg-control min-h-32 w-full rounded-3xl px-4 py-3 text-sm"
             placeholder="Conte o objetivo do projeto, o uso e o que ja foi feito."
-            required
           />
         </Field>
         <Field label="Pecas instaladas (uma por linha)">

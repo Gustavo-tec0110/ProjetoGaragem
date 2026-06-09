@@ -11,26 +11,26 @@ export const CAR_CATEGORIES = [
   "Som automotivo",
   "Sleeper",
   "OEM+",
-  "Projeto economico",
+  "Projeto econômico",
   "Projeto premium",
 ] as const;
 
 export const PART_CATEGORIES = [
   "Motor",
   "Turbo",
-  "Alimentacao",
+  "Alimentação",
   "Escape",
-  "Suspensao",
+  "Suspensão",
   "Rodas",
   "Pneus",
   "Freios",
   "Interior",
   "Exterior",
   "Som",
-  "Eletronica",
-  "Cambio",
+  "Eletrônica",
+  "Câmbio",
   "Arrefecimento",
-  "Seguranca",
+  "Segurança",
   "Outros",
 ] as const;
 

@@ -18,7 +18,14 @@ export default async function Home() {
       <main className="flex-1">
         <section className="relative min-h-[92vh] px-4 sm:px-6">
           <div className="absolute inset-0">
-            <Image src="/ref/hero-car.jpg" alt="" fill priority className="object-cover object-right opacity-65" />
+            <Image
+              src="/ref/hero-car.jpg"
+              alt=""
+              fill
+              priority
+              loading="eager"
+              className="object-cover object-right opacity-65"
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/78 to-background/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent" />
           </div>
@@ -30,7 +37,7 @@ export default async function Home() {
                 Crie a ficha completa do seu carro e descubra projetos reais da comunidade.
               </h1>
               <p className="mt-5 max-w-2xl text-lg text-muted">
-                Mostre suas pecas, especificacoes, fotos e planos futuros. Curta,
+                Mostre suas peças, especificações, fotos e planos futuros. Curta,
                 salve e compare projetos automotivos do Brasil inteiro.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -48,8 +55,8 @@ export default async function Home() {
         <section className="px-4 sm:px-6">
           <div className="mx-auto grid w-full max-w-6xl gap-4 py-12 md:grid-cols-4">
             {[
-              { title: "Cadastre seu carro", text: "Crie a pagina publica do projeto.", icon: Camera },
-              { title: "Adicione pecas", text: "Separe instaladas e planejadas.", icon: Wrench },
+              { title: "Cadastre seu carro", text: "Crie a página pública do projeto.", icon: Camera },
+              { title: "Adicione peças", text: "Separe instaladas e planejadas.", icon: Wrench },
               { title: "Compartilhe", text: "Use um link bonito da sua garagem.", icon: Share2 },
               { title: "Descubra", text: "Compare projetos por categoria.", icon: Search },
             ].map((item) => {
@@ -78,8 +85,8 @@ export default async function Home() {
             </div>
             <ProjectGrid
               projects={projects}
-              emptyTitle="Ainda nao ha projetos para destacar."
-              emptyDescription="Enquanto isso, o MVP pode usar os projetos demo e o cadastro local para nao ficar vazio."
+              emptyTitle="Ainda não há projetos para destacar."
+              emptyDescription="Enquanto isso, o MVP pode usar os projetos demo e o cadastro local para não ficar vazio."
             />
           </div>
         </section>
@@ -91,7 +98,7 @@ export default async function Home() {
                 <div>
                   <p className="text-xs text-muted">MVP focado</p>
                   <h2 className="mt-2 font-title text-3xl tracking-tight">
-                    Uma pagina bonita para cada carro.
+                    Uma página bonita para cada carro.
                   </h2>
                   <p className="mt-2 max-w-2xl text-muted">
                     Marketplace, afiliados avancados e chat ficam para depois. Agora o foco e

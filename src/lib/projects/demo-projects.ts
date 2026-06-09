@@ -67,8 +67,10 @@ function autoUpdates(project: {
   const installed = project.installedParts.slice(0, 2).map((part, index) => ({
     id: `${project.id}-update-installed-${index + 1}`,
     title: `Instalacao de ${part.name}`,
-    description: `Atualizacao registrada para acompanhar a evolucao do projeto na garagem.`,
+    description: `Atualização registrada para acompanhar a evolução do projeto na garagem.`,
     photo: project.mainImage,
+    photos: [project.mainImage],
+    category: part.category.toLowerCase().includes("motor") ? "motor" : "performance",
     date: index === 0 ? project.updatedAt : project.createdAt,
     amount: part.priceEstimate,
   }));
@@ -76,8 +78,10 @@ function autoUpdates(project: {
   const planned = project.plannedParts.slice(0, 1).map((part, index) => ({
     id: `${project.id}-update-planned-${index + 1}`,
     title: `Planejamento de ${part.name}`,
-    description: `Proxima etapa mapeada para manter o build em evolucao constante.`,
+    description: `Próxima etapa mapeada para manter o build em evolução constante.`,
     photo: project.mainImage,
+    photos: [project.mainImage],
+    category: "outro",
     date: project.updatedAt,
     amount: part.priceEstimate,
   }));
@@ -95,6 +99,9 @@ function autoExpenses(project: {
     category: part.category,
     amount: Math.max(0, part.priceEstimate ?? 0),
     date: new Date(2026, 4, 1 + index).toISOString(),
+    note: null,
+    partName: part.name,
+    isPublic: true,
   }));
 }
 

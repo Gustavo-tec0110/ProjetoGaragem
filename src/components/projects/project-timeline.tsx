@@ -8,6 +8,18 @@ import { Card } from "@/components/ui/card";
 import type { Project } from "@/lib/projects/types";
 import { formatProjectCurrency, formatProjectDate } from "@/lib/projects/utils";
 
+const CATEGORY_LABELS: Record<string, string> = {
+  manutencao: "Manutenção",
+  estetica: "Estética",
+  performance: "Performance",
+  interior: "Interior",
+  suspensao: "Suspensão",
+  rodas: "Rodas",
+  motor: "Motor",
+  eletrica: "Elétrica",
+  outro: "Outro",
+};
+
 export function ProjectTimeline({ project }: { project: Project }) {
   const timelineTotal = project.updates.reduce(
     (sum, update) => sum + Math.max(0, update.amount ?? 0),
@@ -28,7 +40,7 @@ export function ProjectTimeline({ project }: { project: Project }) {
           </p>
         </Card>
         <Card className="p-4">
-          <p className="text-xs text-muted">Ultima evolucao</p>
+          <p className="text-xs text-muted">Última evolução</p>
           <p className="mt-1 font-title text-2xl">
             {formatProjectDate(project.lastUpdateAt)}
           </p>
@@ -41,10 +53,10 @@ export function ProjectTimeline({ project }: { project: Project }) {
             <Card key={update.id} className="overflow-hidden">
               <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
                 <div className="relative min-h-52 bg-surface">
-                  {update.photo ? (
+                  {update.photos[0] ?? update.photo ? (
                     <ProjectImage
-                      src={update.photo}
-                      alt={`Atualizacao ${update.title}`}
+                      src={update.photos[0] ?? update.photo}
+                      alt={`Atualização ${update.title}`}
                       fill
                       className="object-cover"
                       sizes="(min-width: 768px) 40vw, 100vw"
@@ -57,6 +69,7 @@ export function ProjectTimeline({ project }: { project: Project }) {
                 <div className="p-5 md:p-6">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge variant="secondary">Etapa {project.updatesCount - index}</Badge>
+                    <Badge>{CATEGORY_LABELS[update.category] ?? update.category}</Badge>
                     <Badge>
                       <Calendar className="size-3" />
                       {formatProjectDate(update.date)}
@@ -73,6 +86,24 @@ export function ProjectTimeline({ project }: { project: Project }) {
                     {update.title}
                   </h3>
                   <p className="mt-3 text-sm text-foreground/85">{update.description}</p>
+                  {update.photos.length > 1 ? (
+                    <div className="mt-4 grid grid-cols-3 gap-2">
+                      {update.photos.slice(1, 4).map((photo, photoIndex) => (
+                        <div
+                          key={`${photo}-${photoIndex}`}
+                          className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/70 bg-surface"
+                        >
+                          <ProjectImage
+                            src={photo}
+                            alt={`Foto adicional ${photoIndex + 1} de ${update.title}`}
+                            fill
+                            className="object-cover"
+                            sizes="20vw"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </Card>
@@ -80,7 +111,7 @@ export function ProjectTimeline({ project }: { project: Project }) {
         </div>
       ) : (
         <div className="rounded-4xl border border-border/70 bg-background/25 p-5 text-sm text-muted">
-          Ainda nao existem atualizacoes publicadas na timeline deste projeto.
+          Ainda não existem atualizações publicadas na timeline deste projeto.
         </div>
       )}
     </div>

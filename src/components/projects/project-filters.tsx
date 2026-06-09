@@ -6,6 +6,18 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { ProjectFilters } from "@/lib/projects/types";
 
+const DEFAULT_STYLES = [
+  "JDM",
+  "Off-road",
+  "Turbo",
+  "Aspirado",
+  "Stance",
+  "Clássico",
+  "Sleeper",
+  "Track day",
+  "Original",
+] as const;
+
 export function ProjectFilters({
   filters,
   availableStyles,
@@ -17,6 +29,10 @@ export function ProjectFilters({
   availableEngines: string[];
   actionPath?: string;
 }) {
+  const styles = Array.from(new Set([...DEFAULT_STYLES, ...availableStyles])).sort((left, right) =>
+    left.localeCompare(right, "pt-BR")
+  );
+
   return (
     <Card className="p-4 md:p-5">
       <form
@@ -39,7 +55,7 @@ export function ProjectFilters({
           className="pg-control h-12 rounded-3xl px-4 text-sm"
         >
           <option value="">Todos os estilos</option>
-          {availableStyles.map((style) => (
+          {styles.map((style) => (
             <option key={style} value={style}>
               {style}
             </option>

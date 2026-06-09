@@ -25,6 +25,9 @@ function mapPart(part: CarPartRow): ProjectPart {
     description: part.description,
     status: part.status,
     priceEstimate: part.price_estimate ?? null,
+    installedAt: part.installed_at ?? null,
+    imageUrl: part.image_url ?? null,
+    externalUrl: part.external_url ?? null,
   };
 }
 
@@ -35,6 +38,9 @@ function mapExpense(expense: CarExpenseRow): ProjectExpense {
     category: expense.category,
     amount: expense.amount,
     date: expense.spent_at,
+    note: expense.note,
+    partName: expense.part_name,
+    isPublic: expense.is_public,
   };
 }
 
@@ -42,8 +48,10 @@ function mapUpdate(car: CarDetails): ProjectUpdate[] {
   return car.updates.map((update) => ({
     id: update.id,
     title: update.title,
-    description: update.description?.trim() || "Atualizacao sem descricao adicional.",
+    description: update.description?.trim() || "Atualização sem descrição adicional.",
     photo: update.photo_url,
+    photos: uniqueStrings([update.photo_url, ...update.photo_urls]),
+    category: update.category,
     date: update.happened_at,
     amount: update.amount_spent ?? null,
   }));
@@ -162,6 +170,8 @@ function createBaseProject(car: CarCard | CarDetails) {
     createdAt: car.created_at,
     updatedAt: car.updated_at,
     isPublic: car.is_public,
+    showExpensesPublic: car.show_expenses_public,
+    specConfidencePercent: car.spec_confidence_percent,
     viewerHasLiked: car.viewer_has_liked,
     viewerHasSaved: car.viewer_has_saved,
     editHref: buildProjectHref(car.slug) + "/editar",
@@ -179,11 +189,13 @@ export function mapCarCardToProject(car: CarCard): Project {
 export function mapCarDetailsToProject(car: CarDetails): Project {
   const installedParts = car.parts.filter((part) => part.status === "installed").map(mapPart);
   const plannedParts = car.parts.filter((part) => part.status === "planned").map(mapPart);
+  const removedParts = car.parts.filter((part) => part.status === "removed").map(mapPart);
 
   return enrichProject({
     ...createBaseProject(car),
     installedParts,
     plannedParts,
+    removedParts,
     updates: mapUpdate(car),
     expenses: car.expenses.map(mapExpense),
     gallery: uniqueStrings([

@@ -37,17 +37,17 @@ export function buildCompareHref(leftSlug?: string | null, rightSlug?: string | 
 }
 
 export function formatProjectCurrency(value: number | null | undefined) {
-  if (!value || value <= 0) return "Nao informado";
+  if (!value || value <= 0) return "Não informado";
   return `R$ ${value.toLocaleString("pt-BR")}`;
 }
 
 export function formatNumber(value: number | null | undefined, suffix = "") {
-  if (value == null) return "Nao informado";
+  if (value == null) return "Não informado";
   return `${value.toLocaleString("pt-BR")}${suffix}`;
 }
 
 export function formatProjectDate(value: string | null | undefined) {
-  if (!value) return "Nao informado";
+  if (!value) return "Não informado";
   return new Date(value).toLocaleDateString("pt-BR");
 }
 
@@ -188,7 +188,7 @@ export function getProjectDuration(startedAt: string | null | undefined, fallbac
   if (!startedAt) {
     return {
       months: null,
-      label: "Nao informado",
+      label: "Não informado",
     };
   }
 
@@ -343,6 +343,7 @@ export function enrichProject(project: ProjectSeed): Project {
     weightKg: project.weightKg ?? null,
     startedAt: project.startedAt ?? null,
     projectGoal: project.projectGoal?.trim() || null,
+    removedParts: project.removedParts ?? [],
     updates,
     expenses,
     financeByCategory,
@@ -357,6 +358,7 @@ export function enrichProject(project: ProjectSeed): Project {
     ownerAvatarUrl: project.ownerAvatarUrl ?? null,
     ownerBio: project.ownerBio ?? null,
     ownerInstagram: project.ownerInstagram ?? null,
+    specConfidencePercent: project.specConfidencePercent ?? null,
     tags: normalizedTags,
   };
 }

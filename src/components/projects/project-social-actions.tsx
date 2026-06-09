@@ -8,6 +8,7 @@ import {
   toggleLikeAction,
   toggleSaveAction,
 } from "@/app/carros/actions";
+import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
 import {
   getLocalProjectSocialState,
@@ -37,6 +38,7 @@ export function ProjectSocialActions({
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [copied, setCopied] = React.useState(false);
+  const [loginOpen, setLoginOpen] = React.useState(false);
   const [serverLiked, setServerLiked] = React.useState(initialLiked);
   const [serverSaved, setServerSaved] = React.useState(initialSaved);
   const [serverLikes, setServerLikes] = React.useState(initialLikes);
@@ -47,10 +49,19 @@ export function ProjectSocialActions({
     () => ({ liked: false, saved: false, views: 0 })
   );
   const usingServer = mode === "supabase" && viewerLoggedIn && Boolean(databaseId);
-  const liked = usingServer ? serverLiked : localState.liked;
-  const saved = usingServer ? serverSaved : localState.saved;
-  const likes = usingServer ? serverLikes : initialLikes + (localState.liked ? 1 : 0);
-  const saves = usingServer ? serverSaves : initialSaves + (localState.saved ? 1 : 0);
+  const usingLocal = mode !== "supabase";
+  const liked = usingServer ? serverLiked : usingLocal ? localState.liked : false;
+  const saved = usingServer ? serverSaved : usingLocal ? localState.saved : false;
+  const likes = usingServer
+    ? serverLikes
+    : usingLocal
+      ? initialLikes + (localState.liked ? 1 : 0)
+      : initialLikes;
+  const saves = usingServer
+    ? serverSaves
+    : usingLocal
+      ? initialSaves + (localState.saved ? 1 : 0)
+      : initialSaves;
 
   async function copyLink() {
     await navigator.clipboard?.writeText(window.location.href);
@@ -87,6 +98,12 @@ export function ProjectSocialActions({
 
   return (
     <div className="flex flex-wrap gap-2">
+      <LoginPromptDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        title="Entre para interagir"
+        description="Faça login para curtir, salvar e acompanhar projetos reais da comunidade."
+      />
       <Button
         type="button"
         variant={liked ? "default" : "outline"}
@@ -102,6 +119,11 @@ export function ProjectSocialActions({
                 setServerLiked(!next);
                 setServerLikes((current) => Math.max(0, current + (next ? -1 : 1)));
               }
+              return;
+            }
+
+            if (mode === "supabase") {
+              setLoginOpen(true);
               return;
             }
 
@@ -128,6 +150,11 @@ export function ProjectSocialActions({
                 setServerSaved(!next);
                 setServerSaves((current) => Math.max(0, current + (next ? -1 : 1)));
               }
+              return;
+            }
+
+            if (mode === "supabase") {
+              setLoginOpen(true);
               return;
             }
 

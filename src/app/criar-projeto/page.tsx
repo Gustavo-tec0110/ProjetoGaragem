@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { qCarCatalogVersions } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export const metadata = {
@@ -13,6 +14,7 @@ export const metadata = {
 
 export default async function CreateProjectPage() {
   const supabase = await getSupabaseServerClient();
+  const catalog = await qCarCatalogVersions();
   const {
     data: { user },
   } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
@@ -23,7 +25,7 @@ export default async function CreateProjectPage() {
       <main className="flex-1 px-4 sm:px-6">
         <div className="mx-auto w-full max-w-5xl pt-20 md:pt-24 pb-12">
           {!supabase ? (
-            <ProjectForm storageMode="local" />
+            <ProjectForm storageMode="local" catalogVersions={catalog.data ?? []} />
           ) : !user ? (
             <Card className="p-6 md:p-8">
               <h1 className="font-title text-2xl tracking-tight">Entre para criar seu projeto</h1>
@@ -40,7 +42,7 @@ export default async function CreateProjectPage() {
               </div>
             </Card>
           ) : (
-            <ProjectForm storageMode="supabase" />
+            <ProjectForm storageMode="supabase" catalogVersions={catalog.data ?? []} />
           )}
         </div>
       </main>

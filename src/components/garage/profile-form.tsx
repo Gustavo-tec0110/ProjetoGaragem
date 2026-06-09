@@ -94,6 +94,17 @@ export function ProfileForm({
           Mostrar meus carros salvos no perfil publico
         </label>
 
+        <label className="flex items-center gap-3 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
+          <input
+            type="checkbox"
+            name="is_likes_public"
+            value="true"
+            defaultChecked={profile?.is_likes_public ?? false}
+            className="size-4 accent-red-500"
+          />
+          Mostrar meus projetos curtidos no perfil público
+        </label>
+
         {state.status === "error" ? (
           <p className="rounded-3xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
             {state.message}

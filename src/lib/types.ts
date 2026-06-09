@@ -142,12 +142,46 @@ export type ProfileRow = {
   state: string | null;
   instagram_handle: string | null;
   is_saves_public: boolean;
+  is_likes_public: boolean;
   cars_count: number;
   followers_count: number;
   following_count: number;
   created_at: string;
   updated_at: string;
 };
+
+export type CarCatalogModelRow = {
+  id: string;
+  brand: string;
+  model: string;
+  generation_name: string | null;
+  year_start: number;
+  year_end: number;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarCatalogVersionRow = {
+  id: string;
+  model_id: string;
+  version: string;
+  year_start: number;
+  year_end: number;
+  engine_original: string | null;
+  induction_original: string | null;
+  power_hp: number | null;
+  drivetrain: string | null;
+  transmission: string | null;
+  fuel_type: string | null;
+  notes: string | null;
+  is_estimated: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarDetailAnswer = "yes" | "no" | "unknown";
+export type CarDataConfidence = "confirmed" | "estimated" | "unknown";
 
 export type CarRow = {
   id: string;
@@ -158,6 +192,18 @@ export type CarRow = {
   model: string;
   year: number;
   version: string | null;
+  catalog_version_id: string | null;
+  version_confidence: CarDataConfidence;
+  factory_spec_confidence: CarDataConfidence;
+  factory_specs_note: string | null;
+  spec_confidence_percent: number;
+  original_engine_answer: CarDetailAnswer;
+  original_induction_answer: CarDetailAnswer;
+  current_induction: string | null;
+  original_color_answer: CarDetailAnswer;
+  original_wheels_answer: CarDetailAnswer;
+  original_interior_answer: CarDetailAnswer;
+  original_suspension_answer: CarDetailAnswer;
   category: string;
   state: string | null;
   city: string | null;
@@ -181,6 +227,7 @@ export type CarRow = {
   started_at: string | null;
   project_goal: string | null;
   tags: string[] | null;
+  show_expenses_public: boolean;
   is_public: boolean;
   likes_count: number;
   saves_count: number;
@@ -203,10 +250,13 @@ export type CarPhotoRow = {
   url: string;
   alt: string | null;
   sort_order: number;
+  storage_path: string | null;
+  width: number | null;
+  height: number | null;
   created_at: string;
 };
 
-export type CarPartStatus = "installed" | "planned";
+export type CarPartStatus = "installed" | "planned" | "removed";
 
 export type CarPartRow = {
   id: string;
@@ -222,6 +272,9 @@ export type CarPartRow = {
   affiliate_url: string | null;
   store_name: string | null;
   product_id: string | null;
+  installed_at: string | null;
+  image_url: string | null;
+  storage_path: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -240,6 +293,8 @@ export type CarBuildUpdateRow = {
   title: string;
   description: string | null;
   photo_url: string | null;
+  photo_urls: string[];
+  category: string;
   happened_at: string;
   amount_spent: number | null;
   created_at: string;
@@ -253,6 +308,10 @@ export type CarExpenseRow = {
   category: string;
   amount: number;
   spent_at: string;
+  note: string | null;
+  part_id: string | null;
+  part_name: string | null;
+  is_public: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -274,6 +333,37 @@ export interface Database {
           state?: string | null;
           instagram_handle?: string | null;
           is_saves_public?: boolean;
+          is_likes_public?: boolean;
+        }
+      >;
+      car_catalog_models: Table<
+        CarCatalogModelRow,
+        {
+          id?: string;
+          brand: string;
+          model: string;
+          generation_name?: string | null;
+          year_start: number;
+          year_end: number;
+          notes?: string | null;
+        }
+      >;
+      car_catalog_versions: Table<
+        CarCatalogVersionRow,
+        {
+          id?: string;
+          model_id: string;
+          version: string;
+          year_start: number;
+          year_end: number;
+          engine_original?: string | null;
+          induction_original?: string | null;
+          power_hp?: number | null;
+          drivetrain?: string | null;
+          transmission?: string | null;
+          fuel_type?: string | null;
+          notes?: string | null;
+          is_estimated?: boolean;
         }
       >;
       cars: Table<
@@ -287,6 +377,18 @@ export interface Database {
           model: string;
           year: number;
           version?: string | null;
+          catalog_version_id?: string | null;
+          version_confidence?: CarDataConfidence;
+          factory_spec_confidence?: CarDataConfidence;
+          factory_specs_note?: string | null;
+          spec_confidence_percent?: number;
+          original_engine_answer?: CarDetailAnswer;
+          original_induction_answer?: CarDetailAnswer;
+          current_induction?: string | null;
+          original_color_answer?: CarDetailAnswer;
+          original_wheels_answer?: CarDetailAnswer;
+          original_interior_answer?: CarDetailAnswer;
+          original_suspension_answer?: CarDetailAnswer;
           category: string;
           state?: string | null;
           city?: string | null;
@@ -310,6 +412,7 @@ export interface Database {
           started_at?: string | null;
           project_goal?: string | null;
           tags?: string[] | null;
+          show_expenses_public?: boolean;
           is_public?: boolean;
         }
       >;
@@ -321,6 +424,9 @@ export interface Database {
           url: string;
           alt?: string | null;
           sort_order?: number;
+          storage_path?: string | null;
+          width?: number | null;
+          height?: number | null;
         }
       >;
       car_parts: Table<
@@ -339,6 +445,9 @@ export interface Database {
           affiliate_url?: string | null;
           store_name?: string | null;
           product_id?: string | null;
+          installed_at?: string | null;
+          image_url?: string | null;
+          storage_path?: string | null;
         }
       >;
       car_likes: Table<{
@@ -363,6 +472,8 @@ export interface Database {
           title: string;
           description?: string | null;
           photo_url?: string | null;
+          photo_urls?: string[];
+          category?: string;
           happened_at: string;
           amount_spent?: number | null;
         }
@@ -376,6 +487,10 @@ export interface Database {
           category: string;
           amount: number;
           spent_at: string;
+          note?: string | null;
+          part_id?: string | null;
+          part_name?: string | null;
+          is_public?: boolean;
         }
       >;
       user_follows: Table<{
@@ -430,6 +545,10 @@ export interface Database {
       weekly_build_ranking: {
         Args: { limit_count?: number };
         Returns: Array<{ build_id: string; likes_week: number }>;
+      };
+      increment_car_view: {
+        Args: { target_car_id: string };
+        Returns: number;
       };
     };
     Enums: Record<string, never>;

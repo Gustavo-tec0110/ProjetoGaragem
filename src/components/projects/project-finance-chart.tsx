@@ -1,10 +1,10 @@
 "use client";
 
-import { PiggyBank } from "lucide-react";
+import { Calendar, PiggyBank } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import type { Project } from "@/lib/projects/types";
-import { formatProjectCurrency } from "@/lib/projects/utils";
+import { formatProjectCurrency, formatProjectDate } from "@/lib/projects/utils";
 
 export function ProjectFinanceChart({ project }: { project: Project }) {
   const total = project.totalInvested ?? project.estimatedCost ?? 0;
@@ -13,7 +13,7 @@ export function ProjectFinanceChart({ project }: { project: Project }) {
   if (!categories.length && total <= 0) {
     return (
       <div className="rounded-4xl border border-border/70 bg-background/25 p-5 text-sm text-muted">
-        Ainda nao existem gastos registrados neste projeto.
+        Ainda não existem gastos registrados neste projeto.
       </div>
     );
   }
@@ -80,11 +80,45 @@ export function ProjectFinanceChart({ project }: { project: Project }) {
           <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
             <p className="text-xs text-muted">Maior frente de investimento</p>
             <p className="mt-1 font-ui text-sm font-semibold">
-              {categories[0]?.category ?? "Nao informado"}
+              {categories[0]?.category ?? "Não informado"}
             </p>
           </div>
         </div>
       </Card>
+
+      {project.expenses.length ? (
+        <Card className="p-5 lg:col-span-2">
+          <p className="text-xs text-muted">Lançamentos</p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {project.expenses.slice(0, 8).map((expense) => (
+              <div
+                key={expense.id}
+                className="rounded-3xl border border-border/70 bg-background/25 p-4"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-ui text-sm font-semibold">{expense.name}</p>
+                    <p className="mt-1 text-xs text-muted">{expense.category}</p>
+                  </div>
+                  <p className="font-ui text-sm font-semibold">
+                    {formatProjectCurrency(expense.amount)}
+                  </p>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
+                  <span className="inline-flex items-center gap-1">
+                    <Calendar className="size-3" />
+                    {formatProjectDate(expense.date)}
+                  </span>
+                  {expense.partName ? <span>{expense.partName}</span> : null}
+                </div>
+                {expense.note ? (
+                  <p className="mt-3 text-sm text-foreground/80">{expense.note}</p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Card>
+      ) : null}
     </div>
   );
 }

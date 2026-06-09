@@ -12,13 +12,14 @@ import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/explorar", label: "Explorar" },
+  { href: "/atualizacoes", label: "Atualizações" },
   { href: "/comparar", label: "Comparar" },
   { href: "/rankings", label: "Ranking" },
   { href: "/garagem", label: "Minha Garagem" },
 ] as const;
 
 const bottomNav = [
-  { href: "/", label: "Inicio", icon: Home },
+  { href: "/", label: "Início", icon: Home },
   { href: "/explorar", label: "Explorar", icon: Compass },
   { href: "/criar-projeto", label: "Criar", icon: Plus },
   { href: "/garagem", label: "Garagem", icon: Warehouse },

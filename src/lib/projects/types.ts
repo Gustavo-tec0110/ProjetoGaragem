@@ -11,13 +11,13 @@ export type ProjectStatus = (typeof PROJECT_STATUS_VALUES)[number];
 
 export const PROJECT_EXPENSE_CATEGORIES = [
   "Motor",
-  "Suspensao",
+  "Suspensão",
   "Rodas",
   "Freios",
-  "Estetica",
+  "Estética",
   "Interior",
   "Som",
-  "Eletrica",
+  "Elétrica",
   "Outros",
 ] as const;
 
@@ -31,7 +31,7 @@ export type ProjectSortKey =
   | "invested"
   | "hot";
 
-export type ProjectPartStatus = "installed" | "planned";
+export type ProjectPartStatus = "installed" | "planned" | "removed";
 
 export type ProjectPart = {
   id: string;
@@ -41,6 +41,9 @@ export type ProjectPart = {
   description?: string | null;
   status: ProjectPartStatus;
   priceEstimate: number | null;
+  installedAt?: string | null;
+  imageUrl?: string | null;
+  externalUrl?: string | null;
 };
 
 export type ProjectUpdate = {
@@ -48,6 +51,8 @@ export type ProjectUpdate = {
   title: string;
   description: string;
   photo: string | null;
+  photos: string[];
+  category: string;
   date: string;
   amount: number | null;
 };
@@ -58,6 +63,9 @@ export type ProjectExpense = {
   category: ProjectExpenseCategory | string;
   amount: number;
   date: string;
+  note?: string | null;
+  partName?: string | null;
+  isPublic?: boolean;
 };
 
 export type ProjectFinanceCategoryTotal = {
@@ -86,6 +94,7 @@ export type ProjectSeed = {
   gallery: string[];
   installedParts: ProjectPart[];
   plannedParts: ProjectPart[];
+  removedParts?: ProjectPart[];
   estimatedCost: number | null;
   status?: string | null;
   progressPercent?: number | null;
@@ -115,6 +124,8 @@ export type ProjectSeed = {
   createdAt: string;
   updatedAt: string;
   isPublic: boolean;
+  showExpensesPublic?: boolean;
+  specConfidencePercent?: number | null;
   viewerHasLiked: boolean;
   viewerHasSaved: boolean;
   editHref: string | null;
@@ -129,6 +140,7 @@ export type Project = ProjectSeed & {
   weightKg: number | null;
   startedAt: string | null;
   projectGoal: string | null;
+  removedParts: ProjectPart[];
   updates: ProjectUpdate[];
   expenses: ProjectExpense[];
   financeByCategory: ProjectFinanceCategoryTotal[];
@@ -141,6 +153,7 @@ export type Project = ProjectSeed & {
   ownerAvatarUrl: string | null;
   ownerBio: string | null;
   ownerInstagram: string | null;
+  specConfidencePercent: number | null;
 };
 
 export type ProjectFilters = {

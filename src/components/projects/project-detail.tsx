@@ -7,12 +7,14 @@ import {
   Calendar,
   Coins,
   Eye,
+  Gauge,
   Timer,
   Wrench,
 } from "lucide-react";
 
 import { CommentForm, CommentsList } from "@/components/garage/comments";
 import { ProjectFinanceChart } from "@/components/projects/project-finance-chart";
+import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { ProjectImage } from "@/components/projects/project-image";
 import { ProjectTimeline } from "@/components/projects/project-timeline";
@@ -59,7 +61,7 @@ type ProjectCommentThread = {
 };
 
 function formatSpecValue(value: string | number | null | undefined) {
-  if (value == null || value === "") return "Nao informado";
+  if (value == null || value === "") return "Não informado";
   return String(value);
 }
 
@@ -85,10 +87,20 @@ function SpecCard({ label, value }: DetailSpec) {
 function PartsSection({
   title,
   parts,
+  emptyText = "Nenhuma modificação cadastrada nesta seção.",
 }: {
   title: string;
   parts: ProjectPart[];
+  emptyText?: string;
 }) {
+  const groupedParts = parts.reduce((map, part) => {
+    const category = part.category || "Outros";
+    const current = map.get(category) ?? [];
+    current.push(part);
+    map.set(category, current);
+    return map;
+  }, new Map<string, ProjectPart[]>());
+
   return (
     <section>
       <div className="flex items-end justify-between gap-4">
@@ -101,34 +113,77 @@ function PartsSection({
 
       <div className="mt-4 grid gap-3">
         {parts.length ? (
-          parts.map((part) => (
-            <Card key={part.id} className="p-4">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <Badge variant={part.status === "installed" ? "success" : "warning"}>
-                    {part.status === "installed" ? "Instalada" : "Planejada"}
-                  </Badge>
-                  <h3 className="mt-3 font-title text-lg tracking-tight">
-                    {part.brand ? `${part.brand} ` : ""}
-                    {part.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted">{part.category}</p>
-                  {part.description ? (
-                    <p className="mt-3 text-sm text-foreground/85">{part.description}</p>
-                  ) : null}
-                </div>
-                <div className="min-w-36 text-left sm:text-right">
-                  <p className="text-xs text-muted">Valor estimado</p>
-                  <p className="mt-1 font-ui text-sm font-semibold">
-                    {formatProjectCurrency(part.priceEstimate)}
-                  </p>
-                </div>
+          Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
+            <Card key={category} className="p-4">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <h3 className="font-title text-xl tracking-tight">{category}</h3>
+                <Badge>{categoryParts.length} itens</Badge>
+              </div>
+              <div className="grid gap-3">
+                {categoryParts.map((part) => (
+                  <div
+                    key={part.id}
+                    className="grid gap-4 rounded-3xl border border-border/70 bg-background/25 p-4 md:grid-cols-[7rem_1fr_auto]"
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-surface">
+                      {part.imageUrl ? (
+                        <ProjectImage
+                          src={part.imageUrl}
+                          alt={`Imagem de ${part.name}`}
+                          fill
+                          className="object-cover"
+                          sizes="112px"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/65" />
+                      )}
+                    </div>
+                    <div>
+                      <Badge
+                        variant={
+                          part.status === "installed"
+                            ? "success"
+                            : part.status === "removed"
+                              ? "secondary"
+                              : "warning"
+                        }
+                      >
+                        {part.status === "installed"
+                          ? "Instalada"
+                          : part.status === "removed"
+                            ? "Removida"
+                            : "Planejada"}
+                      </Badge>
+                      <h4 className="mt-3 font-title text-lg tracking-tight">
+                        {part.brand ? `${part.brand} ` : ""}
+                        {part.name}
+                      </h4>
+                      {part.description ? (
+                        <p className="mt-2 text-sm text-foreground/85">{part.description}</p>
+                      ) : null}
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
+                        {part.installedAt ? <span>Instalada em {formatProjectDate(part.installedAt)}</span> : null}
+                        {part.externalUrl ? (
+                          <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="font-semibold text-foreground">
+                            Ver peça
+                          </Link>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className="min-w-36 text-left md:text-right">
+                      <p className="text-xs text-muted">Valor estimado</p>
+                      <p className="mt-1 font-ui text-sm font-semibold">
+                        {formatProjectCurrency(part.priceEstimate)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Card>
           ))
         ) : (
           <div className="rounded-4xl border border-border/70 bg-background/25 p-5 text-sm text-muted">
-            Nenhuma modificacao cadastrada nesta secao.
+            {emptyText}
           </div>
         )}
       </div>
@@ -219,9 +274,9 @@ export function ProjectDetail({
     { label: "Potencia", value: formatNumber(project.powerCv, " cv") },
     { label: "Torque", value: formatNumber(project.torqueNm, " Nm") },
     { label: "Peso", value: formatNumber(project.weightKg, " kg") },
-    { label: "Inicio", value: formatProjectDate(project.startedAt) },
+    { label: "Início", value: formatProjectDate(project.startedAt) },
     { label: "Tempo de projeto", value: project.projectDurationLabel },
-    { label: "Ultima evolucao", value: formatProjectDate(project.lastUpdateAt) },
+    { label: "Última evolução", value: formatProjectDate(project.lastUpdateAt) },
   ];
   const detailSpecs = mergeSpecs(defaultSpecs, technicalSpecs);
 
@@ -234,6 +289,7 @@ export function ProjectDetail({
             alt={`Foto principal do projeto ${project.title}`}
             fill
             priority
+            loading="eager"
             className="object-cover opacity-70"
             sizes="100vw"
           />
@@ -258,7 +314,16 @@ export function ProjectDetail({
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted">
-              <span className="font-semibold text-foreground">{project.ownerName}</span>
+              {project.ownerUsername ? (
+                <Link
+                  href={`/perfil/${project.ownerUsername}`}
+                  className="font-semibold text-foreground hover:text-accent"
+                >
+                  {project.ownerName}
+                </Link>
+              ) : (
+                <span className="font-semibold text-foreground">{project.ownerName}</span>
+              )}
               <span className="inline-flex items-center gap-1">
                 <Calendar className="size-4" />
                 Publicado em {formatProjectDate(project.createdAt)}
@@ -279,13 +344,13 @@ export function ProjectDetail({
                 <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
-                <p className="text-xs text-muted">Pecas instaladas</p>
+                <p className="text-xs text-muted">Peças instaladas</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {project.installedParts.length.toLocaleString("pt-BR")}
                 </p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
-                <p className="text-xs text-muted">Ultima atualizacao</p>
+                <p className="text-xs text-muted">Última atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
@@ -325,6 +390,26 @@ export function ProjectDetail({
       </section>
 
       <div className="mx-auto w-full max-w-6xl space-y-12 px-4 sm:px-6">
+        {canEdit && project.editHref ? (
+          <Card className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center md:p-6">
+            <div className="flex items-start gap-3">
+              <Gauge className="mt-1 size-5 text-red-400" />
+              <div>
+                <p className="text-xs text-warning">Ficha do veículo</p>
+                <h2 className="mt-1 font-title text-xl tracking-tight">
+                  Ficha {project.specConfidencePercent ?? 20}% confirmada
+                </h2>
+                <p className="mt-1 text-sm text-muted">
+                  Complete versão, mecânica, visual, interior e suspensão quando souber mais detalhes.
+                </p>
+              </div>
+            </div>
+            <Button asChild>
+              <Link href={project.editHref}>Completar detalhes</Link>
+            </Button>
+          </Card>
+        ) : null}
+
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {detailStats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
@@ -335,12 +420,12 @@ export function ProjectDetail({
           <Card className="p-5 md:p-6">
             <p className="text-xs text-muted">Meta do projeto</p>
             <h2 className="mt-2 font-title text-2xl tracking-tight">
-              {project.projectGoal ?? "Objetivo ainda nao informado"}
+              {project.projectGoal ?? "Objetivo ainda não informado"}
             </h2>
             <p className="mt-3 text-sm text-foreground/85">
               {project.projectGoal
-                ? "A meta declarada ajuda na descoberta, na comparacao e no acompanhamento da evolucao."
-                : "Defina a meta na edicao para contextualizar o projeto como OEM+, turbo de rua, track day ou outra direcao clara."}
+                ? "A meta declarada ajuda na descoberta, na comparação e no acompanhamento da evolução."
+                : "Defina a meta na edição para contextualizar o projeto como OEM+, turbo de rua, track day ou outra direção clara."}
             </p>
           </Card>
 
@@ -348,19 +433,19 @@ export function ProjectDetail({
             <p className="text-xs text-muted">Resumo rapido</p>
             <div className="mt-4 grid gap-3">
               <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Ultima atualizacao</p>
+                <p className="text-xs text-muted">Última atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Pecas instaladas</p>
+                <p className="text-xs text-muted">Peças instaladas</p>
                 <p className="mt-1 font-title text-2xl">
                   {project.installedParts.length.toLocaleString("pt-BR")}
                 </p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Pecas planejadas</p>
+                <p className="text-xs text-muted">Peças planejadas</p>
                 <p className="mt-1 font-title text-2xl">
                   {project.plannedParts.length.toLocaleString("pt-BR")}
                 </p>
@@ -416,26 +501,18 @@ export function ProjectDetail({
         <section>
           <p className="text-xs text-muted">Galeria</p>
           <h2 className="mt-1 font-title text-2xl tracking-tight">Fotos do projeto</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((image, index) => (
-              <div
-                key={`${image}-${index}`}
-                className="relative aspect-[4/3] overflow-hidden rounded-4xl border border-border/70 bg-surface"
-              >
-                <ProjectImage
-                  src={image}
-                  alt={`Foto ${index + 1} do projeto ${project.title}`}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
-                />
-              </div>
-            ))}
+          <div className="mt-4">
+            <ProjectGallery images={gallery} title={project.title} />
           </div>
         </section>
 
-        <PartsSection title="Pecas instaladas" parts={project.installedParts} />
-        <PartsSection title="Pecas planejadas" parts={project.plannedParts} />
+        <PartsSection title="Peças instaladas" parts={project.installedParts} />
+        <PartsSection title="Planos futuros" parts={project.plannedParts} />
+        <PartsSection
+          title="Peças removidas"
+          parts={project.removedParts}
+          emptyText="Nenhuma peça removida foi registrada."
+        />
 
         {commentThread ? (
           <section className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
@@ -478,7 +555,7 @@ export function ProjectDetail({
           <div className="mt-4">
             <ProjectGrid
               projects={similarProjects}
-              emptyTitle="Ainda nao encontramos projetos parecidos."
+              emptyTitle="Ainda não encontramos projetos parecidos."
               emptyDescription="Adicione mais projetos ou explore outros estilos da comunidade."
             />
           </div>

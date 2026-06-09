@@ -9,6 +9,7 @@ import {
   deleteCommentAction,
   initialActionState,
 } from "@/app/carros/actions";
+import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
 
@@ -22,11 +23,27 @@ export function CommentForm({
   viewerLoggedIn: boolean;
 }) {
   const [state, formAction, pending] = useActionState(createCommentAction, initialActionState);
+  const [loginOpen, setLoginOpen] = React.useState(false);
 
   if (!viewerLoggedIn) {
     return (
       <div className="rounded-4xl border border-border/70 bg-background/25 p-4 text-sm text-muted">
-        Entre na sua conta para comentar neste projeto.
+        <LoginPromptDialog
+          open={loginOpen}
+          onOpenChange={setLoginOpen}
+          title="Entre para comentar"
+          description="Comentários ajudam o dono do projeto e mantêm a comunidade viva."
+        />
+        <p>Entre na sua conta para comentar neste projeto.</p>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="mt-3"
+          onClick={() => setLoginOpen(true)}
+        >
+          Entrar para comentar
+        </Button>
       </div>
     );
   }

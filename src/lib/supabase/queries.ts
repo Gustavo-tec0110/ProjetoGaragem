@@ -2,6 +2,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import type {
   CarBuildUpdateRow,
+  CarCatalogModelRow,
+  CarCatalogVersionRow,
   CarCommentRow,
   CarExpenseRow,
   CarPartRow,
@@ -9,6 +11,10 @@ import type {
   CarRow,
   ProfileRow,
 } from "@/lib/types";
+import {
+  FALLBACK_CAR_CATALOG,
+  type CarCatalogVersion,
+} from "@/lib/car-catalog";
 import { CAR_CATEGORIES, normalizeSlug } from "@/lib/garage/constants";
 import { getSupabaseServerClient } from "./server";
 
@@ -57,9 +63,10 @@ export type ExploreFilters = {
   brand?: string;
   model?: string;
   category?: string;
+  tag?: string;
   state?: string;
   engine?: string;
-  sort?: "recent" | "likes" | "saves" | "views";
+  sort?: "recent" | "likes" | "saves" | "views" | "updated";
   limit?: number;
 };
 
@@ -283,6 +290,59 @@ export async function getCurrentProfile() {
   return { userId: user.id, profile: profile.data, error: profile.error };
 }
 
+export async function qCarCatalogVersions(): Promise<QueryResult<CarCatalogVersion[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: FALLBACK_CAR_CATALOG, error: null };
+
+  const [{ data: models, error: modelsError }, { data: versions, error: versionsError }] =
+    await Promise.all([
+      supabase
+        .from("car_catalog_models")
+        .select("*")
+        .order("brand", { ascending: true })
+        .order("model", { ascending: true }),
+      supabase
+        .from("car_catalog_versions")
+        .select("*")
+        .order("version", { ascending: true }),
+    ]);
+
+  if (modelsError || versionsError) {
+    return { data: FALLBACK_CAR_CATALOG, error: null };
+  }
+
+  const modelMap = new Map(
+    ((models ?? []) as CarCatalogModelRow[]).map((model) => [model.id, model])
+  );
+
+  const catalog = ((versions ?? []) as CarCatalogVersionRow[])
+    .map((version) => {
+      const model = modelMap.get(version.model_id);
+      if (!model) return null;
+
+      return {
+        id: version.id,
+        brand: model.brand,
+        model: model.model,
+        generationName: model.generation_name,
+        version: version.version,
+        yearStart: version.year_start,
+        yearEnd: version.year_end,
+        engineOriginal: version.engine_original,
+        inductionOriginal: version.induction_original,
+        powerHp: version.power_hp,
+        drivetrain: version.drivetrain,
+        transmission: version.transmission,
+        fuelType: version.fuel_type,
+        notes: version.notes ?? model.notes,
+        isEstimated: version.is_estimated,
+      } satisfies CarCatalogVersion;
+    })
+    .filter((version): version is CarCatalogVersion => Boolean(version));
+
+  return { data: catalog.length ? catalog : FALLBACK_CAR_CATALOG, error: null };
+}
+
 export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryResult<CarCard[]>> {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
@@ -295,7 +355,17 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
 
   if (filters.q?.trim()) {
     const term = filters.q.trim().replace(/[%_,]/g, "");
-    query = query.or(`name.ilike.%${term}%,brand.ilike.%${term}%,model.ilike.%${term}%,category.ilike.%${term}%`);
+    const year = Number.parseInt(term, 10);
+    const conditions = [
+      `name.ilike.%${term}%`,
+      `brand.ilike.%${term}%`,
+      `model.ilike.%${term}%`,
+      `category.ilike.%${term}%`,
+      `engine.ilike.%${term}%`,
+      `description.ilike.%${term}%`,
+    ];
+    if (Number.isFinite(year)) conditions.push(`year.eq.${year}`);
+    query = query.or(conditions.join(","));
   }
 
   if (filters.brand?.trim()) query = query.ilike("brand", `%${filters.brand.trim()}%`);
@@ -303,6 +373,10 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
   if (filters.category?.trim()) query = query.eq("category", filters.category.trim());
   if (filters.state?.trim()) query = query.ilike("state", filters.state.trim());
   if (filters.engine?.trim()) query = query.ilike("engine", `%${filters.engine.trim()}%`);
+  if (filters.tag?.trim()) {
+    const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
+    query = query.contains("tags", [tag.toLowerCase()]);
+  }
 
   if (filters.sort === "likes") {
     query = query.order("likes_count", { ascending: false }).order("created_at", { ascending: false });
@@ -310,6 +384,8 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
     query = query.order("saves_count", { ascending: false }).order("created_at", { ascending: false });
   } else if (filters.sort === "views") {
     query = query.order("views_count", { ascending: false }).order("created_at", { ascending: false });
+  } else if (filters.sort === "updated") {
+    query = query.order("updated_at", { ascending: false }).order("created_at", { ascending: false });
   } else {
     query = query.order("created_at", { ascending: false });
   }
@@ -360,6 +436,49 @@ export async function qSavedCars(userId: string): Promise<QueryResult<CarCard[]>
 
   const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
   return { data: cards, error: null };
+}
+
+export async function qLikedCars(userId: string): Promise<QueryResult<CarCard[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+
+  const { data: likes, error } = await supabase
+    .from("car_likes")
+    .select("car_id")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) return { data: null, error: error.message };
+
+  const ids = ((likes ?? []) as Array<{ car_id: string }>).map((like) => like.car_id);
+  if (!ids.length) return { data: [], error: null };
+
+  const { data: cars, error: carsError } = await supabase
+    .from("cars")
+    .select("*")
+    .in("id", ids)
+    .eq("is_public", true);
+  if (carsError) return { data: null, error: carsError.message };
+
+  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
+  return { data: cards, error: null };
+}
+
+export async function qViewerFollowsProfile(followingId: string): Promise<QueryResult<boolean>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: false, error: null };
+
+  const viewerId = await getViewerId(supabase);
+  if (!viewerId) return { data: false, error: null };
+
+  const { data, error } = await supabase
+    .from("user_follows")
+    .select("following_id")
+    .eq("follower_id", viewerId)
+    .eq("following_id", followingId)
+    .maybeSingle();
+
+  if (error) return { data: null, error: error.message };
+  return { data: Boolean(data), error: null };
 }
 
 export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {

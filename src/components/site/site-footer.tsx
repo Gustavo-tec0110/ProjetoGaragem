@@ -9,12 +9,15 @@ export function SiteFooter() {
             <div>
               <p className="font-title tracking-tight">Projeto Garagem</p>
               <p className="mt-1 max-w-md text-sm text-muted">
-                Catalogo social de carros, pecas, fotos e projetos reais.
+                Catálogo social de carros, peças, fotos e projetos reais.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 text-sm font-ui font-semibold">
               <Link className="text-muted hover:text-foreground" href="/explorar">
                 Explorar
+              </Link>
+              <Link className="text-muted hover:text-foreground" href="/atualizacoes">
+                Atualizações
               </Link>
               <Link className="text-muted hover:text-foreground" href="/rankings">
                 Rankings

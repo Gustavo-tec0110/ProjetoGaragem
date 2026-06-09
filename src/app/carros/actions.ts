@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 
+import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from "@/lib/car-catalog";
 import type { CarPartStatus } from "@/lib/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
@@ -32,12 +33,15 @@ type PartInput = {
   affiliate_url?: string;
   store_name?: string;
   product_id?: string;
+  installed_at?: string;
+  image_url?: string;
 };
 
 type UpdateInput = {
   title: string;
   description?: string;
   photo_url?: string;
+  category?: string;
   happened_at: string;
   amount_spent?: number | null;
 };
@@ -47,6 +51,9 @@ type ExpenseInput = {
   category: string;
   amount: number;
   spent_at: string;
+  note?: string;
+  part_name?: string;
+  is_public?: boolean;
 };
 
 function text(formData: FormData, key: string) {
@@ -57,6 +64,23 @@ function text(formData: FormData, key: string) {
 function nullableText(formData: FormData, key: string) {
   const value = text(formData, key);
   return value ? value : null;
+}
+
+function uuidText(formData: FormData, key: string) {
+  const value = text(formData, key);
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
+    ? value
+    : null;
+}
+
+function dataConfidence(formData: FormData, key: string, fallback: DataConfidence): DataConfidence {
+  const value = text(formData, key);
+  return value === "confirmed" || value === "estimated" || value === "unknown" ? value : fallback;
+}
+
+function detailAnswer(formData: FormData, key: string): DetailAnswer {
+  const value = text(formData, key);
+  return value === "yes" || value === "no" || value === "unknown" ? value : "unknown";
 }
 
 function integer(formData: FormData, key: string) {
@@ -84,7 +108,12 @@ function parseParts(raw: string): PartInput[] {
     return parsed
       .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
       .map((item) => {
-        const status: CarPartStatus = item.status === "planned" ? "planned" : "installed";
+        const status: CarPartStatus =
+          item.status === "planned"
+            ? "planned"
+            : item.status === "removed"
+              ? "removed"
+              : "installed";
         const price =
           typeof item.price_estimate === "number"
             ? item.price_estimate
@@ -105,6 +134,8 @@ function parseParts(raw: string): PartInput[] {
           affiliate_url: typeof item.affiliate_url === "string" ? item.affiliate_url.trim() : "",
           store_name: typeof item.store_name === "string" ? item.store_name.trim() : "",
           product_id: typeof item.product_id === "string" ? item.product_id.trim() : "",
+          installed_at: typeof item.installed_at === "string" ? item.installed_at.trim() : "",
+          image_url: typeof item.image_url === "string" ? item.image_url.trim() : "",
         };
       })
       .filter((part) => part.name.length > 0);
@@ -132,6 +163,7 @@ function parseUpdates(raw: string): UpdateInput[] {
           title: typeof item.title === "string" ? item.title.trim() : "",
           description: typeof item.description === "string" ? item.description.trim() : "",
           photo_url: typeof item.photo_url === "string" ? item.photo_url.trim() : "",
+          category: typeof item.category === "string" ? item.category.trim() : "outro",
           happened_at:
             typeof item.happened_at === "string" && item.happened_at.trim()
               ? item.happened_at
@@ -168,6 +200,9 @@ function parseExpenses(raw: string): ExpenseInput[] {
             typeof item.spent_at === "string" && item.spent_at.trim()
               ? item.spent_at
               : new Date().toISOString().slice(0, 10),
+          note: typeof item.note === "string" ? item.note.trim() : "",
+          part_name: typeof item.part_name === "string" ? item.part_name.trim() : "",
+          is_public: item.is_public !== false,
         };
       })
       .filter((expense) => expense.name.length > 0 && expense.amount >= 0);
@@ -183,7 +218,7 @@ function usernameFromUser(user: User) {
 
 async function requireUser() {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return { supabase: null, user: null, error: "Supabase nao configurado." };
+  if (!supabase) return { supabase: null, user: null, error: "Supabase não configurado." };
 
   const {
     data: { user },
@@ -250,6 +285,22 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const mainPhoto = nullableText(formData, "main_photo_url");
   const photos = parseStringArray(text(formData, "photo_urls_json"));
   const photoUrls = Array.from(new Set([mainPhoto, ...photos].filter((url): url is string => Boolean(url))));
+  const versionConfidence = dataConfidence(formData, "version_confidence", "unknown");
+  const originalEngineAnswer = detailAnswer(formData, "original_engine_answer");
+  const originalInductionAnswer = detailAnswer(formData, "original_induction_answer");
+  const originalColorAnswer = detailAnswer(formData, "original_color_answer");
+  const originalWheelsAnswer = detailAnswer(formData, "original_wheels_answer");
+  const originalInteriorAnswer = detailAnswer(formData, "original_interior_answer");
+  const originalSuspensionAnswer = detailAnswer(formData, "original_suspension_answer");
+  const specConfidencePercent = calculateSpecConfidence({
+    versionConfidence,
+    originalEngineAnswer,
+    originalInductionAnswer,
+    originalColorAnswer,
+    originalWheelsAnswer,
+    originalInteriorAnswer,
+    originalSuspensionAnswer,
+  });
 
   return {
     owner_id: ownerId,
@@ -259,6 +310,18 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
     model,
     year: year ?? new Date().getFullYear(),
     version: nullableText(formData, "version"),
+    catalog_version_id: uuidText(formData, "catalog_version_id"),
+    version_confidence: versionConfidence,
+    factory_spec_confidence: dataConfidence(formData, "factory_spec_confidence", mainPhoto ? "estimated" : "unknown"),
+    factory_specs_note: nullableText(formData, "factory_specs_note"),
+    spec_confidence_percent: specConfidencePercent,
+    original_engine_answer: originalEngineAnswer,
+    original_induction_answer: originalInductionAnswer,
+    current_induction: nullableText(formData, "current_induction"),
+    original_color_answer: originalColorAnswer,
+    original_wheels_answer: originalWheelsAnswer,
+    original_interior_answer: originalInteriorAnswer,
+    original_suspension_answer: originalSuspensionAnswer,
     category: category || "Projeto automotivo",
     state: nullableText(formData, "state"),
     city: nullableText(formData, "city"),
@@ -282,19 +345,21 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
     started_at: nullableText(formData, "started_at"),
     project_goal: nullableText(formData, "project_goal"),
     tags: parseTagString(text(formData, "tags_csv")),
-    is_public: formData.get("is_public") !== "false",
+    show_expenses_public: formData.get("show_expenses_public") === "true",
+    is_public: formData.get("is_public") === "true",
   };
 }
 
 async function replacePhotos(carId: string, mainPhotoUrl: string | null, photoUrls: string[]) {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return;
+  if (!supabase) return null;
 
-  await supabase.from("car_photos").delete().eq("car_id", carId);
+  const { error: deleteError } = await supabase.from("car_photos").delete().eq("car_id", carId);
+  if (deleteError) return deleteError.message;
   const urls = Array.from(new Set([mainPhotoUrl, ...photoUrls].filter((url): url is string => Boolean(url))));
-  if (!urls.length) return;
+  if (!urls.length) return null;
 
-  await supabase.from("car_photos").insert(
+  const { error } = await supabase.from("car_photos").insert(
     urls.map((url, index) => ({
       car_id: carId,
       url,
@@ -302,16 +367,18 @@ async function replacePhotos(carId: string, mainPhotoUrl: string | null, photoUr
       alt: index === 0 ? "Foto principal do carro" : "Foto do projeto",
     }))
   );
+  return error?.message ?? null;
 }
 
 async function replaceParts(carId: string, parts: PartInput[]) {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return;
+  if (!supabase) return null;
 
-  await supabase.from("car_parts").delete().eq("car_id", carId);
-  if (!parts.length) return;
+  const { error: deleteError } = await supabase.from("car_parts").delete().eq("car_id", carId);
+  if (deleteError) return deleteError.message;
+  if (!parts.length) return null;
 
-  await supabase.from("car_parts").insert(
+  const { error } = await supabase.from("car_parts").insert(
     parts.map((part) => ({
       car_id: carId,
       name: part.name,
@@ -325,45 +392,57 @@ async function replaceParts(carId: string, parts: PartInput[]) {
       affiliate_url: part.affiliate_url || null,
       store_name: part.store_name || null,
       product_id: part.product_id || null,
+      installed_at: part.installed_at || null,
+      image_url: part.image_url || null,
     }))
   );
+  return error?.message ?? null;
 }
 
 async function replaceUpdates(carId: string, updates: UpdateInput[]) {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return;
+  if (!supabase) return null;
 
-  await supabase.from("car_build_updates").delete().eq("car_id", carId);
-  if (!updates.length) return;
+  const { error: deleteError } = await supabase.from("car_build_updates").delete().eq("car_id", carId);
+  if (deleteError) return deleteError.message;
+  if (!updates.length) return null;
 
-  await supabase.from("car_build_updates").insert(
+  const { error } = await supabase.from("car_build_updates").insert(
     updates.map((update) => ({
       car_id: carId,
       title: update.title,
       description: update.description || null,
       photo_url: update.photo_url || null,
+      photo_urls: update.photo_url ? [update.photo_url] : [],
+      category: update.category || "outro",
       happened_at: update.happened_at,
       amount_spent: update.amount_spent ?? null,
     }))
   );
+  return error?.message ?? null;
 }
 
 async function replaceExpenses(carId: string, expenses: ExpenseInput[]) {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return;
+  if (!supabase) return null;
 
-  await supabase.from("car_expenses").delete().eq("car_id", carId);
-  if (!expenses.length) return;
+  const { error: deleteError } = await supabase.from("car_expenses").delete().eq("car_id", carId);
+  if (deleteError) return deleteError.message;
+  if (!expenses.length) return null;
 
-  await supabase.from("car_expenses").insert(
+  const { error } = await supabase.from("car_expenses").insert(
     expenses.map((expense) => ({
       car_id: carId,
       name: expense.name,
       category: expense.category || "Outros",
       amount: Math.max(0, expense.amount),
       spent_at: expense.spent_at,
+      note: expense.note || null,
+      part_name: expense.part_name || null,
+      is_public: expense.is_public !== false,
     }))
   );
+  return error?.message ?? null;
 }
 
 export async function saveProfileAction(
@@ -391,6 +470,7 @@ export async function saveProfileAction(
     state: nullableText(formData, "state"),
     instagram_handle: nullableText(formData, "instagram_handle"),
     is_saves_public: formData.get("is_saves_public") === "true",
+    is_likes_public: formData.get("is_likes_public") === "true",
   });
 
   if (error) return { status: "error", message: error.message };
@@ -413,9 +493,13 @@ export async function createCarAction(
   const brand = text(formData, "brand");
   const model = text(formData, "model");
   const year = integer(formData, "year");
+  const mainPhoto = nullableText(formData, "main_photo_url");
 
   if (!name || !brand || !model || !year) {
     return { status: "error", message: "Preencha nome do projeto, marca, modelo e ano." };
+  }
+  if (!mainPhoto) {
+    return { status: "error", message: "Adicione uma foto principal para criar o projeto." };
   }
 
   const slug = await uniqueCarSlug(normalizeSlug(`${name}-${brand}-${model}-${year}`));
@@ -428,10 +512,18 @@ export async function createCarAction(
   const parts = parseParts(text(formData, "parts_json"));
   const updates = parseUpdates(text(formData, "updates_json"));
   const expenses = parseExpenses(text(formData, "expenses_json"));
-  await replacePhotos(car.id, car.main_photo_url, photoUrls);
-  await replaceParts(car.id, parts);
-  await replaceUpdates(car.id, updates);
-  await replaceExpenses(car.id, expenses);
+  const relatedError =
+    (await replacePhotos(car.id, car.main_photo_url, photoUrls)) ??
+    (await replaceParts(car.id, parts)) ??
+    (await replaceUpdates(car.id, updates)) ??
+    (await replaceExpenses(car.id, expenses));
+
+  if (relatedError) {
+    return {
+      status: "error",
+      message: `Projeto criado, mas houve erro ao salvar detalhes: ${relatedError}`,
+    };
+  }
 
   revalidatePath("/");
   revalidatePath("/explorar");
@@ -451,7 +543,7 @@ export async function updateCarAction(
   if (!auth.supabase || !auth.user) return { status: "error", message: auth.error ?? "Erro de autenticacao." };
 
   const carId = text(formData, "car_id");
-  if (!carId) return { status: "error", message: "Carro nao encontrado." };
+  if (!carId) return { status: "error", message: "Carro não encontrado." };
 
   const { data: current } = await auth.supabase
     .from("cars")
@@ -460,7 +552,7 @@ export async function updateCarAction(
     .maybeSingle();
 
   if (!current || current.owner_id !== auth.user.id) {
-    return { status: "error", message: "Voce so pode editar seus proprios carros." };
+    return { status: "error", message: "Você só pode editar seus próprios carros." };
   }
 
   const name = text(formData, "name");
@@ -487,10 +579,18 @@ export async function updateCarAction(
   const parts = parseParts(text(formData, "parts_json"));
   const updates = parseUpdates(text(formData, "updates_json"));
   const expenses = parseExpenses(text(formData, "expenses_json"));
-  await replacePhotos(car.id, car.main_photo_url, photoUrls);
-  await replaceParts(car.id, parts);
-  await replaceUpdates(car.id, updates);
-  await replaceExpenses(car.id, expenses);
+  const relatedError =
+    (await replacePhotos(car.id, car.main_photo_url, photoUrls)) ??
+    (await replaceParts(car.id, parts)) ??
+    (await replaceUpdates(car.id, updates)) ??
+    (await replaceExpenses(car.id, expenses));
+
+  if (relatedError) {
+    return {
+      status: "error",
+      message: `Ficha salva, mas houve erro ao atualizar detalhes: ${relatedError}`,
+    };
+  }
 
   revalidatePath("/");
   revalidatePath("/explorar");
@@ -514,7 +614,7 @@ export async function deleteCarAction(
   }
 
   const carId = text(formData, "car_id");
-  if (!carId) return { status: "error", message: "Projeto nao encontrado." };
+  if (!carId) return { status: "error", message: "Projeto não encontrado." };
 
   const { data: current, error: readError } = await auth.supabase
     .from("cars")
@@ -524,7 +624,7 @@ export async function deleteCarAction(
 
   if (readError) return { status: "error", message: readError.message };
   if (!current || current.owner_id !== auth.user.id) {
-    return { status: "error", message: "Voce so pode excluir seus proprios projetos." };
+    return { status: "error", message: "Você só pode excluir seus próprios projetos." };
   }
 
   const { error } = await auth.supabase
@@ -622,24 +722,54 @@ export async function toggleSaveAction(carId: string) {
   return { ok: !error, message: error?.message, active: !error };
 }
 
+export async function toggleFollowUserAction(profileId: string) {
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return { ok: false, message: auth.error ?? "Entre para seguir perfis.", active: false };
+  }
+  await ensureProfile(auth.user);
+
+  if (!profileId || profileId === auth.user.id) {
+    return { ok: false, message: "Você não pode seguir o próprio perfil.", active: false };
+  }
+
+  const { data: existing } = await auth.supabase
+    .from("user_follows")
+    .select("following_id")
+    .eq("follower_id", auth.user.id)
+    .eq("following_id", profileId)
+    .maybeSingle();
+
+  if (existing) {
+    const { error } = await auth.supabase
+      .from("user_follows")
+      .delete()
+      .eq("follower_id", auth.user.id)
+      .eq("following_id", profileId);
+    revalidatePath("/garagem");
+    revalidatePath("/perfil");
+    return { ok: !error, message: error?.message, active: false };
+  }
+
+  const { error } = await auth.supabase.from("user_follows").insert({
+    follower_id: auth.user.id,
+    following_id: profileId,
+  });
+
+  revalidatePath("/garagem");
+  revalidatePath("/perfil");
+  return { ok: !error, message: error?.message, active: !error };
+}
+
 export async function incrementViewAction(carId: string, carSlug: string) {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { ok: false };
 
-  const { data: current, error: readError } = await supabase
-    .from("cars")
-    .select("views_count")
-    .eq("id", carId)
-    .maybeSingle();
+  const { data, error } = await supabase.rpc("increment_car_view", {
+    target_car_id: carId,
+  });
 
-  if (readError || !current) return { ok: false };
-
-  const { error } = await supabase
-    .from("cars")
-    .update({ views_count: Math.max(0, current.views_count + 1) })
-    .eq("id", carId);
-
-  if (error) return { ok: false };
+  if (error || !data) return { ok: false };
 
   revalidatePath("/");
   revalidatePath("/explorar");

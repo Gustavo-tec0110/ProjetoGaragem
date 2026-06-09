@@ -6,7 +6,7 @@ import { LogIn } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
 
-export function GoogleSigninButton() {
+export function GoogleSigninButton({ nextPath }: { nextPath?: string | null }) {
   const { configured, signInWithGoogle } = useAuth();
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -31,7 +31,11 @@ export function GoogleSigninButton() {
           setError(null);
           setBusy(true);
 
-          const { error } = await signInWithGoogle();
+          const currentPath =
+            typeof window !== "undefined"
+              ? `${window.location.pathname}${window.location.search}`
+              : null;
+          const { error } = await signInWithGoogle(nextPath ?? currentPath);
 
           if (error) {
             setError(error.message);

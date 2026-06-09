@@ -26,12 +26,23 @@ import { qCarBySlug, qExploreCars } from "@/lib/supabase/queries";
 
 const PROJECT_LIMIT = 120;
 
-const getSupabaseProjectCatalog = cache(async () => {
+const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
   if (!isSupabaseConfigured) {
     return { projects: [] as Project[], error: "not_configured" as const };
   }
 
-  const result = await qExploreCars({ sort: "recent", limit: PROJECT_LIMIT });
+  const querySort =
+    filters?.sort === "likes" || filters?.sort === "views" || filters?.sort === "updated"
+      ? filters.sort
+      : "recent";
+  const result = await qExploreCars({
+    q: filters?.q,
+    category: filters?.style,
+    engine: filters?.engine,
+    tag: filters?.tag,
+    sort: querySort,
+    limit: PROJECT_LIMIT,
+  });
   if (result.error) {
     return { projects: [] as Project[], error: result.error };
   }
@@ -77,7 +88,7 @@ export async function getProjectCollection(
   filters?: Partial<ProjectFilters>
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
-  const catalog = await getSupabaseProjectCatalog();
+  const catalog = await getSupabaseProjectCatalog(normalizedFilters);
 
   if (catalog.error || catalog.projects.length === 0) {
     const filteredDemo = sortProjects(

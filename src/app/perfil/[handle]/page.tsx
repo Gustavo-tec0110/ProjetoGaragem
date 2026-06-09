@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Eye, Heart, MapPin, Wrench } from "lucide-react";
 
+import { FollowProfileButton } from "@/components/garage/follow-profile-button";
 import { CarGrid } from "@/components/garage/car-card";
 import { ProfileForm } from "@/components/garage/profile-form";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -11,7 +12,13 @@ import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { createSeoMetadata } from "@/lib/seo";
-import { qCarsByOwner, qProfileByUsername, qSavedCars } from "@/lib/supabase/queries";
+import {
+  qCarsByOwner,
+  qLikedCars,
+  qProfileByUsername,
+  qSavedCars,
+  qViewerFollowsProfile,
+} from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
 
@@ -63,12 +70,16 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [carsResult, savedResult] = await Promise.all([
+  const [carsResult, savedResult, likedResult, followingResult] = await Promise.all([
     qCarsByOwner(profile.id, user?.id === profile.id),
     profile.is_saves_public || user?.id === profile.id ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    profile.is_likes_public || user?.id === profile.id ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    user?.id && user.id !== profile.id ? qViewerFollowsProfile(profile.id) : Promise.resolve({ data: false, error: null }),
   ]);
   const cars = carsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
+  const likedCars = likedResult.data ?? [];
+  const viewerFollows = followingResult.data ?? false;
   const totalLikes = cars.reduce((sum, car) => sum + car.likes_count, 0);
   const totalViews = cars.reduce((sum, car) => sum + car.views_count, 0);
   const totalInvested = cars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
@@ -134,12 +145,26 @@ export default async function PublicProfilePage({ params }: PageProps) {
                       </a>
                     </p>
                   ) : null}
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {isOwner ? (
+                      <Button asChild>
+                        <Link href="/criar-projeto">Criar novo projeto</Link>
+                      </Button>
+                    ) : (
+                      <FollowProfileButton
+                        profileId={profile.id}
+                        initialFollowing={viewerFollows}
+                        viewerLoggedIn={Boolean(user)}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2 md:min-w-[28rem]">
                   <Stat label="Carros" value={cars.length} icon={Wrench} />
                   <Stat label="Curtidas" value={totalLikes} icon={Heart} />
                   <Stat label="Views" value={totalViews} icon={Eye} />
+                  <Stat label="Seguidores" value={profile.followers_count} icon={Heart} />
                   <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
                     <p className="text-xs text-muted">Total investido</p>
                     <p className="mt-1 font-title text-2xl">
@@ -186,6 +211,16 @@ export default async function PublicProfilePage({ params }: PageProps) {
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Carros salvos</h2>
               </div>
               <CarGrid cars={savedCars} />
+            </section>
+          ) : null}
+
+          {(profile.is_likes_public || isOwner) && likedCars.length ? (
+            <section className="mt-12">
+              <div className="mb-4">
+                <p className="text-xs text-muted">Curtidos</p>
+                <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos curtidos</h2>
+              </div>
+              <CarGrid cars={likedCars} />
             </section>
           ) : null}
         </div>
