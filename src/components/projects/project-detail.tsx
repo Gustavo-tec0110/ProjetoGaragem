@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { getBuildAlerts, BuildAlert, supabase } from "@/lib/buildAlerts";
 import Link from "next/link";
 import {
   ArrowRightLeft,
@@ -89,12 +90,30 @@ function SpecCard({ label, value }: DetailSpec) {
 function PartsSection({
   title,
   parts,
+  alerts = [],
   emptyText = "Nenhuma modificação cadastrada nesta seção.",
 }: {
   title: string;
   parts: ProjectPart[];
+  alerts?: BuildAlert[];
   emptyText?: string;
 }) {
+  const getAlertStyle = (severity: BuildAlert['severity']) => {
+    switch (severity) {
+      case 'info':
+        return 'border-blue-400 bg-blue-50 text-blue-800';
+      case 'success':
+        return 'border-green-400 bg-green-50 text-green-800';
+      case 'warning':
+        return 'border-yellow-400 bg-yellow-50 text-yellow-800';
+      case 'danger':
+        return 'border-red-400 bg-red-50 text-red-800';
+      default:
+        return '';
+    }
+  };
+
+
   const groupedParts = parts.reduce((map, part) => {
     const category = part.category || "Outros";
     const current = map.get(category) ?? [];
@@ -224,6 +243,18 @@ export function ProjectDetail({
   } | null;
 }) {
   const project = initialProject;
+  const [buildAlerts, setBuildAlerts] = React.useState<BuildAlert[]>([]);
+
+  // Load build alerts on component mount
+  React.useEffect(() => {
+    if (initialProject.source === "supabase" && initialProject.databaseId) {
+      async function load() {
+        const alerts = await getBuildAlerts(supabase, initialProject.databaseId);
+        setBuildAlerts(alerts);
+      }
+      load();
+    }
+  }, [initialProject.databaseId, initialProject.source]);
   const localSocialState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
     () => getLocalProjectSocialState(project.slug),
@@ -562,8 +593,29 @@ export function ProjectDetail({
         </section>
 
         <div id="modificacoes" className="space-y-8">
-          <PartsSection title="Modificações instaladas hoje" parts={project.installedParts} />
-          <PartsSection title="Planos futuros" parts={project.plannedParts} />
+          {/* Alertas da Build */}
+          <div className="mb-6">
+            <h3 className="text-xs text-muted mb-2">Alertas da Build</h3>
+            {buildAlerts.length ? (
+              <ul className="space-y-2">
+                {buildAlerts.map((alert, idx) => (
+                  <li key={idx} className={`p-3 rounded-xl border ${
+                    alert.severity === 'info' ? 'border-blue-400 bg-blue-50' :
+                    alert.severity === 'success' ? 'border-green-400 bg-green-50' :
+                    alert.severity === 'warning' ? 'border-yellow-400 bg-yellow-50' :
+                    'border-red-400 bg-red-50'}
+                  }`}
+                    <p className="font-medium">{alert.title}</p>
+                    <p className="text-sm text-muted">{alert.message}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted">Nenhum alerta relevante.</p>
+            )}
+          </div>
+          <PartsSection title="Modificações instaladas hoje" parts={project.installedParts} alerts={buildAlerts.filter(a=>a.relatedPartId && project.installedParts.some(p=>p.id===a.relatedPartId))} />
+          <PartsSection title="Planos futuros" parts={project.plannedParts} alerts={buildAlerts.filter(a=>a.relatedPartId && project.plannedParts.some(p=>p.id===a.relatedPartId))} />
         </div>
 
         <section>
