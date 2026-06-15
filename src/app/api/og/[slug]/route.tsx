@@ -3,6 +3,7 @@ import { ImageResponse } from "next/og";
 import { createClient } from "@supabase/supabase-js";
 
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
+import type { Database } from "@/types/supabase";
 
 export const contentType = "image/png";
 
@@ -19,7 +20,7 @@ export async function GET(
   }
 
   const { slug } = await params;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
   });
 

@@ -6,14 +6,15 @@ import {
 } from "@supabase/supabase-js";
 
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "./env";
+import type { Database } from "@/types/supabase";
 
-let client: SupabaseClient | null = null;
+let client: SupabaseClient<Database> | null = null;
 
 export function getSupabaseClient() {
   if (!isSupabaseConfigured) return null;
   if (client) return client;
 
-  client = createClient(supabaseUrl, supabaseAnonKey, {
+  client = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,

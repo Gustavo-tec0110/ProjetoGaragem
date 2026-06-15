@@ -13,7 +13,7 @@ values (
   'project-images',
   true,
   5242880,
-  array['image/jpeg', 'image/png', 'image/webp']::text[]
+  array['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'image/webp']::text[]
 )
 on conflict (id) do update set
   public = excluded.public,
@@ -814,7 +814,7 @@ for update to authenticated using (user_id = auth.uid()) with check (user_id = a
 
 drop policy if exists "notifications_insert_system" on public.notifications;
 create policy "notifications_insert_system" on public.notifications
-for insert to authenticated with check (user_id <> auth.uid());
+for insert to authenticated with check (actor_id = auth.uid() and user_id <> auth.uid());
 
 drop policy if exists "part_requirements_read_all" on public.part_requirements;
 create policy "part_requirements_read_all" on public.part_requirements

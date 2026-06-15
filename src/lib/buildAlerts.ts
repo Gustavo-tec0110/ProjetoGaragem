@@ -1,346 +1,282 @@
 /**
  * Build Alerts and Recommendation Logic
  *
- * This module provides two main functions:
- *   - getBuildAlerts(projectId): evaluates a project (car) and its parts, budget, and compatibility
- *     and returns a list of alerts.
- *   - getRecommendationScore(partId, projectId): computes a simple recommendation score for a given part
- *     within the context of a specific project.
- *
- * These functions rely on Supabase client queries and the alert/recommendation rule tables
- * created in Phase 4.
+ * MVP note:
+ * The active project UI uses cars, car_parts and car_expenses. Older Phase 4
+ * experiments used project_parts, parts_catalog and build_budgets. This file
+ * must not depend on those legacy tables while the MVP is live.
  */
 
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "../types/supabase"; // Adjust path if necessary
+import { SupabaseClient } from "@supabase/supabase-js";
 
-// Types for the alert result
+import type { Database } from "../types/supabase";
+
 export type BuildAlert = {
   severity: "info" | "success" | "warning" | "danger";
   category:
     | "compatibilidade"
-    | "dependência"
-    | "orçamento"
+    | "dependencia"
+    | "orcamento"
     | "performance"
-    | "segurança"
-    | "adaptação"
-    | "manutenção"
-    | "legalização"
+    | "seguranca"
+    | "adaptacao"
+    | "manutencao"
+    | "legalizacao"
     | "confiabilidade";
   title: string;
   message: string;
   relatedPartId?: string;
 };
 
-// Helper to fetch project (car) data
+type AlertCar = {
+  id: string;
+  engine: string | null;
+  power_cv: number | null;
+  year: number;
+  brand: string;
+  model: string;
+  original_engine_answer: string | null;
+};
+
+type AlertPart = {
+  id: string;
+  name: string;
+  category: string;
+  status: "installed" | "planned" | "removed";
+  priority: string | null;
+  price_estimate: number | null;
+  description: string | null;
+};
+
+type AlertExpense = {
+  amount: number;
+};
+
 async function fetchProjectData(
   supabase: SupabaseClient<Database>,
   projectId: string,
 ) {
   const { data: car, error } = await supabase
     .from("cars")
-    .select(
-      "id, engine, power_cv, engine_original, power_hp, year, brand, model",
-    )
+    .select("id, engine, power_cv, year, brand, model, original_engine_answer")
     .eq("id", projectId)
     .single();
+
   if (error) throw error;
-  return car;
+  return car as AlertCar;
 }
 
-// Helper to fetch installed and planned parts for a project
 async function fetchProjectParts(
   supabase: SupabaseClient<Database>,
   projectId: string,
 ) {
   const { data: parts, error } = await supabase
-    .from("project_parts")
-    .select(
-      "id, part_id, status, category, price_paid, estimated_price, notes",
-    )
-    .eq("project_id", projectId);
+    .from("car_parts")
+    .select("id, name, category, status, priority, price_estimate, description")
+    .eq("car_id", projectId);
+
   if (error) throw error;
-  const installed = parts?.filter((p) => p.status === "installed") ?? [];
-  const planned = parts?.filter((p) => p.status === "planned" || p.status === "wishlist") ?? [];
-  return { installed, planned };
+
+  const rows = (parts ?? []) as AlertPart[];
+  return {
+    installed: rows.filter((part) => part.status === "installed"),
+    planned: rows.filter((part) => part.status === "planned"),
+  };
 }
 
-// Helper to fetch budget for a project
-async function fetchProjectBudget(
+async function fetchProjectExpenses(
   supabase: SupabaseClient<Database>,
   projectId: string,
 ) {
-  const { data: budget, error } = await supabase
-    .from("build_budgets")
-    .select("budget_amount")
-    .eq("project_id", projectId)
-    .single();
-  if (error) {
-    // If no budget defined, treat as undefined
-    return null;
-  }
-  return budget?.budget_amount ?? null;
-}
+  const { data: expenses, error } = await supabase
+    .from("car_expenses")
+    .select("amount")
+    .eq("car_id", projectId);
 
-// Helper to fetch alert rules for given categories
-async function fetchAlertRules(
-  supabase: SupabaseClient<Database>,
-  categories: string[],
-) {
-  const { data: rules, error } = await supabase
-    .from("part_alert_rules")
-    .select("*")
-    .in("part_category", categories);
   if (error) throw error;
-  return rules ?? [];
+  return (expenses ?? []) as AlertExpense[];
 }
 
-/**
- * getBuildAlerts - Analisa o projeto e retorna alertas conforme regras definidas.
- */
+function normalizeText(value: string | null | undefined) {
+  return (value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function partText(part: AlertPart) {
+  return normalizeText([part.name, part.category, part.description, part.priority].filter(Boolean).join(" "));
+}
+
+function matchesAny(part: AlertPart, terms: string[]) {
+  const text = partText(part);
+  return terms.some((term) => text.includes(normalizeText(term)));
+}
+
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 export async function getBuildAlerts(
   supabase: SupabaseClient<Database>,
   projectId: string,
 ): Promise<BuildAlert[]> {
   const alerts: BuildAlert[] = [];
 
-  // Fetch necessary data
-  const car = await fetchProjectData(supabase, projectId);
-  const { installed, planned } = await fetchProjectParts(supabase, projectId);
-  const budget = await fetchProjectBudget(supabase, projectId);
+  try {
+    const car = await fetchProjectData(supabase, projectId);
+    const { installed, planned } = await fetchProjectParts(supabase, projectId);
+    const expenses = await fetchProjectExpenses(supabase, projectId);
 
-  // Helper to check if a part category exists among installed parts
-  const hasInstalledCategory = (cat: string) =>
-    installed.some((p) => p.category?.toLowerCase() === cat.toLowerCase());
+    const hasInstalledTerm = (terms: string[]) =>
+      installed.some((part) => matchesAny(part, terms));
+    const getInstalledPartId = (terms: string[]) =>
+      installed.find((part) => matchesAny(part, terms))?.id;
 
-  // Helper to get a part id for a given category (first match)
-  const getInstalledPartId = (cat: string) =>
-    installed.find((p) => p.category?.toLowerCase() === cat.toLowerCase())?.id;
+    const turboTerms = ["turbo"];
+    const intercoolerTerms = ["intercooler"];
+    const fuelTerms = ["bomba", "bico", "bicos", "injecao", "injeção", "acerto", "fuel"];
 
-  // 1. Turbo sem intercooler
-  if (hasInstalledCategory("turbo") && !hasInstalledCategory("intercooler")) {
-    alerts.push({
-      severity: "warning",
-      category: "compatibilidade",
-      title: "Turbo sem intercooler",
-      message:
-        "Um turbo sem intercooler pode gerar temperaturas elevadas. Recomenda‑se instalar um intercooler ou avaliar adaptações.",
-      relatedPartId: getInstalledPartId("turbo"),
-    });
-  }
-
-  // 2. Turbo sem bicos/bomba/acerto (checar notas ou categoria)
-  if (hasInstalledCategory("turbo")) {
-    const missingFuel = !hasInstalledCategory("bomba") &&
-      !hasInstalledCategory("bicos") &&
-      !hasInstalledCategory("acerto");
-    if (missingFuel) {
+    if (hasInstalledTerm(turboTerms) && !hasInstalledTerm(intercoolerTerms)) {
       alerts.push({
         severity: "warning",
         category: "compatibilidade",
-        title: "Turbo sem alimentação adequada",
+        title: "Turbo sem intercooler",
         message:
-          "Turbo instalado sem bicos, bomba ou ajuste de alimentação pode causar problemas. Verifique o sistema de combustível.",
-        relatedPartId: getInstalledPartId("turbo"),
+          "Um turbo sem intercooler pode gerar temperaturas elevadas. Avalie intercooler ou adaptacoes de arrefecimento.",
+        relatedPartId: getInstalledPartId(turboTerms),
       });
     }
-  }
 
-  // 3. Motor original + turbo (possível risco)
-  if (car?.engine_original && hasInstalledCategory("turbo")) {
-    alerts.push({
-      severity: "warning",
-      category: "performance",
-      title: "Motor original com turbo",
-      message:
-        "A combinação de motor original com turbo pode exigir reforço interno. Recomenda‑se avaliação técnica.",
-      relatedPartId: getInstalledPartId("turbo"),
-    });
-  }
-
-  // 4. Intercooler universal – info
-  if (hasInstalledCategory("intercooler")) {
-    alerts.push({
-      severity: "info",
-      category: "adaptação",
-      title: "Intercooler universal",
-      message:
-        "Intercooler universal costuma ser compatível, porém pode exigir adaptação de montagem. Verifique medidas antes da instalação.",
-      relatedPartId: getInstalledPartId("intercooler"),
-    });
-  }
-
-  // 5. Suspensão a ar – info (dependências)
-  if (hasInstalledCategory("suspensao a ar") ||
-      hasInstalledCategory("suspensão a ar")) {
-    alerts.push({
-      severity: "info",
-      category: "dependência",
-      title: "Suspensão a ar",
-      message:
-        "Suspensão a ar pode necessitar de compressor, cilindro e válvulas. Verifique dependências antes de prosseguir.",
-    });
-  }
-
-  // 6. Roda maior que original – info
-  if (hasInstalledCategory("roda")) {
-    alerts.push({
-      severity: "info",
-      category: "compatibilidade",
-      title: "Rodas maiores que originais",
-      message:
-        "Rodas maiores podem exigir ajustes na suspensão e no sistema de freios. Avalie o impacto nas medições.",
-    });
-  }
-
-  // 7. Escape esportivo + turbo sem escape adequado
-  if (hasInstalledCategory("escape") && hasInstalledCategory("turbo")) {
-    // Assume missing"escape adequado" if no explicit "escape esportivo" part present
-    const hasEsportivo = installed.some(
-      (p) => p.category?.toLowerCase() === "escape esportivo",
-    );
-    if (!hasEsportivo) {
+    if (hasInstalledTerm(turboTerms) && !hasInstalledTerm(fuelTerms)) {
       alerts.push({
         severity: "warning",
         category: "compatibilidade",
-        title: "Escape inadequado para turbo",
+        title: "Turbo sem alimentacao adequada",
         message:
-          "Um escape padrão pode não suportar o fluxo gerado por turbo. Considere um escape esportivo adequado.",
+          "Turbo instalado sem bicos, bomba ou acerto cadastrado pode causar mistura pobre e risco mecanico.",
+        relatedPartId: getInstalledPartId(turboTerms),
       });
     }
-  }
 
-  // 8. Peça universal – info (verificar medidas)
-  if (installed.some((p) => p.category?.toLowerCase().includes("universal"))) {
-    alerts.push({
-      severity: "info",
-      category: "adaptação",
-      title: "Peça universal",
-      message:
-        "Peça universal pode precisar de ajustes de medida ou montagem. Verifique compatibilidade com o veículo.",
-    });
-  }
+    if (car.original_engine_answer === "yes" && hasInstalledTerm(turboTerms)) {
+      alerts.push({
+        severity: "warning",
+        category: "performance",
+        title: "Motor original com turbo",
+        message:
+          "A combinacao de motor original com turbo pode exigir reforco interno e avaliacao tecnica.",
+        relatedPartId: getInstalledPartId(turboTerms),
+      });
+    }
 
-  // 9. Orçamento – verifica se o total planejado ultrapassa o orçamento
-  if (budget !== null) {
-    const totalPlanned = planned.reduce((sum, p) => {
-      const est = Number(p.estimated_price ?? 0);
-      return sum + (isNaN(est) ? 0 : est);
+    if (hasInstalledTerm(intercoolerTerms) && hasInstalledTerm(["universal"])) {
+      alerts.push({
+        severity: "info",
+        category: "adaptacao",
+        title: "Intercooler universal",
+        message:
+          "Intercooler universal costuma ser compativel, mas pode exigir adaptacao de montagem e medidas.",
+        relatedPartId: getInstalledPartId(intercoolerTerms),
+      });
+    }
+
+    if (hasInstalledTerm(["suspensao a ar", "suspensão a ar"])) {
+      alerts.push({
+        severity: "info",
+        category: "dependencia",
+        title: "Suspensao a ar",
+        message:
+          "Suspensao a ar pode precisar de compressor, cilindro e valvulas. Verifique dependencias antes de prosseguir.",
+      });
+    }
+
+    if (hasInstalledTerm(["roda", "rodas", "wheel"])) {
+      alerts.push({
+        severity: "info",
+        category: "compatibilidade",
+        title: "Rodas e medidas",
+        message:
+          "Rodas maiores podem exigir ajustes em suspensao, freios e medidas de pneu.",
+      });
+    }
+
+    if (hasInstalledTerm(["escape"]) && hasInstalledTerm(turboTerms) && !hasInstalledTerm(["escape esportivo", "downpipe"])) {
+      alerts.push({
+        severity: "warning",
+        category: "compatibilidade",
+        title: "Escape pode limitar o turbo",
+        message:
+          "Turbo com escape padrao pode limitar fluxo e aumentar temperatura. Considere validar o conjunto.",
+      });
+    }
+
+    if (installed.some((part) => matchesAny(part, ["universal"]))) {
+      alerts.push({
+        severity: "info",
+        category: "adaptacao",
+        title: "Peca universal",
+        message:
+          "Peca universal pode precisar de ajuste de medida ou montagem. Verifique compatibilidade com o veiculo.",
+      });
+    }
+
+    const totalPlanned = planned.reduce((sum, part) => {
+      const estimated = Number(part.price_estimate ?? 0);
+      return sum + (Number.isFinite(estimated) ? estimated : 0);
     }, 0);
-    if (totalPlanned > budget) {
+    const totalSpent = expenses.reduce((sum, expense) => {
+      const amount = Number(expense.amount ?? 0);
+      return sum + (Number.isFinite(amount) ? amount : 0);
+    }, 0);
+
+    if (totalPlanned > 0 && totalSpent > 0) {
       alerts.push({
-        severity: "warning",
-        category: "orçamento",
-        title: "Orçamento excedido",
-        message: `Peças planejadas somam R$${totalPlanned.toFixed(
-          2,
-        )}, excedendo o orçamento definido de R$${Number(budget).toFixed(2)}.`,
+        severity: "info",
+        category: "orcamento",
+        title: "Custos futuros mapeados",
+        message: `Pecas planejadas somam ${formatCurrency(totalPlanned)} e despesas registradas somam ${formatCurrency(totalSpent)}.`,
       });
     }
-  }
 
-  // 10. Dependências com custo – se houver dependência listada e custo associado
-  // Simplified: if any planned part has a note indicating "dependência" and a price, warn.
-  planned.forEach((p) => {
-    if (p.notes?.toLowerCase().includes("dependência")) {
-      const cost = Number(p.estimated_price ?? 0);
-      if (cost > 0) {
-        alerts.push({
-          severity: "warning",
-          category: "dependência",
-          title: "Dependência de peça planejada",
-          message:
-            "Uma peça planejada possui dependências que impactam o orçamento. Considere custos adicionais.",
-          relatedPartId: p.id,
-        });
-      }
-    }
-  });
+    planned.forEach((part) => {
+      if (!matchesAny(part, ["dependencia", "dependência"])) return;
+
+      const cost = Number(part.price_estimate ?? 0);
+      if (cost <= 0) return;
+
+      alerts.push({
+        severity: "warning",
+        category: "dependencia",
+        title: "Dependencia de peca planejada",
+        message:
+          "Uma peca planejada possui dependencia que pode impactar custo e sequencia do build.",
+        relatedPartId: part.id,
+      });
+    });
+  } catch {
+    return [];
+  }
 
   return alerts;
 }
 
-/**
- * getRecommendationScore - calcula pontuação simples de recomendação para uma peça.
- * Utiliza impact_score, difficulty_score, risco (se houver), compatibilidade e orçamento.
- */
 export async function getRecommendationScore(
-  supabase: SupabaseClient<Database>,
-  partId: string,
-  projectId: string,
+  _supabase: SupabaseClient<Database>,
+  _partId: string,
+  _projectId: string,
 ): Promise<number> {
-  // Busca a peça no catálogo
-  const { data: part, error: partErr } = await supabase
-    .from("parts_catalog")
-    .select(
-      "impact_score, difficulty_score, category",
-    )
-    .eq("id", partId)
-    .single();
-  if (partErr) throw partErr;
+  void _supabase;
+  void _partId;
+  void _projectId;
 
-  // Busca regras de recomendação para a categoria da peça
-  const { data: recRules, error: recErr } = await supabase
-    .from("part_recommendation_rules")
-    .select("impact_type, impact_score, difficulty_score, risk_score, priority_score")
-    .eq("part_category", part?.category ?? "")
-    .maybeSingle();
-  if (recErr) throw recErr;
-
-  // Busca orçamento restante (orçamento - custo das instaladas)
-  const { data: budgetData, error: budErr } = await supabase
-    .from("build_budgets")
-    .select("budget_amount")
-    .eq("project_id", projectId)
-    .single();
-  const budget = budgetData?.budget_amount ?? 0;
-
-  // Custo das partes instaladas
-  const { data: installedParts, error: insErr } = await supabase
-    .from("project_parts")
-    .select("price_paid")
-    .eq("project_id", projectId)
-    .eq("status", "installed");
-  const spent = installedParts?.reduce((s, p) => {
-    const val = Number(p.price_paid ?? 0);
-    return s + (isNaN(val) ? 0 : val);
-  }, 0) ?? 0;
-  const remaining = Math.max(budget - spent, 0);
-
-  // Base score: combine impact and difficulty (higher impact, lower difficulty = better)
-  const impact = Number(part?.impact_score ?? 0);
-  const difficulty = Number(part?.difficulty_score ?? 0);
-  const ruleImpact = Number(recRules?.impact_score ?? 0);
-  const ruleDifficulty = Number(recRules?.difficulty_score ?? 0);
-
-  // Simple formula (weights can be tuned later)
-  let score = 0;
-  score += impact * 2; // give weight to impact
-  score -= difficulty; // penalize difficulty
-  score += ruleImpact * 1.5;
-  score -= ruleDifficulty;
-
-  // Adjust by remaining budget (if part is expensive, lower score)
-  // Assume estimated price is roughly proportional to impact, simplified:
-  const estimatedPrice = Number(
-    (await supabase
-      .from("project_parts")
-      .select("estimated_price")
-      .eq("part_id", partId)
-      .eq("project_id", projectId)
-      .maybeSingle())?.data?.estimated_price ?? 0,
-  );
-  if (estimatedPrice > remaining) {
-    score -= 10; // strong penalty if no budget
-  }
-
-  // Ensure non‑negative score
-  return Math.max(0, Math.round(score));
+  // Disabled for the MVP: the old recommendation score depends on
+  // parts_catalog, project_parts and build_budgets, while the live UI uses
+  // car_parts and car_expenses. Returning zero keeps callers safe until the
+  // product model for catalog/recommendations is decided.
+  return 0;
 }
-
-// Export supabase client creator for convenience (adjust env vars as needed)
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
-);
-

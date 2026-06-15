@@ -81,15 +81,24 @@ type Client = SupabaseClient;
 
 export { CAR_CATEGORIES, normalizeSlug };
 
-export function parseBuildPartIds(parts: unknown): string[] {
-  if (!Array.isArray(parts)) return [];
-  return parts.filter((part): part is string => typeof part === "string");
-}
-
 function asProfileMap(rows: ProfileSummary[]) {
   const map = new Map<string, ProfileSummary>();
   for (const row of rows) map.set(row.id, row);
   return map;
+}
+
+function isMissingNotificationsTable(error: { code?: string; message?: string } | null) {
+  if (!error) return false;
+  const message = error.message?.toLowerCase() ?? "";
+  return (
+    error.code === "PGRST205" ||
+    error.code === "42P01" ||
+    (message.includes("notifications") &&
+      (message.includes("schema cache") ||
+        message.includes("could not find") ||
+        message.includes("relation") ||
+        message.includes("does not exist")))
+  );
 }
 
 async function getViewerId(supabase: Client) {
@@ -512,6 +521,7 @@ export async function qNotifications(limit = 20): Promise<QueryResult<Notificati
     .eq("user_id", viewerId)
     .order("created_at", { ascending: false })
     .limit(limit);
+  if (isMissingNotificationsTable(error)) return { data: [], error: null };
   if (error) return { data: null, error: error.message };
 
   const rows = (data ?? []) as NotificationRow[];
@@ -555,6 +565,7 @@ export async function qUnreadNotificationCount() {
     .select("id", { count: "exact", head: true })
     .eq("user_id", viewerId)
     .is("read_at", null);
+  if (isMissingNotificationsTable(error)) return { data: 0, error: null };
   if (error) return { data: null, error: error.message };
   return { data: count ?? 0, error: null };
 }
@@ -652,11 +663,7 @@ export async function qRankingCars(): Promise<QueryResult<{
   };
 }
 
-export async function getBuildsPublicas() {
-  return qExploreCars({ sort: "recent", limit: 24 });
-}
-
-export async function getBuildById(id: string) {
+export async function getCarById(id: string) {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: null, error: "supabase_not_configured" };
   const { data, error } = await supabase.from("cars").select("*").eq("id", id).maybeSingle();
@@ -670,6 +677,6 @@ export async function getPerfilUsuario(username: string) {
   return qProfileByUsername(supabase, username);
 }
 
-export async function getBuildsDoUsuario(userId: string, incluirPrivadas = false) {
+export async function getCarrosDoUsuario(userId: string, incluirPrivadas = false) {
   return qCarsByOwner(userId, incluirPrivadas);
 }

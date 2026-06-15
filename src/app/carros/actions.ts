@@ -232,17 +232,23 @@ async function requireUser() {
   return { supabase, user, error: null };
 }
 
-async function ensureProfile(user: User) {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return null;
+type EnsureProfileResult = {
+  ok: boolean;
+  message: string | null;
+};
 
-  const { data: profile } = await supabase
+async function ensureProfile(user: User): Promise<EnsureProfileResult> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { ok: false, message: "Supabase não configurado." };
+
+  const { data: profile, error: readError } = await supabase
     .from("profiles")
     .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle, is_saves_public, cars_count, followers_count, following_count, created_at, updated_at")
     .eq("id", user.id)
     .maybeSingle();
 
-  if (profile) return profile;
+  if (readError) return { ok: false, message: readError.message };
+  if (profile) return { ok: true, message: null };
 
   const displayName =
     typeof user.user_metadata?.full_name === "string"
@@ -252,7 +258,7 @@ async function ensureProfile(user: User) {
   const username = usernameFromUser(user);
   const avatarUrl = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : null;
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("profiles")
     .insert({
       id: user.id,
@@ -263,7 +269,8 @@ async function ensureProfile(user: User) {
     .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle, is_saves_public, cars_count, followers_count, following_count, created_at, updated_at")
     .maybeSingle();
 
-  return data ?? null;
+  if (error) return { ok: false, message: error.message };
+  return data ? { ok: true, message: null } : { ok: false, message: "Não foi possível preparar seu perfil." };
 }
 
 async function uniqueCarSlug(base: string, currentId?: string) {
@@ -562,10 +569,16 @@ export async function createCarAction(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  let createdSlug = "";
+
+  try {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { status: "error", message: auth.error ?? "Erro de autenticacao." };
 
-  await ensureProfile(auth.user);
+  const profile = await ensureProfile(auth.user);
+  if (!profile.ok) {
+    return { status: "error", message: profile.message ?? "Não foi possível preparar seu perfil." };
+  }
 
   const name = text(formData, "name");
   const brand = text(formData, "brand");
@@ -607,7 +620,16 @@ export async function createCarAction(
   revalidatePath("/garagem");
   revalidatePath(`/projeto/${car.slug}`);
   revalidatePath(`/carros/${car.slug}`);
-  redirect(`/projeto/${car.slug}`);
+  createdSlug = car.slug;
+  } catch (error) {
+    console.error("Erro ao criar projeto:", error);
+    return {
+      status: "error",
+      message: error instanceof Error ? error.message : "Nao foi possivel criar o projeto.",
+    };
+  }
+
+  redirect(`/projeto/${createdSlug}`);
 }
 
 export async function updateCarAction(

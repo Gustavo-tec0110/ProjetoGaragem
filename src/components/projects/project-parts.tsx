@@ -6,7 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Project } from "@/lib/projects/types";
-import { FALLBACK_CAR_CATALOG, matchingCatalogVersions } from "@/lib/car-catalog";
+import {
+  FALLBACK_CAR_CATALOG,
+  matchingCatalogVersions,
+  type CarCatalogVersion,
+} from "@/lib/car-catalog";
 import { formatProjectCurrency } from "@/lib/projects/utils";
 
 /**
@@ -22,10 +26,11 @@ import { formatProjectCurrency } from "@/lib/projects/utils";
  */
 export function ProjectParts({ project, isOwner }: { project: Project; isOwner: boolean }) {
   // ----- Cálculos auxiliares -------------------------------------------------
+  const projectWithBudget = project as Project & { budget?: number | null };
   const invested = project.totalInvested ?? 0;
   const plannedCost = project.plannedParts.reduce((s, p) => s + (p.priceEstimate ?? 0), 0);
   const estimated = project.estimatedCost ?? 0;
-  const budget = project.budget ?? 0; // campo opcional, pode não existir
+  const budget = projectWithBudget.budget ?? 0; // campo opcional, pode não existir
   const diff = budget - invested;
 
   // Peças recomendadas – usamos o catálogo fallback e filtramos por modelo/ano
@@ -217,7 +222,7 @@ function PartsList({ title, parts }: { title: string; parts: Project["installedP
               <span>Status: {part.status}</span>
               <span>Preço: {formatProjectCurrency(part.priceEstimate ?? 0)}</span>
               {part.externalUrl ? (
-                <Button asChild variant="link" className="p-0 h-auto">
+                <Button asChild variant="ghost" className="p-0 h-auto">
                   <a href={part.externalUrl} target="_blank" rel="noreferrer">
                     Ver peça
                   </a>
@@ -237,7 +242,7 @@ function PartsList({ title, parts }: { title: string; parts: Project["installedP
   );
 }
 
-function RecommendedList({ title, items }: { title: string; items: any[] }) {
+function RecommendedList({ title, items }: { title: string; items: CarCatalogVersion[] }) {
   if (!items.length) return null;
   return (
     <section>
@@ -258,4 +263,3 @@ function RecommendedList({ title, items }: { title: string; items: any[] }) {
     </section>
   );
 }
-

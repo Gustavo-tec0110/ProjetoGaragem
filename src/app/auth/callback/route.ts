@@ -9,6 +9,8 @@ import {
   supabaseAnonKey,
   supabaseUrl,
 } from "@/lib/supabase/env";
+import type { ProfileRow } from "@/lib/types";
+import type { Database } from "@/types/supabase";
 
 function safeNextPath(next: string | null) {
   if (!next) return "/garagem";
@@ -55,7 +57,7 @@ export async function GET(request: NextRequest) {
 
   let response = NextResponse.redirect(new URL(next, origin));
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -128,7 +130,7 @@ export async function GET(request: NextRequest) {
     } else {
       const fullName = metadataString(user, "full_name") || metadataString(user, "name");
       const avatarUrl = userAvatarUrl(user);
-      const profileUpdate: Record<string, string | null> = {
+      const profileUpdate: Partial<Pick<ProfileRow, "email" | "full_name" | "avatar_url">> = {
         email: user.email ?? null,
       };
 

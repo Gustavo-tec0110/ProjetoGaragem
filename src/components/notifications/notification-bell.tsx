@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Bell } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 export function NotificationBell({ userId }: { userId: string | null }) {
   const [count, setCount] = React.useState(0);
@@ -15,18 +14,15 @@ export function NotificationBell({ userId }: { userId: string | null }) {
       return;
     }
 
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return;
-
     let mounted = true;
 
-    void supabase
-      .from("notifications")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
-      .is("read_at", null)
-      .then(({ count: unread }) => {
-        if (mounted) setCount(unread ?? 0);
+    void fetch("/api/notifications/unread-count", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : { count: 0 }))
+      .then((data: { count?: number }) => {
+        if (mounted) setCount(data.count ?? 0);
+      })
+      .catch(() => {
+        if (mounted) setCount(0);
       });
 
     return () => {

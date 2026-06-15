@@ -7,6 +7,7 @@ import {
   supabaseAnonKey,
   supabaseUrl,
 } from "@/lib/supabase/env";
+import type { Database } from "@/types/supabase";
 
 function isProtectedPath(pathname: string) {
   return (
@@ -35,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
   let response = NextResponse.next({ request: { headers: request.headers } });
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();

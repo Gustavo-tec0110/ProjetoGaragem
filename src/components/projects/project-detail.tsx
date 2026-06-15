@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { getBuildAlerts, BuildAlert, supabase } from "@/lib/buildAlerts";
+import { getBuildAlerts, BuildAlert } from "@/lib/buildAlerts";
 import Link from "next/link";
 import {
   ArrowRightLeft,
@@ -42,6 +42,7 @@ import {
   formatProjectCurrency,
   formatProjectDate,
 } from "@/lib/projects/utils";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 type DetailStat = {
   label: string;
@@ -90,30 +91,13 @@ function SpecCard({ label, value }: DetailSpec) {
 function PartsSection({
   title,
   parts,
-  alerts = [],
   emptyText = "Nenhuma modificação cadastrada nesta seção.",
 }: {
   title: string;
   parts: ProjectPart[];
-  alerts?: BuildAlert[];
   emptyText?: string;
+  alerts?: BuildAlert[];
 }) {
-  const getAlertStyle = (severity: BuildAlert['severity']) => {
-    switch (severity) {
-      case 'info':
-        return 'border-blue-400 bg-blue-50 text-blue-800';
-      case 'success':
-        return 'border-green-400 bg-green-50 text-green-800';
-      case 'warning':
-        return 'border-yellow-400 bg-yellow-50 text-yellow-800';
-      case 'danger':
-        return 'border-red-400 bg-red-50 text-red-800';
-      default:
-        return '';
-    }
-  };
-
-
   const groupedParts = parts.reduce((map, part) => {
     const category = part.category || "Outros";
     const current = map.get(category) ?? [];
@@ -247,10 +231,19 @@ export function ProjectDetail({
 
   // Load build alerts on component mount
   React.useEffect(() => {
-    if (initialProject.source === "supabase" && initialProject.databaseId) {
+    const databaseId = initialProject.databaseId;
+    if (initialProject.source === "supabase" && databaseId) {
+      const resolvedDatabaseId: string = databaseId;
       async function load() {
-        const alerts = await getBuildAlerts(supabase, initialProject.databaseId);
-        setBuildAlerts(alerts);
+        const supabase = getSupabaseBrowserClient();
+        if (!supabase) return;
+
+        try {
+          const alerts = await getBuildAlerts(supabase, resolvedDatabaseId);
+          setBuildAlerts(alerts);
+        } catch {
+          setBuildAlerts([]);
+        }
       }
       load();
     }
@@ -605,6 +598,7 @@ export function ProjectDetail({
                     alert.severity === 'warning' ? 'border-yellow-400 bg-yellow-50' :
                     'border-red-400 bg-red-50'}
                   }`}
+                  >
                     <p className="font-medium">{alert.title}</p>
                     <p className="text-sm text-muted">{alert.message}</p>
                   </li>

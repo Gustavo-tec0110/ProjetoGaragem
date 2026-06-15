@@ -5,8 +5,8 @@ import { Badge } from "@/components/ui/badge";
 
 type RankingItem = {
   category: string;
-  buildSlug: string;
-  buildName: string;
+  projectSlug: string;
+  projectName: string;
   car: string;
   likes: number;
   creatorHandle: string;
@@ -28,7 +28,7 @@ export function WeeklyRankingGrid({
       <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2">
         {items.map((item) => (
           <PremiumCard
-            key={item.buildSlug}
+            key={item.projectSlug}
             className="relative overflow-hidden p-5 sm:p-6 snap-start shrink-0 w-[86%] md:w-auto"
           >
             <div
@@ -45,10 +45,10 @@ export function WeeklyRankingGrid({
               <div className="min-w-0">
                 <Badge variant="secondary">{item.category}</Badge>
                 <Link
-                  href={`/builds/${item.buildSlug}`}
+                  href={`/projeto/${item.projectSlug}`}
                   className="block mt-3 font-title text-lg tracking-tight hover:brightness-110 transition truncate"
                 >
-                  {item.buildName}
+                  {item.projectName}
                 </Link>
                 <p className="mt-1 text-sm text-muted truncate">{item.car}</p>
                 <Link

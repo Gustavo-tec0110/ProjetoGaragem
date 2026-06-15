@@ -12,7 +12,7 @@ values (
   'project-images',
   true,
   5242880,
-  array['image/jpeg', 'image/png', 'image/webp']::text[]
+  array['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'image/webp']::text[]
 )
 on conflict (id) do update set
   name = excluded.name,
