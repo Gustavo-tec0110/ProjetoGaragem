@@ -40,7 +40,11 @@ function uploadErrorMessage(uploadError: unknown) {
   const fallback = "Nao foi possivel enviar a imagem agora.";
   if (!(uploadError instanceof Error)) return fallback;
 
-  if (uploadError.message.toLowerCase().includes("bucket not found")) {
+  const message = uploadError.message.toLowerCase();
+  if (
+    message.includes("bucket not found") ||
+    (message.includes("bucket") && message.includes("not found"))
+  ) {
     return `Bucket "${PROJECT_IMAGES_BUCKET}" nao encontrado no Supabase Storage. Aplique as migrations e tente novamente.`;
   }
 
@@ -62,10 +66,6 @@ export function ProjectImageUploader({
   const uploadUser = user ?? resolvedUser;
   const displayName = getAuthUserName(uploadUser) ?? "sua garagem";
   const gallery = uniqueUrls([mainPhotoUrl, ...photoUrls]);
-
-  React.useEffect(() => {
-    if (user) setResolvedUser(user);
-  }, [user]);
 
   function setGallery(nextGallery: string[]) {
     const next = uniqueUrls(nextGallery);

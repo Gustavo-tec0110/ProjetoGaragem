@@ -215,6 +215,45 @@ function parseExpenses(raw: string): ExpenseInput[] {
   }
 }
 
+function errorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error) return error.message || fallback;
+  if (typeof error === "string") return error || fallback;
+  if (error && typeof error === "object" && "message" in error) {
+    const message = (error as { message?: unknown }).message;
+    if (typeof message === "string" && message.trim()) return message;
+  }
+  return fallback;
+}
+
+function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possivel criar o projeto.") {
+  const message = errorMessage(error, fallback);
+  const lower = message.toLowerCase();
+
+  if (lower.includes("row-level security") || lower.includes("violates row-level security")) {
+    return "Sem permissao para criar o projeto. Entre novamente e tente de novo.";
+  }
+
+  if (
+    lower.includes("schema cache") ||
+    lower.includes("could not find") ||
+    lower.includes("column") ||
+    lower.includes("relation") ||
+    lower.includes("does not exist")
+  ) {
+    return "Banco de dados desatualizado. Aplique as migrations do Supabase e tente novamente.";
+  }
+
+  if (lower.includes("duplicate key") && lower.includes("slug")) {
+    return "Ja existe um projeto com esse slug. Tente mudar o nome do projeto.";
+  }
+
+  if (lower.includes("foreign key") && lower.includes("profiles")) {
+    return "Nao foi possivel vincular seu perfil ao projeto. Atualize a pagina e tente novamente.";
+  }
+
+  return message;
+}
+
 function usernameFromUser(user: User) {
   const emailName = user.email?.split("@")[0] ?? "membro";
   return normalizeSlug(`${emailName}-${user.id.slice(0, 6)}`).slice(0, 24);
@@ -584,20 +623,21 @@ export async function createCarAction(
   const brand = text(formData, "brand");
   const model = text(formData, "model");
   const year = integer(formData, "year");
-  const mainPhoto = nullableText(formData, "main_photo_url");
 
   if (!name || !brand || !model || !year) {
     return { status: "error", message: "Preencha nome do projeto, marca, modelo e ano." };
-  }
-  if (!mainPhoto) {
-    return { status: "error", message: "Adicione uma foto principal para criar o projeto." };
   }
 
   const slug = await uniqueCarSlug(normalizeSlug(`${name}-${brand}-${model}-${year}`));
   const payload = buildCarPayload(formData, auth.user.id, slug);
   const { data: car, error } = await auth.supabase.from("cars").insert(payload).select("id, slug, main_photo_url, photo_urls").maybeSingle();
 
-  if (error || !car) return { status: "error", message: error?.message ?? "Nao foi possivel criar o carro." };
+  if (error || !car) {
+    return {
+      status: "error",
+      message: projectCreationErrorMessage(error, "Nao foi possivel criar o carro."),
+    };
+  }
 
   const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
   const parts = parseParts(text(formData, "parts_json"));
@@ -625,7 +665,7 @@ export async function createCarAction(
     console.error("Erro ao criar projeto:", error);
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Nao foi possivel criar o projeto.",
+      message: projectCreationErrorMessage(error),
     };
   }
 

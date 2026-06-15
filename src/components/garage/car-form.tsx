@@ -497,7 +497,7 @@ export function CarForm({
             Crie o projeto com o que você sabe agora
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Marca, modelo, ano, foto e nome bastam. A parte técnica pode ser confirmada depois.
+            Marca, modelo, ano e nome bastam. A foto e a parte tecnica podem ser confirmadas depois.
           </p>
 
           <div className="mt-6 grid gap-4">
@@ -549,7 +549,7 @@ export function CarForm({
         <Card className="p-5 md:p-6">
           <h2 className="font-title text-xl tracking-tight">Foto principal</h2>
           <p className="mt-1 text-sm text-muted">
-            A foto de capa é obrigatória. Use upload real ou URL como fallback.
+            Opcional agora. Use upload real ou URL como fallback quando tiver uma foto pronta.
           </p>
           <div className="mt-4">
             <ProjectImageUploader
