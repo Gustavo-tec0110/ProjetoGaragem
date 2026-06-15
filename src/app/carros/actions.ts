@@ -597,10 +597,7 @@ export async function createCarAction(
     (await replaceExpenses(car.id, expenses));
 
   if (relatedError) {
-    return {
-      status: "error",
-      message: `Projeto criado, mas houve erro ao salvar detalhes: ${relatedError}`,
-    };
+    console.error("Projeto criado, mas houve erro ao salvar detalhes auxiliares:", relatedError);
   }
 
   revalidatePath("/");

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import type { User } from "@supabase/supabase-js";
 import { ArrowDown, ArrowUp, ImagePlus, Star, Trash2, Upload } from "lucide-react";
 
 import { ProjectImage } from "@/components/projects/project-image";
@@ -42,12 +43,18 @@ export function ProjectImageUploader({
   onPhotoUrlsChange,
 }: ProjectImageUploaderProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const [resolvedUser, setResolvedUser] = React.useState<User | null>(user);
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState("");
   const [fallbackUrl, setFallbackUrl] = React.useState("");
-  const displayName = getAuthUserName(user) ?? "sua garagem";
+  const uploadUser = user ?? resolvedUser;
+  const displayName = getAuthUserName(uploadUser) ?? "sua garagem";
   const gallery = uniqueUrls([mainPhotoUrl, ...photoUrls]);
+
+  React.useEffect(() => {
+    if (user) setResolvedUser(user);
+  }, [user]);
 
   function setGallery(nextGallery: string[]) {
     const next = uniqueUrls(nextGallery);
@@ -60,7 +67,19 @@ export function ProjectImageUploader({
     setError("");
 
     const supabase = getSupabaseBrowserClient();
-    if (!supabase || !user) {
+    if (!supabase) {
+      setError("Supabase nao configurado para enviar imagens.");
+      return;
+    }
+
+    let currentUser = uploadUser;
+    if (!currentUser) {
+      const { data } = await supabase.auth.getUser();
+      currentUser = data.user;
+      setResolvedUser(currentUser);
+    }
+
+    if (!currentUser) {
       setError("Entre na sua conta para enviar imagens.");
       return;
     }
@@ -79,7 +98,7 @@ export function ProjectImageUploader({
       const uploadedUrls: string[] = [];
 
       for (const file of selectedFiles) {
-        const path = projectImagePath(user.id, file);
+        const path = projectImagePath(currentUser.id, file);
         const { error: uploadError } = await supabase.storage
           .from(PROJECT_IMAGES_BUCKET)
           .upload(path, file, {
@@ -159,12 +178,12 @@ export function ProjectImageUploader({
             <Button
               type="button"
               onClick={() => inputRef.current?.click()}
-              disabled={pending || !user}
+              disabled={pending}
             >
               <Upload className="size-4" />
               {pending ? "Enviando..." : "Enviar fotos"}
             </Button>
-            {!user ? (
+            {!loading && !uploadUser ? (
               <p className="rounded-3xl border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-muted">
                 Entre na conta para fazer upload. URLs externas continuam disponíveis como fallback.
               </p>
