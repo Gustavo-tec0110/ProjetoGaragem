@@ -36,6 +36,17 @@ function moveItem(items: string[], from: number, to: number) {
   return next;
 }
 
+function uploadErrorMessage(uploadError: unknown) {
+  const fallback = "Nao foi possivel enviar a imagem agora.";
+  if (!(uploadError instanceof Error)) return fallback;
+
+  if (uploadError.message.toLowerCase().includes("bucket not found")) {
+    return `Bucket "${PROJECT_IMAGES_BUCKET}" nao encontrado no Supabase Storage. Aplique as migrations e tente novamente.`;
+  }
+
+  return uploadError.message || fallback;
+}
+
 export function ProjectImageUploader({
   mainPhotoUrl,
   photoUrls,
@@ -115,11 +126,7 @@ export function ProjectImageUploader({
 
       setGallery([...gallery, ...uploadedUrls]);
     } catch (uploadError) {
-      setError(
-        uploadError instanceof Error
-          ? uploadError.message
-          : "Não foi possível enviar a imagem agora."
-      );
+      setError(uploadErrorMessage(uploadError));
     } finally {
       setPending(false);
       if (inputRef.current) inputRef.current.value = "";
