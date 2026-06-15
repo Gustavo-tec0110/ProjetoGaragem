@@ -225,26 +225,66 @@ function errorMessage(error: unknown, fallback: string) {
   return fallback;
 }
 
+function errorCode(error: unknown) {
+  if (!error || typeof error !== "object" || !("code" in error)) return "";
+  const code = (error as { code?: unknown }).code;
+  return typeof code === "string" ? code : "";
+}
+
+function logProjectCreationError(stage: string, error: unknown) {
+  if (!error || typeof error !== "object") {
+    console.error(`Erro ao criar projeto (${stage}):`, error);
+    return;
+  }
+
+  const details = error as {
+    code?: unknown;
+    message?: unknown;
+    details?: unknown;
+    hint?: unknown;
+  };
+
+  console.error(`Erro ao criar projeto (${stage}):`, {
+    code: typeof details.code === "string" ? details.code : undefined,
+    message: typeof details.message === "string" ? details.message : undefined,
+    details: typeof details.details === "string" ? details.details : undefined,
+    hint: typeof details.hint === "string" ? details.hint : undefined,
+  });
+}
+
 function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possivel criar o projeto.") {
   const message = errorMessage(error, fallback);
+  const code = errorCode(error);
   const lower = message.toLowerCase();
 
-  if (lower.includes("row-level security") || lower.includes("violates row-level security")) {
+  if (code === "42501" || lower.includes("row-level security") || lower.includes("violates row-level security")) {
     return "Sem permissao para criar o projeto. Entre novamente e tente de novo.";
   }
 
   if (
+    code === "42703" ||
+    code === "42P01" ||
+    code === "PGRST204" ||
+    code === "PGRST205" ||
     lower.includes("schema cache") ||
     lower.includes("could not find") ||
     lower.includes("column") ||
     lower.includes("relation") ||
     lower.includes("does not exist")
   ) {
-    return "Banco de dados desatualizado. Aplique as migrations do Supabase e tente novamente.";
+    return "Banco de dados desatualizado para criar projetos. Aplique a migration de reparo do Supabase e tente novamente.";
   }
 
-  if (lower.includes("duplicate key") && lower.includes("slug")) {
+  if (code === "23505" && lower.includes("slug")) {
     return "Ja existe um projeto com esse slug. Tente mudar o nome do projeto.";
+  }
+
+  if (code === "23502") {
+    return "Um campo obrigatorio do projeto nao foi enviado. Atualize a pagina e tente novamente.";
+  }
+
+  if (code === "23514") {
+    return "Algum campo do projeto esta fora do formato aceito. Revise os dados e tente novamente.";
   }
 
   if (lower.includes("foreign key") && lower.includes("profiles")) {
@@ -633,6 +673,7 @@ export async function createCarAction(
   const { data: car, error } = await auth.supabase.from("cars").insert(payload).select("id, slug, main_photo_url, photo_urls").maybeSingle();
 
   if (error || !car) {
+    logProjectCreationError("insert cars", error ?? "Insert em cars nao retornou linha.");
     return {
       status: "error",
       message: projectCreationErrorMessage(error, "Nao foi possivel criar o carro."),
