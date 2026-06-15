@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { useActionState } from "react";
+import { useRouter } from "next/navigation";
 import { Gauge, HelpCircle, Plus, Trash2 } from "lucide-react";
 
 import {
-  createCarAction,
   deleteCarAction,
-  initialActionState,
+  type ActionState,
   updateCarAction,
 } from "@/app/carros/actions";
 import { ProjectImageUploader } from "@/components/garage/project-image-uploader";
@@ -53,6 +53,11 @@ const UPDATE_CATEGORIES = [
   { value: "antes_depois", label: "Antes e depois" },
   { value: "outro", label: "Outro" },
 ] as const;
+
+const initialActionState: ActionState = {
+  status: "idle",
+  message: "",
+};
 
 type PartDraft = {
   localId: string;
@@ -264,8 +269,11 @@ export function CarForm({
   expenses?: CarExpenseRow[];
   catalogVersions?: CarCatalogVersion[];
 }) {
-  const action = mode === "edit" ? updateCarAction : createCarAction;
-  const [state, formAction, pending] = useActionState(action, initialActionState);
+  const router = useRouter();
+  const [editState, formAction, pending] = useActionState(updateCarAction, initialActionState);
+  const [createState, setCreateState] = React.useState<ActionState>(initialActionState);
+  const [createPending, setCreatePending] = React.useState(false);
+  const state = mode === "edit" ? editState : createState;
   const [deleteState, deleteFormAction, deletePending] = useActionState(
     deleteCarAction,
     initialActionState
@@ -409,6 +417,44 @@ export function CarForm({
       }))
   );
 
+  async function handleCreateSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setCreatePending(true);
+    setCreateState(initialActionState);
+
+    try {
+      const response = await fetch("/api/projetos/criar", {
+        method: "POST",
+        body: new FormData(event.currentTarget),
+      });
+      const payload = (await response.json().catch(() => null)) as
+        | { status: "success"; redirectTo?: string }
+        | { status: "error"; message?: string }
+        | null;
+
+      if (!response.ok || payload?.status !== "success" || !payload.redirectTo) {
+        setCreateState({
+          status: "error",
+          message:
+            payload?.status === "error" && payload.message
+              ? payload.message
+              : "Nao foi possivel criar o projeto.",
+        });
+        return;
+      }
+
+      router.push(payload.redirectTo);
+      router.refresh();
+    } catch {
+      setCreateState({
+        status: "error",
+        message: "Nao foi possivel conectar ao servidor. Tente novamente.",
+      });
+    } finally {
+      setCreatePending(false);
+    }
+  }
+
   if (mode === "create") {
     const factorySpecs = factorySpecSummary(suggestedFactorySpec);
     const autoTags = [
@@ -421,7 +467,7 @@ export function CarForm({
       .join(", ");
 
     return (
-      <form action={formAction} className="space-y-6">
+      <form onSubmit={handleCreateSubmit} className="space-y-6">
         <input type="hidden" name="main_photo_url" value={mainPhotoUrl} />
         <input
           type="hidden"
@@ -662,8 +708,8 @@ export function CarForm({
           <p className="text-sm text-muted">
             O projeto nasce público e pode ser detalhado na página de edição.
           </p>
-          <Button type="submit" disabled={pending} className="sm:min-w-48">
-            {pending ? "Criando..." : "Criar projeto agora"}
+          <Button type="submit" disabled={createPending} className="sm:min-w-48">
+            {createPending ? "Criando..." : "Criar projeto agora"}
           </Button>
         </Card>
       </form>

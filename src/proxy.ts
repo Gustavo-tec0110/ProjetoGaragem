@@ -70,6 +70,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  if (request.method === "POST" && pathname === "/criar-projeto") {
+    return NextResponse.rewrite(new URL("/api/projetos/criar", request.url));
+  }
+
   return response;
 }
 
