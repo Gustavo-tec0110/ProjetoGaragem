@@ -3,11 +3,16 @@
 import * as React from "react";
 import { useActionState } from "react";
 
-import { saveProfileAction, initialActionState } from "@/app/carros/actions";
+import { saveProfileAction, type ActionState } from "@/app/carros/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { ProfileRow } from "@/lib/types";
+
+const initialActionState: ActionState = {
+  status: "idle",
+  message: "",
+};
 
 export function ProfileForm({
   profile,

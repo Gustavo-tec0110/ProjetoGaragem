@@ -57,6 +57,9 @@ export function ProjectGallery({
           <Dialog.Overlay className="fixed inset-0 z-[80] bg-black/80 backdrop-blur-sm" />
           <Dialog.Content className="fixed inset-x-4 top-1/2 z-[90] mx-auto max-w-5xl -translate-y-1/2 overflow-hidden rounded-4xl border border-border/70 bg-surface p-3 shadow-2xl">
             <Dialog.Title className="sr-only">Foto ampliada de {title}</Dialog.Title>
+            <Dialog.Description className="sr-only">
+              Visualizacao ampliada da foto selecionada do projeto.
+            </Dialog.Description>
             <div className="relative aspect-[16/10] max-h-[78vh] overflow-hidden rounded-3xl bg-background">
               {activeImage ? (
                 <ProjectImage

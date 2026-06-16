@@ -7,11 +7,16 @@ import { Trash2 } from "lucide-react";
 import {
   createCommentAction,
   deleteCommentAction,
-  initialActionState,
+  type ActionState,
 } from "@/app/carros/actions";
 import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
+
+const initialActionState: ActionState = {
+  status: "idle",
+  message: "",
+};
 
 export function CommentForm({
   carId,

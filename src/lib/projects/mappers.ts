@@ -22,6 +22,19 @@ function safeStringArray(value: unknown) {
     : [];
 }
 
+function safeRows<T>(value: T[] | null | undefined) {
+  return Array.isArray(value) ? value : [];
+}
+
+function safeText(value: string | null | undefined, fallback: string) {
+  const text = value?.trim();
+  return text ? text : fallback;
+}
+
+function safeNumber(value: number | null | undefined, fallback = 0) {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
 function mapPart(part: CarPartRow): ProjectPart {
   return {
     id: part.id,
@@ -51,14 +64,14 @@ function mapExpense(expense: CarExpenseRow): ProjectExpense {
 }
 
 function mapUpdate(car: CarDetails): ProjectUpdate[] {
-  return car.updates.map((update) => ({
+  return safeRows(car.updates).map((update) => ({
     id: update.id,
-    title: update.title,
+    title: safeText(update.title, "Atualizacao do projeto"),
     description: update.description?.trim() || "Atualização sem descrição adicional.",
     photo: update.photo_url,
     photos: uniqueStrings([update.photo_url, ...safeStringArray(update.photo_urls)]),
-    category: update.category,
-    date: update.happened_at,
+    category: safeText(update.category, "outro"),
+    date: update.happened_at ?? car.updated_at ?? car.created_at,
     amount: update.amount_spent ?? null,
   }));
 }
@@ -103,16 +116,25 @@ function deriveStatus(installedCount: number, plannedCount: number, isPublic: bo
 }
 
 function createBaseProject(car: CarCard | CarDetails) {
+  const title = safeText(car.name, `${safeText(car.brand, "Projeto")} ${safeText(car.model, "automotivo")}`);
+  const brand = safeText(car.brand, "Marca nao informada");
+  const model = safeText(car.model, "Modelo nao informado");
+  const category = safeText(car.category, "Projeto automotivo");
+  const engine = safeText(car.engine ?? car.version, "Preparacao em andamento");
+  const createdAt = car.created_at ?? new Date().toISOString();
+  const updatedAt = car.updated_at ?? createdAt;
+  const photos = "photos" in car ? safeRows(car.photos) : [];
+  const parts = "parts" in car ? safeRows(car.parts) : [];
   const description =
     car.description?.trim() ||
-    `Projeto ${car.brand} ${car.model} montado para quem gosta de ficha completa, detalhes honestos e evolucao real.`;
-  const carModel = [car.brand, car.model, car.version].filter(Boolean).join(" ");
+    `Projeto ${brand} ${model} montado para quem gosta de ficha completa, detalhes honestos e evolucao real.`;
+  const carModel = [brand, model, car.version].filter(Boolean).join(" ");
   const tags = deriveTags({
     explicitTags: car.tags,
-    brand: car.brand,
-    model: car.model,
-    style: car.category,
-    engine: car.engine ?? car.version ?? "Preparacao em andamento",
+    brand,
+    model,
+    style: category,
+    engine,
     state: car.state,
     fuelType: car.fuel_type,
     drivetrain: car.drivetrain,
@@ -129,39 +151,39 @@ function createBaseProject(car: CarCard | CarDetails) {
     ownerAvatarUrl: car.owner?.avatar_url ?? null,
     ownerBio: car.owner?.bio ?? null,
     ownerInstagram: car.owner?.instagram_handle ?? null,
-    title: car.name,
+    title,
     carModel,
-    brand: car.brand,
-    model: car.model,
-    year: car.year,
-    engine: car.engine ?? car.version ?? "Preparacao em andamento",
-    style: car.category,
+    brand,
+    model,
+    year: safeNumber(car.year, new Date(createdAt).getFullYear()),
+    engine,
+    style: category,
     shortDescription: createShortDescription(description, carModel),
     description,
     mainImage: car.main_photo_url || PROJECT_IMAGE_FALLBACK,
     gallery: uniqueStrings([
       car.main_photo_url,
       ...safeStringArray(car.photo_urls),
-      ...("photos" in car ? car.photos.map((photo) => photo.url) : []),
+      ...photos.map((photo) => photo.url),
     ]),
     installedParts: [],
     plannedParts: [],
     estimatedCost:
       "parts" in car
-        ? car.parts.reduce((sum, part) => sum + Math.max(0, part.price_estimate ?? 0), 0)
+        ? parts.reduce((sum, part) => sum + Math.max(0, part.price_estimate ?? 0), 0)
         : car.estimated_cost,
     totalInvested: car.total_invested,
     status: car.project_status ?? deriveStatus(
-      car.installed_parts_count,
-      car.planned_parts_count,
-      car.is_public
+      safeNumber(car.installed_parts_count),
+      safeNumber(car.planned_parts_count),
+      car.is_public ?? true
     ),
     progressPercent: car.progress_percent,
-    likes: car.likes_count,
-    saves: car.saves_count,
-    views: car.views_count,
-    comments: car.comments_count,
-    followers: car.project_followers_count,
+    likes: safeNumber(car.likes_count),
+    saves: safeNumber(car.saves_count),
+    views: safeNumber(car.views_count),
+    comments: safeNumber(car.comments_count),
+    followers: safeNumber(car.project_followers_count),
     tags,
     mileageKm: car.mileage_km,
     powerCv: car.power_cv,
@@ -170,14 +192,14 @@ function createBaseProject(car: CarCard | CarDetails) {
     startedAt: car.started_at,
     projectGoal: car.project_goal,
     lastUpdateAt: car.last_update_at,
-    updatesCount: car.updates_count,
-    modificationsCount: car.installed_parts_count + car.planned_parts_count,
+    updatesCount: safeNumber(car.updates_count),
+    modificationsCount: safeNumber(car.installed_parts_count) + safeNumber(car.planned_parts_count),
     city: car.city,
     state: car.state,
-    createdAt: car.created_at,
-    updatedAt: car.updated_at,
-    isPublic: car.is_public,
-    showExpensesPublic: car.show_expenses_public,
+    createdAt,
+    updatedAt,
+    isPublic: car.is_public ?? true,
+    showExpensesPublic: car.show_expenses_public ?? false,
     specConfidencePercent: car.spec_confidence_percent,
     currentInduction: car.current_induction,
     factoryEngine: car.factory_engine,
@@ -202,9 +224,12 @@ export function mapCarCardToProject(car: CarCard): Project {
 }
 
 export function mapCarDetailsToProject(car: CarDetails): Project {
-  const installedParts = car.parts.filter((part) => part.status === "installed").map(mapPart);
-  const plannedParts = car.parts.filter((part) => part.status === "planned").map(mapPart);
-  const removedParts = car.parts.filter((part) => part.status === "removed").map(mapPart);
+  const parts = safeRows(car.parts);
+  const photos = safeRows(car.photos);
+  const expenses = safeRows(car.expenses);
+  const installedParts = parts.filter((part) => part.status === "installed").map(mapPart);
+  const plannedParts = parts.filter((part) => part.status === "planned").map(mapPart);
+  const removedParts = parts.filter((part) => part.status === "removed").map(mapPart);
 
   return enrichProject({
     ...createBaseProject(car),
@@ -212,17 +237,17 @@ export function mapCarDetailsToProject(car: CarDetails): Project {
     plannedParts,
     removedParts,
     updates: mapUpdate(car),
-    expenses: car.expenses.map(mapExpense),
+    expenses: expenses.map(mapExpense),
     gallery: uniqueStrings([
       car.main_photo_url,
-      ...car.photos.map((photo) => photo.url),
+      ...photos.map((photo) => photo.url),
       ...safeStringArray(car.photo_urls),
     ]),
     estimatedCost: [...installedParts, ...plannedParts].reduce(
       (sum, part) => sum + Math.max(0, part.priceEstimate ?? 0),
       0
     ),
-    status: car.project_status ?? deriveStatus(installedParts.length, plannedParts.length, car.is_public),
+    status: car.project_status ?? deriveStatus(installedParts.length, plannedParts.length, car.is_public ?? true),
     totalInvested: car.total_invested,
   });
 }
