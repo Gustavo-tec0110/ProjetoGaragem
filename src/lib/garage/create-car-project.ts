@@ -7,7 +7,7 @@ import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from 
 import { normalizeSlug } from "@/lib/garage/constants";
 import { parseTagString } from "@/lib/projects/utils";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { CarPartStatus } from "@/lib/types";
+import type { CarPartStatus, NotificationType } from "@/lib/types";
 import type { Database } from "@/types/supabase";
 
 type ServerSupabaseClient = SupabaseClient<Database>;
@@ -60,6 +60,8 @@ export type CreateCarProjectResult =
       message: string;
       status: number;
     };
+
+export type UpdateCarProjectResult = CreateCarProjectResult;
 
 function text(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -348,15 +350,50 @@ async function ensureProfile(supabase: ServerSupabaseClient, user: User) {
   return data ? { ok: true, message: null } : { ok: false, message: "Nao foi possivel preparar seu perfil." };
 }
 
-async function uniqueCarSlug(supabase: ServerSupabaseClient, base: string) {
+async function uniqueCarSlug(supabase: ServerSupabaseClient, base: string, currentId?: string) {
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const suffix = attempt === 0 ? "" : `-${globalThis.crypto.randomUUID().slice(0, 5)}`;
     const candidate = `${base}${suffix}`.slice(0, 80);
     const { data } = await supabase.from("cars").select("id").eq("slug", candidate).maybeSingle();
-    if (!data) return candidate;
+    if (!data || data.id === currentId) return candidate;
   }
 
   return `${base}-${Date.now().toString(36)}`.slice(0, 90);
+}
+
+async function notifyProjectFollowers({
+  supabase,
+  carId,
+  ownerId,
+  carName,
+  updateTitle,
+}: {
+  supabase: ServerSupabaseClient;
+  carId: string;
+  ownerId: string;
+  carName: string;
+  updateTitle: string;
+}) {
+  const { data: follows } = await supabase
+    .from("project_follows")
+    .select("user_id")
+    .eq("car_id", carId);
+
+  const rows = ((follows ?? []) as Array<{ user_id: string }>)
+    .filter((follow) => follow.user_id !== ownerId)
+    .map((follow) => ({
+      user_id: follow.user_id,
+      actor_id: ownerId,
+      car_id: carId,
+      type: "project_update" as NotificationType,
+      title: `${carName} publicou uma nova evolucao`,
+      body: updateTitle,
+    }));
+
+  if (rows.length) {
+    await supabase.from("notifications").insert(rows);
+    revalidatePath("/notificacoes");
+  }
 }
 
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
@@ -538,6 +575,18 @@ export function revalidateProjectCreationPaths(slug: string) {
   revalidatePath(`/carros/${slug}`);
 }
 
+export function revalidateProjectUpdatePaths(previousSlug: string, nextSlug: string) {
+  revalidatePath("/");
+  revalidatePath("/explorar");
+  revalidatePath("/buscar");
+  revalidatePath("/comparar");
+  revalidatePath("/garagem");
+  revalidatePath(`/carros/${previousSlug}`);
+  revalidatePath(`/carros/${nextSlug}`);
+  revalidatePath(`/projeto/${previousSlug}`);
+  revalidatePath(`/projeto/${nextSlug}`);
+}
+
 export async function createCarProject(formData: FormData): Promise<CreateCarProjectResult> {
   try {
     const auth = await requireUser();
@@ -605,6 +654,126 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
       ok: false,
       status: 500,
       message: projectCreationErrorMessage(error),
+    };
+  }
+}
+
+export async function updateCarProject(
+  carId: string,
+  formData: FormData
+): Promise<UpdateCarProjectResult> {
+  try {
+    const auth = await requireUser();
+    if (!auth.supabase || !auth.user) {
+      return { ok: false, status: 401, message: auth.error ?? "Erro de autenticacao." };
+    }
+
+    if (!carId) {
+      return { ok: false, status: 400, message: "Projeto nao encontrado." };
+    }
+
+    const formCarId = text(formData, "car_id");
+    if (formCarId && formCarId !== carId) {
+      return { ok: false, status: 400, message: "Projeto enviado nao confere com a rota." };
+    }
+
+    const { data: current, error: readError } = await auth.supabase
+      .from("cars")
+      .select("id, owner_id, slug, name")
+      .eq("id", carId)
+      .maybeSingle();
+
+    if (readError) {
+      return { ok: false, status: 400, message: readError.message };
+    }
+
+    if (!current) {
+      return { ok: false, status: 404, message: "Projeto nao encontrado." };
+    }
+
+    if (current.owner_id !== auth.user.id) {
+      return { ok: false, status: 403, message: "Voce so pode editar seus proprios projetos." };
+    }
+
+    const name = text(formData, "name");
+    const brand = text(formData, "brand");
+    const model = text(formData, "model");
+    const year = integer(formData, "year");
+    if (!name || !brand || !model || !year) {
+      return { ok: false, status: 400, message: "Preencha nome do projeto, marca, modelo e ano." };
+    }
+
+    const requestedSlug = normalizeSlug(text(formData, "slug") || `${name}-${brand}-${model}-${year}`);
+    const slug = await uniqueCarSlug(auth.supabase, requestedSlug, carId);
+    const payload = buildCarPayload(formData, auth.user.id, slug);
+    const { data: car, error } = await auth.supabase
+      .from("cars")
+      .update(payload)
+      .eq("id", carId)
+      .eq("owner_id", auth.user.id)
+      .select("id, slug, name, main_photo_url")
+      .maybeSingle();
+
+    if (error || !car) {
+      return {
+        ok: false,
+        status: 400,
+        message: error?.message ?? "Nao foi possivel salvar.",
+      };
+    }
+
+    const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
+    const parts = parseParts(text(formData, "parts_json"));
+    const updates = parseUpdates(text(formData, "updates_json"));
+    const expenses = parseExpenses(text(formData, "expenses_json"));
+    const { data: previousUpdates } = await auth.supabase
+      .from("car_build_updates")
+      .select("title, happened_at")
+      .eq("car_id", carId);
+    const previousUpdateKeys = new Set(
+      ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
+        (update) => `${update.title.trim()}|${update.happened_at}`
+      )
+    );
+
+    const relatedError =
+      (await replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls)) ??
+      (await replaceParts(auth.supabase, car.id, parts)) ??
+      (await replaceUpdates(auth.supabase, car.id, updates)) ??
+      (await replaceExpenses(auth.supabase, car.id, expenses));
+
+    if (relatedError) {
+      return {
+        ok: false,
+        status: 400,
+        message: `Ficha salva, mas houve erro ao atualizar detalhes: ${relatedError}`,
+      };
+    }
+
+    const newUpdate = updates.find(
+      (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)
+    );
+    if (newUpdate) {
+      await notifyProjectFollowers({
+        supabase: auth.supabase,
+        carId: car.id,
+        ownerId: auth.user.id,
+        carName: car.name ?? current.name,
+        updateTitle: newUpdate.title,
+      });
+    }
+
+    return {
+      ok: true,
+      slug: car.slug,
+      redirectTo: `/projeto/${car.slug}`,
+    };
+  } catch (error) {
+    console.error("Erro ao editar projeto:", error);
+    return {
+      ok: false,
+      status: 500,
+      message: errorMessage(error, "Nao foi possivel salvar."),
     };
   }
 }

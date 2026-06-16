@@ -8,7 +8,6 @@ import { Gauge, HelpCircle, Plus, Trash2 } from "lucide-react";
 import {
   deleteCarAction,
   type ActionState,
-  updateCarAction,
 } from "@/app/carros/actions";
 import { ProjectImageUploader } from "@/components/garage/project-image-uploader";
 import { Button } from "@/components/ui/button";
@@ -276,7 +275,8 @@ export function CarForm({
   catalogVersions?: CarCatalogVersion[];
 }) {
   const router = useRouter();
-  const [editState, formAction, pending] = useActionState(updateCarAction, initialActionState);
+  const [editState, setEditState] = React.useState<ActionState>(initialActionState);
+  const [editPending, setEditPending] = React.useState(false);
   const [createState, setCreateState] = React.useState<ActionState>(initialActionState);
   const [createPending, setCreatePending] = React.useState(false);
   const state = mode === "edit" ? editState : createState;
@@ -429,7 +429,7 @@ export function CarForm({
     setCreateState(initialActionState);
 
     try {
-      const response = await fetch("/api/projetos/criar", {
+      const response = await fetch("/api/projects/create", {
         method: "POST",
         body: new FormData(event.currentTarget),
       });
@@ -461,6 +461,48 @@ export function CarForm({
     }
   }
 
+  async function handleEditSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+    if (submitter?.dataset.intent === "delete") return;
+
+    event.preventDefault();
+    setEditPending(true);
+    setEditState(initialActionState);
+
+    try {
+      const carId = car?.id ?? "";
+      const response = await fetch(`/api/projects/${encodeURIComponent(carId)}/update`, {
+        method: "POST",
+        body: new FormData(event.currentTarget),
+      });
+      const payload = (await response.json().catch(() => null)) as
+        | { status: "success"; redirectTo?: string }
+        | { status: "error"; message?: string }
+        | null;
+
+      if (!response.ok || payload?.status !== "success" || !payload.redirectTo) {
+        setEditState({
+          status: "error",
+          message:
+            payload?.status === "error" && payload.message
+              ? payload.message
+              : "Nao foi possivel salvar o projeto.",
+        });
+        return;
+      }
+
+      router.push(payload.redirectTo);
+      router.refresh();
+    } catch {
+      setEditState({
+        status: "error",
+        message: "Nao foi possivel conectar ao servidor. Tente novamente.",
+      });
+    } finally {
+      setEditPending(false);
+    }
+  }
+
   if (mode === "create") {
     const factorySpecs = factorySpecSummary(suggestedFactorySpec);
     const autoTags = [
@@ -473,7 +515,7 @@ export function CarForm({
       .join(", ");
 
     return (
-      <form onSubmit={handleCreateSubmit} className="space-y-6">
+      <form action="/api/projects/create" method="post" onSubmit={handleCreateSubmit} className="space-y-6">
         <input type="hidden" name="main_photo_url" value={mainPhotoUrl} />
         <input
           type="hidden"
@@ -723,8 +765,14 @@ export function CarForm({
   }
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form
+      action={`/api/projects/${encodeURIComponent(car?.id ?? "")}/update`}
+      method="post"
+      onSubmit={handleEditSubmit}
+      className="space-y-6"
+    >
       <input type="hidden" name="car_id" value={car?.id ?? ""} />
+      <input type="hidden" name="current_slug" value={car?.slug ?? ""} />
       <input type="hidden" name="catalog_version_id" value={car?.catalog_version_id ?? ""} />
       <input type="hidden" name="factory_engine" value={car?.factory_engine ?? ""} />
       <input type="hidden" name="factory_induction" value={car?.factory_induction ?? ""} />
@@ -1505,8 +1553,9 @@ export function CarForm({
                 type="submit"
                 formAction={deleteFormAction}
                 formNoValidate
+                data-intent="delete"
                 variant="danger"
-                disabled={pending || deletePending}
+                disabled={editPending || deletePending}
                 onClick={(event) => {
                   if (!window.confirm("Excluir este projeto definitivamente?")) {
                     event.preventDefault();
@@ -1517,8 +1566,8 @@ export function CarForm({
                 {deletePending ? "Excluindo..." : "Excluir projeto"}
               </Button>
             ) : null}
-            <Button type="submit" disabled={pending || deletePending} className="sm:min-w-48">
-              {pending
+            <Button type="submit" disabled={editPending || deletePending} className="sm:min-w-48">
+              {editPending
                 ? "Salvando..."
                 : mode === "edit"
                   ? "Salvar alterações"
