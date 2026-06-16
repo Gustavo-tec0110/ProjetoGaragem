@@ -16,6 +16,12 @@ import {
   uniqueStrings,
 } from "@/lib/projects/utils";
 
+function safeStringArray(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+    : [];
+}
+
 function mapPart(part: CarPartRow): ProjectPart {
   return {
     id: part.id,
@@ -50,7 +56,7 @@ function mapUpdate(car: CarDetails): ProjectUpdate[] {
     title: update.title,
     description: update.description?.trim() || "Atualização sem descrição adicional.",
     photo: update.photo_url,
-    photos: uniqueStrings([update.photo_url, ...update.photo_urls]),
+    photos: uniqueStrings([update.photo_url, ...safeStringArray(update.photo_urls)]),
     category: update.category,
     date: update.happened_at,
     amount: update.amount_spent ?? null,
@@ -135,7 +141,7 @@ function createBaseProject(car: CarCard | CarDetails) {
     mainImage: car.main_photo_url || PROJECT_IMAGE_FALLBACK,
     gallery: uniqueStrings([
       car.main_photo_url,
-      ...car.photo_urls,
+      ...safeStringArray(car.photo_urls),
       ...("photos" in car ? car.photos.map((photo) => photo.url) : []),
     ]),
     installedParts: [],
@@ -210,7 +216,7 @@ export function mapCarDetailsToProject(car: CarDetails): Project {
     gallery: uniqueStrings([
       car.main_photo_url,
       ...car.photos.map((photo) => photo.url),
-      ...car.photo_urls,
+      ...safeStringArray(car.photo_urls),
     ]),
     estimatedCost: [...installedParts, ...plannedParts].reduce(
       (sum, part) => sum + Math.max(0, part.priceEstimate ?? 0),

@@ -81,6 +81,27 @@ type Client = SupabaseClient;
 
 export { CAR_CATEGORIES, normalizeSlug };
 
+function stringArray(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+    : [];
+}
+
+function normalizeCarRow(row: CarRow): CarRow {
+  return {
+    ...row,
+    photo_urls: stringArray(row.photo_urls),
+    tags: stringArray(row.tags),
+  };
+}
+
+function normalizeUpdateRow(row: CarBuildUpdateRow): CarBuildUpdateRow {
+  return {
+    ...row,
+    photo_urls: stringArray(row.photo_urls),
+  };
+}
+
 function asProfileMap(rows: ProfileSummary[]) {
   const map = new Map<string, ProfileSummary>();
   for (const row of rows) map.set(row.id, row);
@@ -239,7 +260,8 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
     rows.map((row) => row.id)
   );
 
-  return rows.map((row) => {
+  return rows.map((rawRow) => {
+    const row = normalizeCarRow(rawRow);
     const counts = partCounts.get(row.id) ?? { installed: 0, planned: 0, estimatedCost: 0 };
     const finances = expensesByCar.get(row.id) ?? { totalInvested: 0 };
     const updates = updatesByCar.get(row.id) ?? { updatesCount: 0, lastUpdateAt: null };
@@ -596,7 +618,7 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
   if (error) return { data: null, error: error.message };
   if (!row) return { data: null, error: "car_not_found" };
 
-  const [card] = await hydrateCards(supabase, [row as CarRow]);
+  const [card] = await hydrateCards(supabase, [normalizeCarRow(row as CarRow)]);
 
   const [{ data: photos }, { data: parts }, { data: comments }, { data: updates }, { data: expenses }] = await Promise.all([
     supabase.from("car_photos").select("*").eq("car_id", card.id).order("sort_order", { ascending: true }),
@@ -631,7 +653,7 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
         ...comment,
         author: commentAuthorMap.get(comment.user_id) ?? null,
       })),
-      updates: (updates ?? []) as CarBuildUpdateRow[],
+      updates: ((updates ?? []) as CarBuildUpdateRow[]).map(normalizeUpdateRow),
       expenses: (expenses ?? []) as CarExpenseRow[],
     },
     error: null,

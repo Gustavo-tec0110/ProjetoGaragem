@@ -15,6 +15,24 @@ export const CAR_CATEGORIES = [
   "Projeto premium",
 ] as const;
 
+export const CAR_BRANDS = [
+  "Volkswagen",
+  "Chevrolet",
+  "Fiat",
+  "Ford",
+  "Honda",
+  "Toyota",
+  "Nissan",
+  "Renault",
+  "Peugeot",
+  "Citroën",
+  "Hyundai",
+  "Mitsubishi",
+  "Audi",
+  "BMW",
+  "Mercedes-Benz",
+] as const;
+
 export const PART_CATEGORIES = [
   "Motor",
   "Turbo",

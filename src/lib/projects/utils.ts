@@ -316,7 +316,8 @@ export function getProjectEngagementScore(project: Project) {
 
 export function enrichProject(project: ProjectSeed): Project {
   const normalizedStatus = normalizeProjectStatus(project.status);
-  const normalizedTags = uniqueStrings(project.tags.map((tag) => normalizeProjectTag(tag) || tag));
+  const rawTags = Array.isArray(project.tags) ? project.tags : [];
+  const normalizedTags = uniqueStrings(rawTags.map((tag) => normalizeProjectTag(tag) || tag));
   const updates = sortProjectUpdates(project.updates ?? []);
   const expenses = sortProjectExpenses(
     (project.expenses ?? []).map((expense) => ({

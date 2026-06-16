@@ -102,6 +102,12 @@ function uid() {
   return globalThis.crypto.randomUUID();
 }
 
+function safeStringArray(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+    : [];
+}
+
 function isoDate(value?: string | null) {
   if (!value) return "";
   return value.slice(0, 10);
@@ -169,7 +175,7 @@ function fromUpdate(row: CarBuildUpdateRow): UpdateDraft {
     title: row.title,
     description: row.description ?? "",
     photo_url: row.photo_url ?? "",
-    photo_urls: row.photo_urls ?? [],
+    photo_urls: safeStringArray(row.photo_urls),
     category: row.category ?? "outro",
     happened_at: isoDate(row.happened_at),
     amount_spent: row.amount_spent ? String(row.amount_spent) : "",
@@ -281,7 +287,7 @@ export function CarForm({
   const [mainPhotoUrl, setMainPhotoUrl] = React.useState(car?.main_photo_url ?? "");
   const [photoUrls, setPhotoUrls] = React.useState<string[]>(() => {
     const fromPhotos = photos.map((photo) => photo.url);
-    const fromCar = car?.photo_urls ?? [];
+    const fromCar = safeStringArray(car?.photo_urls);
     return Array.from(new Set([...fromPhotos, ...fromCar])).filter(
       (url) => url !== car?.main_photo_url
     );
@@ -303,7 +309,7 @@ export function CarForm({
   const [draftExpenses, setDraftExpenses] = React.useState<ExpenseDraft[]>(() =>
     expenses.length ? expenses.map(fromExpense) : [newExpense(), newExpense()]
   );
-  const [tagInput, setTagInput] = React.useState((car?.tags ?? []).join(", "));
+  const [tagInput, setTagInput] = React.useState(safeStringArray(car?.tags).join(", "));
   const [projectNameInput, setProjectNameInput] = React.useState(car?.name ?? "");
   const [brandInput, setBrandInput] = React.useState(car?.brand ?? "");
   const [modelInput, setModelInput] = React.useState(car?.model ?? "");
