@@ -13,7 +13,7 @@ import { ProjectImageUploader } from "@/components/garage/project-image-uploader
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { CAR_CATEGORIES, PART_CATEGORIES } from "@/lib/garage/constants";
+import { CAR_BRANDS, CAR_CATEGORIES, PART_CATEGORIES } from "@/lib/garage/constants";
 import {
   calculateSpecConfidence,
   DETAIL_ANSWER_OPTIONS,
@@ -52,6 +52,28 @@ const UPDATE_CATEGORIES = [
   { value: "antes_depois", label: "Antes e depois" },
   { value: "outro", label: "Outro" },
 ] as const;
+
+type CarBrand = (typeof CAR_BRANDS)[number];
+
+const OTHER_MODEL_VALUE = "__other__";
+
+const CAR_MODELS_BY_BRAND: Record<CarBrand, readonly string[]> = {
+  Volkswagen: ["Gol", "Golf", "Parati", "Saveiro", "Voyage", "Santana", "Passat", "Polo", "Fox", "Fusca", "Jetta"],
+  Chevrolet: ["Corsa", "Celta", "Classic", "Monza", "Kadett", "Opala", "Chevette", "Astra", "Vectra", "Omega", "S10"],
+  Fiat: ["Uno", "Palio", "Siena", "Strada", "Tempra", "Tipo", "Marea", "Punto", "Bravo", "147"],
+  Ford: ["Escort", "Fiesta", "Ka", "Focus", "Fusion", "Ranger", "Corcel", "Del Rey", "Maverick"],
+  Honda: ["Civic", "Accord", "Fit", "City", "CR-V"],
+  Toyota: ["Corolla", "Hilux", "SW4", "Etios", "Yaris"],
+  Nissan: ["Sentra", "March", "Versa", "Frontier", "Kicks"],
+  Renault: ["Clio", "Sandero", "Logan", "Megane", "Duster"],
+  Peugeot: ["206", "207", "208", "307", "308", "408"],
+  Citroën: ["C3", "C4", "Xsara", "Xantia", "Aircross"],
+  Hyundai: ["HB20", "Tucson", "i30", "Elantra", "Santa Fe"],
+  Mitsubishi: ["Lancer", "Pajero", "Eclipse", "ASX", "L200"],
+  Audi: ["A3", "A4", "A5", "A6", "TT", "Q3", "Q5"],
+  BMW: ["Série 3", "Série 5", "Série 1", "X1", "X3", "Z4"],
+  "Mercedes-Benz": ["Classe A", "Classe C", "Classe E", "CLA", "GLA"],
+};
 
 const initialActionState: ActionState = {
   status: "idle",
@@ -224,6 +246,69 @@ function Field({
   );
 }
 
+function modelOptionsForBrand(brand: string) {
+  return CAR_MODELS_BY_BRAND[brand as CarBrand] ?? [];
+}
+
+function ModelField({
+  brand,
+  value,
+  onChange,
+  preservedValue,
+}: {
+  brand: string;
+  value: string;
+  onChange: (value: string) => void;
+  preservedValue?: string | null;
+}) {
+  const brandModels = modelOptionsForBrand(brand);
+  const preservedModel = preservedValue?.trim();
+  const options =
+    preservedModel && !brandModels.includes(preservedModel)
+      ? [preservedModel, ...brandModels]
+      : brandModels;
+  const selectValue = value ? (options.includes(value) ? value : OTHER_MODEL_VALUE) : "";
+  const isOther = selectValue === OTHER_MODEL_VALUE;
+
+  return (
+    <Field label="Modelo">
+      <select
+        name={isOther ? undefined : "model"}
+        value={selectValue}
+        onChange={(event) => {
+          if (event.target.value === OTHER_MODEL_VALUE) {
+            onChange("");
+            return;
+          }
+
+          onChange(event.target.value);
+        }}
+        className="pg-control h-12 rounded-3xl px-4 text-sm"
+        required
+      >
+        <option value="" disabled>
+          {brand ? "Escolha um modelo" : "Escolha a marca primeiro"}
+        </option>
+        {options.map((model) => (
+          <option key={model} value={model}>
+            {model}
+          </option>
+        ))}
+        <option value={OTHER_MODEL_VALUE}>Outro</option>
+      </select>
+      {isOther ? (
+        <Input
+          name="model"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder="Digite o modelo"
+          required
+        />
+      ) : null}
+    </Field>
+  );
+}
+
 function DetailAnswerGroup({
   name,
   label,
@@ -317,6 +402,14 @@ export function CarForm({
   const [selectedCatalogId, setSelectedCatalogId] = React.useState<string>(
     car?.catalog_version_id ?? UNKNOWN_VERSION_VALUE
   );
+  const editBrandOptions = React.useMemo(() => {
+    const currentBrand = car?.brand?.trim();
+    if (currentBrand && !CAR_BRANDS.includes(currentBrand as (typeof CAR_BRANDS)[number])) {
+      return [currentBrand, ...CAR_BRANDS];
+    }
+
+    return CAR_BRANDS;
+  }, [car?.brand]);
 
   const catalogMatches = React.useMemo(
     () => matchingCatalogVersions(catalogVersions, brandInput, modelInput, yearInput),
@@ -607,23 +700,24 @@ export function CarForm({
 
             <div className="grid gap-4 md:grid-cols-3">
               <Field label="Marca">
-                <Input
+                <select
                   name="brand"
                   value={brandInput}
                   onChange={(event) => setBrandInput(event.target.value)}
-                  placeholder="Volkswagen"
+                  className="pg-control h-12 rounded-3xl px-4 text-sm"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Escolha uma marca
+                  </option>
+                  {CAR_BRANDS.map((brand) => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+                </select>
               </Field>
-              <Field label="Modelo">
-                <Input
-                  name="model"
-                  value={modelInput}
-                  onChange={(event) => setModelInput(event.target.value)}
-                  placeholder="Gol"
-                  required
-                />
-              </Field>
+              <ModelField brand={brandInput} value={modelInput} onChange={setModelInput} />
               <Field label="Ano">
                 <Input
                   name="year"
@@ -819,21 +913,29 @@ export function CarForm({
 
           <div className="grid gap-4 md:grid-cols-5">
             <Field label="Marca">
-              <Input
+              <select
                 name="brand"
-                defaultValue={car?.brand ?? ""}
-                placeholder="Volkswagen"
+                value={brandInput}
+                onChange={(event) => setBrandInput(event.target.value)}
+                className="pg-control h-12 rounded-3xl px-4 text-sm"
                 required
-              />
+              >
+                <option value="" disabled>
+                  Escolha uma marca
+                </option>
+                {editBrandOptions.map((brand) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
             </Field>
-            <Field label="Modelo">
-              <Input
-                name="model"
-                defaultValue={car?.model ?? ""}
-                placeholder="Gol G3"
-                required
-              />
-            </Field>
+            <ModelField
+              brand={brandInput}
+              value={modelInput}
+              onChange={setModelInput}
+              preservedValue={car?.model}
+            />
             <Field label="Ano">
               <Input
                 name="year"
