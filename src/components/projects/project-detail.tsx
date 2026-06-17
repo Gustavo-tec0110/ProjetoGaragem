@@ -264,6 +264,11 @@ export function ProjectDetail({
   const project = initialProject;
   const isProjectComplete = project.progressPercent >= 100;
   const [buildAlerts, setBuildAlerts] = React.useState<BuildAlert[]>([]);
+  const [comments, setComments] = React.useState<CarCommentWithAuthor[]>(commentThread?.comments ?? []);
+
+  React.useEffect(() => {
+    setComments(commentThread?.comments ?? []);
+  }, [commentThread?.comments]);
 
   // Load build alerts on component mount
   React.useEffect(() => {
@@ -783,6 +788,11 @@ export function ProjectDetail({
                   carId={commentThread.carId}
                   slug={commentThread.slug}
                   viewerLoggedIn={commentThread.viewerLoggedIn}
+                  onCommentCreated={(comment) =>
+                    setComments((current) =>
+                      current.some((item) => item.id === comment.id) ? current : [comment, ...current]
+                    )
+                  }
                 />
               </div>
             </Card>
@@ -792,14 +802,17 @@ export function ProjectDetail({
                   <p className="text-xs text-muted">Discussão</p>
                   <h2 className="font-title text-2xl tracking-tight">Comentários</h2>
                 </div>
-                <Badge>{commentThread.comments.length} mensagens</Badge>
+                <Badge>{comments.length} mensagens</Badge>
               </div>
               <div className="mt-4">
                 <CommentsList
-                  comments={commentThread.comments}
+                  comments={comments}
                   viewerId={commentThread.viewerId}
                   ownerId={commentThread.ownerId}
                   carSlug={commentThread.slug}
+                  onCommentDeleted={(commentId) =>
+                    setComments((current) => current.filter((comment) => comment.id !== commentId))
+                  }
                 />
               </div>
             </div>

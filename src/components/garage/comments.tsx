@@ -13,7 +13,11 @@ import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
 
-const initialActionState: ActionState = {
+type CommentActionState = ActionState & {
+  comment?: CarCommentWithAuthor;
+};
+
+const initialActionState: CommentActionState = {
   status: "idle",
   message: "",
 };
@@ -22,13 +26,22 @@ export function CommentForm({
   carId,
   slug,
   viewerLoggedIn,
+  onCommentCreated,
 }: {
   carId: string;
   slug: string;
   viewerLoggedIn: boolean;
+  onCommentCreated?: (comment: CarCommentWithAuthor) => void;
 }) {
+  const formRef = React.useRef<HTMLFormElement>(null);
   const [state, formAction, pending] = useActionState(createCommentAction, initialActionState);
   const [loginOpen, setLoginOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (state.status !== "success" || !state.comment) return;
+    onCommentCreated?.(state.comment);
+    formRef.current?.reset();
+  }, [onCommentCreated, state]);
 
   if (!viewerLoggedIn) {
     return (
@@ -54,7 +67,7 @@ export function CommentForm({
   }
 
   return (
-    <form action={formAction} className="space-y-3">
+    <form ref={formRef} action={formAction} className="space-y-3">
       <input type="hidden" name="car_id" value={carId} />
       <input type="hidden" name="slug" value={slug} />
       <textarea
@@ -86,11 +99,13 @@ export function CommentsList({
   viewerId,
   ownerId,
   carSlug,
+  onCommentDeleted,
 }: {
   comments: CarCommentWithAuthor[];
   viewerId: string | null;
   ownerId: string;
   carSlug: string;
+  onCommentDeleted?: (commentId: string) => void;
 }) {
   const [isPending, startTransition] = React.useTransition();
 
@@ -127,7 +142,11 @@ export function CommentsList({
                   disabled={isPending}
                   onClick={() =>
                     startTransition(async () => {
-                      await deleteCommentAction(comment.id, carSlug);
+                      onCommentDeleted?.(comment.id);
+                      const result = await deleteCommentAction(comment.id, carSlug);
+                      if (!result.ok) {
+                        window.location.reload();
+                      }
                     })
                   }
                 >

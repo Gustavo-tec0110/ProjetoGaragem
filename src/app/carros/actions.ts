@@ -10,6 +10,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString } from "@/lib/projects/utils";
+import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
 
 export type ActionState = {
   status: "idle" | "error" | "success";
@@ -1097,7 +1098,7 @@ export async function incrementViewAction(carId: string, carSlug: string) {
 export async function createCommentAction(
   _prevState: ActionState,
   formData: FormData
-): Promise<ActionState> {
+): Promise<ActionState & { comment?: CarCommentWithAuthor }> {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { status: "error", message: auth.error ?? "Entre para comentar." };
   await ensureProfile(auth.user);
@@ -1113,13 +1114,24 @@ export async function createCommentAction(
     .eq("id", carId)
     .maybeSingle();
 
-  const { error } = await auth.supabase.from("car_comments").insert({
-    car_id: carId,
-    user_id: auth.user.id,
-    content,
-  });
+  const { data: comment, error } = await auth.supabase
+    .from("car_comments")
+    .insert({
+      car_id: carId,
+      user_id: auth.user.id,
+      content,
+    })
+    .select("*")
+    .maybeSingle();
 
-  if (error) return { status: "error", message: error.message };
+  if (error || !comment) return { status: "error", message: error?.message ?? "Nao foi possivel publicar o comentario." };
+
+  const { data: author } = await auth.supabase
+    .from("profiles")
+    .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle")
+    .eq("id", auth.user.id)
+    .maybeSingle();
+
   if (car) {
     await notifyCarOwner({
       ownerId: car.owner_id,
@@ -1132,12 +1144,38 @@ export async function createCommentAction(
   }
   revalidatePath(`/projeto/${slug}`);
   revalidatePath(`/carros/${slug}`);
-  return { status: "success", message: "Comentario publicado." };
+  return {
+    status: "success",
+    message: "Comentario publicado.",
+    comment: {
+      ...comment,
+      author: (author as ProfileSummary | null) ?? null,
+    } as CarCommentWithAuthor,
+  };
 }
 
 export async function deleteCommentAction(commentId: string, carSlug: string) {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para continuar." };
+
+  const { data: comment, error: readError } = await auth.supabase
+    .from("car_comments")
+    .select("id, user_id, car_id")
+    .eq("id", commentId)
+    .maybeSingle();
+
+  if (readError) return { ok: false, message: readError.message };
+  if (!comment) return { ok: false, message: "Comentario nao encontrado." };
+
+  const { data: car } = await auth.supabase
+    .from("cars")
+    .select("owner_id")
+    .eq("id", comment.car_id)
+    .maybeSingle();
+
+  if (comment.user_id !== auth.user.id && car?.owner_id !== auth.user.id) {
+    return { ok: false, message: "Voce so pode excluir seus proprios comentarios." };
+  }
 
   const { error } = await auth.supabase.from("car_comments").delete().eq("id", commentId);
   revalidatePath(`/projeto/${carSlug}`);
