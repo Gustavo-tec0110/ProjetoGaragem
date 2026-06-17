@@ -377,23 +377,16 @@ export function CarForm({
       (url) => url !== car?.main_photo_url
     );
   });
-  const [draftParts, setDraftParts] = React.useState<PartDraft[]>(() => {
-    const existing = parts.map(fromPart);
-    return existing.length
-      ? existing
-      : [
-          newPart("installed"),
-          newPart("installed"),
-          newPart("installed"),
-          newPart("planned"),
-        ];
-  });
+  const [draftParts, setDraftParts] = React.useState<PartDraft[]>(() => parts.map(fromPart));
   const [draftUpdates, setDraftUpdates] = React.useState<UpdateDraft[]>(() =>
-    updates.length ? updates.map(fromUpdate) : [newUpdate(), newUpdate()]
+    updates.map(fromUpdate)
   );
   const [draftExpenses, setDraftExpenses] = React.useState<ExpenseDraft[]>(() =>
-    expenses.length ? expenses.map(fromExpense) : [newExpense(), newExpense()]
+    expenses.map(fromExpense)
   );
+  const [partsExpanded, setPartsExpanded] = React.useState(false);
+  const [timelineExpanded, setTimelineExpanded] = React.useState(false);
+  const [expensesExpanded, setExpensesExpanded] = React.useState(false);
   const [tagInput, setTagInput] = React.useState(safeStringArray(car?.tags).join(", "));
   const [projectNameInput, setProjectNameInput] = React.useState(car?.name ?? "");
   const [brandInput, setBrandInput] = React.useState(car?.brand ?? "");
@@ -464,6 +457,21 @@ export function CarForm({
 
   function removeExpense(localId: string) {
     setDraftExpenses((current) => current.filter((item) => item.localId !== localId));
+  }
+
+  function addPart(status: CarPartStatus) {
+    setPartsExpanded(true);
+    setDraftParts((current) => [...current, newPart(status)]);
+  }
+
+  function addTimelineUpdate() {
+    setTimelineExpanded(true);
+    setDraftUpdates((current) => [...current, newUpdate()]);
+  }
+
+  function addExpense() {
+    setExpensesExpanded(true);
+    setDraftExpenses((current) => [...current, newExpense()]);
   }
 
   const serializedParts = JSON.stringify(
@@ -1250,28 +1258,45 @@ export function CarForm({
               Separe modificações atuais dos planos futuros para a ficha pública ficar clara.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            {draftParts.length ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setPartsExpanded((current) => !current)}
+              >
+                {partsExpanded ? "Ocultar" : `Ver ${draftParts.length} item(ns)`}
+              </Button>
+            ) : null}
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => setDraftParts((current) => [...current, newPart("installed")])}
+              onClick={() => addPart("installed")}
             >
               <Plus className="size-4" />
-              Modificação atual
+              Adicionar modificação atual
             </Button>
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => setDraftParts((current) => [...current, newPart("planned")])}
+              onClick={() => addPart("planned")}
             >
               <Plus className="size-4" />
-              Plano futuro
+              Adicionar plano futuro
             </Button>
           </div>
         </div>
 
+        {draftParts.length && !partsExpanded ? (
+          <p className="mt-4 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
+            {draftParts.length} item(ns) salvo(s). Expanda para revisar ou editar.
+          </p>
+        ) : null}
+
+        {partsExpanded ? (
         <div className="mt-5 grid gap-4">
           {draftParts.map((part) => (
             <div
@@ -1402,6 +1427,7 @@ export function CarForm({
             </div>
           ))}
         </div>
+        ) : null}
       </Card>
 
       <Card className="p-5 md:p-6">
@@ -1412,17 +1438,34 @@ export function CarForm({
               Registre títulos, datas, fotos e o valor gasto em cada etapa.
             </p>
           </div>
+          {draftUpdates.length ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setTimelineExpanded((current) => !current)}
+            >
+              {timelineExpanded ? "Ocultar" : `Ver ${draftUpdates.length} item(ns)`}
+            </Button>
+          ) : null}
           <Button
             type="button"
             variant="outline"
             size="sm"
-            onClick={() => setDraftUpdates((current) => [...current, newUpdate()])}
+            onClick={addTimelineUpdate}
           >
             <Plus className="size-4" />
-            Atualização
+            Adicionar atualização
           </Button>
         </div>
 
+        {draftUpdates.length && !timelineExpanded ? (
+          <p className="mt-4 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
+            {draftUpdates.length} item(ns) salvo(s). Expanda para revisar ou editar.
+          </p>
+        ) : null}
+
+        {timelineExpanded ? (
         <div className="mt-5 grid gap-4">
           {draftUpdates.map((update) => (
             <div
@@ -1512,6 +1555,7 @@ export function CarForm({
             </div>
           ))}
         </div>
+        ) : null}
       </Card>
 
       <Card className="p-5 md:p-6">
@@ -1522,17 +1566,34 @@ export function CarForm({
               O total investido e o gráfico do projeto usam estes lançamentos.
             </p>
           </div>
+          {draftExpenses.length ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setExpensesExpanded((current) => !current)}
+            >
+              {expensesExpanded ? "Ocultar" : `Ver ${draftExpenses.length} item(ns)`}
+            </Button>
+          ) : null}
           <Button
             type="button"
             variant="outline"
             size="sm"
-            onClick={() => setDraftExpenses((current) => [...current, newExpense()])}
+            onClick={addExpense}
           >
             <Plus className="size-4" />
-            Gasto
+            Adicionar gasto
           </Button>
         </div>
 
+        {draftExpenses.length && !expensesExpanded ? (
+          <p className="mt-4 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
+            {draftExpenses.length} item(ns) salvo(s). Expanda para revisar ou editar.
+          </p>
+        ) : null}
+
+        {expensesExpanded ? (
         <div className="mt-5 grid gap-4">
           {draftExpenses.map((expense) => (
             <div
@@ -1628,6 +1689,7 @@ export function CarForm({
             </div>
           ))}
         </div>
+        ) : null}
       </Card>
 
       {state.status === "error" ? (
@@ -1675,8 +1737,8 @@ export function CarForm({
                   ? "Salvar alterações"
                   : "Criar página do projeto"}
             </Button>
-          </div>
-        </Card>
+        </div>
+      </Card>
       </div>
     </form>
   );
