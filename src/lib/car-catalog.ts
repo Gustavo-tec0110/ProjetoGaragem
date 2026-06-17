@@ -330,6 +330,7 @@ export function calculateSpecConfidence(values: {
   originalSuspensionAnswer?: DetailAnswer | string | null;
 }) {
   const answers = [
+    values.versionConfidence,
     values.originalEngineAnswer,
     values.originalInductionAnswer,
     values.originalColorAnswer,
@@ -338,12 +339,6 @@ export function calculateSpecConfidence(values: {
     values.originalSuspensionAnswer,
   ];
 
-  let score = values.versionConfidence === "confirmed" ? 25 : values.versionConfidence === "estimated" ? 15 : 8;
-
-  for (const answer of answers) {
-    if (answer === "yes" || answer === "no") score += 12;
-    else score += 3;
-  }
-
-  return Math.min(100, Math.max(0, score));
+  const answered = answers.filter((answer) => answer === "confirmed" || answer === "estimated" || answer === "unknown" || answer === "yes" || answer === "no").length;
+  return Math.round((answered / answers.length) * 100);
 }

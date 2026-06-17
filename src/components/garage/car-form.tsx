@@ -450,6 +450,7 @@ export function CarForm({
     originalInteriorAnswer: car?.original_interior_answer ?? "unknown",
     originalSuspensionAnswer: car?.original_suspension_answer ?? "unknown",
   });
+  const editProjectProgressPercent = car?.progress_percent ?? 0;
 
   function updatePart(localId: string, patch: Partial<PartDraft>) {
     setDraftParts((current) =>
@@ -832,7 +833,7 @@ export function CarForm({
                   </div>
                   <div className="inline-flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-xs text-muted">
                     <Gauge className="size-4 text-red-400" />
-                    Ficha {createSpecConfidencePercent}% confirmada
+                    Detalhes {createSpecConfidencePercent}% respondidos
                   </div>
                 </div>
 
@@ -916,14 +917,24 @@ export function CarForm({
       <input type="hidden" name="tags_csv" value={tagInput} />
 
       <Card className="p-5 md:p-6">
-        <p className="text-xs text-muted">Ficha publica do carro</p>
-        <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
-          {mode === "edit" ? "Editar projeto" : "Adicionar meu projeto"}
-        </h1>
-        <p className="mt-2 text-sm text-muted">
-          O mesmo cadastro abastece a rota canonica do projeto, o legado de carros e a
-          descoberta social.
-        </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs text-muted">Ficha publica do carro</p>
+            <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
+              {mode === "edit" ? "Editar projeto" : "Adicionar meu projeto"}
+            </h1>
+            <p className="mt-2 text-sm text-muted">
+              O mesmo cadastro abastece a rota canonica do projeto, o legado de carros e a
+              descoberta social.
+            </p>
+          </div>
+          {mode === "edit" ? (
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-xs text-muted">
+              <Gauge className="size-4 text-red-400" />
+              Projeto {editProjectProgressPercent}% completo
+            </div>
+          ) : null}
+        </div>
 
         <div className="mt-6 grid gap-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -1194,7 +1205,9 @@ export function CarForm({
             <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-4 text-sm text-muted">
               A leitura de similaridade com uma build inspiração aparece somente na sua
               garagem privada. A página pública mostra estado atual, modificações, fotos,
-              tags e última atualização, sem porcentagem de conclusão.
+              tags, última atualização e a mesma conclusão essencial da edição.
+              A conclusão do projeto considera apenas ficha pública, foto, especificações
+              essenciais e objetivo; extras como financeiro, timeline e modificações não bloqueiam 100%.
             </div>
             <input
               type="hidden"
@@ -1220,12 +1233,12 @@ export function CarForm({
               Completar detalhes do projeto
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-muted">
-              Confirme só o que você sabe. “Não sei” mantém o dado como não confirmado e pode ser editado depois.
+              Responda só o que você sabe. “Não sei” conta como resposta e pode ser editado depois.
             </p>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-xs text-muted">
             <Gauge className="size-4 text-red-400" />
-            Ficha {editSpecConfidencePercent}% confirmada
+            Detalhes {editSpecConfidencePercent}% respondidos
           </div>
         </div>
 

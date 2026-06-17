@@ -453,10 +453,10 @@ export function ProjectDetail({
               <div>
                 <p className="text-xs text-warning">Ficha do veículo</p>
                 <h2 className="mt-1 font-title text-xl tracking-tight">
-                  Ficha {project.specConfidencePercent ?? 20}% confirmada
+                  Projeto {project.progressPercent}% completo
                 </h2>
                 <p className="mt-1 text-sm text-muted">
-                  Complete versão, mecânica, visual, interior e suspensão quando souber mais detalhes.
+                  O 100% depende só dos dados essenciais: ficha pública, foto, especificações principais e objetivo.
                 </p>
               </div>
             </div>

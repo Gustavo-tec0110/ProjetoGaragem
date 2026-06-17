@@ -8,6 +8,7 @@ import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from 
 import type { CarPartStatus, NotificationType } from "@/lib/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
+import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString } from "@/lib/projects/utils";
 
 export type ActionState = {
@@ -452,6 +453,7 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const tires = nullableText(formData, "tires");
   const brakes = nullableText(formData, "brakes");
   const projectStatus = nullableText(formData, "project_status");
+  const tags = parseTagString(text(formData, "tags_csv"));
   const versionConfidence = dataConfidence(formData, "version_confidence", "unknown");
   const originalEngineAnswer = detailAnswer(formData, "original_engine_answer");
   const originalInductionAnswer = detailAnswer(formData, "original_induction_answer");
@@ -515,77 +517,32 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
     project_status: projectStatus,
     progress_percent: calculateEssentialProjectProgress({
       name,
+      slug,
       brand,
       model,
       year,
-      category,
+      version: nullableText(formData, "version"),
+      versionConfidence,
+      city: nullableText(formData, "city"),
+      state: nullableText(formData, "state"),
       isPublic: formData.get("is_public") === "true",
       photoUrls,
       description,
       projectGoal,
+      engine,
+      powerCv,
+      fuelType,
+      transmission,
+      drivetrain,
       projectStatus,
-      specs: [
-        engine,
-        powerCv,
-        torqueNm,
-        weightKg,
-        mileageKm,
-        fuelType,
-        transmission,
-        drivetrain,
-        suspension,
-        wheels,
-        tires,
-        brakes,
-      ],
+      tags,
     }),
     started_at: nullableText(formData, "started_at"),
     project_goal: projectGoal,
-    tags: parseTagString(text(formData, "tags_csv")),
+    tags,
     show_expenses_public: formData.get("show_expenses_public") === "true",
     is_public: formData.get("is_public") === "true",
   };
-}
-
-function hasValue(value: unknown) {
-  if (typeof value === "string") return value.trim().length > 0;
-  return value !== null && value !== undefined;
-}
-
-function calculateEssentialProjectProgress({
-  name,
-  brand,
-  model,
-  year,
-  category,
-  isPublic,
-  photoUrls,
-  description,
-  projectGoal,
-  projectStatus,
-  specs,
-}: {
-  name: string;
-  brand: string;
-  model: string;
-  year: number | null;
-  category: string;
-  isPublic: boolean;
-  photoUrls: string[];
-  description: string | null;
-  projectGoal: string | null;
-  projectStatus: string | null;
-  specs: unknown[];
-}) {
-  const completed = [
-    isPublic && Boolean(name.trim() && brand.trim() && model.trim() && year),
-    photoUrls.length > 0,
-    specs.filter(hasValue).length >= 3,
-    Boolean(description?.trim() || projectGoal?.trim()),
-    Boolean(category.trim() && projectStatus?.trim()),
-  ].filter(Boolean).length;
-
-  return completed * 20;
 }
 
 async function replacePhotos(carId: string, mainPhotoUrl: string | null, photoUrls: string[]) {
