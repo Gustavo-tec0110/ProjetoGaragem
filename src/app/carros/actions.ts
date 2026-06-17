@@ -437,6 +437,21 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const mainPhoto = nullableText(formData, "main_photo_url");
   const photos = parseStringArray(text(formData, "photo_urls_json"));
   const photoUrls = Array.from(new Set([mainPhoto, ...photos].filter((url): url is string => Boolean(url))));
+  const description = nullableText(formData, "description");
+  const projectGoal = nullableText(formData, "project_goal");
+  const engine = nullableText(formData, "engine");
+  const powerCv = integer(formData, "power_cv");
+  const torqueNm = integer(formData, "torque_nm");
+  const weightKg = integer(formData, "weight_kg");
+  const mileageKm = integer(formData, "mileage_km");
+  const fuelType = nullableText(formData, "fuel_type");
+  const transmission = nullableText(formData, "transmission");
+  const drivetrain = nullableText(formData, "drivetrain");
+  const suspension = nullableText(formData, "suspension");
+  const wheels = nullableText(formData, "wheels");
+  const tires = nullableText(formData, "tires");
+  const brakes = nullableText(formData, "brakes");
+  const projectStatus = nullableText(formData, "project_status");
   const versionConfidence = dataConfidence(formData, "version_confidence", "unknown");
   const originalEngineAnswer = detailAnswer(formData, "original_engine_answer");
   const originalInductionAnswer = detailAnswer(formData, "original_induction_answer");
@@ -482,29 +497,95 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
     category: category || "Projeto automotivo",
     state: nullableText(formData, "state"),
     city: nullableText(formData, "city"),
-    description: nullableText(formData, "description"),
+    description,
     main_photo_url: mainPhoto,
     photo_urls: photoUrls,
-    engine: nullableText(formData, "engine"),
-    power_cv: integer(formData, "power_cv"),
-    torque_nm: integer(formData, "torque_nm"),
-    weight_kg: integer(formData, "weight_kg"),
-    mileage_km: integer(formData, "mileage_km"),
-    fuel_type: nullableText(formData, "fuel_type"),
-    transmission: nullableText(formData, "transmission"),
-    drivetrain: nullableText(formData, "drivetrain"),
-    suspension: nullableText(formData, "suspension"),
-    wheels: nullableText(formData, "wheels"),
-    tires: nullableText(formData, "tires"),
-    brakes: nullableText(formData, "brakes"),
-    project_status: nullableText(formData, "project_status"),
-    progress_percent: integer(formData, "progress_percent"),
+    engine,
+    power_cv: powerCv,
+    torque_nm: torqueNm,
+    weight_kg: weightKg,
+    mileage_km: mileageKm,
+    fuel_type: fuelType,
+    transmission,
+    drivetrain,
+    suspension,
+    wheels,
+    tires,
+    brakes,
+    project_status: projectStatus,
+    progress_percent: calculateEssentialProjectProgress({
+      name,
+      brand,
+      model,
+      year,
+      category,
+      isPublic: formData.get("is_public") === "true",
+      photoUrls,
+      description,
+      projectGoal,
+      projectStatus,
+      specs: [
+        engine,
+        powerCv,
+        torqueNm,
+        weightKg,
+        mileageKm,
+        fuelType,
+        transmission,
+        drivetrain,
+        suspension,
+        wheels,
+        tires,
+        brakes,
+      ],
+    }),
     started_at: nullableText(formData, "started_at"),
-    project_goal: nullableText(formData, "project_goal"),
+    project_goal: projectGoal,
     tags: parseTagString(text(formData, "tags_csv")),
     show_expenses_public: formData.get("show_expenses_public") === "true",
     is_public: formData.get("is_public") === "true",
   };
+}
+
+function hasValue(value: unknown) {
+  if (typeof value === "string") return value.trim().length > 0;
+  return value !== null && value !== undefined;
+}
+
+function calculateEssentialProjectProgress({
+  name,
+  brand,
+  model,
+  year,
+  category,
+  isPublic,
+  photoUrls,
+  description,
+  projectGoal,
+  projectStatus,
+  specs,
+}: {
+  name: string;
+  brand: string;
+  model: string;
+  year: number | null;
+  category: string;
+  isPublic: boolean;
+  photoUrls: string[];
+  description: string | null;
+  projectGoal: string | null;
+  projectStatus: string | null;
+  specs: unknown[];
+}) {
+  const completed = [
+    isPublic && Boolean(name.trim() && brand.trim() && model.trim() && year),
+    photoUrls.length > 0,
+    specs.filter(hasValue).length >= 3,
+    Boolean(description?.trim() || projectGoal?.trim()),
+    Boolean(category.trim() && projectStatus?.trim()),
+  ].filter(Boolean).length;
+
+  return completed * 20;
 }
 
 async function replacePhotos(carId: string, mainPhotoUrl: string | null, photoUrls: string[]) {

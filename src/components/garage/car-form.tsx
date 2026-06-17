@@ -370,6 +370,7 @@ export function CarForm({
     deleteCarAction,
     initialActionState
   );
+  const deleteFormRef = React.useRef<HTMLFormElement>(null);
   const [mainPhotoUrl, setMainPhotoUrl] = React.useState(car?.main_photo_url ?? "");
   const [photoUrls, setPhotoUrls] = React.useState<string[]>(() => {
     const fromPhotos = photos.map((photo) => photo.url);
@@ -888,6 +889,7 @@ export function CarForm({
   }
 
   return (
+    <>
     <form
       action={`/api/projects/${encodeURIComponent(car?.id ?? "")}/update`}
       method="post"
@@ -1780,21 +1782,21 @@ export function CarForm({
           <p className="text-sm text-muted">
             {mode === "edit"
               ? "Salve para atualizar as rotas pública, canônica e de descoberta."
-              : "Ao salvar, o projeto já nasce com detalhe, timeline, gastos e SEO."}
+              : "Ao salvar, o projeto já nasce com a ficha pública e pode receber extras depois."}
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
             {mode === "edit" ? (
               <Button
-                type="submit"
-                formAction={deleteFormAction}
-                formNoValidate
-                data-intent="delete"
+                type="button"
                 variant="danger"
                 disabled={editPending || deletePending}
                 onClick={(event) => {
                   if (!window.confirm("Excluir este projeto definitivamente?")) {
                     event.preventDefault();
+                    return;
                   }
+
+                  deleteFormRef.current?.requestSubmit();
                 }}
               >
                 <Trash2 className="size-4" />
@@ -1812,5 +1814,11 @@ export function CarForm({
       </Card>
       </div>
     </form>
+    {mode === "edit" ? (
+      <form ref={deleteFormRef} action={deleteFormAction} className="hidden">
+        <input type="hidden" name="car_id" value={car?.id ?? ""} />
+      </form>
+    ) : null}
+    </>
   );
 }
