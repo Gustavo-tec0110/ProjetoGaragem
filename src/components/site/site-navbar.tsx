@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { CarFront, Compass, Home, LogOut, Plus, Trophy, Warehouse } from "lucide-react";
+import { CarFront, ChevronDown, Compass, Home, LogOut, Plus, Trophy, User, Warehouse } from "lucide-react";
 
 import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,6 @@ const nav = [
   { href: "/comparar", label: "Comparar" },
   { href: "/rankings", label: "Ranking" },
   { href: "/garagem", label: "Minha Garagem" },
-  { href: "/notificacoes", label: "Notificações" },
 ] as const;
 
 const bottomNav = [
@@ -84,6 +84,57 @@ export function SiteNavbar() {
     router.refresh();
   }, [router, signOut]);
 
+  const profileMenu = user ? (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
+          type="button"
+          className="flex min-w-0 max-w-[230px] items-center gap-2 rounded-3xl border border-border/70 bg-background/35 px-2.5 py-1.5 text-left transition hover:bg-background/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          aria-label="Abrir menu do perfil"
+        >
+          <UserAvatar avatarUrl={avatarUrl} displayName={displayName} />
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate text-sm font-ui font-semibold text-foreground">
+              {displayName}
+            </span>
+            {user.email && user.email !== displayName ? (
+              <span className="block truncate text-[11px] text-muted">{user.email}</span>
+            ) : null}
+          </span>
+          <ChevronDown className="size-4 shrink-0 text-muted" aria-hidden="true" />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="end"
+          sideOffset={10}
+          className="z-[70] min-w-[220px] rounded-3xl border border-border/70 bg-card/95 p-2 shadow-2xl backdrop-blur"
+        >
+          <DropdownMenu.Item asChild>
+            <Link
+              href="/perfil"
+              className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-ui font-semibold outline-none transition hover:bg-background/55 focus:bg-background/55"
+            >
+              <User className="size-4" />
+              Meu perfil
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <button
+              type="button"
+              disabled={loading}
+              onClick={handleSignOut}
+              className="flex w-full items-center gap-2 rounded-2xl px-3 py-2 text-left text-sm font-ui font-semibold text-danger outline-none transition hover:bg-danger/10 focus:bg-danger/10 disabled:opacity-50"
+            >
+              <LogOut className="size-4" />
+              Sair
+            </button>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  ) : null;
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50">
@@ -110,30 +161,8 @@ export function SiteNavbar() {
                 <div className="hidden md:flex items-center gap-2">
                   {user ? (
                     <>
-                      <Link
-                        href="/garagem"
-                        className="flex min-w-0 max-w-[230px] items-center gap-2 rounded-3xl border border-border/70 bg-background/35 px-2.5 py-1.5 text-left transition hover:bg-background/55"
-                      >
-                        <UserAvatar avatarUrl={avatarUrl} displayName={displayName} />
-                        <span className="min-w-0 leading-tight">
-                          <span className="block truncate text-sm font-ui font-semibold text-foreground">
-                            {displayName}
-                          </span>
-                          {user.email && user.email !== displayName ? (
-                            <span className="block truncate text-[11px] text-muted">{user.email}</span>
-                          ) : null}
-                        </span>
-                      </Link>
                       <NotificationBell userId={user.id} />
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        disabled={loading}
-                        onClick={handleSignOut}
-                      >
-                        <LogOut className="size-4" />
-                        Sair
-                      </Button>
+                      {profileMenu}
                     </>
                   ) : (
                     <Button asChild variant="ghost" size="sm">

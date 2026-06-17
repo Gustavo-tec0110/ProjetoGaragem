@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye, Heart, PiggyBank, Plus, Wrench } from "lucide-react";
+import { Bookmark, Eye, Heart, PiggyBank, Plus, Users, Wrench, type LucideIcon } from "lucide-react";
 
 import { CarGrid } from "@/components/garage/car-card";
 import { InspirationPlanner } from "@/components/garage/inspiration-planner";
@@ -14,10 +14,23 @@ import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server"
 import { getCurrentProfile, qCarsByOwner, qFollowedCars, qLikedCars, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
+import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "Minha Garagem",
 };
+
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+type GarageTabKey = "projetos" | "salvos" | "curtidos" | "seguindo";
+
+function param(params: Record<string, string | string[] | undefined>, key: string) {
+  const value = params[key];
+  return Array.isArray(value) ? value[0] ?? "" : value ?? "";
+}
+
+function isGarageTabKey(value: string): value is GarageTabKey {
+  return value === "projetos" || value === "salvos" || value === "curtidos" || value === "seguindo";
+}
 
 function Stat({
   label,
@@ -37,7 +50,48 @@ function Stat({
   );
 }
 
-export default async function GaragemPage() {
+function GarageTabLink({
+  href,
+  label,
+  count,
+  icon: Icon,
+  active,
+}: {
+  href: string;
+  label: string;
+  count: number;
+  icon: LucideIcon;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      scroll={false}
+      className={cn(
+        "flex min-w-[150px] items-center justify-center gap-2 rounded-3xl border px-4 py-3 text-sm font-ui font-semibold transition",
+        active
+          ? "border-accent/35 bg-accent/10 text-foreground shadow-glow"
+          : "border-border/70 bg-background/25 text-muted hover:bg-background/45 hover:text-foreground"
+      )}
+      aria-current={active ? "page" : undefined}
+    >
+      <Icon className="size-4" />
+      <span>{label}</span>
+      <span className="rounded-full bg-background/55 px-2 py-0.5 text-[11px] text-muted">
+        {count.toLocaleString("pt-BR")}
+      </span>
+    </Link>
+  );
+}
+
+export default async function GaragemPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const params = await searchParams;
+  const requestedTab = param(params, "aba");
+  const activeTabKey = isGarageTabKey(requestedTab) ? requestedTab : "projetos";
   const supabase = await getSupabaseServerClient();
   const {
     data: { user },
@@ -160,6 +214,73 @@ export default async function GaragemPage() {
   const viewsReceived = myCars.reduce((sum, car) => sum + car.views_count, 0);
   const totalInvested = myCars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
   const activeProjects = myCars.filter((car) => car.project_status !== "Finalizado").length;
+  const garageTabs = [
+    {
+      key: "projetos",
+      href: "/garagem",
+      label: "Meus Projetos",
+      title: "Meus projetos",
+      eyebrow: "Sua garagem",
+      icon: Wrench,
+      cars: myCars,
+      emptyTitle: "Voce ainda nao cadastrou nenhum projeto.",
+      emptyDescription: "Crie seu primeiro projeto para acompanhar evolucao, pecas e interacoes.",
+      emptyAction: (
+        <Button asChild>
+          <Link href="/criar-projeto">Adicionar meu primeiro projeto</Link>
+        </Button>
+      ),
+    },
+    {
+      key: "salvos",
+      href: "/garagem?aba=salvos",
+      label: "Salvos",
+      title: "Projetos salvos",
+      eyebrow: "Referencias",
+      icon: Bookmark,
+      cars: savedCars,
+      emptyTitle: "Voce ainda nao salvou nenhum projeto.",
+      emptyDescription: "Explore projetos e salve os que voce quer consultar depois.",
+      emptyAction: (
+        <Button asChild>
+          <Link href="/explorar">Explorar projetos</Link>
+        </Button>
+      ),
+    },
+    {
+      key: "curtidos",
+      href: "/garagem?aba=curtidos",
+      label: "Curtidos",
+      title: "Projetos curtidos",
+      eyebrow: "Curtidas",
+      icon: Heart,
+      cars: likedCars,
+      emptyTitle: "Voce ainda nao curtiu nenhum projeto.",
+      emptyDescription: "Curta projetos para encontra-los facilmente aqui.",
+      emptyAction: (
+        <Button asChild>
+          <Link href="/explorar">Explorar projetos</Link>
+        </Button>
+      ),
+    },
+    {
+      key: "seguindo",
+      href: "/garagem?aba=seguindo",
+      label: "Seguindo",
+      title: "Projetos seguindo",
+      eyebrow: "Acompanhando",
+      icon: Users,
+      cars: followedCars,
+      emptyTitle: "Voce ainda nao segue nenhum projeto.",
+      emptyDescription: "Siga projetos para acompanhar novidades e atualizacoes.",
+      emptyAction: (
+        <Button asChild>
+          <Link href="/explorar">Explorar projetos</Link>
+        </Button>
+      ),
+    },
+  ] as const;
+  const activeTab = garageTabs.find((tab) => tab.key === activeTabKey) ?? garageTabs[0];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -212,48 +333,37 @@ export default async function GaragemPage() {
           </section>
 
           <section className="mt-10">
-            <div className="mb-4 flex items-end justify-between gap-4">
+            <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="text-xs text-muted">Seus projetos</p>
-                <h2 className="mt-1 font-title text-2xl tracking-tight">Meus carros</h2>
+                <p className="text-xs text-muted">Hub do usuario</p>
+                <h2 className="mt-1 font-title text-2xl tracking-tight">Minha Garagem</h2>
               </div>
               <Button asChild variant="outline" size="sm">
-                <Link href="/criar-projeto">Adicionar</Link>
+                <Link href="/criar-projeto">Adicionar projeto</Link>
               </Button>
             </div>
+            <div className="mb-6 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Navegacao da garagem">
+              {garageTabs.map((tab) => (
+                <GarageTabLink
+                  key={tab.key}
+                  href={tab.href}
+                  label={tab.label}
+                  count={tab.cars.length}
+                  icon={tab.icon}
+                  active={tab.key === activeTab.key}
+                />
+              ))}
+            </div>
+            <div className="mb-4">
+              <p className="text-xs text-muted">{activeTab.eyebrow}</p>
+              <h3 className="mt-1 font-title text-xl tracking-tight">{activeTab.title}</h3>
+            </div>
             <CarGrid
-              cars={myCars}
-              emptyTitle="Voce ainda nao cadastrou nenhum carro."
-              emptyAction={
-                <Button asChild>
-                  <Link href="/criar-projeto">Adicionar meu primeiro projeto</Link>
-                </Button>
-              }
+              cars={activeTab.cars}
+              emptyTitle={activeTab.emptyTitle}
+              emptyDescription={activeTab.emptyDescription}
+              emptyAction={activeTab.emptyAction}
             />
-          </section>
-
-          <section className="mt-12">
-            <div className="mb-4">
-              <p className="text-xs text-muted">Referencias</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Carros salvos</h2>
-            </div>
-            <CarGrid cars={savedCars} emptyTitle="Nenhum carro salvo ainda." />
-          </section>
-
-          <section className="mt-12">
-            <div className="mb-4">
-              <p className="text-xs text-muted">Curtidas</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos curtidos</h2>
-            </div>
-            <CarGrid cars={likedCars} emptyTitle="Nenhum projeto curtido ainda." />
-          </section>
-
-          <section className="mt-12">
-            <div className="mb-4">
-              <p className="text-xs text-muted">Acompanhando</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos que voce segue</h2>
-            </div>
-            <CarGrid cars={followedCars} emptyTitle="Nenhum projeto seguido ainda." />
           </section>
         </div>
       </main>

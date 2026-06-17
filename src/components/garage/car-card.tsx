@@ -12,16 +12,19 @@ export function CarCard({ car }: { car: CarCardData }) {
 export function CarGrid({
   cars,
   emptyTitle = "Nenhum carro encontrado.",
+  emptyDescription,
   emptyAction,
 }: {
   cars: CarCardData[];
   emptyTitle?: string;
+  emptyDescription?: string;
   emptyAction?: ReactNode;
 }) {
   return (
     <ProjectGrid
       projects={cars.map(mapCarCardToProject)}
       emptyTitle={emptyTitle}
+      emptyDescription={emptyDescription}
       emptyAction={emptyAction}
     />
   );
