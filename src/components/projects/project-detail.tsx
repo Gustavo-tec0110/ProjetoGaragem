@@ -227,6 +227,7 @@ export function ProjectDetail({
   } | null;
 }) {
   const project = initialProject;
+  const isProjectComplete = project.progressPercent >= 100;
   const [buildAlerts, setBuildAlerts] = React.useState<BuildAlert[]>([]);
 
   // Load build alerts on component mount
@@ -453,15 +454,21 @@ export function ProjectDetail({
               <div>
                 <p className="text-xs text-warning">Ficha do veículo</p>
                 <h2 className="mt-1 font-title text-xl tracking-tight">
-                  Projeto {project.progressPercent}% completo
+                  {isProjectComplete
+                    ? "Projeto completo"
+                    : `Projeto ${project.progressPercent}% completo`}
                 </h2>
                 <p className="mt-1 text-sm text-muted">
-                  O 100% depende só dos dados essenciais: ficha pública, foto, especificações principais e objetivo.
+                  {isProjectComplete
+                    ? "A ficha essencial está completa. Você ainda pode editar informações ou adicionar extras opcionais."
+                    : "O 100% depende só dos dados essenciais: ficha pública, foto, especificações principais e objetivo."}
                 </p>
               </div>
             </div>
             <Button asChild>
-              <Link href={project.editHref}>Completar detalhes</Link>
+              <Link href={project.editHref}>
+                {isProjectComplete ? "Editar informações" : "Completar detalhes"}
+              </Link>
             </Button>
           </Card>
         ) : null}

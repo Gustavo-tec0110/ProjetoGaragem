@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { useActionState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Gauge, HelpCircle, Plus, Trash2 } from "lucide-react";
+import { CheckCircle2, Eye, Gauge, HelpCircle, Plus, Trash2 } from "lucide-react";
 
 import {
   deleteCarAction,
@@ -451,6 +452,8 @@ export function CarForm({
     originalSuspensionAnswer: car?.original_suspension_answer ?? "unknown",
   });
   const editProjectProgressPercent = car?.progress_percent ?? 0;
+  const isEditProjectComplete = editProjectProgressPercent >= 100;
+  const editProjectHref = car?.slug ? `/projeto/${car.slug}` : null;
 
   function updatePart(localId: string, patch: Partial<PartDraft>) {
     setDraftParts((current) =>
@@ -924,14 +927,20 @@ export function CarForm({
               {mode === "edit" ? "Editar projeto" : "Adicionar meu projeto"}
             </h1>
             <p className="mt-2 text-sm text-muted">
-              O mesmo cadastro abastece a rota canonica do projeto, o legado de carros e a
-              descoberta social.
+              Nome, marca, modelo, ano, foto, objetivo e ficha essencial aparecem na página
+              pública. Extras opcionais ficam abaixo e não impedem o projeto de chegar a 100%.
             </p>
           </div>
           {mode === "edit" ? (
             <div className="inline-flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-xs text-muted">
-              <Gauge className="size-4 text-red-400" />
-              Projeto {editProjectProgressPercent}% completo
+              {isEditProjectComplete ? (
+                <CheckCircle2 className="size-4 text-success" />
+              ) : (
+                <Gauge className="size-4 text-red-400" />
+              )}
+              {isEditProjectComplete
+                ? "Projeto completo"
+                : `Projeto ${editProjectProgressPercent}% completo`}
             </div>
           ) : null}
         </div>
@@ -1230,10 +1239,11 @@ export function CarForm({
           <div>
             <p className="text-xs text-warning">Ficha técnica do dono</p>
             <h2 className="mt-1 font-title text-xl tracking-tight">
-              Completar detalhes do projeto
+              {isEditProjectComplete ? "Projeto completo" : "Completar ficha essencial"}
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-muted">
-              Responda só o que você sabe. “Não sei” conta como resposta e pode ser editado depois.
+              Esta parte conta para a porcentagem. Responda só o que você sabe; “Não sei”
+              também é uma resposta válida e pode ser editada depois.
             </p>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-xs text-muted">
@@ -1336,9 +1346,11 @@ export function CarForm({
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="font-title text-xl tracking-tight">Modificações atuais e planos futuros</h2>
+            <p className="text-xs text-muted">Opcional - público quando preenchido</p>
+            <h2 className="mt-1 font-title text-xl tracking-tight">Modificações atuais e planos futuros</h2>
             <p className="mt-1 text-sm text-muted">
-              Separe modificações atuais dos planos futuros para a ficha pública ficar clara.
+              Separe modificações atuais dos planos futuros para enriquecer a ficha pública.
+              Deixar vazio não reduz a conclusão do projeto.
             </p>
           </div>
           <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:flex lg:flex-wrap lg:justify-end">
@@ -1519,9 +1531,11 @@ export function CarForm({
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-title text-xl tracking-tight">Timeline de evolução</h2>
+            <p className="text-xs text-muted">Opcional - público quando preenchido</p>
+            <h2 className="mt-1 font-title text-xl tracking-tight">Timeline de evolução</h2>
             <p className="mt-1 text-sm text-muted">
-              Registre títulos, datas, fotos e o valor gasto em cada etapa.
+              Registre títulos, datas, fotos e valores por etapa. A timeline aparece na página
+              pública, mas não é obrigatória para completar a ficha.
             </p>
           </div>
           {draftUpdates.length ? (
@@ -1647,9 +1661,11 @@ export function CarForm({
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-title text-xl tracking-tight">Controle financeiro</h2>
+            <p className="text-xs text-muted">Opcional - valores privados por padrão</p>
+            <h2 className="mt-1 font-title text-xl tracking-tight">Controle financeiro</h2>
             <p className="mt-1 text-sm text-muted">
-              O total investido e o gráfico do projeto usam estes lançamentos.
+              Use para acompanhar custos. Só os gastos marcados como públicos aparecem para visitantes;
+              deixar vazio não reduz a conclusão do projeto.
             </p>
           </div>
           {draftExpenses.length ? (
@@ -1791,18 +1807,44 @@ export function CarForm({
           </p>
         ) : null}
 
-        <Card className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-muted">
-            {mode === "edit"
-              ? "Salve para atualizar as rotas pública, canônica e de descoberta."
-              : "Ao salvar, o projeto já nasce com a ficha pública e pode receber extras depois."}
-          </p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            {mode === "edit" ? (
+        <Card className="space-y-3 p-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-muted">
+              {mode === "edit"
+                ? isEditProjectComplete
+                  ? "Projeto completo. Salve mudanças quando editar algo ou abra a página publicada."
+                  : "Salve para atualizar a ficha pública e a descoberta."
+                : "Ao salvar, o projeto já nasce com a ficha pública e pode receber extras depois."}
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              {mode === "edit" && editProjectHref ? (
+                <Button asChild variant="outline">
+                  <Link href={editProjectHref}>
+                    <Eye className="size-4" />
+                    Ver projeto publicado
+                  </Link>
+                </Button>
+              ) : null}
+              <Button type="submit" disabled={editPending || deletePending} className="sm:min-w-48">
+                {editPending
+                  ? "Salvando..."
+                  : mode === "edit"
+                    ? "Salvar alterações"
+                    : "Criar página do projeto"}
+              </Button>
+            </div>
+          </div>
+
+          {mode === "edit" ? (
+            <div className="flex flex-col gap-3 rounded-3xl border border-danger/30 bg-danger/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-muted">
+                Zona de perigo: excluir remove o projeto definitivamente.
+              </p>
               <Button
                 type="button"
-                variant="danger"
+                variant="outline"
                 disabled={editPending || deletePending}
+                className="border-danger/40 text-danger hover:bg-danger/10 sm:w-auto"
                 onClick={(event) => {
                   if (!window.confirm("Excluir este projeto definitivamente?")) {
                     event.preventDefault();
@@ -1815,15 +1857,8 @@ export function CarForm({
                 <Trash2 className="size-4" />
                 {deletePending ? "Excluindo..." : "Excluir projeto"}
               </Button>
-            ) : null}
-            <Button type="submit" disabled={editPending || deletePending} className="sm:min-w-48">
-              {editPending
-                ? "Salvando..."
-                : mode === "edit"
-                  ? "Salvar alterações"
-                  : "Criar página do projeto"}
-            </Button>
-        </div>
+            </div>
+          ) : null}
       </Card>
       </div>
     </form>
