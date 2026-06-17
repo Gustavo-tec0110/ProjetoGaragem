@@ -8,11 +8,14 @@ import {
   Bookmark,
   Calendar,
   Eye,
+  Fuel,
   Gauge,
   Heart,
   MessageCircle,
+  Settings,
   Timer,
   Users,
+  Wrench,
 } from "lucide-react";
 
 import { CommentForm, CommentsList } from "@/components/garage/comments";
@@ -20,6 +23,7 @@ import { ProjectFinanceChart } from "@/components/projects/project-finance-chart
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { ProjectImage } from "@/components/projects/project-image";
+import { ProjectTimeline } from "@/components/projects/project-timeline";
 import {
   ProjectSocialActions,
   syncProjectView,
@@ -55,6 +59,8 @@ type DetailSpec = {
   value: string | number | null | undefined;
 };
 
+type QuickFact = DetailStat;
+
 type ProjectCommentThread = {
   carId: string;
   slug: string;
@@ -81,22 +87,54 @@ function Stat({ label, value, icon: Icon }: DetailStat) {
 
 function SpecCard({ label, value }: DetailSpec) {
   return (
-    <Card className="p-4">
+    <Card className="p-4 transition hover:border-accent/35">
       <p className="text-xs text-muted">{label}</p>
-      <p className="mt-1 font-ui text-sm font-semibold">{formatSpecValue(value)}</p>
+      <p className="mt-1 font-ui text-sm font-semibold leading-snug">{formatSpecValue(value)}</p>
     </Card>
   );
 }
 
-function PartsSection({
+function QuickFactCard({ label, value, icon: Icon }: QuickFact) {
+  return (
+    <Card className="p-4">
+      <div className="flex items-center gap-3">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/35">
+          <Icon className="size-5 text-accent" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs text-muted">{label}</p>
+          <p className="mt-1 truncate font-ui text-sm font-semibold">{value}</p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function getSpecValue(specs: DetailSpec[], needle: string) {
+  const normalize = (value: string) =>
+    value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const normalizedNeedle = normalize(needle);
+  return specs.find((spec) => normalize(spec.label).includes(normalizedNeedle))?.value;
+}
+
+function mergeSpecs(defaultSpecs: DetailSpec[], incoming?: DetailSpec[]) {
+  const map = new Map<string, DetailSpec>();
+  for (const spec of [...defaultSpecs, ...(incoming ?? [])]) {
+    if (!map.has(spec.label)) map.set(spec.label, spec);
+  }
+  return Array.from(map.values());
+}
+
+function ProjectPartsShowcase({
   title,
   parts,
-  emptyText = "Nenhuma modificação cadastrada nesta seção.",
+  eyebrow,
+  emptyText,
 }: {
   title: string;
   parts: ProjectPart[];
-  emptyText?: string;
-  alerts?: BuildAlert[];
+  eyebrow: string;
+  emptyText: string;
 }) {
   const groupedParts = parts.reduce((map, part) => {
     const category = part.category || "Outros";
@@ -108,100 +146,97 @@ function PartsSection({
 
   return (
     <section>
-      <div className="flex items-end justify-between gap-4">
-        <div>
-          <p className="text-xs text-muted">Modificacoes</p>
-          <h2 className="mt-1 font-title text-2xl tracking-tight">{title}</h2>
+      <Card className="p-5 md:p-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs text-muted">{eyebrow}</p>
+            <h2 className="mt-1 font-title text-2xl tracking-tight">{title}</h2>
+          </div>
+          <Badge>{parts.length} itens</Badge>
         </div>
-        <Badge>{parts.length} itens</Badge>
-      </div>
 
-      <div className="mt-4 grid gap-3">
-        {parts.length ? (
-          Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
-            <Card key={category} className="p-4">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <h3 className="font-title text-xl tracking-tight">{category}</h3>
-                <Badge>{categoryParts.length} itens</Badge>
-              </div>
-              <div className="grid gap-3">
-                {categoryParts.map((part) => (
-                  <div
-                    key={part.id}
-                    className="grid gap-4 rounded-3xl border border-border/70 bg-background/25 p-4 md:grid-cols-[7rem_1fr_auto]"
-                  >
-                    <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-surface">
-                      {part.imageUrl ? (
-                        <ProjectImage
-                          src={part.imageUrl}
-                          alt={`Imagem de ${part.name}`}
-                          fill
-                          className="object-cover"
-                          sizes="112px"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/65" />
-                      )}
-                    </div>
-                    <div>
-                      <Badge
-                        variant={
-                          part.status === "installed"
-                            ? "success"
+        <div className="mt-5 grid gap-4">
+          {parts.length ? (
+            Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
+              <div key={category} className="rounded-3xl border border-border/70 bg-background/25 p-4">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <h3 className="font-title text-xl tracking-tight">{category}</h3>
+                  <Badge>{categoryParts.length} itens</Badge>
+                </div>
+
+                <div className="grid gap-3">
+                  {categoryParts.map((part) => (
+                    <div
+                      key={part.id}
+                      className="grid gap-4 rounded-3xl border border-border/70 bg-surface/70 p-4 md:grid-cols-[7rem_1fr_auto]"
+                    >
+                      <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-surface">
+                        {part.imageUrl ? (
+                          <ProjectImage
+                            src={part.imageUrl}
+                            alt={`Imagem de ${part.name}`}
+                            fill
+                            className="object-cover"
+                            sizes="112px"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/65" />
+                        )}
+                      </div>
+
+                      <div>
+                        <Badge
+                          variant={
+                            part.status === "installed"
+                              ? "success"
+                              : part.status === "removed"
+                                ? "secondary"
+                                : "warning"
+                          }
+                        >
+                          {part.status === "installed"
+                            ? "Instalada"
                             : part.status === "removed"
-                              ? "secondary"
-                              : "warning"
-                        }
-                      >
-                        {part.status === "installed"
-                          ? "Instalada"
-                          : part.status === "removed"
-                            ? "Removida"
-                            : "Planejada"}
-                      </Badge>
-                      <h4 className="mt-3 font-title text-lg tracking-tight">
-                        {part.brand ? `${part.brand} ` : ""}
-                        {part.name}
-                      </h4>
-                      {part.description ? (
-                        <p className="mt-2 text-sm text-foreground/85">{part.description}</p>
-                      ) : null}
-                      <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
-                        {part.installedAt ? <span>Instalada em {formatProjectDate(part.installedAt)}</span> : null}
-                        {part.externalUrl ? (
-                          <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="font-semibold text-foreground">
-                            Ver peça
-                          </Link>
+                              ? "Removida"
+                              : "Planejada"}
+                        </Badge>
+                        <h4 className="mt-3 font-title text-lg tracking-tight">
+                          {part.brand ? `${part.brand} ` : ""}
+                          {part.name}
+                        </h4>
+                        {part.description ? (
+                          <p className="mt-2 text-sm text-foreground/85">{part.description}</p>
                         ) : null}
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
+                          {part.installedAt ? <span>Instalada em {formatProjectDate(part.installedAt)}</span> : null}
+                          {part.externalUrl ? (
+                            <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="font-semibold text-foreground">
+                              Ver peca
+                            </Link>
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="min-w-36 text-left md:text-right">
+                        <p className="text-xs text-muted">Valor estimado</p>
+                        <p className="mt-1 font-ui text-sm font-semibold">
+                          {formatProjectCurrency(part.priceEstimate)}
+                        </p>
                       </div>
                     </div>
-                    <div className="min-w-36 text-left md:text-right">
-                      <p className="text-xs text-muted">Valor estimado</p>
-                      <p className="mt-1 font-ui text-sm font-semibold">
-                        {formatProjectCurrency(part.priceEstimate)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </Card>
-          ))
-        ) : (
-          <div className="rounded-4xl border border-border/70 bg-background/25 p-5 text-sm text-muted">
-            {emptyText}
-          </div>
-        )}
-      </div>
+            ))
+          ) : (
+            <div className="rounded-3xl border border-border/70 bg-background/25 p-5 text-sm text-muted">
+              {emptyText}
+            </div>
+          )}
+        </div>
+      </Card>
     </section>
   );
-}
-
-function mergeSpecs(defaultSpecs: DetailSpec[], incoming?: DetailSpec[]) {
-  const map = new Map<string, DetailSpec>();
-  for (const spec of [...defaultSpecs, ...(incoming ?? [])]) {
-    if (!map.has(spec.label)) map.set(spec.label, spec);
-  }
-  return Array.from(map.values());
 }
 
 export function ProjectDetail({
@@ -308,13 +343,56 @@ export function ProjectDetail({
     { label: "Peso", value: formatNumber(project.weightKg, " kg") },
     { label: "Início", value: formatProjectDate(project.startedAt) },
     { label: "Tempo de projeto", value: project.projectDurationLabel },
-    { label: "Última evolução", value: formatProjectDate(project.lastUpdateAt) },
+    { label: "�altima evolução", value: formatProjectDate(project.lastUpdateAt) },
   ];
   const detailSpecs = mergeSpecs(defaultSpecs, technicalSpecs);
+  const brand = getSpecValue(detailSpecs, "marca") ?? project.brand;
+  const model = getSpecValue(detailSpecs, "modelo") ?? project.model;
+  const version = getSpecValue(detailSpecs, "versao");
+  const fuel = getSpecValue(detailSpecs, "combustivel");
+  const transmission = getSpecValue(detailSpecs, "cambio atual") ?? getSpecValue(detailSpecs, "cambio");
+  const drivetrain =
+    getSpecValue(detailSpecs, "tracao atual") ??
+    getSpecValue(detailSpecs, "tracao") ??
+    project.factoryDrivetrain;
+  const vehicleLine = [brand, model, project.year, version].filter(Boolean).join(" ");
+  const carNickname =
+    project.shortDescription &&
+    project.shortDescription !== project.title &&
+    project.shortDescription.length <= 80
+      ? project.shortDescription
+      : null;
+  const quickFacts: QuickFact[] = [
+    {
+      label: "Potência",
+      value: formatNumber(project.powerCv, " cv"),
+      icon: Gauge,
+    },
+    {
+      label: "Combustível",
+      value: formatSpecValue(fuel),
+      icon: Fuel,
+    },
+    {
+      label: "Câmbio",
+      value: formatSpecValue(transmission),
+      icon: Settings,
+    },
+    {
+      label: "Tração",
+      value: formatSpecValue(drivetrain),
+      icon: ArrowRightLeft,
+    },
+    {
+      label: "Status",
+      value: project.status,
+      icon: Wrench,
+    },
+  ];
 
   return (
     <div className="space-y-12 pb-14">
-      <section className="relative min-h-[76vh] px-4 sm:px-6">
+      <section className="pg-grid-bg relative overflow-hidden px-4 sm:px-6">
         <div className="absolute inset-0">
           <ProjectImage
             src={gallery[0]}
@@ -322,14 +400,14 @@ export function ProjectDetail({
             fill
             priority
             loading="eager"
-            className="object-cover opacity-70"
+            className="object-cover opacity-30"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/78 to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/78 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/88 to-background/45" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[76vh] w-full max-w-6xl flex-col justify-end pb-10 pt-28">
+        <div className="relative mx-auto grid min-h-[78vh] w-full max-w-6xl gap-8 pb-10 pt-28 lg:grid-cols-[1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <div className="flex flex-wrap gap-2">
               <Badge variant="secondary">{project.style}</Badge>
@@ -341,8 +419,13 @@ export function ProjectDetail({
             <h1 className="mt-5 font-title text-4xl tracking-tight md:text-6xl">
               {project.title}
             </h1>
+            {carNickname ? (
+              <p className="mt-3 font-title text-2xl text-accent md:text-3xl">
+                {carNickname}
+              </p>
+            ) : null}
             <p className="mt-3 text-lg text-muted md:text-xl">
-              {project.carModel} - {project.year} - {project.engine}
+              {vehicleLine || `${project.carModel} - ${project.year}`} - {project.engine}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted">
@@ -351,10 +434,10 @@ export function ProjectDetail({
                   href={`/perfil/${project.ownerUsername}`}
                   className="font-semibold text-foreground hover:text-accent"
                 >
-                  {project.ownerName}
+                  Projeto de {project.ownerName}
                 </Link>
               ) : (
-                <span className="font-semibold text-foreground">{project.ownerName}</span>
+                <span className="font-semibold text-foreground">Projeto de {project.ownerName}</span>
               )}
               <span className="inline-flex items-center gap-1">
                 <Calendar className="size-4" />
@@ -382,7 +465,7 @@ export function ProjectDetail({
                 </p>
               </div>
               <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
-                <p className="text-xs text-muted">Última atualização</p>
+                <p className="text-xs text-muted">�altima atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
@@ -424,6 +507,25 @@ export function ProjectDetail({
                   <Link href={alternateRoute.href}>{alternateRoute.label}</Link>
                 </Button>
               ) : null}
+            </div>
+          </div>
+
+          <div className="relative min-h-[22rem] overflow-hidden rounded-4xl border border-border/70 bg-surface shadow-elevated lg:min-h-[34rem]">
+            <ProjectImage
+              src={gallery[0]}
+              alt={`Foto principal do projeto ${project.title}`}
+              fill
+              priority
+              loading="eager"
+              className="object-cover"
+              sizes="(min-width: 1024px) 42vw, 100vw"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-5">
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary">{project.progressPercent}% completo</Badge>
+                <Badge>{project.installedParts.length} instaladas</Badge>
+                <Badge>{project.plannedParts.length} planos</Badge>
+              </div>
             </div>
           </div>
         </div>
@@ -479,6 +581,21 @@ export function ProjectDetail({
           ))}
         </section>
 
+        <section>
+          <p className="text-xs text-muted">Resumo rapido</p>
+          <h2 className="mt-1 font-title text-2xl tracking-tight">Dados essenciais</h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {quickFacts.map((fact) => (
+              <QuickFactCard
+                key={fact.label}
+                label={fact.label}
+                value={fact.value}
+                icon={fact.icon}
+              />
+            ))}
+          </div>
+        </section>
+
         <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="p-5 md:p-6">
             <p className="text-xs text-muted">Meta do projeto</p>
@@ -493,10 +610,10 @@ export function ProjectDetail({
           </Card>
 
           <Card className="p-5 md:p-6">
-            <p className="text-xs text-muted">Resumo rapido</p>
+            <p className="text-xs text-muted">Atividade recente</p>
             <div className="mt-4 grid gap-3">
               <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Última atualização</p>
+                <p className="text-xs text-muted">�altima atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
@@ -550,7 +667,7 @@ export function ProjectDetail({
               {
                 label: "Câmbio",
                 factory: project.factoryTransmission,
-                current: detailSpecs.find((spec) => spec.label.toLowerCase().includes("cambio"))?.value,
+                current: transmission,
               },
             ].map((row) => (
               <Card key={row.label} className="grid gap-4 p-4 sm:grid-cols-2">
@@ -615,8 +732,18 @@ export function ProjectDetail({
               <p className="text-sm text-muted">Nenhum alerta relevante.</p>
             )}
           </div>
-          <PartsSection title="Modificações instaladas hoje" parts={project.installedParts} alerts={buildAlerts.filter(a=>a.relatedPartId && project.installedParts.some(p=>p.id===a.relatedPartId))} />
-          <PartsSection title="Planos futuros" parts={project.plannedParts} alerts={buildAlerts.filter(a=>a.relatedPartId && project.plannedParts.some(p=>p.id===a.relatedPartId))} />
+          <ProjectPartsShowcase
+            title="Modificações atuais"
+            eyebrow="Instaladas no projeto"
+            parts={project.installedParts}
+            emptyText="Nenhuma modificacao atual cadastrada."
+          />
+          <ProjectPartsShowcase
+            title="Planos futuros"
+            eyebrow="Próximos passos"
+            parts={project.plannedParts}
+            emptyText="Nenhum plano futuro cadastrado."
+          />
         </div>
 
         <section>
@@ -635,10 +762,22 @@ export function ProjectDetail({
           </div>
         </section>
 
+        <section id="timeline">
+          <p className="text-xs text-muted">Timeline</p>
+          <h2 className="mt-1 font-title text-2xl tracking-tight">Evolução do projeto</h2>
+          <div className="mt-4">
+            <ProjectTimeline project={project} />
+          </div>
+        </section>
+
         {commentThread ? (
           <section id="comentarios" className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
             <Card className="p-5 md:p-6">
+              <p className="text-xs text-muted">Comentários</p>
               <h2 className="font-title text-2xl tracking-tight">Comentar</h2>
+              <p className="mt-2 text-sm text-muted">
+                Área preparada para dúvidas, feedback e próximas atualizações do projeto.
+              </p>
               <div className="mt-4">
                 <CommentForm
                   carId={commentThread.carId}
@@ -648,7 +787,13 @@ export function ProjectDetail({
               </div>
             </Card>
             <div>
-              <h2 className="font-title text-2xl tracking-tight">Comentarios</h2>
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs text-muted">Discussão</p>
+                  <h2 className="font-title text-2xl tracking-tight">Comentários</h2>
+                </div>
+                <Badge>{commentThread.comments.length} mensagens</Badge>
+              </div>
               <div className="mt-4">
                 <CommentsList
                   comments={commentThread.comments}
