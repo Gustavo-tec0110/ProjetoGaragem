@@ -78,6 +78,10 @@ export function ProjectSocialActions({
       : initialSaves;
   const followers = usingServer ? serverFollowers : initialFollowers;
 
+  function reportSocialActionError(action: string, message?: string) {
+    console.error("[social-action]", action, message ?? "Falha sem mensagem retornada.");
+  }
+
   async function copyLink() {
     await navigator.clipboard?.writeText(window.location.href);
     setCopied(true);
@@ -134,6 +138,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ followers: Math.max(0, followers + (next ? 1 : -1)) });
               const result = await toggleProjectFollowAction(databaseId);
               if (!result.ok) {
+                reportSocialActionError("project_follows.toggle", result.message);
                 setServerFollowed(!next);
                 setServerFollowers((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ followers });
@@ -169,6 +174,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ likes: Math.max(0, likes + (next ? 1 : -1)) });
               const result = await toggleLikeAction(databaseId);
               if (!result.ok) {
+                reportSocialActionError("car_likes.toggle", result.message);
                 setServerLiked(!next);
                 setServerLikes((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ likes });
@@ -207,6 +213,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ saves: Math.max(0, saves + (next ? 1 : -1)) });
               const result = await toggleSaveAction(databaseId);
               if (!result.ok) {
+                reportSocialActionError("car_saves.toggle", result.message);
                 setServerSaved(!next);
                 setServerSaves((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ saves });

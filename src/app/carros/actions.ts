@@ -54,6 +54,28 @@ type ExpenseInput = {
   is_public?: boolean;
 };
 
+type SupabaseActionError = {
+  message: string;
+  code?: string;
+  details?: string;
+  hint?: string;
+};
+
+function formatSupabaseActionError(action: string, error: SupabaseActionError) {
+  const code = error.code ? ` (${error.code})` : "";
+  return `${action} falhou${code}: ${error.message}`;
+}
+
+function logSupabaseActionError(action: string, context: Record<string, string>, error: SupabaseActionError) {
+  console.error("[social-action]", action, {
+    ...context,
+    code: error.code,
+    message: error.message,
+    details: error.details,
+    hint: error.hint,
+  });
+}
+
 function text(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -407,6 +429,27 @@ async function readCarSocialCounts(supabase: NonNullable<Awaited<ReturnType<type
     viewsCount: data?.views_count ?? 0,
     followersCount: data?.project_followers_count ?? 0,
   };
+}
+
+async function verifySocialRow(
+  supabase: NonNullable<Awaited<ReturnType<typeof getSupabaseServerClient>>>,
+  table: "car_likes" | "car_saves" | "project_follows",
+  carId: string,
+  userId: string
+) {
+  const { data, error } = await supabase
+    .from(table)
+    .select("car_id")
+    .eq("car_id", carId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    logSupabaseActionError(`${table}.select`, { carId, userId }, error);
+    return { ok: false, exists: false, message: formatSupabaseActionError(`${table}.select`, error) };
+  }
+
+  return { ok: true, exists: Boolean(data), message: null };
 }
 
 function revalidateProjectSocialPaths(slug?: string | null) {
@@ -929,13 +972,21 @@ export async function toggleLikeAction(carId: string) {
     .maybeSingle();
 
   if (existingError) {
-    return { ok: false, message: existingError.message, active: false };
+    logSupabaseActionError("car_likes.select", { carId, userId: auth.user.id }, existingError);
+    return { ok: false, message: formatSupabaseActionError("car_likes.select", existingError), active: false };
   }
 
   if (existing) {
     const { error } = await auth.supabase.from("car_likes").delete().eq("car_id", carId).eq("user_id", auth.user.id);
     if (error) {
-      return { ok: false, message: error.message, active: true };
+      logSupabaseActionError("car_likes.delete", { carId, userId: auth.user.id }, error);
+      return { ok: false, message: formatSupabaseActionError("car_likes.delete", error), active: true };
+    }
+    const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
+    if (!verification.ok || verification.exists) {
+      const message = verification.message ?? "car_likes.delete falhou: registro ainda existe apos delete.";
+      console.error("[social-action] car_likes.delete.verify", { carId, userId: auth.user.id, message });
+      return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
     revalidateProjectSocialPaths(car.slug);
@@ -954,7 +1005,15 @@ export async function toggleLikeAction(carId: string) {
     });
   }
   if (error) {
-    return { ok: false, message: error.message, active: false };
+    logSupabaseActionError("car_likes.insert", { carId, userId: auth.user.id }, error);
+    return { ok: false, message: formatSupabaseActionError("car_likes.insert", error), active: false };
+  }
+
+  const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
+  if (!verification.ok || !verification.exists) {
+    const message = verification.message ?? "car_likes.insert falhou: registro nao foi encontrado apos insert.";
+    console.error("[social-action] car_likes.insert.verify", { carId, userId: auth.user.id, message });
+    return { ok: false, message, active: false };
   }
 
   const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -985,13 +1044,21 @@ export async function toggleSaveAction(carId: string) {
     .maybeSingle();
 
   if (existingError) {
-    return { ok: false, message: existingError.message, active: false };
+    logSupabaseActionError("car_saves.select", { carId, userId: auth.user.id }, existingError);
+    return { ok: false, message: formatSupabaseActionError("car_saves.select", existingError), active: false };
   }
 
   if (existing) {
     const { error } = await auth.supabase.from("car_saves").delete().eq("car_id", carId).eq("user_id", auth.user.id);
     if (error) {
-      return { ok: false, message: error.message, active: true };
+      logSupabaseActionError("car_saves.delete", { carId, userId: auth.user.id }, error);
+      return { ok: false, message: formatSupabaseActionError("car_saves.delete", error), active: true };
+    }
+    const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
+    if (!verification.ok || verification.exists) {
+      const message = verification.message ?? "car_saves.delete falhou: registro ainda existe apos delete.";
+      console.error("[social-action] car_saves.delete.verify", { carId, userId: auth.user.id, message });
+      return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
     revalidateProjectSocialPaths(car.slug);
@@ -1010,7 +1077,15 @@ export async function toggleSaveAction(carId: string) {
     });
   }
   if (error) {
-    return { ok: false, message: error.message, active: false };
+    logSupabaseActionError("car_saves.insert", { carId, userId: auth.user.id }, error);
+    return { ok: false, message: formatSupabaseActionError("car_saves.insert", error), active: false };
+  }
+
+  const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
+  if (!verification.ok || !verification.exists) {
+    const message = verification.message ?? "car_saves.insert falhou: registro nao foi encontrado apos insert.";
+    console.error("[social-action] car_saves.insert.verify", { carId, userId: auth.user.id, message });
+    return { ok: false, message, active: false };
   }
 
   const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -1078,12 +1153,17 @@ export async function toggleProjectFollowAction(carId: string) {
     return { ok: false, message: "Você já é dono deste projeto.", active: false };
   }
 
-  const { data: existing } = await auth.supabase
+  const { data: existing, error: existingError } = await auth.supabase
     .from("project_follows")
     .select("id")
     .eq("car_id", carId)
     .eq("user_id", auth.user.id)
     .maybeSingle();
+
+  if (existingError) {
+    logSupabaseActionError("project_follows.select", { carId, userId: auth.user.id }, existingError);
+    return { ok: false, message: formatSupabaseActionError("project_follows.select", existingError), active: false };
+  }
 
   if (existing) {
     const { error } = await auth.supabase
@@ -1092,7 +1172,14 @@ export async function toggleProjectFollowAction(carId: string) {
       .eq("car_id", carId)
       .eq("user_id", auth.user.id);
     if (error) {
-      return { ok: false, message: error.message, active: true };
+      logSupabaseActionError("project_follows.delete", { carId, userId: auth.user.id }, error);
+      return { ok: false, message: formatSupabaseActionError("project_follows.delete", error), active: true };
+    }
+    const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
+    if (!verification.ok || verification.exists) {
+      const message = verification.message ?? "project_follows.delete falhou: registro ainda existe apos delete.";
+      console.error("[social-action] project_follows.delete.verify", { carId, userId: auth.user.id, message });
+      return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
     revalidateProjectSocialPaths(car.slug);
@@ -1116,7 +1203,15 @@ export async function toggleProjectFollowAction(carId: string) {
   }
 
   if (error) {
-    return { ok: false, message: error.message, active: false };
+    logSupabaseActionError("project_follows.insert", { carId, userId: auth.user.id }, error);
+    return { ok: false, message: formatSupabaseActionError("project_follows.insert", error), active: false };
+  }
+
+  const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
+  if (!verification.ok || !verification.exists) {
+    const message = verification.message ?? "project_follows.insert falhou: registro nao foi encontrado apos insert.";
+    console.error("[social-action] project_follows.insert.verify", { carId, userId: auth.user.id, message });
+    return { ok: false, message, active: false };
   }
 
   const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -1132,7 +1227,16 @@ export async function incrementViewAction(carId: string, carSlug: string) {
     target_car_id: carId,
   });
 
-  if (error || !data) return { ok: false, message: error?.message };
+  if (error) {
+    logSupabaseActionError("increment_car_view.rpc", { carId }, error);
+    return { ok: false, message: formatSupabaseActionError("increment_car_view.rpc", error) };
+  }
+
+  if (!data) {
+    const message = "increment_car_view.rpc falhou: nenhuma linha publica foi atualizada.";
+    console.error("[social-action] increment_car_view.rpc", { carId, message });
+    return { ok: false, message };
+  }
 
   const counts = await readCarSocialCounts(supabase, carId);
   revalidateProjectSocialPaths(carSlug);

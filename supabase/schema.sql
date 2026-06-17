@@ -493,6 +493,8 @@ for each row execute function public.set_updated_at();
 create or replace function public.bump_car_like_count()
 returns trigger
 language plpgsql
+security definer
+set search_path = public
 as $$
 begin
   if tg_op = 'INSERT' then
@@ -514,6 +516,8 @@ for each row execute function public.bump_car_like_count();
 create or replace function public.bump_car_save_count()
 returns trigger
 language plpgsql
+security definer
+set search_path = public
 as $$
 begin
   if tg_op = 'INSERT' then

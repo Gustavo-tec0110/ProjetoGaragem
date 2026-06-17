@@ -29,6 +29,10 @@ export function CarSocialActions({
   const [saves, setSaves] = React.useState(savesCount);
   const [copied, setCopied] = React.useState(false);
 
+  function reportSocialActionError(action: string, message?: string) {
+    console.error("[social-action]", action, message ?? "Falha sem mensagem retornada.");
+  }
+
   if (!viewerLoggedIn) {
     return (
       <div className="flex flex-wrap gap-2">
@@ -56,6 +60,7 @@ export function CarSocialActions({
             setLikes((current) => Math.max(0, current + (next ? 1 : -1)));
             const result = await toggleLikeAction(carId);
             if (!result.ok) {
+              reportSocialActionError("car_likes.toggle", result.message);
               setLiked(!next);
               setLikes((current) => Math.max(0, current + (next ? -1 : 1)));
               return;
@@ -81,6 +86,7 @@ export function CarSocialActions({
             setSaves((current) => Math.max(0, current + (next ? 1 : -1)));
             const result = await toggleSaveAction(carId);
             if (!result.ok) {
+              reportSocialActionError("car_saves.toggle", result.message);
               setSaved(!next);
               setSaves((current) => Math.max(0, current + (next ? -1 : 1)));
               return;
