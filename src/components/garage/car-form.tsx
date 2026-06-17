@@ -56,6 +56,7 @@ const UPDATE_CATEGORIES = [
 type CarBrand = (typeof CAR_BRANDS)[number];
 
 const OTHER_MODEL_VALUE = "__other__";
+const OTHER_VERSION_VALUE = "__other_version__";
 
 const CAR_MODELS_BY_BRAND: Record<CarBrand, readonly string[]> = {
   Volkswagen: ["Gol", "Golf", "Parati", "Saveiro", "Voyage", "Santana", "Passat", "Polo", "Fox", "Fusca", "Jetta"],
@@ -392,9 +393,25 @@ export function CarForm({
   const [brandInput, setBrandInput] = React.useState(car?.brand ?? "");
   const [modelInput, setModelInput] = React.useState(car?.model ?? "");
   const [yearInput, setYearInput] = React.useState(car?.year ? String(car.year) : "");
-  const [selectedCatalogId, setSelectedCatalogId] = React.useState<string>(
-    car?.catalog_version_id ?? UNKNOWN_VERSION_VALUE
+  const [editManualVersion, setEditManualVersion] = React.useState(car?.version ?? "");
+  const [editVersionConfidence, setEditVersionConfidence] = React.useState<DataConfidence>(
+    car?.version_confidence ?? "unknown"
   );
+  const [selectedCatalogId, setSelectedCatalogId] = React.useState<string>(() => {
+    if (car?.catalog_version_id) return car.catalog_version_id;
+
+    const currentVersion = car?.version?.trim();
+    if (!currentVersion) return UNKNOWN_VERSION_VALUE;
+
+    const initialMatch = matchingCatalogVersions(
+      catalogVersions,
+      car?.brand ?? "",
+      car?.model ?? "",
+      car?.year ? String(car.year) : ""
+    ).find((item) => item.version.toLowerCase() === currentVersion.toLowerCase());
+
+    return initialMatch?.id ?? OTHER_VERSION_VALUE;
+  });
   const editBrandOptions = React.useMemo(() => {
     const currentBrand = car?.brand?.trim();
     if (currentBrand && !CAR_BRANDS.includes(currentBrand as (typeof CAR_BRANDS)[number])) {
@@ -409,10 +426,14 @@ export function CarForm({
     [brandInput, catalogVersions, modelInput, yearInput]
   );
   const selectedCatalogVersion =
-    selectedCatalogId === UNKNOWN_VERSION_VALUE
+    selectedCatalogId === UNKNOWN_VERSION_VALUE || selectedCatalogId === OTHER_VERSION_VALUE
       ? null
       : catalogMatches.find((item) => item.id === selectedCatalogId) ?? null;
-  const versionSelectValue = selectedCatalogVersion ? selectedCatalogId : UNKNOWN_VERSION_VALUE;
+  const versionSelectValue = selectedCatalogVersion
+    ? selectedCatalogId
+    : selectedCatalogId === OTHER_VERSION_VALUE
+      ? OTHER_VERSION_VALUE
+      : UNKNOWN_VERSION_VALUE;
   const suggestedFactorySpec = selectedCatalogVersion ?? catalogMatches[0] ?? null;
   const createVersionConfidence: DataConfidence = selectedCatalogVersion ? "confirmed" : "unknown";
   const createSpecConfidence: DataConfidence = suggestedFactorySpec ? "estimated" : "unknown";
@@ -420,7 +441,7 @@ export function CarForm({
     versionConfidence: createVersionConfidence,
   });
   const editSpecConfidencePercent = calculateSpecConfidence({
-    versionConfidence: car?.version_confidence ?? "unknown",
+    versionConfidence: editVersionConfidence,
     originalEngineAnswer: car?.original_engine_answer ?? "unknown",
     originalInductionAnswer: car?.original_induction_answer ?? "unknown",
     originalColorAnswer: car?.original_color_answer ?? "unknown",
@@ -875,7 +896,7 @@ export function CarForm({
     >
       <input type="hidden" name="car_id" value={car?.id ?? ""} />
       <input type="hidden" name="current_slug" value={car?.slug ?? ""} />
-      <input type="hidden" name="catalog_version_id" value={car?.catalog_version_id ?? ""} />
+      <input type="hidden" name="catalog_version_id" value={realCatalogId(selectedCatalogVersion)} />
       <input type="hidden" name="factory_engine" value={car?.factory_engine ?? ""} />
       <input type="hidden" name="factory_induction" value={car?.factory_induction ?? ""} />
       <input type="hidden" name="factory_power_cv" value={car?.factory_power_cv ?? ""} />
@@ -948,23 +969,70 @@ export function CarForm({
               <Input
                 name="year"
                 type="number"
-                defaultValue={car?.year ?? ""}
+                value={yearInput}
+                onChange={(event) => setYearInput(event.target.value)}
                 min={1900}
                 max={2100}
                 required
               />
             </Field>
             <Field label="Versão">
-              <Input
-                name="version"
-                defaultValue={car?.version ?? ""}
-                placeholder="1.8 AP"
-              />
+              {catalogMatches.length ? (
+                <>
+                  <select
+                    value={versionSelectValue}
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      setSelectedCatalogId(nextValue);
+                      setEditVersionConfidence(
+                        nextValue === UNKNOWN_VERSION_VALUE
+                          ? "unknown"
+                          : nextValue === OTHER_VERSION_VALUE
+                            ? editVersionConfidence
+                            : "confirmed"
+                      );
+                    }}
+                    className="pg-control h-12 rounded-3xl px-4 text-sm"
+                  >
+                    <option value={UNKNOWN_VERSION_VALUE}>Nao sei</option>
+                    {catalogMatches.map((version) => (
+                      <option key={version.id} value={version.id}>
+                        {version.version}
+                        {version.generationName ? ` - ${version.generationName}` : ""}
+                      </option>
+                    ))}
+                    <option value={OTHER_VERSION_VALUE}>Outro / manual</option>
+                  </select>
+                  {versionSelectValue === OTHER_VERSION_VALUE ? null : (
+                    <input
+                      type="hidden"
+                      name="version"
+                      value={selectedCatalogVersion?.version ?? ""}
+                    />
+                  )}
+                  {versionSelectValue === OTHER_VERSION_VALUE ? (
+                    <Input
+                      name="version"
+                      value={editManualVersion}
+                      onChange={(event) => setEditManualVersion(event.target.value)}
+                      placeholder="Digite a versao"
+                    />
+                  ) : null}
+                </>
+              ) : (
+                <Input
+                  name="version"
+                  value={editManualVersion}
+                  onChange={(event) => setEditManualVersion(event.target.value)}
+                  placeholder="1.8 AP"
+                />
+              )}
             </Field>
             <Field label="Confiança da versão">
               <select
                 name="version_confidence"
-                defaultValue={car?.version_confidence ?? "unknown"}
+                value={editVersionConfidence}
+                onChange={(event) => setEditVersionConfidence(event.target.value as DataConfidence)}
                 className="pg-control h-12 rounded-3xl px-4 text-sm"
               >
                 <option value="confirmed">Confirmada</option>
@@ -1251,20 +1319,21 @@ export function CarForm({
       </Card>
 
       <Card className="p-5 md:p-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-2xl">
             <h2 className="font-title text-xl tracking-tight">Modificações atuais e planos futuros</h2>
             <p className="mt-1 text-sm text-muted">
               Separe modificações atuais dos planos futuros para a ficha pública ficar clara.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 lg:w-auto lg:flex lg:flex-wrap lg:justify-end">
             {draftParts.length ? (
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={() => setPartsExpanded((current) => !current)}
+                className="w-full sm:col-span-2 lg:w-auto lg:col-span-1"
               >
                 {partsExpanded ? "Ocultar" : `Ver ${draftParts.length} item(ns)`}
               </Button>
@@ -1274,6 +1343,7 @@ export function CarForm({
               variant="outline"
               size="sm"
               onClick={() => addPart("installed")}
+              className="w-full lg:w-auto"
             >
               <Plus className="size-4" />
               Adicionar modificação atual
@@ -1283,6 +1353,7 @@ export function CarForm({
               variant="outline"
               size="sm"
               onClick={() => addPart("planned")}
+              className="w-full lg:w-auto"
             >
               <Plus className="size-4" />
               Adicionar plano futuro
