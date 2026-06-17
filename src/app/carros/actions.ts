@@ -394,6 +394,33 @@ async function notifyCarOwner({
   revalidatePath("/notificacoes");
 }
 
+async function readCarSocialCounts(supabase: NonNullable<Awaited<ReturnType<typeof getSupabaseServerClient>>>, carId: string) {
+  const { data } = await supabase
+    .from("cars")
+    .select("likes_count, saves_count, views_count, project_followers_count")
+    .eq("id", carId)
+    .maybeSingle();
+
+  return {
+    likesCount: data?.likes_count ?? 0,
+    savesCount: data?.saves_count ?? 0,
+    viewsCount: data?.views_count ?? 0,
+    followersCount: data?.project_followers_count ?? 0,
+  };
+}
+
+function revalidateProjectSocialPaths(slug?: string | null) {
+  revalidatePath("/");
+  revalidatePath("/explorar");
+  revalidatePath("/rankings");
+  revalidatePath("/garagem");
+  revalidatePath("/perfil");
+  if (slug) {
+    revalidatePath(`/projeto/${slug}`);
+    revalidatePath(`/carros/${slug}`);
+  }
+}
+
 async function notifyProjectFollowers({
   carId,
   ownerId,
@@ -884,28 +911,35 @@ export async function toggleLikeAction(carId: string) {
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para curtir.", active: false };
   await ensureProfile(auth.user);
 
-  const { data: car } = await auth.supabase
+  const { data: car, error: carError } = await auth.supabase
     .from("cars")
     .select("id, slug, owner_id, name")
     .eq("id", carId)
     .maybeSingle();
 
-  const { data: existing } = await auth.supabase
+  if (carError || !car) {
+    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
+  }
+
+  const { data: existing, error: existingError } = await auth.supabase
     .from("car_likes")
     .select("car_id")
     .eq("car_id", carId)
     .eq("user_id", auth.user.id)
     .maybeSingle();
 
+  if (existingError) {
+    return { ok: false, message: existingError.message, active: false };
+  }
+
   if (existing) {
-    await auth.supabase.from("car_likes").delete().eq("car_id", carId).eq("user_id", auth.user.id);
-    revalidatePath("/explorar");
-    revalidatePath("/rankings");
-    if (car?.slug) {
-      revalidatePath(`/projeto/${car.slug}`);
-      revalidatePath(`/carros/${car.slug}`);
+    const { error } = await auth.supabase.from("car_likes").delete().eq("car_id", carId).eq("user_id", auth.user.id);
+    if (error) {
+      return { ok: false, message: error.message, active: true };
     }
-    return { ok: true, active: false };
+    const counts = await readCarSocialCounts(auth.supabase, carId);
+    revalidateProjectSocialPaths(car.slug);
+    return { ok: true, active: false, ...counts };
   }
 
   const { error } = await auth.supabase.from("car_likes").insert({ car_id: carId, user_id: auth.user.id });
@@ -919,13 +953,13 @@ export async function toggleLikeAction(carId: string) {
       body: "Alguém curtiu seu projeto.",
     });
   }
-  revalidatePath("/explorar");
-  revalidatePath("/rankings");
-  if (car?.slug) {
-    revalidatePath(`/projeto/${car.slug}`);
-    revalidatePath(`/carros/${car.slug}`);
+  if (error) {
+    return { ok: false, message: error.message, active: false };
   }
-  return { ok: !error, message: error?.message, active: !error };
+
+  const counts = await readCarSocialCounts(auth.supabase, carId);
+  revalidateProjectSocialPaths(car.slug);
+  return { ok: true, active: true, ...counts };
 }
 
 export async function toggleSaveAction(carId: string) {
@@ -933,27 +967,35 @@ export async function toggleSaveAction(carId: string) {
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para salvar.", active: false };
   await ensureProfile(auth.user);
 
-  const { data: car } = await auth.supabase
+  const { data: car, error: carError } = await auth.supabase
     .from("cars")
     .select("id, slug, owner_id, name")
     .eq("id", carId)
     .maybeSingle();
 
-  const { data: existing } = await auth.supabase
+  if (carError || !car) {
+    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
+  }
+
+  const { data: existing, error: existingError } = await auth.supabase
     .from("car_saves")
     .select("car_id")
     .eq("car_id", carId)
     .eq("user_id", auth.user.id)
     .maybeSingle();
 
+  if (existingError) {
+    return { ok: false, message: existingError.message, active: false };
+  }
+
   if (existing) {
-    await auth.supabase.from("car_saves").delete().eq("car_id", carId).eq("user_id", auth.user.id);
-    revalidatePath("/garagem");
-    if (car?.slug) {
-      revalidatePath(`/projeto/${car.slug}`);
-      revalidatePath(`/carros/${car.slug}`);
+    const { error } = await auth.supabase.from("car_saves").delete().eq("car_id", carId).eq("user_id", auth.user.id);
+    if (error) {
+      return { ok: false, message: error.message, active: true };
     }
-    return { ok: true, active: false };
+    const counts = await readCarSocialCounts(auth.supabase, carId);
+    revalidateProjectSocialPaths(car.slug);
+    return { ok: true, active: false, ...counts };
   }
 
   const { error } = await auth.supabase.from("car_saves").insert({ car_id: carId, user_id: auth.user.id });
@@ -967,12 +1009,13 @@ export async function toggleSaveAction(carId: string) {
       body: "Alguém salvou seu projeto na garagem.",
     });
   }
-  revalidatePath("/garagem");
-  if (car?.slug) {
-    revalidatePath(`/projeto/${car.slug}`);
-    revalidatePath(`/carros/${car.slug}`);
+  if (error) {
+    return { ok: false, message: error.message, active: false };
   }
-  return { ok: !error, message: error?.message, active: !error };
+
+  const counts = await readCarSocialCounts(auth.supabase, carId);
+  revalidateProjectSocialPaths(car.slug);
+  return { ok: true, active: true, ...counts };
 }
 
 export async function toggleFollowUserAction(profileId: string) {
@@ -1048,10 +1091,12 @@ export async function toggleProjectFollowAction(carId: string) {
       .delete()
       .eq("car_id", carId)
       .eq("user_id", auth.user.id);
-    revalidatePath("/garagem");
-    revalidatePath(`/projeto/${car.slug}`);
-    revalidatePath(`/carros/${car.slug}`);
-    return { ok: !error, message: error?.message, active: false };
+    if (error) {
+      return { ok: false, message: error.message, active: true };
+    }
+    const counts = await readCarSocialCounts(auth.supabase, carId);
+    revalidateProjectSocialPaths(car.slug);
+    return { ok: true, active: false, ...counts };
   }
 
   const { error } = await auth.supabase.from("project_follows").insert({
@@ -1070,10 +1115,13 @@ export async function toggleProjectFollowAction(carId: string) {
     });
   }
 
-  revalidatePath("/garagem");
-  revalidatePath(`/projeto/${car.slug}`);
-  revalidatePath(`/carros/${car.slug}`);
-  return { ok: !error, message: error?.message, active: !error };
+  if (error) {
+    return { ok: false, message: error.message, active: false };
+  }
+
+  const counts = await readCarSocialCounts(auth.supabase, carId);
+  revalidateProjectSocialPaths(car.slug);
+  return { ok: true, active: true, ...counts };
 }
 
 export async function incrementViewAction(carId: string, carSlug: string) {
@@ -1084,15 +1132,12 @@ export async function incrementViewAction(carId: string, carSlug: string) {
     target_car_id: carId,
   });
 
-  if (error || !data) return { ok: false };
+  if (error || !data) return { ok: false, message: error?.message };
 
-  revalidatePath("/");
-  revalidatePath("/explorar");
-  revalidatePath("/rankings");
-  revalidatePath(`/carros/${carSlug}`);
-  revalidatePath(`/projeto/${carSlug}`);
+  const counts = await readCarSocialCounts(supabase, carId);
+  revalidateProjectSocialPaths(carSlug);
 
-  return { ok: true };
+  return { ok: true, ...counts };
 }
 
 export async function createCommentAction(

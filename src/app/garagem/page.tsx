@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { demoProjects } from "@/lib/projects/demo-projects";
 import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server";
-import { getCurrentProfile, qCarsByOwner, qSavedCars } from "@/lib/supabase/queries";
+import { getCurrentProfile, qCarsByOwner, qFollowedCars, qLikedCars, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
 
@@ -132,13 +132,17 @@ export default async function GaragemPage() {
     );
   }
 
-  const [myCarsResult, savedResult, catalog] = await Promise.all([
+  const [myCarsResult, savedResult, likedResult, followedResult, catalog] = await Promise.all([
     qCarsByOwner(user.id, true),
     qSavedCars(user.id),
+    qLikedCars(user.id),
+    qFollowedCars(user.id),
     getProjectCollection(),
   ]);
   const myCars = myCarsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
+  const likedCars = likedResult.data ?? [];
+  const followedCars = followedResult.data ?? [];
   const myCarSlugs = myCars.map((car) => car.slug);
   const referenceSlugs = (
     savedCars.length
@@ -234,6 +238,22 @@ export default async function GaragemPage() {
               <h2 className="mt-1 font-title text-2xl tracking-tight">Carros salvos</h2>
             </div>
             <CarGrid cars={savedCars} emptyTitle="Nenhum carro salvo ainda." />
+          </section>
+
+          <section className="mt-12">
+            <div className="mb-4">
+              <p className="text-xs text-muted">Curtidas</p>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos curtidos</h2>
+            </div>
+            <CarGrid cars={likedCars} emptyTitle="Nenhum projeto curtido ainda." />
+          </section>
+
+          <section className="mt-12">
+            <div className="mb-4">
+              <p className="text-xs text-muted">Acompanhando</p>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos que voce segue</h2>
+            </div>
+            <CarGrid cars={followedCars} emptyTitle="Nenhum projeto seguido ainda." />
           </section>
         </div>
       </main>

@@ -265,10 +265,12 @@ export function ProjectDetail({
   const isProjectComplete = project.progressPercent >= 100;
   const [buildAlerts, setBuildAlerts] = React.useState<BuildAlert[]>([]);
   const [comments, setComments] = React.useState<CarCommentWithAuthor[]>(commentThread?.comments ?? []);
-
-  React.useEffect(() => {
-    setComments(commentThread?.comments ?? []);
-  }, [commentThread?.comments]);
+  const [socialCounts, setSocialCounts] = React.useState({
+    likes: project.likes,
+    saves: project.saves,
+    followers: project.followers,
+    views: project.views,
+  });
 
   // Load build alerts on component mount
   React.useEffect(() => {
@@ -294,13 +296,26 @@ export function ProjectDetail({
     () => getLocalProjectSocialState(project.slug),
     () => ({ liked: false, saved: false, views: 0 })
   );
-  const views = project.views + localSocialState.views;
+  const views =
+    project.source === "supabase"
+      ? socialCounts.views
+      : project.views + localSocialState.views;
 
   React.useEffect(() => {
-    recordLocalProjectView(initialProject.slug);
     if (initialProject.source === "supabase" && initialProject.databaseId) {
-      void syncProjectView(initialProject.databaseId, initialProject.slug);
+      const sessionKey = `pg-project-viewed:${initialProject.slug}:supabase`;
+      if (window.sessionStorage.getItem(sessionKey)) return;
+      window.sessionStorage.setItem(sessionKey, "1");
+
+      void syncProjectView(initialProject.databaseId, initialProject.slug).then((result) => {
+        if (result?.ok && "viewsCount" in result && typeof result.viewsCount === "number") {
+          const viewsCount = result.viewsCount;
+          setSocialCounts((current) => ({ ...current, views: viewsCount }));
+        }
+      });
+      return;
     }
+    recordLocalProjectView(initialProject.slug);
   }, [initialProject.databaseId, initialProject.slug, initialProject.source]);
 
   const gallery = project.gallery.length ? project.gallery : [project.mainImage];
@@ -311,17 +326,17 @@ export function ProjectDetail({
     [
       {
         label: "Curtidas",
-        value: project.likes.toLocaleString("pt-BR"),
+        value: socialCounts.likes.toLocaleString("pt-BR"),
         icon: Heart,
       },
       {
         label: "Salvos",
-        value: project.saves.toLocaleString("pt-BR"),
+        value: socialCounts.saves.toLocaleString("pt-BR"),
         icon: Bookmark,
       },
       {
         label: "Comentários",
-        value: project.comments.toLocaleString("pt-BR"),
+        value: (commentThread ? comments.length : project.comments).toLocaleString("pt-BR"),
         icon: MessageCircle,
       },
       {
@@ -331,7 +346,7 @@ export function ProjectDetail({
       },
       {
         label: "Seguidores",
-        value: project.followers.toLocaleString("pt-BR"),
+        value: socialCounts.followers.toLocaleString("pt-BR"),
         icon: Users,
       },
     ];
@@ -489,6 +504,14 @@ export function ProjectDetail({
                 initialFollowers={project.followers}
                 mode={project.source === "supabase" ? "supabase" : "local"}
                 viewerLoggedIn={viewerLoggedIn}
+                onCountsChange={(counts) =>
+                  setSocialCounts((current) => ({
+                    likes: counts.likes ?? current.likes,
+                    saves: counts.saves ?? current.saves,
+                    followers: counts.followers ?? current.followers,
+                    views: current.views,
+                  }))
+                }
               />
               <Button asChild variant="outline">
                 <Link href={compareHref}>

@@ -29,6 +29,7 @@ export function ProjectSocialActions({
   initialFollowers = 0,
   mode,
   viewerLoggedIn,
+  onCountsChange,
 }: {
   slug: string;
   databaseId: string | null;
@@ -40,6 +41,11 @@ export function ProjectSocialActions({
   initialFollowers?: number;
   mode: "supabase" | "local";
   viewerLoggedIn: boolean;
+  onCountsChange?: (counts: Partial<{
+    likes: number;
+    saves: number;
+    followers: number;
+  }>) => void;
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [copied, setCopied] = React.useState(false);
@@ -99,10 +105,12 @@ export function ProjectSocialActions({
 
   function updateLocalLike() {
     toggleLocalProjectLike(slug);
+    onCountsChange?.({ likes: initialLikes + (!liked ? 1 : -1) });
   }
 
   function updateLocalSave() {
     toggleLocalProjectSave(slug);
+    onCountsChange?.({ saves: initialSaves + (!saved ? 1 : -1) });
   }
 
   return (
@@ -123,10 +131,17 @@ export function ProjectSocialActions({
               const next = !followed;
               setServerFollowed(next);
               setServerFollowers((current) => Math.max(0, current + (next ? 1 : -1)));
+              onCountsChange?.({ followers: Math.max(0, followers + (next ? 1 : -1)) });
               const result = await toggleProjectFollowAction(databaseId);
               if (!result.ok) {
                 setServerFollowed(!next);
                 setServerFollowers((current) => Math.max(0, current + (next ? -1 : 1)));
+                onCountsChange?.({ followers });
+                return;
+              }
+              if ("followersCount" in result && typeof result.followersCount === "number") {
+                setServerFollowers(result.followersCount);
+                onCountsChange?.({ followers: result.followersCount });
               }
               return;
             }
@@ -151,10 +166,17 @@ export function ProjectSocialActions({
               const next = !liked;
               setServerLiked(next);
               setServerLikes((current) => Math.max(0, current + (next ? 1 : -1)));
+              onCountsChange?.({ likes: Math.max(0, likes + (next ? 1 : -1)) });
               const result = await toggleLikeAction(databaseId);
               if (!result.ok) {
                 setServerLiked(!next);
                 setServerLikes((current) => Math.max(0, current + (next ? -1 : 1)));
+                onCountsChange?.({ likes });
+                return;
+              }
+              if ("likesCount" in result && typeof result.likesCount === "number") {
+                setServerLikes(result.likesCount);
+                onCountsChange?.({ likes: result.likesCount });
               }
               return;
             }
@@ -182,10 +204,17 @@ export function ProjectSocialActions({
               const next = !saved;
               setServerSaved(next);
               setServerSaves((current) => Math.max(0, current + (next ? 1 : -1)));
+              onCountsChange?.({ saves: Math.max(0, saves + (next ? 1 : -1)) });
               const result = await toggleSaveAction(databaseId);
               if (!result.ok) {
                 setServerSaved(!next);
                 setServerSaves((current) => Math.max(0, current + (next ? -1 : 1)));
+                onCountsChange?.({ saves });
+                return;
+              }
+              if ("savesCount" in result && typeof result.savesCount === "number") {
+                setServerSaves(result.savesCount);
+                onCountsChange?.({ saves: result.savesCount });
               }
               return;
             }
@@ -217,6 +246,6 @@ export function ProjectSocialActions({
 }
 
 export async function syncProjectView(projectId: string | null, slug: string) {
-  if (!projectId) return;
-  await incrementViewAction(projectId, slug);
+  if (!projectId) return null;
+  return incrementViewAction(projectId, slug);
 }

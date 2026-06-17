@@ -58,6 +58,10 @@ export function CarSocialActions({
             if (!result.ok) {
               setLiked(!next);
               setLikes((current) => Math.max(0, current + (next ? -1 : 1)));
+              return;
+            }
+            if ("likesCount" in result && typeof result.likesCount === "number") {
+              setLikes(result.likesCount);
             }
           })
         }
@@ -79,6 +83,10 @@ export function CarSocialActions({
             if (!result.ok) {
               setSaved(!next);
               setSaves((current) => Math.max(0, current + (next ? -1 : 1)));
+              return;
+            }
+            if ("savesCount" in result && typeof result.savesCount === "number") {
+              setSaves(result.savesCount);
             }
           })
         }
