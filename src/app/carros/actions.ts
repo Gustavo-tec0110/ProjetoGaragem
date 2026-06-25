@@ -78,6 +78,61 @@ function logSupabaseActionError(action: string, context: Record<string, string>,
   });
 }
 
+function logNotificationRpcError(
+  action: string,
+  context: Record<string, string | boolean | null | undefined>,
+  error: SupabaseActionError
+) {
+  console.error("[notification-rpc]", action, {
+    ...context,
+    code: error.code,
+    message: error.message,
+    details: error.details,
+    hint: error.hint,
+  });
+}
+
+async function createNotification(
+  supabase: ServerSupabaseClient,
+  {
+    recipientId,
+    type,
+    carId,
+    title,
+    body,
+    dedupe = true,
+    source,
+  }: {
+    recipientId: string;
+    type: NotificationType;
+    carId: string | null;
+    title: string;
+    body?: string | null;
+    dedupe?: boolean;
+    source: string;
+  }
+) {
+  const { data, error } = await supabase.rpc("create_notification", {
+    recipient_id: recipientId,
+    notification_type: type,
+    car_id: carId,
+    notification_title: title,
+    notification_body: body ?? null,
+    dedupe,
+  });
+
+  if (error) {
+    logNotificationRpcError(source, { recipientId, type, carId, dedupe }, error);
+    return null;
+  }
+
+  if (!data) {
+    console.warn("[notification-rpc]", `${source}.skipped`, { recipientId, type, carId, dedupe });
+  }
+
+  return data;
+}
+
 function text(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -409,15 +464,16 @@ async function notifyCarOwner({
   } = await supabase.auth.getUser();
   if (!ownerId || !user || ownerId === user.id) return;
 
-  await supabase.rpc("create_notification", {
-    recipient_id: ownerId,
-    notification_type: type,
-    car_id: carId,
-    notification_title: title,
-    notification_body: body ?? null,
+  const notificationId = await createNotification(supabase, {
+    recipientId: ownerId,
+    type,
+    carId,
+    title,
+    body,
     dedupe,
+    source: "notifyCarOwner",
   });
-  revalidatePath("/notificacoes");
+  if (notificationId) revalidatePath("/notificacoes");
 }
 
 async function notifyProfileFollow({
@@ -429,15 +485,16 @@ async function notifyProfileFollow({
   profileId: string;
   actorName: string;
 }) {
-  await supabase.rpc("create_notification", {
-    recipient_id: profileId,
-    notification_type: "follow",
-    car_id: null,
-    notification_title: `${actorName} comecou a seguir voce`,
-    notification_body: "Seu perfil ganhou um novo seguidor.",
+  const notificationId = await createNotification(supabase, {
+    recipientId: profileId,
+    type: "follow",
+    carId: null,
+    title: `${actorName} comecou a seguir voce`,
+    body: "Seu perfil ganhou um novo seguidor.",
     dedupe: true,
+    source: "notifyProfileFollow",
   });
-  revalidatePath("/notificacoes");
+  if (notificationId) revalidatePath("/notificacoes");
 }
 
 async function readCarSocialCounts(supabase: ServerSupabaseClient, carId: string) {
@@ -511,7 +568,7 @@ async function notifyProjectFollowers({
     .map((follow) => follow.user_id)
     .filter((userId) => userId !== ownerId);
 
-  await Promise.all(
+  const notificationResults = await Promise.all(
     recipients.map((recipientId) =>
       supabase.rpc("create_notification", {
         recipient_id: recipientId,
@@ -524,7 +581,17 @@ async function notifyProjectFollowers({
     )
   );
 
-  if (recipients.length) revalidatePath("/notificacoes");
+  notificationResults.forEach((result, index) => {
+    if (result.error) {
+      logNotificationRpcError(
+        "notifyProjectFollowers",
+        { recipientId: recipients[index], type: "project_update", carId, dedupe: false },
+        result.error
+      );
+    }
+  });
+
+  if (notificationResults.some((result) => result.data)) revalidatePath("/notificacoes");
 }
 
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {

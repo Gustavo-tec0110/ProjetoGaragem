@@ -122,6 +122,14 @@ function isMissingNotificationsTable(error: { code?: string; message?: string } 
   );
 }
 
+function logNotificationQueryError(action: string, error: { code?: string; message?: string } | null) {
+  if (!error) return;
+  console.error("[notification-query]", action, {
+    code: error.code,
+    message: error.message,
+  });
+}
+
 async function getViewerId(supabase: Client) {
   const {
     data: { user },
@@ -543,8 +551,14 @@ export async function qNotifications(limit = 20): Promise<QueryResult<Notificati
     .eq("user_id", viewerId)
     .order("created_at", { ascending: false })
     .limit(limit);
-  if (isMissingNotificationsTable(error)) return { data: [], error: null };
-  if (error) return { data: null, error: error.message };
+  if (isMissingNotificationsTable(error)) {
+    logNotificationQueryError("qNotifications.missing_table", error);
+    return { data: [], error: null };
+  }
+  if (error) {
+    logNotificationQueryError("qNotifications.select", error);
+    return { data: null, error: error.message };
+  }
 
   const rows = (data ?? []) as NotificationRow[];
   const actorMap = await fetchProfiles(
@@ -587,8 +601,14 @@ export async function qUnreadNotificationCount() {
     .select("id", { count: "exact", head: true })
     .eq("user_id", viewerId)
     .is("read_at", null);
-  if (isMissingNotificationsTable(error)) return { data: 0, error: null };
-  if (error) return { data: null, error: error.message };
+  if (isMissingNotificationsTable(error)) {
+    logNotificationQueryError("qUnreadNotificationCount.missing_table", error);
+    return { data: 0, error: null };
+  }
+  if (error) {
+    logNotificationQueryError("qUnreadNotificationCount.select", error);
+    return { data: null, error: error.message };
+  }
   return { data: count ?? 0, error: null };
 }
 

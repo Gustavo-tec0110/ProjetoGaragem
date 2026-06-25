@@ -17,6 +17,8 @@ export const metadata: Metadata = createSeoMetadata({
   canonicalPath: "/notificacoes",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function NotificationsPage() {
   const supabase = await getSupabaseServerClient();
   const {
