@@ -387,12 +387,12 @@ async function notifyProjectFollowers({
   await Promise.all(
     recipients.map((recipientId) =>
       supabase.rpc("create_notification", {
-        recipient_id: recipientId,
-        notification_type: "project_update",
-        car_id: carId,
-        notification_title: `${carName} publicou uma nova evolucao`,
-        notification_body: updateTitle,
-        dedupe: false,
+        p_recipient_id: recipientId,
+        p_notification_type: "project_update",
+        p_car_id: carId,
+        p_notification_title: `${carName} publicou uma nova evolucao`,
+        p_notification_body: updateTitle,
+        p_dedupe: false,
       })
     )
   );

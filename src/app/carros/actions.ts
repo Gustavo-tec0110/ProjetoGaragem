@@ -131,12 +131,12 @@ async function createNotification(
   console.info("[notification-rpc]", "create_notification.before", rpcContext);
 
   const { data, error } = await supabase.rpc("create_notification", {
-    recipient_id: recipientId,
-    notification_type: type,
-    car_id: carId,
-    notification_title: title,
-    notification_body: body ?? null,
-    dedupe,
+    p_recipient_id: recipientId,
+    p_notification_type: type,
+    p_car_id: carId,
+    p_notification_title: title,
+    p_notification_body: body ?? null,
+    p_dedupe: dedupe,
   });
 
   console.info("[notification-rpc]", "create_notification.after", {
@@ -618,12 +618,12 @@ async function notifyProjectFollowers({
   const notificationResults = await Promise.all(
     recipients.map((recipientId) =>
       supabase.rpc("create_notification", {
-        recipient_id: recipientId,
-        notification_type: "project_update",
-        car_id: carId,
-        notification_title: `${carName} publicou uma nova evolução`,
-        notification_body: updateTitle,
-        dedupe: false,
+        p_recipient_id: recipientId,
+        p_notification_type: "project_update",
+        p_car_id: carId,
+        p_notification_title: `${carName} publicou uma nova evolução`,
+        p_notification_body: updateTitle,
+        p_dedupe: false,
       })
     )
   );

@@ -583,12 +583,12 @@ end;
 $$;
 
 create or replace function public.create_notification(
-  recipient_id uuid,
-  notification_type text,
-  car_id uuid default null,
-  notification_title text default null,
-  notification_body text default null,
-  dedupe boolean default true
+  p_recipient_id uuid,
+  p_notification_type text,
+  p_car_id uuid default null,
+  p_notification_title text default null,
+  p_notification_body text default null,
+  p_dedupe boolean default true
 )
 returns uuid
 language plpgsql
@@ -596,19 +596,19 @@ security definer
 set search_path = public
 as $$
 declare
-  actor uuid := auth.uid();
-  existing_id uuid;
-  inserted_id uuid;
+  v_actor_id uuid := auth.uid();
+  v_existing_id uuid;
+  v_inserted_id uuid;
 begin
-  if actor is null then
+  if v_actor_id is null then
     raise exception 'not_authenticated';
   end if;
 
-  if recipient_id is null or recipient_id = actor then
+  if p_recipient_id is null or p_recipient_id = v_actor_id then
     return null;
   end if;
 
-  if notification_type not in (
+  if p_notification_type not in (
     'follow',
     'project_comment',
     'project_like',
@@ -619,33 +619,33 @@ begin
     raise exception 'invalid_notification_type';
   end if;
 
-  if coalesce(trim(notification_title), '') = '' then
+  if coalesce(trim(p_notification_title), '') = '' then
     raise exception 'notification_title_required';
   end if;
 
-  if dedupe then
+  if p_dedupe then
     select n.id
-    into existing_id
+    into v_existing_id
     from public.notifications as n
-    where n.user_id = recipient_id
-      and n.actor_id = actor
-      and n.type = notification_type
-      and n.car_id is not distinct from create_notification.car_id
+    where n.user_id = p_recipient_id
+      and n.actor_id = v_actor_id
+      and n.type = p_notification_type
+      and n.car_id is not distinct from p_car_id
     order by n.created_at desc
     limit 1;
 
-    if existing_id is not null then
-      update public.notifications
+    if v_existing_id is not null then
+      update public.notifications as n
       set
-        title = notification_title,
-        body = notification_body,
+        title = p_notification_title,
+        body = p_notification_body,
         href = null,
         url = null,
         read_at = null,
         created_at = now()
-      where id = existing_id;
+      where n.id = v_existing_id;
 
-      return existing_id;
+      return v_existing_id;
     end if;
   end if;
 
@@ -658,16 +658,16 @@ begin
     body
   )
   values (
-    recipient_id,
-    actor,
-    create_notification.car_id,
-    notification_type,
-    notification_title,
-    notification_body
+    p_recipient_id,
+    v_actor_id,
+    p_car_id,
+    p_notification_type,
+    p_notification_title,
+    p_notification_body
   )
-  returning id into inserted_id;
+  returning id into v_inserted_id;
 
-  return inserted_id;
+  return v_inserted_id;
 end;
 $$;
 

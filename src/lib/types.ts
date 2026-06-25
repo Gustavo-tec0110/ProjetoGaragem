@@ -468,12 +468,12 @@ export interface Database {
       };
       create_notification: {
         Args: {
-          recipient_id: string;
-          notification_type: NotificationType;
-          car_id?: string | null;
-          notification_title?: string | null;
-          notification_body?: string | null;
-          dedupe?: boolean;
+          p_recipient_id: string;
+          p_notification_type: NotificationType;
+          p_car_id?: string | null;
+          p_notification_title?: string | null;
+          p_notification_body?: string | null;
+          p_dedupe?: boolean;
         };
         Returns: string | null;
       };
