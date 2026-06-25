@@ -63,6 +63,8 @@ type SupabaseActionError = {
   hint?: string;
 };
 
+type DiagnosticContext = Record<string, string | boolean | null | undefined>;
+
 function formatSupabaseActionError(action: string, error: SupabaseActionError) {
   const code = error.code ? ` (${error.code})` : "";
   return `${action} falhou${code}: ${error.message}`;
@@ -80,7 +82,7 @@ function logSupabaseActionError(action: string, context: Record<string, string>,
 
 function logNotificationRpcError(
   action: string,
-  context: Record<string, string | boolean | null | undefined>,
+  context: DiagnosticContext,
   error: SupabaseActionError
 ) {
   console.error("[notification-rpc]", action, {
@@ -92,9 +94,14 @@ function logNotificationRpcError(
   });
 }
 
+function logSocialActionDiagnostic(action: string, context: DiagnosticContext = {}) {
+  console.info("[social-action-diagnostic]", action, context);
+}
+
 async function createNotification(
   supabase: ServerSupabaseClient,
   {
+    actorId,
     recipientId,
     type,
     carId,
@@ -103,6 +110,7 @@ async function createNotification(
     dedupe = true,
     source,
   }: {
+    actorId: string;
     recipientId: string;
     type: NotificationType;
     carId: string | null;
@@ -112,6 +120,16 @@ async function createNotification(
     source: string;
   }
 ) {
+  const rpcContext = {
+    source,
+    actorId,
+    recipientId,
+    carId,
+    notificationType: type,
+    dedupe,
+  };
+  console.info("[notification-rpc]", "create_notification.before", rpcContext);
+
   const { data, error } = await supabase.rpc("create_notification", {
     recipient_id: recipientId,
     notification_type: type,
@@ -121,13 +139,19 @@ async function createNotification(
     dedupe,
   });
 
+  console.info("[notification-rpc]", "create_notification.after", {
+    ...rpcContext,
+    data,
+    error,
+  });
+
   if (error) {
-    logNotificationRpcError(source, { recipientId, type, carId, dedupe }, error);
+    logNotificationRpcError(source, rpcContext, error);
     return null;
   }
 
   if (!data) {
-    console.warn("[notification-rpc]", `${source}.skipped`, { recipientId, type, carId, dedupe });
+    console.warn("[notification-rpc]", `${source}.skipped`, rpcContext);
   }
 
   return data;
@@ -461,9 +485,19 @@ async function notifyCarOwner({
   body?: string | null;
   dedupe?: boolean;
 }) {
-  if (!ownerId || ownerId === actorId) return;
+  if (!ownerId || ownerId === actorId) {
+    console.warn("[notification-rpc]", "notifyCarOwner.skipped", {
+      actorId,
+      recipientId: ownerId ?? null,
+      carId,
+      notificationType: type,
+      reason: !ownerId ? "missing-owner" : "self-action",
+    });
+    return;
+  }
 
   const notificationId = await createNotification(supabase, {
+    actorId,
     recipientId: ownerId,
     type,
     carId,
@@ -486,9 +520,19 @@ async function notifyProfileFollow({
   profileId: string;
   actorName: string;
 }) {
-  if (profileId === actorId) return;
+  if (profileId === actorId) {
+    console.warn("[notification-rpc]", "notifyProfileFollow.skipped", {
+      actorId,
+      recipientId: profileId,
+      carId: null,
+      notificationType: "follow",
+      reason: "self-action",
+    });
+    return;
+  }
 
   const notificationId = await createNotification(supabase, {
+    actorId,
     recipientId: profileId,
     type: "follow",
     carId: null,
@@ -1047,8 +1091,10 @@ export async function deleteCarAction(
 }
 
 export async function toggleLikeAction(carId: string) {
+  logSocialActionDiagnostic("toggleLikeAction.enter", { carId });
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para curtir.", active: false };
+  logSocialActionDiagnostic("toggleLikeAction.auth", { carId, actorId: auth.user.id });
   await ensureProfile(auth.user);
 
   const { data: car, error: carError } = await auth.supabase
@@ -1120,8 +1166,10 @@ export async function toggleLikeAction(carId: string) {
 }
 
 export async function toggleSaveAction(carId: string) {
+  logSocialActionDiagnostic("toggleSaveAction.enter", { carId });
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para salvar.", active: false };
+  logSocialActionDiagnostic("toggleSaveAction.auth", { carId, actorId: auth.user.id });
   await ensureProfile(auth.user);
 
   const { data: car, error: carError } = await auth.supabase
@@ -1193,10 +1241,12 @@ export async function toggleSaveAction(carId: string) {
 }
 
 export async function toggleFollowUserAction(profileId: string) {
+  logSocialActionDiagnostic("toggleFollowUserAction.enter", { recipientId: profileId });
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) {
     return { ok: false, message: auth.error ?? "Entre para seguir perfis.", active: false };
   }
+  logSocialActionDiagnostic("toggleFollowUserAction.auth", { actorId: auth.user.id, recipientId: profileId });
   await ensureProfile(auth.user);
 
   if (!profileId || profileId === auth.user.id) {
@@ -1267,10 +1317,12 @@ export async function toggleFollowUserAction(profileId: string) {
 }
 
 export async function toggleProjectFollowAction(carId: string) {
+  logSocialActionDiagnostic("toggleProjectFollowAction.enter", { carId });
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) {
     return { ok: false, message: auth.error ?? "Entre para seguir projetos.", active: false };
   }
+  logSocialActionDiagnostic("toggleProjectFollowAction.auth", { carId, actorId: auth.user.id });
   await ensureProfile(auth.user);
 
   const { data: car, error: carError } = await auth.supabase
