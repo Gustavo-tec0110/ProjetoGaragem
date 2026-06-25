@@ -444,6 +444,7 @@ async function uniqueCarSlug(base: string, currentId?: string) {
 
 async function notifyCarOwner({
   supabase,
+  actorId,
   ownerId,
   carId,
   type,
@@ -452,6 +453,7 @@ async function notifyCarOwner({
   dedupe = true,
 }: {
   supabase: ServerSupabaseClient;
+  actorId: string;
   ownerId: string | null | undefined;
   carId: string;
   type: NotificationType;
@@ -459,10 +461,7 @@ async function notifyCarOwner({
   body?: string | null;
   dedupe?: boolean;
 }) {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!ownerId || !user || ownerId === user.id) return;
+  if (!ownerId || ownerId === actorId) return;
 
   const notificationId = await createNotification(supabase, {
     recipientId: ownerId,
@@ -478,13 +477,17 @@ async function notifyCarOwner({
 
 async function notifyProfileFollow({
   supabase,
+  actorId,
   profileId,
   actorName,
 }: {
   supabase: ServerSupabaseClient;
+  actorId: string;
   profileId: string;
   actorName: string;
 }) {
+  if (profileId === actorId) return;
+
   const notificationId = await createNotification(supabase, {
     recipientId: profileId,
     type: "follow",
@@ -1091,6 +1094,7 @@ export async function toggleLikeAction(carId: string) {
   if (!error && car) {
     await notifyCarOwner({
       supabase: auth.supabase,
+      actorId: auth.user.id,
       ownerId: car.owner_id,
       carId,
       type: "project_like",
@@ -1163,6 +1167,7 @@ export async function toggleSaveAction(carId: string) {
   if (!error && car) {
     await notifyCarOwner({
       supabase: auth.supabase,
+      actorId: auth.user.id,
       ownerId: car.owner_id,
       carId,
       type: "project_save",
@@ -1198,12 +1203,17 @@ export async function toggleFollowUserAction(profileId: string) {
     return { ok: false, message: "Você não pode seguir o próprio perfil.", active: false };
   }
 
-  const { data: existing } = await auth.supabase
+  const { data: existing, error: existingError } = await auth.supabase
     .from("user_follows")
     .select("following_id")
     .eq("follower_id", auth.user.id)
     .eq("following_id", profileId)
     .maybeSingle();
+
+  if (existingError) {
+    logSupabaseActionError("user_follows.select", { followerId: auth.user.id, followingId: profileId }, existingError);
+    return { ok: false, message: formatSupabaseActionError("user_follows.select", existingError), active: false };
+  }
 
   if (existing) {
     const { error } = await auth.supabase
@@ -1211,15 +1221,26 @@ export async function toggleFollowUserAction(profileId: string) {
       .delete()
       .eq("follower_id", auth.user.id)
       .eq("following_id", profileId);
+    if (error) {
+      logSupabaseActionError("user_follows.delete", { followerId: auth.user.id, followingId: profileId }, error);
+    }
     revalidatePath("/garagem");
     revalidatePath("/perfil");
-    return { ok: !error, message: error?.message, active: false };
+    return {
+      ok: !error,
+      message: error ? formatSupabaseActionError("user_follows.delete", error) : undefined,
+      active: false,
+    };
   }
 
   const { error } = await auth.supabase.from("user_follows").insert({
     follower_id: auth.user.id,
     following_id: profileId,
   });
+
+  if (error) {
+    logSupabaseActionError("user_follows.insert", { followerId: auth.user.id, followingId: profileId }, error);
+  }
 
   if (!error) {
     const { data: actorProfile } = await auth.supabase
@@ -1230,6 +1251,7 @@ export async function toggleFollowUserAction(profileId: string) {
 
     await notifyProfileFollow({
       supabase: auth.supabase,
+      actorId: auth.user.id,
       profileId,
       actorName: actorProfile?.display_name ?? actorProfile?.username ?? "Alguem",
     });
@@ -1237,7 +1259,11 @@ export async function toggleFollowUserAction(profileId: string) {
 
   revalidatePath("/garagem");
   revalidatePath("/perfil");
-  return { ok: !error, message: error?.message, active: !error };
+  return {
+    ok: !error,
+    message: error ? formatSupabaseActionError("user_follows.insert", error) : undefined,
+    active: !error,
+  };
 }
 
 export async function toggleProjectFollowAction(carId: string) {
@@ -1302,6 +1328,7 @@ export async function toggleProjectFollowAction(carId: string) {
   if (!error) {
     await notifyCarOwner({
       supabase: auth.supabase,
+      actorId: auth.user.id,
       ownerId: car.owner_id,
       carId,
       type: "project_follow",
@@ -1392,6 +1419,7 @@ export async function createCommentAction(
   if (car) {
     await notifyCarOwner({
       supabase: auth.supabase,
+      actorId: auth.user.id,
       ownerId: car.owner_id,
       carId,
       type: "project_comment",
