@@ -213,6 +213,7 @@ export type ProjectFollowRow = {
 };
 
 export type NotificationType =
+  | "follow"
   | "project_comment"
   | "project_like"
   | "project_save"
@@ -456,6 +457,17 @@ export interface Database {
       increment_car_view: {
         Args: { target_car_id: string };
         Returns: number;
+      };
+      create_notification: {
+        Args: {
+          recipient_id: string;
+          notification_type: NotificationType;
+          car_id?: string | null;
+          notification_title?: string | null;
+          notification_body?: string | null;
+          dedupe?: boolean;
+        };
+        Returns: string | null;
       };
     };
     Enums: Record<string, never>;

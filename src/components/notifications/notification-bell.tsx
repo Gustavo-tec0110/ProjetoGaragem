@@ -16,17 +16,27 @@ export function NotificationBell({ userId }: { userId: string | null }) {
 
     let mounted = true;
 
-    void fetch("/api/notifications/unread-count", { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : { count: 0 }))
-      .then((data: { count?: number }) => {
-        if (mounted) setCount(data.count ?? 0);
-      })
-      .catch(() => {
-        if (mounted) setCount(0);
-      });
+    function refreshCount() {
+      void fetch("/api/notifications/unread-count", { cache: "no-store" })
+        .then((response) => (response.ok ? response.json() : { count: 0 }))
+        .then((data: { count?: number }) => {
+          if (mounted) setCount(data.count ?? 0);
+        })
+        .catch(() => {
+          if (mounted) setCount(0);
+        });
+    }
+
+    refreshCount();
+    const interval = window.setInterval(refreshCount, 30000);
+    window.addEventListener("focus", refreshCount);
+    document.addEventListener("visibilitychange", refreshCount);
 
     return () => {
       mounted = false;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", refreshCount);
+      document.removeEventListener("visibilitychange", refreshCount);
     };
   }, [userId]);
 

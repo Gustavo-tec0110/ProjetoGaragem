@@ -18,6 +18,21 @@ export function NotificationList({
   const [items, setItems] = React.useState(notifications);
   const [isPending, startTransition] = React.useTransition();
 
+  function markAsRead(notificationId: string) {
+    startTransition(async () => {
+      const result = await markNotificationReadAction(notificationId);
+      if (result.ok) {
+        setItems((current) =>
+          current.map((item) =>
+            item.id === notificationId
+              ? { ...item, read_at: new Date().toISOString() }
+              : item
+          )
+        );
+      }
+    });
+  }
+
   if (!items.length) {
     return (
       <Card className="p-6 text-sm text-muted">
@@ -35,7 +50,7 @@ export function NotificationList({
         return (
           <Card key={notification.id} className="p-4">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <Link href={href} className="min-w-0 flex-1">
+              <Link href={href} className="min-w-0 flex-1" onClick={() => unread && markAsRead(notification.id)}>
                 <div className="flex items-start gap-3">
                   <span className="mt-1 text-red-400">
                     {unread ? <Circle className="size-3 fill-current" /> : <Check className="size-4" />}
@@ -61,20 +76,7 @@ export function NotificationList({
                   variant="outline"
                   size="sm"
                   disabled={isPending}
-                  onClick={() =>
-                    startTransition(async () => {
-                      const result = await markNotificationReadAction(notification.id);
-                      if (result.ok) {
-                        setItems((current) =>
-                          current.map((item) =>
-                            item.id === notification.id
-                              ? { ...item, read_at: new Date().toISOString() }
-                              : item
-                          )
-                        );
-                      }
-                    })
-                  }
+                  onClick={() => markAsRead(notification.id)}
                 >
                   Marcar lida
                 </Button>

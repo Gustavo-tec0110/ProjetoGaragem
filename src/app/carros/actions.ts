@@ -17,6 +17,8 @@ export type ActionState = {
   message: string;
 };
 
+type ServerSupabaseClient = NonNullable<Awaited<ReturnType<typeof getSupabaseServerClient>>>;
+
 type PartInput = {
   id?: string;
   name: string;
@@ -386,37 +388,59 @@ async function uniqueCarSlug(base: string, currentId?: string) {
 }
 
 async function notifyCarOwner({
+  supabase,
   ownerId,
-  actorId,
   carId,
   type,
   title,
   body,
+  dedupe = true,
 }: {
+  supabase: ServerSupabaseClient;
   ownerId: string | null | undefined;
-  actorId: string;
   carId: string;
   type: NotificationType;
   title: string;
   body?: string | null;
+  dedupe?: boolean;
 }) {
-  if (!ownerId || ownerId === actorId) return;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!ownerId || !user || ownerId === user.id) return;
 
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return;
-
-  await supabase.from("notifications").insert({
-    user_id: ownerId,
-    actor_id: actorId,
+  await supabase.rpc("create_notification", {
+    recipient_id: ownerId,
+    notification_type: type,
     car_id: carId,
-    type,
-    title,
-    body: body ?? null,
+    notification_title: title,
+    notification_body: body ?? null,
+    dedupe,
   });
   revalidatePath("/notificacoes");
 }
 
-async function readCarSocialCounts(supabase: NonNullable<Awaited<ReturnType<typeof getSupabaseServerClient>>>, carId: string) {
+async function notifyProfileFollow({
+  supabase,
+  profileId,
+  actorName,
+}: {
+  supabase: ServerSupabaseClient;
+  profileId: string;
+  actorName: string;
+}) {
+  await supabase.rpc("create_notification", {
+    recipient_id: profileId,
+    notification_type: "follow",
+    car_id: null,
+    notification_title: `${actorName} comecou a seguir voce`,
+    notification_body: "Seu perfil ganhou um novo seguidor.",
+    dedupe: true,
+  });
+  revalidatePath("/notificacoes");
+}
+
+async function readCarSocialCounts(supabase: ServerSupabaseClient, carId: string) {
   const { data } = await supabase
     .from("cars")
     .select("likes_count, saves_count, views_count, project_followers_count")
@@ -432,7 +456,7 @@ async function readCarSocialCounts(supabase: NonNullable<Awaited<ReturnType<type
 }
 
 async function verifySocialRow(
-  supabase: NonNullable<Awaited<ReturnType<typeof getSupabaseServerClient>>>,
+  supabase: ServerSupabaseClient,
   table: "car_likes" | "car_saves" | "project_follows",
   carId: string,
   userId: string
@@ -483,21 +507,24 @@ async function notifyProjectFollowers({
     .select("user_id")
     .eq("car_id", carId);
 
-  const rows = ((follows ?? []) as Array<{ user_id: string }>)
-    .filter((follow) => follow.user_id !== ownerId)
-    .map((follow) => ({
-      user_id: follow.user_id,
-      actor_id: ownerId,
-      car_id: carId,
-      type: "project_update" as NotificationType,
-      title: `${carName} publicou uma nova evolução`,
-      body: updateTitle,
-    }));
+  const recipients = ((follows ?? []) as Array<{ user_id: string }>)
+    .map((follow) => follow.user_id)
+    .filter((userId) => userId !== ownerId);
 
-  if (rows.length) {
-    await supabase.from("notifications").insert(rows);
-    revalidatePath("/notificacoes");
-  }
+  await Promise.all(
+    recipients.map((recipientId) =>
+      supabase.rpc("create_notification", {
+        recipient_id: recipientId,
+        notification_type: "project_update",
+        car_id: carId,
+        notification_title: `${carName} publicou uma nova evolução`,
+        notification_body: updateTitle,
+        dedupe: false,
+      })
+    )
+  );
+
+  if (recipients.length) revalidatePath("/notificacoes");
 }
 
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
@@ -996,8 +1023,8 @@ export async function toggleLikeAction(carId: string) {
   const { error } = await auth.supabase.from("car_likes").insert({ car_id: carId, user_id: auth.user.id });
   if (!error && car) {
     await notifyCarOwner({
+      supabase: auth.supabase,
       ownerId: car.owner_id,
-      actorId: auth.user.id,
       carId,
       type: "project_like",
       title: `${car.name} recebeu uma curtida`,
@@ -1068,8 +1095,8 @@ export async function toggleSaveAction(carId: string) {
   const { error } = await auth.supabase.from("car_saves").insert({ car_id: carId, user_id: auth.user.id });
   if (!error && car) {
     await notifyCarOwner({
+      supabase: auth.supabase,
       ownerId: car.owner_id,
-      actorId: auth.user.id,
       carId,
       type: "project_save",
       title: `${car.name} foi salvo`,
@@ -1126,6 +1153,20 @@ export async function toggleFollowUserAction(profileId: string) {
     follower_id: auth.user.id,
     following_id: profileId,
   });
+
+  if (!error) {
+    const { data: actorProfile } = await auth.supabase
+      .from("profiles")
+      .select("display_name, username")
+      .eq("id", auth.user.id)
+      .maybeSingle();
+
+    await notifyProfileFollow({
+      supabase: auth.supabase,
+      profileId,
+      actorName: actorProfile?.display_name ?? actorProfile?.username ?? "Alguem",
+    });
+  }
 
   revalidatePath("/garagem");
   revalidatePath("/perfil");
@@ -1193,8 +1234,8 @@ export async function toggleProjectFollowAction(carId: string) {
 
   if (!error) {
     await notifyCarOwner({
+      supabase: auth.supabase,
       ownerId: car.owner_id,
-      actorId: auth.user.id,
       carId,
       type: "project_follow",
       title: `${car.name} ganhou um seguidor`,
@@ -1283,8 +1324,8 @@ export async function createCommentAction(
 
   if (car) {
     await notifyCarOwner({
+      supabase: auth.supabase,
       ownerId: car.owner_id,
-      actorId: auth.user.id,
       carId,
       type: "project_comment",
       title: `${car.name} recebeu um comentário`,

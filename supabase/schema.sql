@@ -310,7 +310,7 @@ create table if not exists public.notifications (
   read_at timestamptz,
   created_at timestamptz not null default now(),
   constraint notifications_type_chk check (
-    type in ('project_comment', 'project_like', 'project_save', 'project_follow', 'project_update')
+    type in ('follow', 'project_comment', 'project_like', 'project_save', 'project_follow', 'project_update')
   )
 );
 
@@ -576,6 +576,93 @@ begin
 end;
 $$;
 
+create or replace function public.create_notification(
+  recipient_id uuid,
+  notification_type text,
+  car_id uuid default null,
+  notification_title text default null,
+  notification_body text default null,
+  dedupe boolean default true
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  actor uuid := auth.uid();
+  existing_id uuid;
+  inserted_id uuid;
+begin
+  if actor is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  if recipient_id is null or recipient_id = actor then
+    return null;
+  end if;
+
+  if notification_type not in (
+    'follow',
+    'project_comment',
+    'project_like',
+    'project_save',
+    'project_follow',
+    'project_update'
+  ) then
+    raise exception 'invalid_notification_type';
+  end if;
+
+  if coalesce(trim(notification_title), '') = '' then
+    raise exception 'notification_title_required';
+  end if;
+
+  if dedupe then
+    select n.id
+    into existing_id
+    from public.notifications as n
+    where n.user_id = recipient_id
+      and n.actor_id = actor
+      and n.type = notification_type
+      and n.car_id is not distinct from create_notification.car_id
+    order by n.created_at desc
+    limit 1;
+
+    if existing_id is not null then
+      update public.notifications
+      set
+        title = notification_title,
+        body = notification_body,
+        read_at = null,
+        created_at = now()
+      where id = existing_id;
+
+      return existing_id;
+    end if;
+  end if;
+
+  insert into public.notifications (
+    user_id,
+    actor_id,
+    car_id,
+    type,
+    title,
+    body
+  )
+  values (
+    recipient_id,
+    actor,
+    create_notification.car_id,
+    notification_type,
+    notification_title,
+    notification_body
+  )
+  returning id into inserted_id;
+
+  return inserted_id;
+end;
+$$;
+
 create or replace function public.refresh_project_followers_count(target_car_id uuid)
 returns void
 language sql
@@ -816,10 +903,6 @@ drop policy if exists "notifications_update_own" on public.notifications;
 create policy "notifications_update_own" on public.notifications
 for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
 
-drop policy if exists "notifications_insert_system" on public.notifications;
-create policy "notifications_insert_system" on public.notifications
-for insert to authenticated with check (actor_id = auth.uid() and user_id <> auth.uid());
-
 drop policy if exists "part_requirements_read_all" on public.part_requirements;
 create policy "part_requirements_read_all" on public.part_requirements
 for select to anon, authenticated using (true);
@@ -843,7 +926,8 @@ grant select on
 to anon, authenticated;
 
 grant select on public.car_saves to anon, authenticated;
-grant select, update on public.notifications to authenticated;
+grant select on public.notifications to authenticated;
+grant update (read_at) on public.notifications to authenticated;
 
 grant insert, update on public.profiles to authenticated;
 
@@ -863,8 +947,8 @@ grant insert, delete on
   public.project_follows
 to authenticated;
 
-grant insert on public.notifications to authenticated;
 grant execute on function public.increment_car_view(uuid) to anon, authenticated;
+grant execute on function public.create_notification(uuid, text, uuid, text, text, boolean) to authenticated;
 grant execute on function public.refresh_project_followers_count(uuid) to authenticated;
 
 with model_seed (brand, model, generation_name, year_start, year_end, notes) as (

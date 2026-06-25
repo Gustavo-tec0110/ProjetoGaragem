@@ -8,7 +8,7 @@ import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString } from "@/lib/projects/utils";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { CarPartStatus, NotificationType } from "@/lib/types";
+import type { CarPartStatus } from "@/lib/types";
 import type { Database } from "@/types/supabase";
 
 type ServerSupabaseClient = SupabaseClient<Database>;
@@ -380,21 +380,24 @@ async function notifyProjectFollowers({
     .select("user_id")
     .eq("car_id", carId);
 
-  const rows = ((follows ?? []) as Array<{ user_id: string }>)
-    .filter((follow) => follow.user_id !== ownerId)
-    .map((follow) => ({
-      user_id: follow.user_id,
-      actor_id: ownerId,
-      car_id: carId,
-      type: "project_update" as NotificationType,
-      title: `${carName} publicou uma nova evolucao`,
-      body: updateTitle,
-    }));
+  const recipients = ((follows ?? []) as Array<{ user_id: string }>)
+    .map((follow) => follow.user_id)
+    .filter((userId) => userId !== ownerId);
 
-  if (rows.length) {
-    await supabase.from("notifications").insert(rows);
-    revalidatePath("/notificacoes");
-  }
+  await Promise.all(
+    recipients.map((recipientId) =>
+      supabase.rpc("create_notification", {
+        recipient_id: recipientId,
+        notification_type: "project_update",
+        car_id: carId,
+        notification_title: `${carName} publicou uma nova evolucao`,
+        notification_body: updateTitle,
+        dedupe: false,
+      })
+    )
+  );
+
+  if (recipients.length) revalidatePath("/notificacoes");
 }
 
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
