@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Check, Circle } from "lucide-react";
 
-import { markNotificationReadAction } from "@/app/carros/actions";
+import { markNotificationReadAction, markNotificationsReadAction } from "@/app/carros/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { NotificationWithContext } from "@/lib/supabase/queries";
@@ -17,11 +17,31 @@ export function NotificationList({
 }) {
   const [items, setItems] = React.useState(notifications);
   const [isPending, startTransition] = React.useTransition();
+  const unreadIdsRef = React.useRef<Set<string>>(new Set());
+
+  React.useEffect(() => {
+    unreadIdsRef.current = new Set(items.filter((item) => !item.read_at).map((item) => item.id));
+  }, [items]);
+
+  React.useEffect(() => {
+    return () => {
+      const ids = Array.from(unreadIdsRef.current);
+      if (!ids.length) return;
+
+      unreadIdsRef.current.clear();
+      void markNotificationsReadAction(ids).then((result) => {
+        if (result.ok) {
+          window.dispatchEvent(new Event("notifications:read"));
+        }
+      });
+    };
+  }, []);
 
   function markAsRead(notificationId: string) {
     startTransition(async () => {
       const result = await markNotificationReadAction(notificationId);
       if (result.ok) {
+        unreadIdsRef.current.delete(notificationId);
         setItems((current) =>
           current.map((item) =>
             item.id === notificationId
@@ -29,6 +49,7 @@ export function NotificationList({
               : item
           )
         );
+        window.dispatchEvent(new Event("notifications:read"));
       }
     });
   }

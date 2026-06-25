@@ -1535,3 +1535,25 @@ export async function markNotificationReadAction(notificationId: string) {
   revalidatePath("/notificacoes");
   return { ok: !error, message: error?.message };
 }
+
+export async function markNotificationsReadAction(notificationIds: string[]) {
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return { ok: false, message: auth.error ?? "Entre para ver notificações." };
+  }
+
+  const ids = Array.from(new Set(notificationIds)).filter((id) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
+  );
+  if (!ids.length) return { ok: true };
+
+  const { error } = await auth.supabase
+    .from("notifications")
+    .update({ read_at: new Date().toISOString() })
+    .in("id", ids)
+    .eq("user_id", auth.user.id)
+    .is("read_at", null);
+
+  revalidatePath("/notificacoes");
+  return { ok: !error, message: error?.message };
+}

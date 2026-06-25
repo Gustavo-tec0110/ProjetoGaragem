@@ -30,12 +30,14 @@ export function NotificationBell({ userId }: { userId: string | null }) {
     refreshCount();
     const interval = window.setInterval(refreshCount, 30000);
     window.addEventListener("focus", refreshCount);
+    window.addEventListener("notifications:read", refreshCount);
     document.addEventListener("visibilitychange", refreshCount);
 
     return () => {
       mounted = false;
       window.clearInterval(interval);
       window.removeEventListener("focus", refreshCount);
+      window.removeEventListener("notifications:read", refreshCount);
       document.removeEventListener("visibilitychange", refreshCount);
     };
   }, [userId]);
