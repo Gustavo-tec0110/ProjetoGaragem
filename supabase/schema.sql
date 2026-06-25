@@ -302,11 +302,16 @@ create table if not exists public.project_follows (
 create table if not exists public.notifications (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.profiles(id) on delete cascade,
+  recipient_id uuid generated always as (user_id) stored,
   actor_id uuid references public.profiles(id) on delete set null,
   car_id uuid references public.cars(id) on delete cascade,
+  project_id uuid,
   type text not null,
   title text not null,
   body text,
+  message text generated always as (body) stored,
+  href text,
+  url text,
   read_at timestamptz,
   created_at timestamptz not null default now(),
   constraint notifications_type_chk check (
@@ -350,6 +355,7 @@ create index if not exists idx_project_follows_car_id on public.project_follows 
 create index if not exists idx_project_follows_user_id on public.project_follows (user_id, created_at desc);
 create index if not exists idx_notifications_user_unread on public.notifications (user_id, read_at, created_at desc);
 create index if not exists idx_notifications_car_id on public.notifications (car_id, created_at desc);
+create index if not exists idx_notifications_project_id on public.notifications (project_id, created_at desc);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -633,6 +639,8 @@ begin
       set
         title = notification_title,
         body = notification_body,
+        href = null,
+        url = null,
         read_at = null,
         created_at = now()
       where id = existing_id;

@@ -223,11 +223,16 @@ export type NotificationType =
 export type NotificationRow = {
   id: string;
   user_id: string;
+  recipient_id: string;
   actor_id: string | null;
   car_id: string | null;
+  project_id: string | null;
   type: NotificationType;
   title: string;
   body: string | null;
+  message: string | null;
+  href: string | null;
+  url: string | null;
   read_at: string | null;
   created_at: string;
 };
@@ -435,9 +440,12 @@ export interface Database {
           user_id: string;
           actor_id?: string | null;
           car_id?: string | null;
+          project_id?: string | null;
           type: NotificationType;
           title: string;
           body?: string | null;
+          href?: string | null;
+          url?: string | null;
           read_at?: string | null;
         },
         {
