@@ -30,6 +30,7 @@ import {
   PROJECT_EXPENSE_CATEGORIES,
   PROJECT_STATUS_VALUES,
 } from "@/lib/projects/types";
+import { parseTagString } from "@/lib/projects/utils";
 import type {
   CarBuildUpdateRow,
   CarExpenseRow,
@@ -344,6 +345,96 @@ function DetailAnswerGroup({
   );
 }
 
+function ProjectTagsField({
+  tags,
+  draft,
+  onDraftChange,
+  onTagsChange,
+}: {
+  tags: string[];
+  draft: string;
+  onDraftChange: (value: string) => void;
+  onTagsChange: (value: string[]) => void;
+}) {
+  const remaining = Math.max(0, 20 - tags.length);
+
+  function addTags(value: string) {
+    const nextTags = parseTagString(value);
+    if (!nextTags.length) return;
+    onTagsChange(Array.from(new Set([...tags, ...nextTags])).slice(0, 20));
+    onDraftChange("");
+  }
+
+  function removeTag(tag: string) {
+    onTagsChange(tags.filter((item) => item !== tag));
+  }
+
+  return (
+    <div className="grid gap-3 text-sm text-muted">
+      <div className="flex items-center justify-between gap-3">
+        <span>Tags do projeto</span>
+        <span className="text-xs">{remaining} restantes</span>
+      </div>
+      <input type="hidden" name="tags_csv" value={tags.join(", ")} />
+      <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+        <Input
+          value={draft}
+          onChange={(event) => {
+            const nextValue = event.target.value;
+            if (nextValue.includes(",")) {
+              addTags(nextValue);
+              return;
+            }
+
+            onDraftChange(nextValue);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              addTags(draft);
+            }
+          }}
+          placeholder="gol quadrado, ap 1.8, turbo, orbital"
+          disabled={!remaining}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => addTags(draft)}
+          disabled={!draft.trim() || !remaining}
+        >
+          <Plus className="size-4" />
+          Adicionar
+        </Button>
+      </div>
+      {tags.length ? (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/25 px-3 py-2 text-xs text-foreground"
+            >
+              {tag}
+              <button
+                type="button"
+                onClick={() => removeTag(tag)}
+                className="text-muted hover:text-danger"
+                aria-label={`Remover ${tag}`}
+              >
+                <Trash2 className="size-3.5" />
+              </button>
+            </span>
+          ))}
+        </div>
+      ) : (
+        <p className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-xs">
+          Adicione termos que visitantes usariam para encontrar o carro.
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function CarForm({
   mode,
   car,
@@ -390,7 +481,10 @@ export function CarForm({
   const [partsExpanded, setPartsExpanded] = React.useState(false);
   const [timelineExpanded, setTimelineExpanded] = React.useState(false);
   const [expensesExpanded, setExpensesExpanded] = React.useState(false);
-  const [tagInput, setTagInput] = React.useState(safeStringArray(car?.tags).join(", "));
+  const [tags, setTags] = React.useState<string[]>(() =>
+    parseTagString(safeStringArray(car?.tags).join(", "))
+  );
+  const [tagDraft, setTagDraft] = React.useState("");
   const [projectNameInput, setProjectNameInput] = React.useState(car?.name ?? "");
   const [brandInput, setBrandInput] = React.useState(car?.brand ?? "");
   const [modelInput, setModelInput] = React.useState(car?.model ?? "");
@@ -652,7 +746,7 @@ export function CarForm({
         <input type="hidden" name="parts_json" value="[]" />
         <input type="hidden" name="updates_json" value="[]" />
         <input type="hidden" name="expenses_json" value="[]" />
-        <input type="hidden" name="tags_csv" value={autoTags} />
+        <input type="hidden" name="tags_auto_csv" value={autoTags} />
         <input type="hidden" name="category" value="Projeto automotivo" />
         <input type="hidden" name="project_status" value="Em andamento" />
         <input type="hidden" name="is_public" value="true" />
@@ -781,6 +875,15 @@ export function CarForm({
               onPhotoUrlsChange={setPhotoUrls}
             />
           </div>
+        </Card>
+
+        <Card className="p-5 md:p-6">
+          <ProjectTagsField
+            tags={tags}
+            draft={tagDraft}
+            onDraftChange={setTagDraft}
+            onTagsChange={setTags}
+          />
         </Card>
 
         <Card className="p-5 md:p-6">
@@ -917,7 +1020,6 @@ export function CarForm({
       <input type="hidden" name="parts_json" value={serializedParts} />
       <input type="hidden" name="updates_json" value={serializedUpdates} />
       <input type="hidden" name="expenses_json" value={serializedExpenses} />
-      <input type="hidden" name="tags_csv" value={tagInput} />
 
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -1100,13 +1202,12 @@ export function CarForm({
             />
           </Field>
 
-          <Field label="Tags do projeto">
-            <Input
-              value={tagInput}
-              onChange={(event) => setTagInput(event.target.value)}
-              placeholder="#turbo, #oemplus, #trackday"
-            />
-          </Field>
+          <ProjectTagsField
+            tags={tags}
+            draft={tagDraft}
+            onDraftChange={setTagDraft}
+            onTagsChange={setTags}
+          />
 
           <label className="flex items-center gap-3 rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
             <input

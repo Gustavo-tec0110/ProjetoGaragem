@@ -6,7 +6,7 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from "@/lib/car-catalog";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
-import { parseTagString } from "@/lib/projects/utils";
+import { parseTagString, uniqueStrings } from "@/lib/projects/utils";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { CarPartStatus } from "@/lib/types";
 import type { Database } from "@/types/supabase";
@@ -96,6 +96,29 @@ function integer(formData: FormData, key: string) {
   if (!value) return null;
   const parsed = Number.parseInt(value.replace(/[^\d-]/g, ""), 10);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function buildProjectTags(formData: FormData) {
+  const autoTerms = [
+    text(formData, "tags_auto_csv"),
+    text(formData, "name"),
+    text(formData, "brand"),
+    text(formData, "model"),
+    text(formData, "year"),
+    text(formData, "version"),
+    text(formData, "engine"),
+    text(formData, "factory_engine"),
+    text(formData, "current_induction"),
+    text(formData, "fuel_type"),
+    text(formData, "drivetrain"),
+    text(formData, "category"),
+    text(formData, "wheels"),
+  ].filter(Boolean);
+
+  const manualTags = parseTagString(text(formData, "tags_csv"));
+  const generatedTags = parseTagString(autoTerms.join(", "));
+
+  return uniqueStrings([...manualTags, ...generatedTags]).slice(0, 20);
 }
 
 function parseStringArray(raw: string) {
@@ -424,7 +447,7 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const tires = nullableText(formData, "tires");
   const brakes = nullableText(formData, "brakes");
   const projectStatus = nullableText(formData, "project_status");
-  const tags = parseTagString(text(formData, "tags_csv"));
+  const tags = buildProjectTags(formData);
   const versionConfidence = dataConfidence(formData, "version_confidence", "unknown");
   const originalEngineAnswer = detailAnswer(formData, "original_engine_answer");
   const originalInductionAnswer = detailAnswer(formData, "original_induction_answer");

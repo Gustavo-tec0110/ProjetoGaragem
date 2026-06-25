@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
 
+import { ProjectSearchBox } from "@/components/projects/project-search-box";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import type { ProjectFilters } from "@/lib/projects/types";
 
 const DEFAULT_STYLES = [
@@ -36,18 +35,11 @@ export function ProjectFilters({
   return (
     <Card className="p-4 md:p-5">
       <form
+        data-project-search-form
         className="grid gap-3 xl:grid-cols-[1.7fr_0.9fr_1fr_0.95fr_auto]"
         action={actionPath}
       >
-        <label className="relative">
-          <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
-          <Input
-            name="q"
-            defaultValue={filters.q}
-            placeholder="Busque por projeto, Gol, Volkswagen, #turbo, JDM, off-road, stance..."
-            className="pl-11"
-          />
-        </label>
+        <ProjectSearchBox defaultValue={filters.q} />
 
         <select
           name="style"

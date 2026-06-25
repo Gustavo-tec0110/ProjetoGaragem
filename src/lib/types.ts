@@ -466,6 +466,23 @@ export interface Database {
         Args: { target_car_id: string };
         Returns: number;
       };
+      search_car_projects: {
+        Args: {
+          p_query?: string | null;
+          p_category?: string | null;
+          p_engine?: string | null;
+          p_tag?: string | null;
+          p_limit?: number | null;
+        };
+        Returns: Array<{ car_id: string; rank: number }>;
+      };
+      suggest_car_project_terms: {
+        Args: {
+          p_query: string;
+          p_limit?: number | null;
+        };
+        Returns: Array<{ term: string; source: string; rank: number }>;
+      };
       create_notification: {
         Args: {
           p_recipient_id: string;

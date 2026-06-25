@@ -77,6 +77,12 @@ export type ExploreFilters = {
   limit?: number;
 };
 
+export type ProjectSearchSuggestion = {
+  term: string;
+  source: string;
+  rank: number;
+};
+
 type Client = SupabaseClient;
 
 export { CAR_CATEGORIES, normalizeSlug };
@@ -93,6 +99,57 @@ function normalizeCarRow(row: CarRow): CarRow {
     photo_urls: stringArray(row.photo_urls),
     tags: stringArray(row.tags),
   };
+}
+
+function normalizeSearchTerm(value: string | null | undefined) {
+  return (value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/#/g, " ")
+    .replace(/[^a-zA-Z0-9]+/g, " ")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function carSearchText(row: CarRow) {
+  return normalizeSearchTerm(
+    [
+      row.name,
+      row.brand,
+      row.model,
+      String(row.year),
+      row.version,
+      row.category,
+      row.engine,
+      row.factory_engine,
+      row.current_induction,
+      row.fuel_type,
+      row.drivetrain,
+      row.description,
+      row.project_goal,
+      ...stringArray(row.tags),
+    ].join(" ")
+  );
+}
+
+function carSearchRank(row: CarRow, query: string) {
+  const normalizedQuery = normalizeSearchTerm(query);
+  const queryWithoutHash = normalizedQuery.replace(/^#+/, "");
+  const tags = stringArray(row.tags).map(normalizeSearchTerm);
+  let rank = row.project_followers_count * 0.4 + row.likes_count * 0.3 + row.views_count * 0.02;
+
+  if (normalizeSearchTerm(row.name) === normalizedQuery) rank += 120;
+  if (normalizeSearchTerm(row.model) === normalizedQuery) rank += 100;
+  if (tags.some((tag) => tag === queryWithoutHash)) rank += 100;
+  if (normalizeSearchTerm(row.name).includes(normalizedQuery)) rank += 40;
+  if (normalizeSearchTerm(row.model).includes(normalizedQuery)) rank += 36;
+  if (normalizeSearchTerm(row.brand).includes(normalizedQuery)) rank += 28;
+  if (normalizeSearchTerm(row.engine).includes(normalizedQuery)) rank += 26;
+  if (tags.some((tag) => tag.includes(queryWithoutHash))) rank += 34;
+  if (normalizeSearchTerm(row.description).includes(normalizedQuery)) rank += 10;
+
+  return rank;
 }
 
 function normalizeUpdateRow(row: CarBuildUpdateRow): CarBuildUpdateRow {
@@ -397,6 +454,61 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
 
+  if (filters.q?.trim()) {
+    const { data: matches, error: searchError } = await supabase.rpc("search_car_projects", {
+      p_query: filters.q.trim(),
+      p_category: filters.category?.trim() || null,
+      p_engine: filters.engine?.trim() || null,
+      p_tag: filters.tag?.trim() || null,
+      p_limit: filters.limit ?? 120,
+    });
+
+    if (!searchError) {
+      const rankedIds = ((matches ?? []) as Array<{ car_id: string; rank: number }>).map((match) => match.car_id);
+      if (rankedIds.length) {
+        const { data, error } = await supabase
+          .from("cars")
+          .select("*")
+          .in("id", rankedIds)
+          .eq("is_public", true);
+        if (error) return { data: null, error: error.message };
+
+        const order = new Map(rankedIds.map((id, index) => [id, index]));
+        const orderedRows = ((data ?? []) as CarRow[]).sort(
+          (left, right) => (order.get(left.id) ?? Number.MAX_SAFE_INTEGER) - (order.get(right.id) ?? Number.MAX_SAFE_INTEGER)
+        );
+        const cards = await hydrateCards(supabase, orderedRows);
+        return { data: cards, error: null };
+      }
+    }
+
+    let fallbackQuery = supabase
+      .from("cars")
+      .select("*")
+      .eq("is_public", true)
+      .limit(filters.limit ?? 120);
+
+    if (filters.category?.trim()) fallbackQuery = fallbackQuery.eq("category", filters.category.trim());
+    if (filters.engine?.trim()) fallbackQuery = fallbackQuery.ilike("engine", `%${filters.engine.trim()}%`);
+    if (filters.tag?.trim()) {
+      const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
+      fallbackQuery = fallbackQuery.contains("tags", [tag.toLowerCase()]);
+    }
+
+    const { data: fallbackRows, error: fallbackError } = await fallbackQuery;
+    if (fallbackError) return { data: null, error: fallbackError.message };
+
+    const terms = normalizeSearchTerm(filters.q).split(" ").filter(Boolean);
+    const rows = ((fallbackRows ?? []) as CarRow[])
+      .filter((row) => {
+        const searchText = carSearchText(row);
+        return terms.every((term) => searchText.includes(term));
+      })
+      .sort((left, right) => carSearchRank(right, filters.q ?? "") - carSearchRank(left, filters.q ?? ""));
+    const cards = await hydrateCards(supabase, rows);
+    return { data: cards, error: null };
+  }
+
   let query = supabase
     .from("cars")
     .select("*")
@@ -445,6 +557,63 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
 
   const cards = await hydrateCards(supabase, (data ?? []) as CarRow[]);
   return { data: cards, error: null };
+}
+
+export async function qProjectSearchSuggestions(query: string, limit = 8): Promise<QueryResult<ProjectSearchSuggestion[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+
+  const term = query.trim();
+  if (term.length < 2) return { data: [], error: null };
+
+  const { data, error } = await supabase.rpc("suggest_car_project_terms", {
+    p_query: term,
+    p_limit: limit,
+  });
+  if (error) {
+    const { data: rows, error: fallbackError } = await supabase
+      .from("cars")
+      .select("name, brand, model, engine, tags")
+      .eq("is_public", true)
+      .limit(120);
+    if (fallbackError) return { data: null, error: fallbackError.message };
+
+    const normalizedTerm = term.toLowerCase();
+    const candidates = ((rows ?? []) as Array<Pick<CarRow, "name" | "brand" | "model" | "engine" | "tags">>)
+      .flatMap((row) => [
+        { term: row.brand, source: "Marca", rank: 80 },
+        { term: row.model, source: "Modelo", rank: 78 },
+        { term: row.name, source: "Projeto", rank: 74 },
+        { term: row.engine ?? "", source: "Motor", rank: 68 },
+        ...stringArray(row.tags).map((tag) => ({
+          term: tag.replace(/^#+/, ""),
+          source: "Tag",
+          rank: 76,
+        })),
+      ])
+      .filter((item) => item.term.trim().toLowerCase().includes(normalizedTerm))
+      .map((item) => ({
+        ...item,
+        term: item.term.trim(),
+        rank: item.rank + (item.term.trim().toLowerCase().startsWith(normalizedTerm) ? 20 : 0),
+      }));
+
+    const unique = new Map<string, ProjectSearchSuggestion>();
+    for (const item of candidates) {
+      const key = `${item.source}:${item.term.toLowerCase()}`;
+      const current = unique.get(key);
+      if (!current || item.rank > current.rank) unique.set(key, item);
+    }
+
+    return {
+      data: Array.from(unique.values())
+        .sort((left, right) => right.rank - left.rank || left.term.length - right.term.length)
+        .slice(0, limit),
+      error: null,
+    };
+  }
+
+  return { data: (data ?? []) as ProjectSearchSuggestion[], error: null };
 }
 
 export async function qCarsByOwner(

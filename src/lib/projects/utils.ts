@@ -101,7 +101,7 @@ export function normalizeProjectTag(tag: string) {
   const sanitized = tag
     .trim()
     .replace(/^#+/, "")
-    .replace(/\s+/g, "")
+    .replace(/\s+/g, " ")
     .toLowerCase();
 
   return sanitized ? `#${sanitized}` : "";
@@ -113,7 +113,7 @@ export function parseTagString(value: string) {
       .split(/[\n,;]+/g)
       .map((tag) => normalizeProjectTag(tag))
       .filter(Boolean)
-  );
+  ).slice(0, 20);
 }
 
 export function normalizeProjectFilters(filters?: Partial<ProjectFilters>): ProjectFilters {
@@ -383,13 +383,15 @@ export function uniqueProjects(projects: Project[]) {
 
 export function filterProjects(projects: Project[], filters: ProjectFilters) {
   const searchTerm = normalizeSearchText(filters.q);
+  const searchTerms = searchTerm.split(" ").filter(Boolean);
   const styleTerm = normalizeSearchText(filters.style);
   const engineTerm = normalizeSearchText(filters.engine);
   const tagTerm = normalizeSearchText(filters.tag ?? "");
 
   return projects.filter((project) => {
     const searchText = getProjectSearchText(project);
-    const matchesSearch = !searchTerm || searchText.includes(searchTerm);
+    const matchesSearch =
+      !searchTerms.length || searchTerms.every((term) => searchText.includes(term));
     const matchesStyle =
       !styleTerm ||
       normalizeSearchText(project.style) === styleTerm ||
