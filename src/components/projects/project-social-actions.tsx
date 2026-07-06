@@ -49,6 +49,7 @@ export function ProjectSocialActions({
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [copied, setCopied] = React.useState(false);
+  const [actionError, setActionError] = React.useState<string | null>(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [serverLiked, setServerLiked] = React.useState(initialLiked);
   const [serverSaved, setServerSaved] = React.useState(initialSaved);
@@ -77,10 +78,6 @@ export function ProjectSocialActions({
       ? initialSaves + (localState.saved ? 1 : 0)
       : initialSaves;
   const followers = usingServer ? serverFollowers : initialFollowers;
-
-  function reportSocialActionError(action: string, message?: string) {
-    console.error("[social-action]", action, message ?? "Falha sem mensagem retornada.");
-  }
 
   async function copyLink() {
     await navigator.clipboard?.writeText(window.location.href);
@@ -125,12 +122,18 @@ export function ProjectSocialActions({
         title="Entre para interagir"
         description="Faça login para curtir, salvar e acompanhar projetos reais da comunidade."
       />
+      {actionError ? (
+        <p className="basis-full text-sm text-danger" role="status" aria-live="polite">
+          {actionError}
+        </p>
+      ) : null}
       <Button
         type="button"
         variant={followed ? "default" : "outline"}
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
+            setActionError(null);
             if (usingServer && databaseId) {
               const next = !followed;
               setServerFollowed(next);
@@ -138,7 +141,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ followers: Math.max(0, followers + (next ? 1 : -1)) });
               const result = await toggleProjectFollowAction(databaseId);
               if (!result.ok) {
-                reportSocialActionError("project_follows.toggle", result.message);
+                setActionError(result.message ?? "Nao foi possivel seguir este projeto.");
                 setServerFollowed(!next);
                 setServerFollowers((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ followers });
@@ -167,6 +170,7 @@ export function ProjectSocialActions({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
+            setActionError(null);
             if (usingServer && databaseId) {
               const next = !liked;
               setServerLiked(next);
@@ -174,7 +178,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ likes: Math.max(0, likes + (next ? 1 : -1)) });
               const result = await toggleLikeAction(databaseId);
               if (!result.ok) {
-                reportSocialActionError("car_likes.toggle", result.message);
+                setActionError(result.message ?? "Nao foi possivel curtir este projeto.");
                 setServerLiked(!next);
                 setServerLikes((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ likes });
@@ -206,6 +210,7 @@ export function ProjectSocialActions({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
+            setActionError(null);
             if (usingServer && databaseId) {
               const next = !saved;
               setServerSaved(next);
@@ -213,7 +218,7 @@ export function ProjectSocialActions({
               onCountsChange?.({ saves: Math.max(0, saves + (next ? 1 : -1)) });
               const result = await toggleSaveAction(databaseId);
               if (!result.ok) {
-                reportSocialActionError("car_saves.toggle", result.message);
+                setActionError(result.message ?? "Nao foi possivel salvar este projeto.");
                 setServerSaved(!next);
                 setServerSaves((current) => Math.max(0, current + (next ? -1 : 1)));
                 onCountsChange?.({ saves });

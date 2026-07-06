@@ -52,7 +52,7 @@ export default function LoginPage() {
           <Card className="p-6 md:p-8">
             <h1 className="font-title text-2xl tracking-tight">Entrar no Projeto Garagem</h1>
             <p className="mt-2 text-sm text-muted">
-              Entre para criar carros, curtir, salvar e comentar projetos.
+              Entre para criar, curtir, salvar e comentar projetos.
             </p>
 
             <div className="mt-6">

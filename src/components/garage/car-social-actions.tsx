@@ -28,10 +28,7 @@ export function CarSocialActions({
   const [likes, setLikes] = React.useState(likesCount);
   const [saves, setSaves] = React.useState(savesCount);
   const [copied, setCopied] = React.useState(false);
-
-  function reportSocialActionError(action: string, message?: string) {
-    console.error("[social-action]", action, message ?? "Falha sem mensagem retornada.");
-  }
+  const [actionError, setActionError] = React.useState<string | null>(null);
 
   if (!viewerLoggedIn) {
     return (
@@ -49,18 +46,24 @@ export function CarSocialActions({
 
   return (
     <div className="flex flex-wrap gap-2">
+      {actionError ? (
+        <p className="basis-full text-sm text-danger" role="status" aria-live="polite">
+          {actionError}
+        </p>
+      ) : null}
       <Button
         type="button"
         variant={isLiked ? "default" : "outline"}
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
+            setActionError(null);
             const next = !isLiked;
             setLiked(next);
             setLikes((current) => Math.max(0, current + (next ? 1 : -1)));
             const result = await toggleLikeAction(carId);
             if (!result.ok) {
-              reportSocialActionError("car_likes.toggle", result.message);
+              setActionError(result.message ?? "Nao foi possivel curtir este projeto.");
               setLiked(!next);
               setLikes((current) => Math.max(0, current + (next ? -1 : 1)));
               return;
@@ -81,12 +84,13 @@ export function CarSocialActions({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
+            setActionError(null);
             const next = !isSaved;
             setSaved(next);
             setSaves((current) => Math.max(0, current + (next ? 1 : -1)));
             const result = await toggleSaveAction(carId);
             if (!result.ok) {
-              reportSocialActionError("car_saves.toggle", result.message);
+              setActionError(result.message ?? "Nao foi possivel salvar este projeto.");
               setSaved(!next);
               setSaves((current) => Math.max(0, current + (next ? -1 : 1)));
               return;
@@ -107,6 +111,7 @@ export function CarSocialActions({
         onClick={async () => {
           await navigator.clipboard?.writeText(window.location.href);
           setCopied(true);
+          window.setTimeout(() => setCopied(false), 1600);
         }}
       >
         <Share2 className="size-4" />

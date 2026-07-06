@@ -26,7 +26,7 @@ export function SiteFooter() {
                 Minha Garagem
               </Link>
               <Link className="text-muted hover:text-foreground" href="/criar-projeto">
-                Adicionar carro
+                Adicionar projeto
               </Link>
             </div>
           </div>

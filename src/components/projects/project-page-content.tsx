@@ -4,28 +4,10 @@ import { mapCarDetailsToProject } from "@/lib/projects/mappers";
 import { getProjectPageData } from "@/lib/projects/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
-type RouteVariant = "car" | "project";
-
-function buildAlternateRoute(slug: string, routeVariant: RouteVariant) {
-  if (routeVariant === "car") {
-    return {
-      href: `/projeto/${slug}`,
-      label: "Abrir rota nova",
-    };
-  }
-
-  return {
-    href: `/carros/${slug}`,
-    label: "Abrir rota legado",
-  };
-}
-
 export async function ProjectPageContent({
   slug,
-  routeVariant,
 }: {
   slug: string;
-  routeVariant: RouteVariant;
 }) {
   const [{ project, detail, similarProjects }, supabase] = await Promise.all([
     getProjectPageData(slug),
@@ -74,7 +56,6 @@ export async function ProjectPageContent({
           viewerLoggedIn: Boolean(user),
           comments: detail.comments,
         }}
-        alternateRoute={buildAlternateRoute(detail.slug, routeVariant)}
       />
     );
   }
@@ -85,7 +66,6 @@ export async function ProjectPageContent({
       similarProjects={similarProjects}
       viewerLoggedIn={Boolean(user)}
       canEdit={false}
-      alternateRoute={buildAlternateRoute(project.slug, routeVariant)}
     />
   );
 }

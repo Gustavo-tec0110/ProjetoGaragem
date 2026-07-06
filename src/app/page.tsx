@@ -34,7 +34,7 @@ export default async function Home() {
             <div className="max-w-3xl">
               <p className="text-xs text-muted">Projeto Garagem</p>
               <h1 className="mt-3 font-title text-4xl tracking-tight md:text-6xl">
-                Crie a ficha completa do seu carro e descubra projetos reais da comunidade.
+                Crie a ficha completa do seu projeto e descubra garagens reais da comunidade.
               </h1>
               <p className="mt-5 max-w-2xl text-lg text-muted">
                 Mostre suas peças, especificações, fotos e planos futuros. Curta,
@@ -55,7 +55,7 @@ export default async function Home() {
         <section className="px-4 sm:px-6">
           <div className="mx-auto grid w-full max-w-6xl gap-4 py-12 md:grid-cols-4">
             {[
-              { title: "Cadastre seu carro", text: "Crie a página pública do projeto.", icon: Camera },
+              { title: "Cadastre seu projeto", text: "Crie a página pública da garagem.", icon: Camera },
               { title: "Adicione peças", text: "Separe instaladas e planejadas.", icon: Wrench },
               { title: "Compartilhe", text: "Use um link bonito da sua garagem.", icon: Share2 },
               { title: "Descubra", text: "Compare projetos por categoria.", icon: Search },
@@ -98,7 +98,7 @@ export default async function Home() {
                 <div>
                   <p className="text-xs text-muted">MVP focado</p>
                   <h2 className="mt-2 font-title text-3xl tracking-tight">
-                    Uma página bonita para cada carro.
+                    Uma página bonita para cada projeto.
                   </h2>
                   <p className="mt-2 max-w-2xl text-muted">
                     Marketplace, afiliados avancados e chat ficam para depois. Agora o foco e

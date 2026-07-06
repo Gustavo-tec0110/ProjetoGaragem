@@ -6,5 +6,5 @@ export default async function BuildRedirectPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  redirect(`/carros/${id}`);
+  redirect(`/projeto/${id}`);
 }

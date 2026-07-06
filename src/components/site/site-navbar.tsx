@@ -148,7 +148,7 @@ export function SiteNavbar() {
                   </span>
                   <div className="leading-tight">
                     <p className="font-title tracking-tight">Projeto Garagem</p>
-                    <p className="text-[11px] text-muted">Perfis de carros reais</p>
+                    <p className="text-[11px] text-muted">Projetos reais</p>
                   </div>
                 </Link>
 

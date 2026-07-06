@@ -204,7 +204,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
               <p className="text-xs text-muted">Garagem publica</p>
               <h2 className="mt-1 font-title text-2xl tracking-tight">Carros cadastrados</h2>
             </div>
-            <CarGrid cars={cars} emptyTitle="Este usuario ainda nao cadastrou carros publicos." />
+            <CarGrid cars={cars} emptyTitle="Este usuario ainda nao cadastrou projetos publicos." />
           </section>
 
           {(profile.is_saves_public || isOwner) && savedCars.length ? (

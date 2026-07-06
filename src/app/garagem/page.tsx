@@ -150,7 +150,7 @@ export default async function GaragemPage({
             <Card className="p-6 md:p-8">
               <p className="text-xs text-muted">Minha Garagem</p>
               <h1 className="mt-2 font-title text-3xl tracking-tight">
-                Entre para gerenciar seus carros
+                Entre para gerenciar seus projetos
               </h1>
               <p className="mt-2 text-muted">
                 Voce pode explorar projetos publicos sem conta. Para criar, curtir, salvar e comentar, entre ou crie sua conta.
@@ -294,7 +294,7 @@ export default async function GaragemPage({
                 {current.profile.display_name}
               </h1>
               <p className="mt-3 max-w-2xl text-muted">
-                Hub logado para gerenciar seus carros, acompanhar interacoes e acessar salvos.
+                Hub logado para gerenciar seus projetos, acompanhar interacoes e acessar salvos.
               </p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
@@ -304,14 +304,14 @@ export default async function GaragemPage({
               <Button asChild>
                 <Link href="/criar-projeto">
                   <Plus className="size-4" />
-                  Adicionar carro
+                  Adicionar projeto
                 </Link>
               </Button>
             </div>
           </div>
 
           <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            <Stat label="Carros cadastrados" value={myCars.length} icon={Wrench} />
+            <Stat label="Projetos cadastrados" value={myCars.length} icon={Wrench} />
             <Stat label="Curtidas recebidas" value={likesReceived} icon={Heart} />
             <Stat label="Views totais" value={viewsReceived} icon={Eye} />
             <Card className="p-5">

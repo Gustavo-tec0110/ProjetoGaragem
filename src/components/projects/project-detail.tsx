@@ -247,7 +247,6 @@ export function ProjectDetail({
   technicalSpecs,
   stats,
   commentThread,
-  alternateRoute,
 }: {
   project: Project;
   similarProjects: Project[];
@@ -256,10 +255,6 @@ export function ProjectDetail({
   technicalSpecs?: DetailSpec[];
   stats?: DetailStat[];
   commentThread?: ProjectCommentThread | null;
-  alternateRoute?: {
-    href: string;
-    label: string;
-  } | null;
 }) {
   const project = initialProject;
   const isProjectComplete = project.progressPercent >= 100;
@@ -530,11 +525,6 @@ export function ProjectDetail({
                   Evolução
                 </Link>
               </Button>
-              {alternateRoute ? (
-                <Button asChild variant="outline">
-                  <Link href={alternateRoute.href}>{alternateRoute.label}</Link>
-                </Button>
-              ) : null}
             </div>
           </div>
 

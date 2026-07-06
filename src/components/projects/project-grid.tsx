@@ -6,7 +6,7 @@ import type { Project } from "@/lib/projects/types";
 export function ProjectGrid({
   projects,
   emptyTitle = "Nenhum projeto encontrado.",
-  emptyDescription = "Ajuste os filtros ou adicione um carro para ver novas fichas aqui.",
+  emptyDescription = "Ajuste os filtros ou adicione um projeto para ver novas fichas aqui.",
   emptyAction,
 }: {
   projects: Project[];

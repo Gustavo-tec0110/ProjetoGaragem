@@ -26,7 +26,7 @@ export default async function ProjectPage({ params }: PageProps) {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1">
-        <ProjectPageContent slug={slug} routeVariant="project" />
+        <ProjectPageContent slug={slug} />
       </main>
       <SiteFooter />
     </div>
