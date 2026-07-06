@@ -16,6 +16,7 @@ import {
   qCarsByOwner,
   qFollowedCars,
   qLikedCars,
+  qProfileById,
   qProfileByUsername,
   qSavedCars,
   qViewerFollowsProfile,
@@ -67,15 +68,17 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const profileResult = await qProfileByUsername(supabase, handle);
   if (!profileResult.data) notFound();
 
-  const profile = profileResult.data;
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const isOwner = user?.id === profileResult.data.id;
+  const ownProfileResult = isOwner ? await qProfileById(supabase, profileResult.data.id) : null;
+  const profile = ownProfileResult?.data ?? profileResult.data;
   const [carsResult, savedResult, likedResult, followedCarsResult, followingResult] = await Promise.all([
-    qCarsByOwner(profile.id, user?.id === profile.id),
-    profile.is_saves_public || user?.id === profile.id ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
-    profile.is_likes_public || user?.id === profile.id ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
-    qFollowedCars(profile.id),
+    qCarsByOwner(profile.id, isOwner),
+    profile.is_saves_public || isOwner ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    profile.is_likes_public || isOwner ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    isOwner ? qFollowedCars(profile.id) : Promise.resolve({ data: [], error: null }),
     user?.id && user.id !== profile.id ? qViewerFollowsProfile(profile.id) : Promise.resolve({ data: false, error: null }),
   ]);
   const cars = carsResult.data ?? [];
@@ -87,7 +90,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const totalViews = cars.reduce((sum, car) => sum + car.views_count, 0);
   const totalInvested = cars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
   const activeProjects = cars.filter((car) => car.project_status !== "Finalizado").length;
-  const isOwner = user?.id === profile.id;
   const location = [profile.city, profile.state].filter(Boolean).join(", ");
   const heroImage = cars[0]?.main_photo_url ?? "/ref/hero-car.jpg";
 

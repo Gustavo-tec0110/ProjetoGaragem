@@ -60,7 +60,7 @@ async function getRecentUpdates() {
   const ownerIds = Array.from(new Set((cars ?? []).map((car) => (car as CarRow).owner_id)));
   const { data: profiles } = ownerIds.length
     ? await supabase
-        .from("profiles")
+        .from("public_profiles")
         .select("id, display_name, username")
         .in("id", ownerIds)
     : { data: [] };

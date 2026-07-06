@@ -201,7 +201,7 @@ async function fetchProfiles(supabase: Client, ids: string[]) {
   if (!uniqueIds.length) return new Map<string, ProfileSummary>();
 
   const { data } = await supabase
-    .from("profiles")
+    .from("public_profiles")
     .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle")
     .in("id", uniqueIds);
 
@@ -377,13 +377,13 @@ export async function qProfileByUsername(
   username: string
 ): Promise<QueryResult<ProfileRow>> {
   const { data, error } = await supabase
-    .from("profiles")
+    .from("public_profiles")
     .select("*")
     .eq("username", username)
     .maybeSingle();
   if (error) return { data: null, error: error.message };
   if (!data) return { data: null, error: "profile_not_found" };
-  return { data: data as ProfileRow, error: null };
+  return { data: { ...data, email: null, full_name: null } as ProfileRow, error: null };
 }
 
 export async function getCurrentProfile() {

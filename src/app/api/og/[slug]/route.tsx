@@ -34,7 +34,7 @@ export async function GET(
   if (!car) return new Response("Not found", { status: 404 });
 
   const [{ data: owner }, { data: parts }] = await Promise.all([
-    supabase.from("profiles").select("username, display_name").eq("id", car.owner_id).maybeSingle(),
+    supabase.from("public_profiles").select("username, display_name").eq("id", car.owner_id).maybeSingle(),
     supabase.from("car_parts").select("name, category, status").eq("car_id", car.id).limit(4),
   ]);
 

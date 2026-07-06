@@ -33,6 +33,8 @@ export type ProfileRow = {
   updated_at: string;
 };
 
+export type PublicProfileRow = Omit<ProfileRow, "email" | "full_name">;
+
 export type CarCatalogModelRow = {
   id: string;
   brand: string;
@@ -460,7 +462,9 @@ export interface Database {
         created_at: string;
       }>;
     };
-    Views: Record<string, never>;
+    Views: {
+      public_profiles: Table<PublicProfileRow, never, never>;
+    };
     Functions: {
       increment_car_view: {
         Args: { target_car_id: string };
