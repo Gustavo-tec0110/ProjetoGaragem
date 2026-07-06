@@ -7,6 +7,7 @@ import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from 
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString, uniqueStrings } from "@/lib/projects/utils";
+import { serverLog } from "@/lib/server-log";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { CarPartStatus } from "@/lib/types";
 import type { Database } from "@/types/supabase";
@@ -263,7 +264,7 @@ function errorCode(error: unknown) {
 
 function logProjectCreationError(stage: string, error: unknown) {
   if (!error || typeof error !== "object") {
-    console.error(`Erro ao criar projeto (${stage}):`, error);
+    serverLog.error("project-create", { stage, error });
     return;
   }
 
@@ -274,7 +275,8 @@ function logProjectCreationError(stage: string, error: unknown) {
     hint?: unknown;
   };
 
-  console.error(`Erro ao criar projeto (${stage}):`, {
+  serverLog.error("project-create", {
+    stage,
     code: typeof details.code === "string" ? details.code : undefined,
     message: typeof details.message === "string" ? details.message : undefined,
     details: typeof details.details === "string" ? details.details : undefined,
@@ -704,7 +706,7 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
       (await replaceExpenses(auth.supabase, car.id, expenses));
 
     if (relatedError) {
-      console.error("Projeto criado, mas houve erro ao salvar detalhes auxiliares:", relatedError);
+      serverLog.error("project-create.related-data", { error: relatedError });
     }
 
     return {
@@ -713,7 +715,7 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
       redirectTo: `/projeto/${car.slug}`,
     };
   } catch (error) {
-    console.error("Erro ao criar projeto:", error);
+    serverLog.error("project-create.unhandled", { error });
     return {
       ok: false,
       status: 500,
@@ -833,7 +835,7 @@ export async function updateCarProject(
       redirectTo: `/projeto/${car.slug}`,
     };
   } catch (error) {
-    console.error("Erro ao editar projeto:", error);
+    serverLog.error("project-update.unhandled", { error });
     return {
       ok: false,
       status: 500,

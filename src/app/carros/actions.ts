@@ -10,6 +10,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString } from "@/lib/projects/utils";
+import { serverLog } from "@/lib/server-log";
 import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
 
 export type ActionState = {
@@ -71,7 +72,8 @@ function formatSupabaseActionError(action: string, error: SupabaseActionError) {
 }
 
 function logSupabaseActionError(action: string, context: Record<string, string>, error: SupabaseActionError) {
-  console.error("[social-action]", action, {
+  serverLog.error("social-action", {
+    action,
     ...context,
     code: error.code,
     message: error.message,
@@ -85,7 +87,8 @@ function logNotificationRpcError(
   context: DiagnosticContext,
   error: SupabaseActionError
 ) {
-  console.error("[notification-rpc]", action, {
+  serverLog.error("notification-rpc", {
+    action,
     ...context,
     code: error.code,
     message: error.message,
@@ -95,7 +98,7 @@ function logNotificationRpcError(
 }
 
 function logSocialActionDiagnostic(action: string, context: DiagnosticContext = {}) {
-  console.info("[social-action-diagnostic]", action, context);
+  serverLog.info("social-action-diagnostic", { action, ...context });
 }
 
 async function createNotification(
@@ -128,7 +131,10 @@ async function createNotification(
     notificationType: type,
     dedupe,
   };
-  console.info("[notification-rpc]", "create_notification.before", rpcContext);
+  serverLog.info("notification-rpc", {
+    action: "create_notification.before",
+    ...rpcContext,
+  });
 
   const { data, error } = await supabase.rpc("create_notification", {
     p_recipient_id: recipientId,
@@ -139,7 +145,8 @@ async function createNotification(
     p_dedupe: dedupe,
   });
 
-  console.info("[notification-rpc]", "create_notification.after", {
+  serverLog.info("notification-rpc", {
+    action: "create_notification.after",
     ...rpcContext,
     data,
     error,
@@ -151,7 +158,10 @@ async function createNotification(
   }
 
   if (!data) {
-    console.warn("[notification-rpc]", `${source}.skipped`, rpcContext);
+    serverLog.warn("notification-rpc", {
+      action: `${source}.skipped`,
+      ...rpcContext,
+    });
   }
 
   return data;
@@ -333,7 +343,7 @@ function errorCode(error: unknown) {
 
 function logProjectCreationError(stage: string, error: unknown) {
   if (!error || typeof error !== "object") {
-    console.error(`Erro ao criar projeto (${stage}):`, error);
+    serverLog.error("project-create", { stage, error });
     return;
   }
 
@@ -344,7 +354,8 @@ function logProjectCreationError(stage: string, error: unknown) {
     hint?: unknown;
   };
 
-  console.error(`Erro ao criar projeto (${stage}):`, {
+  serverLog.error("project-create", {
+    stage,
     code: typeof details.code === "string" ? details.code : undefined,
     message: typeof details.message === "string" ? details.message : undefined,
     details: typeof details.details === "string" ? details.details : undefined,
@@ -486,7 +497,8 @@ async function notifyCarOwner({
   dedupe?: boolean;
 }) {
   if (!ownerId || ownerId === actorId) {
-    console.warn("[notification-rpc]", "notifyCarOwner.skipped", {
+    serverLog.warn("notification-rpc", {
+      action: "notifyCarOwner.skipped",
       actorId,
       recipientId: ownerId ?? null,
       carId,
@@ -521,7 +533,8 @@ async function notifyProfileFollow({
   actorName: string;
 }) {
   if (profileId === actorId) {
-    console.warn("[notification-rpc]", "notifyProfileFollow.skipped", {
+    serverLog.warn("notification-rpc", {
+      action: "notifyProfileFollow.skipped",
       actorId,
       recipientId: profileId,
       carId: null,
@@ -936,7 +949,7 @@ export async function createCarAction(
     (await replaceExpenses(car.id, expenses));
 
   if (relatedError) {
-    console.error("Projeto criado, mas houve erro ao salvar detalhes auxiliares:", relatedError);
+    serverLog.error("project-create.related-data", { error: relatedError });
   }
 
   revalidatePath("/");
@@ -948,7 +961,7 @@ export async function createCarAction(
   revalidatePath(`/carros/${car.slug}`);
   createdSlug = car.slug;
   } catch (error) {
-    console.error("Erro ao criar projeto:", error);
+    serverLog.error("project-create.unhandled", { error });
     return {
       status: "error",
       message: projectCreationErrorMessage(error),
@@ -1128,7 +1141,12 @@ export async function toggleLikeAction(carId: string) {
     const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
     if (!verification.ok || verification.exists) {
       const message = verification.message ?? "car_likes.delete falhou: registro ainda existe apos delete.";
-      console.error("[social-action] car_likes.delete.verify", { carId, userId: auth.user.id, message });
+      serverLog.error("social-action.verify", {
+        action: "car_likes.delete",
+        carId,
+        userId: auth.user.id,
+        message,
+      });
       return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -1156,7 +1174,12 @@ export async function toggleLikeAction(carId: string) {
   const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
   if (!verification.ok || !verification.exists) {
     const message = verification.message ?? "car_likes.insert falhou: registro nao foi encontrado apos insert.";
-    console.error("[social-action] car_likes.insert.verify", { carId, userId: auth.user.id, message });
+    serverLog.error("social-action.verify", {
+      action: "car_likes.insert",
+      carId,
+      userId: auth.user.id,
+      message,
+    });
     return { ok: false, message, active: false };
   }
 
@@ -1203,7 +1226,12 @@ export async function toggleSaveAction(carId: string) {
     const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
     if (!verification.ok || verification.exists) {
       const message = verification.message ?? "car_saves.delete falhou: registro ainda existe apos delete.";
-      console.error("[social-action] car_saves.delete.verify", { carId, userId: auth.user.id, message });
+      serverLog.error("social-action.verify", {
+        action: "car_saves.delete",
+        carId,
+        userId: auth.user.id,
+        message,
+      });
       return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -1231,7 +1259,12 @@ export async function toggleSaveAction(carId: string) {
   const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
   if (!verification.ok || !verification.exists) {
     const message = verification.message ?? "car_saves.insert falhou: registro nao foi encontrado apos insert.";
-    console.error("[social-action] car_saves.insert.verify", { carId, userId: auth.user.id, message });
+    serverLog.error("social-action.verify", {
+      action: "car_saves.insert",
+      carId,
+      userId: auth.user.id,
+      message,
+    });
     return { ok: false, message, active: false };
   }
 
@@ -1364,7 +1397,12 @@ export async function toggleProjectFollowAction(carId: string) {
     const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
     if (!verification.ok || verification.exists) {
       const message = verification.message ?? "project_follows.delete falhou: registro ainda existe apos delete.";
-      console.error("[social-action] project_follows.delete.verify", { carId, userId: auth.user.id, message });
+      serverLog.error("social-action.verify", {
+        action: "project_follows.delete",
+        carId,
+        userId: auth.user.id,
+        message,
+      });
       return { ok: false, message, active: true };
     }
     const counts = await readCarSocialCounts(auth.supabase, carId);
@@ -1397,7 +1435,12 @@ export async function toggleProjectFollowAction(carId: string) {
   const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
   if (!verification.ok || !verification.exists) {
     const message = verification.message ?? "project_follows.insert falhou: registro nao foi encontrado apos insert.";
-    console.error("[social-action] project_follows.insert.verify", { carId, userId: auth.user.id, message });
+    serverLog.error("social-action.verify", {
+      action: "project_follows.insert",
+      carId,
+      userId: auth.user.id,
+      message,
+    });
     return { ok: false, message, active: false };
   }
 
@@ -1421,7 +1464,11 @@ export async function incrementViewAction(carId: string, carSlug: string) {
 
   if (!data) {
     const message = "increment_car_view.rpc falhou: nenhuma linha publica foi atualizada.";
-    console.error("[social-action] increment_car_view.rpc", { carId, message });
+    serverLog.error("social-action.verify", {
+      action: "increment_car_view.rpc",
+      carId,
+      message,
+    });
     return { ok: false, message };
   }
 

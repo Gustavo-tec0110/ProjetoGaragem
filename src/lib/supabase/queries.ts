@@ -17,6 +17,7 @@ import {
   type CarCatalogVersion,
 } from "@/lib/car-catalog";
 import { CAR_CATEGORIES, normalizeSlug } from "@/lib/garage/constants";
+import { serverLog } from "@/lib/server-log";
 import { getSupabaseServerClient } from "./server";
 
 export type QueryResult<T> =
@@ -181,7 +182,8 @@ function isMissingNotificationsTable(error: { code?: string; message?: string } 
 
 function logNotificationQueryError(action: string, error: { code?: string; message?: string } | null) {
   if (!error) return;
-  console.error("[notification-query]", action, {
+  serverLog.error("notification-query", {
+    action,
     code: error.code,
     message: error.message,
   });

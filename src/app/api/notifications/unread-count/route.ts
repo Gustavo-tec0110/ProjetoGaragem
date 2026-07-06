@@ -1,4 +1,5 @@
 import { qUnreadNotificationCount } from "@/lib/supabase/queries";
+import { serverLog } from "@/lib/server-log";
 
 export const dynamic = "force-dynamic";
 
@@ -6,7 +7,10 @@ export async function GET() {
   const result = await qUnreadNotificationCount();
 
   if (result.error) {
-    console.error("[notification-query] unread-count.route", { message: result.error });
+    serverLog.error("notification-query", {
+      action: "unread-count.route",
+      message: result.error,
+    });
   }
 
   return Response.json(
