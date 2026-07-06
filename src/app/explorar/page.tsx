@@ -22,13 +22,14 @@ export async function generateMetadata({
   const q = param(params, "q");
   const style = param(params, "style");
   const sort = param(params, "sort");
+  const category = param(params, "category");
 
   return createSeoMetadata({
-    title: q ? `Explorar projetos: ${q}` : style ? `Explorar projetos ${style}` : "Explorar projetos",
+    title: q ? `Explorar projetos: ${q}` : style || category ? `Explorar projetos ${style || category}` : "Explorar projetos",
     description:
-      q || style
+      q || style || category
         ? "Busque projetos por nome, marca, modelo, tags e estilos como JDM, off-road, turbo, stance e sleeper."
-        : sort === "hot"
+        : sort === "popular" || sort === "hot"
           ? "Descubra os projetos em alta, mais curtidos, mais vistos e recentemente atualizados."
           : "Explore projetos automotivos, descubra builds em destaque e acompanhe evolucoes reais.",
     path: `/explorar${q || style || sort ? `?${new URLSearchParams({ ...(q ? { q } : {}), ...(style ? { style } : {}), ...(sort ? { sort } : {}) }).toString()}` : ""}`,
@@ -44,12 +45,22 @@ export default async function ExplorarPage({
   const params = await searchParams;
   const filters = normalizeProjectFilters({
     q: param(params, "q"),
+    brand: param(params, "brand"),
+    model: param(params, "model"),
+    year: param(params, "year"),
+    fuel: param(params, "fuel"),
+    induction: param(params, "induction"),
+    drivetrain: param(params, "drivetrain"),
+    category: param(params, "category"),
     style: param(params, "style"),
     engine: param(params, "engine"),
     tag: param(params, "tag"),
     sort: param(params, "sort") as
+      | "relevance"
       | "recent"
+      | "popular"
       | "likes"
+      | "comments"
       | "views"
       | "updated"
       | "invested"

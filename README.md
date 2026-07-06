@@ -97,15 +97,15 @@ Criacao e edicao de projetos passam por `src/lib/garage/create-car-project.ts`, 
 
 ## Busca Inteligente
 
-Ponto de partida para a Sprint Produto 1:
+A busca publica vive em `/explorar`; `/buscar` apenas redireciona preservando a query string.
 
-- `/buscar` redireciona para `/explorar`, preservando query string.
-- `/explorar` monta filtros com `normalizeProjectFilters` e renderiza `ProjectDiscoveryPage`.
-- `src/components/projects/project-filters.tsx` e `project-search-box.tsx` controlam a UI de busca e sugestoes.
-- `src/app/api/projects/search-suggestions/route.ts` fornece sugestoes com fallback demo.
-- `src/lib/supabase/queries.ts` concentra `qExploreCars` e `qProjectSearchSuggestions`; a RPC `search_car_projects` ja e o ponto natural para melhorar ranking sem mexer na UI primeiro.
+- `src/components/projects/project-search-box.tsx` controla o input com debounce e sugestoes.
+- `src/app/api/projects/search-suggestions/route.ts` retorna sugestoes de projetos/termos com fallback demo.
+- `src/components/projects/project-filters.tsx` expoe filtros por marca, modelo, ano, combustivel, aspirado/turbo, tracao, categoria, motor, tag e ordenacao.
+- `src/lib/projects/utils.ts` normaliza filtros e aplica ranking simples: correspondencia exata, inicio de palavra, parcial e popularidade.
+- `src/lib/supabase/queries.ts` concentra `qExploreCars` e `qProjectSearchSuggestions`, reaproveitando a RPC existente quando ha busca no Supabase.
 
-Para a proxima etapa, prefira evoluir ranking, sinonimos e pesos nesses pontos antes de criar uma nova arquitetura de busca.
+Para adicionar um filtro novo, inclua o campo em `ProjectFilters`, normalize em `normalizeProjectFilters`, aplique no `filterProjects`/`qExploreCars` e exponha o controle em `project-filters.tsx`. Evite novas migrations enquanto o filtro puder ser derivado dos campos de `cars`.
 
 ## Auditoria npm
 

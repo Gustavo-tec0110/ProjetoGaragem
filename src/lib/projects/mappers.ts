@@ -206,7 +206,7 @@ function createBaseProject(car: CarCard | CarDetails) {
     factoryInduction: car.factory_induction,
     factoryPowerCv: car.factory_power_cv,
     factoryTransmission: car.factory_transmission,
-    factoryDrivetrain: car.factory_drivetrain,
+    factoryDrivetrain: car.factory_drivetrain ?? car.drivetrain,
     factorySpecsNote: car.factory_specs_note,
     viewerHasLiked: car.viewer_has_liked,
     viewerHasSaved: car.viewer_has_saved,

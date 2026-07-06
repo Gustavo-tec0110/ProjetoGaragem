@@ -24,8 +24,11 @@ export const PROJECT_EXPENSE_CATEGORIES = [
 export type ProjectExpenseCategory = (typeof PROJECT_EXPENSE_CATEGORIES)[number];
 
 export type ProjectSortKey =
+  | "relevance"
   | "recent"
+  | "popular"
   | "likes"
+  | "comments"
   | "views"
   | "updated"
   | "invested"
@@ -176,6 +179,13 @@ export type Project = ProjectSeed & {
 
 export type ProjectFilters = {
   q: string;
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  induction: string;
+  drivetrain: string;
+  category: string;
   style: string;
   engine: string;
   tag?: string;
@@ -187,6 +197,13 @@ export type ProjectCollectionResult = {
   allProjects: Project[];
   availableStyles: string[];
   availableEngines: string[];
+  availableBrands: string[];
+  availableModels: string[];
+  availableYears: string[];
+  availableFuels: string[];
+  availableInductions: string[];
+  availableDrivetrains: string[];
+  availableCategories: string[];
   source: "supabase" | "demo";
   notice: string | null;
 };

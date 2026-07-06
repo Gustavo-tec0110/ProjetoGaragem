@@ -11,6 +11,13 @@ import { paginateProjects, sortProjects } from "@/lib/projects/utils";
 function buildHref(basePath: string, filters: ProjectFiltersType, page?: number) {
   const params = new URLSearchParams();
   if (filters.q) params.set("q", filters.q);
+  if (filters.brand) params.set("brand", filters.brand);
+  if (filters.model) params.set("model", filters.model);
+  if (filters.year) params.set("year", filters.year);
+  if (filters.fuel) params.set("fuel", filters.fuel);
+  if (filters.induction) params.set("induction", filters.induction);
+  if (filters.drivetrain) params.set("drivetrain", filters.drivetrain);
+  if (filters.category) params.set("category", filters.category);
   if (filters.style) params.set("style", filters.style);
   if (filters.engine) params.set("engine", filters.engine);
   if (filters.tag) params.set("tag", filters.tag);
@@ -66,7 +73,19 @@ export async function ProjectDiscoveryPage({
   page: number;
 }) {
   const result = await getProjectCollection(filters);
-  const hasFilters = Boolean(filters.q || filters.style || filters.engine || filters.tag);
+  const hasFilters = Boolean(
+    filters.q ||
+      filters.brand ||
+      filters.model ||
+      filters.year ||
+      filters.fuel ||
+      filters.induction ||
+      filters.drivetrain ||
+      filters.category ||
+      filters.style ||
+      filters.engine ||
+      filters.tag
+  );
   const pageData = paginateProjects(result.projects, page);
   const emptyTitle = hasFilters
     ? "Nenhum projeto encontrado para essa busca."
@@ -90,6 +109,13 @@ export async function ProjectDiscoveryPage({
           filters={filters}
           availableStyles={result.availableStyles}
           availableEngines={result.availableEngines}
+          availableBrands={result.availableBrands}
+          availableModels={result.availableModels}
+          availableYears={result.availableYears}
+          availableFuels={result.availableFuels}
+          availableInductions={result.availableInductions}
+          availableDrivetrains={result.availableDrivetrains}
+          availableCategories={result.availableCategories}
           actionPath={basePath}
         />
       </div>
@@ -105,8 +131,8 @@ export async function ProjectDiscoveryPage({
                   : "Nenhum projeto bateu com os filtros"}
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted">
-                A busca cruza nome do projeto, modelo, marca, descricao, tags e estilos
-                como JDM, off-road, turbo, stance, sleeper e track day.
+                A busca cruza apelido, marca, modelo, ano, motor, descricao e tags.
+                Os filtros podem ser combinados para refinar a descoberta.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -115,7 +141,22 @@ export async function ProjectDiscoveryPage({
               </Button>
               {QUICK_SEARCHES.slice(0, 3).map((query) => (
                 <Button key={query} asChild variant="ghost" size="sm">
-                  <Link href={buildHref(basePath, { q: query, style: "", engine: "", tag: "", sort: "recent" })}>
+                  <Link
+                    href={buildHref(basePath, {
+                      q: query,
+                      brand: "",
+                      model: "",
+                      year: "",
+                      fuel: "",
+                      induction: "",
+                      drivetrain: "",
+                      category: "",
+                      style: "",
+                      engine: "",
+                      tag: "",
+                      sort: "relevance",
+                    })}
+                  >
                     {query}
                   </Link>
                 </Button>
@@ -134,9 +175,9 @@ export async function ProjectDiscoveryPage({
       {!hasFilters ? (
         <div className="mt-10 grid gap-8">
           <DiscoverySection
-            title="Em alta"
-            projects={sortProjects(result.allProjects, "hot").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "hot" })}
+            title="Projetos em alta"
+            projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filters, sort: "popular" })}
           />
           <DiscoverySection
             title="Mais curtidos"
@@ -144,9 +185,9 @@ export async function ProjectDiscoveryPage({
             moreHref={buildHref(basePath, { ...filters, sort: "likes" })}
           />
           <DiscoverySection
-            title="Mais vistos"
-            projects={sortProjects(result.allProjects, "views").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "views" })}
+            title="Mais comentados"
+            projects={sortProjects(result.allProjects, "comments").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filters, sort: "comments" })}
           />
           <DiscoverySection
             title="Recentemente atualizados"
@@ -165,7 +206,7 @@ export async function ProjectDiscoveryPage({
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs text-muted">
-              {result.source === "supabase" ? "Projetos reais" : "Modo demo"}
+          {result.source === "supabase" ? "Projetos reais" : "Modo demo"}
             </p>
             <h2 className="mt-1 font-title text-2xl tracking-tight">
               {hasFilters
@@ -201,10 +242,17 @@ export async function ProjectDiscoveryPage({
                     <Link
                       href={buildHref(basePath, {
                         q: query,
+                        brand: "",
+                        model: "",
+                        year: "",
+                        fuel: "",
+                        induction: "",
+                        drivetrain: "",
+                        category: "",
                         style: "",
                         engine: "",
                         tag: "",
-                        sort: "recent",
+                        sort: "relevance",
                       })}
                     >
                       {query}

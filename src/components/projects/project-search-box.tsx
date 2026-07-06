@@ -2,12 +2,14 @@
 
 import * as React from "react";
 import { Loader2, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 
 type Suggestion = {
   term: string;
   source: string;
+  href?: string;
 };
 
 export function ProjectSearchBox({
@@ -15,6 +17,7 @@ export function ProjectSearchBox({
 }: {
   defaultValue: string;
 }) {
+  const router = useRouter();
   const inputId = React.useId();
   const listboxId = React.useId();
   const formRef = React.useRef<HTMLFormElement | null>(null);
@@ -66,9 +69,13 @@ export function ProjectSearchBox({
     formRef.current = document.querySelector("form[data-project-search-form]");
   }, []);
 
-  function submitSuggestion(term: string) {
-    setValue(term);
+  function submitSuggestion(suggestion: Suggestion) {
+    setValue(suggestion.term);
     setIsOpen(false);
+    if (suggestion.href) {
+      router.push(suggestion.href);
+      return;
+    }
     window.setTimeout(() => formRef.current?.requestSubmit(), 0);
   }
 
@@ -126,7 +133,7 @@ export function ProjectSearchBox({
                 role="option"
                 aria-selected="false"
                 onMouseDown={(event) => event.preventDefault()}
-                onClick={() => submitSuggestion(suggestion.term)}
+                onClick={() => submitSuggestion(suggestion)}
                 className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm hover:bg-muted/10"
               >
                 <span className="font-medium text-foreground">{suggestion.term}</span>

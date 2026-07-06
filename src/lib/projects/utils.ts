@@ -118,20 +118,33 @@ export function parseTagString(value: string) {
 
 export function normalizeProjectFilters(filters?: Partial<ProjectFilters>): ProjectFilters {
   const sort = filters?.sort;
+  const q = filters?.q?.trim() ?? "";
   return {
-    q: filters?.q?.trim() ?? "",
+    q,
+    brand: filters?.brand?.trim() ?? "",
+    model: filters?.model?.trim() ?? "",
+    year: filters?.year?.trim() ?? "",
+    fuel: filters?.fuel?.trim() ?? "",
+    induction: filters?.induction?.trim() ?? "",
+    drivetrain: filters?.drivetrain?.trim() ?? "",
+    category: filters?.category?.trim() ?? "",
     style: filters?.style?.trim() ?? "",
     engine: filters?.engine?.trim() ?? "",
     tag: filters?.tag?.trim() ?? "",
     sort:
+      sort === "relevance" ||
+      sort === "popular" ||
       sort === "likes" ||
+      sort === "comments" ||
       sort === "views" ||
       sort === "recent" ||
       sort === "updated" ||
       sort === "invested" ||
       sort === "hot"
         ? sort
-        : "recent",
+        : q
+          ? "relevance"
+          : "popular",
   };
 }
 
@@ -288,9 +301,14 @@ function getProjectSearchText(project: Project) {
     project.carModel,
     project.brand ?? "",
     project.model ?? "",
+    String(project.year),
     project.ownerName,
     project.engine,
     project.style,
+    project.currentInduction ?? "",
+    project.factoryEngine ?? "",
+    project.factoryInduction ?? "",
+    project.factoryDrivetrain ?? "",
     project.shortDescription,
     project.description,
     project.projectGoal ?? "",
@@ -312,6 +330,43 @@ export function projectMatchesTheme(project: Project, terms: string[]) {
 
 export function getProjectEngagementScore(project: Project) {
   return Math.round(projectHotScore(project));
+}
+
+function wordStartsWith(text: string, query: string) {
+  return text.split(" ").some((word) => word.startsWith(query));
+}
+
+export function getProjectSearchRank(project: Project, query: string) {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery) return getProjectEngagementScore(project);
+
+  const searchableFields = [
+    project.title,
+    project.brand ?? "",
+    project.model ?? "",
+    String(project.year),
+    project.engine,
+    project.currentInduction ?? "",
+    project.factoryEngine ?? "",
+    project.shortDescription,
+    project.description,
+    project.projectGoal ?? "",
+    ...project.tags,
+  ].map(normalizeSearchText);
+  const allText = getProjectSearchText(project);
+  const popularity =
+    project.followers * 0.5 +
+    project.likes * 0.35 +
+    project.comments * 0.25 +
+    project.views * 0.03;
+
+  let rank = popularity;
+  if (searchableFields.some((field) => field === normalizedQuery)) rank += 1000;
+  if (searchableFields.some((field) => wordStartsWith(field, normalizedQuery))) rank += 650;
+  if (searchableFields.some((field) => field.includes(normalizedQuery))) rank += 350;
+  if (allText.includes(normalizedQuery)) rank += 120;
+
+  return rank;
 }
 
 export function enrichProject(project: ProjectSeed): Project {
@@ -384,6 +439,13 @@ export function uniqueProjects(projects: Project[]) {
 export function filterProjects(projects: Project[], filters: ProjectFilters) {
   const searchTerm = normalizeSearchText(filters.q);
   const searchTerms = searchTerm.split(" ").filter(Boolean);
+  const brandTerm = normalizeSearchText(filters.brand);
+  const modelTerm = normalizeSearchText(filters.model);
+  const yearTerm = normalizeSearchText(filters.year);
+  const fuelTerm = normalizeSearchText(filters.fuel);
+  const inductionTerm = normalizeSearchText(filters.induction);
+  const drivetrainTerm = normalizeSearchText(filters.drivetrain);
+  const categoryTerm = normalizeSearchText(filters.category || filters.style);
   const styleTerm = normalizeSearchText(filters.style);
   const engineTerm = normalizeSearchText(filters.engine);
   const tagTerm = normalizeSearchText(filters.tag ?? "");
@@ -392,6 +454,23 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
     const searchText = getProjectSearchText(project);
     const matchesSearch =
       !searchTerms.length || searchTerms.every((term) => searchText.includes(term));
+    const matchesBrand = !brandTerm || normalizeSearchText(project.brand).includes(brandTerm);
+    const matchesModel = !modelTerm || normalizeSearchText(project.model).includes(modelTerm);
+    const matchesYear = !yearTerm || String(project.year).includes(yearTerm);
+    const matchesFuel = !fuelTerm || project.tags.some((tag) => normalizeSearchText(tag).includes(fuelTerm));
+    const matchesInduction =
+      !inductionTerm ||
+      normalizeSearchText(project.currentInduction).includes(inductionTerm) ||
+      normalizeSearchText(project.engine).includes(inductionTerm) ||
+      project.tags.some((tag) => normalizeSearchText(tag).includes(inductionTerm));
+    const matchesDrivetrain =
+      !drivetrainTerm ||
+      normalizeSearchText(project.factoryDrivetrain).includes(drivetrainTerm) ||
+      project.tags.some((tag) => normalizeSearchText(tag).includes(drivetrainTerm));
+    const matchesCategory =
+      !categoryTerm ||
+      normalizeSearchText(project.style) === categoryTerm ||
+      projectMatchesTheme(project, [categoryTerm]);
     const matchesStyle =
       !styleTerm ||
       normalizeSearchText(project.style) === styleTerm ||
@@ -402,16 +481,34 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
       project.tags.some((tag) => normalizeSearchText(tag).includes(tagTerm)) ||
       projectMatchesTheme(project, [tagTerm]);
 
-    return matchesSearch && matchesStyle && matchesEngine && matchesTag;
+    return (
+      matchesSearch &&
+      matchesBrand &&
+      matchesModel &&
+      matchesYear &&
+      matchesFuel &&
+      matchesInduction &&
+      matchesDrivetrain &&
+      matchesCategory &&
+      matchesStyle &&
+      matchesEngine &&
+      matchesTag
+    );
   });
 }
 
-export function sortProjects(projects: Project[], sort: ProjectSortKey) {
+export function sortProjects(projects: Project[], sort: ProjectSortKey, query = "") {
   const cloned = [...projects];
 
   cloned.sort((left, right) => {
-    if (sort === "likes") {
+    if (sort === "relevance") {
+      const rightRank = getProjectSearchRank(right, query);
+      const leftRank = getProjectSearchRank(left, query);
+      if (rightRank !== leftRank) return rightRank - leftRank;
+    } else if (sort === "likes") {
       if (right.likes !== left.likes) return right.likes - left.likes;
+    } else if (sort === "comments") {
+      if (right.comments !== left.comments) return right.comments - left.comments;
     } else if (sort === "views") {
       if (right.views !== left.views) return right.views - left.views;
     } else if (sort === "updated") {
@@ -428,6 +525,10 @@ export function sortProjects(projects: Project[], sort: ProjectSortKey) {
     } else if (sort === "hot") {
       const rightScore = getProjectEngagementScore(right);
       const leftScore = getProjectEngagementScore(left);
+      if (rightScore !== leftScore) return rightScore - leftScore;
+    } else if (sort === "popular") {
+      const rightScore = right.followers * 2 + right.likes + right.comments * 1.5 + right.views * 0.08;
+      const leftScore = left.followers * 2 + left.likes + left.comments * 1.5 + left.views * 0.08;
       if (rightScore !== leftScore) return rightScore - leftScore;
     } else if (new Date(right.createdAt).getTime() !== new Date(left.createdAt).getTime()) {
       return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
@@ -449,6 +550,56 @@ export function getAvailableEngines(projects: Project[]) {
   return uniqueStrings(projects.map((project) => project.engine)).sort((left, right) =>
     left.localeCompare(right, "pt-BR")
   );
+}
+
+export function getAvailableBrands(projects: Project[]) {
+  return uniqueStrings(projects.map((project) => project.brand)).sort((left, right) =>
+    left.localeCompare(right, "pt-BR")
+  );
+}
+
+export function getAvailableModels(projects: Project[]) {
+  return uniqueStrings(projects.map((project) => project.model)).sort((left, right) =>
+    left.localeCompare(right, "pt-BR")
+  );
+}
+
+export function getAvailableYears(projects: Project[]) {
+  return uniqueStrings(projects.map((project) => String(project.year))).sort((left, right) =>
+    right.localeCompare(left, "pt-BR")
+  );
+}
+
+export function getAvailableFuels(projects: Project[]) {
+  return uniqueStrings(
+    projects.flatMap((project) =>
+      project.tags
+        .map((tag) => tag.replace(/^#+/, ""))
+        .filter((tag) => /alcool|etanol|flex|gasolina|diesel|gnv|eletrico|hibrido/i.test(tag))
+    )
+  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+}
+
+export function getAvailableInductions(projects: Project[]) {
+  return uniqueStrings(
+    projects.flatMap((project) => [
+      project.currentInduction,
+      project.factoryInduction,
+      project.engine.toLowerCase().includes("turbo") ? "Turbo" : null,
+      project.engine.toLowerCase().includes("aspir") ? "Aspirado" : null,
+    ])
+  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+}
+
+export function getAvailableDrivetrains(projects: Project[]) {
+  return uniqueStrings(
+    projects.flatMap((project) => [
+      project.factoryDrivetrain,
+      ...project.tags
+        .map((tag) => tag.replace(/^#+/, ""))
+        .filter((tag) => /4x4|awd|fwd|rwd|tracao|dianteira|traseira|integral/i.test(tag)),
+    ])
+  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
 }
 
 export function createShortDescription(description: string, fallback: string) {

@@ -12,8 +12,14 @@ import type {
 import {
   buildProjectHref,
   filterProjects,
+  getAvailableBrands,
+  getAvailableDrivetrains,
   getAvailableEngines,
+  getAvailableFuels,
+  getAvailableInductions,
+  getAvailableModels,
   getAvailableStyles,
+  getAvailableYears,
   getSimilarProjects,
   getTrendingProjects,
   normalizeProjectFilters,
@@ -32,12 +38,22 @@ const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
   }
 
   const querySort =
-    filters?.sort === "likes" || filters?.sort === "views" || filters?.sort === "updated"
+    filters?.sort === "likes" ||
+    filters?.sort === "comments" ||
+    filters?.sort === "views" ||
+    filters?.sort === "updated" ||
+    filters?.sort === "popular"
       ? filters.sort
       : "recent";
   const result = await qExploreCars({
     q: filters?.q,
-    category: filters?.style,
+    brand: filters?.brand,
+    model: filters?.model,
+    year: filters?.year,
+    fuel: filters?.fuel,
+    induction: filters?.induction,
+    drivetrain: filters?.drivetrain,
+    category: filters?.category || filters?.style,
     engine: filters?.engine,
     tag: filters?.tag,
     sort: querySort,
@@ -93,7 +109,8 @@ export async function getProjectCollection(
   if (catalog.error || catalog.projects.length === 0) {
     const filteredDemo = sortProjects(
       filterProjects(demoProjects, normalizedFilters),
-      normalizedFilters.sort
+      normalizedFilters.sort,
+      normalizedFilters.q
     );
 
     return {
@@ -101,6 +118,13 @@ export async function getProjectCollection(
       allProjects: demoProjects,
       availableStyles: getAvailableStyles(demoProjects),
       availableEngines: getAvailableEngines(demoProjects),
+      availableBrands: getAvailableBrands(demoProjects),
+      availableModels: getAvailableModels(demoProjects),
+      availableYears: getAvailableYears(demoProjects),
+      availableFuels: getAvailableFuels(demoProjects),
+      availableInductions: getAvailableInductions(demoProjects),
+      availableDrivetrains: getAvailableDrivetrains(demoProjects),
+      availableCategories: getAvailableStyles(demoProjects),
       source: "demo",
       notice:
         catalog.error === "not_configured"
@@ -113,7 +137,8 @@ export async function getProjectCollection(
 
   const filteredProjects = sortProjects(
     filterProjects(catalog.projects, normalizedFilters),
-    normalizedFilters.sort
+    normalizedFilters.sort,
+    normalizedFilters.q
   );
 
   return {
@@ -121,6 +146,13 @@ export async function getProjectCollection(
     allProjects: catalog.projects,
     availableStyles: getAvailableStyles(catalog.projects),
     availableEngines: getAvailableEngines(catalog.projects),
+    availableBrands: getAvailableBrands(catalog.projects),
+    availableModels: getAvailableModels(catalog.projects),
+    availableYears: getAvailableYears(catalog.projects),
+    availableFuels: getAvailableFuels(catalog.projects),
+    availableInductions: getAvailableInductions(catalog.projects),
+    availableDrivetrains: getAvailableDrivetrains(catalog.projects),
+    availableCategories: getAvailableStyles(catalog.projects),
     source: "supabase",
     notice: null,
   };
@@ -192,6 +224,7 @@ export async function getProjectRankings(limit = 6) {
     notice: collection.notice,
     trending: getTrendingProjects(allProjects, limit),
     mostLiked: sortProjects(allProjects, "likes").slice(0, limit),
+    mostCommented: sortProjects(allProjects, "comments").slice(0, limit),
     mostViewed: sortProjects(allProjects, "views").slice(0, limit),
     mostSaved: [...allProjects]
       .sort((left, right) => right.saves - left.saves || right.likes - left.likes)

@@ -70,11 +70,15 @@ export type ExploreFilters = {
   q?: string;
   brand?: string;
   model?: string;
+  year?: string;
+  fuel?: string;
+  induction?: string;
+  drivetrain?: string;
   category?: string;
   tag?: string;
   state?: string;
   engine?: string;
-  sort?: "recent" | "likes" | "saves" | "views" | "updated";
+  sort?: "relevance" | "recent" | "popular" | "likes" | "comments" | "saves" | "views" | "updated" | "hot";
   limit?: number;
 };
 
@@ -82,6 +86,7 @@ export type ProjectSearchSuggestion = {
   term: string;
   source: string;
   rank: number;
+  href?: string;
 };
 
 type Client = SupabaseClient;
@@ -138,11 +143,20 @@ function carSearchRank(row: CarRow, query: string) {
   const normalizedQuery = normalizeSearchTerm(query);
   const queryWithoutHash = normalizedQuery.replace(/^#+/, "");
   const tags = stringArray(row.tags).map(normalizeSearchTerm);
-  let rank = row.project_followers_count * 0.4 + row.likes_count * 0.3 + row.views_count * 0.02;
+  let rank =
+    row.project_followers_count * 0.5 +
+    row.likes_count * 0.35 +
+    row.comments_count * 0.25 +
+    row.views_count * 0.03;
 
   if (normalizeSearchTerm(row.name) === normalizedQuery) rank += 120;
   if (normalizeSearchTerm(row.model) === normalizedQuery) rank += 100;
+  if (normalizeSearchTerm(row.brand) === normalizedQuery) rank += 90;
+  if (String(row.year) === normalizedQuery) rank += 80;
   if (tags.some((tag) => tag === queryWithoutHash)) rank += 100;
+  if (normalizeSearchTerm(row.name).split(" ").some((word) => word.startsWith(normalizedQuery))) rank += 70;
+  if (normalizeSearchTerm(row.model).split(" ").some((word) => word.startsWith(normalizedQuery))) rank += 64;
+  if (normalizeSearchTerm(row.brand).split(" ").some((word) => word.startsWith(normalizedQuery))) rank += 52;
   if (normalizeSearchTerm(row.name).includes(normalizedQuery)) rank += 40;
   if (normalizeSearchTerm(row.model).includes(normalizedQuery)) rank += 36;
   if (normalizeSearchTerm(row.brand).includes(normalizedQuery)) rank += 28;
@@ -151,6 +165,10 @@ function carSearchRank(row: CarRow, query: string) {
   if (normalizeSearchTerm(row.description).includes(normalizedQuery)) rank += 10;
 
   return rank;
+}
+
+function cleanLike(value: string) {
+  return value.trim().replace(/[%_,]/g, "");
 }
 
 function normalizeUpdateRow(row: CarBuildUpdateRow): CarBuildUpdateRow {
@@ -468,11 +486,29 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
     if (!searchError) {
       const rankedIds = ((matches ?? []) as Array<{ car_id: string; rank: number }>).map((match) => match.car_id);
       if (rankedIds.length) {
-        const { data, error } = await supabase
+        let rankedQuery = supabase
           .from("cars")
           .select("*")
           .in("id", rankedIds)
           .eq("is_public", true);
+
+        if (filters.brand?.trim()) rankedQuery = rankedQuery.ilike("brand", `%${cleanLike(filters.brand)}%`);
+        if (filters.model?.trim()) rankedQuery = rankedQuery.ilike("model", `%${cleanLike(filters.model)}%`);
+        if (filters.year?.trim()) {
+          const year = Number.parseInt(filters.year.trim(), 10);
+          if (Number.isFinite(year)) rankedQuery = rankedQuery.eq("year", year);
+        }
+        if (filters.fuel?.trim()) rankedQuery = rankedQuery.ilike("fuel_type", `%${cleanLike(filters.fuel)}%`);
+        if (filters.induction?.trim()) rankedQuery = rankedQuery.ilike("current_induction", `%${cleanLike(filters.induction)}%`);
+        if (filters.drivetrain?.trim()) rankedQuery = rankedQuery.ilike("drivetrain", `%${cleanLike(filters.drivetrain)}%`);
+        if (filters.category?.trim()) rankedQuery = rankedQuery.eq("category", filters.category.trim());
+        if (filters.engine?.trim()) rankedQuery = rankedQuery.ilike("engine", `%${cleanLike(filters.engine)}%`);
+        if (filters.tag?.trim()) {
+          const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
+          rankedQuery = rankedQuery.contains("tags", [tag.toLowerCase()]);
+        }
+
+        const { data, error } = await rankedQuery;
         if (error) return { data: null, error: error.message };
 
         const order = new Map(rankedIds.map((id, index) => [id, index]));
@@ -491,6 +527,15 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
       .limit(filters.limit ?? 120);
 
     if (filters.category?.trim()) fallbackQuery = fallbackQuery.eq("category", filters.category.trim());
+    if (filters.brand?.trim()) fallbackQuery = fallbackQuery.ilike("brand", `%${cleanLike(filters.brand)}%`);
+    if (filters.model?.trim()) fallbackQuery = fallbackQuery.ilike("model", `%${cleanLike(filters.model)}%`);
+    if (filters.year?.trim()) {
+      const year = Number.parseInt(filters.year.trim(), 10);
+      if (Number.isFinite(year)) fallbackQuery = fallbackQuery.eq("year", year);
+    }
+    if (filters.fuel?.trim()) fallbackQuery = fallbackQuery.ilike("fuel_type", `%${cleanLike(filters.fuel)}%`);
+    if (filters.induction?.trim()) fallbackQuery = fallbackQuery.ilike("current_induction", `%${cleanLike(filters.induction)}%`);
+    if (filters.drivetrain?.trim()) fallbackQuery = fallbackQuery.ilike("drivetrain", `%${cleanLike(filters.drivetrain)}%`);
     if (filters.engine?.trim()) fallbackQuery = fallbackQuery.ilike("engine", `%${filters.engine.trim()}%`);
     if (filters.tag?.trim()) {
       const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
@@ -517,26 +562,18 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
     .eq("is_public", true)
     .limit(filters.limit ?? 48);
 
-  if (filters.q?.trim()) {
-    const term = filters.q.trim().replace(/[%_,]/g, "");
-    const year = Number.parseInt(term, 10);
-    const conditions = [
-      `name.ilike.%${term}%`,
-      `brand.ilike.%${term}%`,
-      `model.ilike.%${term}%`,
-      `category.ilike.%${term}%`,
-      `engine.ilike.%${term}%`,
-      `description.ilike.%${term}%`,
-    ];
-    if (Number.isFinite(year)) conditions.push(`year.eq.${year}`);
-    query = query.or(conditions.join(","));
+  if (filters.brand?.trim()) query = query.ilike("brand", `%${cleanLike(filters.brand)}%`);
+  if (filters.model?.trim()) query = query.ilike("model", `%${cleanLike(filters.model)}%`);
+  if (filters.year?.trim()) {
+    const year = Number.parseInt(filters.year.trim(), 10);
+    if (Number.isFinite(year)) query = query.eq("year", year);
   }
-
-  if (filters.brand?.trim()) query = query.ilike("brand", `%${filters.brand.trim()}%`);
-  if (filters.model?.trim()) query = query.ilike("model", `%${filters.model.trim()}%`);
+  if (filters.fuel?.trim()) query = query.ilike("fuel_type", `%${cleanLike(filters.fuel)}%`);
+  if (filters.induction?.trim()) query = query.ilike("current_induction", `%${cleanLike(filters.induction)}%`);
+  if (filters.drivetrain?.trim()) query = query.ilike("drivetrain", `%${cleanLike(filters.drivetrain)}%`);
   if (filters.category?.trim()) query = query.eq("category", filters.category.trim());
   if (filters.state?.trim()) query = query.ilike("state", filters.state.trim());
-  if (filters.engine?.trim()) query = query.ilike("engine", `%${filters.engine.trim()}%`);
+  if (filters.engine?.trim()) query = query.ilike("engine", `%${cleanLike(filters.engine)}%`);
   if (filters.tag?.trim()) {
     const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
     query = query.contains("tags", [tag.toLowerCase()]);
@@ -544,12 +581,20 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
 
   if (filters.sort === "likes") {
     query = query.order("likes_count", { ascending: false }).order("created_at", { ascending: false });
+  } else if (filters.sort === "comments") {
+    query = query.order("comments_count", { ascending: false }).order("created_at", { ascending: false });
   } else if (filters.sort === "saves") {
     query = query.order("saves_count", { ascending: false }).order("created_at", { ascending: false });
   } else if (filters.sort === "views") {
     query = query.order("views_count", { ascending: false }).order("created_at", { ascending: false });
   } else if (filters.sort === "updated") {
     query = query.order("updated_at", { ascending: false }).order("created_at", { ascending: false });
+  } else if (filters.sort === "popular" || filters.sort === "hot" || filters.sort === "relevance") {
+    query = query
+      .order("project_followers_count", { ascending: false })
+      .order("likes_count", { ascending: false })
+      .order("comments_count", { ascending: false })
+      .order("views_count", { ascending: false });
   } else {
     query = query.order("created_at", { ascending: false });
   }
@@ -568,54 +613,66 @@ export async function qProjectSearchSuggestions(query: string, limit = 8): Promi
   const term = query.trim();
   if (term.length < 2) return { data: [], error: null };
 
-  const { data, error } = await supabase.rpc("suggest_car_project_terms", {
-    p_query: term,
-    p_limit: limit,
-  });
-  if (error) {
-    const { data: rows, error: fallbackError } = await supabase
-      .from("cars")
-      .select("name, brand, model, engine, tags")
-      .eq("is_public", true)
-      .limit(120);
-    if (fallbackError) return { data: null, error: fallbackError.message };
+  const { data: rows, error } = await supabase
+    .from("cars")
+    .select("id, slug, name, brand, model, year, engine, category, description, tags, likes_count, comments_count, views_count, project_followers_count")
+    .eq("is_public", true)
+    .limit(140);
 
-    const normalizedTerm = term.toLowerCase();
-    const candidates = ((rows ?? []) as Array<Pick<CarRow, "name" | "brand" | "model" | "engine" | "tags">>)
-      .flatMap((row) => [
-        { term: row.brand, source: "Marca", rank: 80 },
-        { term: row.model, source: "Modelo", rank: 78 },
-        { term: row.name, source: "Projeto", rank: 74 },
-        { term: row.engine ?? "", source: "Motor", rank: 68 },
-        ...stringArray(row.tags).map((tag) => ({
-          term: tag.replace(/^#+/, ""),
-          source: "Tag",
-          rank: 76,
-        })),
-      ])
-      .filter((item) => item.term.trim().toLowerCase().includes(normalizedTerm))
-      .map((item) => ({
+  if (error) return { data: null, error: error.message };
+
+  const normalizedTerm = normalizeSearchTerm(term);
+  const candidates: ProjectSearchSuggestion[] = [];
+
+  for (const row of (rows ?? []) as CarRow[]) {
+    if (!carSearchText(row).includes(normalizedTerm)) continue;
+
+    candidates.push({
+      term: row.name,
+      source: `${row.brand} ${row.model} ${row.year}`.trim(),
+      rank: Math.round(carSearchRank(row, term)) + 120,
+      href: `/projeto/${row.slug}`,
+    });
+
+    const termCandidates = [
+      { term: row.brand, source: "Marca", rank: 80 },
+      { term: row.model, source: "Modelo", rank: 78 },
+      { term: String(row.year), source: "Ano", rank: 70 },
+      { term: row.engine ?? "", source: "Motor", rank: 68 },
+      { term: row.category, source: "Categoria", rank: 72 },
+      ...stringArray(row.tags).map((tag) => ({
+        term: tag.replace(/^#+/, ""),
+        source: "Tag",
+        rank: 76,
+      })),
+    ];
+
+    for (const item of termCandidates) {
+      const itemTerm = item.term.trim();
+      const normalizedItem = normalizeSearchTerm(itemTerm);
+      if (!itemTerm || !normalizedItem.includes(normalizedTerm)) continue;
+      candidates.push({
         ...item,
-        term: item.term.trim(),
-        rank: item.rank + (item.term.trim().toLowerCase().startsWith(normalizedTerm) ? 20 : 0),
-      }));
-
-    const unique = new Map<string, ProjectSearchSuggestion>();
-    for (const item of candidates) {
-      const key = `${item.source}:${item.term.toLowerCase()}`;
-      const current = unique.get(key);
-      if (!current || item.rank > current.rank) unique.set(key, item);
+        term: itemTerm,
+        rank: item.rank + (normalizedItem.startsWith(normalizedTerm) ? 35 : 0),
+        href: `/explorar?q=${encodeURIComponent(itemTerm)}`,
+      });
     }
-
-    return {
-      data: Array.from(unique.values())
-        .sort((left, right) => right.rank - left.rank || left.term.length - right.term.length)
-        .slice(0, limit),
-      error: null,
-    };
   }
 
-  return { data: (data ?? []) as ProjectSearchSuggestion[], error: null };
+  const unique = new Map<string, ProjectSearchSuggestion>();
+  for (const item of candidates) {
+    const key = `${item.source}:${normalizeSearchTerm(item.term)}:${item.href ?? ""}`;
+    const current = unique.get(key);
+    if (!current || item.rank > current.rank) unique.set(key, item);
+  }
+
+  return {
+    data: Array.from(unique.values())
+      .sort((left, right) => right.rank - left.rank || left.term.length - right.term.length)
+      .slice(0, limit),
+    error: null,
+  };
 }
 
 export async function qCarsByOwner(

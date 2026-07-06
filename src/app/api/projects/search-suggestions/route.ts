@@ -11,20 +11,23 @@ type Suggestion = {
   term: string;
   source: string;
   rank: number;
+  href?: string;
 };
 
 function demoSuggestions(query: string, limit: number): Suggestion[] {
   const normalizedQuery = normalizeSearchText(query);
   const candidates = demoProjects.flatMap((project) => [
-    { term: project.title, source: "Projeto", rank: 74 },
-    { term: project.brand ?? "", source: "Marca", rank: 80 },
-    { term: project.model ?? "", source: "Modelo", rank: 78 },
-    { term: project.engine, source: "Motor", rank: 68 },
-    { term: project.style, source: "Estilo", rank: 72 },
+    { term: project.title, source: `${project.brand ?? ""} ${project.model ?? ""} ${project.year}`.trim(), rank: 140, href: `/projeto/${project.slug}` },
+    { term: project.brand ?? "", source: "Marca", rank: 80, href: `/explorar?q=${encodeURIComponent(project.brand ?? "")}` },
+    { term: project.model ?? "", source: "Modelo", rank: 78, href: `/explorar?q=${encodeURIComponent(project.model ?? "")}` },
+    { term: String(project.year), source: "Ano", rank: 70, href: `/explorar?year=${project.year}` },
+    { term: project.engine, source: "Motor", rank: 68, href: `/explorar?q=${encodeURIComponent(project.engine)}` },
+    { term: project.style, source: "Categoria", rank: 72, href: `/explorar?category=${encodeURIComponent(project.style)}` },
     ...project.tags.map((tag) => ({
       term: tag.replace(/^#+/, ""),
       source: "Tag",
       rank: 76,
+      href: `/explorar?tag=${encodeURIComponent(tag.replace(/^#+/, ""))}`,
     })),
   ]);
 
@@ -41,7 +44,7 @@ function demoSuggestions(query: string, limit: number): Suggestion[] {
       term,
       rank: candidate.rank + (normalizedTerm.startsWith(normalizedQuery) ? 20 : 0),
     };
-    const key = `${ranked.source}:${normalizeSearchText(ranked.term)}`;
+    const key = `${ranked.source}:${normalizeSearchText(ranked.term)}:${ranked.href ?? ""}`;
     const current = unique.get(key);
     if (!current || ranked.rank > current.rank) unique.set(key, ranked);
   }

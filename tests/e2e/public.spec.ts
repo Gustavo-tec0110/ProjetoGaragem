@@ -32,6 +32,21 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
   }
 });
 
+test("busca inteligente mostra sugestoes e preserva filtros na exploracao", async ({ page }) => {
+  await page.goto("/explorar");
+
+  await page.getByLabel("Buscar projetos").fill("Gol");
+  const firstSuggestion = page.getByRole("option").first();
+  await expect(firstSuggestion).toBeVisible();
+  await firstSuggestion.click();
+  await expect(page).toHaveURL(/\/projeto\//);
+
+  await page.goto("/explorar?q=turbo&sort=likes");
+  await expect(page.getByRole("heading", { name: "Explorar projetos" })).toBeVisible();
+  await expect(page.getByLabel("Buscar projetos")).toHaveValue("turbo");
+  await expect(page.getByLabel("Ordenar projetos")).toHaveValue("likes");
+});
+
 test("rotas protegidas orientam visitante para login ou modo local", async ({ page }) => {
   await page.goto("/criar-projeto");
   await expect(
