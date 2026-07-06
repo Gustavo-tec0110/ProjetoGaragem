@@ -10,6 +10,12 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
   await page.goto("/projeto/gol-quadrado-1994-ap18");
   await expect(page).toHaveURL(/\/projeto\/[^/]+/);
   await expect(page.getByRole("button", { name: /Curtir/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Mostre este build para alguem" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Compartilhar projeto" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Continue navegando" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Mais projetos da mesma marca|Projetos semelhantes|Outros projetos populares/ }).first()
+  ).toBeVisible();
 
   const likeButton = page.getByRole("button", { name: /Curtir/i }).first();
   await likeButton.click();

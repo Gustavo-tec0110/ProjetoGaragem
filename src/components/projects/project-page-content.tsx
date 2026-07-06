@@ -9,7 +9,7 @@ export async function ProjectPageContent({
 }: {
   slug: string;
 }) {
-  const [{ project, detail, similarProjects }, supabase] = await Promise.all([
+  const [{ project, detail, similarProjects, recommendations }, supabase] = await Promise.all([
     getProjectPageData(slug),
     getSupabaseServerClient(),
   ]);
@@ -29,6 +29,7 @@ export async function ProjectPageContent({
       <ProjectDetail
         project={mappedProject}
         similarProjects={similarProjects}
+        recommendations={recommendations}
         viewerLoggedIn={Boolean(user)}
         canEdit={canEdit}
         technicalSpecs={[
@@ -64,6 +65,7 @@ export async function ProjectPageContent({
     <ProjectDetail
       project={project}
       similarProjects={similarProjects}
+      recommendations={recommendations}
       viewerLoggedIn={Boolean(user)}
       canEdit={false}
     />

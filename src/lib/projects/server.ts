@@ -7,6 +7,7 @@ import type {
   Project,
   ProjectCollectionResult,
   ProjectFilters,
+  ProjectRecommendationGroups,
   ProjectSortKey,
 } from "@/lib/projects/types";
 import {
@@ -22,6 +23,7 @@ import {
   getAvailableYears,
   getSimilarProjects,
   getTrendingProjects,
+  normalizeSearchText,
   normalizeProjectFilters,
   sortProjects,
   uniqueProjects,
@@ -94,10 +96,68 @@ async function getRouteProjectBySlug(slug: string) {
   };
 }
 
-async function getSimilarProjectsForRoute(project: Project) {
+function emptyProjectRecommendations(): ProjectRecommendationGroups {
+  return {
+    similar: [],
+    sameCreator: [],
+    sameModel: [],
+    sameBrand: [],
+    popular: [],
+  };
+}
+
+async function getProjectRecommendationsForRoute(project: Project): Promise<ProjectRecommendationGroups> {
   const collection = await getProjectCollection();
   const combinedProjects = uniqueProjects([...collection.allProjects, ...demoProjects]);
-  return getSimilarProjects(combinedProjects, project, 3);
+  const candidates = combinedProjects.filter((entry) => entry.slug !== project.slug);
+  const usedSlugs = new Set([project.slug]);
+
+  const takeFresh = (projects: Project[], limit = 3) => {
+    const fresh = projects.filter((entry) => !usedSlugs.has(entry.slug)).slice(0, limit);
+    for (const entry of fresh) usedSlugs.add(entry.slug);
+    return fresh;
+  };
+
+  const creatorKey = project.ownerId || project.ownerUsername || project.ownerName;
+  const sameCreator = creatorKey
+    ? takeFresh(
+        sortProjects(
+          candidates.filter((entry) => {
+            const entryKey = entry.ownerId || entry.ownerUsername || entry.ownerName;
+            return entryKey === creatorKey;
+          }),
+          "updated"
+        )
+      )
+    : [];
+
+  const projectModel = normalizeSearchText(project.model || project.carModel);
+  const sameModel = projectModel
+    ? takeFresh(
+        sortProjects(
+          candidates.filter((entry) => normalizeSearchText(entry.model || entry.carModel) === projectModel),
+          "popular"
+        )
+      )
+    : [];
+
+  const projectBrand = normalizeSearchText(project.brand);
+  const sameBrand = projectBrand
+    ? takeFresh(
+        sortProjects(
+          candidates.filter((entry) => normalizeSearchText(entry.brand) === projectBrand),
+          "popular"
+        )
+      )
+    : [];
+
+  return {
+    sameCreator,
+    sameModel,
+    sameBrand,
+    similar: takeFresh(getSimilarProjects(combinedProjects, project, 6)),
+    popular: takeFresh(sortProjects(candidates, "popular"), 3),
+  };
 }
 
 export async function getProjectCollection(
@@ -173,13 +233,21 @@ export const getProjectBySlug = cache(async (slug: string) => {
 export async function getProjectPageData(slug: string) {
   const { project, detail } = await getRouteProjectBySlug(slug);
   if (!project) {
-    return { project: null, detail: null, similarProjects: [] as Project[] };
+    return {
+      project: null,
+      detail: null,
+      similarProjects: [] as Project[],
+      recommendations: emptyProjectRecommendations(),
+    };
   }
+
+  const recommendations = await getProjectRecommendationsForRoute(project);
 
   return {
     project,
     detail,
-    similarProjects: await getSimilarProjectsForRoute(project),
+    similarProjects: recommendations.similar,
+    recommendations,
   };
 }
 

@@ -177,6 +177,14 @@ export type Project = ProjectSeed & {
   followers: number;
 };
 
+export type ProjectRecommendationGroups = {
+  similar: Project[];
+  sameCreator: Project[];
+  sameModel: Project[];
+  sameBrand: Project[];
+  popular: Project[];
+};
+
 export type ProjectFilters = {
   q: string;
   brand: string;

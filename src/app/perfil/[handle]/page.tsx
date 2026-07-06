@@ -2,7 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Eye, Heart, MapPin, Wrench } from "lucide-react";
+import {
+  Clock,
+  Eye,
+  Heart,
+  MapPin,
+  MessageCircle,
+  TrendingUp,
+  UserCheck,
+  Users,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 
 import { FollowProfileButton } from "@/components/garage/follow-profile-button";
 import { CarGrid } from "@/components/garage/car-card";
@@ -28,12 +39,14 @@ type PageProps = {
   params: Promise<{ handle: string }>;
 };
 
-function Stat({ label, value, icon: Icon }: { label: string; value: number; icon: typeof Heart }) {
+function Stat({ label, value, icon: Icon }: { label: string; value: number | string; icon: LucideIcon }) {
   return (
     <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
       <Icon className="size-5 text-accent" />
       <p className="mt-3 text-xs text-muted">{label}</p>
-      <p className="mt-1 font-title text-2xl">{value.toLocaleString("pt-BR")}</p>
+      <p className="mt-1 font-title text-2xl">
+        {typeof value === "number" ? value.toLocaleString("pt-BR") : value}
+      </p>
     </div>
   );
 }
@@ -88,10 +101,25 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const viewerFollows = followingResult.data ?? false;
   const totalLikes = cars.reduce((sum, car) => sum + car.likes_count, 0);
   const totalViews = cars.reduce((sum, car) => sum + car.views_count, 0);
+  const totalComments = cars.reduce((sum, car) => sum + car.comments_count, 0);
   const totalInvested = cars.reduce((sum, car) => sum + (car.total_invested || car.estimated_cost || 0), 0);
   const activeProjects = cars.filter((car) => car.project_status !== "Finalizado").length;
   const location = [profile.city, profile.state].filter(Boolean).join(", ");
   const heroImage = cars[0]?.main_photo_url ?? "/ref/hero-car.jpg";
+  const recentCars = cars.slice(0, 3);
+  const popularCars = [...cars]
+    .sort(
+      (left, right) =>
+        right.likes_count +
+        right.comments_count * 2 +
+        right.views_count * 0.08 +
+        right.project_followers_count * 3 -
+        (left.likes_count +
+          left.comments_count * 2 +
+          left.views_count * 0.08 +
+          left.project_followers_count * 3)
+    )
+    .slice(0, 3);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -166,22 +194,14 @@ export default async function PublicProfilePage({ params }: PageProps) {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2 md:min-w-[28rem]">
-                  <Stat label="Carros" value={cars.length} icon={Wrench} />
-                  <Stat label="Curtidas" value={totalLikes} icon={Heart} />
-                  <Stat label="Views" value={totalViews} icon={Eye} />
-                  <Stat label="Seguidores" value={profile.followers_count} icon={Heart} />
-                  <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
-                    <p className="text-xs text-muted">Total investido</p>
-                    <p className="mt-1 font-title text-2xl">
-                      {formatProjectCurrency(totalInvested)}
-                    </p>
-                  </div>
-                  <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
-                    <p className="text-xs text-muted">Projetos ativos</p>
-                    <p className="mt-1 font-title text-2xl">
-                      {activeProjects.toLocaleString("pt-BR")}
-                    </p>
-                  </div>
+                  <Stat label="Projetos" value={cars.length} icon={Wrench} />
+                  <Stat label="Curtidas recebidas" value={totalLikes} icon={Heart} />
+                  <Stat label="Comentarios recebidos" value={totalComments} icon={MessageCircle} />
+                  <Stat label="Visualizacoes" value={totalViews} icon={Eye} />
+                  <Stat label="Seguidores" value={profile.followers_count} icon={Users} />
+                  <Stat label="Seguindo" value={profile.following_count} icon={UserCheck} />
+                  <Stat label="Total investido" value={formatProjectCurrency(totalInvested)} icon={TrendingUp} />
+                  <Stat label="Projetos ativos" value={activeProjects} icon={Clock} />
                 </div>
               </div>
 
@@ -204,10 +224,39 @@ export default async function PublicProfilePage({ params }: PageProps) {
           <section className="mt-10">
             <div className="mb-4">
               <p className="text-xs text-muted">Garagem publica</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Carros cadastrados</h2>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Destaques da garagem</h2>
             </div>
-            <CarGrid cars={cars} emptyTitle="Este usuario ainda nao cadastrou projetos publicos." />
+            {cars.length ? (
+              <div className="space-y-10">
+                <div>
+                  <div className="mb-4 flex items-center gap-2">
+                    <Clock className="size-5 text-accent" />
+                    <h3 className="font-title text-xl tracking-tight">Projetos recentes</h3>
+                  </div>
+                  <CarGrid cars={recentCars} />
+                </div>
+                <div>
+                  <div className="mb-4 flex items-center gap-2">
+                    <TrendingUp className="size-5 text-accent" />
+                    <h3 className="font-title text-xl tracking-tight">Projetos populares</h3>
+                  </div>
+                  <CarGrid cars={popularCars} />
+                </div>
+              </div>
+            ) : (
+              <CarGrid cars={cars} emptyTitle="Este usuario ainda nao cadastrou projetos publicos." />
+            )}
           </section>
+
+          {cars.length ? (
+            <section className="mt-12">
+              <div className="mb-4">
+                <p className="text-xs text-muted">Todos os projetos</p>
+                <h2 className="mt-1 font-title text-2xl tracking-tight">Garagem completa</h2>
+              </div>
+              <CarGrid cars={cars} />
+            </section>
+          ) : null}
 
           {(profile.is_saves_public || isOwner) && savedCars.length ? (
             <section className="mt-12">

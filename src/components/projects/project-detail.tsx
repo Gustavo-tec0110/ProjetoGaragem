@@ -23,6 +23,7 @@ import { ProjectFinanceChart } from "@/components/projects/project-finance-chart
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { ProjectImage } from "@/components/projects/project-image";
+import { ProjectShareActions } from "@/components/projects/project-share-actions";
 import { ProjectTimeline } from "@/components/projects/project-timeline";
 import {
   ProjectSocialActions,
@@ -36,7 +37,7 @@ import {
   recordLocalProjectView,
   subscribeLocalProjectSocial,
 } from "@/lib/projects/local-storage";
-import type { Project, ProjectPart } from "@/lib/projects/types";
+import type { Project, ProjectPart, ProjectRecommendationGroups } from "@/lib/projects/types";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
 import {
   buildCompareHref,
@@ -239,6 +240,36 @@ function ProjectPartsShowcase({
   );
 }
 
+function ProjectRecommendationSection({
+  eyebrow,
+  title,
+  projects,
+  emptyTitle,
+}: {
+  eyebrow: string;
+  title: string;
+  projects: Project[];
+  emptyTitle: string;
+}) {
+  if (!projects.length) return null;
+
+  return (
+    <section>
+      <div>
+        <p className="text-xs text-muted">{eyebrow}</p>
+        <h2 className="mt-1 font-title text-2xl tracking-tight">{title}</h2>
+      </div>
+      <div className="mt-4">
+        <ProjectGrid
+          projects={projects}
+          emptyTitle={emptyTitle}
+          emptyDescription="Explore outras fichas da comunidade para encontrar novas referencias."
+        />
+      </div>
+    </section>
+  );
+}
+
 export function ProjectDetail({
   project: initialProject,
   similarProjects,
@@ -246,6 +277,7 @@ export function ProjectDetail({
   canEdit = false,
   technicalSpecs,
   stats,
+  recommendations,
   commentThread,
 }: {
   project: Project;
@@ -254,6 +286,7 @@ export function ProjectDetail({
   canEdit?: boolean;
   technicalSpecs?: DetailSpec[];
   stats?: DetailStat[];
+  recommendations?: ProjectRecommendationGroups;
   commentThread?: ProjectCommentThread | null;
 }) {
   const project = initialProject;
@@ -316,6 +349,13 @@ export function ProjectDetail({
   const gallery = project.gallery.length ? project.gallery : [project.mainImage];
   const location = [project.city, project.state].filter(Boolean).join(", ");
   const compareHref = buildCompareHref(project.slug, similarProjects[0]?.slug ?? null);
+  const discovery = recommendations ?? {
+    similar: similarProjects,
+    sameCreator: [],
+    sameModel: [],
+    sameBrand: [],
+    popular: [],
+  };
   const detailStats =
     stats ??
     [
@@ -556,6 +596,8 @@ export function ProjectDetail({
             { href: "#modificacoes", label: "Modificações" },
             { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
             { href: "#comentarios", label: "Comentários" },
+            { href: "#compartilhar", label: "Compartilhar" },
+            { href: "#descoberta", label: "Descoberta" },
           ].map((item) => (
             <Link
               key={item.href}
@@ -597,6 +639,19 @@ export function ProjectDetail({
           {detailStats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
           ))}
+        </section>
+
+        <section id="compartilhar">
+          <Card className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center md:p-6">
+            <div>
+              <p className="text-xs text-muted">Compartilhar projeto</p>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Mostre este build para alguem</h2>
+              <p className="mt-2 text-sm text-muted">
+                Envie a ficha completa com fotos, estatisticas, comentarios e evolucao do projeto.
+              </p>
+            </div>
+            <ProjectShareActions title={project.title} />
+          </Card>
         </section>
 
         <section>
@@ -832,25 +887,47 @@ export function ProjectDetail({
           </section>
         ) : null}
 
-        <section>
+        <section id="descoberta" className="space-y-10">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-xs text-muted">Projetos parecidos</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">
-                Continue explorando
-              </h2>
+              <p className="text-xs text-muted">Descoberta</p>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Continue navegando</h2>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link href="/explorar">Ver mais</Link>
             </Button>
           </div>
-          <div className="mt-4">
-            <ProjectGrid
-              projects={similarProjects}
-              emptyTitle="Ainda não encontramos projetos parecidos."
-              emptyDescription="Adicione mais projetos ou explore outros estilos da comunidade."
-            />
-          </div>
+
+          <ProjectRecommendationSection
+            eyebrow="Mesmo criador"
+            title="Mais projetos deste criador"
+            projects={discovery.sameCreator}
+            emptyTitle="Nenhum outro projeto deste criador por enquanto."
+          />
+          <ProjectRecommendationSection
+            eyebrow="Mesmo modelo"
+            title="Mais projetos do mesmo modelo"
+            projects={discovery.sameModel}
+            emptyTitle="Nenhum outro projeto deste modelo por enquanto."
+          />
+          <ProjectRecommendationSection
+            eyebrow="Mesma marca"
+            title="Mais projetos da mesma marca"
+            projects={discovery.sameBrand}
+            emptyTitle="Nenhum outro projeto desta marca por enquanto."
+          />
+          <ProjectRecommendationSection
+            eyebrow="Voce tambem pode gostar"
+            title="Projetos semelhantes"
+            projects={discovery.similar}
+            emptyTitle="Ainda nao encontramos projetos parecidos."
+          />
+          <ProjectRecommendationSection
+            eyebrow="Populares"
+            title="Outros projetos populares"
+            projects={discovery.popular}
+            emptyTitle="Ainda nao ha projetos populares suficientes."
+          />
         </section>
       </div>
     </div>
