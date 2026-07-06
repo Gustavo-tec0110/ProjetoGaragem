@@ -1,18 +1,18 @@
 import "server-only";
 
 import { revalidatePath } from "next/cache";
-import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from "@/lib/car-catalog";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString, uniqueStrings } from "@/lib/projects/utils";
 import { serverLog } from "@/lib/server-log";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  ensureUserProfile,
+  requireSupabaseUser,
+  type ServerSupabaseClient,
+} from "@/lib/supabase/auth-server";
 import type { CarPartStatus } from "@/lib/types";
-import type { Database } from "@/types/supabase";
-
-type ServerSupabaseClient = SupabaseClient<Database>;
 
 type PartInput = {
   id?: string;
@@ -326,56 +326,6 @@ function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possive
   return message;
 }
 
-function usernameFromUser(user: User) {
-  const emailName = user.email?.split("@")[0] ?? "membro";
-  return normalizeSlug(`${emailName}-${user.id.slice(0, 6)}`).slice(0, 24);
-}
-
-async function requireUser() {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { supabase: null, user: null, error: "Supabase nao configurado." };
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { supabase, user: null, error: "Entre para continuar." };
-  return { supabase, user, error: null };
-}
-
-async function ensureProfile(supabase: ServerSupabaseClient, user: User) {
-  const { data: profile, error: readError } = await supabase
-    .from("profiles")
-    .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle, is_saves_public, cars_count, followers_count, following_count, created_at, updated_at")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (readError) return { ok: false, message: readError.message };
-  if (profile) return { ok: true, message: null };
-
-  const displayName =
-    typeof user.user_metadata?.full_name === "string"
-      ? user.user_metadata.full_name
-      : user.email ?? "Membro Projeto Garagem";
-
-  const username = usernameFromUser(user);
-  const avatarUrl = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : null;
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .insert({
-      id: user.id,
-      username,
-      display_name: displayName,
-      avatar_url: avatarUrl,
-    })
-    .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle, is_saves_public, cars_count, followers_count, following_count, created_at, updated_at")
-    .maybeSingle();
-
-  if (error) return { ok: false, message: error.message };
-  return data ? { ok: true, message: null } : { ok: false, message: "Nao foi possivel preparar seu perfil." };
-}
-
 async function uniqueCarSlug(supabase: ServerSupabaseClient, base: string, currentId?: string) {
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const suffix = attempt === 0 ? "" : `-${globalThis.crypto.randomUUID().slice(0, 5)}`;
@@ -655,12 +605,12 @@ export function revalidateProjectUpdatePaths(previousSlug: string, nextSlug: str
 
 export async function createCarProject(formData: FormData): Promise<CreateCarProjectResult> {
   try {
-    const auth = await requireUser();
+    const auth = await requireSupabaseUser();
     if (!auth.supabase || !auth.user) {
       return { ok: false, status: 401, message: auth.error ?? "Erro de autenticacao." };
     }
 
-    const profile = await ensureProfile(auth.supabase, auth.user);
+    const profile = await ensureUserProfile(auth.supabase, auth.user);
     if (!profile.ok) {
       return {
         ok: false,
@@ -729,7 +679,7 @@ export async function updateCarProject(
   formData: FormData
 ): Promise<UpdateCarProjectResult> {
   try {
-    const auth = await requireUser();
+    const auth = await requireSupabaseUser();
     if (!auth.supabase || !auth.user) {
       return { ok: false, status: 401, message: auth.error ?? "Erro de autenticacao." };
     }

@@ -26,8 +26,8 @@ export function ProjectGrid({
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {projects.map((project) => (
-        <ProjectCard key={project.slug} project={project} />
+      {projects.map((project, index) => (
+        <ProjectCard key={project.slug} project={project} imageLoading={index === 0 ? "eager" : "lazy"} />
       ))}
     </div>
   );

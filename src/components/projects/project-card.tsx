@@ -27,7 +27,13 @@ function sourceLabel(project: Project) {
   return null;
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  imageLoading = "lazy",
+}: {
+  project: Project;
+  imageLoading?: "eager" | "lazy";
+}) {
   const projectHref = buildProjectHref(project.slug);
   const compareHref = buildCompareHref(project.slug);
   const image = project.gallery[0] ?? project.mainImage;
@@ -42,6 +48,7 @@ export function ProjectCard({ project }: { project: Project }) {
             src={image}
             alt={`Foto do projeto ${project.title}`}
             fill
+            loading={imageLoading}
             className="object-cover opacity-90 transition duration-300 group-hover:scale-105"
             sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 92vw"
           />
