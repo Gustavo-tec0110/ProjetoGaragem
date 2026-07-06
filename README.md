@@ -57,13 +57,15 @@ set E2E_USER_PASSWORD=senha
 npm run test:e2e
 ```
 
+Essas variaveis tambem podem ficar no `.env.local`; o Playwright carrega esse arquivo antes de iniciar os testes. Use uma conta dedicada de QA, com email confirmado e permissao para criar/editar projetos no ambiente Supabase configurado.
+
 Para validar seguir um projeto de outro usuario, informe tambem:
 
 ```bash
 set E2E_TARGET_PROJECT_SLUG=slug-de-projeto-de-terceiro
 ```
 
-Sem essas variaveis, os testes autenticados sao ignorados de forma explicita; os testes publicos continuam rodando.
+Sem `E2E_USER_EMAIL` e `E2E_USER_PASSWORD`, os testes autenticados sao ignorados de forma explicita; os testes publicos continuam rodando. Sem `E2E_TARGET_PROJECT_SLUG`, apenas o caso de seguir projeto de terceiro e ignorado. O fluxo autenticado principal cobre login, criacao, edicao, curtir, salvar, comentar e abertura de notificacoes; notificacoes geradas por outro usuario exigem uma segunda conta e devem ser validadas manualmente ate a suite ter fixture propria.
 
 ## Variaveis de Ambiente
 
@@ -92,6 +94,22 @@ Sem Supabase configurado:
 - `supabase/migrations`: historico de schema/RLS. Evite alterar migrations antigas de producao.
 
 Criacao e edicao de projetos passam por `src/lib/garage/create-car-project.ts`, usado pelos route handlers em `src/app/api/projects/*` e `src/app/api/projetos/criar`. Acoes sociais, comentarios, perfil e notificacoes ficam em `src/app/carros/actions.ts`.
+
+## Busca Inteligente
+
+Ponto de partida para a Sprint Produto 1:
+
+- `/buscar` redireciona para `/explorar`, preservando query string.
+- `/explorar` monta filtros com `normalizeProjectFilters` e renderiza `ProjectDiscoveryPage`.
+- `src/components/projects/project-filters.tsx` e `project-search-box.tsx` controlam a UI de busca e sugestoes.
+- `src/app/api/projects/search-suggestions/route.ts` fornece sugestoes com fallback demo.
+- `src/lib/supabase/queries.ts` concentra `qExploreCars` e `qProjectSearchSuggestions`; a RPC `search_car_projects` ja e o ponto natural para melhorar ranking sem mexer na UI primeiro.
+
+Para a proxima etapa, prefira evoluir ranking, sinonimos e pesos nesses pontos antes de criar uma nova arquitetura de busca.
+
+## Auditoria npm
+
+Depois de `npm audit fix` sem `--force`, permanece a vulnerabilidade moderada `postcss <8.5.10` trazida por `next`. O npm sugere apenas `npm audit fix --force`, que tentaria trocar para `next@9.3.3` e e uma mudanca quebradora. Nao aplicar sem decisao explicita.
 
 ## Supabase e RLS
 
