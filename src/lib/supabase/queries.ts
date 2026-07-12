@@ -712,8 +712,12 @@ export async function qSavedCars(userId: string): Promise<QueryResult<CarCard[]>
     .eq("is_public", true);
   if (carsError) return { data: null, error: carsError.message };
 
+  const order = new Map(ids.map((id, index) => [id, index]));
   const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
-  return { data: cards, error: null };
+  return {
+    data: cards.sort((left, right) => (order.get(left.id) ?? 0) - (order.get(right.id) ?? 0)),
+    error: null,
+  };
 }
 
 export async function qLikedCars(userId: string): Promise<QueryResult<CarCard[]>> {

@@ -323,16 +323,6 @@ export default async function GaragemPage({
           </section>
 
           <section className="mt-10">
-            <InspirationPlanner
-              mode="supabase"
-              storageScope={user.id}
-              currentProjects={myProjects}
-              inspirationProjects={referenceProjects}
-              referenceSourceLabel={savedCars.length ? "Projetos salvos" : "Projetos em destaque"}
-            />
-          </section>
-
-          <section className="mt-10">
             <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <p className="text-xs text-muted">Hub do usuario</p>
@@ -363,6 +353,16 @@ export default async function GaragemPage({
               emptyTitle={activeTab.emptyTitle}
               emptyDescription={activeTab.emptyDescription}
               emptyAction={activeTab.emptyAction}
+            />
+          </section>
+
+          <section className="mt-10">
+            <InspirationPlanner
+              mode="supabase"
+              storageScope={user.id}
+              currentProjects={myProjects}
+              inspirationProjects={referenceProjects}
+              referenceSourceLabel={savedCars.length ? "Projetos salvos" : "Projetos em destaque"}
             />
           </section>
         </div>
