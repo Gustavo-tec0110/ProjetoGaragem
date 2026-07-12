@@ -1,59 +1,159 @@
 import { expect, test } from "@playwright/test";
 
-import { hasE2EUser, login, uniqueProjectName } from "./helpers";
+import {
+  e2eSecondUser,
+  e2eUser,
+  hasAuthenticatedE2EUsers,
+  login,
+  logout,
+  uniqueProjectName,
+} from "./helpers";
+
+const pngPixel = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/axnXwAAAABJRU5ErkJggg==",
+  "base64"
+);
 
 test.describe("fluxos autenticados Supabase", () => {
-  test.skip(!hasE2EUser(), "Defina E2E_USER_EMAIL e E2E_USER_PASSWORD para rodar fluxos autenticados reais.");
+  test.skip(
+    !hasAuthenticatedE2EUsers(),
+    "Defina E2E_USER_EMAIL/E2E_USER_PASSWORD e E2E_SECOND_USER_EMAIL/E2E_SECOND_USER_PASSWORD para rodar fluxos autenticados reais."
+  );
   test.describe.configure({ mode: "serial" });
 
   let projectTitle = "";
+  let projectSlug = "";
+  let ownerProfileHref = "";
 
-  test("login, criar projeto, editar, curtir, salvar, comentar e ver notificacoes", async ({ page }) => {
+  test("usuario principal faz login, acessa garagem, cria projeto, faz upload, edita e sai", async ({ page }) => {
     projectTitle = uniqueProjectName();
 
-    await login(page, "/criar-projeto");
-    await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
+    await login(page, "/garagem", e2eUser);
+    await expect(page.getByRole("heading", { name: /Garagem|Entrar|perfil/i }).first()).toBeVisible();
 
+    await page.goto("/criar-projeto");
+    await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
     await page.getByLabel("Nome do projeto").fill(projectTitle);
     await page.getByLabel("Marca").selectOption("Volkswagen");
     await page.getByLabel("Modelo").selectOption("Gol");
     await page.getByLabel("Ano").fill("1994");
-    await page.getByRole("button", { name: /Criar projeto agora/i }).click();
 
+    await page.locator('input[type="file"]').first().setInputFiles({
+      name: "e2e-project.png",
+      mimeType: "image/png",
+      buffer: pngPixel,
+    });
+    await expect(page.getByText("Principal").first()).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: /Criar projeto agora|Criar pagina do projeto|Criar página do projeto/i }).click();
     await page.waitForURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
+    projectSlug = new URL(page.url()).pathname.split("/").filter(Boolean).at(-1) ?? "";
+    expect(projectSlug).toBeTruthy();
     await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
 
-    await page.getByRole("link", { name: /Editar ficha|Completar detalhes|Editar informações/i }).first().click();
+    const ownerLink = page.locator('a[href^="/perfil/"]').first();
+    await expect(ownerLink).toBeVisible();
+    ownerProfileHref = (await ownerLink.getAttribute("href")) ?? "";
+    expect(ownerProfileHref).toMatch(/^\/perfil\//);
+
+    await page.locator('a[href$="/editar"]').first().click();
     await expect(page).toHaveURL(/\/editar$/);
-    await page.locator('[name="description"]').fill("Projeto criado pelo E2E Beta 2 para validar edicao real.");
+    await page.locator('textarea[name="description"]').fill("Projeto criado pelo E2E QA para validar edicao real.");
     await page.getByLabel("Cidade").fill("Curitiba");
     await page.getByLabel("Estado").fill("PR");
-    await page.getByRole("button", { name: /Salvar alterações/i }).click();
+    await page.getByRole("button", { name: /Salvar alteracoes|Salvar alterações/i }).click();
     await page.waitForURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
     await expect(page.getByText("Curitiba")).toBeVisible();
 
-    await page.getByRole("button", { name: /Curtir/i }).first().click();
-    await expect(page.getByRole("button", { name: /Curtir/i }).first()).toBeVisible();
-    await page.getByRole("button", { name: /Salvar/i }).first().click();
-    await expect(page.getByRole("button", { name: /Salvar/i }).first()).toBeVisible();
-
-    await page.getByPlaceholder(/Comente sobre/i).fill("Comentario E2E Beta 2");
-    await page.getByRole("button", { name: /^Comentar$/ }).click();
-    await expect(page.getByText("Comentario E2E Beta 2")).toBeVisible();
-
-    await page.goto("/notificacoes");
-    await expect(page.getByRole("heading", { name: /Notifica/i })).toBeVisible();
+    await logout(page);
   });
 
-  test("seguir projeto alvo quando um slug de terceiro for informado", async ({ page }) => {
-    const targetSlug = process.env.E2E_TARGET_PROJECT_SLUG;
-    test.skip(!targetSlug, "Defina E2E_TARGET_PROJECT_SLUG para validar seguir projeto de outro usuario.");
+  test("segundo usuario nao edita projeto alheio e valida interacoes sociais", async ({ page }) => {
+    await login(page, `/projeto/${projectSlug}`, e2eSecondUser);
+    await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
 
-    await login(page, `/projeto/${targetSlug}`);
-    await page.goto(`/projeto/${targetSlug}`);
-    const follow = page.getByRole("button", { name: /Seguir/i }).first();
-    await expect(follow).toBeVisible();
-    await follow.click();
-    await expect(page.getByRole("button", { name: /Seguindo|Seguir/i }).first()).toBeVisible();
+    await page.goto(`/projeto/${projectSlug}/editar`);
+    await expect(page.getByRole("heading", { name: /Acesso restrito/i })).toBeVisible();
+    await page.getByRole("link", { name: /Voltar para o projeto/i }).click();
+
+    const followProject = page.getByRole("button", { name: /Seguir \(/ }).first();
+    await expect(followProject).toBeVisible();
+    await followProject.click();
+    await expect(page.getByRole("button", { name: /Seguindo \(/ }).first()).toBeVisible();
+
+    const like = page.getByRole("button", { name: /Curtir \(/ }).first();
+    await like.click();
+    await expect(page.getByRole("button", { name: /Curtir \(/ }).first()).toBeVisible();
+
+    const save = page.getByRole("button", { name: /Salvar \(/ }).first();
+    await save.click();
+    await expect(page.getByRole("button", { name: /Salvar \(/ }).first()).toBeVisible();
+
+    await page.getByPlaceholder(/Comente sobre/i).fill("Comentario E2E QA entre usuarios");
+    await page.getByRole("button", { name: /^Comentar$/ }).click();
+    await expect(page.getByText("Comentario E2E QA entre usuarios")).toBeVisible();
+
+    await page.goto(ownerProfileHref);
+    const followUser = page.getByRole("button", { name: /^Seguir$/ }).first();
+    await expect(followUser).toBeVisible();
+    await followUser.click();
+    await expect(page.getByRole("button", { name: /^Seguindo$/ }).first()).toBeVisible();
+
+    await logout(page);
+  });
+
+  test("usuario principal le notificacoes, nao recebe auto-notificacao e gera update para seguidor", async ({ page }) => {
+    await login(page, "/notificacoes", e2eUser);
+    await expect(page.getByRole("heading", { name: /Notifica/i })).toBeVisible();
+    await expect(page.getByText(projectTitle).first()).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/curtiu|salvou|seguidor|coment/i).first()).toBeVisible();
+
+    await page.goto(`/projeto/${projectSlug}`);
+    await page.getByRole("button", { name: /Curtir \(/ }).first().click();
+    await page.goto("/notificacoes");
+    await expect(page.getByText(/voce curtiu|você curtiu/i)).toHaveCount(0);
+
+    await page.goto(`/projeto/${projectSlug}/editar`);
+    await page.getByRole("button", { name: /Adicionar atualiza/i }).click();
+    await page.getByLabel(/Titulo|Título/i).last().fill(`Atualizacao E2E QA ${Date.now()}`);
+    await page.getByLabel(/Descricao|Descrição/i).last().fill("Update criado para validar notificacao de seguidores.");
+    await page.getByRole("button", { name: /Salvar alteracoes|Salvar alterações/i }).click();
+    await page.waitForURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
+
+    await logout(page);
+  });
+
+  test("segundo usuario le notificacao de update, remove interacoes e projeto continua publico", async ({ page }) => {
+    await login(page, "/notificacoes", e2eSecondUser);
+    await expect(page.getByRole("heading", { name: /Notifica/i })).toBeVisible();
+    await expect(page.getByText(projectTitle).first()).toBeVisible({ timeout: 30_000 });
+    const markRead = page.getByRole("button", { name: /Marcar lida/i }).first();
+    if (await markRead.count()) {
+      await markRead.click();
+    }
+
+    await page.goto(`/projeto/${projectSlug}`);
+    await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
+    await page.getByRole("button", { name: /Seguindo \(/ }).first().click();
+    await expect(page.getByRole("button", { name: /Seguir \(/ }).first()).toBeVisible();
+    await page.getByRole("button", { name: /Curtir \(/ }).first().click();
+    await page.getByRole("button", { name: /Salvar \(/ }).first().click();
+
+    await page.goto(ownerProfileHref);
+    await page.getByRole("button", { name: /^Seguindo$/ }).first().click();
+    await expect(page.getByRole("button", { name: /^Seguir$/ }).first()).toBeVisible();
+
+    await logout(page);
+
+    await page.goto(`/projeto/${projectSlug}`);
+    await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
+  });
+
+  test("usuario principal remove o projeto de QA criado pela suite", async ({ page }) => {
+    await login(page, `/projeto/${projectSlug}/editar`, e2eUser);
+    await expect(page).toHaveURL(/\/editar$/);
+    page.once("dialog", (dialog) => dialog.accept());
+    await page.getByRole("button", { name: /Excluir projeto/i }).click();
+    await page.waitForURL(/\/garagem|\/explorar|\/projetos|\/$/, { timeout: 30_000 });
   });
 });

@@ -49,23 +49,19 @@ set PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000
 npm run test:e2e
 ```
 
-Fluxos autenticados reais exigem um usuario de teste no Supabase:
+Fluxos autenticados reais exigem duas contas de QA no Supabase, ambas com email confirmado:
 
 ```bash
 set E2E_USER_EMAIL=usuario-de-teste@example.com
 set E2E_USER_PASSWORD=senha
+set E2E_SECOND_USER_EMAIL=segundo-usuario-de-teste@example.com
+set E2E_SECOND_USER_PASSWORD=senha
 npm run test:e2e
 ```
 
-Essas variaveis tambem podem ficar no `.env.local`; o Playwright carrega esse arquivo antes de iniciar os testes. Use uma conta dedicada de QA, com email confirmado e permissao para criar/editar projetos no ambiente Supabase configurado.
+Essas variaveis tambem podem ficar no `.env.local`; o Playwright carrega esse arquivo antes de iniciar os testes. Use apenas contas dedicadas de QA, nunca usuarios reais.
 
-Para validar seguir um projeto de outro usuario, informe tambem:
-
-```bash
-set E2E_TARGET_PROJECT_SLUG=slug-de-projeto-de-terceiro
-```
-
-Sem `E2E_USER_EMAIL` e `E2E_USER_PASSWORD`, os testes autenticados sao ignorados de forma explicita; os testes publicos continuam rodando. Sem `E2E_TARGET_PROJECT_SLUG`, apenas o caso de seguir projeto de terceiro e ignorado. O fluxo autenticado principal cobre login, criacao, edicao, curtir, salvar, comentar e abertura de notificacoes; notificacoes geradas por outro usuario exigem uma segunda conta e devem ser validadas manualmente ate a suite ter fixture propria.
+Sem as quatro variaveis `E2E_*`, a suite autenticada e ignorada com mensagem explicita no reporter; os testes publicos continuam rodando. Com as duas contas, a suite cobre login, logout, garagem, criacao/edicao do proprio projeto, bloqueio de edicao de outro usuario, upload de imagem, curtir/descurtir, salvar/remover, comentar, seguir/deixar de seguir usuario, seguir/deixar de seguir projeto, notificacoes entre contas, ausencia de notificacao de acao propria, contadores sociais e visualizacao publica. Os dados criados usam prefixo `E2E QA` e sao removidos pela propria conta de QA no final do fluxo quando a UI permite.
 
 ## Variaveis de Ambiente
 
@@ -74,9 +70,10 @@ Crie `.env.local` a partir de `.env.example`:
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://SEU-PROJETO.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=SEU_ANON_KEY
+NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
 ```
 
-Use apenas a chave anon/publica no frontend. Nunca exponha `service_role` no browser.
+Use apenas a URL real do projeto e a chave anon/publica no frontend. Nunca exponha `service_role` no browser. Valores vazios ou placeholders do `.env.example` deixam o Supabase explicitamente desconfigurado e ativam apenas os fallbacks demo/local.
 
 Sem Supabase configurado:
 

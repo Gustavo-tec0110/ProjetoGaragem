@@ -1,6 +1,3 @@
-const DEFAULT_SUPABASE_URL = "https://hxqhudfzdwfxnjzmphya.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY =
-  "sb_publishable_3aeMjOMCyHGqNudGMI470g_Ekc5qTBu";
 const DEFAULT_SITE_URL = "https://projetogaragem.netlify.app";
 
 function trimEnvValue(value: string | undefined) {
@@ -27,10 +24,18 @@ function getConfiguredSiteUrl() {
   return envSiteUrl || DEFAULT_SITE_URL;
 }
 
-export const supabaseUrl =
-  trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
-export const supabaseAnonKey =
-  trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) || DEFAULT_SUPABASE_ANON_KEY;
+function isPlaceholder(value: string) {
+  const normalized = value.toLowerCase();
+  return (
+    normalized.includes("seu-projeto") ||
+    normalized.includes("seu_anon_key") ||
+    normalized.includes("your-project") ||
+    normalized.includes("your_anon_key")
+  );
+}
+
+export const supabaseUrl = toBaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+export const supabaseAnonKey = trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 export const configuredSiteUrl = getConfiguredSiteUrl();
 
 export function getRequestSiteUrl(requestOrigin?: string) {
@@ -49,4 +54,9 @@ export function getSiteUrl() {
   return getRequestSiteUrl(browserOrigin);
 }
 
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(
+  supabaseUrl &&
+    supabaseAnonKey &&
+    !isPlaceholder(supabaseUrl) &&
+    !isPlaceholder(supabaseAnonKey)
+);
