@@ -14,12 +14,15 @@ type Suggestion = {
 
 export function ProjectSearchBox({
   defaultValue,
+  ariaLabel = "Buscar projetos",
 }: {
   defaultValue: string;
+  ariaLabel?: string;
 }) {
   const router = useRouter();
   const inputId = React.useId();
   const listboxId = React.useId();
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
   const formRef = React.useRef<HTMLFormElement | null>(null);
   const [value, setValue] = React.useState(defaultValue);
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
@@ -66,7 +69,7 @@ export function ProjectSearchBox({
   }, [value]);
 
   React.useEffect(() => {
-    formRef.current = document.querySelector("form[data-project-search-form]");
+    formRef.current = containerRef.current?.closest("form") ?? null;
   }, []);
 
   function submitSuggestion(suggestion: Suggestion) {
@@ -91,7 +94,7 @@ export function ProjectSearchBox({
   }
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
       <Input
         id={inputId}
@@ -103,7 +106,7 @@ export function ProjectSearchBox({
         placeholder="Busque por Gol AP, orbital, daily, Civic K20..."
         className="pl-11 pr-10"
         autoComplete="off"
-        aria-label="Buscar projetos"
+        aria-label={ariaLabel}
         role="combobox"
         aria-autocomplete="list"
         aria-expanded={isOpen && value.trim().length >= 2}

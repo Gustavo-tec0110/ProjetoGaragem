@@ -140,10 +140,10 @@ export function SiteNavbar() {
       <header className="fixed inset-x-0 top-0 z-50">
         <div className="px-4 sm:px-6">
           <div className="mx-auto w-full max-w-6xl">
-            <div className="mt-3 rounded-4xl pg-glass">
-              <div className="flex items-center justify-between gap-3 px-4 py-3 md:px-5">
+            <div className="mt-2 rounded-4xl pg-glass md:mt-3">
+              <div className="flex items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-5 md:py-3">
                 <Link href="/" className="flex items-center gap-2">
-                  <span className="inline-flex size-10 items-center justify-center rounded-3xl bg-accent/10 border border-accent/25 shadow-glow">
+                  <span className="inline-flex size-9 items-center justify-center rounded-3xl bg-accent/10 border border-accent/25 shadow-glow md:size-10">
                     <CarFront className="size-5 text-accent" />
                   </span>
                   <div className="leading-tight">
@@ -210,7 +210,7 @@ export function SiteNavbar() {
         </div>
       </header>
 
-      <nav className="md:hidden fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(12px+env(safe-area-inset-bottom))]">
+      <nav className="md:hidden fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(10px+env(safe-area-inset-bottom,0px))] sm:px-4 sm:pb-[calc(12px+env(safe-area-inset-bottom,0px))]">
         <div className="mx-auto w-full max-w-6xl">
           <div className="rounded-4xl pg-glass">
             <div className="grid grid-cols-5 gap-1 p-2">

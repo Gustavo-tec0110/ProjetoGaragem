@@ -2,6 +2,7 @@
 
 :root {
   color-scheme: dark;
+  --mobile-bottom-nav-space: calc(108px + env(safe-area-inset-bottom, 0px));
 }
 
 @theme {

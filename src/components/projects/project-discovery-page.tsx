@@ -92,19 +92,19 @@ export async function ProjectDiscoveryPage({
     : "Ainda nao ha projetos para exibir.";
 
   return (
-    <div className="mx-auto w-full max-w-6xl pt-20 pb-12 md:pt-24">
-      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+    <div className="mx-auto w-full max-w-6xl pb-8 pt-20 md:pb-12 md:pt-24">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-5">
         <div>
           <p className="text-xs text-muted">{eyebrow}</p>
-          <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">{title}</h1>
-          <p className="mt-3 max-w-3xl text-muted">{description}</p>
+          <h1 className="mt-1 font-title text-2xl leading-tight tracking-tight sm:text-3xl md:mt-2 md:text-5xl">{title}</h1>
+          <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-5 text-muted md:mt-3 md:line-clamp-none md:text-base">{description}</p>
         </div>
-        <Button asChild>
+        <Button asChild size="sm" className="self-start md:h-10">
           <Link href="/criar-projeto">Adicionar meu projeto</Link>
         </Button>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5 md:mt-8">
         <ProjectFilters
           filters={filters}
           availableStyles={result.availableStyles}
@@ -121,7 +121,7 @@ export async function ProjectDiscoveryPage({
       </div>
 
       {hasFilters ? (
-        <Card className="mt-6 border-border/70 bg-background/30 p-5">
+        <Card className="mt-6 hidden border-border/70 bg-background/30 p-5 md:block">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs text-muted">Busca ativa</p>
@@ -172,8 +172,9 @@ export async function ProjectDiscoveryPage({
         </div>
       ) : null}
 
+      <div className="flex flex-col">
       {!hasFilters ? (
-        <div className="mt-10 grid gap-8">
+        <div className="order-2 mt-8 grid gap-8 md:order-1 md:mt-10">
           <DiscoverySection
             title="Projetos em alta"
             projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
@@ -202,7 +203,7 @@ export async function ProjectDiscoveryPage({
         </div>
       ) : null}
 
-      <section className="mt-12">
+      <section className="order-1 mt-7 md:order-2 md:mt-12">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs text-muted">
@@ -306,6 +307,7 @@ export async function ProjectDiscoveryPage({
           </Card>
         ) : null}
       </section>
+      </div>
     </div>
   );
 }

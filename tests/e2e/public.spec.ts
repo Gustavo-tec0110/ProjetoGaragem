@@ -80,6 +80,14 @@ test("catalogo de projetos usa cards compactos no mobile sem overflow", async ({
 
     const grid = page.getByTestId("project-grid").first();
     await expect(grid).toBeVisible();
+
+    if (viewport.width < 768) {
+      const firstCardTop = await grid.getByTestId("project-card").first().evaluate((card) =>
+        card.getBoundingClientRect().top
+      );
+      expect(firstCardTop).toBeLessThanOrEqual(viewport.height * 1.5);
+    }
+
     await grid.scrollIntoViewIfNeeded();
 
     const columns = await grid.evaluate((element) =>
@@ -106,4 +114,40 @@ test("catalogo de projetos usa cards compactos no mobile sem overflow", async ({
       expect(visibleCards).toBeGreaterThanOrEqual(2);
     }
   }
+});
+
+test("exploracao mobile prioriza resultados e abre filtros avancados sob demanda", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/explorar");
+
+  const filterButton = page.getByRole("button", { name: "Abrir filtros avançados" });
+  await expect(filterButton).toBeVisible();
+  await expect(page.getByLabel("Ordenação mobile")).toBeVisible();
+
+  const firstVisibleCardTop = await page.getByTestId("project-card").evaluateAll((cards) =>
+    Math.min(...cards.map((card) => card.getBoundingClientRect().top))
+  );
+  expect(firstVisibleCardTop).toBeLessThanOrEqual(844 * 1.5);
+
+  await filterButton.click();
+  const dialog = page.getByRole("dialog", { name: "Filtros" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por marca")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por modelo")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por ano")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por categoria")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por motor")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por combustível")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por aspirado ou turbo")).toBeVisible();
+  await expect(dialog.getByLabel("Filtrar por tração")).toBeVisible();
+
+  await dialog.getByLabel("Filtrar por marca").selectOption("Ford");
+  await dialog.getByRole("button", { name: "Aplicar filtros" }).click();
+  await expect(page).toHaveURL(/brand=Ford/);
+  await expect(page.getByRole("link", { name: "Remover filtro Marca: Ford" })).toBeVisible();
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+  );
+  expect(hasHorizontalOverflow).toBe(false);
 });
