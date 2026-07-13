@@ -38,6 +38,70 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
   }
 });
 
+test("detalhe de projeto prioriza conteúdo mobile sem overflow ou sobreposição", async ({ page }) => {
+  const mobileViewports = [
+    { width: 320, height: 720 },
+    { width: 360, height: 800 },
+    { width: 390, height: 844 },
+    { width: 430, height: 932 },
+    { width: 768, height: 1024 },
+  ];
+
+  for (const viewport of mobileViewports) {
+    await page.setViewportSize(viewport);
+    await page.goto("/projeto/gol-quadrado-1994-ap18");
+    await expect(page.getByRole("heading", { name: "Gol Quadrado 1994 AP 1.8", exact: true })).toBeVisible();
+    await expect(page.getByTestId("project-hero-image")).toBeVisible();
+    await expect(page.getByTestId("mobile-project-actions")).toBeVisible();
+    await expect(page.getByTestId("mobile-project-tabs")).toBeVisible();
+
+    const layout = await page.evaluate(() => {
+      const header = document.querySelector("header")!;
+      const title = document.querySelector("main h1")!;
+      const hero = document.querySelector('[data-testid="project-hero-image"]')!;
+      const actions = document.querySelector('[data-testid="mobile-project-actions"]')!;
+      const tabs = document.querySelector('[data-testid="mobile-project-tabs"]')!;
+      const tabColumns = getComputedStyle(tabs).gridTemplateColumns.split(" ").filter(Boolean);
+      return {
+        hasHorizontalOverflow:
+          document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        headerBottom: header.getBoundingClientRect().bottom,
+        titleTop: title.getBoundingClientRect().top,
+        heroBottom: hero.getBoundingClientRect().bottom,
+        actionsTop: actions.getBoundingClientRect().top,
+        actionsHeight: actions.getBoundingClientRect().height,
+        tabColumns: tabColumns.length,
+      };
+    });
+
+    expect(layout.hasHorizontalOverflow).toBe(false);
+    expect(layout.titleTop).toBeGreaterThanOrEqual(layout.headerBottom - 1);
+    expect(layout.actionsTop).toBeGreaterThan(layout.heroBottom);
+    expect(layout.actionsHeight).toBeLessThanOrEqual(80);
+    expect(layout.tabColumns).toBe(3);
+
+    if (viewport.width < 768) {
+      await expect(page.getByTestId("mobile-technical-specs")).toBeVisible();
+    }
+
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    const bottomClearance = await page.evaluate(() => {
+      const detail = document.querySelector('[data-testid="project-detail"]')!;
+      const bottomNav = document.querySelector('nav[aria-label="Navegação principal mobile"]')!;
+      return {
+        detailBottom: detail.getBoundingClientRect().bottom,
+        navTop: bottomNav.getBoundingClientRect().top,
+      };
+    });
+    expect(bottomClearance.detailBottom).toBeLessThanOrEqual(bottomClearance.navTop + 1);
+  }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/projeto/gol-quadrado-1994-ap18");
+  await expect(page.getByTestId("mobile-project-actions")).toBeHidden();
+  await expect(page.getByRole("navigation", { name: "Navegação completa do projeto" })).toBeVisible();
+});
+
 test("busca inteligente mostra sugestoes e preserva filtros na exploracao", async ({ page }) => {
   await page.goto("/explorar");
 

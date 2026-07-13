@@ -34,12 +34,12 @@ export function ProjectShareActions({ title }: { title: string }) {
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
-      <Button type="button" variant="outline" onClick={() => void copyLink()}>
+    <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap">
+      <Button type="button" size="sm" variant="outline" className="px-3 md:h-12 md:px-6" onClick={() => void copyLink()}>
         <Copy className="size-4" />
         {copied ? "Link copiado" : "Copiar link"}
       </Button>
-      <Button type="button" onClick={() => void shareProject()}>
+      <Button type="button" size="sm" className="px-3 md:h-12 md:px-6" onClick={() => void shareProject()}>
         <Share2 className="size-4" />
         Compartilhar projeto
       </Button>

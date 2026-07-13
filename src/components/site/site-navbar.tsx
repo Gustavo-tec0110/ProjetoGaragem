@@ -194,7 +194,7 @@ export function SiteNavbar() {
         </div>
       </header>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 px-2.5 pb-[calc(8px+env(safe-area-inset-bottom,0px))] sm:px-4 sm:pb-[calc(10px+env(safe-area-inset-bottom,0px))] lg:hidden">
+      <nav aria-label="Navegação principal mobile" className="fixed inset-x-0 bottom-0 z-50 px-2.5 pb-[calc(8px+env(safe-area-inset-bottom,0px))] sm:px-4 sm:pb-[calc(10px+env(safe-area-inset-bottom,0px))] lg:hidden">
         <div className="mx-auto w-full max-w-6xl">
           <div className="rounded-[1.75rem] pg-glass sm:rounded-4xl">
             <div className="grid grid-cols-5 gap-0.5 p-1.5 sm:gap-1 sm:p-2">

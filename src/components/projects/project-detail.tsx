@@ -71,6 +71,8 @@ type ProjectCommentThread = {
   comments: CarCommentWithAuthor[];
 };
 
+const EMPTY_LOCAL_SOCIAL_STATE = { liked: false, saved: false, views: 0 };
+
 function formatSpecValue(value: string | number | null | undefined) {
   if (value == null || value === "") return "Não informado";
   return String(value);
@@ -78,12 +80,12 @@ function formatSpecValue(value: string | number | null | undefined) {
 
 function Stat({ label, value, icon: Icon }: DetailStat) {
   return (
-    <Card className="p-3 md:p-5">
-      <div className="flex items-center gap-2 md:block">
+    <Card className="min-w-0 p-2 text-center md:p-5 md:text-left">
+      <div className="flex items-center justify-center gap-1.5 md:block">
         <Icon className="size-4 shrink-0 text-accent md:size-5" />
-        <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
+        <p className="text-[9px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
       </div>
-      <p className="mt-2 truncate font-title text-xl md:mt-1 md:text-2xl">{value}</p>
+      <p className="mt-1 break-words font-title text-base leading-tight md:text-2xl">{value}</p>
     </Card>
   );
 }
@@ -101,12 +103,12 @@ function QuickFactCard({ label, value, icon: Icon }: QuickFact) {
   return (
     <Card className="p-3 md:p-4">
       <div className="flex items-center gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/35 md:size-10">
+        <div className="hidden size-9 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/35 sm:flex md:size-10">
           <Icon className="size-4 text-accent md:size-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs text-muted">{label}</p>
-          <p className="mt-1 truncate font-ui text-sm font-semibold">{value}</p>
+          <p className="text-[11px] text-muted md:text-xs">{label}</p>
+          <p className="mt-1 break-words font-ui text-xs font-semibold leading-snug md:text-sm">{value}</p>
         </div>
       </div>
     </Card>
@@ -126,6 +128,88 @@ function mergeSpecs(defaultSpecs: DetailSpec[], incoming?: DetailSpec[]) {
     if (!map.has(spec.label)) map.set(spec.label, spec);
   }
   return Array.from(map.values());
+}
+
+const SPEC_GROUPS = ["Identificação", "Mecânica", "Desempenho", "Projeto"] as const;
+
+function normalizeSpecLabel(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function isMissingSpec(spec: DetailSpec) {
+  return normalizeSpecLabel(formatSpecValue(spec.value)) === "nao informado";
+}
+
+function getSpecGroup(label: string): (typeof SPEC_GROUPS)[number] {
+  const normalized = normalizeSpecLabel(label);
+  if (/carro|marca|modelo|ano|versao|categoria/.test(normalized)) return "Identificação";
+  if (/motor|alimentacao|combustivel|cambio|tracao|suspensao|rodas|pneus|freios/.test(normalized)) return "Mecânica";
+  if (/potencia|torque|peso|quilometragem/.test(normalized)) return "Desempenho";
+  return "Projeto";
+}
+
+function TechnicalSpecRows({ specs }: { specs: DetailSpec[] }) {
+  return (
+    <dl className="divide-y divide-border/60">
+      {specs.map((spec) => (
+        <div key={spec.label} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-3 py-2.5">
+          <dt className="text-[11px] leading-snug text-muted">{spec.label}</dt>
+          <dd className="break-words text-right font-ui text-xs font-semibold leading-snug">
+            {formatSpecValue(spec.value)}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function MobileTechnicalSpecs({
+  specs,
+  canEdit,
+  editHref,
+}: {
+  specs: DetailSpec[];
+  canEdit: boolean;
+  editHref?: string | null;
+}) {
+  const filled = specs.filter((spec) => !isMissingSpec(spec));
+  const missing = specs.filter(isMissingSpec);
+
+  return (
+    <div className="mt-3 space-y-2 md:hidden" data-testid="mobile-technical-specs">
+      <Card className="px-3 py-1">
+        {SPEC_GROUPS.map((group) => {
+          const groupSpecs = filled.filter((spec) => getSpecGroup(spec.label) === group);
+          if (!groupSpecs.length) return null;
+          return (
+            <div key={group} className="py-2">
+              <h3 className="text-[10px] font-ui font-bold uppercase tracking-[0.12em] text-accent">{group}</h3>
+              <TechnicalSpecRows specs={groupSpecs} />
+            </div>
+          );
+        })}
+        {!filled.length ? <p className="py-3 text-xs text-muted">Nenhum dado técnico preenchido.</p> : null}
+      </Card>
+
+      {missing.length ? (
+        <details className="group rounded-3xl border border-border/70 bg-background/25 px-3 py-2">
+          <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-3 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45">
+            <span>Mostrar todos os campos</span>
+            <span className="text-muted">{missing.length} não informados</span>
+          </summary>
+          <div className="border-t border-border/60 pt-1">
+            <TechnicalSpecRows specs={missing} />
+          </div>
+        </details>
+      ) : null}
+
+      {canEdit && editHref ? (
+        <Button asChild size="sm" variant="outline" className="w-full">
+          <Link href={editHref}>Completar ficha técnica</Link>
+        </Button>
+      ) : null}
+    </div>
+  );
 }
 
 function ProjectPartsShowcase({
@@ -161,7 +245,7 @@ function ProjectPartsShowcase({
         <div className="mt-5 grid gap-4">
           {parts.length ? (
             Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
-              <div key={category} className="rounded-3xl border border-border/70 bg-background/25 p-4">
+              <div key={category} className="rounded-3xl border border-border/70 bg-background/25 p-3 md:p-4">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <h3 className="font-title text-xl tracking-tight">{category}</h3>
                   <Badge>{categoryParts.length} itens</Badge>
@@ -171,7 +255,7 @@ function ProjectPartsShowcase({
                   {categoryParts.map((part) => (
                     <div
                       key={part.id}
-                      className="grid gap-4 rounded-3xl border border-border/70 bg-surface/70 p-4 md:grid-cols-[7rem_1fr_auto]"
+                      className="grid grid-cols-[5rem_minmax(0,1fr)] gap-3 rounded-3xl border border-border/70 bg-surface/70 p-3 md:grid-cols-[7rem_1fr_auto] md:gap-4 md:p-4"
                     >
                       <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-surface">
                         {part.imageUrl ? (
@@ -220,7 +304,7 @@ function ProjectPartsShowcase({
                         </div>
                       </div>
 
-                      <div className="min-w-36 text-left md:text-right">
+                      <div className="col-start-2 text-left md:col-start-auto md:min-w-36 md:text-right">
                         <p className="text-xs text-muted">Valor estimado</p>
                         <p className="mt-1 font-ui text-sm font-semibold">
                           {formatProjectCurrency(part.priceEstimate)}
@@ -324,7 +408,7 @@ export function ProjectDetail({
   const localSocialState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
     () => getLocalProjectSocialState(project.slug),
-    () => ({ liked: false, saved: false, views: 0 })
+    () => EMPTY_LOCAL_SOCIAL_STATE
   );
   const views =
     project.source === "supabase"
@@ -400,7 +484,7 @@ export function ProjectDetail({
     { label: "Peso", value: formatNumber(project.weightKg, " kg") },
     { label: "Início", value: formatProjectDate(project.startedAt) },
     { label: "Tempo de projeto", value: project.projectDurationLabel },
-    { label: "�altima evolução", value: formatProjectDate(project.lastUpdateAt) },
+    { label: "Última evolução", value: formatProjectDate(project.lastUpdateAt) },
   ];
   const detailSpecs = mergeSpecs(defaultSpecs, technicalSpecs);
   const brand = getSpecValue(detailSpecs, "marca") ?? project.brand;
@@ -448,7 +532,7 @@ export function ProjectDetail({
   ];
 
   return (
-    <div className="space-y-8 pb-6 md:space-y-12 md:pb-14">
+    <div className="space-y-8 pb-6 md:space-y-12 md:pb-14" data-testid="project-detail">
       <section className="pg-grid-bg relative overflow-hidden px-4 sm:px-6">
         <div className="absolute inset-0">
           <ProjectImage
@@ -464,16 +548,16 @@ export function ProjectDetail({
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
         </div>
 
-        <div className="relative mx-auto grid w-full max-w-6xl gap-5 pb-6 pt-24 md:gap-8 md:pb-10 md:pt-28 lg:min-h-[78vh] lg:grid-cols-[1fr_0.9fr] lg:items-end">
-          <div className="max-w-3xl">
-            <div className="flex flex-wrap gap-2">
+        <div className="relative mx-auto grid w-full max-w-6xl gap-4 pb-5 pt-24 md:gap-6 md:pb-10 md:pt-28 lg:min-h-[78vh] lg:grid-cols-[1fr_0.9fr] lg:grid-rows-[auto_auto] lg:content-end lg:gap-x-8">
+          <div className="max-w-3xl lg:col-start-1 lg:row-start-1">
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
               <Badge variant="secondary">{project.style}</Badge>
               <Badge>{project.status}</Badge>
               {project.source !== "supabase" ? <Badge>Modo {project.source}</Badge> : null}
               {location ? <Badge>{location}</Badge> : null}
             </div>
 
-            <h1 className="mt-3 font-title text-3xl leading-tight tracking-tight md:mt-5 md:text-6xl">
+            <h1 className="mt-2.5 font-title text-3xl leading-tight tracking-tight md:mt-5 md:text-6xl">
               {project.title}
             </h1>
             {carNickname ? (
@@ -485,7 +569,7 @@ export function ProjectDetail({
               {vehicleLine || `${project.carModel} - ${project.year}`} - {project.engine}
             </p>
 
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted md:mt-5 md:gap-4 md:text-sm">
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted md:mt-5 md:gap-4 md:text-sm">
               {project.ownerUsername ? (
                 <Link
                   href={`/perfil/${project.ownerUsername}`}
@@ -508,9 +592,41 @@ export function ProjectDetail({
               ) : null}
             </div>
 
-            <p className="mt-3 line-clamp-3 max-w-2xl text-sm text-foreground/90 md:mt-5 md:line-clamp-none md:text-base">{project.description}</p>
+          </div>
 
-            <div className="mt-4 grid max-w-2xl grid-cols-3 gap-2 md:mt-6 md:gap-3">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border/70 bg-surface shadow-elevated sm:aspect-[16/10] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:aspect-auto lg:min-h-[34rem] lg:rounded-4xl" data-testid="project-hero-image">
+            <ProjectImage
+              src={gallery[0]}
+              alt={`Foto principal do projeto ${project.title}`}
+              fill
+              priority
+              loading="eager"
+              className="object-cover"
+              sizes="(min-width: 1024px) 42vw, 100vw"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-3 md:p-5">
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
+                <Badge variant="secondary" className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.progressPercent}% completo</Badge>
+                <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.installedParts.length} instaladas</Badge>
+                <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{gallery.length} fotos</Badge>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-3xl lg:col-start-1 lg:row-start-2">
+            {project.description ? (
+              <>
+                <details className="group rounded-2xl border border-border/70 bg-background/25 px-3 py-1.5 lg:hidden">
+                  <summary className="flex min-h-10 cursor-pointer list-none items-center text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45">
+                    Ver descrição
+                  </summary>
+                  <p className="border-t border-border/60 py-3 text-sm leading-relaxed text-foreground/90">{project.description}</p>
+                </details>
+                <p className="mt-5 hidden max-w-2xl text-base text-foreground/90 lg:block">{project.description}</p>
+              </>
+            ) : null}
+
+            <div className="mt-6 hidden max-w-2xl grid-cols-3 gap-3 lg:grid">
               <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
                 <p className="text-xs text-muted">Estado atual</p>
                 <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
@@ -522,14 +638,14 @@ export function ProjectDetail({
                 </p>
               </div>
               <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
-                <p className="text-xs text-muted">�altima atualização</p>
+                <p className="text-xs text-muted">Última atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2 md:mt-7 md:gap-3">
+            <div className="mt-3 flex flex-wrap gap-2 lg:mt-7 lg:gap-3">
               <ProjectSocialActions
                 slug={project.slug}
                 databaseId={project.databaseId}
@@ -541,6 +657,9 @@ export function ProjectDetail({
                 initialFollowers={project.followers}
                 mode={project.source === "supabase" ? "supabase" : "local"}
                 viewerLoggedIn={viewerLoggedIn}
+                compareHref={compareHref}
+                editHref={canEdit ? project.editHref : null}
+                evolutionHref={`${buildProjectHref(project.slug)}/evolucao`}
                 onCountsChange={(counts) =>
                   setSocialCounts((current) => ({
                     likes: counts.likes ?? current.likes,
@@ -550,18 +669,18 @@ export function ProjectDetail({
                   }))
                 }
               />
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="hidden lg:inline-flex">
                 <Link href={compareHref}>
                   <ArrowRightLeft className="size-4" />
                   Comparar
                 </Link>
               </Button>
               {canEdit && project.editHref ? (
-                <Button asChild variant="outline">
+                <Button asChild variant="outline" className="hidden lg:inline-flex">
                   <Link href={project.editHref}>Editar ficha</Link>
                 </Button>
               ) : null}
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="hidden lg:inline-flex">
                 <Link href={`${buildProjectHref(project.slug)}/evolucao`}>
                   <Calendar className="size-4" />
                   Evolução
@@ -570,29 +689,27 @@ export function ProjectDetail({
             </div>
           </div>
 
-          <div className="relative min-h-60 overflow-hidden rounded-4xl border border-border/70 bg-surface shadow-elevated md:min-h-[22rem] lg:min-h-[34rem]">
-            <ProjectImage
-              src={gallery[0]}
-              alt={`Foto principal do projeto ${project.title}`}
-              fill
-              priority
-              loading="eager"
-              className="object-cover"
-              sizes="(min-width: 1024px) 42vw, 100vw"
-            />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-5">
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary">{project.progressPercent}% completo</Badge>
-                <Badge>{project.installedParts.length} instaladas</Badge>
-                <Badge>{project.plannedParts.length} planos</Badge>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-6xl space-y-8 px-4 sm:px-6 md:space-y-12">
-        <nav className="flex gap-2 overflow-x-auto rounded-4xl border border-border/70 bg-background/25 p-2">
+      <div className="mx-auto w-full max-w-6xl space-y-6 px-4 sm:px-6 md:space-y-12">
+        <nav className="grid grid-cols-3 rounded-3xl border border-border/70 bg-background/25 p-1.5 lg:hidden" aria-label="Seções do projeto" data-testid="mobile-project-tabs">
+          {[
+            { href: "#visao-geral", label: "Visão geral" },
+            { href: "#modificacoes", label: "Modificações" },
+            { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex min-h-11 min-w-0 items-center justify-center rounded-2xl px-1 text-center text-[11px] font-ui font-semibold text-muted transition hover:bg-background/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 min-[360px]:text-xs"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <nav className="hidden gap-2 rounded-4xl border border-border/70 bg-background/25 p-2 lg:flex" aria-label="Navegação completa do projeto">
           {[
             { href: "#visao-geral", label: "Visão geral" },
             { href: "#modificacoes", label: "Modificações" },
@@ -612,7 +729,7 @@ export function ProjectDetail({
         </nav>
 
         {canEdit && project.editHref ? (
-          <Card className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center md:p-6">
+          <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
             <div className="flex items-start gap-3">
               <Gauge className="mt-1 size-5 text-red-400" />
               <div>
@@ -622,14 +739,17 @@ export function ProjectDetail({
                     ? "Projeto completo"
                     : `Projeto ${project.progressPercent}% completo`}
                 </h2>
-                <p className="mt-1 text-sm text-muted">
+                <p className="mt-1 hidden text-sm text-muted md:block">
                   {isProjectComplete
                     ? "A ficha essencial está completa. Você ainda pode editar informações ou adicionar extras opcionais."
                     : "O 100% depende só dos dados essenciais: ficha pública, foto, especificações principais e objetivo."}
                 </p>
               </div>
             </div>
-            <Button asChild>
+            <div className="h-1.5 overflow-hidden rounded-full bg-background/70 md:hidden" aria-hidden="true">
+              <div className="h-full rounded-full bg-accent" style={{ width: `${Math.min(100, project.progressPercent)}%` }} />
+            </div>
+            <Button asChild size="sm" className="w-full md:h-12 md:w-auto md:px-6">
               <Link href={project.editHref}>
                 {isProjectComplete ? "Editar informações" : "Completar detalhes"}
               </Link>
@@ -637,18 +757,18 @@ export function ProjectDetail({
           </Card>
         ) : null}
 
-        <section id="visao-geral" className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
+        <section id="visao-geral" className="grid scroll-mt-24 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
           {detailStats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
           ))}
         </section>
 
         <section id="compartilhar">
-          <Card className="grid gap-4 p-5 md:grid-cols-[1fr_auto] md:items-center md:p-6">
+          <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
             <div>
               <p className="text-xs text-muted">Compartilhar projeto</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Mostre este build para alguem</h2>
-              <p className="mt-2 text-sm text-muted">
+              <h2 className="mt-1 font-title text-lg tracking-tight md:text-2xl">Mostre este build para alguem</h2>
+              <p className="mt-2 hidden text-sm text-muted md:block">
                 Envie a ficha completa com fotos, estatisticas, comentarios e evolucao do projeto.
               </p>
             </div>
@@ -658,8 +778,8 @@ export function ProjectDetail({
 
         <section>
           <p className="text-xs text-muted">Resumo rapido</p>
-          <h2 className="mt-1 font-title text-2xl tracking-tight">Dados essenciais</h2>
-          <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:gap-3 lg:grid-cols-5">
+          <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">Dados essenciais</h2>
+          <div className="mt-3 grid grid-cols-2 gap-2 [&>*:last-child]:col-span-2 sm:mt-4 sm:gap-3 lg:grid-cols-5 lg:[&>*:last-child]:col-span-1">
             {quickFacts.map((fact) => (
               <QuickFactCard
                 key={fact.label}
@@ -672,36 +792,41 @@ export function ProjectDetail({
         </section>
 
         <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="p-5 md:p-6">
+          <Card className="p-3 md:p-6">
             <p className="text-xs text-muted">Meta do projeto</p>
-            <h2 className="mt-2 font-title text-2xl tracking-tight">
+            <h2 className="mt-1.5 font-title text-lg tracking-tight md:mt-2 md:text-2xl">
               {project.projectGoal ?? "Objetivo ainda não informado"}
             </h2>
-            <p className="mt-3 text-sm text-foreground/85">
+            <p className="mt-2 text-xs text-foreground/85 md:mt-3 md:text-sm">
               {project.projectGoal
                 ? "A meta declarada ajuda na descoberta, na comparação e no acompanhamento da evolução."
                 : "Defina a meta na edição para contextualizar o projeto como OEM+, turbo de rua, track day ou outra direção clara."}
             </p>
+            {!project.projectGoal && canEdit && project.editHref ? (
+              <Button asChild size="sm" variant="outline" className="mt-3 w-full md:w-auto">
+                <Link href={project.editHref}>Adicionar objetivo</Link>
+              </Button>
+            ) : null}
           </Card>
 
-          <Card className="p-5 md:p-6">
+          <Card className="p-3 md:p-6">
             <p className="text-xs text-muted">Atividade recente</p>
-            <div className="mt-4 grid gap-3">
-              <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">�altima atualização</p>
+            <div className="mt-3 grid grid-cols-2 gap-2 md:mt-4 md:grid-cols-1 md:gap-3">
+              <div className="col-span-2 rounded-2xl border border-border/70 bg-background/25 p-3 md:col-span-1 md:rounded-3xl md:p-4">
+                <p className="text-[11px] text-muted md:text-xs">Última atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Peças instaladas</p>
-                <p className="mt-1 font-title text-2xl">
+              <div className="rounded-2xl border border-border/70 bg-background/25 p-3 md:rounded-3xl md:p-4">
+                <p className="text-[11px] text-muted md:text-xs">Peças instaladas</p>
+                <p className="mt-1 font-title text-lg md:text-2xl">
                   {project.installedParts.length.toLocaleString("pt-BR")}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
-                <p className="text-xs text-muted">Peças planejadas</p>
-                <p className="mt-1 font-title text-2xl">
+              <div className="rounded-2xl border border-border/70 bg-background/25 p-3 md:rounded-3xl md:p-4">
+                <p className="text-[11px] text-muted md:text-xs">Peças planejadas</p>
+                <p className="mt-1 font-title text-lg md:text-2xl">
                   {project.plannedParts.length.toLocaleString("pt-BR")}
                 </p>
               </div>
@@ -711,8 +836,9 @@ export function ProjectDetail({
 
         <section>
           <p className="text-xs text-muted">Resumo tecnico</p>
-          <h2 className="mt-1 font-title text-2xl tracking-tight">Ficha do projeto</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">Ficha do projeto</h2>
+          <MobileTechnicalSpecs specs={detailSpecs} canEdit={canEdit} editHref={project.editHref} />
+          <div className="mt-4 hidden gap-3 md:grid md:grid-cols-2 lg:grid-cols-4">
             {detailSpecs.map((spec) => (
               <SpecCard key={spec.label} label={spec.label} value={spec.value} />
             ))}
@@ -745,7 +871,7 @@ export function ProjectDetail({
                 current: transmission,
               },
             ].map((row) => (
-              <Card key={row.label} className="grid gap-4 p-4 sm:grid-cols-2">
+              <Card key={row.label} className="grid grid-cols-2 gap-3 p-3 md:gap-4 md:p-4">
                 <div>
                   <p className="text-xs text-muted">{row.label} de fábrica</p>
                   <p className="mt-1 text-sm font-ui font-semibold">
