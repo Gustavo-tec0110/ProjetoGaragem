@@ -280,7 +280,7 @@ function ModelField({
         value={selectValue}
         onChange={(event) => {
           if (event.target.value === OTHER_MODEL_VALUE) {
-            onChange("");
+            onChange(OTHER_MODEL_VALUE);
             return;
           }
 
@@ -302,7 +302,7 @@ function ModelField({
       {isOther ? (
         <Input
           name="model"
-          value={value}
+          value={value === OTHER_MODEL_VALUE ? "" : value}
           onChange={(event) => onChange(event.target.value)}
           placeholder="Digite o modelo"
           required
@@ -548,6 +548,14 @@ export function CarForm({
   const editProjectProgressPercent = car?.progress_percent ?? 0;
   const isEditProjectComplete = editProjectProgressPercent >= 100;
   const editProjectHref = car?.slug ? `/projeto/${car.slug}` : null;
+
+  function handleBrandChange(brand: string) {
+    setBrandInput(brand);
+    setModelInput("");
+    setSelectedCatalogId(UNKNOWN_VERSION_VALUE);
+    setEditManualVersion("");
+    setEditVersionConfidence("unknown");
+  }
 
   function updatePart(localId: string, patch: Partial<PartDraft>) {
     setDraftParts((current) =>
@@ -831,7 +839,7 @@ export function CarForm({
                 <select
                   name="brand"
                   value={brandInput}
-                  onChange={(event) => setBrandInput(event.target.value)}
+                  onChange={(event) => handleBrandChange(event.target.value)}
                   className="pg-control h-12 rounded-3xl px-4 text-sm"
                   required
                 >
@@ -1069,7 +1077,7 @@ export function CarForm({
               <select
                 name="brand"
                 value={brandInput}
-                onChange={(event) => setBrandInput(event.target.value)}
+                onChange={(event) => handleBrandChange(event.target.value)}
                 className="pg-control h-12 rounded-3xl px-4 text-sm"
                 required
               >
@@ -1087,7 +1095,7 @@ export function CarForm({
               brand={brandInput}
               value={modelInput}
               onChange={setModelInput}
-              preservedValue={car?.model}
+              preservedValue={brandInput === car?.brand ? car?.model : null}
             />
             <Field label="Ano">
               <Input

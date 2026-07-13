@@ -34,8 +34,31 @@ test.describe("fluxos autenticados Supabase", () => {
     await page.goto("/criar-projeto");
     await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
     await page.getByLabel("Nome do projeto").fill(projectTitle);
-    await page.getByLabel("Marca").selectOption("Volkswagen");
-    await page.getByLabel("Modelo").selectOption("Gol");
+    const brandSelect = page.getByRole("combobox", { name: "Marca", exact: true });
+    const modelSelect = page.getByRole("combobox", { name: "Modelo", exact: true });
+
+    await brandSelect.selectOption("Volkswagen");
+    await expect(modelSelect.locator('option[value="Gol"]')).toHaveCount(1);
+    await modelSelect.selectOption("Gol");
+
+    await brandSelect.selectOption("Chevrolet");
+    await expect(modelSelect).toHaveValue("");
+    await expect(modelSelect.locator('option[value="Corsa"]')).toHaveCount(1);
+
+    await brandSelect.selectOption("Fiat");
+    await expect(modelSelect).toHaveValue("");
+    await expect(modelSelect.locator('option[value="Uno"]')).toHaveCount(1);
+
+    await brandSelect.selectOption("Ford");
+    await expect(modelSelect).toHaveValue("");
+    await expect(modelSelect.locator('option[value="Escort"]')).toHaveCount(1);
+
+    await modelSelect.selectOption("__other__");
+    await page.getByPlaceholder("Digite o modelo").fill("Modelo manual E2E");
+    await brandSelect.selectOption("Volkswagen");
+    await expect(modelSelect).toHaveValue("");
+    await expect(page.getByPlaceholder("Digite o modelo")).toHaveCount(0);
+    await modelSelect.selectOption("Gol");
     await page.getByLabel("Ano").fill("1994");
 
     await page.locator('input[type="file"]').first().setInputFiles({
