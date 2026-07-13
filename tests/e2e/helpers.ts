@@ -1,4 +1,6 @@
-import { expect, type Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+
+import { expect } from "./fixtures";
 
 export type E2EAccount = {
   email?: string;

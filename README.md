@@ -50,6 +50,8 @@ set PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000
 npm run test:e2e
 ```
 
+Os fluxos publicos rodam automaticamente em Chromium desktop e em viewport mobile Pixel 5. Cada teste falha se detectar erro de console, warning de hydration, `pageerror`, request critica interrompida ou resposta HTTP 5xx. A suite autenticada roda uma unica vez no projeto desktop para evitar duplicar mutacoes no Supabase.
+
 Fluxos autenticados reais exigem duas contas de QA no Supabase, ambas com email confirmado:
 
 ```bash
