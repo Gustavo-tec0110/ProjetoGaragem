@@ -4,12 +4,12 @@ export function SiteFooter() {
   return (
     <footer className="hidden px-4 pb-10 sm:px-6 lg:block">
       <div className="mx-auto w-full max-w-6xl">
-        <div className="mt-4 rounded-4xl pg-glass px-6 py-6 md:px-8">
+        <div className="mt-8 border-t border-border/60 px-1 py-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="font-title tracking-tight">Projeto Garagem</p>
+              <p className="font-title text-lg tracking-tight">Projeto Garagem</p>
               <p className="mt-1 max-w-md text-sm text-muted">
-                Catálogo social de carros, peças, fotos e projetos reais.
+                O lugar para documentar cada fase e descobrir projetos que inspiram a próxima volta.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 text-sm font-ui font-semibold">
@@ -30,10 +30,10 @@ export function SiteFooter() {
               </Link>
             </div>
           </div>
-          <div className="mt-6 h-px w-full bg-border/70" />
+          <div className="mt-6 h-px w-full bg-border/50" />
           <div className="mt-4 flex flex-col gap-2 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
             <span>{new Date().getFullYear()} Projeto Garagem.</span>
-            <span>Next.js - Tailwind - Supabase</span>
+            <span>Feito para quem vive projeto automotivo.</span>
           </div>
         </div>
       </div>

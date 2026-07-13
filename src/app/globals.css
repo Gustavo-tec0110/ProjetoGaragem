@@ -2,21 +2,21 @@
 
 :root {
   color-scheme: dark;
-  --mobile-bottom-nav-space: calc(120px + env(safe-area-inset-bottom, 0px));
+  --mobile-bottom-nav-space: calc(92px + env(safe-area-inset-bottom, 0px));
 }
 
 @theme {
   /* ProjetoGaragem — core palette */
-  --color-background: #0b0b0d;
-  --color-background-2: #0f1014;
-  --color-card: #14151b;
-  --color-surface: #111219;
-  --color-surface-2: #0e0f14;
-  --color-foreground: #ffffff;
-  --color-muted: #a9acb6;
-  --color-border: #262934;
-  --color-accent: #ff2a2a;
-  --color-accent-2: #ff4d00;
+  --color-background: #08090b;
+  --color-background-2: #0c0d10;
+  --color-card: #111318;
+  --color-surface: #0f1115;
+  --color-surface-2: #0b0d11;
+  --color-foreground: #f6f7f9;
+  --color-muted: #9297a2;
+  --color-border: #252830;
+  --color-accent: #ff352f;
+  --color-accent-2: #d91f24;
   --color-success: #00d26a;
   --color-warning: #ffb020;
   --color-danger: #ff3b3b;
@@ -27,19 +27,17 @@
   --font-ui: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
   /* Radii */
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.5rem;
-  --radius-4xl: 2rem;
-  --radius-5xl: 2.5rem;
+  --radius-2xl: 0.875rem;
+  --radius-3xl: 1rem;
+  --radius-4xl: 1.25rem;
+  --radius-5xl: 1.5rem;
 
   /* Premium depth */
-  --shadow-glow: 0 0 18px rgba(255, 42, 42, 0.25),
-    0 0 48px rgba(255, 42, 42, 0.14);
-  --shadow-glow-strong: 0 0 22px rgba(255, 42, 42, 0.35),
-    0 0 70px rgba(255, 42, 42, 0.16);
-  --shadow-soft: 0 16px 60px rgba(0, 0, 0, 0.45);
-  --shadow-elevated: 0 24px 80px rgba(0, 0, 0, 0.55);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-glow: 0 8px 30px rgba(255, 53, 47, 0.18);
+  --shadow-glow-strong: 0 12px 42px rgba(255, 53, 47, 0.26);
+  --shadow-soft: 0 16px 48px rgba(0, 0, 0, 0.32);
+  --shadow-elevated: 0 24px 70px rgba(0, 0, 0, 0.42);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.045);
 
   /* Gradients */
   --gradient-accent: linear-gradient(
@@ -105,11 +103,29 @@
   }
 
   body {
-    background: var(--color-background);
+    background:
+      radial-gradient(circle at 8% -10%, rgba(255, 53, 47, 0.08), transparent 28rem),
+      linear-gradient(180deg, #08090b 0%, #090a0d 100%);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid --alpha(var(--color-accent) / 72%);
+    outline-offset: 3px;
   }
 
   ::selection {
@@ -161,14 +177,14 @@
   }
 
   .pg-surface {
-    background: --alpha(var(--color-card) / 72%);
-    border: 1px solid --alpha(var(--color-border) / 70%);
+    background: --alpha(var(--color-card) / 76%);
+    border: 1px solid --alpha(var(--color-border) / 58%);
     box-shadow: var(--shadow-inset);
   }
 
   .pg-control {
-    border: 1px solid --alpha(var(--color-border) / 70%);
-    background: --alpha(var(--color-background) / 35%);
+    border: 1px solid --alpha(var(--color-border) / 78%);
+    background: --alpha(var(--color-background-2) / 82%);
     color: var(--color-foreground);
     transition: border-color var(--pg-duration) var(--pg-ease-out),
       box-shadow var(--pg-duration) var(--pg-ease-out),
@@ -184,9 +200,23 @@
   }
 
   .pg-glass {
-    background: --alpha(var(--color-card) / 78%);
-    border: 1px solid --alpha(var(--color-border) / 70%);
-    backdrop-filter: blur(14px);
+    background: --alpha(var(--color-card) / 86%);
+    border: 1px solid --alpha(var(--color-border) / 58%);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-inset), var(--shadow-soft);
+  }
+
+  .pg-eyebrow {
+    color: var(--color-accent);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .pg-section-rule {
+    border-top: 1px solid --alpha(var(--color-border) / 62%);
   }
 
   .pg-grid-bg {
@@ -252,10 +282,9 @@
   .pg-premium-card {
     position: relative;
     isolation: isolate;
-    will-change: transform;
     transition: transform var(--pg-duration) var(--pg-ease-out),
       border-color var(--pg-duration) ease,
-      filter var(--pg-duration) var(--pg-ease-out);
+      box-shadow var(--pg-duration) var(--pg-ease-out);
   }
 
   .pg-premium-card::before {
@@ -302,8 +331,9 @@
   }
 
   .pg-premium-card:hover {
-    transform: translateY(-2px) scale(1.01);
-    border-color: --alpha(var(--color-accent) / 28%);
+    transform: translateY(-3px);
+    border-color: --alpha(var(--color-accent) / 24%);
+    box-shadow: var(--shadow-elevated);
   }
 
   .pg-premium-card:hover::before {

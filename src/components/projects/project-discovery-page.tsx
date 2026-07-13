@@ -93,10 +93,10 @@ export async function ProjectDiscoveryPage({
 
   return (
     <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-8 md:pb-12 md:pt-24">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-5">
+      <div className="flex flex-col gap-4 border-b border-border/55 pb-6 md:flex-row md:items-end md:justify-between md:gap-8 md:pb-8">
         <div>
-          <p className="text-xs text-muted">{eyebrow}</p>
-          <h1 className="mt-1 font-title text-2xl leading-tight tracking-tight sm:text-3xl md:mt-2 md:text-5xl">{title}</h1>
+          <p className="pg-eyebrow">{eyebrow}</p>
+          <h1 className="mt-3 font-title text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">{title}</h1>
           <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-5 text-muted md:mt-3 md:line-clamp-none md:text-base">{description}</p>
         </div>
         <Button asChild size="sm" className="self-start md:h-10">
@@ -174,7 +174,7 @@ export async function ProjectDiscoveryPage({
 
       <div className="flex flex-col">
       {!hasFilters ? (
-        <div className="order-2 mt-8 grid gap-8 md:order-1 md:mt-10">
+        <div className="order-2 mt-12 grid gap-12">
           <DiscoverySection
             title="Projetos em alta"
             projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
@@ -203,7 +203,7 @@ export async function ProjectDiscoveryPage({
         </div>
       ) : null}
 
-      <section className="order-1 mt-7 md:order-2 md:mt-12">
+      <section className="order-1 mt-7 md:mt-10">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs text-muted">

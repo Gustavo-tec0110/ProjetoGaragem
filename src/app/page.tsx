@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Camera, Search, Share2, Wrench } from "lucide-react";
+import { ArrowUpRight, Camera, Search, Share2, Wrench } from "lucide-react";
 
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -16,7 +16,7 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1">
-        <section className="relative min-h-[440px] px-4 sm:min-h-[480px] sm:px-6 md:min-h-[92vh]">
+        <section className="relative min-h-[40rem] overflow-hidden border-b border-border/50 px-4 sm:px-6 md:min-h-[88svh]">
           <div className="absolute inset-0">
             <Image
               src="/ref/hero-car.jpg"
@@ -24,102 +24,117 @@ export default async function Home() {
               fill
               priority
               loading="eager"
-              className="object-cover object-right opacity-65"
+              className="object-cover object-[68%_center] opacity-70"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/78 to-background/20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/15" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/35" />
+            <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] [background-size:72px_72px]" />
           </div>
 
-          <div className="relative mx-auto flex min-h-[440px] w-full max-w-6xl flex-col justify-end pb-7 pt-24 sm:min-h-[480px] sm:pb-10 md:min-h-[92vh] md:pb-16 md:pt-28">
-            <div className="max-w-3xl">
-              <p className="text-xs text-muted">Projeto Garagem</p>
-              <h1 className="mt-2 font-title text-[2rem] leading-[1.08] tracking-tight sm:text-4xl md:mt-3 md:text-6xl md:leading-[1.1]">
-                <span className="md:hidden">Sua garagem online.</span>
-                <span className="hidden md:inline">
-                  Crie a ficha completa do seu projeto e descubra garagens reais da comunidade.
-                </span>
+          <div className="relative mx-auto flex min-h-[40rem] w-full max-w-6xl flex-col justify-end pb-8 pt-28 md:min-h-[88svh] md:pb-12">
+            <div className="max-w-[52rem]">
+              <p className="pg-eyebrow">A cultura automotiva, projeto por projeto</p>
+              <h1 className="mt-4 font-title text-[2.55rem] leading-[0.98] tracking-[-0.045em] sm:text-5xl md:text-[4.75rem] md:leading-[0.96]">
+                Seu projeto merece mais do que um feed.
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-5 text-muted sm:text-base md:mt-5 md:text-lg">
-                <span className="md:hidden">Crie, organize e compartilhe seu projeto automotivo.</span>
-                <span className="hidden md:inline">
-                Mostre suas peças, especificações, fotos e planos futuros. Curta,
-                salve e compare projetos automotivos do Brasil inteiro.
-                </span>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-foreground/70 md:text-lg">
+                Documente peças, acertos, custos e evolução em uma ficha feita para carros.
+                Descubra builds reais e acompanhe cada nova fase da comunidade.
               </p>
-              <div className="mt-5 flex flex-row gap-2 sm:mt-6 sm:gap-3 md:mt-8">
-                <Button asChild size="lg" className="min-h-11 flex-1 px-4 sm:flex-none">
-                  <Link href="/criar-projeto">Adicionar meu projeto</Link>
+              <div className="mt-7 flex flex-col gap-2 sm:flex-row md:mt-9 md:gap-3">
+                <Button asChild size="lg" className="w-full sm:w-auto">
+                  <Link href="/criar-projeto">
+                    Criar minha garagem
+                    <ArrowUpRight className="size-4" />
+                  </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="min-h-11 px-4 max-[399px]:hidden">
+                <Button asChild variant="outline" size="lg" className="w-full border-foreground/15 bg-black/25 sm:w-auto">
                   <Link href="/explorar">Explorar projetos</Link>
                 </Button>
               </div>
             </div>
+
+            <div className="mt-10 grid grid-cols-3 gap-0 border-y border-white/10 py-4 md:mt-12 md:max-w-2xl md:py-5">
+              {[
+                ["Ficha completa", "Specs e peças"],
+                ["Evolução real", "Timeline do build"],
+                ["Comunidade", "Referências reais"],
+              ].map(([title, text], index) => (
+                <div key={title} className={index ? "border-l border-white/10 pl-3 md:pl-5" : "pr-3 md:pr-5"}>
+                  <p className="font-ui text-[11px] font-semibold text-foreground md:text-sm">{title}</p>
+                  <p className="mt-1 hidden text-xs text-muted sm:block">{text}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        <div className="flex flex-col">
-        <section className="order-2 px-4 sm:px-6 md:order-1">
-          <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-2 py-8 sm:gap-3 md:grid-cols-4 md:gap-4 md:py-12">
+        <section className="px-4 sm:px-6">
+          <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
+            <div className="max-w-2xl">
+              <p className="pg-eyebrow">Feito para o processo inteiro</p>
+              <h2 className="mt-3 font-title text-3xl tracking-tight md:text-4xl">Da primeira peça ao acerto final.</h2>
+            </div>
+            <div className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2 md:mt-10 lg:grid-cols-4">
             {[
-              { title: "Cadastre seu projeto", text: "Crie a página pública da garagem.", icon: Camera },
-              { title: "Adicione peças", text: "Separe instaladas e planejadas.", icon: Wrench },
-              { title: "Compartilhe", text: "Use um link bonito da sua garagem.", icon: Share2 },
-              { title: "Descubra", text: "Compare projetos por categoria.", icon: Search },
+              { title: "Apresente o build", text: "Uma página pública com identidade, fotos e ficha técnica.", icon: Camera },
+              { title: "Organize cada etapa", text: "Peças instaladas, planos e evolução no mesmo lugar.", icon: Wrench },
+              { title: "Compartilhe com presença", text: "Um link direto para mostrar o projeto completo.", icon: Share2 },
+              { title: "Encontre referências", text: "Busque por modelo, preparação, estilo e especificação.", icon: Search },
             ].map((item) => {
               const Icon = item.icon;
               return (
-                <Card key={item.title} className="p-3 sm:p-4 md:p-5">
-                  <Icon className="size-4 text-accent md:size-5" />
-                  <h2 className="mt-2 font-title text-sm leading-4 tracking-tight sm:text-base md:mt-4 md:text-lg">{item.title}</h2>
-                  <p className="mt-1 line-clamp-1 text-[11px] leading-4 text-muted sm:text-xs md:mt-2 md:line-clamp-none md:text-sm">{item.text}</p>
-                </Card>
+                <div key={item.title} className="pg-section-rule pt-5">
+                  <Icon className="size-5 text-accent" />
+                  <h3 className="mt-5 font-title text-lg tracking-tight">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted">{item.text}</p>
+                </div>
               );
             })}
+            </div>
           </div>
         </section>
 
-        <section className="order-1 px-4 sm:px-6 md:order-2">
-          <div className="mx-auto w-full max-w-6xl py-7 sm:py-9 md:py-12">
-            <div className="mb-4 flex items-end justify-between gap-3 md:mb-5">
+        <section className="border-y border-border/45 bg-background-2/45 px-4 sm:px-6">
+          <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
+            <div className="mb-6 flex items-end justify-between gap-3 md:mb-8">
               <div>
-                <p className="text-xs text-muted">Projetos em destaque</p>
-                <h2 className="mt-1 font-title text-2xl leading-tight tracking-tight sm:text-3xl md:mt-2">Garagens da comunidade</h2>
+                <p className="pg-eyebrow">Seleção da comunidade</p>
+                <h2 className="mt-3 font-title text-3xl leading-tight tracking-tight md:text-4xl">Garagens que merecem atenção</h2>
               </div>
               <Button asChild variant="outline" size="sm" className="shrink-0 md:h-10 md:px-4">
-                <Link href="/explorar">Ver todos</Link>
+                <Link href="/explorar">Ver catálogo</Link>
               </Button>
             </div>
             <ProjectGrid
               projects={projects}
-              emptyTitle="Ainda não há projetos para destacar."
-              emptyDescription="Enquanto isso, o MVP pode usar os projetos demo e o cadastro local para não ficar vazio."
+              emptyTitle="Ainda não há projetos em destaque."
+              emptyDescription="Seja o primeiro a publicar uma garagem completa para a comunidade."
             />
           </div>
         </section>
 
-        <section className="order-3 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl pb-8 md:pb-16">
-            <Card className="p-4 sm:p-5 md:p-8">
-              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <section className="px-4 sm:px-6">
+          <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
+            <Card className="relative overflow-hidden border-accent/20 bg-gradient-to-br from-card to-accent/[0.07] p-6 md:p-10">
+              <div className="absolute -right-16 -top-20 size-72 rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />
+              <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-xs text-muted">MVP focado</p>
-                  <h2 className="mt-1 font-title text-2xl leading-tight tracking-tight md:mt-2 md:text-3xl">
-                    Uma página bonita para cada projeto.
+                  <p className="pg-eyebrow">Sua história começa na garagem</p>
+                  <h2 className="mt-3 max-w-2xl font-title text-3xl leading-tight tracking-tight md:text-4xl">
+                    Transforme evolução em legado.
                   </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-5 text-muted md:text-base">
-                    Marketplace, afiliados avancados e chat ficam para depois. Agora o foco e
-                    ficha publica, descoberta e interacao social simples.
+                  <p className="mt-3 max-w-2xl text-sm leading-6 text-muted md:text-base">
+                    Publique o projeto, registre as mudanças e deixe cada escolha falar por ele.
                   </p>
                 </div>
                 <Button asChild size="lg" className="min-h-11 md:min-h-12">
-                  <Link href="/criar-projeto">Comecar agora</Link>
+                  <Link href="/criar-projeto">Adicionar meu projeto</Link>
                 </Button>
               </div>
             </Card>
           </div>
         </section>
-        </div>
       </main>
       <SiteFooter />
     </div>

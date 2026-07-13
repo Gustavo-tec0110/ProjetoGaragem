@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
+import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
 
@@ -50,50 +48,54 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
-      <main className="flex-1 px-4 sm:px-6">
-        <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
-          <Card className="p-6 md:p-8">
-            <h1 className="font-title text-2xl tracking-tight">Criar conta</h1>
-            <p className="mt-2 text-sm text-muted">
-              Entre na comunidade para publicar projetos, salvar builds e acompanhar a evolucao da sua garagem.
-            </p>
+    <AuthShell
+      eyebrow="Faça parte da comunidade"
+      title="Crie sua conta"
+      description="Publique projetos, salve referências e acompanhe a evolução da sua garagem."
+    >
             {success ? (
               <p className="mt-4 text-sm text-muted">
                 Cadastro iniciado. Se o Supabase exigir confirmacao, verifique seu email.
               </p>
             ) : (
               <>
-                <div className="mt-6">
-                  <GoogleSigninButton />
-                </div>
+                <GoogleSigninButton />
 
-                <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-muted/80">
+                <div className="my-5 flex items-center gap-3 text-[10px] font-ui font-semibold uppercase tracking-[0.18em] text-muted/80">
                   <span className="h-px flex-1 bg-border/70" />
                   <span>ou continue com email</span>
                   <span className="h-px flex-1 bg-border/70" />
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  <Input placeholder="Nome completo" value={fullName} onChange={(event) => setFullName(event.target.value)} required />
-                  <Input placeholder="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-                  <Input placeholder="Senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-                  <Input placeholder="Confirmar senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />
-                  {error ? <p className="text-sm text-danger">{error}</p> : null}
+                <form onSubmit={handleSubmit} className="grid gap-4">
+                  <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                    Nome completo
+                    <Input placeholder="Como você quer ser chamado" value={fullName} onChange={(event) => setFullName(event.target.value)} autoComplete="name" required />
+                  </label>
+                  <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                    Email
+                    <Input placeholder="voce@email.com" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+                  </label>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                      Senha
+                      <Input placeholder="Mínimo de 6 caracteres" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" required />
+                    </label>
+                    <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                      Confirmar senha
+                      <Input placeholder="Repita a senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" required />
+                    </label>
+                  </div>
+                  {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
                   <Button type="submit" disabled={loading} className="w-full">
                     {loading ? "Cadastrando..." : "Criar conta"}
                   </Button>
                 </form>
               </>
             )}
-            <p className="mt-3 text-xs text-muted">
-              <Link href="/login" className="underline">Ja tem conta? Entrar</Link>
+            <p className="mt-5 text-center text-xs text-muted">
+              Já tem uma conta? <Link href="/login" className="font-semibold text-foreground hover:text-accent">Entrar</Link>
             </p>
-          </Card>
-        </div>
-      </main>
-      <SiteFooter />
-    </div>
+    </AuthShell>
   );
 }

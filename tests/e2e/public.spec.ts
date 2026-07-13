@@ -11,24 +11,18 @@ test("home carrega, expoe links importantes e navega em desktop e mobile", async
   expect(response?.status()).toBe(200);
   const mobile = isMobileProject(testInfo.project.name);
   await expect(
-    page.getByRole("heading", {
-      name: mobile
-        ? "Sua garagem online."
-        : "Crie a ficha completa do seu projeto e descubra garagens reais da comunidade.",
-    })
+    page.getByRole("heading", { name: "Seu projeto merece mais do que um feed." })
   ).toBeVisible();
 
-  await expect(page.getByRole("link", { name: "Adicionar meu projeto", exact: true })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Criar minha garagem", exact: true })).toHaveAttribute(
     "href",
     "/criar-projeto"
   );
-  if (!mobile) {
-    await expect(page.getByRole("link", { name: "Explorar projetos", exact: true })).toHaveAttribute(
-      "href",
-      "/explorar"
-    );
-  }
-  await expect(page.getByRole("link", { name: "Ver todos", exact: true })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Explorar projetos", exact: true })).toHaveAttribute(
+    "href",
+    "/explorar"
+  );
+  await expect(page.getByRole("link", { name: "Ver catálogo", exact: true })).toHaveAttribute(
     "href",
     "/explorar"
   );
@@ -198,7 +192,9 @@ test("busca sem resultados informa estado vazio e mantem o termo", async ({ page
 test("projeto inexistente exibe estado adequado sem erro de servidor", async ({ page }) => {
   const response = await page.goto("/projeto/projeto-inexistente-e2e-9f4c2d");
   expect(response?.status()).toBeLessThan(500);
-  await expect(page.getByText("Projeto nao encontrado", { exact: true })).toBeVisible();
+  await expect(
+    page.locator("main").getByText("Projeto nao encontrado", { exact: true }).filter({ visible: true }).first()
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Essa ficha nao esta mais na pista" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Explorar projetos|Voltar para explorar/i })).toBeVisible();
 });
@@ -231,12 +227,12 @@ test("perfil publico lista contadores e permite navegar para um projeto", async 
 test("rotas privadas orientam visitante e preservam o destino de login", async ({ page }) => {
   await page.goto("/criar-projeto");
   await expect(
-    page.getByRole("heading", { name: /Entrar no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i })
+    page.getByRole("heading", { name: /Entrar no Projeto Garagem|Entre no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i })
   ).toBeVisible();
 
   await page.goto("/garagem");
   await expect(page).toHaveURL(/\/login\?next=%2Fgaragem/);
-  await expect(page.getByRole("heading", { name: "Entrar no Projeto Garagem" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Entre no Projeto Garagem" })).toBeVisible();
 
   await page.goto("/notificacoes");
   await expect(page.getByRole("heading", { name: "Notificações", exact: true })).toBeVisible();

@@ -44,13 +44,13 @@ export function ProjectCard({
 
   return (
     <PremiumCard
-      className="group overflow-hidden rounded-3xl md:rounded-4xl"
+      className="group overflow-hidden rounded-2xl"
       data-testid="project-card"
     >
       <div className="md:hidden" data-project-card-layout="mobile">
         <Link
           href={projectHref}
-          className="block rounded-t-3xl outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+          className="block rounded-t-2xl outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
         >
           <div className="relative aspect-[4/3] overflow-hidden bg-surface">
             <ProjectImage
@@ -94,8 +94,8 @@ export function ProjectCard({
           </div>
         </Link>
 
-        <div className="grid grid-cols-2 border-y border-border/60 text-xs text-muted">
-          <span className="flex min-h-9 items-center gap-1.5 border-b border-r border-border/60 px-2">
+        <div className="grid grid-cols-2 border-y border-border/50 text-xs text-muted">
+          <span className="flex min-h-9 items-center gap-1.5 border-b border-r border-border/50 px-2">
             <Heart
               className={`size-3.5 text-accent ${project.viewerHasLiked ? "fill-current" : ""}`}
               aria-hidden="true"
@@ -104,13 +104,13 @@ export function ProjectCard({
               {project.likes.toLocaleString("pt-BR")}
             </span>
           </span>
-          <span className="flex min-h-9 items-center gap-1.5 border-b border-border/60 px-2">
+          <span className="flex min-h-9 items-center gap-1.5 border-b border-border/50 px-2">
             <MessageSquare className="size-3.5 text-accent" aria-hidden="true" />
             <span aria-label={`${project.comments.toLocaleString("pt-BR")} comentarios`}>
               {project.comments.toLocaleString("pt-BR")}
             </span>
           </span>
-          <span className="flex min-h-9 items-center gap-1.5 border-r border-border/60 px-2">
+          <span className="flex min-h-9 items-center gap-1.5 border-r border-border/50 px-2">
             <Eye className="size-3.5 text-accent" aria-hidden="true" />
             <span aria-label={`${project.views.toLocaleString("pt-BR")} visualizacoes`}>
               {project.views.toLocaleString("pt-BR")}
@@ -127,14 +127,14 @@ export function ProjectCard({
         <div className="grid grid-cols-[1fr_2.75rem] gap-1 p-2">
           <Link
             href={projectHref}
-            className="inline-flex min-h-11 items-center justify-center rounded-3xl bg-accent px-3 text-xs font-semibold text-accent-foreground outline-none transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-xs font-semibold text-white outline-none transition hover:brightness-105 focus-visible:ring-2 focus-visible:ring-accent"
           >
             Ver projeto
           </Link>
           <Link
             href={compareHref}
             aria-label={`Comparar ${project.title}`}
-            className="inline-flex min-h-11 items-center justify-center rounded-3xl border border-border/70 text-muted outline-none transition hover:bg-background/45 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border/70 text-muted outline-none transition hover:bg-background/45 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent"
           >
             <ArrowRightLeft className="size-4" aria-hidden="true" />
           </Link>
@@ -167,21 +167,21 @@ export function ProjectCard({
         </div>
       </Link>
 
-      <div className="space-y-4 p-4">
+      <div className="space-y-4 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="text-sm font-semibold text-foreground">{project.ownerName}</p>
             <p className="mt-1 text-xs text-muted">{project.engine}</p>
             {location ? <p className="mt-1 text-xs text-muted">{location}</p> : null}
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex shrink-0 gap-2">
             <Button asChild size="sm" variant="outline">
               <Link href={projectHref}>Abrir</Link>
             </Button>
-            <Button asChild size="sm" variant="ghost">
+            <Button asChild size="sm" variant="ghost" className="px-3">
               <Link href={compareHref}>
                 <ArrowRightLeft className="size-4" />
-                Comparar
+                <span className="sr-only">Comparar</span>
               </Link>
             </Button>
           </div>
@@ -189,20 +189,20 @@ export function ProjectCard({
 
         <p className="text-sm text-foreground/85">{project.shortDescription}</p>
 
-        <div className="grid grid-cols-2 gap-2 text-xs text-muted sm:grid-cols-4">
-          <div className="rounded-3xl border border-border/70 bg-background/25 px-3 py-2 text-center">
+        <div className="grid grid-cols-4 border-y border-border/55 py-3 text-xs text-muted">
+          <div className="text-center">
             <Heart className="mx-auto mb-1 size-4 text-accent" />
             {project.likes.toLocaleString("pt-BR")}
           </div>
-          <div className="rounded-3xl border border-border/70 bg-background/25 px-3 py-2 text-center">
+          <div className="border-l border-border/55 text-center">
             <Eye className="mx-auto mb-1 size-4 text-accent" />
             {project.views.toLocaleString("pt-BR")}
           </div>
-          <div className="rounded-3xl border border-border/70 bg-background/25 px-3 py-2 text-center">
+          <div className="border-l border-border/55 text-center">
             <Coins className="mx-auto mb-1 size-4 text-accent" />
             {formatProjectCurrency(project.totalInvested ?? project.estimatedCost)}
           </div>
-          <div className="rounded-3xl border border-border/70 bg-background/25 px-3 py-2 text-center">
+          <div className="border-l border-border/55 text-center">
             <Wrench className="mx-auto mb-1 size-4 text-accent" />
             {project.modificationsCount
               ? `${project.modificationsCount} mods`
@@ -210,7 +210,7 @@ export function ProjectCard({
           </div>
         </div>
 
-        <div className="grid gap-2 rounded-3xl border border-border/70 bg-background/25 px-3 py-3 text-xs text-muted sm:grid-cols-2">
+        <div className="grid gap-2 text-xs text-muted sm:grid-cols-2">
           <div>
             <p>Ultima evolucao</p>
             <p className="mt-1 font-semibold text-foreground">

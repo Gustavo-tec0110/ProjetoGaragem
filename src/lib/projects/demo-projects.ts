@@ -38,7 +38,7 @@ const imageSets = {
     "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=1600&q=80",
   ],
   fusca: [
-    "https://images.unsplash.com/photo-1502877828070-33a9c7d1b4c2?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1600&q=80",
     "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1600&q=80",
     "https://images.unsplash.com/photo-1485463611174-f302f6a5c1c9?auto=format&fit=crop&w=1600&q=80",
   ],

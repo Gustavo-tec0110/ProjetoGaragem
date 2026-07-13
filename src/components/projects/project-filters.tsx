@@ -62,7 +62,7 @@ function SelectControl({
     <select
       name={name}
       defaultValue={value}
-      className="pg-control h-12 w-full rounded-3xl px-4 text-sm"
+      className="pg-control h-12 w-full rounded-xl px-4 text-sm"
       aria-label={label}
     >
       <option value="">{label.replace("Filtrar por ", "")}</option>
@@ -153,7 +153,7 @@ export function ProjectFilters(props: FiltersProps) {
   return (
     <>
       <Dialog.Root>
-        <Card className="p-3 md:hidden">
+        <Card className="border-border/50 bg-card/70 p-3 md:hidden">
           <form data-project-search-form action={actionPath} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
             <ProjectSearchBox defaultValue={filters.q} ariaLabel="Pesquisar catálogo no celular" />
             {preservedSearchFilters.map((item) => (
@@ -176,7 +176,7 @@ export function ProjectFilters(props: FiltersProps) {
                 id="mobile-project-sort"
                 name="sort"
                 defaultValue={filters.sort}
-                className="pg-control h-10 min-w-0 flex-1 rounded-3xl px-3 text-xs"
+                className="pg-control h-10 min-w-0 flex-1 rounded-xl px-3 text-xs"
                 aria-label="Ordenação mobile"
               >
                 {SORT_OPTIONS.map((option) => (
@@ -207,7 +207,7 @@ export function ProjectFilters(props: FiltersProps) {
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm md:hidden" />
           <Dialog.Content
-            className="fixed inset-x-0 bottom-0 z-[90] max-h-[88dvh] overflow-hidden rounded-t-[2rem] border border-border/80 bg-card shadow-2xl md:hidden"
+            className="fixed inset-x-0 bottom-0 z-[90] max-h-[88dvh] overflow-hidden rounded-t-3xl border border-border/80 bg-card shadow-2xl md:hidden"
           >
             <div className="flex items-start justify-between gap-4 border-b border-border/70 px-4 py-4">
               <div>
@@ -240,7 +240,7 @@ export function ProjectFilters(props: FiltersProps) {
         </Dialog.Portal>
       </Dialog.Root>
 
-      <Card className="hidden p-5 md:block">
+      <Card className="hidden border-border/50 bg-card/65 p-5 md:block">
         <form
           data-project-search-form
           className="grid gap-3 lg:grid-cols-2 xl:grid-cols-[1.6fr_repeat(4,minmax(0,0.75fr))_auto]"

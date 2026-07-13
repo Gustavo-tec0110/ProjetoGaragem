@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
+import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
 import { getSafeNextPath } from "@/lib/auth/redirect";
@@ -39,44 +37,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
-      <main className="flex-1 px-4 sm:px-6">
-        <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
-          <Card className="p-4 md:p-8">
-            <h1 className="font-title text-2xl tracking-tight">Entrar no Projeto Garagem</h1>
-            <p className="mt-2 text-sm text-muted">
-              Entre para criar, curtir, salvar e comentar projetos.
-            </p>
+    <AuthShell
+      eyebrow="Bem-vindo de volta"
+      title="Entre no Projeto Garagem"
+      description="Acesse seus projetos, referências salvas e as novidades da comunidade."
+    >
+            <GoogleSigninButton />
 
-            <div className="mt-4 md:mt-6">
-              <GoogleSigninButton />
+            <div className="my-5 flex items-center gap-3 text-[10px] font-ui font-semibold uppercase tracking-[0.18em] text-muted">
+              <span className="h-px flex-1 bg-border/70" />
+              <span>ou use seu email</span>
+              <span className="h-px flex-1 bg-border/70" />
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-4 space-y-3 md:mt-6">
-              <Input placeholder="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-              <Input placeholder="Senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-              {error ? <p className="text-sm text-danger">{error}</p> : null}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                Email
+                <Input placeholder="voce@email.com" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+              </label>
+              <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                Senha
+                <Input placeholder="Sua senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
+              </label>
+              {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
               <Button type="submit" disabled={loading} className="mobile-cta-safe w-full">
                 {loading ? "Entrando..." : "Entrar"}
               </Button>
             </form>
 
-            <p className="mt-3 text-xs text-muted">
-              <Link href="/forgot-password" className="underline">Esqueci minha senha</Link>
-              <span className="mx-2">-</span>
-              <Link href="/register" className="underline">Criar conta</Link>
-            </p>
-
-            <div className="mt-5 flex flex-col gap-3">
-              <Button asChild variant="outline">
-                <Link href="/explorar">Continuar explorando</Link>
-              </Button>
+            <div className="mt-5 flex items-center justify-between gap-3 text-xs">
+              <Link href="/forgot-password" className="text-muted underline-offset-4 hover:text-foreground hover:underline">Esqueci minha senha</Link>
+              <Link href="/register" className="font-semibold text-foreground underline-offset-4 hover:text-accent">Criar conta</Link>
             </div>
-          </Card>
-        </div>
-      </main>
-      <SiteFooter />
-    </div>
+            <Button asChild variant="ghost" className="mt-5 w-full">
+              <Link href="/explorar">Continuar explorando</Link>
+            </Button>
+    </AuthShell>
   );
 }

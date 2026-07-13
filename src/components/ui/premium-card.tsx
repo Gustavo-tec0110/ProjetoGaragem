@@ -28,7 +28,7 @@ export function PremiumCard({ className, children, ...props }: PremiumCardProps)
         el.style.removeProperty("--mx");
         el.style.removeProperty("--my");
       }}
-      className={cn("pg-glass rounded-4xl shadow-elevated overflow-hidden pg-premium-card", className)}
+      className={cn("pg-glass overflow-hidden rounded-2xl pg-premium-card", className)}
       {...props}
     >
       {children}

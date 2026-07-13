@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
+import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
@@ -44,24 +42,25 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
-      <main className="flex-1 px-4 sm:px-6">
-        <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
-          <Card className="p-6 md:p-8">
-            <h1 className="font-title text-2xl tracking-tight">Nova senha</h1>
-            <form onSubmit={handleSubmit} className="mt-6 space-y-3">
-              {error ? <p className="text-sm text-danger">{error}</p> : null}
-              <Input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Nova senha" required />
-              <Input type="password" value={confirm} onChange={(event) => setConfirm(event.target.value)} placeholder="Confirmar senha" required />
+    <AuthShell
+      eyebrow="Segurança da conta"
+      title="Defina uma nova senha"
+      description="Escolha uma senha segura para voltar aos seus projetos."
+    >
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error ? <p role="alert" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
+              <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                Nova senha
+                <Input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Mínimo de 6 caracteres" autoComplete="new-password" required />
+              </label>
+              <label className="grid gap-2 text-sm font-medium text-foreground/85">
+                Confirmar senha
+                <Input type="password" value={confirm} onChange={(event) => setConfirm(event.target.value)} placeholder="Repita a nova senha" autoComplete="new-password" required />
+              </label>
               <Button type="submit" disabled={loading} className="w-full">
                 {loading ? "Salvando..." : "Salvar"}
               </Button>
             </form>
-          </Card>
-        </div>
-      </main>
-      <SiteFooter />
-    </div>
+    </AuthShell>
   );
 }
