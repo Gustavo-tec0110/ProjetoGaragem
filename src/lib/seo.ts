@@ -5,13 +5,13 @@ import { configuredSiteUrl } from "@/lib/supabase/env";
 export const SITE_NAME = "Projeto Garagem";
 export const SITE_DESCRIPTION =
   "Crie a ficha publica do seu carro e descubra projetos automotivos reais da comunidade.";
-export const SITE_FALLBACK_IMAGE = "/ref/hero-car.jpg";
+const SITE_FALLBACK_IMAGE = "/ref/hero-car.jpg";
 
 export function getSiteUrl() {
   return configuredSiteUrl;
 }
 
-export function toAbsoluteUrl(path: string | null | undefined) {
+function toAbsoluteUrl(path: string | null | undefined) {
   if (!path) return "";
   if (/^https?:\/\//i.test(path)) return path;
   return new URL(path.startsWith("/") ? path : `/${path}`, `${getSiteUrl()}/`).toString();

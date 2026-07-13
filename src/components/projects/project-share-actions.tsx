@@ -1,18 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { Copy, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useCopyCurrentUrl } from "@/hooks/use-copy-current-url";
 
 export function ProjectShareActions({ title }: { title: string }) {
-  const [copied, setCopied] = React.useState(false);
-
-  async function copyLink() {
-    await navigator.clipboard?.writeText(window.location.href);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
-  }
+  const { copied, copyCurrentUrl } = useCopyCurrentUrl();
 
   async function shareProject() {
     const payload = {
@@ -30,12 +24,12 @@ export function ProjectShareActions({ title }: { title: string }) {
       }
     }
 
-    await copyLink();
+    await copyCurrentUrl();
   }
 
   return (
     <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap">
-      <Button type="button" size="sm" variant="outline" className="px-3 md:h-12 md:px-6" onClick={() => void copyLink()}>
+      <Button type="button" size="sm" variant="outline" className="px-3 md:h-12 md:px-6" onClick={() => void copyCurrentUrl()}>
         <Copy className="size-4" />
         {copied ? "Link copiado" : "Copiar link"}
       </Button>

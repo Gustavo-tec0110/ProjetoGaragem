@@ -271,6 +271,127 @@ function revalidateProjectSocialPaths(slug?: string | null) {
   }
 }
 
+type CarSocialTable = "car_likes" | "car_saves" | "project_follows";
+
+type CarSocialToggleConfig = {
+  table: CarSocialTable;
+  unauthenticatedMessage: string;
+  notificationType: Extract<NotificationType, "project_like" | "project_save" | "project_follow">;
+  notificationTitle: (carName: string) => string;
+  notificationBody: string;
+  ownerActionMessage?: string;
+};
+
+async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfig) {
+  logSocialActionDiagnostic(`${config.table}.toggle.enter`, { carId });
+  const auth = await requireUser();
+  if (!auth.supabase || !auth.user) {
+    return {
+      ok: false,
+      message: auth.error ?? config.unauthenticatedMessage,
+      active: false,
+    };
+  }
+
+  logSocialActionDiagnostic(`${config.table}.toggle.auth`, {
+    carId,
+    actorId: auth.user.id,
+  });
+  await ensureUserProfile(auth.supabase, auth.user);
+
+  const { data: car, error: carError } = await auth.supabase
+    .from("cars")
+    .select("id, slug, owner_id, name")
+    .eq("id", carId)
+    .maybeSingle();
+
+  if (carError || !car) {
+    return {
+      ok: false,
+      message: carError?.message ?? "Projeto não encontrado.",
+      active: false,
+    };
+  }
+
+  if (config.ownerActionMessage && car.owner_id === auth.user.id) {
+    return { ok: false, message: config.ownerActionMessage, active: false };
+  }
+
+  const context = { carId, userId: auth.user.id };
+  const selectAction = `${config.table}.select`;
+  const { data: existing, error: existingError } = await auth.supabase
+    .from(config.table)
+    .select("car_id")
+    .eq("car_id", carId)
+    .eq("user_id", auth.user.id)
+    .maybeSingle();
+
+  if (existingError) {
+    logSupabaseActionError(selectAction, context, existingError);
+    return {
+      ok: false,
+      message: formatSupabaseActionError(selectAction, existingError),
+      active: false,
+    };
+  }
+
+  const mutation = existing ? "delete" : "insert";
+  const mutationAction = `${config.table}.${mutation}`;
+  const { error } = existing
+    ? await auth.supabase
+        .from(config.table)
+        .delete()
+        .eq("car_id", carId)
+        .eq("user_id", auth.user.id)
+    : await auth.supabase
+        .from(config.table)
+        .insert({ car_id: carId, user_id: auth.user.id });
+
+  if (error) {
+    logSupabaseActionError(mutationAction, context, error);
+    return {
+      ok: false,
+      message: formatSupabaseActionError(mutationAction, error),
+      active: Boolean(existing),
+    };
+  }
+
+  const verification = await verifySocialRow(
+    auth.supabase,
+    config.table,
+    carId,
+    auth.user.id
+  );
+  const shouldExist = !existing;
+  if (!verification.ok || verification.exists !== shouldExist) {
+    const message =
+      verification.message ??
+      `${mutationAction} falhou: registro ${shouldExist ? "não foi encontrado" : "ainda existe"} após ${mutation}.`;
+    serverLog.error("social-action.verify", {
+      action: mutationAction,
+      ...context,
+      message,
+    });
+    return { ok: false, message, active: Boolean(existing) };
+  }
+
+  if (shouldExist) {
+    await notifyCarOwner({
+      supabase: auth.supabase,
+      actorId: auth.user.id,
+      ownerId: car.owner_id,
+      carId,
+      type: config.notificationType,
+      title: config.notificationTitle(car.name),
+      body: config.notificationBody,
+    });
+  }
+
+  const counts = await readCarSocialCounts(auth.supabase, carId);
+  revalidateProjectSocialPaths(car.slug);
+  return { ok: true, active: shouldExist, ...counts };
+}
+
 export async function saveProfileAction(
   _prevState: ActionState,
   formData: FormData
@@ -349,173 +470,23 @@ export async function deleteCarAction(
 }
 
 export async function toggleLikeAction(carId: string) {
-  logSocialActionDiagnostic("toggleLikeAction.enter", { carId });
-  const auth = await requireUser();
-  if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para curtir.", active: false };
-  logSocialActionDiagnostic("toggleLikeAction.auth", { carId, actorId: auth.user.id });
-  await ensureUserProfile(auth.supabase, auth.user);
-
-  const { data: car, error: carError } = await auth.supabase
-    .from("cars")
-    .select("id, slug, owner_id, name")
-    .eq("id", carId)
-    .maybeSingle();
-
-  if (carError || !car) {
-    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
-  }
-
-  const { data: existing, error: existingError } = await auth.supabase
-    .from("car_likes")
-    .select("car_id")
-    .eq("car_id", carId)
-    .eq("user_id", auth.user.id)
-    .maybeSingle();
-
-  if (existingError) {
-    logSupabaseActionError("car_likes.select", { carId, userId: auth.user.id }, existingError);
-    return { ok: false, message: formatSupabaseActionError("car_likes.select", existingError), active: false };
-  }
-
-  if (existing) {
-    const { error } = await auth.supabase.from("car_likes").delete().eq("car_id", carId).eq("user_id", auth.user.id);
-    if (error) {
-      logSupabaseActionError("car_likes.delete", { carId, userId: auth.user.id }, error);
-      return { ok: false, message: formatSupabaseActionError("car_likes.delete", error), active: true };
-    }
-    const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
-    if (!verification.ok || verification.exists) {
-      const message = verification.message ?? "car_likes.delete falhou: registro ainda existe apos delete.";
-      serverLog.error("social-action.verify", {
-        action: "car_likes.delete",
-        carId,
-        userId: auth.user.id,
-        message,
-      });
-      return { ok: false, message, active: true };
-    }
-    const counts = await readCarSocialCounts(auth.supabase, carId);
-    revalidateProjectSocialPaths(car.slug);
-    return { ok: true, active: false, ...counts };
-  }
-
-  const { error } = await auth.supabase.from("car_likes").insert({ car_id: carId, user_id: auth.user.id });
-  if (!error && car) {
-    await notifyCarOwner({
-      supabase: auth.supabase,
-      actorId: auth.user.id,
-      ownerId: car.owner_id,
-      carId,
-      type: "project_like",
-      title: `${car.name} recebeu uma curtida`,
-      body: "Alguém curtiu seu projeto.",
-    });
-  }
-  if (error) {
-    logSupabaseActionError("car_likes.insert", { carId, userId: auth.user.id }, error);
-    return { ok: false, message: formatSupabaseActionError("car_likes.insert", error), active: false };
-  }
-
-  const verification = await verifySocialRow(auth.supabase, "car_likes", carId, auth.user.id);
-  if (!verification.ok || !verification.exists) {
-    const message = verification.message ?? "car_likes.insert falhou: registro nao foi encontrado apos insert.";
-    serverLog.error("social-action.verify", {
-      action: "car_likes.insert",
-      carId,
-      userId: auth.user.id,
-      message,
-    });
-    return { ok: false, message, active: false };
-  }
-
-  const counts = await readCarSocialCounts(auth.supabase, carId);
-  revalidateProjectSocialPaths(car.slug);
-  return { ok: true, active: true, ...counts };
+  return toggleCarSocialAction(carId, {
+    table: "car_likes",
+    unauthenticatedMessage: "Entre para curtir.",
+    notificationType: "project_like",
+    notificationTitle: (carName) => `${carName} recebeu uma curtida`,
+    notificationBody: "Alguém curtiu seu projeto.",
+  });
 }
 
 export async function toggleSaveAction(carId: string) {
-  logSocialActionDiagnostic("toggleSaveAction.enter", { carId });
-  const auth = await requireUser();
-  if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para salvar.", active: false };
-  logSocialActionDiagnostic("toggleSaveAction.auth", { carId, actorId: auth.user.id });
-  await ensureUserProfile(auth.supabase, auth.user);
-
-  const { data: car, error: carError } = await auth.supabase
-    .from("cars")
-    .select("id, slug, owner_id, name")
-    .eq("id", carId)
-    .maybeSingle();
-
-  if (carError || !car) {
-    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
-  }
-
-  const { data: existing, error: existingError } = await auth.supabase
-    .from("car_saves")
-    .select("car_id")
-    .eq("car_id", carId)
-    .eq("user_id", auth.user.id)
-    .maybeSingle();
-
-  if (existingError) {
-    logSupabaseActionError("car_saves.select", { carId, userId: auth.user.id }, existingError);
-    return { ok: false, message: formatSupabaseActionError("car_saves.select", existingError), active: false };
-  }
-
-  if (existing) {
-    const { error } = await auth.supabase.from("car_saves").delete().eq("car_id", carId).eq("user_id", auth.user.id);
-    if (error) {
-      logSupabaseActionError("car_saves.delete", { carId, userId: auth.user.id }, error);
-      return { ok: false, message: formatSupabaseActionError("car_saves.delete", error), active: true };
-    }
-    const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
-    if (!verification.ok || verification.exists) {
-      const message = verification.message ?? "car_saves.delete falhou: registro ainda existe apos delete.";
-      serverLog.error("social-action.verify", {
-        action: "car_saves.delete",
-        carId,
-        userId: auth.user.id,
-        message,
-      });
-      return { ok: false, message, active: true };
-    }
-    const counts = await readCarSocialCounts(auth.supabase, carId);
-    revalidateProjectSocialPaths(car.slug);
-    return { ok: true, active: false, ...counts };
-  }
-
-  const { error } = await auth.supabase.from("car_saves").insert({ car_id: carId, user_id: auth.user.id });
-  if (!error && car) {
-    await notifyCarOwner({
-      supabase: auth.supabase,
-      actorId: auth.user.id,
-      ownerId: car.owner_id,
-      carId,
-      type: "project_save",
-      title: `${car.name} foi salvo`,
-      body: "Alguém salvou seu projeto na garagem.",
-    });
-  }
-  if (error) {
-    logSupabaseActionError("car_saves.insert", { carId, userId: auth.user.id }, error);
-    return { ok: false, message: formatSupabaseActionError("car_saves.insert", error), active: false };
-  }
-
-  const verification = await verifySocialRow(auth.supabase, "car_saves", carId, auth.user.id);
-  if (!verification.ok || !verification.exists) {
-    const message = verification.message ?? "car_saves.insert falhou: registro nao foi encontrado apos insert.";
-    serverLog.error("social-action.verify", {
-      action: "car_saves.insert",
-      carId,
-      userId: auth.user.id,
-      message,
-    });
-    return { ok: false, message, active: false };
-  }
-
-  const counts = await readCarSocialCounts(auth.supabase, carId);
-  revalidateProjectSocialPaths(car.slug);
-  return { ok: true, active: true, ...counts };
+  return toggleCarSocialAction(carId, {
+    table: "car_saves",
+    unauthenticatedMessage: "Entre para salvar.",
+    notificationType: "project_save",
+    notificationTitle: (carName) => `${carName} foi salvo`,
+    notificationBody: "Alguém salvou seu projeto na garagem.",
+  });
 }
 
 export async function toggleFollowUserAction(profileId: string) {
@@ -595,103 +566,14 @@ export async function toggleFollowUserAction(profileId: string) {
 }
 
 export async function toggleProjectFollowAction(carId: string) {
-  logSocialActionDiagnostic("toggleProjectFollowAction.enter", { carId });
-  const auth = await requireUser();
-  if (!auth.supabase || !auth.user) {
-    return { ok: false, message: auth.error ?? "Entre para seguir projetos.", active: false };
-  }
-  logSocialActionDiagnostic("toggleProjectFollowAction.auth", { carId, actorId: auth.user.id });
-  await ensureUserProfile(auth.supabase, auth.user);
-
-  const { data: car, error: carError } = await auth.supabase
-    .from("cars")
-    .select("id, slug, owner_id, name")
-    .eq("id", carId)
-    .maybeSingle();
-
-  if (carError || !car) {
-    return { ok: false, message: carError?.message ?? "Projeto não encontrado.", active: false };
-  }
-
-  if (car.owner_id === auth.user.id) {
-    return { ok: false, message: "Você já é dono deste projeto.", active: false };
-  }
-
-  const { data: existing, error: existingError } = await auth.supabase
-    .from("project_follows")
-    .select("id")
-    .eq("car_id", carId)
-    .eq("user_id", auth.user.id)
-    .maybeSingle();
-
-  if (existingError) {
-    logSupabaseActionError("project_follows.select", { carId, userId: auth.user.id }, existingError);
-    return { ok: false, message: formatSupabaseActionError("project_follows.select", existingError), active: false };
-  }
-
-  if (existing) {
-    const { error } = await auth.supabase
-      .from("project_follows")
-      .delete()
-      .eq("car_id", carId)
-      .eq("user_id", auth.user.id);
-    if (error) {
-      logSupabaseActionError("project_follows.delete", { carId, userId: auth.user.id }, error);
-      return { ok: false, message: formatSupabaseActionError("project_follows.delete", error), active: true };
-    }
-    const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
-    if (!verification.ok || verification.exists) {
-      const message = verification.message ?? "project_follows.delete falhou: registro ainda existe apos delete.";
-      serverLog.error("social-action.verify", {
-        action: "project_follows.delete",
-        carId,
-        userId: auth.user.id,
-        message,
-      });
-      return { ok: false, message, active: true };
-    }
-    const counts = await readCarSocialCounts(auth.supabase, carId);
-    revalidateProjectSocialPaths(car.slug);
-    return { ok: true, active: false, ...counts };
-  }
-
-  const { error } = await auth.supabase.from("project_follows").insert({
-    car_id: carId,
-    user_id: auth.user.id,
+  return toggleCarSocialAction(carId, {
+    table: "project_follows",
+    unauthenticatedMessage: "Entre para seguir projetos.",
+    notificationType: "project_follow",
+    notificationTitle: (carName) => `${carName} ganhou um seguidor`,
+    notificationBody: "Alguém começou a acompanhar este projeto.",
+    ownerActionMessage: "Você já é dono deste projeto.",
   });
-
-  if (!error) {
-    await notifyCarOwner({
-      supabase: auth.supabase,
-      actorId: auth.user.id,
-      ownerId: car.owner_id,
-      carId,
-      type: "project_follow",
-      title: `${car.name} ganhou um seguidor`,
-      body: "Alguém começou a acompanhar este projeto.",
-    });
-  }
-
-  if (error) {
-    logSupabaseActionError("project_follows.insert", { carId, userId: auth.user.id }, error);
-    return { ok: false, message: formatSupabaseActionError("project_follows.insert", error), active: false };
-  }
-
-  const verification = await verifySocialRow(auth.supabase, "project_follows", carId, auth.user.id);
-  if (!verification.ok || !verification.exists) {
-    const message = verification.message ?? "project_follows.insert falhou: registro nao foi encontrado apos insert.";
-    serverLog.error("social-action.verify", {
-      action: "project_follows.insert",
-      carId,
-      userId: auth.user.id,
-      message,
-    });
-    return { ok: false, message, active: false };
-  }
-
-  const counts = await readCarSocialCounts(auth.supabase, carId);
-  revalidateProjectSocialPaths(car.slug);
-  return { ok: true, active: true, ...counts };
 }
 
 export async function incrementViewAction(carId: string, carSlug: string) {

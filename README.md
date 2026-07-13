@@ -23,7 +23,7 @@ Build de producao:
 
 ```bash
 npm run build
-npm run start:prod
+npm start
 ```
 
 ## Comandos Principais
@@ -32,6 +32,7 @@ npm run start:prod
 - `npm run lint`: roda ESLint.
 - `npm run typecheck`: roda TypeScript sem emitir arquivos.
 - `npm run build`: gera build de producao.
+- `npm start`: inicia a build de producao.
 - `npm run test:e2e`: roda os testes Playwright.
 
 ## Testes E2E
@@ -106,7 +107,7 @@ Para adicionar um filtro novo, inclua o campo em `ProjectFilters`, normalize em 
 
 ## Auditoria npm
 
-Depois de `npm audit fix` sem `--force`, permanece a vulnerabilidade moderada `postcss <8.5.10` trazida por `next`. O npm sugere apenas `npm audit fix --force`, que tentaria trocar para `next@9.3.3` e e uma mudanca quebradora. Nao aplicar sem decisao explicita.
+O `npm audit` reporta duas entradas moderadas relacionadas ao `postcss <8.5.10` embarcado pelo `next`. O reparo automatico sugerido tentaria trocar para `next@9.3.3`, uma mudanca quebradora e incorreta para este projeto; nao aplique `npm audit fix --force` sem uma atualizacao oficial compativel do Next.js.
 
 ## Supabase e RLS
 

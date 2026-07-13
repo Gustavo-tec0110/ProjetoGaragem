@@ -1,4 +1,4 @@
-export type Json =
+type Json =
   | string
   | number
   | boolean
@@ -33,7 +33,7 @@ export type ProfileRow = {
   updated_at: string;
 };
 
-export type PublicProfileRow = Omit<ProfileRow, "email" | "full_name">;
+type PublicProfileRow = Omit<ProfileRow, "email" | "full_name">;
 
 export type CarCatalogModelRow = {
   id: string;
@@ -65,8 +65,8 @@ export type CarCatalogVersionRow = {
   updated_at: string;
 };
 
-export type CarDetailAnswer = "yes" | "no" | "unknown";
-export type CarDataConfidence = "confirmed" | "estimated" | "unknown";
+type CarDetailAnswer = "yes" | "no" | "unknown";
+type CarDataConfidence = "confirmed" | "estimated" | "unknown";
 
 export type CarRow = {
   id: string;
@@ -207,7 +207,7 @@ export type CarExpenseRow = {
   updated_at: string;
 };
 
-export type ProjectFollowRow = {
+type ProjectFollowRow = {
   id: string;
   user_id: string;
   car_id: string;

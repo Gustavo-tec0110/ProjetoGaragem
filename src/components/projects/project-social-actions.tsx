@@ -23,6 +23,7 @@ import {
 } from "@/app/carros/actions";
 import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
+import { useCopyCurrentUrl } from "@/hooks/use-copy-current-url";
 import {
   getLocalProjectSocialState,
   subscribeLocalProjectSocial,
@@ -68,7 +69,7 @@ export function ProjectSocialActions({
   evolutionHref: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
-  const [copied, setCopied] = React.useState(false);
+  const { copied, copyCurrentUrl } = useCopyCurrentUrl();
   const [actionError, setActionError] = React.useState<string | null>(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [serverLiked, setServerLiked] = React.useState(initialLiked);
@@ -99,12 +100,6 @@ export function ProjectSocialActions({
       : initialSaves;
   const followers = usingServer ? serverFollowers : initialFollowers;
 
-  async function copyLink() {
-    await navigator.clipboard?.writeText(window.location.href);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
-  }
-
   async function shareLink() {
     const payload = {
       title: "Projeto Garagem",
@@ -121,7 +116,7 @@ export function ProjectSocialActions({
       }
     }
 
-    await copyLink();
+    await copyCurrentUrl();
   }
 
   function updateLocalLike() {
@@ -293,7 +288,7 @@ export function ProjectSocialActions({
               className="z-[75] min-w-56 rounded-3xl border border-border/70 bg-card/95 p-2 shadow-2xl backdrop-blur"
             >
               <DropdownMenu.Item asChild>
-                <button type="button" onClick={() => void copyLink()} className="flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold outline-none focus:bg-background/55">
+                <button type="button" onClick={() => void copyCurrentUrl()} className="flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold outline-none focus:bg-background/55">
                   <Copy className="size-4" /> {copied ? "Link copiado" : "Copiar link"}
                 </button>
               </DropdownMenu.Item>
@@ -329,7 +324,7 @@ export function ProjectSocialActions({
         <Button type="button" variant={saved ? "default" : "outline"} disabled={isPending} onClick={() => startTransition(toggleSave)}>
           <Bookmark className="size-4" /> Salvar ({saves.toLocaleString("pt-BR")})
         </Button>
-        <Button type="button" variant="outline" onClick={() => void copyLink()}>
+        <Button type="button" variant="outline" onClick={() => void copyCurrentUrl()}>
           <Copy className="size-4" /> {copied ? "Copiado" : "Copiar link"}
         </Button>
         <Button type="button" variant="outline" onClick={() => void shareLink()}>

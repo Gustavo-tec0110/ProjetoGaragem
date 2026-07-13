@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { getSupabaseClient } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { getSiteUrl } from "@/lib/supabase/env";
 
 export default function ForgotPasswordPage() {
@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setError("");
 
-    const supabase = getSupabaseClient();
+    const supabase = getSupabaseBrowserClient();
     if (!supabase) {
       setError("Recuperacao indisponivel enquanto o Supabase nao estiver configurado.");
       setLoading(false);

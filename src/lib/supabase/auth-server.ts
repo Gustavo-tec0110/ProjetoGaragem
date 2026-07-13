@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 import { normalizeSlug } from "@/lib/garage/constants";
+import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/supabase";
 
@@ -38,11 +39,8 @@ export async function ensureUserProfile(supabase: ServerSupabaseClient, user: Us
   if (readError) return { ok: false, message: readError.message };
   if (profile) return { ok: true, message: null };
 
-  const displayName =
-    typeof user.user_metadata?.full_name === "string"
-      ? user.user_metadata.full_name
-      : user.email ?? "Membro Projeto Garagem";
-  const avatarUrl = typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : null;
+  const displayName = getAuthUserName(user) ?? "Membro Projeto Garagem";
+  const avatarUrl = getAuthUserAvatar(user);
 
   const { data, error } = await supabase
     .from("profiles")

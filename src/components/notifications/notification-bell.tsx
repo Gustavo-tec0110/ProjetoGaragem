@@ -15,15 +15,24 @@ export function NotificationBell({ userId }: { userId: string | null }) {
     }
 
     let mounted = true;
+    let controller: AbortController | null = null;
 
     function refreshCount() {
-      void fetch("/api/notifications/unread-count", { cache: "no-store" })
+      if (document.visibilityState === "hidden") return;
+
+      controller?.abort();
+      const requestController = new AbortController();
+      controller = requestController;
+      void fetch("/api/notifications/unread-count", {
+        cache: "no-store",
+        signal: requestController.signal,
+      })
         .then((response) => (response.ok ? response.json() : { count: 0 }))
         .then((data: { count?: number }) => {
           if (mounted) setCount(data.count ?? 0);
         })
         .catch(() => {
-          if (mounted) setCount(0);
+          if (mounted && !requestController.signal.aborted) setCount(0);
         });
     }
 
@@ -35,6 +44,7 @@ export function NotificationBell({ userId }: { userId: string | null }) {
 
     return () => {
       mounted = false;
+      controller?.abort();
       window.clearInterval(interval);
       window.removeEventListener("focus", refreshCount);
       window.removeEventListener("notifications:read", refreshCount);

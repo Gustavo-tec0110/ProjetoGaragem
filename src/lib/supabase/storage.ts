@@ -1,6 +1,6 @@
 export const PROJECT_IMAGES_BUCKET = "project-images";
 export const PROJECT_IMAGE_MAX_BYTES = 5 * 1024 * 1024;
-export const PROJECT_IMAGE_MIME_TYPES = ["image/jpeg", "image/jpg", "image/pjpeg", "image/png", "image/webp"] as const;
+const PROJECT_IMAGE_MIME_TYPES = ["image/jpeg", "image/jpg", "image/pjpeg", "image/png", "image/webp"] as const;
 
 export function isAllowedProjectImage(file: File) {
   return PROJECT_IMAGE_MIME_TYPES.includes(
@@ -8,7 +8,7 @@ export function isAllowedProjectImage(file: File) {
   );
 }
 
-export function getProjectImageExtension(file: File) {
+function getProjectImageExtension(file: File) {
   if (file.type === "image/png") return "png";
   if (file.type === "image/webp") return "webp";
   return "jpg";

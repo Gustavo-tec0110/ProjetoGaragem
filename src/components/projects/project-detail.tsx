@@ -386,8 +386,8 @@ export function ProjectDetail({
     views: project.views,
   });
 
-  // Load build alerts on component mount
   React.useEffect(() => {
+    let active = true;
     const databaseId = initialProject.databaseId;
     if (initialProject.source === "supabase" && databaseId) {
       const resolvedDatabaseId: string = databaseId;
@@ -397,13 +397,17 @@ export function ProjectDetail({
 
         try {
           const alerts = await getBuildAlerts(supabase, resolvedDatabaseId);
-          setBuildAlerts(alerts);
+          if (active) setBuildAlerts(alerts);
         } catch {
-          setBuildAlerts([]);
+          if (active) setBuildAlerts([]);
         }
       }
-      load();
+      void load();
     }
+
+    return () => {
+      active = false;
+    };
   }, [initialProject.databaseId, initialProject.source]);
   const localSocialState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
@@ -416,20 +420,28 @@ export function ProjectDetail({
       : project.views + localSocialState.views;
 
   React.useEffect(() => {
+    let active = true;
+
     if (initialProject.source === "supabase" && initialProject.databaseId) {
       const sessionKey = `pg-project-viewed:${initialProject.slug}:supabase`;
       if (window.sessionStorage.getItem(sessionKey)) return;
       window.sessionStorage.setItem(sessionKey, "1");
 
       void syncProjectView(initialProject.databaseId, initialProject.slug).then((result) => {
-        if (result?.ok && "viewsCount" in result && typeof result.viewsCount === "number") {
+        if (active && result?.ok && "viewsCount" in result && typeof result.viewsCount === "number") {
           const viewsCount = result.viewsCount;
           setSocialCounts((current) => ({ ...current, views: viewsCount }));
         }
       });
-      return;
+      return () => {
+        active = false;
+      };
     }
     recordLocalProjectView(initialProject.slug);
+
+    return () => {
+      active = false;
+    };
   }, [initialProject.databaseId, initialProject.slug, initialProject.source]);
 
   const gallery = project.gallery.length ? project.gallery : [project.mainImage];

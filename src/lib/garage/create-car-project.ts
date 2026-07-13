@@ -581,26 +581,27 @@ async function replaceExpenses(supabase: ServerSupabaseClient, carId: string, ex
   return error?.message ?? null;
 }
 
+function revalidateProjectCollectionPaths() {
+  for (const path of ["/", "/explorar", "/buscar", "/comparar", "/garagem"]) {
+    revalidatePath(path);
+  }
+}
+
+function revalidateProjectSlugs(slugs: string[]) {
+  for (const slug of new Set(slugs.filter(Boolean))) {
+    revalidatePath(`/projeto/${slug}`);
+    revalidatePath(`/carros/${slug}`);
+  }
+}
+
 export function revalidateProjectCreationPaths(slug: string) {
-  revalidatePath("/");
-  revalidatePath("/explorar");
-  revalidatePath("/buscar");
-  revalidatePath("/comparar");
-  revalidatePath("/garagem");
-  revalidatePath(`/projeto/${slug}`);
-  revalidatePath(`/carros/${slug}`);
+  revalidateProjectCollectionPaths();
+  revalidateProjectSlugs([slug]);
 }
 
 export function revalidateProjectUpdatePaths(previousSlug: string, nextSlug: string) {
-  revalidatePath("/");
-  revalidatePath("/explorar");
-  revalidatePath("/buscar");
-  revalidatePath("/comparar");
-  revalidatePath("/garagem");
-  revalidatePath(`/carros/${previousSlug}`);
-  revalidatePath(`/carros/${nextSlug}`);
-  revalidatePath(`/projeto/${previousSlug}`);
-  revalidatePath(`/projeto/${nextSlug}`);
+  revalidateProjectCollectionPaths();
+  revalidateProjectSlugs([previousSlug, nextSlug]);
 }
 
 export async function createCarProject(formData: FormData): Promise<CreateCarProjectResult> {

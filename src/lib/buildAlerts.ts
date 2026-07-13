@@ -264,19 +264,3 @@ export async function getBuildAlerts(
 
   return alerts;
 }
-
-export async function getRecommendationScore(
-  _supabase: SupabaseClient<Database>,
-  _partId: string,
-  _projectId: string,
-): Promise<number> {
-  void _supabase;
-  void _partId;
-  void _projectId;
-
-  // Disabled for the MVP: the old recommendation score depends on
-  // parts_catalog, project_parts and build_budgets, while the live UI uses
-  // car_parts and car_expenses. Returning zero keeps callers safe until the
-  // product model for catalog/recommendations is decided.
-  return 0;
-}

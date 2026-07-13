@@ -11,12 +11,12 @@ import type {
   CarRow,
   NotificationRow,
   ProfileRow,
+  Database,
 } from "@/lib/types";
 import {
   FALLBACK_CAR_CATALOG,
   type CarCatalogVersion,
 } from "@/lib/car-catalog";
-import { CAR_CATEGORIES, normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { getSupabaseServerClient } from "./server";
 
@@ -89,9 +89,7 @@ export type ProjectSearchSuggestion = {
   href?: string;
 };
 
-type Client = SupabaseClient;
-
-export { CAR_CATEGORIES, normalizeSlug };
+type Client = SupabaseClient<Database>;
 
 function stringArray(value: unknown) {
   return Array.isArray(value)
@@ -106,7 +104,6 @@ function normalizeCarRow(row: CarRow): CarRow {
     tags: stringArray(row.tags),
   };
 }
-
 function normalizeSearchTerm(value: string | null | undefined) {
   return (value ?? "")
     .normalize("NFD")
@@ -322,27 +319,21 @@ async function viewerFlagsByCar(supabase: Client, viewerId: string | null, carId
 }
 
 async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]> {
-  const viewerId = await getViewerId(supabase);
-  const profileMap = await fetchProfiles(
-    supabase,
-    rows.map((row) => row.owner_id)
-  );
-  const partCounts = await aggregatePartsByCar(
-    supabase,
-    rows.map((row) => row.id)
-  );
-  const expensesByCar = await aggregateExpensesByCar(
-    supabase,
-    rows.map((row) => row.id)
-  );
-  const updatesByCar = await aggregateUpdatesByCar(
-    supabase,
-    rows.map((row) => row.id)
-  );
+  const carIds = rows.map((row) => row.id);
+  const [viewerId, profileMap, partCounts, expensesByCar, updatesByCar] = await Promise.all([
+    getViewerId(supabase),
+    fetchProfiles(
+      supabase,
+      rows.map((row) => row.owner_id)
+    ),
+    aggregatePartsByCar(supabase, carIds),
+    aggregateExpensesByCar(supabase, carIds),
+    aggregateUpdatesByCar(supabase, carIds),
+  ]);
   const flags = await viewerFlagsByCar(
     supabase,
     viewerId,
-    rows.map((row) => row.id)
+    carIds
   );
 
   return rows.map((rawRow) => {
@@ -364,20 +355,6 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
       viewer_has_followed: flags.follows.has(row.id),
     };
   });
-}
-
-export async function qCarsLite(
-  supabase: Client
-): Promise<QueryResult<Array<Pick<CarRow, "id" | "slug" | "name" | "brand" | "model" | "year" | "category">>>> {
-  const { data, error } = await supabase
-    .from("cars")
-    .select("id, slug, name, brand, model, year, category")
-    .eq("is_public", true)
-    .order("brand", { ascending: true })
-    .order("model", { ascending: true });
-
-  if (error) return { data: null, error: error.message };
-  return { data: (data ?? []) as Array<Pick<CarRow, "id" | "slug" | "name" | "brand" | "model" | "year" | "category">>, error: null };
 }
 
 export async function qProfileById(
@@ -690,19 +667,26 @@ export async function qCarsByOwner(
   const cards = await hydrateCards(supabase, (data ?? []) as CarRow[]);
   return { data: cards, error: null };
 }
+type ProjectRelationTable = "car_likes" | "car_saves" | "project_follows";
 
-export async function qSavedCars(userId: string): Promise<QueryResult<CarCard[]>> {
+async function qRelatedCars(
+  userId: string,
+  table: ProjectRelationTable,
+  preserveRelationOrder = false
+): Promise<QueryResult<CarCard[]>> {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
 
-  const { data: saves, error } = await supabase
-    .from("car_saves")
+  const { data: relations, error } = await supabase
+    .from(table)
     .select("car_id")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
   if (error) return { data: null, error: error.message };
 
-  const ids = ((saves ?? []) as Array<{ car_id: string }>).map((save) => save.car_id);
+  const ids = ((relations ?? []) as Array<{ car_id: string }>).map(
+    (relation) => relation.car_id
+  );
   if (!ids.length) return { data: [], error: null };
 
   const { data: cars, error: carsError } = await supabase
@@ -711,63 +695,24 @@ export async function qSavedCars(userId: string): Promise<QueryResult<CarCard[]>
     .in("id", ids)
     .eq("is_public", true);
   if (carsError) return { data: null, error: carsError.message };
+
+  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
+  if (!preserveRelationOrder) return { data: cards, error: null };
 
   const order = new Map(ids.map((id, index) => [id, index]));
-  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
-  return {
-    data: cards.sort((left, right) => (order.get(left.id) ?? 0) - (order.get(right.id) ?? 0)),
-    error: null,
-  };
+  return { data: cards.sort((left, right) => (order.get(left.id) ?? 0) - (order.get(right.id) ?? 0)), error: null };
 }
 
-export async function qLikedCars(userId: string): Promise<QueryResult<CarCard[]>> {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: [], error: null };
-
-  const { data: likes, error } = await supabase
-    .from("car_likes")
-    .select("car_id")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-  if (error) return { data: null, error: error.message };
-
-  const ids = ((likes ?? []) as Array<{ car_id: string }>).map((like) => like.car_id);
-  if (!ids.length) return { data: [], error: null };
-
-  const { data: cars, error: carsError } = await supabase
-    .from("cars")
-    .select("*")
-    .in("id", ids)
-    .eq("is_public", true);
-  if (carsError) return { data: null, error: carsError.message };
-
-  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
-  return { data: cards, error: null };
+export function qSavedCars(userId: string) {
+  return qRelatedCars(userId, "car_saves", true);
 }
 
-export async function qFollowedCars(userId: string): Promise<QueryResult<CarCard[]>> {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: [], error: null };
+export function qLikedCars(userId: string) {
+  return qRelatedCars(userId, "car_likes");
+}
 
-  const { data: follows, error } = await supabase
-    .from("project_follows")
-    .select("car_id")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-  if (error) return { data: null, error: error.message };
-
-  const ids = ((follows ?? []) as Array<{ car_id: string }>).map((follow) => follow.car_id);
-  if (!ids.length) return { data: [], error: null };
-
-  const { data: cars, error: carsError } = await supabase
-    .from("cars")
-    .select("*")
-    .in("id", ids)
-    .eq("is_public", true);
-  if (carsError) return { data: null, error: carsError.message };
-
-  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
-  return { data: cards, error: null };
+export function qFollowedCars(userId: string) {
+  return qRelatedCars(userId, "project_follows");
 }
 
 export async function qNotifications(limit = 20): Promise<QueryResult<NotificationWithContext[]>> {
@@ -870,25 +815,32 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
   if (error) return { data: null, error: error.message };
   if (!row) return { data: null, error: "car_not_found" };
 
-  const [card] = await hydrateCards(supabase, [normalizeCarRow(row as CarRow)]);
-
-  const [{ data: photos }, { data: parts }, { data: comments }, { data: updates }, { data: expenses }] = await Promise.all([
-    supabase.from("car_photos").select("*").eq("car_id", card.id).order("sort_order", { ascending: true }),
-    supabase.from("car_parts").select("*").eq("car_id", card.id).order("status", { ascending: true }).order("created_at", { ascending: true }),
-    supabase.from("car_comments").select("*").eq("car_id", card.id).order("created_at", { ascending: false }).limit(50),
+  const normalizedRow = normalizeCarRow(row as CarRow);
+  const carId = normalizedRow.id;
+  const [cards, photosResult, partsResult, commentsResult, updatesResult, expensesResult] = await Promise.all([
+    hydrateCards(supabase, [normalizedRow]),
+    supabase.from("car_photos").select("*").eq("car_id", carId).order("sort_order", { ascending: true }),
+    supabase.from("car_parts").select("*").eq("car_id", carId).order("status", { ascending: true }).order("created_at", { ascending: true }),
+    supabase.from("car_comments").select("*").eq("car_id", carId).order("created_at", { ascending: false }).limit(50),
     supabase
       .from("car_build_updates")
       .select("*")
-      .eq("car_id", card.id)
+      .eq("car_id", carId)
       .order("happened_at", { ascending: false })
       .order("created_at", { ascending: false }),
     supabase
       .from("car_expenses")
       .select("*")
-      .eq("car_id", card.id)
+      .eq("car_id", carId)
       .order("spent_at", { ascending: false })
       .order("created_at", { ascending: false }),
   ]);
+  const [card] = cards;
+  const { data: photos } = photosResult;
+  const { data: parts } = partsResult;
+  const { data: comments } = commentsResult;
+  const { data: updates } = updatesResult;
+  const { data: expenses } = expensesResult;
 
   const commentRows = (comments ?? []) as CarCommentRow[];
   const commentAuthorMap = await fetchProfiles(
@@ -910,47 +862,4 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     },
     error: null,
   };
-}
-
-export async function qRankingCars(): Promise<QueryResult<{
-  mostLiked: CarCard[];
-  mostSaved: CarCard[];
-  newest: CarCard[];
-}>> {
-  const [mostLiked, mostSaved, newest] = await Promise.all([
-    qExploreCars({ sort: "likes", limit: 12 }),
-    qExploreCars({ sort: "saves", limit: 12 }),
-    qExploreCars({ sort: "recent", limit: 12 }),
-  ]);
-
-  if (mostLiked.error) return { data: null, error: mostLiked.error };
-  if (mostSaved.error) return { data: null, error: mostSaved.error };
-  if (newest.error) return { data: null, error: newest.error };
-
-  return {
-    data: {
-      mostLiked: mostLiked.data ?? [],
-      mostSaved: mostSaved.data ?? [],
-      newest: newest.data ?? [],
-    },
-    error: null,
-  };
-}
-
-export async function getCarById(id: string) {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: null, error: "supabase_not_configured" };
-  const { data, error } = await supabase.from("cars").select("*").eq("id", id).maybeSingle();
-  if (error) return { data: null, error: error.message };
-  return { data, error: data ? null : "car_not_found" };
-}
-
-export async function getPerfilUsuario(username: string) {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: null, error: "supabase_not_configured" };
-  return qProfileByUsername(supabase, username);
-}
-
-export async function getCarrosDoUsuario(userId: string, incluirPrivadas = false) {
-  return qCarsByOwner(userId, incluirPrivadas);
 }

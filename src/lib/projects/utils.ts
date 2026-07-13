@@ -12,14 +12,10 @@ import {
 } from "@/lib/projects/types";
 
 export const PROJECT_IMAGE_FALLBACK = "/ref/hero-car.jpg";
-export const PROJECTS_PER_PAGE = 9;
+const PROJECTS_PER_PAGE = 9;
 
 export function buildProjectHref(slug: string) {
   return `/projeto/${slug}`;
-}
-
-export function buildLegacyProjectHref(slug: string) {
-  return `/carros/${slug}`;
 }
 
 export function buildSearchHref(query: string) {
@@ -51,7 +47,7 @@ export function formatProjectDate(value: string | null | undefined) {
   return new Date(value).toLocaleDateString("pt-BR");
 }
 
-export function normalizeProjectStatus(value: string | null | undefined): ProjectStatus {
+function normalizeProjectStatus(value: string | null | undefined): ProjectStatus {
   if (!value) return "Em andamento";
 
   const normalized = value
@@ -77,7 +73,7 @@ export function normalizeProjectStatus(value: string | null | undefined): Projec
     : "Em andamento";
 }
 
-export function statusToProgress(status: ProjectStatus) {
+function statusToProgress(status: ProjectStatus) {
   switch (status) {
     case "Planejamento":
       return 12;
@@ -92,7 +88,7 @@ export function statusToProgress(status: ProjectStatus) {
   }
 }
 
-export function clampProgress(value: number | null | undefined, fallbackStatus: ProjectStatus) {
+function clampProgress(value: number | null | undefined, fallbackStatus: ProjectStatus) {
   if (value == null || Number.isNaN(value)) return statusToProgress(fallbackStatus);
   return Math.min(100, Math.max(0, Math.round(value)));
 }
@@ -170,11 +166,11 @@ export function uniqueStrings(values: Array<string | null | undefined>) {
   );
 }
 
-export function sumProjectExpenses(expenses: ProjectExpense[]) {
+function sumProjectExpenses(expenses: ProjectExpense[]) {
   return expenses.reduce((sum, expense) => sum + Math.max(0, expense.amount), 0);
 }
 
-export function groupExpensesByCategory(expenses: ProjectExpense[]): ProjectFinanceCategoryTotal[] {
+function groupExpensesByCategory(expenses: ProjectExpense[]): ProjectFinanceCategoryTotal[] {
   const map = new Map<string, number>();
 
   for (const expense of expenses) {
@@ -197,7 +193,7 @@ export function groupExpensesByCategory(expenses: ProjectExpense[]): ProjectFina
     );
 }
 
-export function getProjectDuration(startedAt: string | null | undefined, fallbackDate: string) {
+function getProjectDuration(startedAt: string | null | undefined, fallbackDate: string) {
   if (!startedAt) {
     return {
       months: null,
@@ -234,7 +230,7 @@ export function getProjectDuration(startedAt: string | null | undefined, fallbac
   };
 }
 
-export function sortProjectUpdates(updates: ProjectUpdate[]) {
+function sortProjectUpdates(updates: ProjectUpdate[]) {
   return [...updates].sort(
     (left, right) =>
       new Date(right.date).getTime() - new Date(left.date).getTime() ||
@@ -242,7 +238,7 @@ export function sortProjectUpdates(updates: ProjectUpdate[]) {
   );
 }
 
-export function sortProjectExpenses(expenses: ProjectExpense[]) {
+function sortProjectExpenses(expenses: ProjectExpense[]) {
   return [...expenses].sort(
     (left, right) =>
       new Date(right.date).getTime() - new Date(left.date).getTime() ||
@@ -250,7 +246,7 @@ export function sortProjectExpenses(expenses: ProjectExpense[]) {
   );
 }
 
-export function getProjectTotalInvested(project: Pick<Project, "totalInvested" | "estimatedCost">) {
+function getProjectTotalInvested(project: Pick<Project, "totalInvested" | "estimatedCost">) {
   return project.totalInvested ?? project.estimatedCost;
 }
 
@@ -336,7 +332,7 @@ function wordStartsWith(text: string, query: string) {
   return text.split(" ").some((word) => word.startsWith(query));
 }
 
-export function getProjectSearchRank(project: Project, query: string) {
+function getProjectSearchRank(project: Project, query: string) {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return getProjectEngagementScore(project);
 

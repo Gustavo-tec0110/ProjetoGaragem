@@ -7,7 +7,8 @@ import { ArrowDown, ArrowUp, ImagePlus, Star, Trash2, Upload } from "lucide-reac
 import { ProjectImage } from "@/components/projects/project-image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getAuthUserName, useAuth } from "@/components/AuthProvider";
+import { useAuth } from "@/components/AuthProvider";
+import { getAuthUserName } from "@/lib/auth/user";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import {
   PROJECT_IMAGE_MAX_BYTES,

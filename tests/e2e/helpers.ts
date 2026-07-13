@@ -15,11 +15,11 @@ export const e2eSecondUser: E2EAccount = {
   password: process.env.E2E_SECOND_USER_PASSWORD,
 };
 
-export function hasE2EUser() {
+function hasE2EUser() {
   return Boolean(e2eUser.email && e2eUser.password);
 }
 
-export function hasSecondE2EUser() {
+function hasSecondE2EUser() {
   return Boolean(e2eSecondUser.email && e2eSecondUser.password);
 }
 
@@ -27,7 +27,7 @@ export function hasAuthenticatedE2EUsers() {
   return hasE2EUser() && hasSecondE2EUser();
 }
 
-export async function clearAuthState(page: Page) {
+async function clearAuthState(page: Page) {
   await page.context().clearCookies();
   await page.goto("/");
   await page.evaluate(() => {

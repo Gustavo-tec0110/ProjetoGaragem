@@ -92,10 +92,6 @@ export function getLocalProjects() {
   return enrichedProjectsCache;
 }
 
-export function getLocalProjectBySlug(slug: string) {
-  return getLocalProjects().find((project) => project.slug === slug) ?? null;
-}
-
 export function saveLocalProject(project: Project) {
   const normalized = enrichProject(project);
   const current = readProjectState();
@@ -156,7 +152,7 @@ export function recordLocalProjectView(slug: string) {
   return next.views;
 }
 
-export function applyLocalProjectMetrics(project: Project): Project {
+function applyLocalProjectMetrics(project: Project): Project {
   const state = getLocalProjectSocialState(project.slug);
   return {
     ...project,

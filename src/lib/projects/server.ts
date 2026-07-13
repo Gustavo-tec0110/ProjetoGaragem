@@ -71,7 +71,7 @@ const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
   };
 });
 
-export const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
+const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
   if (!isSupabaseConfigured) return null;
 
   const result = await qCarBySlug(slug);
@@ -225,7 +225,7 @@ export const getFeaturedProjects = cache(
   }
 );
 
-export const getProjectBySlug = cache(async (slug: string) => {
+const getProjectBySlug = cache(async (slug: string) => {
   const { project } = await getRouteProjectBySlug(slug);
   return project;
 });

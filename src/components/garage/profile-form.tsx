@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useActionState } from "react";
 
 import { saveProfileAction, type ActionState } from "@/app/carros/actions";

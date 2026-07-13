@@ -1,7 +1,7 @@
 import type { Project, ProjectPart } from "@/lib/projects/types";
 import { normalizeSearchText } from "@/lib/projects/utils";
 
-export type InspirationChecklistItem = {
+type InspirationChecklistItem = {
   label: string;
   planned: boolean;
 };

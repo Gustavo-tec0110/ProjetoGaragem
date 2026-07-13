@@ -276,7 +276,7 @@ export const FALLBACK_CAR_CATALOG: CarCatalogVersion[] = [
   },
 ];
 
-export function normalizeCatalogText(value: string) {
+function normalizeCatalogText(value: string) {
   return value
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")

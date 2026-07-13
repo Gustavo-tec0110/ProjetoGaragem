@@ -3,6 +3,8 @@ import { createServerClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 
 import { normalizeSlug } from "@/lib/garage/constants";
+import { getSafeNextPath } from "@/lib/auth/redirect";
+import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import {
   getRequestSiteUrl,
   isSupabaseConfigured,
@@ -12,36 +14,16 @@ import {
 import type { ProfileRow } from "@/lib/types";
 import type { Database } from "@/types/supabase";
 
-function safeNextPath(next: string | null) {
-  if (!next) return "/garagem";
-  if (!next.startsWith("/")) return "/garagem";
-  if (next.startsWith("//")) return "/garagem";
-  return next;
-}
-
 function metadataString(user: User, key: string) {
   const value = user.user_metadata?.[key];
   return typeof value === "string" && value.trim() ? value.trim() : null;
-}
-
-function userDisplayName(user: User) {
-  return (
-    metadataString(user, "full_name") ||
-    metadataString(user, "name") ||
-    user.email ||
-    "Membro Projeto Garagem"
-  );
-}
-
-function userAvatarUrl(user: User) {
-  return metadataString(user, "avatar_url") || metadataString(user, "picture");
 }
 
 function usernameFromUser(user: User) {
   const source =
     metadataString(user, "preferred_username") ||
     user.email?.split("@")[0] ||
-    userDisplayName(user);
+    getAuthUserName(user) || "Membro Projeto Garagem";
 
   return normalizeSlug(`${source}-${user.id.slice(0, 6)}`).slice(0, 24);
 }
@@ -49,7 +31,7 @@ function usernameFromUser(user: User) {
 export async function GET(request: NextRequest) {
   const origin = getRequestSiteUrl(request.nextUrl.origin);
   const code = request.nextUrl.searchParams.get("code");
-  const next = safeNextPath(request.nextUrl.searchParams.get("next"));
+  const next = getSafeNextPath(request.nextUrl.searchParams.get("next"));
 
   if (!isSupabaseConfigured) {
     return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, origin));
@@ -101,9 +83,9 @@ export async function GET(request: NextRequest) {
       .maybeSingle();
 
     if (!profile) {
-      const displayName = userDisplayName(user);
+      const displayName = getAuthUserName(user) ?? "Membro Projeto Garagem";
       const fullName = metadataString(user, "full_name") || metadataString(user, "name");
-      const avatarUrl = userAvatarUrl(user);
+      const avatarUrl = getAuthUserAvatar(user);
       const username = usernameFromUser(user);
 
       const { error: insertError } = await supabase.from("profiles").insert({
@@ -129,7 +111,7 @@ export async function GET(request: NextRequest) {
       }
     } else {
       const fullName = metadataString(user, "full_name") || metadataString(user, "name");
-      const avatarUrl = userAvatarUrl(user);
+      const avatarUrl = getAuthUserAvatar(user);
       const profileUpdate: Partial<Pick<ProfileRow, "email" | "full_name" | "avatar_url">> = {
         email: user.email ?? null,
       };

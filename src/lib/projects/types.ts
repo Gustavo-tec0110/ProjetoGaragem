@@ -1,4 +1,4 @@
-export type ProjectSource = "supabase" | "demo" | "local";
+type ProjectSource = "supabase" | "demo" | "local";
 
 export const PROJECT_STATUS_VALUES = [
   "Planejamento",
@@ -21,7 +21,7 @@ export const PROJECT_EXPENSE_CATEGORIES = [
   "Outros",
 ] as const;
 
-export type ProjectExpenseCategory = (typeof PROJECT_EXPENSE_CATEGORIES)[number];
+type ProjectExpenseCategory = (typeof PROJECT_EXPENSE_CATEGORIES)[number];
 
 export type ProjectSortKey =
   | "relevance"
@@ -34,7 +34,7 @@ export type ProjectSortKey =
   | "invested"
   | "hot";
 
-export type ProjectPartStatus = "installed" | "planned" | "removed";
+type ProjectPartStatus = "installed" | "planned" | "removed";
 
 export type ProjectPart = {
   id: string;

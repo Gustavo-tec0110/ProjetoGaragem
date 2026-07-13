@@ -9,7 +9,8 @@ import { CarFront, ChevronDown, Compass, Home, LogOut, Plus, Trophy, User, Wareh
 
 import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Button } from "@/components/ui/button";
-import { getAuthUserAvatar, getAuthUserName, useAuth } from "@/components/AuthProvider";
+import { useAuth } from "@/components/AuthProvider";
+import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import { cn } from "@/lib/utils";
 
 const nav = [

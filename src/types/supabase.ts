@@ -1,1 +1,1 @@
-export type { Database, Json } from "@/lib/types";
+export type { Database } from "@/lib/types";

@@ -11,13 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
-
-function safeNextPath(next: string | null) {
-  if (!next) return "/garagem";
-  if (!next.startsWith("/")) return "/garagem";
-  if (next.startsWith("//")) return "/garagem";
-  return next;
-}
+import { getSafeNextPath } from "@/lib/auth/redirect";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,7 +35,7 @@ export default function LoginPage() {
     }
 
     const nextPath = new URLSearchParams(window.location.search).get("next");
-    router.push(safeNextPath(nextPath));
+    router.push(getSafeNextPath(nextPath));
   };
 
   return (
