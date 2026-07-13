@@ -188,14 +188,14 @@ function PositionBadge({ position }: { position: number }) {
 
 function CategoryPills({ selectedKey }: { selectedKey: RankingCategoryKey }) {
   return (
-    <div className="mt-8 flex flex-wrap gap-2">
+    <div className="-mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1 md:mt-8 md:flex-wrap md:overflow-visible md:pb-0">
       {RANKING_CATEGORIES.map((category) => (
         <Button
           key={category.key}
           asChild
           variant={category.key === selectedKey ? "default" : "outline"}
           size="sm"
-          className={category.key === selectedKey ? "shadow-glow" : undefined}
+          className={`shrink-0 ${category.key === selectedKey ? "shadow-glow" : ""}`}
         >
           <Link href={getCategoryHref(category.key)}>{category.label}</Link>
         </Button>
@@ -216,18 +216,18 @@ function OverviewCard({
   const Icon = METRIC_ICONS[metricKind];
 
   return (
-    <Card className="border-border/70 bg-background/25 p-4">
+    <Card className="border-border/70 bg-background/25 p-2.5 md:p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-muted">{label}</p>
-          <p className="mt-2 font-title text-xl tracking-tight">
+          <p className="text-[9px] uppercase tracking-[0.12em] text-muted md:text-[11px] md:tracking-[0.22em]">{label}</p>
+          <p className="mt-1 font-title text-base tracking-tight md:mt-2 md:text-xl">
             {project ? formatMetric(metricKind, getMetricValue(project, metricKind)) : "--"}
           </p>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 hidden text-sm text-muted md:block">
             {project ? project.title : "Sem projetos suficientes"}
           </p>
         </div>
-        <span className="inline-flex size-11 items-center justify-center rounded-3xl border border-border/70 bg-background/35">
+        <span className="hidden size-11 items-center justify-center rounded-3xl border border-border/70 bg-background/35 sm:inline-flex">
           <Icon className="size-5 text-accent" />
         </span>
       </div>
@@ -257,7 +257,7 @@ function PodiumCard({
           href={buildProjectHref(project.slug)}
           className="block outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
         >
-          <div className="relative aspect-[4/3] overflow-hidden bg-surface">
+          <div className="relative aspect-[16/10] overflow-hidden bg-surface">
             <ProjectImage
               src={project.mainImage}
               alt={`Foto do projeto ${project.title}`}
@@ -277,8 +277,8 @@ function PodiumCard({
               {formatMetric(category.metricKind, metricValue)}
             </span>
           </div>
-          <div className="p-3">
-            <h3 className="line-clamp-2 min-h-10 font-title text-base leading-5 tracking-tight">
+          <div className="p-2.5">
+            <h3 className="line-clamp-2 min-h-9 font-title text-sm leading-[1.125rem] tracking-tight sm:text-base sm:leading-5">
               {project.title}
             </h3>
             <p className="mt-1 truncate text-xs text-muted">
@@ -286,7 +286,7 @@ function PodiumCard({
             </p>
           </div>
         </Link>
-        <div className="grid grid-cols-3 border-y border-border/60 text-xs text-muted">
+        <div className="hidden grid-cols-3 border-y border-border/60 text-xs text-muted sm:grid lg:hidden">
           <span className="flex min-h-9 items-center justify-center gap-1 border-r border-border/60">
             <Heart className="size-3.5 text-accent" aria-hidden="true" />
             {project.likes.toLocaleString("pt-BR")}
@@ -300,7 +300,7 @@ function PodiumCard({
             {project.saves.toLocaleString("pt-BR")}
           </span>
         </div>
-        <div className="p-2">
+        <div className="hidden p-2 sm:block lg:hidden">
           <Link
             href={buildProjectHref(project.slug)}
             className="inline-flex min-h-11 w-full items-center justify-center rounded-3xl bg-accent px-3 text-xs font-semibold text-accent-foreground outline-none transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent"
@@ -525,30 +525,30 @@ export function ProjectRankingsBoard({
   const topSaved = getRankedProjects(projects, RANKING_CATEGORIES[3])[0]?.project;
 
   return (
-    <div className="mx-auto w-full max-w-6xl pt-20 pb-12 md:pt-24">
-      <section className="relative overflow-hidden rounded-5xl border border-border/70 bg-background/35 p-6 shadow-elevated md:p-8">
+    <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
+      <section className="relative overflow-hidden rounded-4xl border border-border/70 bg-background/35 p-4 shadow-elevated md:rounded-5xl md:p-8">
         <div className="absolute inset-0 pg-grid-bg opacity-80" aria-hidden="true" />
         <div className="absolute inset-0 pg-scanlines opacity-20" aria-hidden="true" />
         <div className="absolute inset-0 pg-particles opacity-35" aria-hidden="true" />
 
         <div className="relative">
-          <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
+          <div className="flex flex-col gap-4 md:gap-6 xl:flex-row xl:items-end xl:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="secondary">Area de destaque</Badge>
                 <Badge>{source === "supabase" ? "Base real" : "Fallback demo"}</Badge>
               </div>
-              <h1 className="mt-4 font-title text-4xl tracking-tight md:text-6xl">
+              <h1 className="mt-3 font-title text-[2rem] leading-tight tracking-tight md:mt-4 md:text-6xl">
                 Ranking de Projetos
               </h1>
-              <p className="mt-4 max-w-2xl text-sm text-muted md:text-base">
+              <p className="mt-2 line-clamp-3 max-w-2xl text-sm text-muted md:mt-4 md:line-clamp-none md:text-base">
                 Aqui ficam os projetos mais curtidos, vistos, salvos e em destaque da
                 comunidade. O ranking troca de categoria, muda a metrica principal e
                 coloca os lideres no podio.
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3 xl:w-[28rem]">
+            <div className="grid grid-cols-3 gap-2 md:gap-3 xl:w-[28rem]">
               <OverviewCard label="Mais curtido" project={topLiked} metricKind="likes" />
               <OverviewCard label="Mais visto" project={topViewed} metricKind="views" />
               <OverviewCard label="Mais salvo" project={topSaved} metricKind="saves" />
@@ -557,26 +557,26 @@ export function ProjectRankingsBoard({
 
           <CategoryPills selectedKey={category.key} />
 
-          <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="mt-4 grid gap-3 md:mt-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-muted">Categoria atual</p>
-              <h2 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
+              <h2 className="mt-1 font-title text-xl tracking-tight md:mt-2 md:text-3xl">
                 {category.label}
               </h2>
-              <p className="mt-2 max-w-2xl text-sm text-muted">{category.description}</p>
+              <p className="mt-1 line-clamp-2 max-w-2xl text-xs text-muted md:mt-2 md:line-clamp-none md:text-sm">{category.description}</p>
             </div>
 
-            <Card className="border-border/70 bg-background/20 p-4 lg:min-w-72">
+            <Card className="hidden border-border/70 bg-background/20 p-3 md:block md:p-4 lg:min-w-72">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted">
                     Lider atual
                   </p>
-                  <p className="mt-1 font-title text-xl tracking-tight">
+                  <p className="mt-1 truncate font-title text-base tracking-tight md:text-xl">
                     {champion?.title ?? "Sem lider"}
                   </p>
                 </div>
-                <span className="inline-flex size-12 items-center justify-center rounded-3xl border border-accent/20 bg-accent/10">
+                <span className="inline-flex size-9 items-center justify-center rounded-2xl border border-accent/20 bg-accent/10 md:size-12 md:rounded-3xl">
                   <Sparkles className="size-5 text-accent" />
                 </span>
               </div>
@@ -622,11 +622,11 @@ export function ProjectRankingsBoard({
         </Card>
       ) : (
         <>
-          <section className="mt-10">
+          <section className="mt-6 md:mt-10">
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-muted">Podio</p>
-                <h2 className="mt-2 font-title text-3xl tracking-tight">
+                <h2 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-3xl">
                   Top 3 da categoria
                 </h2>
               </div>
@@ -635,7 +635,7 @@ export function ProjectRankingsBoard({
               </p>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:items-end">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-4 lg:items-end">
               {podium
                 .sort((left, right) => {
                   const order = [2, 1, 3];
@@ -647,11 +647,11 @@ export function ProjectRankingsBoard({
             </div>
           </section>
 
-          <section className="mt-12">
+          <section className="mt-8 md:mt-12">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-muted">Leaderboard</p>
-                <h2 className="mt-2 font-title text-3xl tracking-tight">
+                <h2 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-3xl">
                   Posicoes seguintes
                 </h2>
               </div>

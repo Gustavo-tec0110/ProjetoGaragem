@@ -92,7 +92,7 @@ export async function ProjectDiscoveryPage({
     : "Ainda nao ha projetos para exibir.";
 
   return (
-    <div className="mx-auto w-full max-w-6xl pb-8 pt-20 md:pb-12 md:pt-24">
+    <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-8 md:pb-12 md:pt-24">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-5">
         <div>
           <p className="text-xs text-muted">{eyebrow}</p>

@@ -78,10 +78,12 @@ function formatSpecValue(value: string | number | null | undefined) {
 
 function Stat({ label, value, icon: Icon }: DetailStat) {
   return (
-    <Card className="p-5">
-      <Icon className="size-5 text-accent" />
-      <p className="mt-3 text-xs text-muted">{label}</p>
-      <p className="mt-1 font-title text-2xl">{value}</p>
+    <Card className="p-3 md:p-5">
+      <div className="flex items-center gap-2 md:block">
+        <Icon className="size-4 shrink-0 text-accent md:size-5" />
+        <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
+      </div>
+      <p className="mt-2 truncate font-title text-xl md:mt-1 md:text-2xl">{value}</p>
     </Card>
   );
 }
@@ -97,10 +99,10 @@ function SpecCard({ label, value }: DetailSpec) {
 
 function QuickFactCard({ label, value, icon: Icon }: QuickFact) {
   return (
-    <Card className="p-4">
+    <Card className="p-3 md:p-4">
       <div className="flex items-center gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/35">
-          <Icon className="size-5 text-accent" />
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/35 md:size-10">
+          <Icon className="size-4 text-accent md:size-5" />
         </div>
         <div className="min-w-0">
           <p className="text-xs text-muted">{label}</p>
@@ -147,7 +149,7 @@ function ProjectPartsShowcase({
 
   return (
     <section>
-      <Card className="p-5 md:p-6">
+      <Card className="p-4 md:p-6">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-xs text-muted">{eyebrow}</p>
@@ -446,7 +448,7 @@ export function ProjectDetail({
   ];
 
   return (
-    <div className="space-y-12 pb-14">
+    <div className="space-y-8 pb-6 md:space-y-12 md:pb-14">
       <section className="pg-grid-bg relative overflow-hidden px-4 sm:px-6">
         <div className="absolute inset-0">
           <ProjectImage
@@ -462,7 +464,7 @@ export function ProjectDetail({
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
         </div>
 
-        <div className="relative mx-auto grid min-h-[78vh] w-full max-w-6xl gap-8 pb-10 pt-28 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+        <div className="relative mx-auto grid w-full max-w-6xl gap-5 pb-6 pt-24 md:gap-8 md:pb-10 md:pt-28 lg:min-h-[78vh] lg:grid-cols-[1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <div className="flex flex-wrap gap-2">
               <Badge variant="secondary">{project.style}</Badge>
@@ -471,19 +473,19 @@ export function ProjectDetail({
               {location ? <Badge>{location}</Badge> : null}
             </div>
 
-            <h1 className="mt-5 font-title text-4xl tracking-tight md:text-6xl">
+            <h1 className="mt-3 font-title text-3xl leading-tight tracking-tight md:mt-5 md:text-6xl">
               {project.title}
             </h1>
             {carNickname ? (
-              <p className="mt-3 font-title text-2xl text-accent md:text-3xl">
+              <p className="mt-2 font-title text-xl text-accent md:mt-3 md:text-3xl">
                 {carNickname}
               </p>
             ) : null}
-            <p className="mt-3 text-lg text-muted md:text-xl">
+            <p className="mt-2 text-sm text-muted md:mt-3 md:text-xl">
               {vehicleLine || `${project.carModel} - ${project.year}`} - {project.engine}
             </p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted">
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted md:mt-5 md:gap-4 md:text-sm">
               {project.ownerUsername ? (
                 <Link
                   href={`/perfil/${project.ownerUsername}`}
@@ -506,20 +508,20 @@ export function ProjectDetail({
               ) : null}
             </div>
 
-            <p className="mt-5 max-w-2xl text-foreground/90">{project.description}</p>
+            <p className="mt-3 line-clamp-3 max-w-2xl text-sm text-foreground/90 md:mt-5 md:line-clamp-none md:text-base">{project.description}</p>
 
-            <div className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
-              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+            <div className="mt-4 grid max-w-2xl grid-cols-3 gap-2 md:mt-6 md:gap-3">
+              <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
                 <p className="text-xs text-muted">Estado atual</p>
                 <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+              <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
                 <p className="text-xs text-muted">Modificações instaladas</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {project.installedParts.length.toLocaleString("pt-BR")}
                 </p>
               </div>
-              <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3">
+              <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
                 <p className="text-xs text-muted">�altima atualização</p>
                 <p className="mt-1 font-ui text-sm font-semibold">
                   {formatProjectDate(project.lastUpdateAt)}
@@ -527,7 +529,7 @@ export function ProjectDetail({
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-4 flex flex-wrap gap-2 md:mt-7 md:gap-3">
               <ProjectSocialActions
                 slug={project.slug}
                 databaseId={project.databaseId}
@@ -568,7 +570,7 @@ export function ProjectDetail({
             </div>
           </div>
 
-          <div className="relative min-h-[22rem] overflow-hidden rounded-4xl border border-border/70 bg-surface shadow-elevated lg:min-h-[34rem]">
+          <div className="relative min-h-60 overflow-hidden rounded-4xl border border-border/70 bg-surface shadow-elevated md:min-h-[22rem] lg:min-h-[34rem]">
             <ProjectImage
               src={gallery[0]}
               alt={`Foto principal do projeto ${project.title}`}
@@ -589,7 +591,7 @@ export function ProjectDetail({
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-6xl space-y-12 px-4 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl space-y-8 px-4 sm:px-6 md:space-y-12">
         <nav className="flex gap-2 overflow-x-auto rounded-4xl border border-border/70 bg-background/25 p-2">
           {[
             { href: "#visao-geral", label: "Visão geral" },
@@ -635,7 +637,7 @@ export function ProjectDetail({
           </Card>
         ) : null}
 
-        <section id="visao-geral" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <section id="visao-geral" className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
           {detailStats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
           ))}
@@ -657,7 +659,7 @@ export function ProjectDetail({
         <section>
           <p className="text-xs text-muted">Resumo rapido</p>
           <h2 className="mt-1 font-title text-2xl tracking-tight">Dados essenciais</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:gap-3 lg:grid-cols-5">
             {quickFacts.map((fact) => (
               <QuickFactCard
                 key={fact.label}
@@ -845,7 +847,7 @@ export function ProjectDetail({
 
         {commentThread ? (
           <section id="comentarios" className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-            <Card className="p-5 md:p-6">
+            <Card className="p-4 md:p-6">
               <p className="text-xs text-muted">Comentários</p>
               <h2 className="font-title text-2xl tracking-tight">Comentar</h2>
               <p className="mt-2 text-sm text-muted">

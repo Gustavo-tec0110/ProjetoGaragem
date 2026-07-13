@@ -15,7 +15,7 @@ export default function AuthCodeErrorPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-md pt-20 md:pt-24 pb-12">
+        <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
           <Card className="p-6 md:p-8">
             <p className="text-xs text-muted">Autenticação</p>
             <h1 className="mt-2 font-title text-2xl tracking-tight">
@@ -48,4 +48,3 @@ export default function AuthCodeErrorPage() {
     </div>
   );
 }
-

@@ -2,7 +2,7 @@
 
 :root {
   color-scheme: dark;
-  --mobile-bottom-nav-space: calc(108px + env(safe-area-inset-bottom, 0px));
+  --mobile-bottom-nav-space: calc(120px + env(safe-area-inset-bottom, 0px));
 }
 
 @theme {
@@ -99,6 +99,11 @@
     height: 100%;
   }
 
+  html {
+    scroll-padding-top: 5rem;
+    scroll-padding-bottom: var(--mobile-bottom-nav-space);
+  }
+
   body {
     background: var(--color-background);
     color: var(--color-foreground);
@@ -133,6 +138,26 @@
   .pg-transition {
     transition-timing-function: var(--pg-ease-out);
     transition-duration: var(--pg-duration);
+  }
+
+  .mobile-cta-safe {
+    scroll-margin-bottom: calc(var(--mobile-bottom-nav-space) + 1rem);
+  }
+
+  @media (max-width: 1023px) {
+    body main {
+      padding-bottom: var(--mobile-bottom-nav-space) !important;
+    }
+
+    .mobile-page-shell {
+      padding-top: 4.75rem;
+      padding-bottom: 1rem;
+    }
+
+    .mobile-cta-safe {
+      margin-bottom: 1rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    }
   }
 
   .pg-surface {

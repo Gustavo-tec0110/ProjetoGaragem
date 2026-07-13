@@ -42,10 +42,12 @@ function Stat({
   icon: typeof Heart;
 }) {
   return (
-    <Card className="p-5">
-      <Icon className="size-5 text-accent" />
-      <p className="mt-3 text-xs text-muted">{label}</p>
-      <p className="mt-1 font-title text-3xl">{value.toLocaleString("pt-BR")}</p>
+    <Card className="p-3 md:p-5">
+      <div className="flex items-center gap-2 md:block">
+        <Icon className="size-4 shrink-0 text-accent md:size-5" />
+        <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
+      </div>
+      <p className="mt-2 font-title text-xl md:mt-1 md:text-3xl">{value.toLocaleString("pt-BR")}</p>
     </Card>
   );
 }
@@ -68,7 +70,7 @@ function GarageTabLink({
       href={href}
       scroll={false}
       className={cn(
-        "flex min-w-[150px] items-center justify-center gap-2 rounded-3xl border px-4 py-3 text-sm font-ui font-semibold transition",
+        "flex min-w-max items-center justify-center gap-1.5 rounded-3xl border px-3 py-2.5 text-xs font-ui font-semibold transition md:min-w-[150px] md:gap-2 md:px-4 md:py-3 md:text-sm",
         active
           ? "border-accent/35 bg-accent/10 text-foreground shadow-glow"
           : "border-border/70 bg-background/25 text-muted hover:bg-background/45 hover:text-foreground"
@@ -102,7 +104,7 @@ export default async function GaragemPage({
       <div className="min-h-screen flex flex-col bg-background">
         <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
+          <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs text-muted">Minha Garagem</p>
@@ -122,11 +124,11 @@ export default async function GaragemPage({
               </Button>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-5 md:mt-8">
               <LocalGaragePanel />
             </div>
 
-            <section className="mt-10">
+            <section className="mt-7 md:mt-10">
               <InspirationPlanner
                 mode="local"
                 storageScope="local"
@@ -146,8 +148,8 @@ export default async function GaragemPage({
       <div className="min-h-screen flex flex-col bg-background">
         <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-3xl pt-20 md:pt-24 pb-12">
-            <Card className="p-6 md:p-8">
+          <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
+            <Card className="p-4 md:p-8">
               <p className="text-xs text-muted">Minha Garagem</p>
               <h1 className="mt-2 font-title text-3xl tracking-tight">
                 Entre para gerenciar seus projetos
@@ -177,7 +179,7 @@ export default async function GaragemPage({
       <div className="min-h-screen flex flex-col bg-background">
         <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-3xl pt-20 md:pt-24 pb-12">
+          <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
             <ProfileForm defaultEmail={user.email} />
           </div>
         </main>
@@ -286,18 +288,18 @@ export default async function GaragemPage({
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
+        <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs text-muted">Minha Garagem</p>
-              <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
+              <h1 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-5xl">
                 {current.profile.display_name}
               </h1>
-              <p className="mt-3 max-w-2xl text-muted">
+              <p className="mt-2 max-w-2xl text-sm text-muted md:mt-3 md:text-base">
                 Hub logado para gerenciar seus projetos, acompanhar interacoes e acessar salvos.
               </p>
             </div>
-            <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row">
               <Button asChild variant="outline">
                 <Link href={`/perfil/${current.profile.username}`}>Ver perfil publico</Link>
               </Button>
@@ -310,29 +312,31 @@ export default async function GaragemPage({
             </div>
           </div>
 
-          <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <section className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4 lg:grid-cols-5">
             <Stat label="Projetos cadastrados" value={myCars.length} icon={Wrench} />
             <Stat label="Curtidas recebidas" value={likesReceived} icon={Heart} />
             <Stat label="Views totais" value={viewsReceived} icon={Eye} />
-            <Card className="p-5">
-              <PiggyBank className="size-5 text-accent" />
-              <p className="mt-3 text-xs text-muted">Total investido</p>
-              <p className="mt-1 font-title text-3xl">{formatProjectCurrency(totalInvested)}</p>
+            <Card className="p-3 md:p-5">
+              <div className="flex items-center gap-2 md:block">
+                <PiggyBank className="size-4 shrink-0 text-accent md:size-5" />
+                <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">Total investido</p>
+              </div>
+              <p className="mt-2 truncate font-title text-xl md:mt-1 md:text-3xl">{formatProjectCurrency(totalInvested)}</p>
             </Card>
             <Stat label="Projetos ativos" value={activeProjects} icon={Wrench} />
           </section>
 
-          <section className="mt-10">
-            <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <section className="mt-7 md:mt-10">
+            <div className="mb-3 flex items-end justify-between gap-3 md:mb-4 lg:items-end">
               <div>
                 <p className="text-xs text-muted">Hub do usuario</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Minha Garagem</h2>
               </div>
-              <Button asChild variant="outline" size="sm">
+              <Button asChild variant="outline" size="sm" className="shrink-0 px-3">
                 <Link href="/criar-projeto">Adicionar projeto</Link>
               </Button>
             </div>
-            <div className="mb-6 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Navegacao da garagem">
+            <div className="-mx-1 mb-4 flex gap-2 overflow-x-auto px-1 pb-1 md:mb-6" role="tablist" aria-label="Navegacao da garagem">
               {garageTabs.map((tab) => (
                 <GarageTabLink
                   key={tab.key}
@@ -356,7 +360,7 @@ export default async function GaragemPage({
             />
           </section>
 
-          <section className="mt-10">
+          <section className="mt-7 md:mt-10">
             <InspirationPlanner
               mode="supabase"
               storageScope={user.id}

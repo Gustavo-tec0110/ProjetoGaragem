@@ -51,12 +51,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0B0B0D",
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="pt-BR" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-background text-foreground font-sans pb-[var(--mobile-bottom-nav-space)] md:pb-0">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

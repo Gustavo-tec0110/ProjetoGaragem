@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingExplorarPage() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 pb-12 pt-24 sm:px-6">
+    <div className="mobile-page-shell mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 pb-12 sm:px-6 md:pt-24">
       <Card className="p-4 md:p-5">
         <div className="grid gap-3 lg:grid-cols-[1.5fr_0.9fr_1fr_0.9fr_auto]">
           {Array.from({ length: 5 }).map((_, index) => (

@@ -56,7 +56,7 @@ export function NotificationList({
 
   if (!items.length) {
     return (
-      <Card className="p-6 text-sm text-muted">
+      <Card className="p-4 text-sm text-muted md:p-6">
         Nenhuma notificação por enquanto. Quando alguém interagir com seus projetos, ela aparece aqui.
       </Card>
     );
@@ -69,19 +69,19 @@ export function NotificationList({
         const unread = !notification.read_at;
 
         return (
-          <Card key={notification.id} className="p-4">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <Card key={notification.id} className="p-3 md:p-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:gap-4">
               <Link href={href} className="min-w-0 flex-1" onClick={() => unread && markAsRead(notification.id)}>
                 <div className="flex items-start gap-3">
                   <span className="mt-1 text-red-400">
                     {unread ? <Circle className="size-3 fill-current" /> : <Check className="size-4" />}
                   </span>
                   <span className="min-w-0">
-                    <span className="block font-title text-lg tracking-tight">
+                    <span className="block font-title text-base tracking-tight md:text-lg">
                       {notification.title}
                     </span>
                     {notification.body ? (
-                      <span className="mt-1 block text-sm text-muted">{notification.body}</span>
+                      <span className="mt-1 block text-xs text-muted md:text-sm">{notification.body}</span>
                     ) : null}
                     <span className="mt-2 block text-xs text-muted">
                       {notification.actor?.display_name ?? "Projeto Garagem"} -{" "}
@@ -96,6 +96,7 @@ export function NotificationList({
                   type="button"
                   variant="outline"
                   size="sm"
+                  className="w-full sm:w-auto"
                   disabled={isPending}
                   onClick={() => markAsRead(notification.id)}
                 >

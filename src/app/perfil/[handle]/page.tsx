@@ -41,10 +41,12 @@ type PageProps = {
 
 function Stat({ label, value, icon: Icon }: { label: string; value: number | string; icon: LucideIcon }) {
   return (
-    <div className="rounded-4xl border border-border/70 bg-background/25 p-4">
-      <Icon className="size-5 text-accent" />
-      <p className="mt-3 text-xs text-muted">{label}</p>
-      <p className="mt-1 font-title text-2xl">
+    <div className="rounded-3xl border border-border/70 bg-background/25 p-3 md:rounded-4xl md:p-4">
+      <div className="flex items-center gap-2 md:block">
+        <Icon className="size-4 shrink-0 text-accent md:size-5" />
+        <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
+      </div>
+      <p className="mt-2 truncate font-title text-xl md:mt-1 md:text-2xl">
         {typeof value === "number" ? value.toLocaleString("pt-BR") : value}
       </p>
     </div>
@@ -125,17 +127,17 @@ export default async function PublicProfilePage({ params }: PageProps) {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-6xl pt-20 md:pt-24 pb-12">
+        <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0">
               <Image src={heroImage} alt="" fill priority unoptimized className="object-cover opacity-35" />
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/45" />
             </div>
 
-            <div className="relative p-6 md:p-8">
-              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="relative p-4 md:p-8">
+              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-6">
                 <div className="min-w-0">
-                  <div className="mb-5 flex items-center gap-4">
+                  <div className="mb-3 flex items-center gap-3 md:mb-5 md:gap-4">
                     {profile.avatar_url ? (
                       <Image
                         src={profile.avatar_url}
@@ -143,24 +145,24 @@ export default async function PublicProfilePage({ params }: PageProps) {
                         width={88}
                         height={88}
                         unoptimized
-                        className="size-20 rounded-full border border-border/70 object-cover md:size-24"
+                        className="size-16 rounded-full border border-border/70 object-cover md:size-24"
                       />
                     ) : (
-                      <div className="flex size-20 items-center justify-center rounded-full border border-border/70 bg-background/35 font-title text-2xl md:size-24">
+                      <div className="flex size-16 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/35 font-title text-xl md:size-24 md:text-2xl">
                         {profile.display_name.slice(0, 1).toUpperCase()}
                       </div>
                     )}
                     <div>
                       <p className="text-xs text-muted">Perfil automotivo</p>
-                      <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
+                      <h1 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-5xl">
                         {profile.display_name}
                       </h1>
-                      <p className="mt-2 text-muted">@{profile.username}</p>
+                      <p className="mt-1 text-sm text-muted md:mt-2 md:text-base">@{profile.username}</p>
                     </div>
                   </div>
-                  {profile.bio ? <p className="mt-4 max-w-2xl text-foreground/90">{profile.bio}</p> : null}
+                  {profile.bio ? <p className="mt-2 max-w-2xl text-sm text-foreground/90 md:mt-4 md:text-base">{profile.bio}</p> : null}
                   {location ? (
-                    <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/35 px-4 py-2 text-sm text-muted">
+                    <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/35 px-3 py-2 text-xs text-muted md:mt-4 md:px-4 md:text-sm">
                       <MapPin className="size-4 text-accent" />
                       {location}
                     </p>
@@ -178,7 +180,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
                       </a>
                     </p>
                   ) : null}
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2 md:mt-5">
                     {isOwner ? (
                       <Button asChild>
                         <Link href="/criar-projeto">Criar novo projeto</Link>
@@ -193,7 +195,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
                   </div>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-2 md:min-w-[28rem]">
+                <div className="grid grid-cols-2 gap-2 md:min-w-[28rem] md:gap-3">
                   <Stat label="Projetos" value={cars.length} icon={Wrench} />
                   <Stat label="Curtidas recebidas" value={totalLikes} icon={Heart} />
                   <Stat label="Comentarios recebidos" value={totalComments} icon={MessageCircle} />
@@ -206,7 +208,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
               </div>
 
               {isOwner ? (
-                <div className="mt-6">
+                <div className="mt-4 md:mt-6">
                   <Button asChild>
                     <Link href="/garagem">Editar na Minha Garagem</Link>
                   </Button>
@@ -216,18 +218,18 @@ export default async function PublicProfilePage({ params }: PageProps) {
           </Card>
 
           {isOwner ? (
-            <section className="mt-8">
+            <section className="mt-6 md:mt-8">
               <ProfileForm profile={profile} defaultEmail={user?.email} />
             </section>
           ) : null}
 
-          <section className="mt-10">
+          <section className="mt-7 md:mt-10">
             <div className="mb-4">
               <p className="text-xs text-muted">Garagem publica</p>
               <h2 className="mt-1 font-title text-2xl tracking-tight">Destaques da garagem</h2>
             </div>
             {cars.length ? (
-              <div className="space-y-10">
+              <div className="space-y-7 md:space-y-10">
                 <div>
                   <div className="mb-4 flex items-center gap-2">
                     <Clock className="size-5 text-accent" />
@@ -249,7 +251,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           </section>
 
           {cars.length ? (
-            <section className="mt-12">
+            <section className="mt-8 md:mt-12">
               <div className="mb-4">
                 <p className="text-xs text-muted">Todos os projetos</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Garagem completa</h2>
@@ -259,7 +261,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           ) : null}
 
           {(profile.is_saves_public || isOwner) && savedCars.length ? (
-            <section className="mt-12">
+            <section className="mt-8 md:mt-12">
               <div className="mb-4">
                 <p className="text-xs text-muted">Salvos</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Carros salvos</h2>
@@ -269,7 +271,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           ) : null}
 
           {(profile.is_likes_public || isOwner) && likedCars.length ? (
-            <section className="mt-12">
+            <section className="mt-8 md:mt-12">
               <div className="mb-4">
                 <p className="text-xs text-muted">Curtidos</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos curtidos</h2>
@@ -279,7 +281,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
           ) : null}
 
           {followedCars.length ? (
-            <section className="mt-12">
+            <section className="mt-8 md:mt-12">
               <div className="mb-4">
                 <p className="text-xs text-muted">Acompanhando</p>
                 <h2 className="mt-1 font-title text-2xl tracking-tight">Projetos que segue</h2>

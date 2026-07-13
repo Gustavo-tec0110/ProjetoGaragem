@@ -736,7 +736,7 @@ export function CarForm({
       .join(", ");
 
     return (
-      <form action="/api/projects/create" method="post" onSubmit={handleCreateSubmit} className="space-y-6">
+      <form action="/api/projects/create" method="post" onSubmit={handleCreateSubmit} className="space-y-4 md:space-y-6">
         <input type="hidden" name="main_photo_url" value={mainPhotoUrl} />
         <input
           type="hidden"
@@ -806,7 +806,7 @@ export function CarForm({
         <input type="hidden" name="original_interior_answer" value="unknown" />
         <input type="hidden" name="original_suspension_answer" value="unknown" />
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-4 md:p-6">
           <p className="text-xs text-warning">Cadastro simples</p>
           <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
             Crie o projeto com o que você sabe agora
@@ -815,7 +815,7 @@ export function CarForm({
             Marca, modelo, ano e nome bastam. A foto e a parte tecnica podem ser confirmadas depois.
           </p>
 
-          <div className="mt-6 grid gap-4">
+          <div className="mt-4 grid gap-3 md:mt-6 md:gap-4">
             <Field label="Nome do projeto">
               <Input
                 name="name"
@@ -826,7 +826,7 @@ export function CarForm({
               />
             </Field>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-3 md:grid-cols-3 md:gap-4">
               <Field label="Marca">
                 <select
                   name="brand"
@@ -862,7 +862,7 @@ export function CarForm({
           </div>
         </Card>
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-4 md:p-6">
           <h2 className="font-title text-xl tracking-tight">Foto principal</h2>
           <p className="mt-1 text-sm text-muted">
             Opcional agora. Use upload real ou URL como fallback quando tiver uma foto pronta.
@@ -877,7 +877,7 @@ export function CarForm({
           </div>
         </Card>
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-4 md:p-6">
           <ProjectTagsField
             tags={tags}
             draft={tagDraft}
@@ -886,7 +886,7 @@ export function CarForm({
           />
         </Card>
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-4 md:p-6">
           <div className="flex items-start gap-3">
             <HelpCircle className="mt-1 size-5 text-warning" />
             <div>
@@ -960,9 +960,9 @@ export function CarForm({
           </div>
         </Card>
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-4 md:p-6">
           <h2 className="font-title text-xl tracking-tight">Depois de publicar</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:gap-3 lg:grid-cols-5">
             {[
               "Adicionar versão",
               "Confirmar mecânica",
@@ -970,7 +970,7 @@ export function CarForm({
               "Adicionar modificações",
               "Registrar timeline",
             ].map((item) => (
-              <div key={item} className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm text-muted">
+              <div key={item} className="rounded-3xl border border-border/70 bg-background/25 px-3 py-2.5 text-xs text-muted sm:px-4 sm:py-3 sm:text-sm">
                 {item}
               </div>
             ))}
@@ -983,11 +983,11 @@ export function CarForm({
           </p>
         ) : null}
 
-        <Card className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
+        <Card className="mobile-cta-safe flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted">
             O projeto nasce público e pode ser detalhado na página de edição.
           </p>
-          <Button type="submit" disabled={createPending} className="sm:min-w-48">
+          <Button type="submit" disabled={createPending} className="w-full sm:w-auto sm:min-w-48">
             {createPending ? "Criando..." : "Criar projeto agora"}
           </Button>
         </Card>
@@ -1001,7 +1001,7 @@ export function CarForm({
       action={`/api/projects/${encodeURIComponent(car?.id ?? "")}/update`}
       method="post"
       onSubmit={handleEditSubmit}
-      className="space-y-6"
+      className="space-y-4 md:space-y-6"
     >
       <input type="hidden" name="car_id" value={car?.id ?? ""} />
       <input type="hidden" name="current_slug" value={car?.slug ?? ""} />
@@ -1908,7 +1908,7 @@ export function CarForm({
           </p>
         ) : null}
 
-        <Card className="space-y-3 p-3">
+        <Card className="mobile-cta-safe space-y-3 p-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
               {mode === "edit"
@@ -1926,7 +1926,7 @@ export function CarForm({
                   </Link>
                 </Button>
               ) : null}
-              <Button type="submit" disabled={editPending || deletePending} className="sm:min-w-48">
+              <Button type="submit" disabled={editPending || deletePending} className="w-full sm:w-auto sm:min-w-48">
                 {editPending
                   ? "Salvando..."
                   : mode === "edit"

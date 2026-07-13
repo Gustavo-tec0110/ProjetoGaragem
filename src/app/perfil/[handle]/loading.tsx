@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingPublicProfilePage() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 pb-12 pt-24 sm:px-6">
+    <div className="mobile-page-shell mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 pb-12 sm:px-6 md:pt-24">
       <Card className="p-6 md:p-8">
         <div className="grid gap-6 lg:grid-cols-[1fr_28rem]">
           <div className="flex gap-4">

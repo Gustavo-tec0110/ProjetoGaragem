@@ -24,16 +24,16 @@ export function ProfileForm({
   const [state, formAction, pending] = useActionState(saveProfileAction, initialActionState);
 
   return (
-    <Card className="p-6 md:p-8">
+    <Card className="p-4 md:p-8">
       <p className="text-xs text-muted">Perfil de usuario</p>
-      <h1 className="mt-2 font-title text-2xl md:text-3xl tracking-tight">
+      <h1 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-3xl">
         Complete sua garagem
       </h1>
       <p className="mt-2 text-sm text-muted">
         O perfil identifica a pessoa. Os carros ficam como paginas publicas separadas.
       </p>
 
-      <form action={formAction} className="mt-6 grid gap-4">
+      <form action={formAction} className="mt-4 grid gap-3 md:mt-6 md:gap-4">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="grid gap-2 text-sm text-muted">
             Nome
@@ -116,7 +116,7 @@ export function ProfileForm({
           </p>
         ) : null}
 
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="mobile-cta-safe w-full md:w-auto">
           {pending ? "Salvando..." : "Salvar perfil"}
         </Button>
       </form>

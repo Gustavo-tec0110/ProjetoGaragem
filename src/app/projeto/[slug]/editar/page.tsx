@@ -34,7 +34,7 @@ export default async function EditProjectPage({ params }: PageProps) {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-5xl pt-20 md:pt-24 pb-12">
+        <div className="mobile-page-shell mx-auto w-full max-w-5xl pb-12 md:pt-24">
           {!user ? (
             <Card className="p-6 md:p-8">
               <h1 className="font-title text-2xl tracking-tight">Entre para editar</h1>

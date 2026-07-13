@@ -45,7 +45,7 @@ export function CommentForm({
 
   if (!viewerLoggedIn) {
     return (
-      <div className="rounded-4xl border border-border/70 bg-background/25 p-4 text-sm text-muted">
+      <div className="rounded-3xl border border-border/70 bg-background/25 p-3 text-sm text-muted md:rounded-4xl md:p-4">
         <LoginPromptDialog
           open={loginOpen}
           onOpenChange={setLoginOpen}
@@ -76,7 +76,7 @@ export function CommentForm({
         minLength={2}
         maxLength={1000}
         placeholder="Comente sobre o setup, tire uma duvida ou deixe uma sugestao."
-        className="pg-control min-h-28 w-full resize-none rounded-3xl px-4 py-3 text-sm"
+        className="pg-control min-h-24 w-full resize-none rounded-3xl px-4 py-3 text-sm md:min-h-28"
       />
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         {state.message ? (
@@ -86,7 +86,7 @@ export function CommentForm({
         ) : (
           <span />
         )}
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="w-full sm:w-auto">
           {pending ? "Publicando..." : "Comentar"}
         </Button>
       </div>
@@ -111,7 +111,7 @@ export function CommentsList({
 
   if (!comments.length) {
     return (
-      <div className="rounded-4xl border border-border/70 bg-background/25 p-4 text-sm text-muted">
+      <div className="rounded-3xl border border-border/70 bg-background/25 p-3 text-sm text-muted md:rounded-4xl md:p-4">
         Nenhum comentario ainda. Seja a primeira pessoa a ajudar esse projeto.
       </div>
     );
@@ -122,7 +122,7 @@ export function CommentsList({
       {comments.map((comment) => {
         const canDelete = viewerId === comment.user_id || viewerId === ownerId;
         return (
-          <article key={comment.id} className="rounded-4xl border border-border/70 bg-background/25 p-4">
+          <article key={comment.id} className="rounded-3xl border border-border/70 bg-background/25 p-3 md:rounded-4xl md:p-4">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-ui text-sm font-semibold">

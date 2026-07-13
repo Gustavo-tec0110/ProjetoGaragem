@@ -23,11 +23,11 @@ export default async function CreateProjectPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-5xl pt-20 md:pt-24 pb-12">
+        <div className="mobile-page-shell mx-auto w-full max-w-5xl pb-12 md:pt-24">
           {!supabase ? (
             <ProjectForm storageMode="local" catalogVersions={catalog.data ?? []} />
           ) : !user ? (
-            <Card className="p-6 md:p-8">
+            <Card className="p-4 md:p-8">
               <h1 className="font-title text-2xl tracking-tight">Entre para criar seu projeto</h1>
               <p className="mt-2 text-sm text-muted">
                 Projetos publicos precisam estar ligados a um perfil de usuario.

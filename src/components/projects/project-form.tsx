@@ -147,8 +147,8 @@ export function ProjectForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <Card className="p-5 md:p-6">
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+      <Card className="p-4 md:p-6">
         <p className="text-xs text-warning">Modo demo/local</p>
         <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
           Adicionar projeto sem Supabase
@@ -158,7 +158,7 @@ export function ProjectForm({
         </p>
       </Card>
 
-      <Card className="grid gap-4 p-5 md:grid-cols-2 md:p-6">
+      <Card className="grid gap-3 p-4 md:grid-cols-2 md:gap-4 md:p-6">
         <Field label="Nome do projeto">
           <Input name="title" placeholder="Gol Quadrado 1994 AP 1.8" required />
         </Field>
@@ -247,11 +247,11 @@ export function ProjectForm({
         </p>
       ) : null}
 
-      <Card className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
+      <Card className="mobile-cta-safe flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
           O projeto sera salvo localmente e abrira a pagina individual em seguida.
         </p>
-        <Button type="submit" className="sm:min-w-48">
+        <Button type="submit" className="w-full sm:w-auto sm:min-w-48">
           Criar projeto local
         </Button>
       </Card>

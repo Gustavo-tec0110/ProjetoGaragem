@@ -48,22 +48,22 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
-        <div className="mx-auto w-full max-w-md pt-20 md:pt-24 pb-12">
-          <Card className="p-6 md:p-8">
+        <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
+          <Card className="p-4 md:p-8">
             <h1 className="font-title text-2xl tracking-tight">Entrar no Projeto Garagem</h1>
             <p className="mt-2 text-sm text-muted">
               Entre para criar, curtir, salvar e comentar projetos.
             </p>
 
-            <div className="mt-6">
+            <div className="mt-4 md:mt-6">
               <GoogleSigninButton />
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+            <form onSubmit={handleSubmit} className="mt-4 space-y-3 md:mt-6">
               <Input placeholder="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
               <Input placeholder="Senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
               {error ? <p className="text-sm text-danger">{error}</p> : null}
-              <Button type="submit" disabled={loading} className="w-full">
+              <Button type="submit" disabled={loading} className="mobile-cta-safe w-full">
                 {loading ? "Entrando..." : "Entrar"}
               </Button>
             </form>

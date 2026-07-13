@@ -138,27 +138,27 @@ export function SiteNavbar() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50">
-        <div className="px-4 sm:px-6">
+        <div className="px-2.5 sm:px-6">
           <div className="mx-auto w-full max-w-6xl">
-            <div className="mt-2 rounded-4xl pg-glass md:mt-3">
-              <div className="flex items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-5 md:py-3">
-                <Link href="/" className="flex items-center gap-2">
-                  <span className="inline-flex size-9 items-center justify-center rounded-3xl bg-accent/10 border border-accent/25 shadow-glow md:size-10">
-                    <CarFront className="size-5 text-accent" />
+            <div className="mt-2 rounded-[1.75rem] pg-glass lg:mt-3 lg:rounded-4xl">
+              <div className="flex min-h-14 items-center justify-between gap-2 px-2.5 py-1.5 lg:min-h-0 lg:gap-3 lg:px-5 lg:py-3">
+                <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="Projeto Garagem - inicio">
+                  <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-2xl border border-accent/25 bg-accent/10 shadow-glow lg:size-10 lg:rounded-3xl">
+                    <CarFront className="size-4 text-accent lg:size-5" />
                   </span>
-                  <div className="leading-tight">
-                    <p className="font-title tracking-tight">Projeto Garagem</p>
-                    <p className="text-[11px] text-muted">Projetos reais</p>
+                  <div className="min-w-0 leading-tight">
+                    <p className="whitespace-nowrap font-title text-sm tracking-tight min-[360px]:text-base">Projeto Garagem</p>
+                    <p className="hidden text-[10px] text-muted min-[390px]:block lg:text-[11px]">Projetos reais</p>
                   </div>
                 </Link>
 
-                <nav className="hidden md:flex items-center gap-5">
+                <nav className="hidden items-center gap-5 lg:flex">
                   {nav.map((item) => (
                     <NavLink key={item.href} href={item.href} label={item.label} active={isActive(item.href)} />
                   ))}
                 </nav>
 
-                <div className="hidden md:flex items-center gap-2">
+                <div className="hidden items-center gap-2 lg:flex">
                   {user ? (
                     <>
                       <NotificationBell userId={user.id} />
@@ -174,35 +174,19 @@ export function SiteNavbar() {
                   </Button>
                 </div>
 
-                <div className="md:hidden flex items-center gap-2">
-                  <Button asChild size="sm" variant="outline">
-                    <Link href={user ? "/garagem" : "/login"} className="max-w-[156px] px-3">
-                      {user ? (
-                        <>
-                          <UserAvatar avatarUrl={avatarUrl} displayName={displayName} className="size-6" />
-                          <span className="min-w-0 truncate">{displayName}</span>
-                        </>
-                      ) : (
-                        "Entrar"
-                      )}
-                    </Link>
-                  </Button>
+                <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
                   {user ? (
                     <NotificationBell userId={user.id} />
                   ) : null}
                   {user ? (
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="danger"
-                      className="size-10"
-                      disabled={loading}
-                      aria-label="Sair"
-                      onClick={handleSignOut}
-                    >
-                      <LogOut className="size-4" />
+                    <div className="[&>button]:size-10 [&>button]:max-w-none [&>button]:rounded-3xl [&>button]:p-1 [&>button>span:nth-child(2)]:hidden [&>button>svg]:hidden">
+                      {profileMenu}
+                    </div>
+                  ) : (
+                    <Button asChild size="sm" variant="outline" className="h-10 px-3">
+                      <Link href="/login">Entrar</Link>
                     </Button>
-                  ) : null}
+                  )}
                 </div>
               </div>
             </div>
@@ -210,10 +194,10 @@ export function SiteNavbar() {
         </div>
       </header>
 
-      <nav className="md:hidden fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(10px+env(safe-area-inset-bottom,0px))] sm:px-4 sm:pb-[calc(12px+env(safe-area-inset-bottom,0px))]">
+      <nav className="fixed inset-x-0 bottom-0 z-50 px-2.5 pb-[calc(8px+env(safe-area-inset-bottom,0px))] sm:px-4 sm:pb-[calc(10px+env(safe-area-inset-bottom,0px))] lg:hidden">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="rounded-4xl pg-glass">
-            <div className="grid grid-cols-5 gap-1 p-2">
+          <div className="rounded-[1.75rem] pg-glass sm:rounded-4xl">
+            <div className="grid grid-cols-5 gap-0.5 p-1.5 sm:gap-1 sm:p-2">
               {bottomNav.map((item) => {
                 const active = isActive(item.href);
                 const Icon = item.icon;
@@ -222,7 +206,7 @@ export function SiteNavbar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "group rounded-3xl px-2 py-2 flex flex-col items-center justify-center gap-1 transition active:scale-[0.99]",
+                      "group flex min-w-0 flex-col items-center justify-center gap-0.5 rounded-2xl px-0.5 py-1.5 transition active:scale-[0.99] sm:gap-1 sm:rounded-3xl sm:px-2 sm:py-2",
                       active
                         ? "bg-accent/10 border border-accent/25 shadow-glow"
                         : "text-muted hover:text-foreground hover:bg-background/35"
@@ -231,18 +215,18 @@ export function SiteNavbar() {
                   >
                     <span
                       className={cn(
-                        "inline-flex size-10 items-center justify-center rounded-3xl border transition-colors",
+                        "inline-flex size-8 items-center justify-center rounded-2xl border transition-colors sm:size-10 sm:rounded-3xl",
                         active
                           ? "border-accent/25 bg-accent/10 text-accent"
                           : "border-border/70 bg-background/20 text-muted group-hover:text-foreground"
                       )}
                     >
-                      <Icon className="size-5" />
+                      <Icon className="size-4 sm:size-5" />
                     </span>
-                    <span className="text-[11px] font-ui font-semibold tracking-tight">
+                    <span className="max-w-full truncate text-[10px] font-ui font-semibold tracking-tight sm:text-[11px]">
                       {item.label}
                     </span>
-                    <span className={cn("h-1 w-1 rounded-full transition", active ? "bg-accent shadow-glow" : "bg-transparent")} aria-hidden="true" />
+                    <span className={cn("h-0.5 w-0.5 rounded-full transition sm:h-1 sm:w-1", active ? "bg-accent shadow-glow" : "bg-transparent")} aria-hidden="true" />
                   </Link>
                 );
               })}
