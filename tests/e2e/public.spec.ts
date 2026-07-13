@@ -63,3 +63,47 @@ test("rotas protegidas orientam visitante para login ou modo local", async ({ pa
   await expect(page.getByRole("heading", { name: "Notificações", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Entre para ver notificações" })).toBeVisible();
 });
+
+test("catalogo de projetos usa cards compactos no mobile sem overflow", async ({ page }) => {
+  const viewports = [
+    { width: 320, height: 720 },
+    { width: 360, height: 800 },
+    { width: 390, height: 844 },
+    { width: 430, height: 932 },
+    { width: 768, height: 1024 },
+    { width: 1440, height: 900 },
+  ];
+
+  for (const viewport of viewports) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+
+    const grid = page.getByTestId("project-grid").first();
+    await expect(grid).toBeVisible();
+    await grid.scrollIntoViewIfNeeded();
+
+    const columns = await grid.evaluate((element) =>
+      getComputedStyle(element).gridTemplateColumns.split(" ").filter(Boolean)
+    );
+    expect(columns).toHaveLength(viewport.width >= 1280 ? 3 : 2);
+
+    const card = grid.getByTestId("project-card").first();
+    const expectedLayout = viewport.width < 768 ? "mobile" : "desktop";
+    await expect(card.locator(`[data-project-card-layout="${expectedLayout}"]`)).toBeVisible();
+
+    const hasHorizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+    );
+    expect(hasHorizontalOverflow).toBe(false);
+
+    if (viewport.width < 768) {
+      const visibleCards = await grid.getByTestId("project-card").evaluateAll((cards) =>
+        cards.filter((candidate) => {
+          const rect = candidate.getBoundingClientRect();
+          return rect.top < window.innerHeight && rect.bottom > 0;
+        }).length
+      );
+      expect(visibleCards).toBeGreaterThanOrEqual(2);
+    }
+  }
+});

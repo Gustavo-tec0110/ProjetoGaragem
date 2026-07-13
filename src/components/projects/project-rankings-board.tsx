@@ -248,10 +248,69 @@ function PodiumCard({
 
   return (
     <PremiumCard
-      className={`group overflow-hidden border-border/70 bg-background/35 ${
+      className={`group overflow-hidden rounded-3xl border-border/70 bg-background/35 lg:rounded-4xl ${
         isChampion ? "lg:translate-y-[-18px]" : ""
       }`}
     >
+      <div className="lg:hidden">
+        <Link
+          href={buildProjectHref(project.slug)}
+          className="block outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+        >
+          <div className="relative aspect-[4/3] overflow-hidden bg-surface">
+            <ProjectImage
+              src={project.mainImage}
+              alt={`Foto do projeto ${project.title}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 639px) 46vw, (max-width: 1023px) 30vw, 24vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/25" />
+            <div className="absolute inset-x-2 top-2 flex items-center justify-between gap-1">
+              <PositionBadge position={position} />
+              <Badge className="max-w-[55%] truncate" variant="secondary">
+                {project.style}
+              </Badge>
+            </div>
+            <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-black/65 px-2 py-1 text-xs font-semibold text-white">
+              <Icon className="size-3.5 text-accent" aria-hidden="true" />
+              {formatMetric(category.metricKind, metricValue)}
+            </span>
+          </div>
+          <div className="p-3">
+            <h3 className="line-clamp-2 min-h-10 font-title text-base leading-5 tracking-tight">
+              {project.title}
+            </h3>
+            <p className="mt-1 truncate text-xs text-muted">
+              {project.carModel} - {project.year}
+            </p>
+          </div>
+        </Link>
+        <div className="grid grid-cols-3 border-y border-border/60 text-xs text-muted">
+          <span className="flex min-h-9 items-center justify-center gap-1 border-r border-border/60">
+            <Heart className="size-3.5 text-accent" aria-hidden="true" />
+            {project.likes.toLocaleString("pt-BR")}
+          </span>
+          <span className="flex min-h-9 items-center justify-center gap-1 border-r border-border/60">
+            <Eye className="size-3.5 text-accent" aria-hidden="true" />
+            {project.views.toLocaleString("pt-BR")}
+          </span>
+          <span className="flex min-h-9 items-center justify-center gap-1">
+            <Bookmark className="size-3.5 text-accent" aria-hidden="true" />
+            {project.saves.toLocaleString("pt-BR")}
+          </span>
+        </div>
+        <div className="p-2">
+          <Link
+            href={buildProjectHref(project.slug)}
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-3xl bg-accent px-3 text-xs font-semibold text-accent-foreground outline-none transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Abrir projeto
+          </Link>
+        </div>
+      </div>
+
+      <div className="hidden lg:block">
       <div className={`relative overflow-hidden ${isChampion ? "aspect-[4/4.6]" : "aspect-[4/4.2]"}`}>
         <ProjectImage
           src={project.mainImage}
@@ -324,6 +383,7 @@ function PodiumCard({
           </Link>
         </Button>
       </div>
+      </div>
     </PremiumCard>
   );
 }
@@ -340,7 +400,47 @@ function RankingRow({
 
   return (
     <Card className="border-border/70 bg-background/20 p-3">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center">
+      <div className="md:hidden">
+        <Link
+          href={buildProjectHref(project.slug)}
+          className="flex min-w-0 gap-3 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-3xl border border-border/70 bg-surface">
+            <ProjectImage
+              src={project.mainImage}
+              alt={`Foto do projeto ${project.title}`}
+              fill
+              className="object-cover"
+              sizes="96px"
+            />
+            <span className="absolute left-2 top-2 inline-flex size-8 items-center justify-center rounded-full bg-black/70 font-title text-sm text-white">
+              {position}
+            </span>
+          </div>
+          <div className="min-w-0 flex-1 py-1">
+            <h3 className="line-clamp-2 font-title text-lg leading-5 tracking-tight">
+              {project.title}
+            </h3>
+            <p className="mt-1 truncate text-xs text-muted">
+              {[project.brand, project.model, project.year ? String(project.year) : null]
+                .filter(Boolean)
+                .join(" - ")}
+            </p>
+            <Badge className="mt-2 max-w-full truncate" variant="secondary">
+              {project.style}
+            </Badge>
+          </div>
+        </Link>
+        <div className="mt-2 flex min-h-11 items-center justify-between gap-3 rounded-3xl border border-border/70 bg-background/25 px-3 text-xs">
+          <span className="text-muted">{category.metricLabel}</span>
+          <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+            <Icon className="size-4 text-accent" aria-hidden="true" />
+            {formatMetric(category.metricKind, metricValue)}
+          </span>
+        </div>
+      </div>
+
+      <div className="hidden gap-4 md:flex md:items-center">
         <div className="flex items-center gap-3 md:min-w-20">
           <div className="inline-flex size-12 items-center justify-center rounded-3xl border border-border/70 bg-background/35 font-title text-lg tracking-tight">
             {position}
@@ -535,7 +635,7 @@ export function ProjectRankingsBoard({
               </p>
             </div>
 
-            <div className="mt-6 grid gap-4 lg:grid-cols-3 lg:items-end">
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 lg:items-end">
               {podium
                 .sort((left, right) => {
                   const order = [2, 1, 3];

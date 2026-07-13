@@ -1,9 +1,11 @@
 import Link from "next/link";
 import {
   ArrowRightLeft,
+  Bookmark,
   Coins,
   Eye,
   Heart,
+  MessageSquare,
   TimerReset,
   Wrench,
 } from "lucide-react";
@@ -41,7 +43,105 @@ export function ProjectCard({
   const source = sourceLabel(project);
 
   return (
-    <PremiumCard className="group overflow-hidden">
+    <PremiumCard
+      className="group overflow-hidden rounded-3xl md:rounded-4xl"
+      data-testid="project-card"
+    >
+      <div className="md:hidden" data-project-card-layout="mobile">
+        <Link
+          href={projectHref}
+          className="block rounded-t-3xl outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset"
+        >
+          <div className="relative aspect-[4/3] overflow-hidden bg-surface">
+            <ProjectImage
+              src={image}
+              alt={`Foto do projeto ${project.title}`}
+              fill
+              loading={imageLoading}
+              className="object-cover opacity-90"
+              sizes="(max-width: 767px) 46vw, 92vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25" />
+            <div className="absolute inset-x-2 top-2 flex items-start justify-between gap-1">
+              <Badge className="max-w-[70%] truncate px-2 py-0.5 text-[11px]" variant="secondary">
+                {project.style}
+              </Badge>
+              {project.viewerHasSaved ? (
+                <span
+                  className="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-black/55 text-accent"
+                  aria-label="Projeto salvo"
+                >
+                  <Bookmark className="size-4 fill-current" aria-hidden="true" />
+                </span>
+              ) : null}
+            </div>
+            <Badge className="absolute bottom-2 left-2 max-w-[calc(100%-1rem)] truncate px-2 py-0.5 text-[11px]">
+              {project.status}
+            </Badge>
+          </div>
+
+          <div className="px-3 pb-2 pt-3">
+            <h3 className="line-clamp-2 min-h-10 font-title text-base leading-5 tracking-tight">
+              {project.title}
+            </h3>
+            <p className="mt-1 truncate text-xs text-muted">
+              {project.carModel} - {project.year}
+            </p>
+            <p className="mt-1 truncate text-xs text-foreground/80">{project.engine}</p>
+            <p className="mt-2 truncate text-xs font-semibold text-foreground">
+              {project.ownerName}
+            </p>
+          </div>
+        </Link>
+
+        <div className="grid grid-cols-2 border-y border-border/60 text-xs text-muted">
+          <span className="flex min-h-9 items-center gap-1.5 border-b border-r border-border/60 px-2">
+            <Heart
+              className={`size-3.5 text-accent ${project.viewerHasLiked ? "fill-current" : ""}`}
+              aria-hidden="true"
+            />
+            <span aria-label={`${project.likes.toLocaleString("pt-BR")} curtidas`}>
+              {project.likes.toLocaleString("pt-BR")}
+            </span>
+          </span>
+          <span className="flex min-h-9 items-center gap-1.5 border-b border-border/60 px-2">
+            <MessageSquare className="size-3.5 text-accent" aria-hidden="true" />
+            <span aria-label={`${project.comments.toLocaleString("pt-BR")} comentarios`}>
+              {project.comments.toLocaleString("pt-BR")}
+            </span>
+          </span>
+          <span className="flex min-h-9 items-center gap-1.5 border-r border-border/60 px-2">
+            <Eye className="size-3.5 text-accent" aria-hidden="true" />
+            <span aria-label={`${project.views.toLocaleString("pt-BR")} visualizacoes`}>
+              {project.views.toLocaleString("pt-BR")}
+            </span>
+          </span>
+          <span className="flex min-h-9 items-center gap-1.5 px-2">
+            <Bookmark className="size-3.5 text-accent" aria-hidden="true" />
+            <span aria-label={`${project.saves.toLocaleString("pt-BR")} salvamentos`}>
+              {project.saves.toLocaleString("pt-BR")}
+            </span>
+          </span>
+        </div>
+
+        <div className="grid grid-cols-[1fr_2.75rem] gap-1 p-2">
+          <Link
+            href={projectHref}
+            className="inline-flex min-h-11 items-center justify-center rounded-3xl bg-accent px-3 text-xs font-semibold text-accent-foreground outline-none transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Ver projeto
+          </Link>
+          <Link
+            href={compareHref}
+            aria-label={`Comparar ${project.title}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-3xl border border-border/70 text-muted outline-none transition hover:bg-background/45 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <ArrowRightLeft className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+
+      <div className="hidden md:block" data-project-card-layout="desktop">
       <Link href={projectHref} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-surface">
           <ProjectImage
@@ -138,6 +238,7 @@ export function ProjectCard({
             </Badge>
           ) : null}
         </div>
+      </div>
       </div>
     </PremiumCard>
   );
