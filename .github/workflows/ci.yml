@@ -1,0 +1,45 @@
+name: Qualidade contínua
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Instalar dependências
+        run: npm ci
+      - name: Executar lint
+        run: npm run lint
+      - name: Verificar tipos
+        run: npm run typecheck
+      - name: Gerar build
+        run: npm run build
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Instalar dependências
+        run: npm ci
+      - name: Instalar navegador de teste
+        run: npx playwright install --with-deps chromium
+      - name: Executar testes públicos
+        run: npm run test:e2e

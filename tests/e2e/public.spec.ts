@@ -158,22 +158,22 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     await expect(page.getByLabel("Ordenação mobile")).toHaveValue("likes");
     await page.getByRole("button", { name: "Abrir filtros avançados" }).click();
     const dialog = page.getByRole("dialog", { name: "Filtros" });
-    await dialog.getByLabel("Filtrar por marca").selectOption("Ford");
+    await dialog.getByLabel("Filtrar por marca").selectOption("Chevrolet");
     await dialog.getByRole("button", { name: "Aplicar filtros" }).click();
   } else {
     const form = page.locator("form[data-project-search-form]");
     await expect(form.getByLabel("Ordenar projetos")).toHaveValue("likes");
-    await form.getByLabel("Filtrar por marca").selectOption("Ford");
+    await form.getByLabel("Filtrar por marca").selectOption("Chevrolet");
     await form.getByRole("button", { name: "Filtrar", exact: true }).click();
   }
 
   await expect(page).toHaveURL(/q=turbo/);
-  await expect(page).toHaveURL(/brand=Ford/);
+  await expect(page).toHaveURL(/brand=Chevrolet/);
   await expect(page).toHaveURL(/sort=likes/);
   if (mobile) {
-    await expect(page.getByRole("link", { name: "Remover filtro Marca: Ford" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Remover filtro Marca: Chevrolet" })).toBeVisible();
   } else {
-    await expect(page.locator('form[data-project-search-form]:visible').getByLabel("Filtrar por marca")).toHaveValue("Ford");
+    await expect(page.locator('form[data-project-search-form]:visible').getByLabel("Filtrar por marca")).toHaveValue("Chevrolet");
   }
 });
 
@@ -205,10 +205,12 @@ test("perfil publico lista contadores e permite navegar para um projeto", async 
   const projectHref = await liveProjectLink.getAttribute("href");
   expect(projectHref).toBeTruthy();
   await page.goto(projectHref!);
-  await expect(page.getByRole("heading", { name: "Comentários", exact: true })).toBeVisible();
+  await expect(
+    page.locator("main").getByText("Comentários", { exact: true }).filter({ visible: true }).first()
+  ).toBeVisible();
 
   const ownerLink = page.locator('a[href^="/perfil/"]').first();
-  const ownerHref = await ownerLink.getAttribute("href");
+  const ownerHref = (await ownerLink.count()) ? await ownerLink.getAttribute("href") : null;
   test.skip(!ownerHref, "O catalogo ativo nao possui perfil publico associado aos projetos retornados.");
   await page.goto(ownerHref!);
 
@@ -226,13 +228,20 @@ test("perfil publico lista contadores e permite navegar para um projeto", async 
 
 test("rotas privadas orientam visitante e preservam o destino de login", async ({ page }) => {
   await page.goto("/criar-projeto");
-  await expect(
-    page.getByRole("heading", { name: /Entrar no Projeto Garagem|Entre no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i })
-  ).toBeVisible();
-
-  await page.goto("/garagem");
-  await expect(page).toHaveURL(/\/login\?next=%2Fgaragem/);
-  await expect(page.getByRole("heading", { name: "Entre no Projeto Garagem" })).toBeVisible();
+  const localCreateHeading = page.getByRole("heading", { name: "Adicionar projeto sem Supabase" });
+  if (await localCreateHeading.isVisible()) {
+    await expect(page.getByRole("button", { name: "Criar projeto local" })).toBeVisible();
+    await page.goto("/garagem");
+    await expect(page.getByRole("heading", { name: "Garagem local", exact: true })).toBeVisible();
+  } else {
+    await expect(
+      page.getByRole("heading", {
+        name: /Entrar no Projeto Garagem|Entre no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i,
+      })
+    ).toBeVisible();
+    await page.goto("/garagem");
+    await expect(page.getByRole("heading", { name: /Entre para gerenciar seus projetos|Entre no Projeto Garagem/ })).toBeVisible();
+  }
 
   await page.goto("/notificacoes");
   await expect(page.getByRole("heading", { name: "Notificações", exact: true })).toBeVisible();

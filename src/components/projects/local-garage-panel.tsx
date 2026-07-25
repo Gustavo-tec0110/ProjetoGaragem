@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { Button } from "@/components/ui/button";
 import {
+  getEmptyLocalProjectsSnapshot,
   getLocalProjects,
   subscribeLocalProjects,
 } from "@/lib/projects/local-storage";
@@ -15,7 +16,7 @@ export function LocalGaragePanel() {
   const projects = React.useSyncExternalStore<Project[]>(
     subscribeLocalProjects,
     getLocalProjects,
-    () => []
+    getEmptyLocalProjectsSnapshot
   );
 
   return (

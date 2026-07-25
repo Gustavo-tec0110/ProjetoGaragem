@@ -92,6 +92,12 @@ export function getLocalProjects() {
   return enrichedProjectsCache;
 }
 
+const EMPTY_LOCAL_PROJECTS: Project[] = [];
+
+export function getEmptyLocalProjectsSnapshot() {
+  return EMPTY_LOCAL_PROJECTS;
+}
+
 export function saveLocalProject(project: Project) {
   const normalized = enrichProject(project);
   const current = readProjectState();

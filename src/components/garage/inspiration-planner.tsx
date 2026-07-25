@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
+  getEmptyLocalProjectsSnapshot,
   getLocalProjects,
   subscribeLocalProjects,
 } from "@/lib/projects/local-storage";
@@ -121,7 +122,7 @@ export function InspirationPlanner({
   const localProjects = React.useSyncExternalStore<Project[]>(
     subscribeLocalProjects,
     getLocalProjects,
-    () => []
+    getEmptyLocalProjectsSnapshot
   );
   const activeProjects = mode === "local" ? localProjects : currentProjects;
   const inspirationOptions = React.useMemo(
