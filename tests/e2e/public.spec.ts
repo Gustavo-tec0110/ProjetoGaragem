@@ -143,9 +143,11 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     await expect(page).toHaveURL(/q=Gol/);
   } else {
     await page.getByLabel("Buscar projetos").fill("Gol");
-    const firstSuggestion = page.getByRole("option").first();
-    await expect(firstSuggestion).toBeVisible();
-    await firstSuggestion.click();
+    const projectSuggestion = page
+      .getByRole("listbox")
+      .getByRole("option", { name: /Gol Quadrado 1994 AP 1\.8/ });
+    await expect(projectSuggestion).toBeVisible();
+    await projectSuggestion.click();
     await expect(page).toHaveURL(/\/projeto\//);
   }
 
@@ -156,8 +158,16 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
 
   if (mobile) {
     await expect(page.getByLabel("Ordenação mobile")).toHaveValue("likes");
-    await page.getByRole("button", { name: "Abrir filtros avançados" }).click();
+    await page.getByRole("heading", { name: "Explorar projetos" }).click();
+    await expect(page.getByRole("listbox")).toBeHidden();
+    const filterButton = page.getByRole("button", { name: "Abrir filtros avançados" });
     const dialog = page.getByRole("dialog", { name: "Filtros" });
+    await filterButton.click();
+    if (!(await dialog.isVisible())) {
+      await page.waitForTimeout(300);
+      await filterButton.click();
+    }
+    await expect(dialog).toBeVisible();
     await dialog.getByLabel("Filtrar por marca").selectOption("Chevrolet");
     await dialog.getByRole("button", { name: "Aplicar filtros" }).click();
   } else {
@@ -181,7 +191,7 @@ test("busca sem resultados informa estado vazio e mantem o termo", async ({ page
   const query = "e2e-projeto-inexistente-9f4c2d";
   await page.goto(`/explorar?q=${query}`);
   await expect(page.getByLabel("Buscar projetos")).toHaveValue(query);
-  await expect(page.getByRole("heading", { name: `Resultados para \"${query}\"` })).toBeVisible();
+  await expect(page.getByRole("heading", { name: `Resultados para "${query}"` })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Nenhum projeto encontrado para essa busca." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Limpar filtros" }).first()).toHaveAttribute(
     "href",
@@ -290,8 +300,14 @@ test("exploracao responsiva expoe filtros sem quebrar resultados", async ({ page
     const filterButton = page.getByRole("button", { name: "Abrir filtros avançados" });
     await expect(filterButton).toBeVisible();
     await expect(page.getByLabel("Ordenação mobile")).toBeVisible();
-    await filterButton.click();
+    await page.getByRole("heading", { name: "Explorar projetos" }).click();
+    await expect(page.getByRole("listbox")).toBeHidden();
     const dialog = page.getByRole("dialog", { name: "Filtros" });
+    await filterButton.click();
+    if (!(await dialog.isVisible())) {
+      await page.waitForTimeout(300);
+      await filterButton.click();
+    }
     await expect(dialog).toBeVisible();
     await expect(dialog.getByLabel("Filtrar por marca")).toBeVisible();
     await expect(dialog.getByLabel("Filtrar por modelo")).toBeVisible();

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Loader2, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 
@@ -19,7 +18,6 @@ export function ProjectSearchBox({
   defaultValue: string;
   ariaLabel?: string;
 }) {
-  const router = useRouter();
   const inputId = React.useId();
   const listboxId = React.useId();
   const containerRef = React.useRef<HTMLDivElement | null>(null);
@@ -75,10 +73,6 @@ export function ProjectSearchBox({
   function submitSuggestion(suggestion: Suggestion) {
     setValue(suggestion.term);
     setIsOpen(false);
-    if (suggestion.href) {
-      router.push(suggestion.href);
-      return;
-    }
     window.setTimeout(() => formRef.current?.requestSubmit(), 0);
   }
 
@@ -129,20 +123,49 @@ export function ProjectSearchBox({
           className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 overflow-hidden rounded-3xl border border-border/80 bg-background shadow-xl"
         >
           {suggestions.length && value.trim().length >= 2 ? (
-            suggestions.map((suggestion) => (
-              <button
-                key={`${suggestion.source}-${suggestion.term}`}
-                type="button"
-                role="option"
-                aria-selected="false"
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => submitSuggestion(suggestion)}
-                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm hover:bg-muted/10"
-              >
-                <span className="font-medium text-foreground">{suggestion.term}</span>
-                <span className="text-xs text-muted">{suggestion.source}</span>
-              </button>
-            ))
+            suggestions.map((suggestion) => {
+              const content = (
+                <>
+                  <span className="font-medium text-foreground">{suggestion.term}</span>
+                  <span className="text-xs text-muted">{suggestion.source}</span>
+                </>
+              );
+              const className =
+                "flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm hover:bg-muted/10";
+              const key = `${suggestion.source}-${suggestion.term}`;
+
+              if (suggestion.href) {
+                return (
+                  <a
+                    key={key}
+                    href={suggestion.href}
+                    role="option"
+                    aria-selected="false"
+                    onClick={() => {
+                      setValue(suggestion.term);
+                      setIsOpen(false);
+                    }}
+                    className={className}
+                  >
+                    {content}
+                  </a>
+                );
+              }
+
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="option"
+                  aria-selected="false"
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => submitSuggestion(suggestion)}
+                  className={className}
+                >
+                  {content}
+                </button>
+              );
+            })
           ) : (
             <div className="px-4 py-3 text-sm text-muted">
               Pressione Enter para buscar por &quot;{value.trim()}&quot;.
