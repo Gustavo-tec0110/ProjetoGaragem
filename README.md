@@ -14,9 +14,13 @@
 
 Plataforma full stack para publicar, explorar e acompanhar projetos automotivos. O MVP combina uma experiência pública navegável com autenticação, garagem pessoal, interações sociais e persistência no Supabase. Sem credenciais de banco, o projeto mantém um modo de demonstração explícito para desenvolvimento e avaliação.
 
-## Prévia
+## Screenshots
 
 ![Tela inicial do Projeto Garagem](docs/screenshots/home.png)
+
+## Demonstração
+
+Ainda não há um deploy público estável. O modo de demonstração pode ser executado localmente sem credenciais do Supabase seguindo as instruções abaixo.
 
 ## Funcionalidades
 
@@ -43,7 +47,7 @@ flowchart LR
 
 As regras de mutação passam por autenticação no servidor, enquanto as políticas RLS formam a barreira final no banco. Os adaptadores em `src/lib/projects` isolam consulta, normalização e fallback, evitando que a interface dependa diretamente da fonte dos dados.
 
-## Stack
+## Tecnologias
 
 | Camada | Tecnologias |
 |---|---|
@@ -53,7 +57,7 @@ As regras de mutação passam por autenticação no servidor, enquanto as polít
 | Testes | Playwright |
 | Qualidade | ESLint, TypeScript, GitHub Actions |
 
-## Executar localmente
+## Como executar localmente
 
 Requisitos: Node.js 20+ e npm.
 
@@ -103,7 +107,7 @@ E2E_SECOND_USER_PASSWORD=senha-de-qa
 
 Sem essas quatro variáveis, a suíte autenticada é ignorada de forma explícita e os testes públicos continuam sendo executados.
 
-## Estrutura
+## Estrutura do projeto
 
 ```text
 src/
@@ -117,6 +121,12 @@ supabase/migrations/     # schema e políticas RLS versionadas
 tests/e2e/               # fluxos Playwright
 ```
 
+## Aprendizados
+
+- separação entre interface, regras de domínio e acesso a dados;
+- autorização em profundidade com validação no servidor e políticas RLS;
+- construção de fluxos E2E reproduzíveis para áreas públicas e autenticadas.
+
 ## Segurança
 
 - autenticação revalidada no servidor antes de mutações;
@@ -127,7 +137,7 @@ tests/e2e/               # fluxos Playwright
 
 Consulte [SECURITY.md](SECURITY.md) antes de relatar uma vulnerabilidade.
 
-## Roadmap
+## Próximos passos
 
 - [ ] adicionar testes unitários para regras puras de busca e filtros;
 - [ ] publicar uma instância de demonstração estável;
