@@ -20,7 +20,9 @@ Plataforma full stack para publicar, explorar e acompanhar projetos automotivos.
 
 ## Demonstração
 
-Ainda não há um deploy público estável. O modo de demonstração pode ser executado localmente sem credenciais do Supabase seguindo as instruções abaixo.
+- **Aplicação:** [projetogaragem.netlify.app](https://projetogaragem.netlify.app)
+
+O modo de demonstração também pode ser executado localmente sem credenciais do Supabase seguindo as instruções abaixo.
 
 ## Funcionalidades
 
@@ -140,7 +142,7 @@ Consulte [SECURITY.md](SECURITY.md) antes de relatar uma vulnerabilidade.
 ## Próximos passos
 
 - [ ] adicionar testes unitários para regras puras de busca e filtros;
-- [ ] publicar uma instância de demonstração estável;
+- [x] publicar uma instância de demonstração estável;
 - [ ] documentar observabilidade e estratégia de backup do Supabase;
 - [ ] ampliar validações de acessibilidade automatizadas.
 
