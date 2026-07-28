@@ -16,7 +16,9 @@ Plataforma full stack para publicar, explorar e acompanhar projetos automotivos.
 
 ## Screenshots
 
-![Tela inicial do Projeto Garagem](docs/screenshots/home.png)
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Tela inicial do Projeto Garagem" width="100%">
+</p>
 
 ## Demonstração
 
@@ -59,7 +61,7 @@ As regras de mutação passam por autenticação no servidor, enquanto as polít
 | Testes | Playwright |
 | Qualidade | ESLint, TypeScript, GitHub Actions |
 
-## Como executar localmente
+## Como executar
 
 Requisitos: Node.js 20+ e npm.
 
@@ -139,7 +141,7 @@ tests/e2e/               # fluxos Playwright
 
 Consulte [SECURITY.md](SECURITY.md) antes de relatar uma vulnerabilidade.
 
-## Próximos passos
+## Próximas melhorias
 
 - [ ] adicionar testes unitários para regras puras de busca e filtros;
 - [x] publicar uma instância de demonstração estável;
