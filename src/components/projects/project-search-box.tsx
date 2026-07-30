@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Loader2, Search } from "lucide-react";
+import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 
@@ -136,7 +137,7 @@ export function ProjectSearchBox({
 
               if (suggestion.href) {
                 return (
-                  <a
+                  <Link
                     key={key}
                     href={suggestion.href}
                     role="option"
@@ -149,7 +150,7 @@ export function ProjectSearchBox({
                     className={className}
                   >
                     {content}
-                  </a>
+                  </Link>
                 );
               }
 
