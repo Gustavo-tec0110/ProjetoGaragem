@@ -141,6 +141,7 @@ export function ProjectSearchBox({
                     href={suggestion.href}
                     role="option"
                     aria-selected="false"
+                    onMouseDown={(event) => event.preventDefault()}
                     onClick={() => {
                       setValue(suggestion.term);
                       setIsOpen(false);
