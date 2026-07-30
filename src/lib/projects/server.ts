@@ -33,6 +33,11 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { qCarBySlug, qExploreCars } from "@/lib/supabase/queries";
 
 const PROJECT_LIMIT = 120;
+const FEATURED_DEMO_SLUGS = [
+  "gol-quadrado-1994-ap18",
+  "subaru-impreza-wrx-2002-awd",
+  "uno-turbo-street",
+] as const;
 
 const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
   if (!isSupabaseConfigured) {
@@ -200,7 +205,20 @@ export async function getProjectCollection(
 export const getFeaturedProjects = cache(
   async (limit = 6, sort: ProjectSortKey = "likes") => {
     const collection = await getProjectCollection({ sort });
-    return sortProjects(collection.allProjects, sort).slice(0, limit);
+    const sortedProjects = sortProjects(collection.allProjects, sort);
+    const projectsBySlug = new Map(
+      sortedProjects.map((project) => [project.slug, project])
+    );
+    const priorityProjects = FEATURED_DEMO_SLUGS.flatMap((slug) => {
+      const project = projectsBySlug.get(slug);
+      return project ? [project] : [];
+    });
+    const prioritySlugs = new Set<string>(FEATURED_DEMO_SLUGS);
+    const remainingProjects = sortedProjects.filter(
+      (project) => !prioritySlugs.has(project.slug)
+    );
+
+    return [...priorityProjects, ...remainingProjects].slice(0, limit);
   }
 );
 
