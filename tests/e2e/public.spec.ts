@@ -82,7 +82,9 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
 
 test("detalhe de projeto respeita o viewport sem overflow ou sobreposicao", async ({ page }, testInfo) => {
   await page.goto(DEMO_PROJECT_PATH);
-  await expect(page.getByRole("heading", { name: "Gol Quadrado 1994 AP 1.8", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Gol Quadrado AP 1.8 Sleeper", exact: true })
+  ).toBeVisible();
   await expect(page.getByTestId("project-hero-image")).toBeVisible();
 
   const mobile = isMobileProject(testInfo.project.name);
@@ -145,7 +147,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     await page.getByLabel("Buscar projetos").fill("Gol");
     const projectSuggestion = page
       .getByRole("listbox")
-      .getByRole("option", { name: /Gol Quadrado 1994 AP 1\.8/ });
+      .getByRole("option", { name: /Gol Quadrado AP 1\.8 Sleeper/ });
     await expect(projectSuggestion).toBeVisible();
     await projectSuggestion.click();
     await expect(page).toHaveURL(/\/projeto\//);
