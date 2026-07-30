@@ -165,56 +165,35 @@ export async function getProjectCollection(
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
   const catalog = await getSupabaseProjectCatalog(normalizedFilters);
-
-  if (catalog.error || catalog.projects.length === 0) {
-    const filteredDemo = sortProjects(
-      filterProjects(demoProjects, normalizedFilters),
-      normalizedFilters.sort,
-      normalizedFilters.q
-    );
-
-    return {
-      projects: filteredDemo,
-      allProjects: demoProjects,
-      availableStyles: getAvailableStyles(demoProjects),
-      availableEngines: getAvailableEngines(demoProjects),
-      availableBrands: getAvailableBrands(demoProjects),
-      availableModels: getAvailableModels(demoProjects),
-      availableYears: getAvailableYears(demoProjects),
-      availableFuels: getAvailableFuels(demoProjects),
-      availableInductions: getAvailableInductions(demoProjects),
-      availableDrivetrains: getAvailableDrivetrains(demoProjects),
-      availableCategories: getAvailableStyles(demoProjects),
-      source: "demo",
-      notice:
-        catalog.error === "not_configured"
-          ? "Mostrando projetos demo enquanto o Supabase nao e configurado."
-          : catalog.error
-            ? "Mostrando projetos demo enquanto a conexao com o banco e revisada."
-            : "Mostrando projetos demo ate a primeira garagem real ser publicada.",
-    };
-  }
+  const allProjects = uniqueProjects([...demoProjects, ...catalog.projects]);
 
   const filteredProjects = sortProjects(
-    filterProjects(catalog.projects, normalizedFilters),
+    filterProjects(allProjects, normalizedFilters),
     normalizedFilters.sort,
     normalizedFilters.q
   );
 
   return {
     projects: filteredProjects,
-    allProjects: catalog.projects,
-    availableStyles: getAvailableStyles(catalog.projects),
-    availableEngines: getAvailableEngines(catalog.projects),
-    availableBrands: getAvailableBrands(catalog.projects),
-    availableModels: getAvailableModels(catalog.projects),
-    availableYears: getAvailableYears(catalog.projects),
-    availableFuels: getAvailableFuels(catalog.projects),
-    availableInductions: getAvailableInductions(catalog.projects),
-    availableDrivetrains: getAvailableDrivetrains(catalog.projects),
-    availableCategories: getAvailableStyles(catalog.projects),
-    source: "supabase",
-    notice: null,
+    allProjects,
+    availableStyles: getAvailableStyles(allProjects),
+    availableEngines: getAvailableEngines(allProjects),
+    availableBrands: getAvailableBrands(allProjects),
+    availableModels: getAvailableModels(allProjects),
+    availableYears: getAvailableYears(allProjects),
+    availableFuels: getAvailableFuels(allProjects),
+    availableInductions: getAvailableInductions(allProjects),
+    availableDrivetrains: getAvailableDrivetrains(allProjects),
+    availableCategories: getAvailableStyles(allProjects),
+    source: catalog.projects.length > 0 ? "supabase" : "demo",
+    notice:
+      catalog.projects.length > 0
+        ? null
+        : catalog.error === "not_configured"
+          ? "Mostrando projetos demo enquanto o Supabase nao e configurado."
+          : catalog.error
+            ? "Mostrando projetos demo enquanto a conexao com o banco e revisada."
+            : "Mostrando projetos demo ate a primeira garagem real ser publicada.",
   };
 }
 
