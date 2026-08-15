@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { CircleAlert } from "lucide-react";
 
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -13,7 +11,6 @@ export const metadata = {
 export default function AuthCodeErrorPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-md pb-12 md:pt-24">
           <Card className="p-6 md:p-8">
@@ -44,7 +41,6 @@ export default function AuthCodeErrorPage() {
           </Card>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

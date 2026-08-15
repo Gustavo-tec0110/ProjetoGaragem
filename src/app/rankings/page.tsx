@@ -4,8 +4,6 @@ import {
   ProjectRankingsBoard,
   isRankingCategoryKey,
 } from "@/components/projects/project-rankings-board";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { getProjectRankings } from "@/lib/projects/server";
 import { createSeoMetadata } from "@/lib/seo";
 
@@ -65,7 +63,6 @@ export default async function RankingsPage({
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <ProjectRankingsBoard
           projects={rankings.allProjects}
@@ -74,7 +71,6 @@ export default async function RankingsPage({
           notice={rankings.notice}
         />
       </main>
-      <SiteFooter />
     </div>
   );
 }

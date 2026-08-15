@@ -9,12 +9,14 @@ export function ProjectGrid({
   emptyDescription = "Ajuste os filtros ou adicione um projeto para ver novas fichas aqui.",
   emptyAction,
   eagerFirstImage = false,
+  imageIndex = 0,
 }: {
   projects: Project[];
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: ReactNode;
   eagerFirstImage?: boolean;
+  imageIndex?: number;
 }) {
   if (!projects.length) {
     return (
@@ -35,7 +37,8 @@ export function ProjectGrid({
         <ProjectCard
           key={project.slug}
           project={project}
-          imageLoading={eagerFirstImage && index === 0 ? "eager" : "lazy"}
+          imageLoading={eagerFirstImage && index < 3 ? "eager" : "lazy"}
+          imageIndex={imageIndex}
         />
       ))}
     </div>

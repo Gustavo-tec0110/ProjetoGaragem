@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ProjectTimeline } from "@/components/projects/project-timeline";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -41,7 +39,6 @@ export default async function ProjectEvolutionPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -124,7 +121,6 @@ export default async function ProjectEvolutionPage({ params }: PageProps) {
           </section>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

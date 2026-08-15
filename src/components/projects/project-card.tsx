@@ -31,13 +31,15 @@ function sourceLabel(project: Project) {
 export function ProjectCard({
   project,
   imageLoading = "lazy",
+  imageIndex = 0,
 }: {
   project: Project;
   imageLoading?: "eager" | "lazy";
+  imageIndex?: number;
 }) {
   const projectHref = buildProjectHref(project.slug);
   const compareHref = buildCompareHref(project.slug);
-  const image = project.gallery[0] ?? project.mainImage;
+  const image = project.gallery[imageIndex] ?? project.gallery[0] ?? project.mainImage;
   const location = [project.city, project.state].filter(Boolean).join(", ");
   const source = sourceLabel(project);
 
@@ -149,7 +151,7 @@ export function ProjectCard({
           </div>
           <div>
             <p>Pecas instaladas</p>
-            <p className="mt-1 font-semibold text-foreground">{project.installedParts.length.toLocaleString("pt-BR")}</p>
+            <p className="mt-1 font-semibold text-foreground">{project.modificationsCount.toLocaleString("pt-BR")}</p>
           </div>
         </div>
 

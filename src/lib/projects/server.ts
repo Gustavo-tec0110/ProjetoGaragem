@@ -30,7 +30,12 @@ import {
 } from "@/lib/projects/utils";
 import { createSeoMetadata } from "@/lib/seo";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { qCarBySlug, qExploreCars } from "@/lib/supabase/queries";
+import {
+  qCarCardBySlug,
+  qCarDetailsFromCard,
+  qExploreCars,
+  qPublicCarCardBySlug,
+} from "@/lib/supabase/queries";
 
 const PROJECT_LIMIT = 120;
 const FEATURED_DEMO_SLUGS = [
@@ -76,14 +81,25 @@ const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters, persona
   };
 });
 
-const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
+const getSupabaseProjectCardBySlug = cache(async (slug: string) => {
   if (!isSupabaseConfigured) return null;
+  const result = await qCarCardBySlug(slug);
+  return result.data ?? null;
+});
 
-  const result = await qCarBySlug(slug);
+const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
+  const card = await getSupabaseProjectCardBySlug(slug);
+  if (!card) return null;
+  const result = await qCarDetailsFromCard(card);
   return result.data ?? null;
 });
 
 async function getRouteProjectBySlug(slug: string) {
+  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
+  if (demoProject) {
+    return { project: demoProject, detail: null };
+  }
+
   const detail = await getSupabaseProjectDetailsBySlug(slug);
   if (detail) {
     return {
@@ -92,14 +108,20 @@ async function getRouteProjectBySlug(slug: string) {
     };
   }
 
-  const project =
-    demoProjects.find((entry) => entry.slug === slug || entry.id === slug) ?? null;
-
   return {
-    project,
+    project: null,
     detail: null,
   };
 }
+
+const getPublicRouteProjectCardBySlug = cache(async (slug: string) => {
+  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
+  if (demoProject) return demoProject;
+  if (!isSupabaseConfigured) return null;
+
+  const result = await qPublicCarCardBySlug(slug);
+  return result.data ? mapCarCardToProject(result.data) : null;
+});
 
 function emptyProjectRecommendations(): ProjectRecommendationGroups {
   return {
@@ -111,8 +133,10 @@ function emptyProjectRecommendations(): ProjectRecommendationGroups {
   };
 }
 
-async function getProjectRecommendationsForRoute(project: Project): Promise<ProjectRecommendationGroups> {
-  const collection = await getProjectCollection(undefined, false);
+async function getProjectRecommendationsForRoute(
+  project: Project,
+  collection: ProjectCollectionResult
+): Promise<ProjectRecommendationGroups> {
   const combinedProjects = uniqueProjects([...collection.allProjects, ...demoProjects]);
   const candidates = combinedProjects.filter((entry) => entry.slug !== project.slug);
   const usedSlugs = new Set([project.slug]);
@@ -253,7 +277,10 @@ const getProjectBySlug = cache(async (slug: string) => {
 });
 
 export async function getProjectPageData(slug: string) {
-  const { project, detail } = await getRouteProjectBySlug(slug);
+  const [{ project, detail }, collection] = await Promise.all([
+    getRouteProjectBySlug(slug),
+    getProjectCollection(undefined, false),
+  ]);
   if (!project) {
     return {
       project: null,
@@ -263,7 +290,7 @@ export async function getProjectPageData(slug: string) {
     };
   }
 
-  const recommendations = await getProjectRecommendationsForRoute(project);
+  const recommendations = await getProjectRecommendationsForRoute(project, collection);
 
   return {
     project,
@@ -273,13 +300,17 @@ export async function getProjectPageData(slug: string) {
   };
 }
 
+export async function getProjectCriticalData(slug: string) {
+  return getPublicRouteProjectCardBySlug(slug);
+}
+
 export async function getProjectRouteMetadata(
   slug: string,
   routeVariant: "project" | "car",
   missingTitle: string,
   missingDescription: string
 ): Promise<Metadata> {
-  const project = await getProjectBySlug(slug);
+  const project = await getPublicRouteProjectCardBySlug(slug);
   const canonicalPath = buildProjectHref(slug);
   const currentPath = routeVariant === "car" ? `/carros/${slug}` : canonicalPath;
 

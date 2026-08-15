@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import { Calendar, Flame, Plus, Wrench } from "lucide-react";
 
 import { ProjectImage } from "@/components/projects/project-image";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -92,7 +90,6 @@ export default async function UpdatesPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -226,7 +223,6 @@ export default async function UpdatesPage() {
           )}
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

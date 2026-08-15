@@ -1,9 +1,6 @@
 import type { ReactNode } from "react";
 import { Gauge, ShieldCheck, Wrench } from "lucide-react";
 
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
-
 export function AuthShell({
   eyebrow,
   title,
@@ -17,7 +14,6 @@ export function AuthShell({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <SiteNavbar />
       <main className="px-4 pb-8 pt-20 sm:px-6 md:pb-12 md:pt-28">
         <div className="mx-auto grid w-full max-w-5xl overflow-hidden rounded-2xl border border-border/60 bg-card/65 shadow-elevated lg:min-h-[39rem] lg:grid-cols-[0.9fr_1.1fr]">
           <aside className="relative hidden overflow-hidden border-r border-border/60 bg-background-2 p-10 lg:flex lg:flex-col lg:justify-between">
@@ -56,7 +52,6 @@ export function AuthShell({
           </section>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

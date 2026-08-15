@@ -18,8 +18,6 @@ import {
 import { FollowProfileButton } from "@/components/garage/follow-profile-button";
 import { CarGrid } from "@/components/garage/car-card";
 import { ProfileForm } from "@/components/garage/profile-form";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { createSeoMetadata } from "@/lib/seo";
@@ -124,7 +122,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <Card className="relative overflow-hidden">
@@ -290,7 +287,6 @@ export default async function PublicProfilePage({ params }: PageProps) {
           ) : null}
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

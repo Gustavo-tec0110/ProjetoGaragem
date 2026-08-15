@@ -1,8 +1,6 @@
 import Link from "next/link";
 
 import { ProjectForm } from "@/components/projects/project-form";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { qCarCatalogVersions } from "@/lib/supabase/queries";
@@ -22,7 +20,6 @@ export default async function CreateProjectPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-5xl pb-12 md:pt-24">
           {!supabase ? (
@@ -47,7 +44,6 @@ export default async function CreateProjectPage() {
           )}
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

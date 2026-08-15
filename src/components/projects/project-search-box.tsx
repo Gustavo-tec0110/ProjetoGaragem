@@ -23,6 +23,7 @@ export function ProjectSearchBox({
   const listboxId = React.useId();
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const formRef = React.useRef<HTMLFormElement | null>(null);
+  const suggestionCacheRef = React.useRef(new Map<string, Suggestion[]>());
   const [value, setValue] = React.useState(defaultValue);
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -35,6 +36,14 @@ export function ProjectSearchBox({
       return;
     }
 
+    const cached = suggestionCacheRef.current.get(query);
+    if (cached) {
+      setSuggestions(cached);
+      setIsOpen(true);
+      setStatus(cached.length ? `${cached.length} sugestoes encontradas.` : "Nenhuma sugestao encontrada.");
+      return;
+    }
+
     const controller = new AbortController();
     const timeout = window.setTimeout(async () => {
       setIsLoading(true);
@@ -43,12 +52,17 @@ export function ProjectSearchBox({
           `/api/projects/search-suggestions?q=${encodeURIComponent(query)}`,
           { signal: controller.signal }
         );
+        if (!response.ok) throw new Error(`suggestions_${response.status}`);
         const payload = (await response.json()) as { suggestions?: Suggestion[] };
-        setSuggestions(payload.suggestions ?? []);
+        const nextSuggestions = payload.suggestions ?? [];
+        const cache = suggestionCacheRef.current;
+        if (cache.size >= 20) cache.delete(cache.keys().next().value ?? "");
+        cache.set(query, nextSuggestions);
+        setSuggestions(nextSuggestions);
         setIsOpen(true);
         setStatus(
-          payload.suggestions?.length
-            ? `${payload.suggestions.length} sugestoes encontradas.`
+          nextSuggestions.length
+            ? `${nextSuggestions.length} sugestoes encontradas.`
             : "Nenhuma sugestao encontrada."
         );
       } catch {
@@ -110,7 +124,7 @@ export function ProjectSearchBox({
       />
       {isLoading ? (
         <Loader2
-          className="absolute right-4 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted"
+          className="absolute right-4 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted motion-reduce:animate-none"
           aria-hidden="true"
         />
       ) : null}
@@ -144,7 +158,6 @@ export function ProjectSearchBox({
                     aria-selected="false"
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => {
-                      setValue(suggestion.term);
                       setIsOpen(false);
                     }}
                     className={className}

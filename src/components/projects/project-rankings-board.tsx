@@ -516,7 +516,7 @@ export function ProjectRankingsBoard({
 }) {
   const category =
     RANKING_CATEGORIES.find((entry) => entry.key === selectedCategoryKey) ?? RANKING_CATEGORIES[0];
-  const rankedProjects = getRankedProjects(projects, category);
+  const rankedProjects = getRankedProjects(projects, category).slice(0, 12);
   const podium = rankedProjects.slice(0, 3);
   const leaderboard = rankedProjects.slice(3);
   const champion = podium.find((entry) => entry.position === 1)?.project;

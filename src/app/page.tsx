@@ -3,8 +3,6 @@ import Link from "next/link";
 import { ArrowUpRight, Camera, Search, Share2, Wrench } from "lucide-react";
 
 import { ProjectGrid } from "@/components/projects/project-grid";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getFeaturedProjects } from "@/lib/projects/server";
@@ -16,7 +14,6 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1">
         <section className="relative min-h-[40rem] overflow-hidden border-b border-border/50 px-4 sm:px-6 md:min-h-[88svh]">
           <div className="absolute inset-0">
@@ -138,7 +135,6 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      <SiteFooter />
     </div>
   );
 }

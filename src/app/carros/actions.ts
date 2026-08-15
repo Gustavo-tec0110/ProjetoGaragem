@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
@@ -355,6 +355,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
       : Promise.resolve(null),
   ]);
   timer.lap("finalize", finalizeStartedAt);
+  updateTag(PROJECT_CATALOG_CACHE_TAG);
   timer.end({ ok: true, active: shouldExist });
   return { ok: true, active: shouldExist, ...counts };
 }
@@ -646,6 +647,7 @@ export async function createCommentAction(
       : Promise.resolve(null),
   ]);
   timer.lap("finalize", finalizeStartedAt);
+  updateTag(PROJECT_CATALOG_CACHE_TAG);
   timer.end({ ok: true });
   return {
     status: "success",
@@ -681,6 +683,7 @@ export async function deleteCommentAction(commentId: string) {
   }
 
   const { error } = await auth.supabase.from("car_comments").delete().eq("id", commentId);
+  if (!error) updateTag(PROJECT_CATALOG_CACHE_TAG);
   return { ok: !error, message: error?.message };
 }
 

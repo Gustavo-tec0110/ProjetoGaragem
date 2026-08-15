@@ -2,8 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CarForm } from "@/components/garage/car-form";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { qCarBySlug } from "@/lib/supabase/queries";
@@ -29,7 +27,6 @@ export default async function EditProjectPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-5xl pb-12 md:pt-24">
           {!user ? (
@@ -64,7 +61,6 @@ export default async function EditProjectPage({ params }: PageProps) {
           )}
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

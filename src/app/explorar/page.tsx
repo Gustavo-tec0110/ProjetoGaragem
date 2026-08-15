@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
 import { ProjectDiscoveryPage } from "@/components/projects/project-discovery-page";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { createSeoMetadata } from "@/lib/seo";
 import { normalizeProjectFilters } from "@/lib/projects/utils";
 
@@ -70,7 +68,6 @@ export default async function ExplorarPage({
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <ProjectDiscoveryPage
           basePath="/explorar"
@@ -81,7 +78,6 @@ export default async function ExplorarPage({
           page={page}
         />
       </main>
-      <SiteFooter />
     </div>
   );
 }

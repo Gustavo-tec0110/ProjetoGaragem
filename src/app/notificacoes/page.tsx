@@ -2,8 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { NotificationList } from "@/components/notifications/notification-list";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { createSeoMetadata } from "@/lib/seo";
@@ -28,7 +26,6 @@ export default async function NotificationsPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-4xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -63,7 +60,6 @@ export default async function NotificationsPage() {
           </div>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

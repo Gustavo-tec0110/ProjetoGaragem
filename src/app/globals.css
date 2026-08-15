@@ -156,6 +156,10 @@
     transition-duration: var(--pg-duration);
   }
 
+  .pg-route-enter {
+    animation: pg-route-enter 180ms var(--pg-ease-out) both;
+  }
+
   .mobile-cta-safe {
     scroll-margin-bottom: calc(var(--mobile-bottom-nav-space) + 1rem);
   }
@@ -359,12 +363,25 @@
   @media (prefers-reduced-motion: reduce) {
     .pg-scanlines,
     .pg-particles,
-    .pg-skeleton {
+    .pg-skeleton,
+    .pg-route-enter {
       animation: none !important;
     }
 
     .pg-premium-card {
       transition: none !important;
     }
+  }
+}
+
+@keyframes pg-route-enter {
+  from {
+    opacity: 0.94;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

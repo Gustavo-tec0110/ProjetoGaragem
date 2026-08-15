@@ -894,33 +894,23 @@ export async function qViewerFollowsProfile(followingId: string): Promise<QueryR
   return { data: Boolean(data), error: null };
 }
 
-export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {
-  const timer = performanceTimer("supabase", "qCarBySlug", { slug });
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) {
-    timer.end({ configured: false });
-    return { data: null, error: "supabase_not_configured" };
-  }
+async function loadCarDetails(
+  supabase: Client,
+  slug: string,
+  viewerId: string | null,
+  publicOnly: boolean
+): Promise<QueryResult<CarDetails>> {
+  const cardResult = await loadCarCardBySlug(supabase, slug, viewerId, publicOnly);
+  if (!cardResult.data) return cardResult;
+  return hydrateCarDetails(supabase, cardResult.data);
+}
 
-  const carStartedAt = performance.now();
-  const [{ data: row, error }, viewerId] = await Promise.all([
-    supabase.from("cars").select("*").eq("slug", slug).maybeSingle(),
-    getViewerId(),
-  ]);
-  timer.lap("car", carStartedAt, { found: Boolean(row) });
-  if (error) {
-    timer.end({ error: true });
-    return { data: null, error: error.message };
-  }
-  if (!row) {
-    timer.end({ found: false });
-    return { data: null, error: "car_not_found" };
-  }
-
-  const normalizedRow = normalizeCarRow(row as CarRow);
-  const carId = normalizedRow.id;
-  const detailsStartedAt = performance.now();
-  const [photosResult, partsResult, commentsResult, updatesResult, expensesResult, ownerMap, flags] = await Promise.all([
+async function hydrateCarDetails(
+  supabase: Client,
+  card: CarCard
+): Promise<QueryResult<CarDetails>> {
+  const carId = card.id;
+  const [photosResult, partsResult, commentsResult, updatesResult, expensesResult] = await Promise.all([
     supabase.from("car_photos").select("*").eq("car_id", carId).order("sort_order", { ascending: true }),
     supabase.from("car_parts").select("*").eq("car_id", carId).order("status", { ascending: true }).order("created_at", { ascending: true }),
     supabase.from("car_comments").select("*").eq("car_id", carId).order("created_at", { ascending: false }).limit(50),
@@ -936,10 +926,7 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
       .eq("car_id", carId)
       .order("spent_at", { ascending: false })
       .order("created_at", { ascending: false }),
-    fetchProfiles(supabase, [normalizedRow.owner_id]),
-    viewerFlagsByCar(supabase, viewerId, [carId]),
   ]);
-  timer.lap("details", detailsStartedAt);
   const { data: photos } = photosResult;
   const { data: parts } = partsResult;
   const { data: comments } = commentsResult;
@@ -958,18 +945,14 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     (sum, expense) => sum + Math.max(0, expense.amount),
     0
   );
-  const card: CarCard = {
-    ...normalizedRow,
-    owner: ownerMap.get(normalizedRow.owner_id) ?? null,
+  const hydratedCard: CarCard = {
+    ...card,
     installed_parts_count: installedParts,
     planned_parts_count: plannedParts,
     estimated_cost: estimatedCost,
     total_invested: totalInvested || estimatedCost,
     updates_count: updateRows.length,
     last_update_at: updateRows[0]?.happened_at ?? null,
-    viewer_has_liked: flags.likes.has(carId),
-    viewer_has_saved: flags.saves.has(carId),
-    viewer_has_followed: flags.follows.has(carId),
   };
 
   const commentRows = (comments ?? []) as CarCommentRow[];
@@ -978,9 +961,9 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     commentRows.map((comment) => comment.user_id)
   );
 
-  const result: QueryResult<CarDetails> = {
+  return {
     data: {
-      ...card,
+      ...hydratedCard,
       photos: (photos ?? []) as CarPhotoRow[],
       parts: (parts ?? []) as CarPartRow[],
       comments: commentRows.map((comment) => ({
@@ -992,6 +975,149 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     },
     error: null,
   };
-  timer.end({ comments: commentRows.length });
+}
+
+async function loadCarCardBySlug(
+  supabase: Client,
+  slug: string,
+  viewerId: string | null,
+  publicOnly: boolean
+): Promise<QueryResult<CarCard>> {
+  let carQuery = supabase.from("cars").select("*").eq("slug", slug);
+  if (publicOnly) carQuery = carQuery.eq("is_public", true);
+
+  const { data: row, error } = await carQuery.maybeSingle();
+  if (error) return { data: null, error: error.message };
+  if (!row) return { data: null, error: "car_not_found" };
+
+  const normalizedRow = normalizeCarRow(row as CarRow);
+  const [ownerMap, flags] = await Promise.all([
+    fetchProfiles(supabase, [normalizedRow.owner_id]),
+    viewerFlagsByCar(supabase, viewerId, [normalizedRow.id]),
+  ]);
+
+  return {
+    data: {
+      ...normalizedRow,
+      owner: ownerMap.get(normalizedRow.owner_id) ?? null,
+      installed_parts_count: 0,
+      planned_parts_count: 0,
+      estimated_cost: 0,
+      total_invested: 0,
+      updates_count: 0,
+      last_update_at: normalizedRow.updated_at,
+      viewer_has_liked: flags.likes.has(normalizedRow.id),
+      viewer_has_saved: flags.saves.has(normalizedRow.id),
+      viewer_has_followed: flags.follows.has(normalizedRow.id),
+    },
+    error: null,
+  };
+}
+
+const qCachedPublicCarCardBySlug = unstable_cache(
+  async (slug: string) => {
+    const supabase = getSupabasePublicClient();
+    if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarCard>;
+    return loadCarCardBySlug(supabase, slug, null, true);
+  },
+  ["public-project-critical-v1"],
+  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
+);
+
+export function qPublicCarCardBySlug(slug: string): Promise<QueryResult<CarCard>> {
+  return qCachedPublicCarCardBySlug(slug);
+}
+
+const qCachedPublicCarDetailsFromCard = unstable_cache(
+  async (card: CarCard) => {
+    const supabase = getSupabasePublicClient();
+    if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarDetails>;
+    return hydrateCarDetails(supabase, card);
+  },
+  ["public-project-secondary-v1"],
+  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
+);
+
+export async function qCarCardBySlug(slug: string): Promise<QueryResult<CarCard>> {
+  const timer = performanceTimer("supabase", "qCarCardBySlug", { slug });
+  const viewerId = await getViewerId();
+
+  if (viewerId) {
+    const supabase = await getSupabaseServerClient();
+    if (!supabase) {
+      timer.end({ configured: false });
+      return { data: null, error: "supabase_not_configured" };
+    }
+
+    const result = await loadCarCardBySlug(supabase, slug, viewerId, false);
+    timer.end({ cachedPublic: false, personalized: true, found: Boolean(result.data) });
+    return result;
+  }
+
+  const result = await qCachedPublicCarCardBySlug(slug);
+  timer.end({ cachedPublic: true, personalized: false, found: Boolean(result.data) });
   return result;
+}
+
+export async function qCarDetailsFromCard(card: CarCard): Promise<QueryResult<CarDetails>> {
+  const timer = performanceTimer("supabase", "qCarDetailsFromCard", { slug: card.slug });
+  const viewerId = await getViewerId();
+  if (!viewerId) {
+    const result = await qCachedPublicCarDetailsFromCard(card);
+    timer.end({ cachedPublic: true, personalized: false, found: Boolean(result.data) });
+    return result;
+  }
+
+  const supabase = await getSupabaseServerClient();
+
+  if (!supabase) {
+    timer.end({ configured: false });
+    return { data: null, error: "supabase_not_configured" };
+  }
+
+  const result = await hydrateCarDetails(supabase, card);
+  timer.end({ cachedPublic: false, personalized: true, found: Boolean(result.data) });
+  return result;
+}
+
+const qCachedPublicCarBySlug = unstable_cache(
+  async (slug: string) => {
+    const supabase = getSupabasePublicClient();
+    if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarDetails>;
+    return loadCarDetails(supabase, slug, null, true);
+  },
+  ["public-project-detail-v1"],
+  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
+);
+
+export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {
+  const timer = performanceTimer("supabase", "qCarBySlug", { slug });
+  const viewerId = await getViewerId();
+  if (viewerId) {
+    const supabase = await getSupabaseServerClient();
+    if (!supabase) {
+      timer.end({ configured: false });
+      return { data: null, error: "supabase_not_configured" };
+    }
+
+    // Leituras autenticadas permanecem fora do cache público: RLS pode liberar
+    // despesas ou projetos privados apenas para o proprietário.
+    const personalizedResult = await loadCarDetails(supabase, slug, viewerId, false);
+    timer.end({
+      cachedPublic: false,
+      personalized: true,
+      found: Boolean(personalizedResult.data),
+      comments: personalizedResult.data?.comments.length ?? 0,
+    });
+    return personalizedResult;
+  }
+
+  const publicResult = await qCachedPublicCarBySlug(slug);
+  timer.end({
+    cachedPublic: true,
+    personalized: false,
+    found: Boolean(publicResult.data),
+    comments: publicResult.data?.comments.length ?? 0,
+  });
+  return publicResult;
 }

@@ -1,6 +1,4 @@
 import { ProfileForm } from "@/components/garage/profile-form";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Card } from "@/components/ui/card";
 import { getCurrentProfile } from "@/lib/supabase/queries";
 import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
@@ -15,7 +13,6 @@ export default async function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
           {!user ? (
@@ -30,7 +27,6 @@ export default async function OnboardingPage() {
           )}
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }

@@ -32,6 +32,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   getLocalProjectSocialState,
   recordLocalProjectView,
@@ -365,6 +366,7 @@ export function ProjectDetail({
   stats,
   recommendations,
   commentThread,
+  renderMode = "all",
 }: {
   project: Project;
   similarProjects: Project[];
@@ -374,6 +376,7 @@ export function ProjectDetail({
   stats?: DetailStat[];
   recommendations?: ProjectRecommendationGroups;
   commentThread?: ProjectCommentThread | null;
+  renderMode?: "all" | "hero" | "body";
 }) {
   const project = initialProject;
   const isProjectComplete = project.progressPercent >= 100;
@@ -387,6 +390,7 @@ export function ProjectDetail({
   });
 
   React.useEffect(() => {
+    if (renderMode === "hero") return;
     let active = true;
     const databaseId = initialProject.databaseId;
     if (initialProject.source === "supabase" && databaseId) {
@@ -408,7 +412,7 @@ export function ProjectDetail({
     return () => {
       active = false;
     };
-  }, [initialProject.databaseId, initialProject.source]);
+  }, [initialProject.databaseId, initialProject.source, renderMode]);
   const localSocialState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
     () => getLocalProjectSocialState(project.slug),
@@ -420,6 +424,7 @@ export function ProjectDetail({
       : project.views + localSocialState.views;
 
   React.useEffect(() => {
+    if (renderMode === "body") return;
     let active = true;
 
     if (initialProject.source === "supabase" && initialProject.databaseId) {
@@ -442,7 +447,7 @@ export function ProjectDetail({
     return () => {
       active = false;
     };
-  }, [initialProject.databaseId, initialProject.slug, initialProject.source]);
+  }, [initialProject.databaseId, initialProject.slug, initialProject.source, renderMode]);
 
   const gallery = project.gallery.length ? project.gallery : [project.mainImage];
   const location = [project.city, project.state].filter(Boolean).join(", ");
@@ -545,19 +550,12 @@ export function ProjectDetail({
 
   return (
     <div className="space-y-8 pb-6 md:space-y-12 md:pb-14" data-testid="project-detail">
+      {renderMode !== "body" ? (
       <section className="pg-grid-bg relative overflow-hidden px-4 sm:px-6">
         <div className="absolute inset-0">
-          <ProjectImage
-            src={gallery[0]}
-            alt={`Foto principal do projeto ${project.title}`}
-            fill
-            priority
-            loading="eager"
-            className="object-cover opacity-30"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/88 to-background/45" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_30%,rgba(255,53,47,0.14),transparent_34rem)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/88 to-background/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
         </div>
 
         <div className="relative mx-auto grid w-full max-w-6xl gap-4 pb-5 pt-24 md:gap-6 md:pb-10 md:pt-28 lg:min-h-[78vh] lg:grid-cols-[1fr_0.9fr] lg:grid-rows-[auto_auto] lg:content-end lg:gap-x-8">
@@ -619,7 +617,11 @@ export function ProjectDetail({
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-3 md:p-5">
               <div className="flex flex-wrap gap-1.5 md:gap-2">
                 <Badge variant="secondary" className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.progressPercent}% completo</Badge>
-                <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.installedParts.length} instaladas</Badge>
+                {project.modificationsCount > 0 ? (
+                  <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
+                    {project.modificationsCount} modificações
+                  </Badge>
+                ) : null}
                 <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{gallery.length} fotos</Badge>
               </div>
             </div>
@@ -657,6 +659,7 @@ export function ProjectDetail({
               </div>
             </div>
 
+            {renderMode !== "hero" ? (
             <div className="mt-3 flex flex-wrap gap-2 lg:mt-7 lg:gap-3">
               <ProjectSocialActions
                 slug={project.slug}
@@ -699,12 +702,42 @@ export function ProjectDetail({
                 </Link>
               </Button>
             </div>
+            ) : (
+              <div className="mt-3 h-14 w-full max-w-2xl animate-pulse rounded-2xl border border-border/60 bg-background/25 lg:mt-7" aria-hidden="true" />
+            )}
           </div>
 
         </div>
       </section>
+      ) : null}
 
+      {renderMode !== "hero" ? (
       <div className="mx-auto w-full max-w-6xl space-y-6 px-4 sm:px-6 md:space-y-12">
+        {renderMode === "body" ? (
+          <ProjectSocialActions
+            slug={project.slug}
+            databaseId={project.databaseId}
+            initialLiked={project.viewerHasLiked}
+            initialSaved={project.viewerHasSaved}
+            initialLikes={project.likes}
+            initialSaves={project.saves}
+            initialFollowed={project.viewerHasFollowed}
+            initialFollowers={project.followers}
+            mode={project.source === "supabase" ? "supabase" : "local"}
+            viewerLoggedIn={viewerLoggedIn}
+            compareHref={compareHref}
+            editHref={canEdit ? project.editHref : null}
+            evolutionHref={`${buildProjectHref(project.slug)}/evolucao`}
+            onCountsChange={(counts) =>
+              setSocialCounts((current) => ({
+                likes: counts.likes ?? current.likes,
+                saves: counts.saves ?? current.saves,
+                followers: counts.followers ?? current.followers,
+                views: current.views,
+              }))
+            }
+          />
+        ) : null}
         <nav className="grid grid-cols-3 rounded-3xl border border-border/70 bg-background/25 p-1.5 lg:hidden" aria-label="Seções do projeto" data-testid="mobile-project-tabs">
           {[
             { href: "#visao-geral", label: "Visão geral" },
@@ -971,7 +1004,13 @@ export function ProjectDetail({
           <p className="text-xs text-muted">Galeria</p>
           <h2 className="mt-1 font-title text-2xl tracking-tight">Fotos do projeto</h2>
           <div className="mt-4">
-            <ProjectGallery images={gallery} title={project.title} />
+            {gallery.length > 1 ? (
+              <ProjectGallery images={gallery.slice(1)} title={project.title} />
+            ) : (
+              <div className="rounded-4xl border border-border/70 bg-background/25 p-6 text-sm text-muted">
+                A foto principal exibida acima é a única imagem publicada neste projeto.
+              </div>
+            )}
           </div>
         </section>
 
@@ -1069,6 +1108,29 @@ export function ProjectDetail({
           />
         </section>
       </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function ProjectDetailBodySkeleton() {
+  return (
+    <div
+      className="mx-auto w-full max-w-6xl space-y-6 px-4 pb-14 sm:px-6 md:space-y-12"
+      aria-label="Carregando detalhes complementares do projeto"
+      data-testid="project-detail-secondary-loading"
+    >
+      <Skeleton className="h-14 w-full rounded-3xl" />
+      <div className="grid grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Skeleton key={index} className="h-24 w-full rounded-3xl md:h-32" />
+        ))}
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Skeleton className="h-64 w-full rounded-4xl" />
+        <Skeleton className="h-64 w-full rounded-4xl" />
+      </div>
+      <Skeleton className="h-80 w-full rounded-4xl" />
     </div>
   );
 }

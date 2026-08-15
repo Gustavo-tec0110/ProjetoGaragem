@@ -51,6 +51,7 @@ function DiscoverySection({
       </div>
       <ProjectGrid
         projects={projects}
+        imageIndex={1}
         emptyTitle="Sem projetos suficientes nesta categoria por enquanto."
       />
     </section>

@@ -51,13 +51,22 @@ export function ProjectTimeline({ project }: { project: Project }) {
 
       {project.updates.length ? (
         <div className="space-y-4">
-          {project.updates.map((update, index) => (
+          {project.updates.map((update, index) => {
+            const updateImage = update.photos[0] ?? update.photo;
+            const uniqueUpdateImage = updateImage && updateImage !== project.mainImage
+              ? updateImage
+              : null;
+            const additionalPhotos = update.photos
+              .filter((photo) => photo !== project.mainImage)
+              .slice(uniqueUpdateImage ? 1 : 0, uniqueUpdateImage ? 4 : 3);
+
+            return (
             <Card key={update.id} className="overflow-hidden">
               <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
                 <div className="relative min-h-52 bg-surface">
-                  {update.photos[0] ?? update.photo ? (
+                  {uniqueUpdateImage ? (
                     <ProjectImage
-                      src={update.photos[0] ?? update.photo}
+                      src={uniqueUpdateImage}
                       alt={`Atualização ${update.title}`}
                       fill
                       className="object-cover"
@@ -88,9 +97,9 @@ export function ProjectTimeline({ project }: { project: Project }) {
                     {update.title}
                   </h3>
                   <p className="mt-3 text-sm text-foreground/85">{update.description}</p>
-                  {update.photos.length > 1 ? (
+                  {additionalPhotos.length ? (
                     <div className="mt-4 grid grid-cols-3 gap-2">
-                      {update.photos.slice(1, 4).map((photo, photoIndex) => (
+                      {additionalPhotos.map((photo, photoIndex) => (
                         <div
                           key={`${photo}-${photoIndex}`}
                           className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/70 bg-surface"
@@ -109,7 +118,8 @@ export function ProjectTimeline({ project }: { project: Project }) {
                 </div>
               </div>
             </Card>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="rounded-4xl border border-border/70 bg-background/25 p-5 text-sm text-muted">

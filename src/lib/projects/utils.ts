@@ -12,7 +12,7 @@ import {
 } from "@/lib/projects/types";
 
 export const PROJECT_IMAGE_FALLBACK = "/ref/hero-car.jpg";
-const PROJECTS_PER_PAGE = 9;
+const PROJECTS_PER_PAGE = 12;
 
 export function buildProjectHref(slug: string) {
   return `/projeto/${slug}`;

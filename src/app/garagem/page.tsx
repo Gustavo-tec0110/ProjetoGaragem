@@ -5,8 +5,6 @@ import { CarGrid } from "@/components/garage/car-card";
 import { InspirationPlanner } from "@/components/garage/inspiration-planner";
 import { LocalGaragePanel } from "@/components/projects/local-garage-panel";
 import { ProfileForm } from "@/components/garage/profile-form";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { demoProjects } from "@/lib/projects/demo-projects";
@@ -103,7 +101,6 @@ export default async function GaragemPage({
   if (!supabase) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
           <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -139,7 +136,6 @@ export default async function GaragemPage({
             </section>
           </div>
         </main>
-        <SiteFooter />
       </div>
     );
   }
@@ -147,7 +143,6 @@ export default async function GaragemPage({
   if (!user) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
           <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
             <Card className="p-4 md:p-8">
@@ -169,7 +164,6 @@ export default async function GaragemPage({
             </Card>
           </div>
         </main>
-        <SiteFooter />
       </div>
     );
   }
@@ -178,13 +172,11 @@ export default async function GaragemPage({
   if (!current.profile) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <SiteNavbar />
         <main className="flex-1 px-4 sm:px-6">
           <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
             <ProfileForm defaultEmail={user.email} />
           </div>
         </main>
-        <SiteFooter />
       </div>
     );
   }
@@ -287,7 +279,6 @@ export default async function GaragemPage({
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SiteNavbar />
       <main className="flex-1 px-4 sm:px-6">
         <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -372,7 +363,6 @@ export default async function GaragemPage({
           </section>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }
