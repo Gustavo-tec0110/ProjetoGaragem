@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getFeaturedProjects } from "@/lib/projects/server";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const projects = await getFeaturedProjects(6, "likes");
 

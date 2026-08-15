@@ -8,6 +8,7 @@ import {
   supabaseUrl,
 } from "@/lib/supabase/env";
 import type { Database } from "@/types/supabase";
+import { logPerformance, performanceTimer } from "@/lib/performance";
 
 function isProtectedPath(pathname: string) {
   return (
@@ -27,8 +28,16 @@ function buildNextParam(url: URL) {
 }
 
 export async function proxy(request: NextRequest) {
+  const timer = performanceTimer("request", "proxy", {
+    method: request.method,
+    pathname: request.nextUrl.pathname,
+  });
+
   if (!isSupabaseConfigured) {
-    return NextResponse.next({ request: { headers: request.headers } });
+    const response = NextResponse.next({ request: { headers: request.headers } });
+    const durationMs = timer.end({ configured: false });
+    response.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
+    return response;
   }
 
   const pathname = request.nextUrl.pathname;
@@ -60,26 +69,44 @@ export async function proxy(request: NextRequest) {
     },
   });
 
+  const authStartedAt = performance.now();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  logPerformance("auth", "proxy.getUser", performance.now() - authStartedAt, {
+    pathname,
+    authenticated: Boolean(user),
+  });
 
   if (!user && isProtectedPath(pathname)) {
     const loginUrl = new URL("/login", getRequestSiteUrl(request.nextUrl.origin));
     loginUrl.searchParams.set("next", nextParam);
-    return NextResponse.redirect(loginUrl);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    const durationMs = timer.end({ authenticated: false, outcome: "redirect" });
+    redirectResponse.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
+    return redirectResponse;
   }
 
   if (request.method === "POST" && pathname === "/criar-projeto") {
-    return NextResponse.rewrite(new URL("/api/projetos/criar", request.url));
+    const rewriteResponse = NextResponse.rewrite(new URL("/api/projetos/criar", request.url));
+    const durationMs = timer.end({ authenticated: Boolean(user), outcome: "rewrite" });
+    rewriteResponse.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
+    return rewriteResponse;
   }
 
+  const durationMs = timer.end({ authenticated: Boolean(user), outcome: "next" });
+  response.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
   return response;
 }
 
 export const config = {
   matcher: [
-    // Exclui rotas internas e arquivos estáticos (Next.js docs recommendation).
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    // Executa autenticação somente onde há redirecionamento de acesso protegido.
+    "/garagem/:path*",
+    "/criar-projeto",
+    "/carros/novo",
+    "/carros/:slug/editar",
+    "/projeto/:slug/editar",
+    "/onboarding/:path*",
   ],
 };

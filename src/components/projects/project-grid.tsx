@@ -8,11 +8,13 @@ export function ProjectGrid({
   emptyTitle = "Nenhum projeto encontrado.",
   emptyDescription = "Ajuste os filtros ou adicione um projeto para ver novas fichas aqui.",
   emptyAction,
+  eagerFirstImage = false,
 }: {
   projects: Project[];
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: ReactNode;
+  eagerFirstImage?: boolean;
 }) {
   if (!projects.length) {
     return (
@@ -30,7 +32,11 @@ export function ProjectGrid({
       data-testid="project-grid"
     >
       {projects.map((project, index) => (
-        <ProjectCard key={project.slug} project={project} imageLoading={index === 0 ? "eager" : "lazy"} />
+        <ProjectCard
+          key={project.slug}
+          project={project}
+          imageLoading={eagerFirstImage && index === 0 ? "eager" : "lazy"}
+        />
       ))}
     </div>
   );

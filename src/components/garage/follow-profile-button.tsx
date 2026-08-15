@@ -42,7 +42,7 @@ export function FollowProfileButton({
             const next = !following;
             setFollowing(next);
             const result = await toggleFollowUserAction(profileId);
-            if (!result.ok) setFollowing(!next);
+            setFollowing(result.ok ? result.active : !next);
           });
         }}
       >

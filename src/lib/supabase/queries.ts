@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 
 import type {
   CarBuildUpdateRow,
@@ -18,7 +19,10 @@ import {
   type CarCatalogVersion,
 } from "@/lib/car-catalog";
 import { serverLog } from "@/lib/server-log";
-import { getSupabaseServerClient } from "./server";
+import { logPerformance, performanceTimer } from "@/lib/performance";
+import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
+import { getSupabasePublicClient, getSupabaseServerClient } from "./server";
+import { getSupabaseServerUser } from "./auth-server";
 
 export type QueryResult<T> =
   | { data: T; error: null }
@@ -204,10 +208,12 @@ function logNotificationQueryError(action: string, error: { code?: string; messa
   });
 }
 
-async function getViewerId(supabase: Client) {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+async function getViewerId() {
+  const startedAt = performance.now();
+  const user = await getSupabaseServerUser();
+  logPerformance("auth", "queries.getViewerId", performance.now() - startedAt, {
+    authenticated: Boolean(user),
+  });
   return user?.id ?? null;
 }
 
@@ -318,10 +324,15 @@ async function viewerFlagsByCar(supabase: Client, viewerId: string | null, carId
   return { likes, saves, follows };
 }
 
-async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]> {
+async function hydrateCards(
+  supabase: Client,
+  rows: CarRow[],
+  viewerId: string | null = null
+): Promise<CarCard[]> {
+  const timer = performanceTimer("supabase", "hydrateCards", { rows: rows.length });
   const carIds = rows.map((row) => row.id);
-  const [viewerId, profileMap, partCounts, expensesByCar, updatesByCar] = await Promise.all([
-    getViewerId(supabase),
+  const aggregateStartedAt = performance.now();
+  const [profileMap, partCounts, expensesByCar, updatesByCar] = await Promise.all([
     fetchProfiles(
       supabase,
       rows.map((row) => row.owner_id)
@@ -330,13 +341,16 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
     aggregateExpensesByCar(supabase, carIds),
     aggregateUpdatesByCar(supabase, carIds),
   ]);
+  timer.lap("aggregates", aggregateStartedAt, { authenticated: Boolean(viewerId) });
+  const flagsStartedAt = performance.now();
   const flags = await viewerFlagsByCar(
     supabase,
     viewerId,
     carIds
   );
+  timer.lap("viewerFlags", flagsStartedAt, { authenticated: Boolean(viewerId) });
 
-  return rows.map((rawRow) => {
+  const cards = rows.map((rawRow) => {
     const row = normalizeCarRow(rawRow);
     const counts = partCounts.get(row.id) ?? { installed: 0, planned: 0, estimatedCost: 0 };
     const finances = expensesByCar.get(row.id) ?? { totalInvested: 0 };
@@ -355,6 +369,8 @@ async function hydrateCards(supabase: Client, rows: CarRow[]): Promise<CarCard[]
       viewer_has_followed: flags.follows.has(row.id),
     };
   });
+  timer.end({ authenticated: Boolean(viewerId) });
+  return cards;
 }
 
 export async function qProfileById(
@@ -385,9 +401,7 @@ export async function getCurrentProfile() {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { userId: null, profile: null, error: "supabase_not_configured" };
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseServerUser();
   if (!user) return { userId: null, profile: null, error: "not_authenticated" };
 
   const profile = await qProfileById(supabase, user.id);
@@ -447,9 +461,17 @@ export async function qCarCatalogVersions(): Promise<QueryResult<CarCatalogVersi
   return { data: catalog.length ? catalog : FALLBACK_CAR_CATALOG, error: null };
 }
 
-export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryResult<CarCard[]>> {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: [], error: null };
+async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryResult<CarCard[]>> {
+  const timer = performanceTimer("supabase", "qExploreCars", {
+    hasQuery: Boolean(filters.q?.trim()),
+    limit: filters.limit ?? 48,
+    sort: filters.sort ?? "recent",
+  });
+  const supabase = getSupabasePublicClient();
+  if (!supabase) {
+    timer.end({ configured: false });
+    return { data: [], error: null };
+  }
 
   if (filters.q?.trim()) {
     const { data: matches, error: searchError } = await supabase.rpc("search_car_projects", {
@@ -576,11 +598,72 @@ export async function qExploreCars(filters: ExploreFilters = {}): Promise<QueryR
     query = query.order("created_at", { ascending: false });
   }
 
+  const queryStartedAt = performance.now();
   const { data, error } = await query;
-  if (error) return { data: null, error: error.message };
+  timer.lap("cars", queryStartedAt, { rows: data?.length ?? 0 });
+  if (error) {
+    timer.end({ error: true });
+    return { data: null, error: error.message };
+  }
 
   const cards = await hydrateCards(supabase, (data ?? []) as CarRow[]);
+  timer.end({ rows: cards.length });
   return { data: cards, error: null };
+}
+
+const qCachedExploreCarsPublic = unstable_cache(
+  async (filters: ExploreFilters) => qExploreCarsPublic(filters),
+  ["project-catalog-v1"],
+  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
+);
+
+export async function qExploreCars(
+  filters: ExploreFilters = {},
+  options: { personalize?: boolean } = {}
+): Promise<QueryResult<CarCard[]>> {
+  const personalize = options.personalize !== false;
+  const timer = performanceTimer("cache", "qExploreCars", {
+    cached: !filters.q?.trim(),
+    limit: filters.limit ?? 48,
+    personalize,
+    sort: filters.sort ?? "recent",
+  });
+  const publicResult = filters.q?.trim()
+    ? await qExploreCarsPublic(filters)
+    : await qCachedExploreCarsPublic(filters);
+
+  if (publicResult.error || !publicResult.data?.length) {
+    timer.end({ rows: publicResult.data?.length ?? 0, personalized: false });
+    return publicResult;
+  }
+
+  if (!personalize) {
+    timer.end({ rows: publicResult.data.length, personalized: false });
+    return publicResult;
+  }
+
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) {
+    timer.end({ rows: publicResult.data.length, personalized: false });
+    return publicResult;
+  }
+
+  const viewerId = await getViewerId();
+  if (!viewerId) {
+    timer.end({ rows: publicResult.data.length, personalized: false });
+    return publicResult;
+  }
+
+  const carIds = publicResult.data.map((car) => car.id);
+  const flags = await viewerFlagsByCar(supabase, viewerId, carIds);
+  const data = publicResult.data.map((car) => ({
+    ...car,
+    viewer_has_liked: flags.likes.has(car.id),
+    viewer_has_saved: flags.saves.has(car.id),
+    viewer_has_followed: flags.follows.has(car.id),
+  }));
+  timer.end({ rows: data.length, personalized: true });
+  return { data, error: null };
 }
 
 export async function qProjectSearchSuggestions(query: string, limit = 8): Promise<QueryResult<ProjectSearchSuggestion[]>> {
@@ -662,9 +745,12 @@ export async function qCarsByOwner(
   let query = supabase.from("cars").select("*").eq("owner_id", ownerId).order("created_at", { ascending: false });
   if (!includePrivate) query = query.eq("is_public", true);
 
-  const { data, error } = await query;
+  const [{ data, error }, viewerId] = await Promise.all([
+    query,
+    getViewerId(),
+  ]);
   if (error) return { data: null, error: error.message };
-  const cards = await hydrateCards(supabase, (data ?? []) as CarRow[]);
+  const cards = await hydrateCards(supabase, (data ?? []) as CarRow[], viewerId);
   return { data: cards, error: null };
 }
 type ProjectRelationTable = "car_likes" | "car_saves" | "project_follows";
@@ -696,7 +782,8 @@ async function qRelatedCars(
     .eq("is_public", true);
   if (carsError) return { data: null, error: carsError.message };
 
-  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[]);
+  const viewerId = await getViewerId();
+  const cards = await hydrateCards(supabase, (cars ?? []) as CarRow[], viewerId);
   if (!preserveRelationOrder) return { data: cards, error: null };
 
   const order = new Map(ids.map((id, index) => [id, index]));
@@ -719,7 +806,7 @@ export async function qNotifications(limit = 20): Promise<QueryResult<Notificati
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
 
-  const viewerId = await getViewerId(supabase);
+  const viewerId = await getViewerId();
   if (!viewerId) return { data: [], error: null };
 
   const { data, error } = await supabase
@@ -770,7 +857,7 @@ export async function qUnreadNotificationCount() {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: 0, error: null };
 
-  const viewerId = await getViewerId(supabase);
+  const viewerId = await getViewerId();
   if (!viewerId) return { data: 0, error: null };
 
   const { count, error } = await supabase
@@ -793,7 +880,7 @@ export async function qViewerFollowsProfile(followingId: string): Promise<QueryR
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: false, error: null };
 
-  const viewerId = await getViewerId(supabase);
+  const viewerId = await getViewerId();
   if (!viewerId) return { data: false, error: null };
 
   const { data, error } = await supabase
@@ -808,17 +895,32 @@ export async function qViewerFollowsProfile(followingId: string): Promise<QueryR
 }
 
 export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {
+  const timer = performanceTimer("supabase", "qCarBySlug", { slug });
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return { data: null, error: "supabase_not_configured" };
+  if (!supabase) {
+    timer.end({ configured: false });
+    return { data: null, error: "supabase_not_configured" };
+  }
 
-  const { data: row, error } = await supabase.from("cars").select("*").eq("slug", slug).maybeSingle();
-  if (error) return { data: null, error: error.message };
-  if (!row) return { data: null, error: "car_not_found" };
+  const carStartedAt = performance.now();
+  const [{ data: row, error }, viewerId] = await Promise.all([
+    supabase.from("cars").select("*").eq("slug", slug).maybeSingle(),
+    getViewerId(),
+  ]);
+  timer.lap("car", carStartedAt, { found: Boolean(row) });
+  if (error) {
+    timer.end({ error: true });
+    return { data: null, error: error.message };
+  }
+  if (!row) {
+    timer.end({ found: false });
+    return { data: null, error: "car_not_found" };
+  }
 
   const normalizedRow = normalizeCarRow(row as CarRow);
   const carId = normalizedRow.id;
-  const [cards, photosResult, partsResult, commentsResult, updatesResult, expensesResult] = await Promise.all([
-    hydrateCards(supabase, [normalizedRow]),
+  const detailsStartedAt = performance.now();
+  const [photosResult, partsResult, commentsResult, updatesResult, expensesResult, ownerMap, flags] = await Promise.all([
     supabase.from("car_photos").select("*").eq("car_id", carId).order("sort_order", { ascending: true }),
     supabase.from("car_parts").select("*").eq("car_id", carId).order("status", { ascending: true }).order("created_at", { ascending: true }),
     supabase.from("car_comments").select("*").eq("car_id", carId).order("created_at", { ascending: false }).limit(50),
@@ -834,13 +936,41 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
       .eq("car_id", carId)
       .order("spent_at", { ascending: false })
       .order("created_at", { ascending: false }),
+    fetchProfiles(supabase, [normalizedRow.owner_id]),
+    viewerFlagsByCar(supabase, viewerId, [carId]),
   ]);
-  const [card] = cards;
+  timer.lap("details", detailsStartedAt);
   const { data: photos } = photosResult;
   const { data: parts } = partsResult;
   const { data: comments } = commentsResult;
   const { data: updates } = updatesResult;
   const { data: expenses } = expensesResult;
+  const partRows = (parts ?? []) as CarPartRow[];
+  const expenseRows = (expenses ?? []) as CarExpenseRow[];
+  const updateRows = ((updates ?? []) as CarBuildUpdateRow[]).map(normalizeUpdateRow);
+  const installedParts = partRows.filter((part) => part.status === "installed").length;
+  const plannedParts = partRows.filter((part) => part.status === "planned").length;
+  const estimatedCost = partRows.reduce(
+    (sum, part) => sum + Math.max(0, part.price_estimate ?? 0),
+    0
+  );
+  const totalInvested = expenseRows.reduce(
+    (sum, expense) => sum + Math.max(0, expense.amount),
+    0
+  );
+  const card: CarCard = {
+    ...normalizedRow,
+    owner: ownerMap.get(normalizedRow.owner_id) ?? null,
+    installed_parts_count: installedParts,
+    planned_parts_count: plannedParts,
+    estimated_cost: estimatedCost,
+    total_invested: totalInvested || estimatedCost,
+    updates_count: updateRows.length,
+    last_update_at: updateRows[0]?.happened_at ?? null,
+    viewer_has_liked: flags.likes.has(carId),
+    viewer_has_saved: flags.saves.has(carId),
+    viewer_has_followed: flags.follows.has(carId),
+  };
 
   const commentRows = (comments ?? []) as CarCommentRow[];
   const commentAuthorMap = await fetchProfiles(
@@ -848,7 +978,7 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     commentRows.map((comment) => comment.user_id)
   );
 
-  return {
+  const result: QueryResult<CarDetails> = {
     data: {
       ...card,
       photos: (photos ?? []) as CarPhotoRow[],
@@ -857,9 +987,11 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
         ...comment,
         author: commentAuthorMap.get(comment.user_id) ?? null,
       })),
-      updates: ((updates ?? []) as CarBuildUpdateRow[]).map(normalizeUpdateRow),
-      expenses: (expenses ?? []) as CarExpenseRow[],
+      updates: updateRows,
+      expenses: expenseRows,
     },
     error: null,
   };
+  timer.end({ comments: commentRows.length });
+  return result;
 }

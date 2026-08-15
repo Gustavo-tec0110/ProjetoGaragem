@@ -1,23 +1,48 @@
 import "server-only";
 
 import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { cache } from "react";
 
 import { normalizeSlug } from "@/lib/garage/constants";
 import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/supabase";
+import { logPerformance, performanceTimer } from "@/lib/performance";
 
 export type ServerSupabaseClient = SupabaseClient<Database>;
 
-export async function requireSupabaseUser() {
+const getServerAuth = cache(async () => {
   const supabase = await getSupabaseServerClient();
-  if (!supabase) return { supabase: null, user: null, error: "Supabase nao configurado." };
+  if (!supabase) return { supabase: null, user: null };
 
+  const getUserStartedAt = performance.now();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  logPerformance("auth", "server.getUser", performance.now() - getUserStartedAt, {
+    authenticated: Boolean(user),
+  });
 
-  if (!user) return { supabase, user: null, error: "Entre para continuar." };
+  return { supabase, user };
+});
+
+export async function getSupabaseServerUser() {
+  return (await getServerAuth()).user;
+}
+
+export async function requireSupabaseUser() {
+  const timer = performanceTimer("auth", "requireSupabaseUser");
+  const { supabase, user } = await getServerAuth();
+  if (!supabase) {
+    timer.end({ configured: false });
+    return { supabase: null, user: null, error: "Supabase nao configurado." };
+  }
+
+  if (!user) {
+    timer.end({ authenticated: false });
+    return { supabase, user: null, error: "Entre para continuar." };
+  }
+  timer.end({ authenticated: true });
   return { supabase, user, error: null };
 }
 

@@ -33,6 +33,7 @@ import {
   qViewerFollowsProfile,
 } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
 
 type PageProps = {
@@ -83,9 +84,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const profileResult = await qProfileByUsername(supabase, handle);
   if (!profileResult.data) notFound();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseServerUser();
   const isOwner = user?.id === profileResult.data.id;
   const ownProfileResult = isOwner ? await qProfileById(supabase, profileResult.data.id) : null;
   const profile = ownProfileResult?.data ?? profileResult.data;

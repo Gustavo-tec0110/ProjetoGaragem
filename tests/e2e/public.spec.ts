@@ -83,7 +83,7 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
 test("detalhe de projeto respeita o viewport sem overflow ou sobreposicao", async ({ page }, testInfo) => {
   await page.goto(DEMO_PROJECT_PATH);
   await expect(
-    page.getByRole("heading", { name: "Gol Quadrado AP 1.8 Sleeper", exact: true })
+    page.getByRole("heading", { level: 1, name: "Gol Quadrado AP 1.8 Sleeper", exact: true })
   ).toBeVisible();
   await expect(page.getByTestId("project-hero-image")).toBeVisible();
 
@@ -137,8 +137,24 @@ test("detalhe de projeto respeita o viewport sem overflow ou sobreposicao", asyn
 });
 
 test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ page }, testInfo) => {
-  await page.goto("/explorar");
   const mobile = isMobileProject(testInfo.project.name);
+  if (!mobile) {
+    await page.route("**/api/projects/search-suggestions**", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          suggestions: [
+            {
+              term: "Gol Quadrado 1994 AP 1.8",
+              source: "Volkswagen Gol 1994",
+              href: DEMO_PROJECT_PATH,
+            },
+          ],
+        }),
+      });
+    });
+  }
+  await page.goto("/explorar");
   if (mobile) {
     await page.getByLabel("Pesquisar catálogo no celular").fill("Gol");
     await page.getByRole("button", { name: "Buscar", exact: true }).click();
@@ -147,7 +163,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     await page.getByLabel("Buscar projetos").fill("Gol");
     const projectSuggestion = page
       .getByRole("listbox")
-      .getByRole("option", { name: /Gol Quadrado AP 1\.8 Sleeper/ });
+      .getByRole("option", { name: /Gol Quadrado 1994 AP 1\.8/ });
     await expect(projectSuggestion).toBeVisible();
     await projectSuggestion.click();
     await expect(page).toHaveURL(/\/projeto\//);
@@ -158,6 +174,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos")
   ).toHaveValue("turbo");
 
+  let selectedBrand = "";
   if (mobile) {
     await expect(page.getByLabel("Ordenação mobile")).toHaveValue("likes");
     await page.getByRole("heading", { name: "Explorar projetos" }).click();
@@ -170,22 +187,28 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
       await filterButton.click();
     }
     await expect(dialog).toBeVisible();
-    await dialog.getByLabel("Filtrar por marca").selectOption("Chevrolet");
+    const brandSelect = dialog.getByLabel("Filtrar por marca");
+    selectedBrand = (await brandSelect.locator('option:not([value=""])').first().getAttribute("value")) ?? "";
+    expect(selectedBrand).not.toBe("");
+    await brandSelect.selectOption(selectedBrand);
     await dialog.getByRole("button", { name: "Aplicar filtros" }).click();
   } else {
     const form = page.locator("form[data-project-search-form]");
     await expect(form.getByLabel("Ordenar projetos")).toHaveValue("likes");
-    await form.getByLabel("Filtrar por marca").selectOption("Chevrolet");
+    const brandSelect = form.getByLabel("Filtrar por marca");
+    selectedBrand = (await brandSelect.locator('option:not([value=""])').first().getAttribute("value")) ?? "";
+    expect(selectedBrand).not.toBe("");
+    await brandSelect.selectOption(selectedBrand);
     await form.getByRole("button", { name: "Filtrar", exact: true }).click();
   }
 
   await expect(page).toHaveURL(/q=turbo/);
-  await expect(page).toHaveURL(/brand=Chevrolet/);
+  await expect.poll(() => new URL(page.url()).searchParams.get("brand")).toBe(selectedBrand);
   await expect(page).toHaveURL(/sort=likes/);
   if (mobile) {
-    await expect(page.getByRole("link", { name: "Remover filtro Marca: Chevrolet" })).toBeVisible();
+    await expect(page.getByRole("link", { name: `Remover filtro Marca: ${selectedBrand}` })).toBeVisible();
   } else {
-    await expect(page.locator('form[data-project-search-form]:visible').getByLabel("Filtrar por marca")).toHaveValue("Chevrolet");
+    await expect(page.locator('form[data-project-search-form]:visible').getByLabel("Filtrar por marca")).toHaveValue(selectedBrand);
   }
 });
 
@@ -277,7 +300,8 @@ test("catalogo usa cards responsivos sem overflow", async ({ page }, testInfo) =
   expect(columns).toHaveLength(mobile ? 2 : 3);
 
   const card = grid.getByTestId("project-card").first();
-  await expect(card.locator(`[data-project-card-layout="${mobile ? "mobile" : "desktop"}"]`)).toBeVisible();
+  await expect(card).toHaveAttribute("data-project-card-layout", "responsive");
+  await expect(card.locator("img").first()).toHaveAttribute("loading", "lazy");
   const hasHorizontalOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
   );

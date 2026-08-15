@@ -333,6 +333,7 @@ create index if not exists idx_car_catalog_versions_model_year on public.car_cat
 create index if not exists idx_cars_owner_id on public.cars (owner_id);
 create index if not exists idx_cars_slug on public.cars (slug);
 create index if not exists idx_cars_public_recent on public.cars (is_public, created_at desc);
+create index if not exists idx_cars_public_likes on public.cars (is_public, likes_count desc, created_at desc);
 create index if not exists idx_cars_brand_model on public.cars (brand, model);
 create index if not exists idx_cars_catalog_version_id on public.cars (catalog_version_id);
 create index if not exists idx_cars_category on public.cars (category);

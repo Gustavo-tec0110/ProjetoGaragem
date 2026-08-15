@@ -3,9 +3,17 @@
 import * as React from "react";
 import type { AuthError, User } from "@supabase/supabase-js";
 
-import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { getSiteUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 import { getSafeNextPath } from "@/lib/auth/redirect";
+
+async function getSupabaseBrowserClient() {
+  const browserModule = await import("@/lib/supabase/browser");
+  return browserModule.getSupabaseBrowserClient();
+}
+
+function hasSupabaseAuthCookie() {
+  return /(?:^|;\s*)sb-[^=]+-auth-token(?:\.\d+)?=/.test(document.cookie);
+}
 
 type AuthContextValue = {
   user: User | null;
@@ -25,25 +33,32 @@ const AuthContext = React.createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(() => isSupabaseConfigured);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return;
-
     let mounted = true;
+    let unsubscribe: (() => void) | null = null;
+
+    if (!isSupabaseConfigured || !hasSupabaseAuthCookie()) {
+      return;
+    }
 
     void (async () => {
+      const supabase = await getSupabaseBrowserClient();
+      if (!supabase || !mounted) return;
+      setLoading(true);
       const { data: sessionData } = await supabase.auth.getSession();
-      let currentUser = sessionData.session?.user ?? null;
-
-      if (sessionData.session) {
-        const { data: userData } = await supabase.auth.getUser();
-        currentUser = userData.user ?? currentUser;
-      }
-
       if (!mounted) return;
-      setUser(currentUser);
+      // Este estado controla apenas a UI. O servidor e a RLS continuam
+      // validando getUser() antes de qualquer leitura ou mutação sensível.
+      setUser(sessionData.session?.user ?? null);
+
+      const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+        if (!mounted) return;
+        setUser(nextSession?.user ?? null);
+        setLoading(false);
+      });
+      unsubscribe = () => data.subscription.unsubscribe();
     })()
       .catch(() => {
         if (!mounted) return;
@@ -54,29 +69,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       });
 
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      if (!mounted) return;
-      setUser(nextSession?.user ?? null);
-      setLoading(false);
-    });
-
     return () => {
       mounted = false;
-      data.subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, []);
 
   const signInWithEmail = React.useCallback(async (email: string, password: string) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = await getSupabaseBrowserClient();
     if (!supabase) {
       return { error: new Error("Supabase nao configurado") as AuthError };
     }
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (!error) setUser(data.user);
     return { error };
   }, []);
 
   const signInWithGoogle = React.useCallback(async (nextPath?: string | null) => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = await getSupabaseBrowserClient();
     if (!supabase) {
       return { error: new Error("Supabase nao configurado") as AuthError };
     }
@@ -101,12 +111,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUpWithEmail = React.useCallback(
     async (email: string, password: string, fullName?: string) => {
-      const supabase = getSupabaseBrowserClient();
+      const supabase = await getSupabaseBrowserClient();
       if (!supabase) {
         return { error: new Error("Supabase nao configurado") as AuthError };
       }
 
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -116,13 +126,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
       });
 
+      if (!error && data.session) setUser(data.user);
+
       return { error };
     },
     []
   );
 
   const signOut = React.useCallback(async () => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = await getSupabaseBrowserClient();
     if (!supabase) return;
     setLoading(true);
     try {

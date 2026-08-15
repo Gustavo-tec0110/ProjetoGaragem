@@ -144,6 +144,7 @@ export function ProjectSocialActions({
         onCountsChange?.({ followers });
         return;
       }
+      setServerFollowed(result.active);
       if ("followersCount" in result && typeof result.followersCount === "number") {
         setServerFollowers(result.followersCount);
         onCountsChange?.({ followers: result.followersCount });
@@ -169,6 +170,7 @@ export function ProjectSocialActions({
         onCountsChange?.({ likes });
         return;
       }
+      setServerLiked(result.active);
       if ("likesCount" in result && typeof result.likesCount === "number") {
         setServerLikes(result.likesCount);
         onCountsChange?.({ likes: result.likesCount });
@@ -198,6 +200,7 @@ export function ProjectSocialActions({
         onCountsChange?.({ saves });
         return;
       }
+      setServerSaved(result.active);
       if ("savesCount" in result && typeof result.savesCount === "number") {
         setServerSaves(result.savesCount);
         onCountsChange?.({ saves: result.savesCount });
@@ -335,7 +338,7 @@ export function ProjectSocialActions({
   );
 }
 
-export async function syncProjectView(projectId: string | null, slug: string) {
+export async function syncProjectView(projectId: string | null) {
   if (!projectId) return null;
-  return incrementViewAction(projectId, slug);
+  return incrementViewAction(projectId);
 }

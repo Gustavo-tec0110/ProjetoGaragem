@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { createSeoMetadata } from "@/lib/seo";
 import { qNotifications, qUnreadNotificationCount } from "@/lib/supabase/queries";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
 export const metadata: Metadata = createSeoMetadata({
   title: "Notificações",
@@ -20,10 +20,7 @@ export const metadata: Metadata = createSeoMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function NotificationsPage() {
-  const supabase = await getSupabaseServerClient();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const user = await getSupabaseServerUser();
 
   const [notificationsResult, unreadResult] = user
     ? await Promise.all([qNotifications(40), qUnreadNotificationCount()])

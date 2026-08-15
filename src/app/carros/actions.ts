@@ -1,12 +1,14 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
+import { performanceTimer } from "@/lib/performance";
+import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
 import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
 import {
   ensureUserProfile,
@@ -184,7 +186,7 @@ async function notifyCarOwner({
     dedupe,
     source: "notifyCarOwner",
   });
-  if (notificationId) revalidatePath("/notificacoes");
+  return notificationId;
 }
 
 async function notifyProfileFollow({
@@ -220,7 +222,7 @@ async function notifyProfileFollow({
     dedupe: true,
     source: "notifyProfileFollow",
   });
-  if (notificationId) revalidatePath("/notificacoes");
+  return notificationId;
 }
 
 async function readCarSocialCounts(supabase: ServerSupabaseClient, carId: string) {
@@ -238,39 +240,6 @@ async function readCarSocialCounts(supabase: ServerSupabaseClient, carId: string
   };
 }
 
-async function verifySocialRow(
-  supabase: ServerSupabaseClient,
-  table: "car_likes" | "car_saves" | "project_follows",
-  carId: string,
-  userId: string
-) {
-  const { data, error } = await supabase
-    .from(table)
-    .select("car_id")
-    .eq("car_id", carId)
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  if (error) {
-    logSupabaseActionError(`${table}.select`, { carId, userId }, error);
-    return { ok: false, exists: false, message: formatSupabaseActionError(`${table}.select`, error) };
-  }
-
-  return { ok: true, exists: Boolean(data), message: null };
-}
-
-function revalidateProjectSocialPaths(slug?: string | null) {
-  revalidatePath("/");
-  revalidatePath("/explorar");
-  revalidatePath("/rankings");
-  revalidatePath("/garagem");
-  revalidatePath("/perfil");
-  if (slug) {
-    revalidatePath(`/projeto/${slug}`);
-    revalidatePath(`/carros/${slug}`);
-  }
-}
-
 type CarSocialTable = "car_likes" | "car_saves" | "project_follows";
 
 type CarSocialToggleConfig = {
@@ -283,9 +252,13 @@ type CarSocialToggleConfig = {
 };
 
 async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfig) {
+  const timer = performanceTimer("action", `social.${config.table}`, { carId });
   logSocialActionDiagnostic(`${config.table}.toggle.enter`, { carId });
+  const authStartedAt = performance.now();
   const auth = await requireUser();
+  timer.lap("auth", authStartedAt);
   if (!auth.supabase || !auth.user) {
+    timer.end({ ok: false, reason: "unauthenticated" });
     return {
       ok: false,
       message: auth.error ?? config.unauthenticatedMessage,
@@ -297,15 +270,26 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
     carId,
     actorId: auth.user.id,
   });
-  await ensureUserProfile(auth.supabase, auth.user);
-
-  const { data: car, error: carError } = await auth.supabase
-    .from("cars")
-    .select("id, slug, owner_id, name")
-    .eq("id", carId)
-    .maybeSingle();
+  const readsStartedAt = performance.now();
+  const [, { data: car, error: carError }, { data: existing, error: existingError }] =
+    await Promise.all([
+      ensureUserProfile(auth.supabase, auth.user),
+      auth.supabase
+        .from("cars")
+        .select("id, slug, owner_id, name")
+        .eq("id", carId)
+        .maybeSingle(),
+      auth.supabase
+        .from(config.table)
+        .select("car_id")
+        .eq("car_id", carId)
+        .eq("user_id", auth.user.id)
+        .maybeSingle(),
+    ]);
+  timer.lap("reads", readsStartedAt);
 
   if (carError || !car) {
+    timer.end({ ok: false, reason: "project-not-found" });
     return {
       ok: false,
       message: carError?.message ?? "Projeto não encontrado.",
@@ -314,20 +298,15 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
   }
 
   if (config.ownerActionMessage && car.owner_id === auth.user.id) {
+    timer.end({ ok: false, reason: "owner-action" });
     return { ok: false, message: config.ownerActionMessage, active: false };
   }
 
   const context = { carId, userId: auth.user.id };
   const selectAction = `${config.table}.select`;
-  const { data: existing, error: existingError } = await auth.supabase
-    .from(config.table)
-    .select("car_id")
-    .eq("car_id", carId)
-    .eq("user_id", auth.user.id)
-    .maybeSingle();
-
   if (existingError) {
     logSupabaseActionError(selectAction, context, existingError);
+    timer.end({ ok: false, reason: "read-error" });
     return {
       ok: false,
       message: formatSupabaseActionError(selectAction, existingError),
@@ -337,6 +316,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
 
   const mutation = existing ? "delete" : "insert";
   const mutationAction = `${config.table}.${mutation}`;
+  const mutationStartedAt = performance.now();
   const { error } = existing
     ? await auth.supabase
         .from(config.table)
@@ -346,9 +326,11 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
     : await auth.supabase
         .from(config.table)
         .insert({ car_id: carId, user_id: auth.user.id });
+  timer.lap("mutation", mutationStartedAt, { mutation });
 
   if (error) {
     logSupabaseActionError(mutationAction, context, error);
+    timer.end({ ok: false, reason: "mutation-error" });
     return {
       ok: false,
       message: formatSupabaseActionError(mutationAction, error),
@@ -356,39 +338,24 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
     };
   }
 
-  const verification = await verifySocialRow(
-    auth.supabase,
-    config.table,
-    carId,
-    auth.user.id
-  );
   const shouldExist = !existing;
-  if (!verification.ok || verification.exists !== shouldExist) {
-    const message =
-      verification.message ??
-      `${mutationAction} falhou: registro ${shouldExist ? "não foi encontrado" : "ainda existe"} após ${mutation}.`;
-    serverLog.error("social-action.verify", {
-      action: mutationAction,
-      ...context,
-      message,
-    });
-    return { ok: false, message, active: Boolean(existing) };
-  }
-
-  if (shouldExist) {
-    await notifyCarOwner({
-      supabase: auth.supabase,
-      actorId: auth.user.id,
-      ownerId: car.owner_id,
-      carId,
-      type: config.notificationType,
-      title: config.notificationTitle(car.name),
-      body: config.notificationBody,
-    });
-  }
-
-  const counts = await readCarSocialCounts(auth.supabase, carId);
-  revalidateProjectSocialPaths(car.slug);
+  const finalizeStartedAt = performance.now();
+  const [counts] = await Promise.all([
+    readCarSocialCounts(auth.supabase, carId),
+    shouldExist
+      ? notifyCarOwner({
+          supabase: auth.supabase,
+          actorId: auth.user.id,
+          ownerId: car.owner_id,
+          carId,
+          type: config.notificationType,
+          title: config.notificationTitle(car.name),
+          body: config.notificationBody,
+        })
+      : Promise.resolve(null),
+  ]);
+  timer.lap("finalize", finalizeStartedAt);
+  timer.end({ ok: true, active: shouldExist });
   return { ok: true, active: shouldExist, ...counts };
 }
 
@@ -458,14 +425,7 @@ export async function deleteCarAction(
 
   if (error) return { status: "error", message: error.message };
 
-  revalidatePath("/");
-  revalidatePath("/explorar");
-  revalidatePath("/rankings");
-  revalidatePath("/buscar");
-  revalidatePath("/comparar");
-  revalidatePath("/garagem");
-  revalidatePath(`/carros/${current.slug}`);
-  revalidatePath(`/projeto/${current.slug}`);
+  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
   redirect("/garagem");
 }
 
@@ -490,41 +450,58 @@ export async function toggleSaveAction(carId: string) {
 }
 
 export async function toggleFollowUserAction(profileId: string) {
+  const timer = performanceTimer("action", "social.user_follows", { profileId });
   logSocialActionDiagnostic("toggleFollowUserAction.enter", { recipientId: profileId });
+  const authStartedAt = performance.now();
   const auth = await requireUser();
+  timer.lap("auth", authStartedAt);
   if (!auth.supabase || !auth.user) {
+    timer.end({ ok: false, reason: "unauthenticated" });
     return { ok: false, message: auth.error ?? "Entre para seguir perfis.", active: false };
   }
   logSocialActionDiagnostic("toggleFollowUserAction.auth", { actorId: auth.user.id, recipientId: profileId });
-  await ensureUserProfile(auth.supabase, auth.user);
 
   if (!profileId || profileId === auth.user.id) {
+    timer.end({ ok: false, reason: "self-follow" });
     return { ok: false, message: "Você não pode seguir o próprio perfil.", active: false };
   }
 
-  const { data: existing, error: existingError } = await auth.supabase
-    .from("user_follows")
-    .select("following_id")
-    .eq("follower_id", auth.user.id)
-    .eq("following_id", profileId)
-    .maybeSingle();
+  const readsStartedAt = performance.now();
+  const [, { data: existing, error: existingError }, { data: actorProfile }] =
+    await Promise.all([
+      ensureUserProfile(auth.supabase, auth.user),
+      auth.supabase
+        .from("user_follows")
+        .select("following_id")
+        .eq("follower_id", auth.user.id)
+        .eq("following_id", profileId)
+        .maybeSingle(),
+      auth.supabase
+        .from("profiles")
+        .select("display_name, username")
+        .eq("id", auth.user.id)
+        .maybeSingle(),
+    ]);
+  timer.lap("reads", readsStartedAt);
 
   if (existingError) {
     logSupabaseActionError("user_follows.select", { followerId: auth.user.id, followingId: profileId }, existingError);
+    timer.end({ ok: false, reason: "read-error" });
     return { ok: false, message: formatSupabaseActionError("user_follows.select", existingError), active: false };
   }
 
   if (existing) {
+    const mutationStartedAt = performance.now();
     const { error } = await auth.supabase
       .from("user_follows")
       .delete()
       .eq("follower_id", auth.user.id)
       .eq("following_id", profileId);
+    timer.lap("mutation", mutationStartedAt, { mutation: "delete" });
     if (error) {
       logSupabaseActionError("user_follows.delete", { followerId: auth.user.id, followingId: profileId }, error);
     }
-    revalidatePath("/garagem");
-    revalidatePath("/perfil");
+    timer.end({ ok: !error, active: false });
     return {
       ok: !error,
       message: error ? formatSupabaseActionError("user_follows.delete", error) : undefined,
@@ -532,32 +509,29 @@ export async function toggleFollowUserAction(profileId: string) {
     };
   }
 
+  const mutationStartedAt = performance.now();
   const { error } = await auth.supabase.from("user_follows").insert({
     follower_id: auth.user.id,
     following_id: profileId,
   });
+  timer.lap("mutation", mutationStartedAt, { mutation: "insert" });
 
   if (error) {
     logSupabaseActionError("user_follows.insert", { followerId: auth.user.id, followingId: profileId }, error);
   }
 
   if (!error) {
-    const { data: actorProfile } = await auth.supabase
-      .from("profiles")
-      .select("display_name, username")
-      .eq("id", auth.user.id)
-      .maybeSingle();
-
+    const notificationStartedAt = performance.now();
     await notifyProfileFollow({
       supabase: auth.supabase,
       actorId: auth.user.id,
       profileId,
       actorName: actorProfile?.display_name ?? actorProfile?.username ?? "Alguem",
     });
+    timer.lap("notification", notificationStartedAt);
   }
 
-  revalidatePath("/garagem");
-  revalidatePath("/perfil");
+  timer.end({ ok: !error, active: !error });
   return {
     ok: !error,
     message: error ? formatSupabaseActionError("user_follows.insert", error) : undefined,
@@ -576,7 +550,7 @@ export async function toggleProjectFollowAction(carId: string) {
   });
 }
 
-export async function incrementViewAction(carId: string, carSlug: string) {
+export async function incrementViewAction(carId: string) {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { ok: false };
 
@@ -600,7 +574,6 @@ export async function incrementViewAction(carId: string, carSlug: string) {
   }
 
   const counts = await readCarSocialCounts(supabase, carId);
-  revalidateProjectSocialPaths(carSlug);
 
   return { ok: true, ...counts };
 }
@@ -609,21 +582,34 @@ export async function createCommentAction(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState & { comment?: CarCommentWithAuthor }> {
+  const timer = performanceTimer("action", "comment.create");
+  const authStartedAt = performance.now();
   const auth = await requireUser();
-  if (!auth.supabase || !auth.user) return { status: "error", message: auth.error ?? "Entre para comentar." };
-  await ensureUserProfile(auth.supabase, auth.user);
+  timer.lap("auth", authStartedAt);
+  if (!auth.supabase || !auth.user) {
+    timer.end({ ok: false, reason: "unauthenticated" });
+    return { status: "error", message: auth.error ?? "Entre para comentar." };
+  }
 
   const carId = text(formData, "car_id");
-  const slug = text(formData, "slug");
   const content = text(formData, "content");
-  if (!carId || content.length < 2) return { status: "error", message: "Escreva um comentario com pelo menos 2 caracteres." };
+  if (!carId || content.length < 2) {
+    timer.end({ ok: false, reason: "validation" });
+    return { status: "error", message: "Escreva um comentario com pelo menos 2 caracteres." };
+  }
 
-  const { data: car } = await auth.supabase
-    .from("cars")
-    .select("id, owner_id, name")
-    .eq("id", carId)
-    .maybeSingle();
+  const prepareStartedAt = performance.now();
+  const [, { data: car }] = await Promise.all([
+    ensureUserProfile(auth.supabase, auth.user),
+    auth.supabase
+      .from("cars")
+      .select("id, owner_id, name")
+      .eq("id", carId)
+      .maybeSingle(),
+  ]);
+  timer.lap("prepare", prepareStartedAt);
 
+  const insertStartedAt = performance.now();
   const { data: comment, error } = await auth.supabase
     .from("car_comments")
     .insert({
@@ -633,28 +619,34 @@ export async function createCommentAction(
     })
     .select("*")
     .maybeSingle();
+  timer.lap("insert", insertStartedAt);
 
-  if (error || !comment) return { status: "error", message: error?.message ?? "Nao foi possivel publicar o comentario." };
-
-  const { data: author } = await auth.supabase
-    .from("profiles")
-    .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle")
-    .eq("id", auth.user.id)
-    .maybeSingle();
-
-  if (car) {
-    await notifyCarOwner({
-      supabase: auth.supabase,
-      actorId: auth.user.id,
-      ownerId: car.owner_id,
-      carId,
-      type: "project_comment",
-      title: `${car.name} recebeu um comentário`,
-      body: content.slice(0, 160),
-    });
+  if (error || !comment) {
+    timer.end({ ok: false, reason: "insert-error" });
+    return { status: "error", message: error?.message ?? "Nao foi possivel publicar o comentario." };
   }
-  revalidatePath(`/projeto/${slug}`);
-  revalidatePath(`/carros/${slug}`);
+
+  const finalizeStartedAt = performance.now();
+  const [{ data: author }] = await Promise.all([
+    auth.supabase
+      .from("profiles")
+      .select("id, username, display_name, avatar_url, bio, city, state, instagram_handle")
+      .eq("id", auth.user.id)
+      .maybeSingle(),
+    car
+      ? notifyCarOwner({
+          supabase: auth.supabase,
+          actorId: auth.user.id,
+          ownerId: car.owner_id,
+          carId,
+          type: "project_comment",
+          title: `${car.name} recebeu um comentário`,
+          body: content.slice(0, 160),
+        })
+      : Promise.resolve(null),
+  ]);
+  timer.lap("finalize", finalizeStartedAt);
+  timer.end({ ok: true });
   return {
     status: "success",
     message: "Comentario publicado.",
@@ -665,7 +657,7 @@ export async function createCommentAction(
   };
 }
 
-export async function deleteCommentAction(commentId: string, carSlug: string) {
+export async function deleteCommentAction(commentId: string) {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para continuar." };
 
@@ -689,8 +681,6 @@ export async function deleteCommentAction(commentId: string, carSlug: string) {
   }
 
   const { error } = await auth.supabase.from("car_comments").delete().eq("id", commentId);
-  revalidatePath(`/projeto/${carSlug}`);
-  revalidatePath(`/carros/${carSlug}`);
   return { ok: !error, message: error?.message };
 }
 
@@ -706,7 +696,6 @@ export async function markNotificationReadAction(notificationId: string) {
     .eq("id", notificationId)
     .eq("user_id", auth.user.id);
 
-  revalidatePath("/notificacoes");
   return { ok: !error, message: error?.message };
 }
 
@@ -728,6 +717,5 @@ export async function markNotificationsReadAction(notificationIds: string[]) {
     .eq("user_id", auth.user.id)
     .is("read_at", null);
 
-  revalidatePath("/notificacoes");
   return { ok: !error, message: error?.message };
 }

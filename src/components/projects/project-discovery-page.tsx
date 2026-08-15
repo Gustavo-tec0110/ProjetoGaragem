@@ -72,7 +72,7 @@ export async function ProjectDiscoveryPage({
   filters: ProjectFiltersType;
   page: number;
 }) {
-  const result = await getProjectCollection(filters);
+  const result = await getProjectCollection(filters, false);
   const hasFilters = Boolean(
     filters.q ||
       filters.brand ||
@@ -226,6 +226,7 @@ export async function ProjectDiscoveryPage({
 
         <ProjectGrid
           projects={pageData.items}
+          eagerFirstImage
           emptyTitle={emptyTitle}
           emptyDescription={
             hasFilters

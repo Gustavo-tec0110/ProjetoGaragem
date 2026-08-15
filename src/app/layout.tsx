@@ -1,17 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/montserrat/500.css";
-import "@fontsource/montserrat/600.css";
-import "@fontsource/montserrat/700.css";
-import "@fontsource/poppins/700.css";
-import "@fontsource/poppins/800.css";
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
+import "@fontsource/inter/latin-600.css";
+import "@fontsource/inter/latin-700.css";
+import "@fontsource/montserrat/latin-500.css";
+import "@fontsource/montserrat/latin-600.css";
+import "@fontsource/montserrat/latin-700.css";
+import "@fontsource/poppins/latin-700.css";
+import "@fontsource/poppins/latin-800.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
 import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo";
+import { performanceTimer } from "@/lib/performance";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -55,11 +56,14 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return (
+  const timer = performanceTimer("layout", "root.render");
+  const layout = (
     <html lang="pt-BR" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
+  timer.end();
+  return layout;
 }

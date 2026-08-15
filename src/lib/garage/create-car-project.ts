@@ -1,12 +1,13 @@
 import "server-only";
 
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import { calculateSpecConfidence, type DataConfidence, type DetailAnswer } from "@/lib/car-catalog";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString, uniqueStrings } from "@/lib/projects/utils";
 import { serverLog } from "@/lib/server-log";
+import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
 import {
   ensureUserProfile,
   requireSupabaseUser,
@@ -372,7 +373,6 @@ async function notifyProjectFollowers({
     )
   );
 
-  if (recipients.length) revalidatePath("/notificacoes");
 }
 
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
@@ -581,27 +581,12 @@ async function replaceExpenses(supabase: ServerSupabaseClient, carId: string, ex
   return error?.message ?? null;
 }
 
-function revalidateProjectCollectionPaths() {
-  for (const path of ["/", "/explorar", "/buscar", "/comparar", "/garagem"]) {
-    revalidatePath(path);
-  }
+export function revalidateProjectCreationPaths() {
+  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
 }
 
-function revalidateProjectSlugs(slugs: string[]) {
-  for (const slug of new Set(slugs.filter(Boolean))) {
-    revalidatePath(`/projeto/${slug}`);
-    revalidatePath(`/carros/${slug}`);
-  }
-}
-
-export function revalidateProjectCreationPaths(slug: string) {
-  revalidateProjectCollectionPaths();
-  revalidateProjectSlugs([slug]);
-}
-
-export function revalidateProjectUpdatePaths(previousSlug: string, nextSlug: string) {
-  revalidateProjectCollectionPaths();
-  revalidateProjectSlugs([previousSlug, nextSlug]);
+export function revalidateProjectUpdatePaths() {
+  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
 }
 
 export async function createCarProject(formData: FormData): Promise<CreateCarProjectResult> {
@@ -650,11 +635,13 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
     const parts = parseParts(text(formData, "parts_json"));
     const updates = parseUpdates(text(formData, "updates_json"));
     const expenses = parseExpenses(text(formData, "expenses_json"));
-    const relatedError =
-      (await replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls)) ??
-      (await replaceParts(auth.supabase, car.id, parts)) ??
-      (await replaceUpdates(auth.supabase, car.id, updates)) ??
-      (await replaceExpenses(auth.supabase, car.id, expenses));
+    const relatedResults = await Promise.all([
+      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
+      replaceParts(auth.supabase, car.id, parts),
+      replaceUpdates(auth.supabase, car.id, updates),
+      replaceExpenses(auth.supabase, car.id, expenses),
+    ]);
+    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
 
     if (relatedError) {
       serverLog.error("project-create.related-data", { error: relatedError });
@@ -721,7 +708,13 @@ export async function updateCarProject(
     }
 
     const requestedSlug = normalizeSlug(text(formData, "slug") || `${name}-${brand}-${model}-${year}`);
-    const slug = await uniqueCarSlug(auth.supabase, requestedSlug, carId);
+    const [slug, { data: previousUpdates }] = await Promise.all([
+      uniqueCarSlug(auth.supabase, requestedSlug, carId),
+      auth.supabase
+        .from("car_build_updates")
+        .select("title, happened_at")
+        .eq("car_id", carId),
+    ]);
     const payload = buildCarPayload(formData, auth.user.id, slug);
     const { data: car, error } = await auth.supabase
       .from("cars")
@@ -743,21 +736,19 @@ export async function updateCarProject(
     const parts = parseParts(text(formData, "parts_json"));
     const updates = parseUpdates(text(formData, "updates_json"));
     const expenses = parseExpenses(text(formData, "expenses_json"));
-    const { data: previousUpdates } = await auth.supabase
-      .from("car_build_updates")
-      .select("title, happened_at")
-      .eq("car_id", carId);
     const previousUpdateKeys = new Set(
       ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
         (update) => `${update.title.trim()}|${update.happened_at}`
       )
     );
 
-    const relatedError =
-      (await replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls)) ??
-      (await replaceParts(auth.supabase, car.id, parts)) ??
-      (await replaceUpdates(auth.supabase, car.id, updates)) ??
-      (await replaceExpenses(auth.supabase, car.id, expenses));
+    const relatedResults = await Promise.all([
+      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
+      replaceParts(auth.supabase, car.id, parts),
+      replaceUpdates(auth.supabase, car.id, updates),
+      replaceExpenses(auth.supabase, car.id, expenses),
+    ]);
+    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
 
     if (relatedError) {
       return {

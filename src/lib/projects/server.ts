@@ -39,7 +39,7 @@ const FEATURED_DEMO_SLUGS = [
   "uno-turbo-street",
 ] as const;
 
-const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
+const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters, personalize = true) => {
   if (!isSupabaseConfigured) {
     return { projects: [] as Project[], error: "not_configured" as const };
   }
@@ -65,7 +65,7 @@ const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters) => {
     tag: filters?.tag,
     sort: querySort,
     limit: PROJECT_LIMIT,
-  });
+  }, { personalize });
   if (result.error) {
     return { projects: [] as Project[], error: result.error };
   }
@@ -112,7 +112,7 @@ function emptyProjectRecommendations(): ProjectRecommendationGroups {
 }
 
 async function getProjectRecommendationsForRoute(project: Project): Promise<ProjectRecommendationGroups> {
-  const collection = await getProjectCollection();
+  const collection = await getProjectCollection(undefined, false);
   const combinedProjects = uniqueProjects([...collection.allProjects, ...demoProjects]);
   const candidates = combinedProjects.filter((entry) => entry.slug !== project.slug);
   const usedSlugs = new Set([project.slug]);
@@ -166,10 +166,11 @@ async function getProjectRecommendationsForRoute(project: Project): Promise<Proj
 }
 
 export async function getProjectCollection(
-  filters?: Partial<ProjectFilters>
+  filters?: Partial<ProjectFilters>,
+  personalize = true
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
-  const catalog = await getSupabaseProjectCatalog(normalizedFilters);
+  const catalog = await getSupabaseProjectCatalog(normalizedFilters, personalize);
   const allProjects = uniqueProjects([...demoProjects, ...catalog.projects]);
 
   const filteredProjects = sortProjects(
@@ -204,8 +205,32 @@ export async function getProjectCollection(
 
 export const getFeaturedProjects = cache(
   async (limit = 6, sort: ProjectSortKey = "likes") => {
-    const collection = await getProjectCollection({ sort });
-    const sortedProjects = sortProjects(collection.allProjects, sort);
+    const querySort =
+      sort === "likes" ||
+      sort === "comments" ||
+      sort === "views" ||
+      sort === "updated" ||
+      sort === "popular" ||
+      sort === "hot" ||
+      sort === "recent"
+        ? sort
+        : null;
+
+    let featuredPool: Project[] = demoProjects;
+    if (isSupabaseConfigured && querySort) {
+      const result = await qExploreCars(
+        { sort: querySort, limit: Math.max(1, limit) },
+        { personalize: false }
+      );
+      if (result.data?.length) {
+        featuredPool = uniqueProjects([
+          ...demoProjects,
+          ...result.data.map(mapCarCardToProject),
+        ]);
+      }
+    }
+
+    const sortedProjects = sortProjects(featuredPool, sort);
     const projectsBySlug = new Map(
       sortedProjects.map((project) => [project.slug, project])
     );
@@ -280,7 +305,7 @@ export async function getProjectRouteMetadata(
 }
 
 export async function getProjectRankings(limit = 6) {
-  const collection = await getProjectCollection();
+  const collection = await getProjectCollection(undefined, false);
   const allProjects = collection.allProjects;
 
   return {

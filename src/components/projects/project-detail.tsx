@@ -427,7 +427,7 @@ export function ProjectDetail({
       if (window.sessionStorage.getItem(sessionKey)) return;
       window.sessionStorage.setItem(sessionKey, "1");
 
-      void syncProjectView(initialProject.databaseId, initialProject.slug).then((result) => {
+      void syncProjectView(initialProject.databaseId).then((result) => {
         if (active && result?.ok && "viewsCount" in result && typeof result.viewsCount === "number") {
           const viewsCount = result.viewsCount;
           setSocialCounts((current) => ({ ...current, views: viewsCount }));
@@ -1017,7 +1017,6 @@ export function ProjectDetail({
                   comments={comments}
                   viewerId={commentThread.viewerId}
                   ownerId={commentThread.ownerId}
-                  carSlug={commentThread.slug}
                   onCommentDeleted={(commentId) =>
                     setComments((current) => current.filter((comment) => comment.id !== commentId))
                   }

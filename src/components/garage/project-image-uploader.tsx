@@ -17,6 +17,7 @@ import {
   projectImagePath,
 } from "@/lib/supabase/storage";
 import { cn } from "@/lib/utils";
+import { measurePerformance, performanceTimer } from "@/lib/performance";
 
 type ProjectImageUploaderProps = {
   mainPhotoUrl: string;
@@ -106,27 +107,46 @@ export function ProjectImageUploader({
     }
 
     setPending(true);
+    const uploadTimer = performanceTimer("upload", "project-images", {
+      files: selectedFiles.length,
+      totalBytes: selectedFiles.reduce((sum, file) => sum + file.size, 0),
+    });
     try {
       const uploadedUrls: string[] = [];
 
-      for (const file of selectedFiles) {
-        const path = projectImagePath(currentUser.id, file);
-        const { error: uploadError } = await supabase.storage
-          .from(PROJECT_IMAGES_BUCKET)
-          .upload(path, file, {
-            cacheControl: "31536000",
-            contentType: file.type,
-            upsert: false,
-          });
+      for (let index = 0; index < selectedFiles.length; index += 4) {
+        const batch = selectedFiles.slice(index, index + 4);
+        const batchUrls = await Promise.all(
+          batch.map((file) =>
+            measurePerformance(
+              "upload",
+              "storage.file",
+              async () => {
+                const path = projectImagePath(currentUser.id, file);
+                const { error: uploadError } = await supabase.storage
+                  .from(PROJECT_IMAGES_BUCKET)
+                  .upload(path, file, {
+                    cacheControl: "31536000",
+                    contentType: file.type,
+                    upsert: false,
+                  });
 
-        if (uploadError) throw uploadError;
+                if (uploadError) throw uploadError;
 
-        const { data } = supabase.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
-        if (data.publicUrl) uploadedUrls.push(data.publicUrl);
+                const { data } = supabase.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
+                return data.publicUrl || null;
+              },
+              { bytes: file.size, type: file.type }
+            )
+          )
+        );
+        uploadedUrls.push(...batchUrls.filter((url): url is string => Boolean(url)));
       }
 
       setGallery([...gallery, ...uploadedUrls]);
+      uploadTimer.end({ ok: true, uploaded: uploadedUrls.length });
     } catch (uploadError) {
+      uploadTimer.end({ ok: false });
       setError(uploadErrorMessage(uploadError));
     } finally {
       setPending(false);

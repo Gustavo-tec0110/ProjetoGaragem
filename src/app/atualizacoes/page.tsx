@@ -82,8 +82,8 @@ async function getRecentUpdates() {
 
 export default async function UpdatesPage() {
   const [recentProjectsResult, popularProjectsResult, recentUpdates] = await Promise.all([
-    qExploreCars({ sort: "recent", limit: 6 }),
-    qExploreCars({ sort: "likes", limit: 6 }),
+    qExploreCars({ sort: "recent", limit: 6 }, { personalize: false }),
+    qExploreCars({ sort: "likes", limit: 6 }, { personalize: false }),
     getRecentUpdates(),
   ]);
   const recentProjects = recentProjectsResult.data ?? [];

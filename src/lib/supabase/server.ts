@@ -1,10 +1,28 @@
 import { createServerClient } from '@supabase/ssr';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
+import { cache } from 'react';
 
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from './env';
 import type { Database } from "@/types/supabase";
 
-export async function getSupabaseServerClient() {
+let publicClient: SupabaseClient<Database> | null = null;
+
+export function getSupabasePublicClient() {
+  if (!isSupabaseConfigured) return null;
+  if (publicClient) return publicClient;
+
+  publicClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+  return publicClient;
+}
+
+export const getSupabaseServerClient = cache(async function getSupabaseServerClient() {
   if (!isSupabaseConfigured) return null;
 
   const cookieStore = await cookies();
@@ -25,4 +43,4 @@ export async function getSupabaseServerClient() {
       },
     },
   });
-}
+});

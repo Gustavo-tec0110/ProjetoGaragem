@@ -679,7 +679,6 @@ export function CarForm({
       }
 
       router.push(payload.redirectTo);
-      router.refresh();
     } catch {
       setCreateState({
         status: "error",
@@ -721,7 +720,6 @@ export function CarForm({
       }
 
       router.push(payload.redirectTo);
-      router.refresh();
     } catch {
       setEditState({
         status: "error",

@@ -98,13 +98,11 @@ export function CommentsList({
   comments,
   viewerId,
   ownerId,
-  carSlug,
   onCommentDeleted,
 }: {
   comments: CarCommentWithAuthor[];
   viewerId: string | null;
   ownerId: string;
-  carSlug: string;
   onCommentDeleted?: (commentId: string) => void;
 }) {
   const [isPending, startTransition] = React.useTransition();
@@ -143,7 +141,7 @@ export function CommentsList({
                   onClick={() =>
                     startTransition(async () => {
                       onCommentDeleted?.(comment.id);
-                      const result = await deleteCommentAction(comment.id, carSlug);
+                      const result = await deleteCommentAction(comment.id);
                       if (!result.ok) {
                         window.location.reload();
                       }

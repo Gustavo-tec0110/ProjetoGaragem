@@ -2,21 +2,17 @@ import { LocalProjectResolver } from "@/components/projects/local-project-resolv
 import { ProjectDetail } from "@/components/projects/project-detail";
 import { mapCarDetailsToProject } from "@/lib/projects/mappers";
 import { getProjectPageData } from "@/lib/projects/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
 export async function ProjectPageContent({
   slug,
 }: {
   slug: string;
 }) {
-  const [{ project, detail, similarProjects, recommendations }, supabase] = await Promise.all([
+  const [{ project, detail, similarProjects, recommendations }, user] = await Promise.all([
     getProjectPageData(slug),
-    getSupabaseServerClient(),
+    getSupabaseServerUser(),
   ]);
-
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
 
   if (!project) {
     return <LocalProjectResolver slug={slug} viewerLoggedIn={Boolean(user)} />;

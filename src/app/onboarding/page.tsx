@@ -3,17 +3,14 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNavbar } from "@/components/site/site-navbar";
 import { Card } from "@/components/ui/card";
 import { getCurrentProfile } from "@/lib/supabase/queries";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
 export const metadata = {
   title: "Onboarding",
 };
 
 export default async function OnboardingPage() {
-  const supabase = await getSupabaseServerClient();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const user = await getSupabaseServerUser();
   const current = user ? await getCurrentProfile() : null;
 
   return (

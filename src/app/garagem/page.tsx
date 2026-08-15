@@ -13,6 +13,7 @@ import { demoProjects } from "@/lib/projects/demo-projects";
 import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server";
 import { getCurrentProfile, qCarsByOwner, qFollowedCars, qLikedCars, qSavedCars } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
 import { cn } from "@/lib/utils";
 
@@ -94,10 +95,10 @@ export default async function GaragemPage({
   const params = await searchParams;
   const requestedTab = param(params, "aba");
   const activeTabKey = isGarageTabKey(requestedTab) ? requestedTab : "projetos";
-  const supabase = await getSupabaseServerClient();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const [supabase, user] = await Promise.all([
+    getSupabaseServerClient(),
+    getSupabaseServerUser(),
+  ]);
 
   if (!supabase) {
     return (

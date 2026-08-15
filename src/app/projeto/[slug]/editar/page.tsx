@@ -7,7 +7,7 @@ import { SiteNavbar } from "@/components/site/site-navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { qCarBySlug } from "@/lib/supabase/queries";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -22,10 +22,7 @@ export default async function EditProjectPage({ params }: PageProps) {
   const result = await qCarBySlug(slug);
   if (!result.data) notFound();
 
-  const supabase = await getSupabaseServerClient();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const user = await getSupabaseServerUser();
 
   const car = result.data;
   const canEdit = user?.id === car.owner_id;

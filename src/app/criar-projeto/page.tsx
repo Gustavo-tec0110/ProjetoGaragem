@@ -7,17 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { qCarCatalogVersions } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
 export const metadata = {
   title: "Criar projeto",
 };
 
 export default async function CreateProjectPage() {
-  const supabase = await getSupabaseServerClient();
-  const catalog = await qCarCatalogVersions();
-  const {
-    data: { user },
-  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const [supabase, catalog, user] = await Promise.all([
+    getSupabaseServerClient(),
+    qCarCatalogVersions(),
+    getSupabaseServerUser(),
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
