@@ -20,7 +20,7 @@ import {
 } from "@/lib/car-catalog";
 import { serverLog } from "@/lib/server-log";
 import { logPerformance, performanceTimer } from "@/lib/performance";
-import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
+import { PROJECT_CATALOG_CACHE_TAG, PUBLIC_PROFILE_CACHE_TAG } from "@/lib/projects/cache";
 import { getSupabasePublicClient, getSupabaseServerClient } from "./server";
 import { getSupabaseServerUser } from "./auth-server";
 
@@ -903,6 +903,20 @@ async function loadCarDetails(
   const cardResult = await loadCarCardBySlug(supabase, slug, viewerId, publicOnly);
   if (!cardResult.data) return cardResult;
   return hydrateCarDetails(supabase, cardResult.data);
+}
+
+const qCachedPublicProfileByUsername = unstable_cache(
+  async (username: string): Promise<QueryResult<ProfileRow>> => {
+    const supabase = getSupabasePublicClient();
+    if (!supabase) return { data: null, error: "supabase_not_configured" };
+    return qProfileByUsername(supabase, username);
+  },
+  ["public-profile-by-username-v1"],
+  { revalidate: 60, tags: [PUBLIC_PROFILE_CACHE_TAG] }
+);
+
+export function qPublicProfileByUsername(username: string) {
+  return qCachedPublicProfileByUsername(username);
 }
 
 async function hydrateCarDetails(

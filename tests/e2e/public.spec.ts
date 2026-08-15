@@ -72,7 +72,7 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
     await loginDialog.getByRole("button", { name: "Fechar" }).click();
     await expect(loginDialog).toBeHidden();
   } else {
-    await expect(page.getByRole("button", { name: /Remover curtida|Curtir/i }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: /Remover curtida|Curtir|Curtido/i }).first()).toBeVisible();
   }
 
   await expect(

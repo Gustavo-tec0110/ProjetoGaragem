@@ -1,16 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArrowUpRight, Camera, Search, Share2, Wrench } from "lucide-react";
 
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { SkeletonProjectGrid } from "@/components/ui/page-skeletons";
 import { getFeaturedProjects } from "@/lib/projects/server";
 
 export const revalidate = 60;
 
-export default async function Home() {
+async function FeaturedProjectsSection() {
   const projects = await getFeaturedProjects(6, "likes");
+
+  return (
+    <ProjectGrid
+      projects={projects}
+      emptyTitle="Ainda não há projetos em destaque."
+      emptyDescription="Seja o primeiro a publicar uma garagem completa para a comunidade."
+    />
+  );
+}
+
+function FeaturedProjectsFallback() {
+  return <SkeletonProjectGrid count={3} />;
+}
+
+export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -105,11 +122,9 @@ export default async function Home() {
                 <Link href="/explorar">Ver catálogo</Link>
               </Button>
             </div>
-            <ProjectGrid
-              projects={projects}
-              emptyTitle="Ainda não há projetos em destaque."
-              emptyDescription="Seja o primeiro a publicar uma garagem completa para a comunidade."
-            />
+            <Suspense fallback={<FeaturedProjectsFallback />}>
+              <FeaturedProjectsSection />
+            </Suspense>
           </div>
         </section>
 

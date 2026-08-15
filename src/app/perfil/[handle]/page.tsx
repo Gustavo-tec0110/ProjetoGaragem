@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import {
   Clock,
   Eye,
@@ -20,19 +21,21 @@ import { CarGrid } from "@/components/garage/car-card";
 import { ProfileForm } from "@/components/garage/profile-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ProfileContentSkeleton } from "@/components/ui/page-skeletons";
 import { createSeoMetadata } from "@/lib/seo";
 import {
   qCarsByOwner,
   qFollowedCars,
   qLikedCars,
   qProfileById,
-  qProfileByUsername,
+  qPublicProfileByUsername,
   qSavedCars,
   qViewerFollowsProfile,
 } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 import { formatProjectCurrency } from "@/lib/projects/utils";
+import type { ProfileRow } from "@/lib/types";
 
 type PageProps = {
   params: Promise<{ handle: string }>;
@@ -45,7 +48,7 @@ function Stat({ label, value, icon: Icon }: { label: string; value: number | str
         <Icon className="size-4 shrink-0 text-accent md:size-5" />
         <p className="text-[11px] leading-tight text-muted md:mt-3 md:text-xs">{label}</p>
       </div>
-      <p className="mt-2 truncate font-title text-xl md:mt-1 md:text-2xl">
+      <p className="mt-2 break-words font-title text-lg leading-tight sm:text-xl md:mt-1 md:text-2xl">
         {typeof value === "number" ? value.toLocaleString("pt-BR") : value}
       </p>
     </div>
@@ -54,9 +57,7 @@ function Stat({ label, value, icon: Icon }: { label: string; value: number | str
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { handle } = await params;
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return createSeoMetadata({ title: "Perfil", path: `/perfil/${handle}` });
-  const result = await qProfileByUsername(supabase, handle);
+  const result = await qPublicProfileByUsername(handle);
   if (!result.data) {
     return createSeoMetadata({
       title: "Perfil nao encontrado",
@@ -74,18 +75,77 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 }
 
-export default async function PublicProfilePage({ params }: PageProps) {
-  const { handle } = await params;
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) notFound();
+function PublicProfilePreview({ profile }: { profile: ProfileRow }) {
+  const location = [profile.city, profile.state].filter(Boolean).join(", ");
 
-  const profileResult = await qProfileByUsername(supabase, handle);
+  return (
+    <Card className="relative overflow-hidden">
+      <div className="absolute inset-0">
+        <Image src="/ref/hero-car.jpg" alt="" fill priority className="object-cover opacity-35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/45" />
+      </div>
+      <div className="relative p-4 md:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_28rem]">
+          <div className="min-w-0">
+            <div className="flex items-center gap-3 md:gap-4">
+              {profile.avatar_url ? (
+                <Image
+                  src={profile.avatar_url}
+                  alt={profile.display_name}
+                  width={96}
+                  height={96}
+                  priority
+                  unoptimized
+                  className="size-16 rounded-full border border-border/70 object-cover md:size-24"
+                />
+              ) : (
+                <div className="flex size-16 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/35 font-title text-xl md:size-24 md:text-2xl">
+                  {profile.display_name.slice(0, 1).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <p className="text-xs text-muted">Perfil automotivo</p>
+                <h1 className="mt-1 font-title text-2xl tracking-tight md:mt-2 md:text-5xl">{profile.display_name}</h1>
+                <p className="mt-1 text-sm text-muted md:mt-2 md:text-base">@{profile.username}</p>
+              </div>
+            </div>
+            {profile.bio ? <p className="mt-4 max-w-2xl text-sm text-foreground/90 md:text-base">{profile.bio}</p> : null}
+            {location ? (
+              <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/35 px-3 py-2 text-xs text-muted md:px-4 md:text-sm">
+                <MapPin className="size-4 text-accent" />
+                {location}
+              </p>
+            ) : null}
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-3">
+            <Stat label="Projetos" value={profile.cars_count} icon={Wrench} />
+            <Stat label="Seguidores" value={profile.followers_count} icon={Users} />
+            <Stat label="Seguindo" value={profile.following_count} icon={UserCheck} />
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+async function PublicProfileRouteContent({ handle }: { handle: string }) {
+  const profileResult = await qPublicProfileByUsername(handle);
   if (!profileResult.data) notFound();
 
+  return (
+    <Suspense fallback={<PublicProfilePreview profile={profileResult.data} />}>
+      <PublicProfileDetails profile={profileResult.data} />
+    </Suspense>
+  );
+}
+
+async function PublicProfileDetails({ profile: publicProfile }: { profile: ProfileRow }) {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) notFound();
   const user = await getSupabaseServerUser();
-  const isOwner = user?.id === profileResult.data.id;
-  const ownProfileResult = isOwner ? await qProfileById(supabase, profileResult.data.id) : null;
-  const profile = ownProfileResult?.data ?? profileResult.data;
+  const isOwner = user?.id === publicProfile.id;
+  const ownProfileResult = isOwner ? await qProfileById(supabase, publicProfile.id) : null;
+  const profile = ownProfileResult?.data ?? publicProfile;
   const [carsResult, savedResult, likedResult, followedCarsResult, followingResult] = await Promise.all([
     qCarsByOwner(profile.id, isOwner),
     profile.is_saves_public || isOwner ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
@@ -121,9 +181,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <main className="flex-1 px-4 sm:px-6">
-        <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
+    <>
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0">
               <Image src={heroImage} alt="" fill priority unoptimized className="object-cover opacity-35" />
@@ -285,6 +343,18 @@ export default async function PublicProfilePage({ params }: PageProps) {
               <CarGrid cars={followedCars} />
             </section>
           ) : null}
+    </>
+  );
+}
+
+export default function PublicProfilePage({ params }: PageProps) {
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-1 px-4 sm:px-6">
+        <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
+          <Suspense fallback={<ProfileContentSkeleton />}>
+            {params.then(({ handle }) => <PublicProfileRouteContent handle={handle} />)}
+          </Suspense>
         </div>
       </main>
     </div>

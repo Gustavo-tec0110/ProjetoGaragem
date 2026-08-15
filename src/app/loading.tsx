@@ -7,22 +7,10 @@ export default function RouteLoading() {
       aria-label="Carregando página"
       aria-busy="true"
     >
-      <div className="space-y-3">
-        <Skeleton className="h-4 w-28" />
-        <Skeleton className="h-10 w-full max-w-lg" />
-        <Skeleton className="h-4 w-full max-w-2xl" />
-      </div>
-      <div className="mt-8 grid grid-cols-2 gap-2.5 md:gap-5 xl:grid-cols-3">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="overflow-hidden rounded-2xl border border-border/60">
-            <Skeleton className="aspect-[4/3] w-full rounded-none border-0" />
-            <div className="space-y-3 p-3 md:p-5">
-              <Skeleton className="h-5 w-4/5" />
-              <Skeleton className="h-4 w-2/3" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          </div>
-        ))}
+      <div className="mx-auto max-w-xl space-y-3 pt-10 text-center md:pt-16">
+        <Skeleton className="mx-auto size-10 rounded-full" />
+        <Skeleton className="mx-auto h-5 w-44 rounded-full" />
+        <Skeleton className="mx-auto h-4 w-64 max-w-full rounded-full" />
       </div>
     </main>
   );

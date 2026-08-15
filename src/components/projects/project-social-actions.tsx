@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { flushSync } from "react-dom";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import {
@@ -71,6 +72,9 @@ export function ProjectSocialActions({
   const [likePending, setLikePending] = React.useState(false);
   const [savePending, setSavePending] = React.useState(false);
   const [followPending, setFollowPending] = React.useState(false);
+  const likePendingRef = React.useRef(false);
+  const savePendingRef = React.useRef(false);
+  const followPendingRef = React.useRef(false);
   const { copied, copyCurrentUrl } = useCopyCurrentUrl();
   const [actionError, setActionError] = React.useState<string | null>(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -132,14 +136,17 @@ export function ProjectSocialActions({
   }
 
   async function toggleFollow() {
-    if (followPending) return;
+    if (followPendingRef.current) return;
     setActionError(null);
     if (usingServer && databaseId) {
-      setFollowPending(true);
       const next = !followed;
-      setServerFollowed(next);
-      setServerFollowers((current) => Math.max(0, current + (next ? 1 : -1)));
-      onCountsChange?.({ followers: Math.max(0, followers + (next ? 1 : -1)) });
+      followPendingRef.current = true;
+      flushSync(() => {
+        setFollowPending(true);
+        setServerFollowed(next);
+        setServerFollowers((current) => Math.max(0, current + (next ? 1 : -1)));
+        onCountsChange?.({ followers: Math.max(0, followers + (next ? 1 : -1)) });
+      });
       let result;
       try {
         result = await toggleProjectFollowAction(databaseId);
@@ -148,9 +155,11 @@ export function ProjectSocialActions({
         setServerFollowed(!next);
         setServerFollowers((current) => Math.max(0, current + (next ? -1 : 1)));
         onCountsChange?.({ followers });
+        followPendingRef.current = false;
         setFollowPending(false);
         return;
       }
+      followPendingRef.current = false;
       setFollowPending(false);
       if (!result.ok) {
         setActionError(result.message ?? "Nao foi possivel seguir este projeto.");
@@ -171,14 +180,17 @@ export function ProjectSocialActions({
   }
 
   async function toggleLike() {
-    if (likePending) return;
+    if (likePendingRef.current) return;
     setActionError(null);
     if (usingServer && databaseId) {
-      setLikePending(true);
       const next = !liked;
-      setServerLiked(next);
-      setServerLikes((current) => Math.max(0, current + (next ? 1 : -1)));
-      onCountsChange?.({ likes: Math.max(0, likes + (next ? 1 : -1)) });
+      likePendingRef.current = true;
+      flushSync(() => {
+        setLikePending(true);
+        setServerLiked(next);
+        setServerLikes((current) => Math.max(0, current + (next ? 1 : -1)));
+        onCountsChange?.({ likes: Math.max(0, likes + (next ? 1 : -1)) });
+      });
       let result;
       try {
         result = await toggleLikeAction(databaseId);
@@ -187,9 +199,11 @@ export function ProjectSocialActions({
         setServerLiked(!next);
         setServerLikes((current) => Math.max(0, current + (next ? -1 : 1)));
         onCountsChange?.({ likes });
+        likePendingRef.current = false;
         setLikePending(false);
         return;
       }
+      likePendingRef.current = false;
       setLikePending(false);
       if (!result.ok) {
         setActionError(result.message ?? "Nao foi possivel curtir este projeto.");
@@ -214,14 +228,17 @@ export function ProjectSocialActions({
   }
 
   async function toggleSave() {
-    if (savePending) return;
+    if (savePendingRef.current) return;
     setActionError(null);
     if (usingServer && databaseId) {
-      setSavePending(true);
       const next = !saved;
-      setServerSaved(next);
-      setServerSaves((current) => Math.max(0, current + (next ? 1 : -1)));
-      onCountsChange?.({ saves: Math.max(0, saves + (next ? 1 : -1)) });
+      savePendingRef.current = true;
+      flushSync(() => {
+        setSavePending(true);
+        setServerSaved(next);
+        setServerSaves((current) => Math.max(0, current + (next ? 1 : -1)));
+        onCountsChange?.({ saves: Math.max(0, saves + (next ? 1 : -1)) });
+      });
       let result;
       try {
         result = await toggleSaveAction(databaseId);
@@ -230,9 +247,11 @@ export function ProjectSocialActions({
         setServerSaved(!next);
         setServerSaves((current) => Math.max(0, current + (next ? -1 : 1)));
         onCountsChange?.({ saves });
+        savePendingRef.current = false;
         setSavePending(false);
         return;
       }
+      savePendingRef.current = false;
       setSavePending(false);
       if (!result.ok) {
         setActionError(result.message ?? "Nao foi possivel salvar este projeto.");
@@ -257,7 +276,7 @@ export function ProjectSocialActions({
   }
 
   const mobileActionClass =
-    "flex min-h-14 min-w-0 flex-col items-center justify-center gap-0.5 rounded-2xl border border-border/70 bg-background/40 px-1 py-1.5 text-foreground transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 disabled:opacity-50";
+    "flex min-h-14 min-w-0 flex-col items-center justify-center gap-0.5 rounded-2xl border border-border/70 bg-background/40 px-1 py-1.5 text-foreground transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 disabled:opacity-100";
 
   return (
     <div className="w-full lg:w-auto">
@@ -277,30 +296,33 @@ export function ProjectSocialActions({
           type="button"
           className={`${mobileActionClass} ${liked ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
           disabled={likePending}
+          aria-busy={likePending}
           aria-label={`${liked ? "Remover curtida" : "Curtir"}; ${likes.toLocaleString("pt-BR")} curtidas`}
           aria-pressed={liked}
           onClick={() => void toggleLike()}
         >
-          <Heart className="size-4" aria-hidden="true" />
+          <Heart className={`size-4 ${liked ? "fill-current" : ""}`} aria-hidden="true" />
           <span className="text-xs font-semibold leading-none">{likes.toLocaleString("pt-BR")}</span>
-          <span className="text-[9px] leading-none">Curtir</span>
+          <span className="text-[9px] leading-none">{liked ? "Curtido" : "Curtir"}</span>
         </button>
         <button
           type="button"
           className={`${mobileActionClass} ${saved ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
           disabled={savePending}
+          aria-busy={savePending}
           aria-label={`${saved ? "Remover dos salvos" : "Salvar"}; ${saves.toLocaleString("pt-BR")} salvos`}
           aria-pressed={saved}
           onClick={() => void toggleSave()}
         >
           <Bookmark className="size-4" aria-hidden="true" />
           <span className="text-xs font-semibold leading-none">{saves.toLocaleString("pt-BR")}</span>
-          <span className="text-[9px] leading-none">Salvar</span>
+          <span className="text-[9px] leading-none">{saved ? "Salvo" : "Salvar"}</span>
         </button>
         <button
           type="button"
           className={`${mobileActionClass} ${followed ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
           disabled={followPending}
+          aria-busy={followPending}
           aria-label={`${followed ? "Deixar de seguir" : "Seguir"}; ${followers.toLocaleString("pt-BR")} seguidores`}
           aria-pressed={followed}
           onClick={() => void toggleFollow()}
@@ -359,14 +381,14 @@ export function ProjectSocialActions({
       </div>
 
       <div className="hidden flex-wrap gap-2 lg:flex">
-        <Button type="button" variant={followed ? "default" : "outline"} disabled={followPending} onClick={() => void toggleFollow()}>
+        <Button type="button" variant={followed ? "default" : "outline"} disabled={followPending} aria-pressed={followed} aria-busy={followPending} className="disabled:opacity-100" onClick={() => void toggleFollow()}>
           <BellPlus className="size-4" /> {followed ? "Seguindo" : "Seguir"} ({followers.toLocaleString("pt-BR")})
         </Button>
-        <Button type="button" variant={liked ? "default" : "outline"} disabled={likePending} onClick={() => void toggleLike()}>
-          <Heart className="size-4" /> Curtir ({likes.toLocaleString("pt-BR")})
+        <Button type="button" variant={liked ? "default" : "outline"} disabled={likePending} aria-pressed={liked} aria-busy={likePending} className="disabled:opacity-100" onClick={() => void toggleLike()}>
+          <Heart className={`size-4 ${liked ? "fill-current" : ""}`} /> {liked ? "Curtido" : "Curtir"} ({likes.toLocaleString("pt-BR")})
         </Button>
-        <Button type="button" variant={saved ? "default" : "outline"} disabled={savePending} onClick={() => void toggleSave()}>
-          <Bookmark className="size-4" /> Salvar ({saves.toLocaleString("pt-BR")})
+        <Button type="button" variant={saved ? "default" : "outline"} disabled={savePending} aria-pressed={saved} aria-busy={savePending} className="disabled:opacity-100" onClick={() => void toggleSave()}>
+          <Bookmark className={`size-4 ${saved ? "fill-current" : ""}`} /> {saved ? "Salvo" : "Salvar"} ({saves.toLocaleString("pt-BR")})
         </Button>
         <Button type="button" variant="outline" onClick={() => void copyCurrentUrl()}>
           <Copy className="size-4" /> {copied ? "Copiado" : "Copiar link"}

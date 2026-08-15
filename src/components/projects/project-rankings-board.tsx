@@ -262,6 +262,7 @@ function PodiumCard({
               src={project.mainImage}
               alt={`Foto do projeto ${project.title}`}
               fill
+              loading="eager"
               className="object-cover"
               sizes="(max-width: 639px) 46vw, (max-width: 1023px) 30vw, 24vw"
             />
@@ -316,6 +317,7 @@ function PodiumCard({
           src={project.mainImage}
           alt={`Foto do projeto ${project.title}`}
           fill
+          loading="eager"
           className="object-cover transition duration-500 group-hover:scale-105"
           sizes="(min-width: 1280px) 24vw, (min-width: 768px) 36vw, 92vw"
         />

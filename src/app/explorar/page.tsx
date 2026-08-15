@@ -35,13 +35,13 @@ export async function generateMetadata({
   });
 }
 
-export default async function ExplorarPage({
+export default function ExplorarPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
-  const params = await searchParams;
-  const filters = normalizeProjectFilters({
+  const filters = searchParams.then((params) => ({
+    filters: normalizeProjectFilters({
     q: param(params, "q"),
     brand: param(params, "brand"),
     model: param(params, "model"),
@@ -63,8 +63,9 @@ export default async function ExplorarPage({
       | "updated"
       | "invested"
       | "hot",
-  });
-  const page = Number.parseInt(param(params, "page"), 10) || 1;
+    }),
+    page: Number.parseInt(param(params, "page"), 10) || 1,
+  }));
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -75,7 +76,6 @@ export default async function ExplorarPage({
           title="Explorar projetos"
           description="Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e estilos como JDM, off-road, turbo, stance, sleeper e track day."
           filters={filters}
-          page={page}
         />
       </main>
     </div>

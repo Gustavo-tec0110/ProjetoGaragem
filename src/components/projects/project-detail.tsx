@@ -1126,11 +1126,18 @@ export function ProjectDetailBodySkeleton() {
           <Skeleton key={index} className="h-24 w-full rounded-3xl md:h-32" />
         ))}
       </div>
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Skeleton className="h-64 w-full rounded-4xl" />
-        <Skeleton className="h-64 w-full rounded-4xl" />
+      <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="space-y-3 rounded-4xl border border-border/70 bg-card/30 p-4 md:p-6">
+          {Array.from({ length: 7 }).map((_, index) => <Skeleton key={index} className="h-10 w-full rounded-2xl" />)}
+        </div>
+        <div className="space-y-3 rounded-4xl border border-border/70 bg-card/30 p-4 md:p-6">
+          {Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className="h-14 w-full rounded-2xl" />)}
+        </div>
       </div>
-      <Skeleton className="h-80 w-full rounded-4xl" />
+      <section><Skeleton className="h-8 w-48" /><div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">{Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className="aspect-square w-full" />)}</div></section>
+      <section><Skeleton className="h-8 w-40" /><div className="mt-4 grid gap-3">{Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="h-28 w-full" />)}</div></section>
+      <section className="grid gap-6 lg:grid-cols-[1fr_1.2fr]"><div><Skeleton className="h-8 w-40" /><div className="mt-4 space-y-3">{Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="h-24 w-full" />)}</div></div><div><Skeleton className="h-8 w-40" /><Skeleton className="mt-4 h-44 w-full" /></div></section>
+      <section><Skeleton className="h-8 w-56" /><div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="aspect-[4/3] w-full" />)}</div></section>
     </div>
   );
 }

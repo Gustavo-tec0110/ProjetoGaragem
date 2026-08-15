@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { cache } from "react";
 
 import { ProjectTimeline } from "@/components/projects/project-timeline";
 import { Badge } from "@/components/ui/badge";
@@ -15,9 +16,11 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const getProjectBySlug = cache(qCarBySlug);
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const result = await qCarBySlug(slug);
+  const result = await getProjectBySlug(slug);
   const car = result.data;
 
   return createSeoMetadata({
@@ -32,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectEvolutionPage({ params }: PageProps) {
   const { slug } = await params;
-  const result = await qCarBySlug(slug);
+  const result = await getProjectBySlug(slug);
   if (!result.data) notFound();
 
   const project = mapCarDetailsToProject(result.data);

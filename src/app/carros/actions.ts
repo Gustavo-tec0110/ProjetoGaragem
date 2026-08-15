@@ -8,7 +8,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";
-import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
+import { PROJECT_CATALOG_CACHE_TAG, PUBLIC_PROFILE_CACHE_TAG } from "@/lib/projects/cache";
 import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
 import {
   ensureUserProfile,
@@ -356,6 +356,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
   ]);
   timer.lap("finalize", finalizeStartedAt);
   updateTag(PROJECT_CATALOG_CACHE_TAG);
+  updateTag(PUBLIC_PROFILE_CACHE_TAG);
   timer.end({ ok: true, active: shouldExist });
   return { ok: true, active: shouldExist, ...counts };
 }
@@ -392,6 +393,7 @@ export async function saveProfileAction(
 
   revalidatePath("/perfil");
   revalidatePath(`/perfil/${username}`);
+  updateTag(PUBLIC_PROFILE_CACHE_TAG);
   redirect("/garagem");
 }
 
@@ -427,6 +429,7 @@ export async function deleteCarAction(
   if (error) return { status: "error", message: error.message };
 
   revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
+  updateTag(PUBLIC_PROFILE_CACHE_TAG);
   redirect("/garagem");
 }
 
@@ -502,6 +505,7 @@ export async function toggleFollowUserAction(profileId: string) {
     if (error) {
       logSupabaseActionError("user_follows.delete", { followerId: auth.user.id, followingId: profileId }, error);
     }
+    if (!error) updateTag(PUBLIC_PROFILE_CACHE_TAG);
     timer.end({ ok: !error, active: false });
     return {
       ok: !error,
@@ -530,6 +534,7 @@ export async function toggleFollowUserAction(profileId: string) {
       actorName: actorProfile?.display_name ?? actorProfile?.username ?? "Alguem",
     });
     timer.lap("notification", notificationStartedAt);
+    updateTag(PUBLIC_PROFILE_CACHE_TAG);
   }
 
   timer.end({ ok: !error, active: !error });
@@ -648,6 +653,7 @@ export async function createCommentAction(
   ]);
   timer.lap("finalize", finalizeStartedAt);
   updateTag(PROJECT_CATALOG_CACHE_TAG);
+  updateTag(PUBLIC_PROFILE_CACHE_TAG);
   timer.end({ ok: true });
   return {
     status: "success",
@@ -683,7 +689,10 @@ export async function deleteCommentAction(commentId: string) {
   }
 
   const { error } = await auth.supabase.from("car_comments").delete().eq("id", commentId);
-  if (!error) updateTag(PROJECT_CATALOG_CACHE_TAG);
+  if (!error) {
+    updateTag(PROJECT_CATALOG_CACHE_TAG);
+    updateTag(PUBLIC_PROFILE_CACHE_TAG);
+  }
   return { ok: !error, message: error?.message };
 }
 

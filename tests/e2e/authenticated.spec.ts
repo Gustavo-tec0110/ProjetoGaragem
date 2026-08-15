@@ -123,21 +123,21 @@ test.describe("fluxos autenticados Supabase", () => {
     await followProject.click();
     await expect(
       page.getByRole("button", { name: new RegExp(`Seguindo \\(${initialFollowCount + 1}\\)`) }).first()
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 250 });
 
     const like = page.getByRole("button", { name: /Curtir \(/ }).first();
     initialLikeCount = await socialCount(like);
     await like.click();
     await expect(
-      page.getByRole("button", { name: new RegExp(`Curtir \\(${initialLikeCount + 1}\\)`) }).first()
-    ).toBeVisible();
+      page.getByRole("button", { name: new RegExp(`Curtido \\(${initialLikeCount + 1}\\)`) }).first()
+    ).toBeVisible({ timeout: 250 });
 
     const save = page.getByRole("button", { name: /Salvar \(/ }).first();
     initialSaveCount = await socialCount(save);
     await save.click();
     await expect(
-      page.getByRole("button", { name: new RegExp(`Salvar \\(${initialSaveCount + 1}\\)`) }).first()
-    ).toBeVisible();
+      page.getByRole("button", { name: new RegExp(`Salvo \\(${initialSaveCount + 1}\\)`) }).first()
+    ).toBeVisible({ timeout: 250 });
 
     await page.getByPlaceholder(/Comente sobre/i).fill("Comentario E2E QA entre usuarios");
     await page.getByRole("button", { name: /^Comentar$/ }).click();
@@ -151,7 +151,7 @@ test.describe("fluxos autenticados Supabase", () => {
     const followUser = page.getByRole("button", { name: /^Seguir$/ }).first();
     await expect(followUser).toBeVisible();
     await followUser.click();
-    await expect(page.getByRole("button", { name: /^Seguindo$/ }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Seguindo$/ }).first()).toBeVisible({ timeout: 250 });
 
     await logout(page);
   });
@@ -239,9 +239,9 @@ test.describe("fluxos autenticados Supabase", () => {
     await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
     await page.getByRole("button", { name: new RegExp(`Seguindo \\(${initialFollowCount + 1}\\)`) }).first().click();
     await expect(page.getByRole("button", { name: new RegExp(`Seguir \\(${initialFollowCount}\\)`) }).first()).toBeVisible();
-    await page.getByRole("button", { name: new RegExp(`Curtir \\(${initialLikeCount + 1}\\)`) }).first().click();
+    await page.getByRole("button", { name: new RegExp(`Curtido \\(${initialLikeCount + 1}\\)`) }).first().click();
     await expect(page.getByRole("button", { name: new RegExp(`Curtir \\(${initialLikeCount}\\)`) }).first()).toBeVisible();
-    await page.getByRole("button", { name: new RegExp(`Salvar \\(${initialSaveCount + 1}\\)`) }).first().click();
+    await page.getByRole("button", { name: new RegExp(`Salvo \\(${initialSaveCount + 1}\\)`) }).first().click();
     await expect(page.getByRole("button", { name: new RegExp(`Salvar \\(${initialSaveCount}\\)`) }).first()).toBeVisible();
 
     await page.goto(ownerProfileHref);

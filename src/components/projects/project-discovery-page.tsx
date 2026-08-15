@@ -1,12 +1,28 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { ProjectFilters } from "@/components/projects/project-filters";
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { SkeletonProjectGrid } from "@/components/ui/page-skeletons";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getProjectCollection } from "@/lib/projects/server";
+import { demoProjects } from "@/lib/projects/demo-projects";
 import type { Project, ProjectFilters as ProjectFiltersType } from "@/lib/projects/types";
-import { paginateProjects, sortProjects } from "@/lib/projects/utils";
+import {
+  getAvailableBrands,
+  getAvailableDrivetrains,
+  getAvailableEngines,
+  getAvailableFuels,
+  getAvailableInductions,
+  getAvailableModels,
+  getAvailableStyles,
+  getAvailableYears,
+  normalizeProjectFilters,
+  paginateProjects,
+  sortProjects,
+} from "@/lib/projects/utils";
 
 function buildHref(basePath: string, filters: ProjectFiltersType, page?: number) {
   const params = new URLSearchParams();
@@ -58,34 +74,57 @@ function DiscoverySection({
   );
 }
 
-export async function ProjectDiscoveryPage({
+function DiscoveryFallback({ basePath }: { basePath: string }) {
+  return (
+    <div aria-label="Carregando catálogo público" aria-busy="true">
+      <div className="mt-5 md:mt-8">
+        <ProjectFilters
+          filters={normalizeProjectFilters({})}
+          availableStyles={getAvailableStyles(demoProjects)}
+          availableEngines={getAvailableEngines(demoProjects)}
+          availableBrands={getAvailableBrands(demoProjects)}
+          availableModels={getAvailableModels(demoProjects)}
+          availableYears={getAvailableYears(demoProjects)}
+          availableFuels={getAvailableFuels(demoProjects)}
+          availableInductions={getAvailableInductions(demoProjects)}
+          availableDrivetrains={getAvailableDrivetrains(demoProjects)}
+          availableCategories={getAvailableStyles(demoProjects)}
+          actionPath={basePath}
+        />
+      </div>
+      <section className="mt-7 md:mt-10">
+        <div className="mb-4">
+          <Skeleton className="h-4 w-24 rounded-full" />
+          <Skeleton className="mt-2 h-8 w-64" />
+        </div>
+        <SkeletonProjectGrid />
+      </section>
+    </div>
+  );
+}
+
+async function ProjectDiscoveryResults({
   basePath,
-  eyebrow,
-  title,
-  description,
   filters,
-  page,
 }: {
   basePath: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  filters: ProjectFiltersType;
-  page: number;
+  filters: Promise<{ filters: ProjectFiltersType; page: number }>;
 }) {
-  const result = await getProjectCollection(filters, false);
+  const { filters: resolvedFilters, page } = await filters;
+  const result = await getProjectCollection(resolvedFilters, false);
+  const filtersValue = resolvedFilters;
   const hasFilters = Boolean(
-    filters.q ||
-      filters.brand ||
-      filters.model ||
-      filters.year ||
-      filters.fuel ||
-      filters.induction ||
-      filters.drivetrain ||
-      filters.category ||
-      filters.style ||
-      filters.engine ||
-      filters.tag
+    filtersValue.q ||
+      filtersValue.brand ||
+      filtersValue.model ||
+      filtersValue.year ||
+      filtersValue.fuel ||
+      filtersValue.induction ||
+      filtersValue.drivetrain ||
+      filtersValue.category ||
+      filtersValue.style ||
+      filtersValue.engine ||
+      filtersValue.tag
   );
   const pageData = paginateProjects(result.projects, page);
   const emptyTitle = hasFilters
@@ -93,21 +132,10 @@ export async function ProjectDiscoveryPage({
     : "Ainda nao ha projetos para exibir.";
 
   return (
-    <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-8 md:pb-12 md:pt-24">
-      <div className="flex flex-col gap-4 border-b border-border/55 pb-6 md:flex-row md:items-end md:justify-between md:gap-8 md:pb-8">
-        <div>
-          <p className="pg-eyebrow">{eyebrow}</p>
-          <h1 className="mt-3 font-title text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">{title}</h1>
-          <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-5 text-muted md:mt-3 md:line-clamp-none md:text-base">{description}</p>
-        </div>
-        <Button asChild size="sm" className="self-start md:h-10">
-          <Link href="/criar-projeto">Adicionar meu projeto</Link>
-        </Button>
-      </div>
-
+    <>
       <div className="mt-5 md:mt-8">
         <ProjectFilters
-          filters={filters}
+          filters={filtersValue}
           availableStyles={result.availableStyles}
           availableEngines={result.availableEngines}
           availableBrands={result.availableBrands}
@@ -179,27 +207,27 @@ export async function ProjectDiscoveryPage({
           <DiscoverySection
             title="Projetos em alta"
             projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "popular" })}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "popular" })}
           />
           <DiscoverySection
             title="Mais curtidos"
             projects={sortProjects(result.allProjects, "likes").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "likes" })}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "likes" })}
           />
           <DiscoverySection
             title="Mais comentados"
             projects={sortProjects(result.allProjects, "comments").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "comments" })}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "comments" })}
           />
           <DiscoverySection
             title="Recentemente atualizados"
             projects={sortProjects(result.allProjects, "updated").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "updated" })}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "updated" })}
           />
           <DiscoverySection
             title="Novos projetos"
             projects={sortProjects(result.allProjects, "recent").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filters, sort: "recent" })}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "recent" })}
           />
         </div>
       ) : null}
@@ -212,8 +240,8 @@ export async function ProjectDiscoveryPage({
             </p>
             <h2 className="mt-1 font-title text-2xl tracking-tight">
               {hasFilters
-                ? filters.q
-                  ? `Resultados para "${filters.q}"`
+                ? filtersValue.q
+                  ? `Resultados para "${filtersValue.q}"`
                   : "Resultados filtrados"
                 : result.projects.length
                   ? `${result.projects.length.toLocaleString("pt-BR")} projetos`
@@ -283,7 +311,7 @@ export async function ProjectDiscoveryPage({
                 size="sm"
                 disabled={pageData.page <= 1}
               >
-                <Link href={buildHref(basePath, filters, pageData.page - 1)}>Anterior</Link>
+                <Link href={buildHref(basePath, filtersValue, pageData.page - 1)}>Anterior</Link>
               </Button>
               {Array.from({ length: pageData.totalPages }, (_, index) => index + 1)
                 .slice(0, 5)
@@ -294,7 +322,7 @@ export async function ProjectDiscoveryPage({
                     size="sm"
                     variant={page === pageData.page ? "default" : "outline"}
                   >
-                    <Link href={buildHref(basePath, filters, page)}>{page}</Link>
+                    <Link href={buildHref(basePath, filtersValue, page)}>{page}</Link>
                   </Button>
                 ))}
               <Button
@@ -303,13 +331,45 @@ export async function ProjectDiscoveryPage({
                 size="sm"
                 disabled={pageData.page >= pageData.totalPages}
               >
-                <Link href={buildHref(basePath, filters, pageData.page + 1)}>Proxima</Link>
+                <Link href={buildHref(basePath, filtersValue, pageData.page + 1)}>Proxima</Link>
               </Button>
             </div>
           </Card>
         ) : null}
       </section>
       </div>
+    </>
+  );
+}
+
+export function ProjectDiscoveryPage({
+  basePath,
+  eyebrow,
+  title,
+  description,
+  filters,
+}: {
+  basePath: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  filters: Promise<{ filters: ProjectFiltersType; page: number }>;
+}) {
+  return (
+    <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-8 md:pb-12 md:pt-24">
+      <div className="flex flex-col gap-4 border-b border-border/55 pb-6 md:flex-row md:items-end md:justify-between md:gap-8 md:pb-8">
+        <div>
+          <p className="pg-eyebrow">{eyebrow}</p>
+          <h1 className="mt-3 font-title text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">{title}</h1>
+          <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-5 text-muted md:mt-3 md:line-clamp-none md:text-base">{description}</p>
+        </div>
+        <Button asChild size="sm" className="self-start md:h-10">
+          <Link href="/criar-projeto">Adicionar meu projeto</Link>
+        </Button>
+      </div>
+      <Suspense fallback={<DiscoveryFallback basePath={basePath} />}>
+        <ProjectDiscoveryResults basePath={basePath} filters={filters} />
+      </Suspense>
     </div>
   );
 }

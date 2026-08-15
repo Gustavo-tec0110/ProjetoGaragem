@@ -157,7 +157,7 @@ export function ProjectCard({
 
         <div className="col-span-full mt-4 hidden flex-wrap gap-2 md:flex">
           {project.tags.slice(0, 4).map((tag) => (
-            <Link key={tag} href={buildSearchHref(tag)}><Badge>{tag}</Badge></Link>
+            <Link key={tag} href={buildSearchHref(tag)} prefetch={false}><Badge>{tag}</Badge></Link>
           ))}
           {project.tags.length > 4 ? (
             <Badge variant="secondary"><TimerReset className="size-3" />+{project.tags.length - 4}</Badge>
