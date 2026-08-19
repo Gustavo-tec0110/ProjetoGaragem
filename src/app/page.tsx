@@ -71,33 +71,35 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
-        <section className="relative isolate min-h-[44rem] overflow-hidden border-b border-white/10 bg-black md:min-h-[calc(100svh-1rem)]">
-          <div className="absolute inset-0">
-            <Image
-              src="/ref/hero-garage-v2.webp"
-              alt="Carro esportivo preto preparado em uma garagem subterrânea"
-              fill
-              preload
-              fetchPriority="high"
-              sizes="100vw"
-              className="object-cover object-[67%_center] motion-safe:animate-[pg-hero-reveal_1.1s_var(--pg-ease-out)_both] md:object-[62%_center]"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.92)_78%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.93)_20%,rgba(5,6,7,.55)_43%,rgba(5,6,7,.08)_72%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.4)_0%,transparent_22%,transparent_70%,rgba(0,0,0,.75)_100%)]" />
-            <div className="absolute inset-0 opacity-[0.12] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
-          </div>
+        <section className="border-b border-white/10 bg-black">
+          <div className="relative isolate h-[40rem] overflow-hidden md:h-[650px]">
+            <div className="absolute inset-x-0 top-0 h-[23rem] md:inset-y-0 md:left-auto md:h-auto md:w-[min(100%,1672px)]">
+              <Image
+                src="/ref/hero-garage-v2.webp"
+                alt="Carro esportivo preto preparado em uma garagem subterrânea"
+                fill
+                preload
+                fetchPriority="high"
+                quality={85}
+                sizes="(min-width: 1672px) 1672px, 100vw"
+                className="object-cover object-[58%_center] md:object-center"
+              />
+            </div>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.94)_70%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.94)_20%,rgba(5,6,7,.56)_42%,rgba(5,6,7,.08)_72%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.4)_0%,transparent_22%,transparent_68%,rgba(0,0,0,.7)_100%)]" />
+            <div className="absolute inset-0 opacity-[0.1] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
 
-          <Suspense fallback={null}>
-            <FeaturedProjectNote />
-          </Suspense>
+            <Suspense fallback={null}>
+              <FeaturedProjectNote />
+            </Suspense>
 
-          <div className="relative mx-auto flex min-h-[44rem] w-full max-w-[90rem] items-end px-4 pb-9 pt-28 sm:px-6 md:min-h-[calc(100svh-1rem)] md:items-center md:pb-28 md:pt-32 lg:px-12">
-            <div className="w-full max-w-[39rem] motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
+            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-end px-4 pb-7 pt-24 sm:px-6 md:items-start md:pb-6 md:pt-24 lg:px-12">
+              <div className="w-full max-w-[34rem] motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
               <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
                 <span className="h-4 w-px bg-accent" aria-hidden="true" />
                 Bem-vindo ao Projeto Garagem
               </div>
-              <h1 className="mt-5 max-w-[9ch] font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.89] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem] sm:text-6xl md:mt-7 md:text-[5.2rem] lg:text-[5.7rem]">
+              <h1 className="mt-5 max-w-[9ch] font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.89] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem] sm:text-6xl md:mt-7 md:text-[4.35rem] lg:text-[4.75rem]">
                 Sua garagem. Seu projeto.
               </h1>
               <p className="mt-5 max-w-md text-sm leading-6 text-white/65 sm:text-base md:mt-7 md:text-lg md:leading-7">
@@ -128,10 +130,11 @@ export default function Home() {
                 <span className="size-0.5 rounded-full bg-accent" />
                 <span>Builds reais</span>
               </div>
+              </div>
             </div>
           </div>
 
-          <div className="relative mx-auto grid w-[calc(100%-2rem)] max-w-[86rem] grid-cols-2 border border-white/10 bg-[#0b0d0f]/95 shadow-2xl sm:w-[calc(100%-3rem)] md:absolute md:inset-x-0 md:bottom-0 md:grid-cols-4 md:translate-y-1/2 md:bg-[#0b0d0f]/92 md:backdrop-blur-xl">
+          <div className="mx-auto grid w-full max-w-[86rem] grid-cols-2 border-x border-white/10 bg-[#0b0d0f]/95 shadow-2xl md:grid-cols-4 md:backdrop-blur-xl">
             {features.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -156,7 +159,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-b border-border/45 bg-background-2/45 px-4 pt-12 sm:px-6 md:pt-28">
+        <section className="border-b border-border/45 bg-background-2/45 px-4 sm:px-6">
           <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
             <div className="mb-6 flex items-end justify-between gap-3 md:mb-8">
               <div>

@@ -174,7 +174,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos")
   ).toHaveValue("turbo");
 
-  let selectedBrand = "";
+  let selectedBrand: string;
   if (mobile) {
     await expect(page.getByLabel("Ordenação mobile")).toHaveValue("likes");
     await page.getByRole("heading", { name: "Explorar projetos" }).click();
