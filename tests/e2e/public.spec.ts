@@ -11,10 +11,10 @@ test("home carrega, expoe links importantes e navega em desktop e mobile", async
   expect(response?.status()).toBe(200);
   const mobile = isMobileProject(testInfo.project.name);
   await expect(
-    page.getByRole("heading", { name: "Seu projeto merece mais do que um feed." })
+    page.getByRole("heading", { name: "Sua garagem. Seu projeto." })
   ).toBeVisible();
 
-  await expect(page.getByRole("link", { name: "Criar minha garagem", exact: true })).toHaveAttribute(
+  await expect(page.locator("main").getByRole("link", { name: "Criar projeto", exact: true })).toHaveAttribute(
     "href",
     "/criar-projeto"
   );

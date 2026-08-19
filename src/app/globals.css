@@ -89,6 +89,28 @@
       background-position: 160% 0;
     }
   }
+
+  @keyframes pg-hero-reveal {
+    from {
+      opacity: 0;
+      transform: scale(1.025);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pg-content-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @layer base {

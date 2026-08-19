@@ -1,15 +1,48 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowUpRight, Camera, Search, Share2, Wrench } from "lucide-react";
+import { ArrowRight, Camera, Share2, Trophy, Warehouse, Wrench } from "lucide-react";
 
 import { ProjectGrid } from "@/components/projects/project-grid";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SkeletonProjectGrid } from "@/components/ui/page-skeletons";
 import { getFeaturedProjects } from "@/lib/projects/server";
+import { buildProjectHref } from "@/lib/projects/utils";
 
 export const revalidate = 60;
+
+async function FeaturedProjectNote() {
+  const [project] = await getFeaturedProjects(1, "likes");
+
+  if (!project) return null;
+
+  const specs = [
+    project.year ? String(project.year) : null,
+    project.powerCv ? `${project.powerCv} cv` : null,
+    project.ownerName || null,
+  ].filter(Boolean);
+
+  return (
+    <Link
+      href={buildProjectHref(project.slug)}
+      className="group absolute right-4 top-24 z-20 hidden w-64 border-l border-white/20 pl-4 transition-colors hover:border-accent sm:block lg:right-8 lg:top-28"
+      aria-label={`Ver projeto em destaque: ${project.title}`}
+    >
+      <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+        <span className="text-accent">01</span> / Projeto em destaque
+      </p>
+      <p className="mt-2 font-title text-sm font-bold uppercase tracking-[0.04em] text-white transition-colors group-hover:text-accent">
+        {project.title}
+      </p>
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-ui text-[10px] uppercase tracking-[0.1em] text-white/55">
+        {specs.map((spec) => (
+          <span key={spec}>{spec}</span>
+        ))}
+      </div>
+    </Link>
+  );
+}
 
 async function FeaturedProjectsSection() {
   const projects = await getFeaturedProjects(6, "likes");
@@ -27,96 +60,110 @@ function FeaturedProjectsFallback() {
   return <SkeletonProjectGrid count={3} />;
 }
 
-export default function Home() {
+const features = [
+  { title: "Sua garagem", text: "Organize seus projetos.", icon: Warehouse },
+  { title: "Registre tudo", text: "Documente cada evolução.", icon: Wrench },
+  { title: "Compartilhe", text: "Mostre sua build.", icon: Camera },
+  { title: "Rankings", text: "Compare e participe.", icon: Trophy },
+] as const;
 
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
-        <section className="relative min-h-[40rem] overflow-hidden border-b border-border/50 px-4 sm:px-6 md:min-h-[88svh]">
+        <section className="relative isolate min-h-[44rem] overflow-hidden border-b border-white/10 bg-black md:min-h-[calc(100svh-1rem)]">
           <div className="absolute inset-0">
             <Image
-              src="/ref/hero-car.jpg"
-              alt=""
+              src="/ref/hero-garage-v2.webp"
+              alt="Carro esportivo preto preparado em uma garagem subterrânea"
               fill
-              priority
-              loading="eager"
-              className="object-cover object-[68%_center] opacity-70"
+              preload
+              fetchPriority="high"
+              sizes="100vw"
+              className="object-cover object-[67%_center] motion-safe:animate-[pg-hero-reveal_1.1s_var(--pg-ease-out)_both] md:object-[62%_center]"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/15" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/35" />
-            <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] [background-size:72px_72px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.92)_78%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.93)_20%,rgba(5,6,7,.55)_43%,rgba(5,6,7,.08)_72%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.4)_0%,transparent_22%,transparent_70%,rgba(0,0,0,.75)_100%)]" />
+            <div className="absolute inset-0 opacity-[0.12] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
           </div>
 
-          <div className="relative mx-auto flex min-h-[40rem] w-full max-w-6xl flex-col justify-end pb-8 pt-28 md:min-h-[88svh] md:pb-12">
-            <div className="max-w-[52rem]">
-              <p className="pg-eyebrow">A cultura automotiva, projeto por projeto</p>
-              <h1 className="mt-4 font-title text-[2.55rem] leading-[0.98] tracking-[-0.045em] sm:text-5xl md:text-[4.75rem] md:leading-[0.96]">
-                Seu projeto merece mais do que um feed.
+          <Suspense fallback={null}>
+            <FeaturedProjectNote />
+          </Suspense>
+
+          <div className="relative mx-auto flex min-h-[44rem] w-full max-w-[90rem] items-end px-4 pb-9 pt-28 sm:px-6 md:min-h-[calc(100svh-1rem)] md:items-center md:pb-28 md:pt-32 lg:px-12">
+            <div className="w-full max-w-[39rem] motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
+              <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
+                <span className="h-4 w-px bg-accent" aria-hidden="true" />
+                Bem-vindo ao Projeto Garagem
+              </div>
+              <h1 className="mt-5 max-w-[9ch] font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.89] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem] sm:text-6xl md:mt-7 md:text-[5.2rem] lg:text-[5.7rem]">
+                Sua garagem. Seu projeto.
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-foreground/70 md:text-lg">
-                Documente peças, acertos, custos e evolução em uma ficha feita para carros.
-                Descubra builds reais e acompanhe cada nova fase da comunidade.
+              <p className="mt-5 max-w-md text-sm leading-6 text-white/65 sm:text-base md:mt-7 md:text-lg md:leading-7">
+                Monte, documente e compartilhe seu carro com quem vive a mesma paixão.
               </p>
-              <div className="mt-7 flex flex-col gap-2 sm:flex-row md:mt-9 md:gap-3">
-                <Button asChild size="lg" className="w-full sm:w-auto">
+
+              <div className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row md:mt-8 md:gap-3">
+                <Button asChild size="lg" className="h-12 w-full rounded-sm uppercase sm:w-auto md:h-13">
                   <Link href="/criar-projeto">
-                    Criar minha garagem
-                    <ArrowUpRight className="size-4" />
+                    Criar projeto
+                    <ArrowRight className="size-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="w-full border-foreground/15 bg-black/25 sm:w-auto">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-12 w-full rounded-sm border-white/15 bg-black/25 uppercase backdrop-blur-sm sm:w-auto md:h-13"
+                >
                   <Link href="/explorar">Explorar projetos</Link>
                 </Button>
               </div>
-            </div>
 
-            <div className="mt-10 grid grid-cols-3 gap-0 border-y border-white/10 py-4 md:mt-12 md:max-w-2xl md:py-5">
-              {[
-                ["Ficha completa", "Specs e peças"],
-                ["Evolução real", "Timeline do build"],
-                ["Comunidade", "Referências reais"],
-              ].map(([title, text], index) => (
-                <div key={title} className={index ? "border-l border-white/10 pl-3 md:pl-5" : "pr-3 md:pr-5"}>
-                  <p className="font-ui text-[11px] font-semibold text-foreground md:text-sm">{title}</p>
-                  <p className="mt-1 hidden text-xs text-muted sm:block">{text}</p>
-                </div>
-              ))}
+              <div className="mt-6 flex items-center gap-3 font-ui text-[9px] font-semibold uppercase tracking-[0.13em] text-white/38 md:mt-8 md:text-[10px]">
+                <span>Projetos</span>
+                <span className="size-0.5 rounded-full bg-accent" />
+                <span>Comunidade</span>
+                <span className="size-0.5 rounded-full bg-accent" />
+                <span>Builds reais</span>
+              </div>
             </div>
           </div>
-        </section>
 
-        <section className="px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
-            <div className="max-w-2xl">
-              <p className="pg-eyebrow">Feito para o processo inteiro</p>
-              <h2 className="mt-3 font-title text-3xl tracking-tight md:text-4xl">Da primeira peça ao acerto final.</h2>
-            </div>
-            <div className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2 md:mt-10 lg:grid-cols-4">
-            {[
-              { title: "Apresente o build", text: "Uma página pública com identidade, fotos e ficha técnica.", icon: Camera },
-              { title: "Organize cada etapa", text: "Peças instaladas, planos e evolução no mesmo lugar.", icon: Wrench },
-              { title: "Compartilhe com presença", text: "Um link direto para mostrar o projeto completo.", icon: Share2 },
-              { title: "Encontre referências", text: "Busque por modelo, preparação, estilo e especificação.", icon: Search },
-            ].map((item) => {
+          <div className="relative mx-auto grid w-[calc(100%-2rem)] max-w-[86rem] grid-cols-2 border border-white/10 bg-[#0b0d0f]/95 shadow-2xl sm:w-[calc(100%-3rem)] md:absolute md:inset-x-0 md:bottom-0 md:grid-cols-4 md:translate-y-1/2 md:bg-[#0b0d0f]/92 md:backdrop-blur-xl">
+            {features.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="pg-section-rule pt-5">
-                  <Icon className="size-5 text-accent" />
-                  <h3 className="mt-5 font-title text-lg tracking-tight">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted">{item.text}</p>
+                <div
+                  key={item.title}
+                  className={`flex min-h-24 items-center gap-3 p-4 md:min-h-28 md:px-6 ${
+                    index % 2 ? "border-l border-white/8" : ""
+                  } ${index > 1 ? "border-t border-white/8 md:border-t-0" : ""} ${
+                    index > 0 ? "md:border-l md:border-white/8" : ""
+                  }`}
+                >
+                  <Icon className="size-6 shrink-0 stroke-[1.4] text-accent md:size-7" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <h2 className="font-ui text-[10px] font-bold uppercase tracking-[0.04em] text-white md:text-xs">
+                      {item.title}
+                    </h2>
+                    <p className="mt-1 text-[10px] leading-4 text-white/42 md:text-xs">{item.text}</p>
+                  </div>
                 </div>
               );
             })}
-            </div>
           </div>
         </section>
 
-        <section className="border-y border-border/45 bg-background-2/45 px-4 sm:px-6">
+        <section className="border-b border-border/45 bg-background-2/45 px-4 pt-12 sm:px-6 md:pt-28">
           <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
             <div className="mb-6 flex items-end justify-between gap-3 md:mb-8">
               <div>
                 <p className="pg-eyebrow">Seleção da comunidade</p>
-                <h2 className="mt-3 font-title text-3xl leading-tight tracking-tight md:text-4xl">Garagens que merecem atenção</h2>
+                <h2 className="mt-3 font-title text-3xl leading-tight tracking-tight md:text-4xl">
+                  Garagens que merecem atenção
+                </h2>
               </div>
               <Button asChild variant="outline" size="sm" className="shrink-0 md:h-10 md:px-4">
                 <Link href="/explorar">Ver catálogo</Link>
@@ -143,7 +190,10 @@ export default function Home() {
                   </p>
                 </div>
                 <Button asChild size="lg" className="min-h-11 md:min-h-12">
-                  <Link href="/criar-projeto">Adicionar meu projeto</Link>
+                  <Link href="/criar-projeto">
+                    Adicionar meu projeto
+                    <Share2 className="size-4" />
+                  </Link>
                 </Button>
               </div>
             </Card>
