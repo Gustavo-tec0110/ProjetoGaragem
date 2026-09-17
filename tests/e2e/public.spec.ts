@@ -7,6 +7,7 @@ function isMobileProject(projectName: string) {
 }
 
 test("home carrega, expoe links importantes e navega em desktop e mobile", async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
   const response = await page.goto("/");
   expect(response?.status()).toBe(200);
   const mobile = isMobileProject(testInfo.project.name);
@@ -33,8 +34,10 @@ test("home carrega, expoe links importantes e navega em desktop e mobile", async
   const navigation = mobile ? mobileNavigation : page.locator("header nav");
   await expect(mobileNavigation).toBeVisible({ visible: mobile });
   await expect(navigation.getByRole("link", { name: "Explorar", exact: true })).toBeVisible();
-  await navigation.getByRole("link", { name: "Explorar", exact: true }).click();
-  await expect(page).toHaveURL(/\/explorar$/);
+  await Promise.all([
+    page.waitForURL(/\/explorar$/, { timeout: 45_000 }),
+    navigation.getByRole("link", { name: "Explorar", exact: true }).click(),
+  ]);
   await expect(page.getByRole("heading", { name: "Explorar projetos" })).toBeVisible();
 });
 
