@@ -29,6 +29,12 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+      options: --user 1001
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
     steps:
       - name: Baixar o código
         uses: actions/checkout@v6
@@ -39,7 +45,5 @@ jobs:
           cache: npm
       - name: Instalar dependências
         run: npm ci
-      - name: Instalar navegador de teste
-        run: npx playwright install --with-deps chromium
       - name: Executar testes públicos
         run: npm run test:e2e
