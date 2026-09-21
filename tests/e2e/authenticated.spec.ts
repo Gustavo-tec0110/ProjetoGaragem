@@ -177,6 +177,9 @@ test.describe("fluxos autenticados Supabase", () => {
     await page.getByRole("button", { name: /Curtir \(/ }).first().click();
     await page.goto("/notificacoes");
     await expect(page.getByText(/voce curtiu|você curtiu/i)).toHaveCount(0);
+    await page.goto(`/projeto/${projectSlug}`);
+    await page.getByRole("button", { name: /Curtido \(/ }).first().click();
+    await expect(page.getByRole("button", { name: /Curtir \(/ }).first()).toBeVisible();
 
     await page.goto(`/projeto/${projectSlug}/editar`);
     await page.getByRole("button", { name: /Adicionar atualiza/i }).click();
@@ -194,11 +197,11 @@ test.describe("fluxos autenticados Supabase", () => {
     });
     await page.reload();
 
-    const currentProject = page.getByLabel("Meu projeto atual");
-    const inspiration = page.getByLabel("Build inspiracao");
+    const currentProject = page.getByLabel("Meu projeto atual").last();
+    const inspiration = page.getByLabel("Build inspiracao").last();
     await expect(currentProject).toHaveValue(projectSlug);
     await expect(inspiration).toHaveValue("");
-    await expect(page.getByText("Nenhuma inspiracao selecionada").first()).toBeVisible();
+    await expect(inspiration.locator('option[value=""]')).toHaveText("Nenhuma inspiracao selecionada");
     const inspirationLabels = await inspiration.locator("option").allTextContents();
     expect(inspirationLabels).not.toContain(projectTitle);
     const inspirationSlug = await inspiration.evaluate((select: HTMLSelectElement) =>
@@ -220,8 +223,8 @@ test.describe("fluxos autenticados Supabase", () => {
       );
     }, plannerStorageKey);
     await page.reload();
-    await expect(page.getByLabel("Meu projeto atual")).toHaveValue(projectSlug);
-    await expect(page.getByLabel("Build inspiracao")).toHaveValue("");
+    await expect(page.getByLabel("Meu projeto atual").last()).toHaveValue(projectSlug);
+    await expect(page.getByLabel("Build inspiracao").last()).toHaveValue("");
 
     await logout(page);
   });

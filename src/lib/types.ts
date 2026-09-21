@@ -466,9 +466,26 @@ export interface Database {
       public_profiles: Table<PublicProfileRow, never, never>;
     };
     Functions: {
+      save_car_project_atomic: {
+        Args: {
+          p_car_id: string | null;
+          p_car: Json;
+          p_photos: Json;
+          p_parts: Json;
+          p_updates: Json;
+          p_expenses: Json;
+        };
+        Returns: Array<{
+          id: string;
+          slug: string;
+          name: string;
+          main_photo_url: string | null;
+          photo_urls: string[];
+        }>;
+      };
       increment_car_view: {
         Args: { target_car_id: string };
-        Returns: number;
+        Returns: Array<{ incremented: boolean; views_count: number | null }>;
       };
       search_car_projects: {
         Args: {

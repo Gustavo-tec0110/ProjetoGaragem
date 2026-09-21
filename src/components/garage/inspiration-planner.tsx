@@ -308,12 +308,13 @@ export function InspirationPlanner({
           <select
             ref={referenceSelectRef}
             value={normalizedPlannerState.referenceSlug}
-            onChange={(event) =>
+            onChange={(event) => {
+              const referenceSlug = event.currentTarget.value;
               setPlannerState((current) => ({
                 ...current,
-                referenceSlug: event.target.value,
-              }))
-            }
+                referenceSlug,
+              }));
+            }}
             className="pg-control h-12 rounded-3xl px-4 text-sm"
           >
             <option value="">Nenhuma inspiracao selecionada</option>

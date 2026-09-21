@@ -41,6 +41,9 @@ export const configuredSiteUrl = getConfiguredSiteUrl();
 export function getRequestSiteUrl(requestOrigin?: string) {
   if (process.env.NODE_ENV === "production") return DEFAULT_SITE_URL;
 
+  const envSiteUrl = toBaseUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  if (envSiteUrl) return envSiteUrl;
+
   const origin = toBaseUrl(requestOrigin);
   return origin || configuredSiteUrl;
 }

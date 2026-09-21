@@ -53,11 +53,10 @@ export async function login(page: Page, next = "/garagem", account: E2EAccount =
 
 export async function logout(page: Page) {
   await page.goto("/");
-  const profileMenu = page.getByRole("button", { name: /Abrir menu do perfil/i });
-  if (await profileMenu.count()) {
-    await profileMenu.first().click();
-  }
-  await page.getByRole("button", { name: /^Sair$/ }).first().click();
+  const profileMenu = page.locator('button[aria-label="Abrir menu do perfil"]:visible');
+  await expect(profileMenu).toBeVisible();
+  await profileMenu.click();
+  await page.getByText("Sair", { exact: true }).click();
   await expect(page.getByRole("link", { name: /^Entrar$/ }).first()).toBeVisible();
   await clearAuthState(page);
 }

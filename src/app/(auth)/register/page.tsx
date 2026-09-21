@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
@@ -11,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const { signUpWithEmail } = useAuth();
 
   const [fullName, setFullName] = useState("");
@@ -35,16 +33,28 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
-    const { error: signUpError } = await signUpWithEmail(email, password, fullName);
-    setLoading(false);
+    const { error: signUpError, hasSession } = await signUpWithEmail(email, password, fullName);
 
     if (signUpError) {
+      setLoading(false);
       setError(signUpError.message ?? "Erro ao cadastrar.");
       return;
     }
 
+    if (hasSession) {
+      const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
+      const session = (await sessionResponse.json()) as { authenticated?: boolean };
+      if (!sessionResponse.ok || !session.authenticated) {
+        setLoading(false);
+        setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+        return;
+      }
+      window.location.assign("/onboarding");
+      return;
+    }
+
+    setLoading(false);
     setSuccess(true);
-    router.push("/onboarding");
   };
 
   return (

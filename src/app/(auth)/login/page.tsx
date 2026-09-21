@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
@@ -12,7 +11,6 @@ import { useAuth } from "@/components/AuthProvider";
 import { getSafeNextPath } from "@/lib/auth/redirect";
 
 export default function LoginPage() {
-  const router = useRouter();
   const { signInWithEmail } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,15 +23,23 @@ export default function LoginPage() {
     setError("");
 
     const { error: signInError } = await signInWithEmail(email, password);
-    setLoading(false);
 
     if (signInError) {
+      setLoading(false);
       setError("Email ou senha incorretos.");
       return;
     }
 
+    const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
+    const session = (await sessionResponse.json()) as { authenticated?: boolean };
+    if (!sessionResponse.ok || !session.authenticated) {
+      setLoading(false);
+      setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+      return;
+    }
+
     const nextPath = new URLSearchParams(window.location.search).get("next");
-    router.push(getSafeNextPath(nextPath));
+    window.location.assign(getSafeNextPath(nextPath));
   };
 
   return (

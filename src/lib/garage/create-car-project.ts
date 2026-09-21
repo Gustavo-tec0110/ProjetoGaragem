@@ -491,36 +491,17 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   };
 }
 
-async function replacePhotos(
-  supabase: ServerSupabaseClient,
-  carId: string,
-  mainPhotoUrl: string | null,
-  photoUrls: string[]
-) {
-  const { error: deleteError } = await supabase.from("car_photos").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  const urls = Array.from(new Set([mainPhotoUrl, ...photoUrls].filter((url): url is string => Boolean(url))));
-  if (!urls.length) return null;
-
-  const { error } = await supabase.from("car_photos").insert(
-    urls.map((url, index) => ({
-      car_id: carId,
-      url,
-      sort_order: index,
-      alt: index === 0 ? "Foto principal do carro" : "Foto do projeto",
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceParts(supabase: ServerSupabaseClient, carId: string, parts: PartInput[]) {
-  const { error: deleteError } = await supabase.from("car_parts").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!parts.length) return null;
-
-  const { error } = await supabase.from("car_parts").insert(
-    parts.map((part) => ({
-      car_id: carId,
+function buildRelatedPayload(formData: FormData) {
+  const mainPhotoUrl = nullableText(formData, "main_photo_url");
+  const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
+  const photos = Array.from(
+    new Set([mainPhotoUrl, ...photoUrls].filter((url): url is string => Boolean(url)))
+  ).map((url, index) => ({
+    url,
+    sort_order: index,
+    alt: index === 0 ? "Foto principal do carro" : "Foto do projeto",
+  }));
+  const parts = parseParts(text(formData, "parts_json")).map((part) => ({
       name: part.name,
       category: part.category || "Outros",
       brand: part.brand || null,
@@ -534,19 +515,8 @@ async function replaceParts(supabase: ServerSupabaseClient, carId: string, parts
       product_id: part.product_id || null,
       installed_at: part.installed_at || null,
       image_url: part.image_url || null,
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceUpdates(supabase: ServerSupabaseClient, carId: string, updates: UpdateInput[]) {
-  const { error: deleteError } = await supabase.from("car_build_updates").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!updates.length) return null;
-
-  const { error } = await supabase.from("car_build_updates").insert(
-    updates.map((update) => ({
-      car_id: carId,
+    }));
+  const updates = parseUpdates(text(formData, "updates_json")).map((update) => ({
       title: update.title,
       description: update.description || null,
       photo_url: update.photo_url || null,
@@ -556,19 +526,8 @@ async function replaceUpdates(supabase: ServerSupabaseClient, carId: string, upd
       category: update.category || "outro",
       happened_at: update.happened_at,
       amount_spent: update.amount_spent ?? null,
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceExpenses(supabase: ServerSupabaseClient, carId: string, expenses: ExpenseInput[]) {
-  const { error: deleteError } = await supabase.from("car_expenses").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!expenses.length) return null;
-
-  const { error } = await supabase.from("car_expenses").insert(
-    expenses.map((expense) => ({
-      car_id: carId,
+    }));
+  const expenses = parseExpenses(text(formData, "expenses_json")).map((expense) => ({
       name: expense.name,
       category: expense.category || "Outros",
       amount: Math.max(0, expense.amount),
@@ -576,9 +535,9 @@ async function replaceExpenses(supabase: ServerSupabaseClient, carId: string, ex
       note: expense.note || null,
       part_name: expense.part_name || null,
       is_public: expense.is_public !== false,
-    }))
-  );
-  return error?.message ?? null;
+    }));
+
+  return { photos, parts, updates, expenses };
 }
 
 export function revalidateProjectCreationPaths() {
@@ -616,35 +575,24 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
 
     const slug = await uniqueCarSlug(auth.supabase, normalizeSlug(`${name}-${brand}-${model}-${year}`));
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const { data: car, error } = await auth.supabase
-      .from("cars")
-      .insert(payload)
-      .select("id, slug, main_photo_url, photo_urls")
-      .maybeSingle();
+    const related = buildRelatedPayload(formData);
+    const { data, error } = await auth.supabase.rpc("save_car_project_atomic", {
+      p_car_id: null,
+      p_car: payload,
+      p_photos: related.photos,
+      p_parts: related.parts,
+      p_updates: related.updates,
+      p_expenses: related.expenses,
+    });
+    const car = data?.[0];
 
     if (error || !car) {
-      logProjectCreationError("insert cars", error ?? "Insert em cars nao retornou linha.");
+      logProjectCreationError("save_car_project_atomic", error ?? "RPC nao retornou o projeto criado.");
       return {
         ok: false,
         status: 400,
         message: projectCreationErrorMessage(error, "Nao foi possivel criar o carro."),
       };
-    }
-
-    const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
-    const parts = parseParts(text(formData, "parts_json"));
-    const updates = parseUpdates(text(formData, "updates_json"));
-    const expenses = parseExpenses(text(formData, "expenses_json"));
-    const relatedResults = await Promise.all([
-      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
-      replaceParts(auth.supabase, car.id, parts),
-      replaceUpdates(auth.supabase, car.id, updates),
-      replaceExpenses(auth.supabase, car.id, expenses),
-    ]);
-    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
-
-    if (relatedError) {
-      serverLog.error("project-create.related-data", { error: relatedError });
     }
 
     return {
@@ -716,13 +664,16 @@ export async function updateCarProject(
         .eq("car_id", carId),
     ]);
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const { data: car, error } = await auth.supabase
-      .from("cars")
-      .update(payload)
-      .eq("id", carId)
-      .eq("owner_id", auth.user.id)
-      .select("id, slug, name, main_photo_url")
-      .maybeSingle();
+    const related = buildRelatedPayload(formData);
+    const { data, error } = await auth.supabase.rpc("save_car_project_atomic", {
+      p_car_id: carId,
+      p_car: payload,
+      p_photos: related.photos,
+      p_parts: related.parts,
+      p_updates: related.updates,
+      p_expenses: related.expenses,
+    });
+    const car = data?.[0];
 
     if (error || !car) {
       return {
@@ -732,31 +683,12 @@ export async function updateCarProject(
       };
     }
 
-    const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
-    const parts = parseParts(text(formData, "parts_json"));
     const updates = parseUpdates(text(formData, "updates_json"));
-    const expenses = parseExpenses(text(formData, "expenses_json"));
     const previousUpdateKeys = new Set(
       ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
         (update) => `${update.title.trim()}|${update.happened_at}`
       )
     );
-
-    const relatedResults = await Promise.all([
-      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
-      replaceParts(auth.supabase, car.id, parts),
-      replaceUpdates(auth.supabase, car.id, updates),
-      replaceExpenses(auth.supabase, car.id, expenses),
-    ]);
-    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
-
-    if (relatedError) {
-      return {
-        ok: false,
-        status: 400,
-        message: `Ficha salva, mas houve erro ao atualizar detalhes: ${relatedError}`,
-      };
-    }
 
     const newUpdate = updates.find(
       (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)

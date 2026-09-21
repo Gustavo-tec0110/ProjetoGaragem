@@ -44,7 +44,7 @@ export function formatNumber(value: number | null | undefined, suffix = "") {
 
 export function formatProjectDate(value: string | null | undefined) {
   if (!value) return "Não informado";
-  return new Date(value).toLocaleDateString("pt-BR");
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(new Date(value));
 }
 
 function normalizeProjectStatus(value: string | null | undefined): ProjectStatus {
@@ -413,6 +413,8 @@ export function enrichProject(project: ProjectSeed): Project {
     ownerInstagram: project.ownerInstagram ?? null,
     specConfidencePercent: project.specConfidencePercent ?? null,
     currentInduction: project.currentInduction ?? null,
+    fuelType: project.fuelType ?? null,
+    drivetrain: project.drivetrain ?? null,
     factoryEngine: project.factoryEngine ?? null,
     factoryInduction: project.factoryInduction ?? null,
     factoryPowerCv: project.factoryPowerCv ?? null,
@@ -427,7 +429,8 @@ export function enrichProject(project: ProjectSeed): Project {
 export function uniqueProjects(projects: Project[]) {
   const map = new Map<string, Project>();
   for (const project of projects) {
-    map.set(project.slug, project);
+    const identity = `${project.source}:${project.databaseId ?? project.id}`;
+    map.set(identity, project);
   }
   return Array.from(map.values());
 }
@@ -453,7 +456,10 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
     const matchesBrand = !brandTerm || normalizeSearchText(project.brand).includes(brandTerm);
     const matchesModel = !modelTerm || normalizeSearchText(project.model).includes(modelTerm);
     const matchesYear = !yearTerm || String(project.year).includes(yearTerm);
-    const matchesFuel = !fuelTerm || project.tags.some((tag) => normalizeSearchText(tag).includes(fuelTerm));
+    const matchesFuel =
+      !fuelTerm ||
+      normalizeSearchText(project.fuelType).includes(fuelTerm) ||
+      project.tags.some((tag) => normalizeSearchText(tag).includes(fuelTerm));
     const matchesInduction =
       !inductionTerm ||
       normalizeSearchText(project.currentInduction).includes(inductionTerm) ||
@@ -461,6 +467,7 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
       project.tags.some((tag) => normalizeSearchText(tag).includes(inductionTerm));
     const matchesDrivetrain =
       !drivetrainTerm ||
+      normalizeSearchText(project.drivetrain).includes(drivetrainTerm) ||
       normalizeSearchText(project.factoryDrivetrain).includes(drivetrainTerm) ||
       project.tags.some((tag) => normalizeSearchText(tag).includes(drivetrainTerm));
     const matchesCategory =
@@ -567,35 +574,77 @@ export function getAvailableYears(projects: Project[]) {
 }
 
 export function getAvailableFuels(projects: Project[]) {
-  return uniqueStrings(
+  return canonicalFacets(
     projects.flatMap((project) =>
-      project.tags
-        .map((tag) => tag.replace(/^#+/, ""))
-        .filter((tag) => /alcool|etanol|flex|gasolina|diesel|gnv|eletrico|hibrido/i.test(tag))
-    )
-  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+      normalizeFuelFacet(project.fuelType) ? [project.fuelType] : project.tags
+    ),
+    normalizeFuelFacet
+  );
+}
+
+export function selectProjectCatalog(realProjects: Project[], demoProjects: Project[]) {
+  return uniqueProjects(realProjects.length > 0 ? realProjects : demoProjects);
 }
 
 export function getAvailableInductions(projects: Project[]) {
-  return uniqueStrings(
-    projects.flatMap((project) => [
-      project.currentInduction,
-      project.factoryInduction,
-      project.engine.toLowerCase().includes("turbo") ? "Turbo" : null,
-      project.engine.toLowerCase().includes("aspir") ? "Aspirado" : null,
-    ])
-  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+  return canonicalFacets(
+    projects.flatMap((project) => {
+      if (normalizeInductionFacet(project.currentInduction)) return [project.currentInduction];
+      if (normalizeInductionFacet(project.factoryInduction)) return [project.factoryInduction];
+      return [project.engine];
+    }),
+    normalizeInductionFacet
+  );
 }
 
 export function getAvailableDrivetrains(projects: Project[]) {
-  return uniqueStrings(
-    projects.flatMap((project) => [
-      project.factoryDrivetrain,
-      ...project.tags
-        .map((tag) => tag.replace(/^#+/, ""))
-        .filter((tag) => /4x4|awd|fwd|rwd|tracao|dianteira|traseira|integral/i.test(tag)),
-    ])
-  ).sort((left, right) => left.localeCompare(right, "pt-BR"));
+  return canonicalFacets(
+    projects.flatMap((project) => {
+      if (normalizeDrivetrainFacet(project.drivetrain)) return [project.drivetrain];
+      if (normalizeDrivetrainFacet(project.factoryDrivetrain)) return [project.factoryDrivetrain];
+      return project.tags;
+    }),
+    normalizeDrivetrainFacet
+  );
+}
+
+function canonicalFacets(
+  values: Array<string | null | undefined>,
+  normalize: (value: string | null | undefined) => string | null
+) {
+  return uniqueStrings(values.map(normalize)).sort((left, right) => left.localeCompare(right, "pt-BR"));
+}
+
+export function normalizeFuelFacet(value: string | null | undefined) {
+  const normalized = normalizeSearchText(value);
+  if (!normalized) return null;
+  if (normalized.includes("hibrid")) return "Híbrido";
+  if (normalized.includes("eletric")) return "Elétrico";
+  if (normalized.includes("flex") || (normalized.includes("gasolina") && /etanol|alcool/.test(normalized))) return "Flex";
+  if (normalized.includes("diesel")) return "Diesel";
+  if (normalized.includes("gnv") || normalized.includes("gas natural")) return "GNV";
+  if (normalized.includes("etanol") || normalized.includes("alcool")) return "Etanol";
+  if (normalized.includes("gasolina")) return "Gasolina";
+  return null;
+}
+
+export function normalizeInductionFacet(value: string | null | undefined) {
+  const normalized = normalizeSearchText(value);
+  if (!normalized) return null;
+  if (/supercharger|compressor mecanico/.test(normalized)) return "Supercharger";
+  if (/turbo|biturbo|twin turbo/.test(normalized)) return "Turbo";
+  if (/aspirad|carburad|injecao/.test(normalized)) return "Aspirado";
+  return null;
+}
+
+export function normalizeDrivetrainFacet(value: string | null | undefined) {
+  const normalized = normalizeSearchText(value);
+  if (!normalized) return null;
+  if (/\b4x4\b/.test(normalized)) return "4x4";
+  if (/\bawd\b|integral/.test(normalized)) return "AWD";
+  if (/\bfwd\b|dianteir/.test(normalized)) return "FWD";
+  if (/\brwd\b|traseir/.test(normalized)) return "RWD";
+  return null;
 }
 
 export function createShortDescription(description: string, fallback: string) {

@@ -4,7 +4,6 @@ import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";
@@ -554,34 +553,6 @@ export async function toggleProjectFollowAction(carId: string) {
     notificationBody: "Alguém começou a acompanhar este projeto.",
     ownerActionMessage: "Você já é dono deste projeto.",
   });
-}
-
-export async function incrementViewAction(carId: string) {
-  const supabase = await getSupabaseServerClient();
-  if (!supabase) return { ok: false };
-
-  const { data, error } = await supabase.rpc("increment_car_view", {
-    target_car_id: carId,
-  });
-
-  if (error) {
-    logSupabaseActionError("increment_car_view.rpc", { carId }, error);
-    return { ok: false, message: formatSupabaseActionError("increment_car_view.rpc", error) };
-  }
-
-  if (!data) {
-    const message = "increment_car_view.rpc falhou: nenhuma linha publica foi atualizada.";
-    serverLog.error("social-action.verify", {
-      action: "increment_car_view.rpc",
-      carId,
-      message,
-    });
-    return { ok: false, message };
-  }
-
-  const counts = await readCarSocialCounts(supabase, carId);
-
-  return { ok: true, ...counts };
 }
 
 export async function createCommentAction(

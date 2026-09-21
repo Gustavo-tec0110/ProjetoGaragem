@@ -26,6 +26,7 @@ import {
   normalizeSearchText,
   normalizeProjectFilters,
   sortProjects,
+  selectProjectCatalog,
   uniqueProjects,
 } from "@/lib/projects/utils";
 import { createSeoMetadata } from "@/lib/seo";
@@ -95,17 +96,17 @@ const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
 });
 
 async function getRouteProjectBySlug(slug: string) {
-  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) {
-    return { project: demoProject, detail: null };
-  }
-
   const detail = await getSupabaseProjectDetailsBySlug(slug);
   if (detail) {
     return {
       project: mapCarDetailsToProject(detail),
       detail,
     };
+  }
+
+  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
+  if (demoProject) {
+    return { project: demoProject, detail: null };
   }
 
   return {
@@ -115,12 +116,12 @@ async function getRouteProjectBySlug(slug: string) {
 }
 
 const getPublicRouteProjectCardBySlug = cache(async (slug: string) => {
-  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) return demoProject;
-  if (!isSupabaseConfigured) return null;
+  if (isSupabaseConfigured) {
+    const result = await qPublicCarCardBySlug(slug);
+    if (result.data) return mapCarCardToProject(result.data);
+  }
 
-  const result = await qPublicCarCardBySlug(slug);
-  return result.data ? mapCarCardToProject(result.data) : null;
+  return demoProjects.find((entry) => entry.slug === slug || entry.id === slug) ?? null;
 });
 
 function emptyProjectRecommendations(): ProjectRecommendationGroups {
@@ -137,7 +138,7 @@ async function getProjectRecommendationsForRoute(
   project: Project,
   collection: ProjectCollectionResult
 ): Promise<ProjectRecommendationGroups> {
-  const combinedProjects = uniqueProjects([...collection.allProjects, ...demoProjects]);
+  const combinedProjects = collection.allProjects;
   const candidates = combinedProjects.filter((entry) => entry.slug !== project.slug);
   const usedSlugs = new Set([project.slug]);
 
@@ -195,7 +196,8 @@ export async function getProjectCollection(
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
   const catalog = await getSupabaseProjectCatalog(normalizedFilters, personalize);
-  const allProjects = uniqueProjects([...demoProjects, ...catalog.projects]);
+  const hasRealProjects = catalog.projects.length > 0;
+  const allProjects = selectProjectCatalog(catalog.projects, demoProjects);
 
   const filteredProjects = sortProjects(
     filterProjects(allProjects, normalizedFilters),
@@ -215,9 +217,9 @@ export async function getProjectCollection(
     availableInductions: getAvailableInductions(allProjects),
     availableDrivetrains: getAvailableDrivetrains(allProjects),
     availableCategories: getAvailableStyles(allProjects),
-    source: catalog.projects.length > 0 ? "supabase" : "demo",
+    source: hasRealProjects ? "supabase" : "demo",
     notice:
-      catalog.projects.length > 0
+      hasRealProjects
         ? null
         : catalog.error === "not_configured"
           ? "Mostrando projetos demo enquanto o Supabase nao e configurado."
@@ -247,10 +249,7 @@ export const getFeaturedProjects = cache(
         { personalize: false }
       );
       if (result.data?.length) {
-        featuredPool = uniqueProjects([
-          ...demoProjects,
-          ...result.data.map(mapCarCardToProject),
-        ]);
+        featuredPool = uniqueProjects(result.data.map(mapCarCardToProject));
       }
     }
 

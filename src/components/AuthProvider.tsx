@@ -25,7 +25,7 @@ type AuthContextValue = {
     email: string,
     password: string,
     fullName?: string
-  ) => Promise<{ error: AuthError | null }>;
+  ) => Promise<{ error: AuthError | null; hasSession: boolean }>;
   signOut: () => Promise<void>;
 };
 
@@ -113,13 +113,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (email: string, password: string, fullName?: string) => {
       const supabase = await getSupabaseBrowserClient();
       if (!supabase) {
-        return { error: new Error("Supabase nao configurado") as AuthError };
+        return { error: new Error("Supabase nao configurado") as AuthError, hasSession: false };
       }
+
+      const emailRedirectTo = new URL("/auth/callback", getSiteUrl());
+      emailRedirectTo.searchParams.set("next", "/onboarding");
 
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: emailRedirectTo.toString(),
           data: {
             full_name: fullName,
           },
@@ -128,7 +132,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!error && data.session) setUser(data.user);
 
-      return { error };
+      return { error, hasSession: Boolean(data.session) };
     },
     []
   );

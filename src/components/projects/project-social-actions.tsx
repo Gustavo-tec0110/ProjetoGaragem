@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 
 import {
-  incrementViewAction,
   toggleProjectFollowAction,
   toggleLikeAction,
   toggleSaveAction,
@@ -31,6 +30,7 @@ import {
   toggleLocalProjectLike,
   toggleLocalProjectSave,
 } from "@/lib/projects/local-storage";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 const EMPTY_LOCAL_SOCIAL_STATE = { liked: false, saved: false, views: 0 };
 
@@ -403,5 +403,20 @@ export function ProjectSocialActions({
 
 export async function syncProjectView(projectId: string | null) {
   if (!projectId) return null;
-  return incrementViewAction(projectId);
+  const supabase = getSupabaseBrowserClient();
+  if (!supabase) return { ok: false } as const;
+
+  const { data, error } = await supabase.rpc("increment_car_view", {
+    target_car_id: projectId,
+  });
+  const result = data?.[0];
+  if (error || !result || typeof result.views_count !== "number") {
+    return { ok: false } as const;
+  }
+
+  return {
+    ok: true,
+    incremented: result.incremented,
+    viewsCount: result.views_count,
+  } as const;
 }

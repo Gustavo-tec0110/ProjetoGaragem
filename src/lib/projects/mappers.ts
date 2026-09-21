@@ -202,6 +202,8 @@ function createBaseProject(car: CarCard | CarDetails) {
     showExpensesPublic: car.show_expenses_public ?? false,
     specConfidencePercent: car.spec_confidence_percent,
     currentInduction: car.current_induction,
+    fuelType: car.fuel_type,
+    drivetrain: car.drivetrain,
     factoryEngine: car.factory_engine,
     factoryInduction: car.factory_induction,
     factoryPowerCv: car.factory_power_cv,

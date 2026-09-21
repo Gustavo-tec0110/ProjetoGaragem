@@ -128,7 +128,9 @@ export function CommentsList({
                 </p>
                 <p className="mt-1 text-xs text-muted">
                   @{comment.author?.username ?? "usuario"} -{" "}
-                  {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+                  {new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(
+                    new Date(comment.created_at)
+                  )}
                 </p>
               </div>
               {canDelete ? (
