@@ -1,10 +1,14 @@
 "use server";
 
+import { createHmac, randomUUID } from "node:crypto";
+import { cookies, headers } from "next/headers";
+
 import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseAdminClient, getSupabaseServerClient } from "@/lib/supabase/server";
+import { supabaseServiceRoleKey } from "@/lib/supabase/env";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";
@@ -557,11 +561,24 @@ export async function toggleProjectFollowAction(carId: string) {
 }
 
 export async function incrementViewAction(carId: string) {
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false };
 
-  const { data, error } = await supabase.rpc("increment_car_view", {
-    target_car_id: carId,
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
+  const cookieName = "pg_view_token";
+  let visitorToken = cookieStore.get(cookieName)?.value;
+  if (!visitorToken || !/^[0-9a-f-]{36}$/i.test(visitorToken)) {
+    visitorToken = randomUUID();
+    cookieStore.set(cookieName, visitorToken, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", maxAge: 60 * 60 * 24 * 35, path: "/" });
+  }
+  const trustedIp = requestHeaders.get("x-nf-client-connection-ip")?.trim() || "";
+  const day = new Date().toISOString().slice(0, 10);
+  const visitorHash = createHmac("sha256", supabaseServiceRoleKey).update(`${day}:${trustedIp || visitorToken}`).digest("hex");
+
+  const { data, error } = await supabase.rpc("record_car_view", {
+    p_car_id: carId,
+    p_visitor_hash: visitorHash,
   });
 
   if (error) {
@@ -569,8 +586,9 @@ export async function incrementViewAction(carId: string) {
     return { ok: false, message: formatSupabaseActionError("increment_car_view.rpc", error) };
   }
 
-  if (!data) {
-    const message = "increment_car_view.rpc falhou: nenhuma linha publica foi atualizada.";
+  const result = Array.isArray(data) ? data[0] : data;
+  if (!result) {
+    const message = "record_car_view.rpc falhou: nenhuma linha publica foi atualizada.";
     serverLog.error("social-action.verify", {
       action: "increment_car_view.rpc",
       carId,
@@ -579,9 +597,7 @@ export async function incrementViewAction(carId: string) {
     return { ok: false, message };
   }
 
-  const counts = await readCarSocialCounts(supabase, carId);
-
-  return { ok: true, ...counts };
+  return { ok: true, viewsCount: result.views_count, counted: result.counted };
 }
 
 export async function createCommentAction(

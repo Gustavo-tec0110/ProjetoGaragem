@@ -131,6 +131,7 @@ export type ProjectSeed = {
   showExpensesPublic?: boolean;
   specConfidencePercent?: number | null;
   currentInduction?: string | null;
+  fuelType?: string | null;
   factoryEngine?: string | null;
   factoryInduction?: string | null;
   factoryPowerCv?: number | null;
@@ -167,6 +168,7 @@ export type Project = ProjectSeed & {
   ownerInstagram: string | null;
   specConfidencePercent: number | null;
   currentInduction: string | null;
+  fuelType: string | null;
   factoryEngine: string | null;
   factoryInduction: string | null;
   factoryPowerCv: number | null;

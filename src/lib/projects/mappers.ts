@@ -117,8 +117,8 @@ function deriveStatus(installedCount: number, plannedCount: number, isPublic: bo
 
 function createBaseProject(car: CarCard | CarDetails) {
   const title = safeText(car.name, `${safeText(car.brand, "Projeto")} ${safeText(car.model, "automotivo")}`);
-  const brand = safeText(car.brand, "Marca nao informada");
-  const model = safeText(car.model, "Modelo nao informado");
+  const brand = car.brand?.trim() || null;
+  const model = car.model?.trim() || null;
   const category = safeText(car.category, "Projeto automotivo");
   const engine = safeText(car.engine ?? car.version, "Preparacao em andamento");
   const createdAt = car.created_at ?? new Date().toISOString();
@@ -127,7 +127,7 @@ function createBaseProject(car: CarCard | CarDetails) {
   const parts = "parts" in car ? safeRows(car.parts) : [];
   const description =
     car.description?.trim() ||
-    `Projeto ${brand} ${model} montado para quem gosta de ficha completa, detalhes honestos e evolucao real.`;
+    `Projeto ${brand ?? "automotivo"} ${model ?? "em evolução"} montado para quem gosta de ficha completa, detalhes honestos e evolucao real.`;
   const carModel = [brand, model, car.version].filter(Boolean).join(" ");
   const tags = deriveTags({
     explicitTags: car.tags,
@@ -202,6 +202,7 @@ function createBaseProject(car: CarCard | CarDetails) {
     showExpensesPublic: car.show_expenses_public ?? false,
     specConfidencePercent: car.spec_confidence_percent,
     currentInduction: car.current_induction,
+    fuelType: car.fuel_type,
     factoryEngine: car.factory_engine,
     factoryInduction: car.factory_induction,
     factoryPowerCv: car.factory_power_cv,

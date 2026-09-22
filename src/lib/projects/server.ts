@@ -38,12 +38,6 @@ import {
 } from "@/lib/supabase/queries";
 
 const PROJECT_LIMIT = 120;
-const FEATURED_DEMO_SLUGS = [
-  "gol-quadrado-1994-ap18",
-  "subaru-impreza-wrx-2002-awd",
-  "uno-turbo-street",
-] as const;
-
 const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters, personalize = true) => {
   if (!isSupabaseConfigured) {
     return { projects: [] as Project[], error: "not_configured" as const };
@@ -95,18 +89,18 @@ const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
 });
 
 async function getRouteProjectBySlug(slug: string) {
-  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) {
-    return { project: demoProject, detail: null };
+  if (isSupabaseConfigured) {
+    const detail = await getSupabaseProjectDetailsBySlug(slug);
+    if (detail) {
+      return {
+        project: mapCarDetailsToProject(detail),
+        detail,
+      };
+    }
   }
 
-  const detail = await getSupabaseProjectDetailsBySlug(slug);
-  if (detail) {
-    return {
-      project: mapCarDetailsToProject(detail),
-      detail,
-    };
-  }
+  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
+  if (demoProject) return { project: demoProject, detail: null };
 
   return {
     project: null,
@@ -115,12 +109,11 @@ async function getRouteProjectBySlug(slug: string) {
 }
 
 const getPublicRouteProjectCardBySlug = cache(async (slug: string) => {
-  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) return demoProject;
-  if (!isSupabaseConfigured) return null;
-
-  const result = await qPublicCarCardBySlug(slug);
-  return result.data ? mapCarCardToProject(result.data) : null;
+  if (isSupabaseConfigured) {
+    const result = await qPublicCarCardBySlug(slug);
+    if (result.data) return mapCarCardToProject(result.data);
+  }
+  return demoProjects.find((entry) => entry.slug === slug || entry.id === slug) ?? null;
 });
 
 function emptyProjectRecommendations(): ProjectRecommendationGroups {
@@ -137,7 +130,7 @@ async function getProjectRecommendationsForRoute(
   project: Project,
   collection: ProjectCollectionResult
 ): Promise<ProjectRecommendationGroups> {
-  const combinedProjects = uniqueProjects([...collection.allProjects, ...demoProjects]);
+  const combinedProjects = collection.allProjects;
   const candidates = combinedProjects.filter((entry) => entry.slug !== project.slug);
   const usedSlugs = new Set([project.slug]);
 
@@ -195,7 +188,8 @@ export async function getProjectCollection(
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
   const catalog = await getSupabaseProjectCatalog(normalizedFilters, personalize);
-  const allProjects = uniqueProjects([...demoProjects, ...catalog.projects]);
+  const hasLiveCatalog = catalog.error === null;
+  const allProjects = uniqueProjects(hasLiveCatalog ? catalog.projects : demoProjects);
 
   const filteredProjects = sortProjects(
     filterProjects(allProjects, normalizedFilters),
@@ -215,9 +209,9 @@ export async function getProjectCollection(
     availableInductions: getAvailableInductions(allProjects),
     availableDrivetrains: getAvailableDrivetrains(allProjects),
     availableCategories: getAvailableStyles(allProjects),
-    source: catalog.projects.length > 0 ? "supabase" : "demo",
+    source: hasLiveCatalog ? "supabase" : "demo",
     notice:
-      catalog.projects.length > 0
+      hasLiveCatalog
         ? null
         : catalog.error === "not_configured"
           ? "Mostrando projetos demo enquanto o Supabase nao e configurado."
@@ -246,28 +240,11 @@ export const getFeaturedProjects = cache(
         { sort: querySort, limit: Math.max(1, limit) },
         { personalize: false }
       );
-      if (result.data?.length) {
-        featuredPool = uniqueProjects([
-          ...demoProjects,
-          ...result.data.map(mapCarCardToProject),
-        ]);
-      }
+      if (!result.error) featuredPool = uniqueProjects((result.data ?? []).map(mapCarCardToProject));
     }
 
     const sortedProjects = sortProjects(featuredPool, sort);
-    const projectsBySlug = new Map(
-      sortedProjects.map((project) => [project.slug, project])
-    );
-    const priorityProjects = FEATURED_DEMO_SLUGS.flatMap((slug) => {
-      const project = projectsBySlug.get(slug);
-      return project ? [project] : [];
-    });
-    const prioritySlugs = new Set<string>(FEATURED_DEMO_SLUGS);
-    const remainingProjects = sortedProjects.filter(
-      (project) => !prioritySlugs.has(project.slug)
-    );
-
-    return [...priorityProjects, ...remainingProjects].slice(0, limit);
+    return sortedProjects.slice(0, limit);
   }
 );
 

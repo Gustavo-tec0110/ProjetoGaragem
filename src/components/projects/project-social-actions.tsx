@@ -126,13 +126,13 @@ export function ProjectSocialActions({
   }
 
   function updateLocalLike() {
-    toggleLocalProjectLike(slug);
-    onCountsChange?.({ likes: initialLikes + (!liked ? 1 : -1) });
+    const nextLiked = toggleLocalProjectLike(slug);
+    onCountsChange?.({ likes: initialLikes + Number(nextLiked) });
   }
 
   function updateLocalSave() {
-    toggleLocalProjectSave(slug);
-    onCountsChange?.({ saves: initialSaves + (!saved ? 1 : -1) });
+    const nextSaved = toggleLocalProjectSave(slug);
+    onCountsChange?.({ saves: initialSaves + Number(nextSaved) });
   }
 
   async function toggleFollow() {

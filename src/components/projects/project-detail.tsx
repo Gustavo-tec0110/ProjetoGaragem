@@ -424,16 +424,17 @@ export function ProjectDetail({
       : project.views + localSocialState.views;
 
   React.useEffect(() => {
-    if (renderMode === "body") return;
+    // The body owns the visible counters; register only after it has hydrated.
+    if (renderMode === "hero") return;
     let active = true;
 
     if (initialProject.source === "supabase" && initialProject.databaseId) {
       const sessionKey = `pg-project-viewed:${initialProject.slug}:supabase`;
       if (window.sessionStorage.getItem(sessionKey)) return;
-      window.sessionStorage.setItem(sessionKey, "1");
 
       void syncProjectView(initialProject.databaseId).then((result) => {
         if (active && result?.ok && "viewsCount" in result && typeof result.viewsCount === "number") {
+          window.sessionStorage.setItem(sessionKey, "1");
           const viewsCount = result.viewsCount;
           setSocialCounts((current) => ({ ...current, views: viewsCount }));
         }
@@ -464,12 +465,12 @@ export function ProjectDetail({
     [
       {
         label: "Curtidas",
-        value: socialCounts.likes.toLocaleString("pt-BR"),
+        value: (project.source === "supabase" ? socialCounts.likes : project.likes + Number(localSocialState.liked)).toLocaleString("pt-BR"),
         icon: Heart,
       },
       {
         label: "Salvos",
-        value: socialCounts.saves.toLocaleString("pt-BR"),
+        value: (project.source === "supabase" ? socialCounts.saves : project.saves + Number(localSocialState.saved)).toLocaleString("pt-BR"),
         icon: Bookmark,
       },
       {

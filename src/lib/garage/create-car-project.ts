@@ -297,6 +297,7 @@ function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possive
   if (
     code === "42703" ||
     code === "42P01" ||
+    code === "PGRST202" ||
     code === "PGRST204" ||
     code === "PGRST205" ||
     lower.includes("schema cache") ||
@@ -491,94 +492,48 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   };
 }
 
-async function replacePhotos(
+function isJsonArray(formData: FormData, key: string) {
+  const raw = text(formData, key);
+  if (!raw) return true;
+  try {
+    return Array.isArray(JSON.parse(raw));
+  } catch {
+    return false;
+  }
+}
+
+function parseRelatedPayload(formData: FormData) {
+  const keys = ["photo_urls_json", "parts_json", "updates_json", "expenses_json"];
+  if (!keys.every((key) => isJsonArray(formData, key))) {
+    return { error: "Os dados de fotos, peças, atualizações ou despesas estão inválidos." } as const;
+  }
+  return {
+    error: null,
+    photoUrls: parseStringArray(text(formData, "photo_urls_json")),
+    parts: parseParts(text(formData, "parts_json")),
+    updates: parseUpdates(text(formData, "updates_json")),
+    expenses: parseExpenses(text(formData, "expenses_json")),
+  } as const;
+}
+
+async function saveCarProjectAtomically(
   supabase: ServerSupabaseClient,
-  carId: string,
-  mainPhotoUrl: string | null,
-  photoUrls: string[]
+  carId: string | null,
+  payload: ReturnType<typeof buildCarPayload>,
+  related: Exclude<ReturnType<typeof parseRelatedPayload>, { error: string }>
 ) {
-  const { error: deleteError } = await supabase.from("car_photos").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  const urls = Array.from(new Set([mainPhotoUrl, ...photoUrls].filter((url): url is string => Boolean(url))));
-  if (!urls.length) return null;
-
-  const { error } = await supabase.from("car_photos").insert(
-    urls.map((url, index) => ({
-      car_id: carId,
-      url,
-      sort_order: index,
-      alt: index === 0 ? "Foto principal do carro" : "Foto do projeto",
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceParts(supabase: ServerSupabaseClient, carId: string, parts: PartInput[]) {
-  const { error: deleteError } = await supabase.from("car_parts").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!parts.length) return null;
-
-  const { error } = await supabase.from("car_parts").insert(
-    parts.map((part) => ({
-      car_id: carId,
-      name: part.name,
-      category: part.category || "Outros",
-      brand: part.brand || null,
-      description: part.description || null,
-      status: part.status,
-      priority: part.priority || null,
-      price_estimate: part.price_estimate ?? null,
-      external_url: part.external_url || null,
-      affiliate_url: part.affiliate_url || null,
-      store_name: part.store_name || null,
-      product_id: part.product_id || null,
-      installed_at: part.installed_at || null,
-      image_url: part.image_url || null,
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceUpdates(supabase: ServerSupabaseClient, carId: string, updates: UpdateInput[]) {
-  const { error: deleteError } = await supabase.from("car_build_updates").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!updates.length) return null;
-
-  const { error } = await supabase.from("car_build_updates").insert(
-    updates.map((update) => ({
-      car_id: carId,
-      title: update.title,
-      description: update.description || null,
-      photo_url: update.photo_url || null,
-      photo_urls: Array.from(
-        new Set([update.photo_url, ...(update.photo_urls ?? [])].filter((url): url is string => Boolean(url)))
-      ),
-      category: update.category || "outro",
-      happened_at: update.happened_at,
-      amount_spent: update.amount_spent ?? null,
-    }))
-  );
-  return error?.message ?? null;
-}
-
-async function replaceExpenses(supabase: ServerSupabaseClient, carId: string, expenses: ExpenseInput[]) {
-  const { error: deleteError } = await supabase.from("car_expenses").delete().eq("car_id", carId);
-  if (deleteError) return deleteError.message;
-  if (!expenses.length) return null;
-
-  const { error } = await supabase.from("car_expenses").insert(
-    expenses.map((expense) => ({
-      car_id: carId,
-      name: expense.name,
-      category: expense.category || "Outros",
-      amount: Math.max(0, expense.amount),
-      spent_at: expense.spent_at,
-      note: expense.note || null,
-      part_name: expense.part_name || null,
-      is_public: expense.is_public !== false,
-    }))
-  );
-  return error?.message ?? null;
+  const { data, error } = await supabase.rpc("save_car_project", {
+    p_car_id: carId,
+    p_payload: {
+      car: payload,
+      photos: Array.from(new Set([payload.main_photo_url, ...related.photoUrls].filter(Boolean))),
+      parts: related.parts,
+      updates: related.updates,
+      expenses: related.expenses,
+    },
+  });
+  const car = Array.isArray(data) ? data[0] : data;
+  return { car: car as { id: string; slug: string; name: string } | null, error };
 }
 
 export function revalidateProjectCreationPaths() {
@@ -616,11 +571,9 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
 
     const slug = await uniqueCarSlug(auth.supabase, normalizeSlug(`${name}-${brand}-${model}-${year}`));
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const { data: car, error } = await auth.supabase
-      .from("cars")
-      .insert(payload)
-      .select("id, slug, main_photo_url, photo_urls")
-      .maybeSingle();
+    const related = parseRelatedPayload(formData);
+    if (related.error) return { ok: false, status: 400, message: related.error };
+    const { car, error } = await saveCarProjectAtomically(auth.supabase, null, payload, related);
 
     if (error || !car) {
       logProjectCreationError("insert cars", error ?? "Insert em cars nao retornou linha.");
@@ -629,22 +582,6 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
         status: 400,
         message: projectCreationErrorMessage(error, "Nao foi possivel criar o carro."),
       };
-    }
-
-    const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
-    const parts = parseParts(text(formData, "parts_json"));
-    const updates = parseUpdates(text(formData, "updates_json"));
-    const expenses = parseExpenses(text(formData, "expenses_json"));
-    const relatedResults = await Promise.all([
-      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
-      replaceParts(auth.supabase, car.id, parts),
-      replaceUpdates(auth.supabase, car.id, updates),
-      replaceExpenses(auth.supabase, car.id, expenses),
-    ]);
-    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
-
-    if (relatedError) {
-      serverLog.error("project-create.related-data", { error: relatedError });
     }
 
     return {
@@ -716,13 +653,9 @@ export async function updateCarProject(
         .eq("car_id", carId),
     ]);
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const { data: car, error } = await auth.supabase
-      .from("cars")
-      .update(payload)
-      .eq("id", carId)
-      .eq("owner_id", auth.user.id)
-      .select("id, slug, name, main_photo_url")
-      .maybeSingle();
+    const related = parseRelatedPayload(formData);
+    if (related.error) return { ok: false, status: 400, message: related.error };
+    const { car, error } = await saveCarProjectAtomically(auth.supabase, carId, payload, related);
 
     if (error || !car) {
       return {
@@ -732,33 +665,13 @@ export async function updateCarProject(
       };
     }
 
-    const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
-    const parts = parseParts(text(formData, "parts_json"));
-    const updates = parseUpdates(text(formData, "updates_json"));
-    const expenses = parseExpenses(text(formData, "expenses_json"));
     const previousUpdateKeys = new Set(
       ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
         (update) => `${update.title.trim()}|${update.happened_at}`
       )
     );
 
-    const relatedResults = await Promise.all([
-      replacePhotos(auth.supabase, car.id, car.main_photo_url, photoUrls),
-      replaceParts(auth.supabase, car.id, parts),
-      replaceUpdates(auth.supabase, car.id, updates),
-      replaceExpenses(auth.supabase, car.id, expenses),
-    ]);
-    const relatedError = relatedResults.find((result): result is string => Boolean(result)) ?? null;
-
-    if (relatedError) {
-      return {
-        ok: false,
-        status: 400,
-        message: `Ficha salva, mas houve erro ao atualizar detalhes: ${relatedError}`,
-      };
-    }
-
-    const newUpdate = updates.find(
+    const newUpdate = related.updates.find(
       (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)
     );
     if (newUpdate) {

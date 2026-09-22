@@ -3,7 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 
-import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from './env';
+import { isSupabaseConfigured, supabaseAnonKey, supabaseServiceRoleKey, supabaseUrl } from './env';
 import type { Database } from "@/types/supabase";
 
 let publicClient: SupabaseClient<Database> | null = null;
@@ -20,6 +20,13 @@ export function getSupabasePublicClient() {
     },
   });
   return publicClient;
+}
+
+export function getSupabaseAdminClient() {
+  if (!supabaseUrl || !supabaseServiceRoleKey) return null;
+  return createClient<Database>(supabaseUrl, supabaseServiceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
 }
 
 export const getSupabaseServerClient = cache(async function getSupabaseServerClient() {
