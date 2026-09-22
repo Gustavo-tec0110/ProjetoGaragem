@@ -136,6 +136,65 @@ test("detalhe de projeto respeita o viewport sem overflow ou sobreposicao", asyn
   }
 });
 
+test("galeria navega, abre lightbox e oferece zoom acessivel", async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(DEMO_PROJECT_PATH);
+  await expect(page.getByRole("heading", { name: "Continue navegando" })).toBeVisible();
+
+  const carousel = page.getByRole("region", {
+    name: "Galeria de fotos do projeto Gol Quadrado AP 1.8 Sleeper",
+  });
+  const expandButton = carousel.getByRole("button", { name: /Ampliar foto/ });
+  await expect(carousel).toBeVisible();
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 1 de 3/i);
+  await expect(carousel.getByRole("button", { name: "Mostrar foto 2 de 3" })).toBeVisible();
+
+  if (isMobileProject(testInfo.project.name)) {
+    await carousel.getByRole("button", { name: "Mostrar foto 2 de 3" }).click();
+  } else {
+    await carousel.getByRole("button", { name: "Próxima foto" }).click();
+  }
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 2 de 3/i);
+
+  await expandButton.click();
+  const lightbox = page.getByRole("dialog", { name: "Gol Quadrado AP 1.8 Sleeper" });
+  await expect(lightbox).toBeVisible();
+  await expect(lightbox.getByText("2 / 3", { exact: true })).toBeVisible();
+  await expect(lightbox.getByRole("button", { name: "Fechar visualização ampliada" })).toBeFocused();
+
+  await lightbox.getByRole("button", { name: "Aumentar zoom" }).click();
+  await expect(lightbox.getByText("150%", { exact: true })).toBeVisible();
+  await expect(lightbox.getByRole("button", { name: "Restaurar zoom" })).toBeEnabled();
+
+  await page.keyboard.press("ArrowRight");
+  await expect(lightbox.getByText("3 / 3", { exact: true })).toBeVisible();
+  await expect(lightbox.getByText("100%", { exact: true })).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(lightbox).toBeHidden();
+  await expect(expandButton).toBeFocused();
+});
+
+test("autoplay da galeria avanca e reinicia depois da navegacao manual", async ({ page }, testInfo) => {
+  test.skip(isMobileProject(testInfo.project.name), "Coberto no projeto desktop para evitar espera duplicada.");
+  await page.goto(DEMO_PROJECT_PATH);
+  await expect(page.getByRole("heading", { name: "Continue navegando" })).toBeVisible();
+
+  const carousel = page.getByRole("region", {
+    name: "Galeria de fotos do projeto Gol Quadrado AP 1.8 Sleeper",
+  });
+  const expandButton = carousel.getByRole("button", { name: /Ampliar foto/ });
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 1 de 3/i);
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 2 de 3/i, { timeout: 4_500 });
+
+  await carousel.getByRole("button", { name: "Mostrar foto 3 de 3" }).click();
+  await page.mouse.move(0, 0);
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 3 de 3/i);
+  await page.waitForTimeout(2_000);
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 3 de 3/i);
+  await expect(expandButton).toHaveAttribute("aria-label", /foto 1 de 3/i, { timeout: 2_000 });
+});
+
 test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ page }, testInfo) => {
   const mobile = isMobileProject(testInfo.project.name);
   if (!mobile) {

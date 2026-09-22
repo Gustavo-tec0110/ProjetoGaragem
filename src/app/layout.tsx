@@ -26,9 +26,6 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   manifest: "/manifest.webmanifest",
-  icons: {
-    icon: "/favicon.ico",
-  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

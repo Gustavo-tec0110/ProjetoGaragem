@@ -100,6 +100,57 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes pg-gallery-enter {
+    from {
+      opacity: 0.45;
+      transform: scale(1.008);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pg-lightbox-overlay-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pg-lightbox-content-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pg-lightbox-overlay-exit {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes pg-lightbox-content-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+  }
 }
 
 @layer base {
@@ -169,6 +220,34 @@
 
   .pg-route-enter {
     animation: pg-route-enter 180ms var(--pg-ease-out) both;
+  }
+
+  .pg-gallery-slide {
+    animation: pg-gallery-enter 280ms var(--pg-ease-out) both;
+  }
+
+  .pg-zoom-layer {
+    transition: transform 160ms var(--pg-ease-out);
+  }
+
+  .pg-zoom-layer[data-gesturing="true"] {
+    transition: none;
+  }
+
+  .pg-lightbox-overlay[data-state="open"] {
+    animation: pg-lightbox-overlay-enter 160ms var(--pg-ease-out) both;
+  }
+
+  .pg-lightbox-content[data-state="open"] {
+    animation: pg-lightbox-content-enter 180ms var(--pg-ease-out) both;
+  }
+
+  .pg-lightbox-overlay[data-state="closed"] {
+    animation: pg-lightbox-overlay-exit 120ms var(--pg-ease-inout) both;
+  }
+
+  .pg-lightbox-content[data-state="closed"] {
+    animation: pg-lightbox-content-exit 120ms var(--pg-ease-inout) both;
   }
 
   .mobile-cta-safe {
@@ -372,6 +451,16 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .pg-gallery-slide,
+    .pg-lightbox-overlay,
+    .pg-lightbox-content {
+      animation: none !important;
+    }
+
+    .pg-zoom-layer {
+      transition: none !important;
+    }
+
     .pg-scanlines,
     .pg-particles,
     .pg-skeleton,

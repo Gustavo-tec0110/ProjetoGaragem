@@ -604,27 +604,25 @@ export function ProjectDetail({
 
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border/70 bg-surface shadow-elevated sm:aspect-[16/10] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:aspect-auto lg:min-h-[34rem] lg:rounded-4xl" data-testid="project-hero-image">
-            <ProjectImage
-              src={gallery[0]}
-              alt={`Foto principal do projeto ${project.title}`}
-              fill
-              priority
-              loading="eager"
-              className="object-cover"
-              sizes="(min-width: 1024px) 42vw, 100vw"
+          <div className="aspect-[16/10] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[30rem] lg:aspect-auto lg:self-start" data-testid="project-hero-image">
+            <ProjectGallery
+              className="min-h-0"
+              images={gallery}
+              title={project.title}
+              overlay={(
+                <div className="bg-gradient-to-t from-background/95 to-transparent p-3 pr-36 md:p-5 md:pr-52">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                    <Badge variant="secondary" className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.progressPercent}% completo</Badge>
+                    {project.modificationsCount > 0 ? (
+                      <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
+                        {project.modificationsCount} modificações
+                      </Badge>
+                    ) : null}
+                    <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{gallery.length} fotos</Badge>
+                  </div>
+                </div>
+              )}
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-3 md:p-5">
-              <div className="flex flex-wrap gap-1.5 md:gap-2">
-                <Badge variant="secondary" className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.progressPercent}% completo</Badge>
-                {project.modificationsCount > 0 ? (
-                  <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
-                    {project.modificationsCount} modificações
-                  </Badge>
-                ) : null}
-                <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{gallery.length} fotos</Badge>
-              </div>
-            </div>
           </div>
 
           <div className="max-w-3xl lg:col-start-1 lg:row-start-2">
@@ -997,20 +995,6 @@ export function ProjectDetail({
           <h2 className="mt-1 font-title text-2xl tracking-tight">Controle de gastos</h2>
           <div className="mt-4">
             <ProjectFinanceChart project={project} />
-          </div>
-        </section>
-
-        <section>
-          <p className="text-xs text-muted">Galeria</p>
-          <h2 className="mt-1 font-title text-2xl tracking-tight">Fotos do projeto</h2>
-          <div className="mt-4">
-            {gallery.length > 1 ? (
-              <ProjectGallery images={gallery.slice(1)} title={project.title} />
-            ) : (
-              <div className="rounded-4xl border border-border/70 bg-background/25 p-6 text-sm text-muted">
-                A foto principal exibida acima é a única imagem publicada neste projeto.
-              </div>
-            )}
           </div>
         </section>
 
