@@ -26,7 +26,7 @@ async function FeaturedProjectNote() {
   return (
     <Link
       href={buildProjectHref(project.slug)}
-      className="group absolute right-4 top-24 z-20 hidden w-64 border-l border-white/20 pl-4 transition-colors hover:border-accent sm:block lg:right-8 lg:top-28"
+      className="group absolute right-4 top-24 z-20 hidden w-64 rounded-lg border border-white/10 bg-black/45 p-3.5 backdrop-blur-md transition-colors hover:border-accent/45 sm:block lg:right-8 lg:top-28 lg:w-72 lg:p-4"
       aria-label={`Ver projeto em destaque: ${project.title}`}
     >
       <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
@@ -61,10 +61,10 @@ function FeaturedProjectsFallback() {
 }
 
 const features = [
-  { title: "Sua garagem", text: "Organize seus projetos.", icon: Warehouse },
-  { title: "Registre tudo", text: "Documente cada evolução.", icon: Wrench },
-  { title: "Compartilhe", text: "Mostre sua build.", icon: Camera },
-  { title: "Rankings", text: "Compare e participe.", icon: Trophy },
+  { title: "Crie sua garagem", text: "Seus carros em um só lugar.", icon: Warehouse },
+  { title: "Documente o projeto", text: "Peças, fotos e evolução.", icon: Wrench },
+  { title: "Mostre sua build", text: "Compartilhe com a comunidade.", icon: Camera },
+  { title: "Entre no ranking", text: "Compare projetos da comunidade.", icon: Trophy },
 ] as const;
 
 export default function Home() {
@@ -72,7 +72,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
         <section className="border-b border-white/10 bg-black">
-          <div className="relative isolate h-[40rem] overflow-hidden md:h-[650px]">
+          <div className="relative isolate h-[40rem] overflow-hidden md:h-[430px]">
             <div className="absolute inset-x-0 top-0 h-[23rem] md:inset-y-0 md:left-auto md:h-auto md:w-[min(100%,1672px)]">
               <Image
                 src="/ref/hero-garage-v2.webp"
@@ -82,76 +82,85 @@ export default function Home() {
                 fetchPriority="high"
                 quality={85}
                 sizes="(min-width: 1672px) 1672px, 100vw"
-                className="object-cover object-[58%_center] md:object-center"
+                className="object-cover object-[58%_center] md:object-[center_53%]"
               />
             </div>
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.94)_70%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.94)_20%,rgba(5,6,7,.56)_42%,rgba(5,6,7,.08)_72%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.4)_0%,transparent_22%,transparent_68%,rgba(0,0,0,.7)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.94)_70%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.96)_24%,rgba(5,6,7,.52)_47%,rgba(5,6,7,.08)_76%,rgba(5,6,7,.24)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.32)_0%,transparent_22%,transparent_68%,rgba(0,0,0,.58)_100%)]" />
             <div className="absolute inset-0 opacity-[0.1] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
 
             <Suspense fallback={null}>
               <FeaturedProjectNote />
             </Suspense>
 
-            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-end px-4 pb-7 pt-24 sm:px-6 md:items-start md:pb-6 md:pt-24 lg:px-12">
+            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-end px-4 pb-7 pt-24 sm:px-6 md:items-start md:pb-3 md:pt-32 lg:px-16 xl:px-20">
               <div className="w-full max-w-[34rem] motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
-              <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
-                <span className="h-4 w-px bg-accent" aria-hidden="true" />
-                Bem-vindo ao Projeto Garagem
-              </div>
-              <h1 className="mt-5 max-w-[9ch] font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.89] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem] sm:text-6xl md:mt-7 md:text-[4.35rem] lg:text-[4.75rem]">
-                Sua garagem. Seu projeto.
-              </h1>
-              <p className="mt-5 max-w-md text-sm leading-6 text-white/65 sm:text-base md:mt-7 md:text-lg md:leading-7">
-                Monte, documente e compartilhe seu carro com quem vive a mesma paixão.
-              </p>
+                <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
+                  <span className="h-4 w-px bg-accent" aria-hidden="true" />
+                  Bem-vindo ao Projeto Garagem
+                </div>
+                <h1 className="mt-4 font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.9] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem] md:text-[3.35rem] lg:text-[3.65rem]">
+                  <span className="block md:whitespace-nowrap">Sua garagem.</span>
+                  <span className="block md:whitespace-nowrap">
+                    Seu <span className="text-accent">projeto.</span>
+                  </span>
+                </h1>
+                <p className="mt-4 max-w-[31rem] text-sm leading-6 text-white/68 sm:text-base md:text-base md:leading-6">
+                  Monte, documente e compartilhe seu carro com quem vive a mesma paixão.
+                </p>
 
-              <div className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row md:mt-8 md:gap-3">
-                <Button asChild size="lg" className="h-12 w-full rounded-sm uppercase sm:w-auto md:h-13">
-                  <Link href="/criar-projeto">
-                    Criar projeto
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="h-12 w-full rounded-sm border-white/15 bg-black/25 uppercase backdrop-blur-sm sm:w-auto md:h-13"
-                >
-                  <Link href="/explorar">Explorar projetos</Link>
-                </Button>
-              </div>
+                <div className="mt-5 flex max-w-md flex-col gap-2 sm:flex-row md:gap-3">
+                  <Button asChild size="lg" className="h-12 w-full rounded-sm uppercase sm:w-auto md:h-11">
+                    <Link href="/criar-projeto">
+                      Criar projeto
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="h-12 w-full rounded-sm border-white/15 bg-black/25 uppercase backdrop-blur-sm sm:w-auto md:h-11"
+                  >
+                    <Link href="/explorar">Explorar projetos</Link>
+                  </Button>
+                </div>
 
-              <div className="mt-6 flex items-center gap-3 font-ui text-[9px] font-semibold uppercase tracking-[0.13em] text-white/38 md:mt-8 md:text-[10px]">
-                <span>Projetos</span>
-                <span className="size-0.5 rounded-full bg-accent" />
-                <span>Comunidade</span>
-                <span className="size-0.5 rounded-full bg-accent" />
-                <span>Builds reais</span>
-              </div>
+                <div className="mt-5 flex items-center gap-3 font-ui text-[9px] font-semibold uppercase tracking-[0.13em] text-white/38 md:text-[10px]">
+                  <span>Projetos</span>
+                  <span className="size-0.5 rounded-full bg-accent" />
+                  <span>Comunidade</span>
+                  <span className="size-0.5 rounded-full bg-accent" />
+                  <span>Builds reais</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="mx-auto grid w-full max-w-[86rem] grid-cols-2 border-x border-white/10 bg-[#0b0d0f]/95 shadow-2xl md:grid-cols-4 md:backdrop-blur-xl">
+          <div className="mx-auto grid w-full max-w-[86rem] grid-cols-1 border-x border-white/10 bg-[#0b0d0f]/95 shadow-2xl sm:grid-cols-2 md:grid-cols-4 md:backdrop-blur-xl xl:mx-5 xl:w-[calc(100%_-_2.5rem)] xl:max-w-none">
             {features.map((item, index) => {
               const Icon = item.icon;
               return (
                 <div
                   key={item.title}
-                  className={`flex min-h-24 items-center gap-3 p-4 md:min-h-28 md:px-6 ${
-                    index % 2 ? "border-l border-white/8" : ""
-                  } ${index > 1 ? "border-t border-white/8 md:border-t-0" : ""} ${
-                    index > 0 ? "md:border-l md:border-white/8" : ""
-                  }`}
+                  className={`relative flex min-h-[72px] items-center gap-3 px-4 py-3 md:min-h-[70px] md:gap-3 md:px-5 ${
+                    index > 0 ? "border-t border-white/8" : ""
+                  } ${index % 2 ? "sm:border-l sm:border-white/8" : ""} ${
+                    index > 1 ? "sm:border-t sm:border-white/8" : "sm:border-t-0"
+                  } ${
+                    index > 0
+                      ? "md:border-l-0 md:before:pointer-events-none md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-9 md:before:w-px md:before:-translate-y-1/2 md:before:bg-white/[0.07]"
+                      : ""
+                  } md:border-t-0`}
                 >
-                  <Icon className="size-6 shrink-0 stroke-[1.4] text-accent md:size-7" aria-hidden="true" />
+                  <span className="relative isolate inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/40 bg-[radial-gradient(circle_at_30%_18%,rgba(255,255,255,0.13),transparent_34%),linear-gradient(145deg,rgba(255,53,47,0.06),rgba(20,23,28,0.68)_44%,rgba(4,5,7,0.86))] text-accent shadow-[inset_0_1px_0_rgba(255,255,255,0.22),inset_0_3px_7px_rgba(255,53,47,0.1),inset_0_-10px_13px_rgba(0,0,0,0.62),0_0_12px_rgba(255,53,47,0.14)] backdrop-blur-md before:pointer-events-none before:absolute before:-left-[22%] before:-top-[30%] before:size-[90%] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.07)_34%,transparent_70%)] before:content-[''] after:pointer-events-none after:absolute after:inset-[2px] after:rounded-full after:bg-[linear-gradient(135deg,rgba(255,255,255,0.1),transparent_30%,transparent_68%,rgba(255,53,47,0.08))] after:content-[''] md:size-[44px]">
+                    <Icon className="relative z-10 size-[18px] stroke-[1.5] md:size-5" aria-hidden="true" />
+                  </span>
                   <div className="min-w-0">
-                    <h2 className="font-ui text-[10px] font-bold uppercase tracking-[0.04em] text-white md:text-xs">
+                    <h2 className="truncate font-ui text-[12px] font-bold uppercase leading-[1.15] tracking-[0.04em] text-white md:text-[13px]">
                       {item.title}
                     </h2>
-                    <p className="mt-1 text-[10px] leading-4 text-white/42 md:text-xs">{item.text}</p>
+                    <p className="mt-px truncate text-[11px] leading-[1.3] text-white/54 md:text-[11px]">{item.text}</p>
                   </div>
                 </div>
               );
@@ -160,8 +169,8 @@ export default function Home() {
         </section>
 
         <section className="border-b border-border/45 bg-background-2/45 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl py-12 md:py-20">
-            <div className="mb-6 flex items-end justify-between gap-3 md:mb-8">
+          <div className="mx-auto w-full max-w-6xl py-10 md:pb-16 md:pt-8">
+            <div className="mb-5 flex items-end justify-between gap-3 md:mb-6">
               <div>
                 <p className="pg-eyebrow">Seleção da comunidade</p>
                 <h2 className="mt-3 font-title text-3xl leading-tight tracking-tight md:text-4xl">
