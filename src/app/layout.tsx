@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   manifest: "/manifest.webmanifest",
+  verification: {
+    google: "-FwBYBkt3CY75fHySibh8KnTX3X1vsorwFtklBT8RYM",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
