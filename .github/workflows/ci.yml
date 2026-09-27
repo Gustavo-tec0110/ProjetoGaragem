@@ -41,5 +41,7 @@ jobs:
         run: npm ci
       - name: Instalar navegador de teste
         run: npx playwright install --with-deps chromium
+      - name: Gerar build para os testes E2E
+        run: npm run build
       - name: Executar testes públicos
         run: npm run test:e2e

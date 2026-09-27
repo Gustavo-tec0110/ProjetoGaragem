@@ -27,6 +27,7 @@ export function ProjectSearchBox({
   const [value, setValue] = React.useState(defaultValue);
   const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [status, setStatus] = React.useState("");
 
@@ -39,7 +40,7 @@ export function ProjectSearchBox({
     const cached = suggestionCacheRef.current.get(query);
     if (cached) {
       setSuggestions(cached);
-      setIsOpen(true);
+      setIsOpen(isFocused);
       setStatus(cached.length ? `${cached.length} sugestoes encontradas.` : "Nenhuma sugestao encontrada.");
       return;
     }
@@ -59,7 +60,7 @@ export function ProjectSearchBox({
         if (cache.size >= 20) cache.delete(cache.keys().next().value ?? "");
         cache.set(query, nextSuggestions);
         setSuggestions(nextSuggestions);
-        setIsOpen(true);
+        setIsOpen(isFocused);
         setStatus(
           nextSuggestions.length
             ? `${nextSuggestions.length} sugestoes encontradas.`
@@ -79,7 +80,7 @@ export function ProjectSearchBox({
       controller.abort();
       window.clearTimeout(timeout);
     };
-  }, [value]);
+  }, [isFocused, value]);
 
   React.useEffect(() => {
     formRef.current = containerRef.current?.closest("form") ?? null;
@@ -110,8 +111,14 @@ export function ProjectSearchBox({
         name="q"
         value={value}
         onChange={(event) => updateSearchValue(event.target.value)}
-        onFocus={() => setIsOpen(true)}
-        onBlur={() => window.setTimeout(() => setIsOpen(false), 120)}
+        onFocus={() => {
+          setIsFocused(true);
+          setIsOpen(value.trim().length >= 2);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+          window.setTimeout(() => setIsOpen(false), 120);
+        }}
         placeholder="Busque por Gol AP, orbital, daily, Civic K20..."
         className="pl-11 pr-10"
         autoComplete="off"

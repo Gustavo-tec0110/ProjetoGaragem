@@ -22,7 +22,7 @@ test("home carrega, expoe links importantes e navega em desktop e mobile", async
     "href",
     "/explorar"
   );
-  await expect(page.getByRole("link", { name: "Ver catálogo", exact: true })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: mobile ? "Ver todos" : "Ver catálogo", exact: true })).toHaveAttribute(
     "href",
     "/explorar"
   );
@@ -232,7 +232,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
 
   await page.goto("/explorar?q=turbo&sort=likes");
   await expect(
-    page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos")
+    page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos").last()
   ).toHaveValue("turbo");
 
   let selectedBrand: string;
