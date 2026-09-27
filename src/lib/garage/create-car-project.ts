@@ -297,6 +297,7 @@ function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possive
   if (
     code === "42703" ||
     code === "42P01" ||
+    code === "PGRST202" ||
     code === "PGRST204" ||
     code === "PGRST205" ||
     lower.includes("schema cache") ||
@@ -491,17 +492,43 @@ function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   };
 }
 
-function buildRelatedPayload(formData: FormData) {
+function isJsonArray(formData: FormData, key: string) {
+  const raw = text(formData, key);
+  if (!raw) return true;
+  try {
+    return Array.isArray(JSON.parse(raw));
+  } catch {
+    return false;
+  }
+}
+
+function parseRelatedPayload(formData: FormData) {
+  const keys = ["photo_urls_json", "parts_json", "updates_json", "expenses_json"];
+  if (!keys.every((key) => isJsonArray(formData, key))) {
+    return { error: "Os dados de fotos, peças, atualizações ou despesas estão inválidos." } as const;
+  }
+  return {
+    error: null,
+    photoUrls: parseStringArray(text(formData, "photo_urls_json")),
+    parts: parseParts(text(formData, "parts_json")),
+    updates: parseUpdates(text(formData, "updates_json")),
+    expenses: parseExpenses(text(formData, "expenses_json")),
+  } as const;
+}
+
+function buildRelatedPayload(
+  formData: FormData,
+  related: Exclude<ReturnType<typeof parseRelatedPayload>, { error: string }>
+) {
   const mainPhotoUrl = nullableText(formData, "main_photo_url");
-  const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
   const photos = Array.from(
-    new Set([mainPhotoUrl, ...photoUrls].filter((url): url is string => Boolean(url)))
+    new Set([mainPhotoUrl, ...related.photoUrls].filter((url): url is string => Boolean(url)))
   ).map((url, index) => ({
     url,
     sort_order: index,
     alt: index === 0 ? "Foto principal do carro" : "Foto do projeto",
   }));
-  const parts = parseParts(text(formData, "parts_json")).map((part) => ({
+  const parts = related.parts.map((part) => ({
       name: part.name,
       category: part.category || "Outros",
       brand: part.brand || null,
@@ -516,7 +543,7 @@ function buildRelatedPayload(formData: FormData) {
       installed_at: part.installed_at || null,
       image_url: part.image_url || null,
     }));
-  const updates = parseUpdates(text(formData, "updates_json")).map((update) => ({
+  const updates = related.updates.map((update) => ({
       title: update.title,
       description: update.description || null,
       photo_url: update.photo_url || null,
@@ -527,7 +554,7 @@ function buildRelatedPayload(formData: FormData) {
       happened_at: update.happened_at,
       amount_spent: update.amount_spent ?? null,
     }));
-  const expenses = parseExpenses(text(formData, "expenses_json")).map((expense) => ({
+  const expenses = related.expenses.map((expense) => ({
       name: expense.name,
       category: expense.category || "Outros",
       amount: Math.max(0, expense.amount),
@@ -575,7 +602,9 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
 
     const slug = await uniqueCarSlug(auth.supabase, normalizeSlug(`${name}-${brand}-${model}-${year}`));
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const related = buildRelatedPayload(formData);
+    const parsedRelated = parseRelatedPayload(formData);
+    if (parsedRelated.error) return { ok: false, status: 400, message: parsedRelated.error };
+    const related = buildRelatedPayload(formData, parsedRelated);
     const { data, error } = await auth.supabase.rpc("save_car_project_atomic", {
       p_car_id: null,
       p_car: payload,
@@ -664,7 +693,9 @@ export async function updateCarProject(
         .eq("car_id", carId),
     ]);
     const payload = buildCarPayload(formData, auth.user.id, slug);
-    const related = buildRelatedPayload(formData);
+    const parsedRelated = parseRelatedPayload(formData);
+    if (parsedRelated.error) return { ok: false, status: 400, message: parsedRelated.error };
+    const related = buildRelatedPayload(formData, parsedRelated);
     const { data, error } = await auth.supabase.rpc("save_car_project_atomic", {
       p_car_id: carId,
       p_car: payload,
@@ -683,14 +714,13 @@ export async function updateCarProject(
       };
     }
 
-    const updates = parseUpdates(text(formData, "updates_json"));
     const previousUpdateKeys = new Set(
       ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
         (update) => `${update.title.trim()}|${update.happened_at}`
       )
     );
 
-    const newUpdate = updates.find(
+    const newUpdate = parsedRelated.updates.find(
       (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)
     );
     if (newUpdate) {

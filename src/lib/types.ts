@@ -483,6 +483,14 @@ export interface Database {
           photo_urls: string[];
         }>;
       };
+      save_car_project: {
+        Args: { p_car_id: string | null; p_payload: Json };
+        Returns: Array<{ id: string; slug: string; name: string }>;
+      };
+      record_car_view: {
+        Args: { p_car_id: string; p_visitor_hash: string };
+        Returns: Array<{ counted: boolean; views_count: number }>;
+      };
       increment_car_view: {
         Args: { target_car_id: string };
         Returns: Array<{ incremented: boolean; views_count: number | null }>;

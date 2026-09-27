@@ -36,6 +36,7 @@ function isPlaceholder(value: string) {
 
 export const supabaseUrl = toBaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
 export const supabaseAnonKey = trimEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+export const supabaseServiceRoleKey = trimEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
 export const configuredSiteUrl = getConfiguredSiteUrl();
 
 export function getRequestSiteUrl(requestOrigin?: string) {

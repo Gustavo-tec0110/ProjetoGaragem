@@ -28,6 +28,12 @@ export function SiteFooter() {
               <Link className="text-muted hover:text-foreground" href="/criar-projeto">
                 Adicionar projeto
               </Link>
+              <Link className="text-muted hover:text-foreground" href="/privacy">
+                Privacidade
+              </Link>
+              <Link className="text-muted hover:text-foreground" href="/terms">
+                Termos
+              </Link>
             </div>
           </div>
           <div className="mt-6 h-px w-full bg-border/50" />
