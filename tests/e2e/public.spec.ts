@@ -58,7 +58,9 @@ test("navegacao publica abre um projeto e valida interacoes de visitante", async
       .first()
   ).toBeVisible();
 
-  const heroImage = page.getByTestId("project-hero-image").locator("img");
+  const heroImage = page
+    .getByTestId("project-hero-image")
+    .locator('img[alt="Foto 1 do projeto Gol Quadrado AP 1.8 Sleeper"]');
   await expect(heroImage).toBeVisible();
   await expect
     .poll(() => heroImage.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0))

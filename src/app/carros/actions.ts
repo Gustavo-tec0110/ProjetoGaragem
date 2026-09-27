@@ -4,7 +4,6 @@ import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";

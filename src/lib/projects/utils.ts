@@ -547,7 +547,7 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
   const yearTerm = normalizeSearchText(filters.year);
   const fuelTerm = normalizeSearchText(filters.fuel);
   const inductionTerm = normalizeSearchText(filters.induction);
-  const drivetrainTerm = normalizeSearchText(filters.drivetrain);
+  const drivetrainFacet = normalizeProjectDrivetrain(filters.drivetrain);
   const categoryTerm = normalizeSearchText(filters.category || filters.style);
   const styleTerm = normalizeSearchText(filters.style);
   const engineTerm = normalizeSearchText(filters.engine);
@@ -569,10 +569,9 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
       normalizeSearchText(project.currentInduction) === inductionTerm ||
       normalizeSearchText(project.factoryInduction) === inductionTerm;
     const matchesDrivetrain =
-      !drivetrainTerm ||
-      normalizeSearchText(project.drivetrain).includes(drivetrainTerm) ||
-      normalizeSearchText(project.factoryDrivetrain).includes(drivetrainTerm) ||
-      project.tags.some((tag) => normalizeSearchText(tag).includes(drivetrainTerm));
+      !drivetrainFacet ||
+      normalizeProjectDrivetrain(project.drivetrain) === drivetrainFacet ||
+      normalizeProjectDrivetrain(project.factoryDrivetrain) === drivetrainFacet;
     const matchesCategory =
       !categoryTerm ||
       normalizeSearchText(project.style) === categoryTerm ||
