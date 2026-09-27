@@ -142,8 +142,8 @@ export function SiteNavbar() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border/50 bg-background/88 backdrop-blur-xl">
         <div className="px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl">
-              <div className="flex min-h-16 items-center justify-between gap-2 lg:min-h-[4.5rem] lg:gap-4">
+          <div className="mx-auto w-full max-w-[85rem]">
+              <div className="flex min-h-16 items-center justify-between gap-2 lg:gap-4">
                 <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="Projeto Garagem - inicio">
                   <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 lg:size-10">
                     <CarFront className="size-4 text-accent lg:size-5" />

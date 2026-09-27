@@ -309,10 +309,10 @@ test("perfil publico lista contadores e permite navegar para um projeto", async 
   await page.goto(ownerHref!);
 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  for (const label of ["Projetos", "Curtidas recebidas", "Comentarios recebidos", "Visualizacoes", "Seguidores", "Seguindo"]) {
+  for (const label of ["Projetos", "Curtidas", "Seguidores", "Seguindo"]) {
     await expect(page.getByText(label, { exact: true })).toBeVisible();
   }
-  await expect(page.getByRole("heading", { name: "Destaques da garagem" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Projetos", exact: true })).toBeVisible();
   const profileProject = page.locator('[data-testid="project-card"] a[href^="/projeto/"]:visible').first();
   await expect(profileProject).toBeVisible();
   await profileProject.click();

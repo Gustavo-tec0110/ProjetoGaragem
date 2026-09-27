@@ -380,6 +380,7 @@ export async function saveProfileAction(
     avatar_url:
       nullableText(formData, "avatar_url") ??
       (typeof auth.user.user_metadata?.avatar_url === "string" ? auth.user.user_metadata.avatar_url : null),
+    cover_url: nullableText(formData, "cover_url"),
     bio: nullableText(formData, "bio"),
     city: nullableText(formData, "city"),
     state: nullableText(formData, "state"),
@@ -392,8 +393,9 @@ export async function saveProfileAction(
 
   revalidatePath("/perfil");
   revalidatePath(`/perfil/${username}`);
+  revalidatePath("/garagem");
   updateTag(PUBLIC_PROFILE_CACHE_TAG);
-  redirect("/garagem");
+  return { status: "success", message: "Perfil atualizado." };
 }
 
 export async function deleteCarAction(

@@ -20,6 +20,7 @@ export type ProfileRow = {
   email: string | null;
   full_name: string | null;
   avatar_url: string | null;
+  cover_url: string | null;
   bio: string | null;
   city: string | null;
   state: string | null;
@@ -251,6 +252,7 @@ export interface Database {
           email?: string | null;
           full_name?: string | null;
           avatar_url?: string | null;
+          cover_url?: string | null;
           bio?: string | null;
           city?: string | null;
           state?: string | null;

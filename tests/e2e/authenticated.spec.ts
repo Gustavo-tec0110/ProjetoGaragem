@@ -41,7 +41,7 @@ test.describe("fluxos autenticados Supabase", () => {
     projectTitle = uniqueProjectName();
 
     await login(page, "/garagem", e2eUser);
-    await expect(page.getByRole("heading", { name: /Garagem|Entrar|perfil/i }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await page.reload();
     await expect(page).not.toHaveURL(/\/login/);
 
@@ -189,7 +189,8 @@ test.describe("fluxos autenticados Supabase", () => {
     await page.waitForURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
 
     await page.goto("/garagem");
-    await expect(page.getByRole("heading", { name: "Similaridade com inspiracao" })).toBeVisible();
+    await page.getByText("Ferramenta privada: similaridade com inspiração", { exact: false }).click();
+    await expect(page.getByRole("heading", { name: /Similaridade com inspira/i })).toBeVisible();
     await page.evaluate(() => {
       for (const key of Object.keys(window.localStorage)) {
         if (key.startsWith("pg-inspiration-planner:v1:")) window.localStorage.removeItem(key);

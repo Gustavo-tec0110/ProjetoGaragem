@@ -26,18 +26,20 @@ async function FeaturedProjectNote() {
   return (
     <Link
       href={buildProjectHref(project.slug)}
-      className="group absolute right-4 top-24 z-20 hidden w-64 rounded-lg border border-white/10 bg-black/45 p-3.5 backdrop-blur-md transition-colors hover:border-accent/45 sm:block lg:right-8 lg:top-28 lg:w-72 lg:p-4"
+      className="group absolute bottom-7 right-[clamp(1.5rem,6vw,7rem)] z-20 hidden w-[min(18rem,28vw)] border-l-2 border-accent pl-4 transition-colors sm:block"
       aria-label={`Ver projeto em destaque: ${project.title}`}
     >
-      <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
-        <span className="text-accent">01</span> / Projeto em destaque
+      <p className="font-ui text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">
+        Projeto em destaque
       </p>
-      <p className="mt-2 font-title text-sm font-bold uppercase tracking-[0.04em] text-white transition-colors group-hover:text-accent">
+      <p className="mt-1.5 truncate font-title text-sm font-bold tracking-[0.01em] text-white transition-colors group-hover:text-accent lg:text-base">
         {project.title}
       </p>
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-ui text-[10px] uppercase tracking-[0.1em] text-white/55">
+      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-ui text-[10px] tracking-[0.06em] text-white/55">
         {specs.map((spec) => (
-          <span key={spec}>{spec}</span>
+          <span key={spec} className="after:ml-2 after:text-white/20 after:content-['|'] last:after:hidden">
+            {spec}
+          </span>
         ))}
       </div>
     </Link>
@@ -72,28 +74,28 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
         <section className="border-b border-white/10 bg-black">
-          <div className="relative isolate h-[40rem] overflow-hidden md:h-[430px]">
-            <div className="absolute inset-x-0 top-0 h-[23rem] md:inset-y-0 md:left-auto md:h-auto md:w-[min(100%,1672px)]">
+          <div className="relative isolate h-[38rem] overflow-hidden md:h-[clamp(25.5rem,29vw,28.5rem)]">
+            <div className="absolute inset-x-0 top-0 h-[23rem] bg-black md:inset-y-0 md:left-auto md:h-auto md:w-[min(100%,1280px)]">
               <Image
-                src="/ref/hero-garage-v2.webp"
-                alt="Carro esportivo preto preparado em uma garagem subterrânea"
+                src="/ref/hero-opala-ss.webp"
+                alt="Chevrolet Opala SS preto preparado em uma oficina"
                 fill
                 preload
                 fetchPriority="high"
-                quality={85}
-                sizes="(min-width: 1672px) 1672px, 100vw"
-                className="object-cover object-[58%_center] md:object-[center_53%]"
+                quality={88}
+                sizes="(min-width: 1280px) 1280px, 100vw"
+                className="object-cover object-[38%_center] sm:object-[68%_center] md:object-[68%_35%]"
               />
             </div>
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.12)_32%,rgba(3,4,5,.94)_70%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.96)_24%,rgba(5,6,7,.52)_47%,rgba(5,6,7,.08)_76%,rgba(5,6,7,.24)_100%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.32)_0%,transparent_22%,transparent_68%,rgba(0,0,0,.58)_100%)]" />
-            <div className="absolute inset-0 opacity-[0.1] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.06)_0%,rgba(3,4,5,.14)_30%,rgba(3,4,5,.94)_68%,#08090b_100%)] md:bg-[linear-gradient(90deg,#050607_0%,rgba(5,6,7,.97)_23%,rgba(5,6,7,.68)_39%,rgba(5,6,7,.14)_65%,rgba(5,6,7,.18)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.3)_0%,transparent_25%,transparent_67%,rgba(0,0,0,.72)_100%)]" />
+            <div className="absolute inset-0 opacity-[0.055] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
 
             <Suspense fallback={null}>
               <FeaturedProjectNote />
             </Suspense>
 
-            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-end px-4 pb-7 pt-24 sm:px-6 md:items-start md:pb-3 md:pt-32 lg:px-16 xl:px-20">
+            <div className="relative mx-auto flex h-full w-full max-w-[100rem] items-end px-4 pb-7 pt-24 sm:px-6 md:items-start md:pb-3 md:pt-[clamp(7.5rem,8vw,8.75rem)] lg:px-16 xl:px-20">
               <div className="w-full max-w-[34rem] motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
                 <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
                   <span className="h-4 w-px bg-accent" aria-hidden="true" />
@@ -126,50 +128,43 @@ export default function Home() {
                   </Button>
                 </div>
 
-                <div className="mt-5 flex items-center gap-3 font-ui text-[9px] font-semibold uppercase tracking-[0.13em] text-white/38 md:text-[10px]">
-                  <span>Projetos</span>
-                  <span className="size-0.5 rounded-full bg-accent" />
-                  <span>Comunidade</span>
-                  <span className="size-0.5 rounded-full bg-accent" />
-                  <span>Builds reais</span>
-                </div>
               </div>
             </div>
           </div>
 
-          <div className="mx-auto grid w-full max-w-[86rem] grid-cols-1 border-x border-white/10 bg-[#0b0d0f]/95 shadow-2xl sm:grid-cols-2 md:grid-cols-4 md:backdrop-blur-xl xl:mx-5 xl:w-[calc(100%_-_2.5rem)] xl:max-w-none">
-            {features.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className={`relative flex min-h-[72px] items-center gap-3 px-4 py-3 md:min-h-[70px] md:gap-3 md:px-5 ${
-                    index > 0 ? "border-t border-white/8" : ""
-                  } ${index % 2 ? "sm:border-l sm:border-white/8" : ""} ${
-                    index > 1 ? "sm:border-t sm:border-white/8" : "sm:border-t-0"
-                  } ${
-                    index > 0
-                      ? "md:border-l-0 md:before:pointer-events-none md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-9 md:before:w-px md:before:-translate-y-1/2 md:before:bg-white/[0.07]"
-                      : ""
-                  } md:border-t-0`}
-                >
-                  <span className="relative isolate inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/40 bg-[radial-gradient(circle_at_30%_18%,rgba(255,255,255,0.13),transparent_34%),linear-gradient(145deg,rgba(255,53,47,0.06),rgba(20,23,28,0.68)_44%,rgba(4,5,7,0.86))] text-accent shadow-[inset_0_1px_0_rgba(255,255,255,0.22),inset_0_3px_7px_rgba(255,53,47,0.1),inset_0_-10px_13px_rgba(0,0,0,0.62),0_0_12px_rgba(255,53,47,0.14)] backdrop-blur-md before:pointer-events-none before:absolute before:-left-[22%] before:-top-[30%] before:size-[90%] before:rounded-full before:bg-[radial-gradient(circle,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.07)_34%,transparent_70%)] before:content-[''] after:pointer-events-none after:absolute after:inset-[2px] after:rounded-full after:bg-[linear-gradient(135deg,rgba(255,255,255,0.1),transparent_30%,transparent_68%,rgba(255,53,47,0.08))] after:content-[''] md:size-[44px]">
-                    <Icon className="relative z-10 size-[18px] stroke-[1.5] md:size-5" aria-hidden="true" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="truncate font-ui text-[12px] font-bold uppercase leading-[1.15] tracking-[0.04em] text-white md:text-[13px]">
-                      {item.title}
-                    </h2>
-                    <p className="mt-px truncate text-[11px] leading-[1.3] text-white/54 md:text-[11px]">{item.text}</p>
+          <div className="border-t border-white/[0.07] bg-[#090b0d]">
+            <div className="mx-auto grid w-full max-w-[100rem] grid-cols-2 px-4 sm:px-6 lg:grid-cols-4 xl:px-10">
+              {features.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className={`relative flex min-h-[72px] items-center gap-2 px-1 py-3 sm:gap-3 sm:px-4 lg:px-3 xl:px-6 ${
+                      index > 1 ? "border-t border-white/[0.06]" : ""
+                    } ${index % 2 ? "border-l border-white/[0.06]" : ""} ${
+                      index > 0
+                        ? "lg:border-l-0 lg:before:pointer-events-none lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:h-9 lg:before:w-px lg:before:-translate-y-1/2 lg:before:bg-white/[0.07]"
+                        : ""
+                    } lg:border-t-0`}
+                  >
+                    <span className="relative isolate inline-flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent/45 bg-black/45 text-accent shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] sm:size-10 md:size-11">
+                      <Icon className="relative z-10 size-[18px] stroke-[1.6] md:size-5" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <h2 className="font-ui text-[11px] font-bold leading-[1.15] tracking-[0.01em] text-white sm:truncate sm:text-[12px] md:text-[13px]">
+                        {item.title}
+                      </h2>
+                      <p className="mt-1 truncate text-[11px] leading-[1.3] text-white/48 md:text-[11px]">{item.text}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
 
         <section className="border-b border-border/45 bg-background-2/45 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-6xl py-10 md:pb-16 md:pt-8">
+          <div className="mx-auto w-full max-w-[100rem] py-8 md:pb-14 md:pt-7">
             <div className="mb-5 flex items-end justify-between gap-3 md:mb-6">
               <div>
                 <p className="pg-eyebrow">Seleção da comunidade</p>

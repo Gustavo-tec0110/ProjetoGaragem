@@ -64,6 +64,7 @@ create table if not exists public.profiles (
   email text,
   full_name text,
   avatar_url text,
+  cover_url text,
   bio text,
   city text,
   state text,
@@ -1344,6 +1345,7 @@ $$;
 
 alter table public.profiles
   add column if not exists instagram_handle text,
+  add column if not exists cover_url text,
   add column if not exists is_likes_public boolean not null default false;
 
 create or replace view public.public_profiles
@@ -1366,7 +1368,8 @@ select
   followers_count,
   following_count,
   created_at,
-  updated_at
+  updated_at,
+  cover_url
 from public.profiles;
 
 comment on view public.public_profiles is

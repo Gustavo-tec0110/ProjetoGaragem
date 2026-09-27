@@ -27,3 +27,8 @@ export function projectImagePath(userId: string, file: File) {
 
   return `${userId}/${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}-${safeName || "imagem"}.${extension}`;
 }
+
+export function profileImagePath(userId: string, kind: "avatar" | "cover", file: File) {
+  const extension = getProjectImageExtension(file);
+  return `${userId}/profile/${kind}-${crypto.randomUUID()}.${extension}`;
+}

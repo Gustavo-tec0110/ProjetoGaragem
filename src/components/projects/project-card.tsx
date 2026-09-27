@@ -28,15 +28,82 @@ function sourceLabel(project: Project) {
   return null;
 }
 
+function profileStatusVariant(status: string): "default" | "success" | "warning" {
+  if (status === "Finalizado") return "success";
+  if (status === "Planejamento") return "default";
+  return "warning";
+}
+
+function ProfileProjectCard({
+  project,
+  imageLoading,
+  imageIndex,
+}: {
+  project: Project;
+  imageLoading: "eager" | "lazy";
+  imageIndex: number;
+}) {
+  const projectHref = buildProjectHref(project.slug);
+  const image = project.gallery[imageIndex] ?? project.gallery[0] ?? project.mainImage;
+  const vehicle = [project.brand, project.model, project.year].filter(Boolean).join(" • ");
+
+  return (
+    <article className="group overflow-hidden rounded-2xl border border-border/70 bg-card/80 shadow-inset transition duration-200 hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-soft" data-testid="project-card" data-project-card-layout="profile">
+      <Link href={projectHref} className="block outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+        <div className="relative aspect-[16/10] overflow-hidden bg-surface">
+          <ProjectImage
+            src={image}
+            alt={`Foto do projeto ${project.title}`}
+            fill
+            loading={imageLoading}
+            className="object-cover transition duration-300 motion-reduce:transition-none md:group-hover:scale-[1.025]"
+            sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
+          <Badge variant={profileStatusVariant(project.status)} className="absolute left-3 top-3 bg-background/75 backdrop-blur-md">
+            {project.status}
+          </Badge>
+        </div>
+
+        <div className="p-4">
+          <h3 className="truncate font-title text-lg font-semibold tracking-tight">{project.title}</h3>
+          <p className="mt-1 truncate text-xs text-muted">{vehicle}</p>
+          {project.shortDescription ? (
+            <p className="mt-3 line-clamp-2 min-h-10 text-sm leading-5 text-foreground/75">{project.shortDescription}</p>
+          ) : null}
+          <div className="mt-4 flex items-center gap-5 border-t border-border/55 pt-3 text-xs text-muted">
+            <span className="inline-flex items-center gap-1.5" aria-label={`${project.likes.toLocaleString("pt-BR")} curtidas`}>
+              <Heart className={`size-4 text-accent ${project.viewerHasLiked ? "fill-current" : ""}`} aria-hidden="true" />
+              {project.likes.toLocaleString("pt-BR")}
+            </span>
+            <span className="inline-flex items-center gap-1.5" aria-label={`${project.comments.toLocaleString("pt-BR")} comentários`}>
+              <MessageSquare className="size-4" aria-hidden="true" />
+              {project.comments.toLocaleString("pt-BR")}
+            </span>
+            <span className="ml-auto inline-flex items-center" aria-label={project.viewerHasSaved ? "Projeto salvo" : "Projeto não salvo"}>
+              <Bookmark className={`size-4 ${project.viewerHasSaved ? "fill-current text-accent" : ""}`} aria-hidden="true" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </article>
+  );
+}
+
 export function ProjectCard({
   project,
   imageLoading = "lazy",
   imageIndex = 0,
+  variant = "default",
 }: {
   project: Project;
   imageLoading?: "eager" | "lazy";
   imageIndex?: number;
+  variant?: "default" | "profile";
 }) {
+  if (variant === "profile") {
+    return <ProfileProjectCard project={project} imageLoading={imageLoading} imageIndex={imageIndex} />;
+  }
   const projectHref = buildProjectHref(project.slug);
   const compareHref = buildCompareHref(project.slug);
   const image = project.gallery[imageIndex] ?? project.gallery[0] ?? project.mainImage;

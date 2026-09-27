@@ -9,11 +9,13 @@ export function CarGrid({
   emptyTitle = "Nenhum carro encontrado.",
   emptyDescription,
   emptyAction,
+  variant = "default",
 }: {
   cars: CarCardData[];
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: ReactNode;
+  variant?: "default" | "profile";
 }) {
   return (
     <ProjectGrid
@@ -21,6 +23,7 @@ export function CarGrid({
       emptyTitle={emptyTitle}
       emptyDescription={emptyDescription}
       emptyAction={emptyAction}
+      variant={variant}
     />
   );
 }

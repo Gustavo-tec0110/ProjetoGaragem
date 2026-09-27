@@ -802,6 +802,32 @@ export function qFollowedCars(userId: string) {
   return qRelatedCars(userId, "project_follows");
 }
 
+export async function qFollowingProfiles(userId: string): Promise<QueryResult<ProfileSummary[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+
+  const { data: relations, error } = await supabase
+    .from("user_follows")
+    .select("following_id")
+    .eq("follower_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) return { data: null, error: error.message };
+
+  const ids = ((relations ?? []) as Array<{ following_id: string }>).map(
+    (relation) => relation.following_id
+  );
+  if (!ids.length) return { data: [], error: null };
+
+  const profileMap = await fetchProfiles(supabase, ids);
+  return {
+    data: ids.flatMap((id) => {
+      const profile = profileMap.get(id);
+      return profile ? [profile] : [];
+    }),
+    error: null,
+  };
+}
+
 export async function qNotifications(limit = 20): Promise<QueryResult<NotificationWithContext[]>> {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };

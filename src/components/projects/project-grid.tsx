@@ -10,6 +10,7 @@ export function ProjectGrid({
   emptyAction,
   eagerFirstImage = false,
   imageIndex = 0,
+  variant = "default",
 }: {
   projects: Project[];
   emptyTitle?: string;
@@ -17,6 +18,7 @@ export function ProjectGrid({
   emptyAction?: ReactNode;
   eagerFirstImage?: boolean;
   imageIndex?: number;
+  variant?: "default" | "profile";
 }) {
   if (!projects.length) {
     return (
@@ -30,7 +32,7 @@ export function ProjectGrid({
 
   return (
     <div
-      className="grid grid-cols-2 gap-2.5 md:gap-5 xl:grid-cols-3"
+      className={variant === "profile" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3" : "grid grid-cols-2 gap-2.5 md:gap-5 xl:grid-cols-3"}
       data-testid="project-grid"
     >
       {projects.map((project, index) => (
@@ -39,6 +41,7 @@ export function ProjectGrid({
           project={project}
           imageLoading={eagerFirstImage && index < 3 ? "eager" : "lazy"}
           imageIndex={imageIndex}
+          variant={variant}
         />
       ))}
     </div>
