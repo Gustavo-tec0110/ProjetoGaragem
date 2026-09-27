@@ -12,6 +12,7 @@ import {
 import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
 import type { CarCommentWithAuthor } from "@/lib/supabase/queries";
+import { formatProjectDate } from "@/lib/projects/utils";
 
 type CommentActionState = ActionState & {
   comment?: CarCommentWithAuthor;
@@ -128,9 +129,7 @@ export function CommentsList({
                 </p>
                 <p className="mt-1 text-xs text-muted">
                   @{comment.author?.username ?? "usuario"} -{" "}
-                  {new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(
-                    new Date(comment.created_at)
-                  )}
+                  {formatProjectDate(comment.created_at)}
                 </p>
               </div>
               {canDelete ? (

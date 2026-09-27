@@ -120,9 +120,9 @@ export function normalizeProjectFilters(filters?: Partial<ProjectFilters>): Proj
     brand: filters?.brand?.trim() ?? "",
     model: filters?.model?.trim() ?? "",
     year: filters?.year?.trim() ?? "",
-    fuel: filters?.fuel?.trim() ?? "",
-    induction: filters?.induction?.trim() ?? "",
-    drivetrain: filters?.drivetrain?.trim() ?? "",
+    fuel: normalizeProjectFuel(filters?.fuel) ?? "",
+    induction: normalizeProjectInduction(filters?.induction) ?? "",
+    drivetrain: normalizeProjectDrivetrain(filters?.drivetrain) ?? "",
     category: filters?.category?.trim() ?? "",
     style: filters?.style?.trim() ?? "",
     engine: filters?.engine?.trim() ?? "",
@@ -156,6 +156,45 @@ export function normalizeSearchText(value: string | null | undefined) {
     .replace(/\s+/g, " ");
 }
 
+function normalizeFacetText(value: string | null | undefined) {
+  return normalizeSearchText(value).replace(/\btracao\b/g, "").trim();
+}
+
+const FUEL_FACETS: Array<[string, string]> = [
+  ["gasolina", "Gasolina"],
+  ["gasoline", "Gasolina"],
+  ["etanol", "Etanol"],
+  ["alcool", "Etanol"],
+  ["alcohol", "Etanol"],
+  ["flex", "Flex"],
+  ["diesel", "Diesel"],
+  ["gnv", "GNV"],
+  ["eletrico", "Elétrico"],
+  ["hibrido", "Híbrido"],
+];
+
+export function normalizeProjectFuel(value: string | null | undefined) {
+  const normalized = normalizeFacetText(value);
+  return FUEL_FACETS.find(([alias]) => normalized === alias || normalized.includes(alias))?.[1] ?? null;
+}
+
+export function normalizeProjectInduction(value: string | null | undefined) {
+  const normalized = normalizeFacetText(value);
+  if (normalized.includes("turbo")) return "Turbo";
+  if (normalized.includes("aspir")) return "Aspirado";
+  if (normalized.includes("supercharger") || normalized.includes("compressor")) return "Supercharger";
+  return null;
+}
+
+export function normalizeProjectDrivetrain(value: string | null | undefined) {
+  const normalized = normalizeFacetText(value);
+  if (normalized === "4x4" || normalized.includes("4x4")) return "4x4";
+  if (normalized === "awd" || normalized.includes("integral")) return "AWD";
+  if (normalized === "fwd" || normalized.includes("dianteir")) return "FWD";
+  if (normalized === "rwd" || normalized.includes("traseir")) return "RWD";
+  return null;
+}
+
 export function uniqueStrings(values: Array<string | null | undefined>) {
   return Array.from(
     new Set(
@@ -164,6 +203,17 @@ export function uniqueStrings(values: Array<string | null | undefined>) {
         .filter((value): value is string => Boolean(value))
     )
   );
+}
+
+export function uniqueDisplayStrings(values: Array<string | null | undefined>) {
+  const seen = new Map<string, string>();
+  for (const value of values) {
+    const trimmed = value?.trim();
+    if (!trimmed) continue;
+    const key = normalizeSearchText(trimmed);
+    if (key && !seen.has(key)) seen.set(key, trimmed);
+  }
+  return Array.from(seen.values());
 }
 
 function sumProjectExpenses(expenses: ProjectExpense[]) {
@@ -412,14 +462,24 @@ export function enrichProject(project: ProjectSeed): Project {
     ownerBio: project.ownerBio ?? null,
     ownerInstagram: project.ownerInstagram ?? null,
     specConfidencePercent: project.specConfidencePercent ?? null,
-    currentInduction: project.currentInduction ?? null,
-    fuelType: project.fuelType ?? null,
-    drivetrain: project.drivetrain ?? null,
+    currentInduction:
+      normalizeProjectInduction(project.currentInduction) ??
+      normalizeProjectInduction(project.engine) ??
+      null,
+    fuelType:
+      normalizeProjectFuel(project.fuelType) ??
+      rawTags.map(normalizeProjectFuel).find((value): value is string => Boolean(value)) ??
+      null,
+    drivetrain:
+      normalizeProjectDrivetrain(project.drivetrain) ??
+      normalizeProjectDrivetrain(project.factoryDrivetrain) ??
+      rawTags.map(normalizeProjectDrivetrain).find(Boolean) ??
+      null,
     factoryEngine: project.factoryEngine ?? null,
-    factoryInduction: project.factoryInduction ?? null,
+    factoryInduction: normalizeProjectInduction(project.factoryInduction) ?? null,
     factoryPowerCv: project.factoryPowerCv ?? null,
     factoryTransmission: project.factoryTransmission ?? null,
-    factoryDrivetrain: project.factoryDrivetrain ?? null,
+    factoryDrivetrain: normalizeProjectDrivetrain(project.factoryDrivetrain) ?? null,
     factorySpecsNote: project.factorySpecsNote ?? null,
     viewerHasFollowed: project.viewerHasFollowed ?? false,
     tags: normalizedTags,
@@ -427,12 +487,56 @@ export function enrichProject(project: ProjectSeed): Project {
 }
 
 export function uniqueProjects(projects: Project[]) {
-  const map = new Map<string, Project>();
+  const result: Project[] = [];
+  const positions = new Map<string, number>();
+  const demoPositions = new Map<string, number>();
+  const livePositions = new Map<string, number[]>();
+
   for (const project of projects) {
-    const identity = `${project.source}:${project.databaseId ?? project.id}`;
-    map.set(identity, project);
+    const stableKey = project.databaseId ? `database:${project.databaseId}` : `slug:${project.slug}`;
+    const semanticFingerprint = [
+      normalizeSearchText(project.title),
+      String(project.year),
+      normalizeSearchText(project.brand),
+      normalizeSearchText(project.model),
+    ].join(":");
+    const ownerKey = project.ownerId || project.ownerUsername || normalizeSearchText(project.ownerName);
+    const semanticKey =
+      project.source === "demo"
+        ? `demo:${semanticFingerprint}`
+        : ownerKey
+          ? `owner:${ownerKey}:${semanticFingerprint}`
+          : stableKey;
+
+    const matchingLive = livePositions.get(semanticFingerprint) ?? [];
+    const matchingDemo = demoPositions.get(semanticFingerprint);
+    const position =
+      positions.get(stableKey) ??
+      positions.get(semanticKey) ??
+      (project.source === "supabase" && matchingDemo != null && result[matchingDemo]?.source === "demo"
+        ? matchingDemo
+        : undefined) ??
+      (project.source === "demo" && matchingLive.length === 1 ? matchingLive[0] : undefined);
+    if (position == null) {
+      positions.set(stableKey, result.length);
+      positions.set(semanticKey, result.length);
+      result.push(project);
+    } else if (result[position].source === "demo" && project.source === "supabase") {
+      result[position] = project;
+      positions.set(stableKey, position);
+      positions.set(semanticKey, position);
+    }
+
+    const resolvedPosition = position ?? result.length - 1;
+    if (project.source === "demo") {
+      demoPositions.set(semanticFingerprint, resolvedPosition);
+    } else {
+      const existing = livePositions.get(semanticFingerprint) ?? [];
+      if (!existing.includes(resolvedPosition)) existing.push(resolvedPosition);
+      livePositions.set(semanticFingerprint, existing);
+    }
   }
-  return Array.from(map.values());
+  return result;
 }
 
 export function filterProjects(projects: Project[], filters: ProjectFilters) {
@@ -462,9 +566,8 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
       project.tags.some((tag) => normalizeSearchText(tag).includes(fuelTerm));
     const matchesInduction =
       !inductionTerm ||
-      normalizeSearchText(project.currentInduction).includes(inductionTerm) ||
-      normalizeSearchText(project.engine).includes(inductionTerm) ||
-      project.tags.some((tag) => normalizeSearchText(tag).includes(inductionTerm));
+      normalizeSearchText(project.currentInduction) === inductionTerm ||
+      normalizeSearchText(project.factoryInduction) === inductionTerm;
     const matchesDrivetrain =
       !drivetrainTerm ||
       normalizeSearchText(project.drivetrain).includes(drivetrainTerm) ||
@@ -544,25 +647,25 @@ export function sortProjects(projects: Project[], sort: ProjectSortKey, query = 
 }
 
 export function getAvailableStyles(projects: Project[]) {
-  return uniqueStrings(projects.map((project) => project.style)).sort((left, right) =>
+  return uniqueDisplayStrings(projects.map((project) => project.style)).sort((left, right) =>
     left.localeCompare(right, "pt-BR")
   );
 }
 
 export function getAvailableEngines(projects: Project[]) {
-  return uniqueStrings(projects.map((project) => project.engine)).sort((left, right) =>
+  return uniqueDisplayStrings(projects.map((project) => project.engine)).sort((left, right) =>
     left.localeCompare(right, "pt-BR")
   );
 }
 
 export function getAvailableBrands(projects: Project[]) {
-  return uniqueStrings(projects.map((project) => project.brand)).sort((left, right) =>
+  return uniqueDisplayStrings(projects.map((project) => project.brand)).sort((left, right) =>
     left.localeCompare(right, "pt-BR")
   );
 }
 
 export function getAvailableModels(projects: Project[]) {
-  return uniqueStrings(projects.map((project) => project.model)).sort((left, right) =>
+  return uniqueDisplayStrings(projects.map((project) => project.model)).sort((left, right) =>
     left.localeCompare(right, "pt-BR")
   );
 }

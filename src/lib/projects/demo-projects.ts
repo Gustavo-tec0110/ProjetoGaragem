@@ -103,7 +103,7 @@ function autoExpenses(project: {
     name: part.name,
     category: part.category,
     amount: Math.max(0, part.priceEstimate ?? 0),
-    date: new Date(2026, 4, 1 + index).toISOString(),
+    date: new Date(Date.UTC(2026, 4, 1 + index)).toISOString(),
     note: null,
     partName: part.name,
     isPublic: true,

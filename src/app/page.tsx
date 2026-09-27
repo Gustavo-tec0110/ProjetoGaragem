@@ -73,7 +73,79 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">
-        <section className="border-b border-white/10 bg-black">
+        <section className="border-b border-white/10 bg-black md:hidden">
+          <div className="relative isolate overflow-hidden bg-black">
+            <div className="relative h-[clamp(18rem,77vw,20.5rem)] overflow-hidden">
+              <Image
+                src="/ref/hero-opala-ss.webp"
+                alt="Chevrolet Opala SS preto preparado em uma oficina"
+                fill
+                preload
+                fetchPriority="high"
+                quality={88}
+                sizes="(min-width: 1280px) 1280px, 100vw"
+                className="object-cover object-[38%_center]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,4,5,.08)_0%,rgba(3,4,5,.06)_37%,rgba(3,4,5,.58)_69%,#08090b_100%)]" />
+              <div className="absolute inset-0 opacity-[0.055] [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_3px,rgba(255,255,255,.08)_4px)]" />
+            </div>
+
+            <div className="relative z-10 -mt-[4.75rem] px-4 pb-6 min-[390px]:-mt-20 min-[390px]:px-5">
+              <div className="motion-safe:animate-[pg-content-reveal_.7s_.15s_var(--pg-ease-out)_both]">
+                <div className="flex items-center gap-3 font-ui text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
+                  <span className="h-4 w-px bg-accent" aria-hidden="true" />
+                  Projeto Garagem
+                </div>
+                <h1 className="mt-3 font-title text-[2.85rem] font-extrabold uppercase italic leading-[0.9] tracking-[-0.06em] text-white drop-shadow-2xl min-[390px]:text-[3.25rem]">
+                  <span className="block">Sua garagem.</span>
+                  <span className="block">
+                    Seu <span className="text-accent">projeto.</span>
+                  </span>
+                </h1>
+                <p className="mt-3 max-w-[31rem] text-sm leading-6 text-white/68 min-[390px]:text-base">
+                  Monte, documente e compartilhe seu carro com quem vive a mesma paixão.
+                </p>
+
+                <div className="mt-5 grid grid-cols-[1.12fr_.88fr] gap-2">
+                  <Button asChild size="lg" className="h-12 min-w-0 rounded-sm px-3 text-xs uppercase min-[390px]:px-4 min-[390px]:text-sm">
+                    <Link href="/criar-projeto">
+                      Criar projeto
+                      <ArrowRight className="size-4 shrink-0" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="h-12 min-w-0 rounded-sm border-white/15 bg-black/25 px-2 text-[10px] uppercase backdrop-blur-sm min-[390px]:px-3 min-[390px]:text-xs"
+                  >
+                    <Link href="/explorar">Explorar projetos</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-white/[0.07] bg-[#090b0d]">
+            <div className="grid grid-cols-4 divide-x divide-white/[0.06] px-2">
+              {features.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} className="flex min-h-[72px] min-w-0 flex-col items-center justify-center gap-1.5 px-1 py-2 text-center">
+                    <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-accent/45 bg-black/45 text-accent shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                      <Icon className="size-3.5 stroke-[1.6]" aria-hidden="true" />
+                    </span>
+                    <h2 className="font-ui text-[9px] font-bold leading-[1.2] tracking-[0.01em] text-white min-[390px]:text-[10px]">
+                      {item.title}
+                    </h2>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="hidden border-b border-white/10 bg-black md:block">
           <div className="relative isolate h-[38rem] overflow-hidden md:h-[clamp(25.5rem,29vw,28.5rem)]">
             <div className="absolute inset-x-0 top-0 h-[23rem] bg-black md:inset-y-0 md:left-auto md:h-auto md:w-[min(100%,1280px)]">
               <Image
@@ -164,16 +236,24 @@ export default function Home() {
         </section>
 
         <section className="border-b border-border/45 bg-background-2/45 px-4 sm:px-6">
-          <div className="mx-auto w-full max-w-[100rem] py-8 md:pb-14 md:pt-7">
+          <div className="mx-auto w-full max-w-[100rem] py-7 md:pb-14 md:pt-7">
             <div className="mb-5 flex items-end justify-between gap-3 md:mb-6">
               <div>
-                <p className="pg-eyebrow">Seleção da comunidade</p>
+                <p className="pg-eyebrow md:hidden">Em destaque</p>
+                <p className="pg-eyebrow hidden md:block">Seleção da comunidade</p>
                 <h2 className="mt-3 font-title text-3xl leading-tight tracking-tight md:text-4xl">
-                  Garagens que merecem atenção
+                  <span className="md:hidden">
+                    Garagens que<br />merecem atenção
+                  </span>
+                  <span className="hidden md:inline">Garagens que merecem atenção</span>
                 </h2>
               </div>
-              <Button asChild variant="outline" size="sm" className="shrink-0 md:h-10 md:px-4">
-                <Link href="/explorar">Ver catálogo</Link>
+              <Button asChild variant="outline" size="sm" className="h-9 shrink-0 px-2.5 text-[11px] md:h-10 md:px-4 md:text-sm">
+                <Link href="/explorar">
+                  <span className="md:hidden">Ver todos</span>
+                  <span className="hidden md:inline">Ver catálogo</span>
+                  <ArrowRight className="size-3.5 md:hidden" aria-hidden="true" />
+                </Link>
               </Button>
             </div>
             <Suspense fallback={<FeaturedProjectsFallback />}>

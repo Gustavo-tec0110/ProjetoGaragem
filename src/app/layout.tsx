@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.webmanifest",
   verification: {
     google: "-FwBYBkt3CY75fHySibh8KnTX3X1vsorwFtklBT8RYM",
@@ -37,10 +40,10 @@ export const metadata: Metadata = {
     url: getSiteUrl(),
     images: [
       {
-        url: "/ref/hero-car.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: SITE_NAME,
+        alt: "Projeto Garagem — comunidade automotiva",
       },
     ],
   },
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: ["/ref/hero-car.jpg"],
+    images: ["/og-image.jpg"],
   },
 };
 

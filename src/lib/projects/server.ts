@@ -39,12 +39,6 @@ import {
 } from "@/lib/supabase/queries";
 
 const PROJECT_LIMIT = 120;
-const FEATURED_DEMO_SLUGS = [
-  "gol-quadrado-1994-ap18",
-  "subaru-impreza-wrx-2002-awd",
-  "uno-turbo-street",
-] as const;
-
 const getSupabaseProjectCatalog = cache(async (filters?: ProjectFilters, personalize = true) => {
   if (!isSupabaseConfigured) {
     return { projects: [] as Project[], error: "not_configured" as const };
@@ -96,18 +90,18 @@ const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
 });
 
 async function getRouteProjectBySlug(slug: string) {
-  const detail = await getSupabaseProjectDetailsBySlug(slug);
-  if (detail) {
-    return {
-      project: mapCarDetailsToProject(detail),
-      detail,
-    };
+  if (isSupabaseConfigured) {
+    const detail = await getSupabaseProjectDetailsBySlug(slug);
+    if (detail) {
+      return {
+        project: mapCarDetailsToProject(detail),
+        detail,
+      };
+    }
   }
 
   const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) {
-    return { project: demoProject, detail: null };
-  }
+  if (demoProject) return { project: demoProject, detail: null };
 
   return {
     project: null,
@@ -120,7 +114,6 @@ const getPublicRouteProjectCardBySlug = cache(async (slug: string) => {
     const result = await qPublicCarCardBySlug(slug);
     if (result.data) return mapCarCardToProject(result.data);
   }
-
   return demoProjects.find((entry) => entry.slug === slug || entry.id === slug) ?? null;
 });
 
@@ -254,19 +247,7 @@ export const getFeaturedProjects = cache(
     }
 
     const sortedProjects = sortProjects(featuredPool, sort);
-    const projectsBySlug = new Map(
-      sortedProjects.map((project) => [project.slug, project])
-    );
-    const priorityProjects = FEATURED_DEMO_SLUGS.flatMap((slug) => {
-      const project = projectsBySlug.get(slug);
-      return project ? [project] : [];
-    });
-    const prioritySlugs = new Set<string>(FEATURED_DEMO_SLUGS);
-    const remainingProjects = sortedProjects.filter(
-      (project) => !prioritySlugs.has(project.slug)
-    );
-
-    return [...priorityProjects, ...remainingProjects].slice(0, limit);
+    return sortedProjects.slice(0, limit);
   }
 );
 

@@ -23,7 +23,7 @@ const DEFAULT_STYLES = [
 
 const DEFAULT_FUELS = ["Gasolina", "Flex", "Etanol", "Diesel", "GNV", "Elétrico", "Híbrido"] as const;
 const DEFAULT_INDUCTIONS = ["Aspirado", "Turbo", "Supercharger"] as const;
-const DEFAULT_DRIVETRAINS = ["FWD", "RWD", "AWD", "4x4", "Dianteira", "Traseira", "Integral"] as const;
+const DEFAULT_DRIVETRAINS = ["FWD", "RWD", "AWD", "4x4"] as const;
 
 type FiltersProps = {
   filters: ProjectFilters;

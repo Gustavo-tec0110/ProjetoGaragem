@@ -4,8 +4,8 @@ import { configuredSiteUrl } from "@/lib/supabase/env";
 
 export const SITE_NAME = "Projeto Garagem";
 export const SITE_DESCRIPTION =
-  "Crie a ficha publica do seu carro e descubra projetos automotivos reais da comunidade.";
-const SITE_FALLBACK_IMAGE = "/ref/hero-car.jpg";
+  "Crie sua garagem. Documente seus carros, peças, fotos e evolução. Compartilhe seus projetos com a comunidade automotiva.";
+const SITE_FALLBACK_IMAGE = "/og-image.jpg";
 
 export function getSiteUrl() {
   return configuredSiteUrl;
