@@ -216,12 +216,13 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
     });
   }
   await page.goto("/explorar");
+  const searchInput = page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos").last();
   if (mobile) {
-    await page.getByLabel("Pesquisar catálogo no celular").fill("Gol");
+    await searchInput.fill("Gol");
     await page.getByRole("button", { name: "Buscar", exact: true }).click();
     await expect(page).toHaveURL(/q=Gol/);
   } else {
-    await page.getByLabel("Buscar projetos").fill("Gol");
+    await searchInput.fill("Gol");
     const projectSuggestion = page
       .getByRole("listbox")
       .getByRole("option", { name: /Gol Quadrado 1994 AP 1\.8/ });
@@ -273,10 +274,11 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
   }
 });
 
-test("busca sem resultados informa estado vazio e mantem o termo", async ({ page }) => {
+test("busca sem resultados informa estado vazio e mantem o termo", async ({ page }, testInfo) => {
   const query = "e2e-projeto-inexistente-9f4c2d";
   await page.goto(`/explorar?q=${query}`);
-  await expect(page.getByLabel("Buscar projetos")).toHaveValue(query);
+  const mobile = isMobileProject(testInfo.project.name);
+  await expect(page.getByLabel(mobile ? "Pesquisar catálogo no celular" : "Buscar projetos").last()).toHaveValue(query);
   await expect(page.getByRole("heading", { name: `Resultados para "${query}"` })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Nenhum projeto encontrado para essa busca." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Limpar filtros" }).first()).toHaveAttribute(
