@@ -68,6 +68,7 @@ create table if not exists public.profiles (
   bio text,
   city text,
   state text,
+  social_links jsonb not null default '{}'::jsonb,
   is_saves_public boolean not null default false,
   is_likes_public boolean not null default false,
   cars_count integer not null default 0,
@@ -75,7 +76,8 @@ create table if not exists public.profiles (
   following_count integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint profiles_username_chk check (username ~ '^[a-z0-9][a-z0-9_-]{2,23}$')
+  constraint profiles_username_chk check (username ~ '^[a-z0-9][a-z0-9_-]{2,23}$'),
+  constraint profiles_social_links_object_chk check (jsonb_typeof(social_links) = 'object')
 );
 
 create table if not exists public.car_catalog_models (
@@ -1346,6 +1348,7 @@ $$;
 alter table public.profiles
   add column if not exists instagram_handle text,
   add column if not exists cover_url text,
+  add column if not exists social_links jsonb not null default '{}'::jsonb,
   add column if not exists is_likes_public boolean not null default false;
 
 create or replace view public.public_profiles
@@ -1369,7 +1372,8 @@ select
   following_count,
   created_at,
   updated_at,
-  cover_url
+  cover_url,
+  social_links
 from public.profiles;
 
 comment on view public.public_profiles is

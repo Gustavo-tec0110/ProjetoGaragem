@@ -239,7 +239,7 @@ test("busca inteligente abre sugestao e filtros permanecem na URL", async ({ pag
   let selectedBrand: string;
   if (mobile) {
     await expect(page.getByLabel("Carregando catálogo público")).toBeHidden();
-    await expect(page.getByLabel("Ordenação mobile")).toHaveValue("likes");
+    await expect(page.getByLabel("Ordenação mobile").filter({ visible: true })).toHaveValue("likes");
     await page.getByRole("heading", { name: "Explorar projetos" }).click();
     await expect(page.getByRole("listbox")).toBeHidden();
     const filterButton = page.getByRole("button", { name: "Abrir filtros avançados" });
@@ -390,7 +390,7 @@ test("exploracao responsiva expoe filtros sem quebrar resultados", async ({ page
     const filterButton = page.getByRole("button", { name: "Abrir filtros avançados" });
     await expect(filterButton).toBeVisible();
     await expect(page.getByLabel("Carregando catálogo público")).toBeHidden();
-    await expect(page.getByLabel("Ordenação mobile")).toBeVisible();
+    await expect(page.getByLabel("Ordenação mobile").filter({ visible: true })).toBeVisible();
     await page.getByRole("heading", { name: "Explorar projetos" }).click();
     await expect(page.getByRole("listbox")).toBeHidden();
     const dialog = page.getByRole("dialog", { name: "Filtros" });

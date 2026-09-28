@@ -1,3 +1,5 @@
+import type { SocialLinks } from "@/lib/profile/social-links";
+
 type Json =
   | string
   | number
@@ -25,6 +27,7 @@ export type ProfileRow = {
   city: string | null;
   state: string | null;
   instagram_handle: string | null;
+  social_links: SocialLinks;
   is_saves_public: boolean;
   is_likes_public: boolean;
   cars_count: number;
@@ -257,6 +260,7 @@ export interface Database {
           city?: string | null;
           state?: string | null;
           instagram_handle?: string | null;
+          social_links?: SocialLinks;
           is_saves_public?: boolean;
           is_likes_public?: boolean;
         }

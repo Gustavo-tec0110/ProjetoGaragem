@@ -4,7 +4,9 @@ import {
   CarFront,
   Heart,
   AtSign,
+  CirclePlay,
   MapPin,
+  Music2,
   Plus,
   UserCheck,
   Users,
@@ -18,6 +20,12 @@ import { FollowProfileButton } from "@/components/garage/follow-profile-button";
 import { InspirationPlanner } from "@/components/garage/inspiration-planner";
 import { ProjectImage } from "@/components/projects/project-image";
 import { Button } from "@/components/ui/button";
+import {
+  getProfileSocialLinks,
+  SOCIAL_PLATFORMS,
+  socialPlatformLabel,
+  type SocialPlatform,
+} from "@/lib/profile/social-links";
 import { Card } from "@/components/ui/card";
 import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server";
 import {
@@ -41,6 +49,12 @@ type ProfileExperienceProps = {
   baseHref: string;
   defaultEmail?: string | null;
   showPrivateTools?: boolean;
+};
+
+const socialIcons: Record<SocialPlatform, LucideIcon> = {
+  instagram: AtSign,
+  tiktok: Music2,
+  youtube: CirclePlay,
 };
 
 function ProfileStat({ label, value, icon: Icon }: { label: string; value: number; icon: LucideIcon }) {
@@ -73,7 +87,7 @@ export function ProfileHeader({
   defaultEmail?: string | null;
 }) {
   const location = [profile.city, profile.state].filter(Boolean).join(" - ");
-  const instagram = profile.instagram_handle?.replace(/^@/, "").trim();
+  const socialLinks = getProfileSocialLinks(profile.social_links, profile.instagram_handle);
 
   return (
     <Card className="relative overflow-visible rounded-2xl border-border/70 bg-card/85 shadow-soft">
@@ -110,14 +124,28 @@ export function ProfileHeader({
               <h1 className="truncate font-title text-2xl font-semibold tracking-tight sm:text-3xl">{profile.display_name}</h1>
               <p className="mt-0.5 text-sm text-muted">@{profile.username}</p>
               {profile.bio ? <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground/80">{profile.bio}</p> : null}
-              {(location || instagram) ? (
+              {(location || Object.keys(socialLinks).length) ? (
                 <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted sm:text-sm">
                   {location ? <span className="inline-flex items-center gap-1.5"><MapPin className="size-4" aria-hidden="true" />{location}</span> : null}
-                  {instagram ? (
-                    <a href={`https://instagram.com/${instagram}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition hover:text-foreground">
-                      <AtSign className="size-4 text-accent" aria-hidden="true" />@{instagram}
-                    </a>
-                  ) : null}
+                  {SOCIAL_PLATFORMS.flatMap((platform) => {
+                    const href = socialLinks[platform];
+                    if (!href) return [];
+                    const Icon = socialIcons[platform];
+                    const label = socialPlatformLabel(platform);
+                    return [
+                      <a
+                        key={platform}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Abrir ${label} de ${profile.display_name}`}
+                        title={label}
+                        className="inline-flex size-11 items-center justify-center rounded-full border border-border/70 bg-background/45 text-foreground transition hover:border-accent/60 hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+                      >
+                        <Icon className="size-4" aria-hidden="true" />
+                      </a>,
+                    ];
+                  })}
                 </div>
               ) : null}
             </div>

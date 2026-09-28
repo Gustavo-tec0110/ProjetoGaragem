@@ -2,17 +2,23 @@
 
 import * as React from "react";
 import { useActionState } from "react";
-import { Camera, ImagePlus, LoaderCircle, Upload } from "lucide-react";
+import { AtSign, Camera, CirclePlay, ImagePlus, LoaderCircle, Music2, Upload } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { saveProfileAction, type ActionState } from "@/app/carros/actions";
-import { useAuth } from "@/components/AuthProvider";
+import { ProfileImageCropDialog } from "@/components/garage/profile-image-crop-dialog";
 import { ProjectImage } from "@/components/projects/project-image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { normalizeSlug } from "@/lib/garage/constants";
-import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
+import {
+  getProfileSocialLinks,
+  normalizeSocialLink,
+  SOCIAL_PLATFORMS,
+  socialPlatformLabel,
+  type SocialPlatform,
+} from "@/lib/profile/social-links";
 import {
   PROJECT_IMAGE_MAX_BYTES,
   isAllowedProjectImage,
@@ -23,8 +29,8 @@ import { cn } from "@/lib/utils";
 const initialActionState: ActionState = { status: "idle", message: "" };
 
 function uploadErrorMessage(uploadError: unknown) {
-  if (!(uploadError instanceof Error)) return "Não foi possível enviar a imagem agora.";
-  return uploadError.message || "Não foi possível enviar a imagem agora.";
+  void uploadError;
+  return "Não foi possível enviar a imagem agora. Tente novamente.";
 }
 
 async function uploadProfileImage(kind: "avatar" | "cover", file: File) {
@@ -49,38 +55,30 @@ function ProfileImageField({
   onChange: (value: string) => void;
 }) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const { user } = useAuth();
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const isAvatar = kind === "avatar";
 
-  async function upload(file: File | undefined) {
+  function selectFile(file: File | undefined) {
     if (!file) return;
     setError("");
     if (!isAllowedProjectImage(file) || file.size > PROJECT_IMAGE_MAX_BYTES) {
       setError("Envie JPG, PNG ou WebP com até 5 MB.");
       return;
     }
+    setSelectedFile(file);
+  }
 
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) {
-      setError("Supabase não está configurado para enviar imagens.");
-      return;
-    }
-    const currentUser = user ?? (await supabase.auth.getUser()).data.user;
-    if (!currentUser) {
-      setError("Entre na sua conta para enviar imagens.");
-      return;
-    }
-
+  async function applyCrop(file: File) {
     setPending(true);
     try {
       onChange(await uploadProfileImage(kind, file));
     } catch (uploadError) {
       setError(uploadErrorMessage(uploadError));
+      throw uploadError;
     } finally {
       setPending(false);
-      if (inputRef.current) inputRef.current.value = "";
     }
   }
 
@@ -93,7 +91,10 @@ function ProfileImageField({
         type="file"
         accept="image/jpeg,image/png,image/webp"
         className="sr-only"
-        onChange={(event) => void upload(event.currentTarget.files?.[0])}
+        onChange={(event) => {
+          selectFile(event.currentTarget.files?.[0]);
+          event.currentTarget.value = "";
+        }}
       />
       <div
         className={cn(
@@ -127,9 +128,16 @@ function ProfileImageField({
         ) : null}
       </div>
       {error ? <p className="text-xs text-danger" role="status">{error}</p> : null}
+      <ProfileImageCropDialog file={selectedFile} kind={kind} onCancel={() => setSelectedFile(null)} onApply={applyCrop} />
     </div>
   );
 }
+
+const socialIcons: Record<SocialPlatform, typeof AtSign> = {
+  instagram: AtSign,
+  tiktok: Music2,
+  youtube: CirclePlay,
+};
 
 export function ProfileForm({
   profile,
@@ -146,6 +154,11 @@ export function ProfileForm({
   const [avatarUrl, setAvatarUrl] = React.useState(profile?.avatar_url ?? "");
   const [coverUrl, setCoverUrl] = React.useState(profile?.cover_url ?? "");
   const [username, setUsername] = React.useState(profile?.username ?? "");
+  const [socialLinks, setSocialLinks] = React.useState<Record<SocialPlatform, string>>(() => {
+    const links = getProfileSocialLinks(profile?.social_links, profile?.instagram_handle);
+    return Object.fromEntries(SOCIAL_PLATFORMS.map((platform) => [platform, links[platform] ?? ""])) as Record<SocialPlatform, string>;
+  });
+  const [socialErrors, setSocialErrors] = React.useState<Partial<Record<SocialPlatform, string>>>({});
   const router = useRouter();
   const pathname = usePathname();
   const handledStateRef = React.useRef<ActionState>(initialActionState);
@@ -165,6 +178,20 @@ export function ProfileForm({
     router.refresh();
   }, [onSaved, pathname, profile, router, state, username]);
 
+  function validateSocialLinks() {
+    const errors: Partial<Record<SocialPlatform, string>> = {};
+    const normalized: Partial<Record<SocialPlatform, string>> = {};
+    for (const platform of SOCIAL_PLATFORMS) {
+      const result = normalizeSocialLink(platform, socialLinks[platform]);
+      if (!result.ok) errors[platform] = result.message;
+      else normalized[platform] = result.value ?? "";
+    }
+    setSocialErrors(errors);
+    if (Object.keys(errors).length) return false;
+    setSocialLinks((current) => ({ ...current, ...normalized }));
+    return true;
+  }
+
   const content = (
     <>
       {!embedded ? (
@@ -175,7 +202,7 @@ export function ProfileForm({
         </>
       ) : null}
 
-      <form action={formAction} className={cn("grid gap-4", !embedded && "mt-5 md:mt-6")}>
+      <form action={formAction} onSubmit={(event) => { if (!validateSocialLinks()) event.preventDefault(); }} className={cn("grid gap-4", !embedded && "mt-5 md:mt-6")}>
         <div className="grid gap-4 sm:grid-cols-[auto_1fr]">
           <ProfileImageField kind="avatar" label="Foto de perfil" value={avatarUrl} onChange={setAvatarUrl} />
           <ProfileImageField kind="cover" label="Imagem de capa" value={coverUrl} onChange={setCoverUrl} />
@@ -202,10 +229,46 @@ export function ProfileForm({
           <label className="grid gap-2 text-sm text-muted">Estado<Input name="state" defaultValue={profile?.state ?? ""} placeholder="SP" maxLength={2} /></label>
         </div>
 
-        <label className="grid gap-2 text-sm text-muted">
-          Instagram
-          <Input name="instagram_handle" defaultValue={profile?.instagram_handle ?? ""} placeholder="ex: projetogaragem" />
-        </label>
+        <section className="rounded-2xl border border-border/70 bg-background/25 p-4 sm:p-5" aria-labelledby="social-links-title">
+          <div>
+            <h2 id="social-links-title" className="font-title text-lg tracking-tight text-foreground">Redes sociais</h2>
+            <p className="mt-1 text-sm text-muted">Adicione os links que deseja exibir publicamente na sua garagem.</p>
+          </div>
+          <div className="mt-4 grid gap-3">
+            {SOCIAL_PLATFORMS.map((platform) => {
+              const Icon = socialIcons[platform];
+              const error = socialErrors[platform];
+              const inputId = `social-${platform}`;
+              return (
+                <label key={platform} className="grid gap-2 text-sm text-muted" htmlFor={inputId}>
+                  <span className="inline-flex items-center gap-2 font-medium text-foreground"><Icon className="size-4 text-accent" aria-hidden="true" />{socialPlatformLabel(platform)}</span>
+                  <Input
+                    id={inputId}
+                    name={`social_${platform}`}
+                    value={socialLinks[platform]}
+                    onChange={(event) => {
+                      setSocialLinks((current) => ({ ...current, [platform]: event.target.value }));
+                      setSocialErrors((current) => ({ ...current, [platform]: undefined }));
+                    }}
+                    onBlur={() => {
+                      const result = normalizeSocialLink(platform, socialLinks[platform]);
+                      setSocialErrors((current) => ({ ...current, [platform]: result.ok ? undefined : result.message }));
+                      if (result.ok && result.value) setSocialLinks((current) => ({ ...current, [platform]: result.value }));
+                    }}
+                    placeholder={platform === "instagram" ? "instagram.com/sua-garagem" : platform === "tiktok" ? "tiktok.com/@sua-garagem" : "youtube.com/@sua-garagem"}
+                    inputMode="url"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? `${inputId}-error` : undefined}
+                  />
+                  {error ? <span id={`${inputId}-error`} className="text-xs text-danger">{error}</span> : null}
+                </label>
+              );
+            })}
+          </div>
+        </section>
 
         <div className="grid gap-2">
           <label className="flex items-start gap-3 rounded-2xl border border-border/70 bg-background/35 px-4 py-3 text-sm text-muted">
@@ -220,6 +283,9 @@ export function ProfileForm({
 
         {state.status === "error" ? (
           <p className="rounded-2xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger" role="alert">{state.message}</p>
+        ) : null}
+        {state.status === "success" ? (
+          <p className="rounded-2xl border border-success/30 bg-success/10 px-4 py-3 text-sm text-success" role="status">{state.message}</p>
         ) : null}
 
         <Button type="submit" disabled={pending} className="mobile-cta-safe w-full sm:ml-auto sm:w-auto">

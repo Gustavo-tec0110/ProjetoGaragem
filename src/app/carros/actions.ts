@@ -5,13 +5,17 @@ import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
 import { normalizeSlug } from "@/lib/garage/constants";
+import {
+  instagramHandleFromSocialLinks,
+  normalizeSocialLinks,
+} from "@/lib/profile/social-links";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";
 import {
   COMMENT_MAX_LENGTH,
   PROFILE_CITY_MAX_LENGTH,
   PROFILE_DISPLAY_NAME_MAX_LENGTH,
-  PROFILE_INSTAGRAM_MAX_LENGTH,
+  PROFILE_SOCIAL_LINK_MAX_LENGTH,
 } from "@/lib/security/limits";
 import { PROJECT_CATALOG_CACHE_TAG, PUBLIC_PROFILE_CACHE_TAG } from "@/lib/projects/cache";
 import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
@@ -379,9 +383,20 @@ export async function saveProfileAction(
 
   if (username.length < 3) return { status: "error", message: "Escolha um username com pelo menos 3 caracteres." };
   if (!displayName || displayName.length > PROFILE_DISPLAY_NAME_MAX_LENGTH) return { status: "error", message: "Informe um nome de até 80 caracteres." };
-  if (text(formData, "bio").length > 240 || text(formData, "city").length > PROFILE_CITY_MAX_LENGTH || text(formData, "instagram_handle").length > PROFILE_INSTAGRAM_MAX_LENGTH) {
+  if (text(formData, "bio").length > 240 || text(formData, "city").length > PROFILE_CITY_MAX_LENGTH) {
     return { status: "error", message: "Revise os campos do perfil: eles excedem o tamanho permitido." };
   }
+
+  const socialInput = {
+    instagram: text(formData, "social_instagram"),
+    tiktok: text(formData, "social_tiktok"),
+    youtube: text(formData, "social_youtube"),
+  };
+  if (Object.values(socialInput).some((value) => value.length > PROFILE_SOCIAL_LINK_MAX_LENGTH)) {
+    return { status: "error", message: "Revise os links sociais: eles excedem o tamanho permitido." };
+  }
+  const socialLinks = normalizeSocialLinks(socialInput);
+  if (!socialLinks.ok) return { status: "error", message: socialLinks.message };
 
   const { error } = await auth.supabase.from("profiles").upsert({
     id: auth.user.id,
@@ -394,12 +409,23 @@ export async function saveProfileAction(
     bio: nullableText(formData, "bio"),
     city: nullableText(formData, "city"),
     state: nullableText(formData, "state"),
-    instagram_handle: nullableText(formData, "instagram_handle"),
+    social_links: socialLinks.value,
+    // Kept in sync while older project cards still use this legacy field.
+    instagram_handle: instagramHandleFromSocialLinks(socialLinks.value),
     is_saves_public: formData.get("is_saves_public") === "true",
     is_likes_public: formData.get("is_likes_public") === "true",
   });
 
-  if (error) return { status: "error", message: "Não foi possível salvar o perfil agora. Tente novamente." };
+  if (error) {
+    serverLog.error("profile-save", {
+      userId: auth.user.id,
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+    });
+    return { status: "error", message: "Não foi possível salvar o perfil. Tente novamente." };
+  }
 
   revalidatePath("/perfil");
   revalidatePath(`/perfil/${username}`);

@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             <p className="mt-3">Tratamos apenas dados relacionados ao funcionamento da plataforma, conforme o uso que você faz dela:</p>
             <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-accent">
               <li><strong>Conta e autenticação:</strong> e-mail, nome, nome de usuário, identificador técnico da conta e dados necessários à sessão. No login com Google, recebemos os dados que você autorizar no fluxo, normalmente nome, e-mail e foto; nunca recebemos sua senha do Google.</li>
-              <li><strong>Perfil:</strong> foto e capa, bio, cidade, estado, Instagram informado voluntariamente e escolhas de visibilidade de curtidas e itens salvos.</li>
+              <li><strong>Perfil:</strong> foto e capa, bio, cidade, estado, links sociais informados voluntariamente e escolhas de visibilidade de curtidas e itens salvos.</li>
               <li><strong>Projetos e conteúdo:</strong> veículos, dados técnicos, peças, despesas, atualizações, fotos, comentários, curtidas, itens salvos e follows. Campos que você publicar podem ficar visíveis a visitantes conforme a configuração do projeto.</li>
               <li><strong>Dados técnicos:</strong> dados de sessão, registros técnicos e dados de requisição que os provedores de infraestrutura processam, como endereço IP, data/hora e informações de segurança, quando necessários para prevenir abuso, operar e diagnosticar o serviço.</li>
             </ul>
