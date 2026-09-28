@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Camera, Pencil, X } from "lucide-react";
 
 import { ProfileForm } from "@/components/garage/profile-form";
+import { announceProfileSaved } from "@/components/garage/profile-save-feedback";
 import { Button } from "@/components/ui/button";
 import type { ProfileRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -53,7 +54,7 @@ export function EditProfileDialog({
             </Dialog.Close>
           </div>
           <div className="mt-5">
-            <ProfileForm profile={profile} defaultEmail={defaultEmail} embedded onSaved={() => setOpen(false)} />
+            <ProfileForm profile={profile} defaultEmail={defaultEmail} embedded onSaved={() => { announceProfileSaved(); setOpen(false); }} />
           </div>
         </Dialog.Content>
       </Dialog.Portal>

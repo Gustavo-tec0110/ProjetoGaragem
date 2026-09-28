@@ -16,6 +16,7 @@ import {
 
 import { CarGrid } from "@/components/garage/car-card";
 import { EditProfileDialog } from "@/components/garage/edit-profile-dialog";
+import { ProfileSaveFeedback } from "@/components/garage/profile-save-feedback";
 import { FollowProfileButton } from "@/components/garage/follow-profile-button";
 import { InspirationPlanner } from "@/components/garage/inspiration-planner";
 import { ProjectImage } from "@/components/projects/project-image";
@@ -302,6 +303,7 @@ export async function ProfileExperience({
 
   return (
     <>
+      <ProfileSaveFeedback />
       <ProfileHeader profile={profile} isOwner={isOwner} viewerLoggedIn={viewerLoggedIn} viewerFollows={viewerFollows} coverImage={coverImage} projectsCount={cars.length} likesReceived={likesReceived} defaultEmail={defaultEmail} />
       <ProfileTabs tabs={tabs} activeTab={activeTab} />
 
