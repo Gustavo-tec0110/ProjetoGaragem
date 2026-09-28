@@ -328,16 +328,16 @@ test("perfil publico lista contadores e permite navegar para um projeto", async 
 test("rotas privadas orientam visitante e preservam o destino de login", async ({ page }) => {
   await page.goto("/criar-projeto");
   const localCreateHeading = page.getByRole("heading", { name: "Adicionar projeto sem Supabase" });
+  const signInCreateHeading = page.getByRole("heading", {
+    name: /Entrar no Projeto Garagem|Entre no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i,
+  });
+  await expect(localCreateHeading.or(signInCreateHeading)).toBeVisible();
   if (await localCreateHeading.isVisible()) {
     await expect(page.getByRole("button", { name: "Criar projeto local" })).toBeVisible();
     await page.goto("/garagem");
     await expect(page.getByRole("heading", { name: "Garagem local", exact: true })).toBeVisible();
   } else {
-    await expect(
-      page.getByRole("heading", {
-        name: /Entrar no Projeto Garagem|Entre no Projeto Garagem|Entre para criar seu projeto|Crie o projeto/i,
-      })
-    ).toBeVisible();
+    await expect(signInCreateHeading).toBeVisible();
     await page.goto("/garagem");
     await expect(page.getByRole("heading", { name: /Entre para gerenciar seus projetos|Entre no Projeto Garagem/ })).toBeVisible();
   }
