@@ -12,10 +12,9 @@ import { getAuthUserName } from "@/lib/auth/user";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import {
   PROJECT_IMAGE_MAX_BYTES,
-  PROJECT_IMAGES_BUCKET,
   isAllowedProjectImage,
-  projectImagePath,
 } from "@/lib/supabase/storage";
+import { PROJECT_IMAGES_PER_PROJECT } from "@/lib/security/limits";
 import { cn } from "@/lib/utils";
 import { measurePerformance, performanceTimer } from "@/lib/performance";
 
@@ -41,16 +40,17 @@ function moveItem(items: string[], from: number, to: number) {
 function uploadErrorMessage(uploadError: unknown) {
   const fallback = "Nao foi possivel enviar a imagem agora.";
   if (!(uploadError instanceof Error)) return fallback;
-
-  const message = uploadError.message.toLowerCase();
-  if (
-    message.includes("bucket not found") ||
-    (message.includes("bucket") && message.includes("not found"))
-  ) {
-    return `Bucket "${PROJECT_IMAGES_BUCKET}" nao encontrado no Supabase Storage. Aplique as migrations e tente novamente.`;
-  }
-
   return uploadError.message || fallback;
+}
+
+async function uploadProjectImage(file: File) {
+  const formData = new FormData();
+  formData.set("kind", "project");
+  formData.set("file", file);
+  const response = await fetch("/api/uploads/image", { method: "POST", body: formData });
+  const body = (await response.json().catch(() => null)) as { url?: string; message?: string } | null;
+  if (!response.ok || !body?.url) throw new Error(body?.message ?? "Não foi possível enviar a imagem agora.");
+  return body.url;
 }
 
 export function ProjectImageUploader({
@@ -98,6 +98,10 @@ export function ProjectImageUploader({
     }
 
     const selectedFiles = Array.from(files);
+    if (gallery.length + selectedFiles.length > PROJECT_IMAGES_PER_PROJECT) {
+      setError(`Cada projeto pode ter até ${PROJECT_IMAGES_PER_PROJECT} imagens.`);
+      return;
+    }
     const invalid = selectedFiles.find(
       (file) => !isAllowedProjectImage(file) || file.size > PROJECT_IMAGE_MAX_BYTES
     );
@@ -122,19 +126,7 @@ export function ProjectImageUploader({
               "upload",
               "storage.file",
               async () => {
-                const path = projectImagePath(currentUser.id, file);
-                const { error: uploadError } = await supabase.storage
-                  .from(PROJECT_IMAGES_BUCKET)
-                  .upload(path, file, {
-                    cacheControl: "31536000",
-                    contentType: file.type,
-                    upsert: false,
-                  });
-
-                if (uploadError) throw uploadError;
-
-                const { data } = supabase.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
-                return data.publicUrl || null;
+                return uploadProjectImage(file);
               },
               { bytes: file.size, type: file.type }
             )
@@ -190,7 +182,7 @@ export function ProjectImageUploader({
           <p className="text-xs text-muted">Upload de imagens</p>
           <h3 className="mt-2 font-title text-xl tracking-tight">Fotos reais do carro</h3>
           <p className="mt-2 text-sm text-muted">
-            Use JPG, PNG ou WebP com até 5 MB. O arquivo fica salvo no Supabase Storage.
+            Use JPG, PNG ou WebP com até 5 MB. Validamos e normalizamos a imagem antes de salvar.
           </p>
 
           <input

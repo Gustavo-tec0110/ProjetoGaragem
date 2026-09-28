@@ -7,6 +7,16 @@ import { normalizeSlug } from "@/lib/garage/constants";
 import { calculateEssentialProjectProgress } from "@/lib/garage/project-completion";
 import { parseTagString, uniqueStrings } from "@/lib/projects/utils";
 import { serverLog } from "@/lib/server-log";
+import {
+  PROJECT_EXPENSES_MAX_ITEMS,
+  PROJECT_FORM_MAX_FIELD_LENGTH,
+  PROJECT_FORM_MAX_FIELDS,
+  PROJECT_FORM_MAX_JSON_LENGTH,
+  PROJECT_IMAGES_PER_PROJECT,
+  PROJECT_PARTS_MAX_ITEMS,
+  PROJECTS_PER_USER,
+  PROJECT_UPDATES_MAX_ITEMS,
+} from "@/lib/security/limits";
 import { PROJECT_CATALOG_CACHE_TAG } from "@/lib/projects/cache";
 import {
   ensureUserProfile,
@@ -127,7 +137,9 @@ function parseStringArray(raw: string) {
   try {
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((item): item is string => typeof item === "string" && item.trim().length > 0);
+    return parsed
+      .filter((item): item is string => typeof item === "string" && item.trim().length > 0 && item.length <= 2_048)
+      .slice(0, PROJECT_IMAGES_PER_PROJECT);
   } catch {
     return [];
   }
@@ -171,7 +183,8 @@ function parseParts(raw: string): PartInput[] {
           image_url: typeof item.image_url === "string" ? item.image_url.trim() : "",
         };
       })
-      .filter((part) => part.name.length > 0);
+      .filter((part) => part.name.length > 0)
+      .slice(0, PROJECT_PARTS_MAX_ITEMS);
   } catch {
     return [];
   }
@@ -207,7 +220,8 @@ function parseUpdates(raw: string): UpdateInput[] {
           amount_spent: Number.isFinite(amount) ? amount : null,
         };
       })
-      .filter((update) => update.title.length > 0);
+      .filter((update) => update.title.length > 0)
+      .slice(0, PROJECT_UPDATES_MAX_ITEMS);
   } catch {
     return [];
   }
@@ -241,7 +255,8 @@ function parseExpenses(raw: string): ExpenseInput[] {
           is_public: item.is_public !== false,
         };
       })
-      .filter((expense) => expense.name.length > 0 && expense.amount >= 0);
+      .filter((expense) => expense.name.length > 0 && expense.amount >= 0)
+      .slice(0, PROJECT_EXPENSES_MAX_ITEMS);
   } catch {
     return [];
   }
@@ -325,7 +340,7 @@ function projectCreationErrorMessage(error: unknown, fallback = "Nao foi possive
     return "Nao foi possivel vincular seu perfil ao projeto. Atualize a pagina e tente novamente.";
   }
 
-  return message;
+  return fallback;
 }
 
 async function uniqueCarSlug(supabase: ServerSupabaseClient, base: string, currentId?: string) {
@@ -502,6 +517,21 @@ function isJsonArray(formData: FormData, key: string) {
   }
 }
 
+function validateProjectFormData(formData: FormData) {
+  const entries = Array.from(formData.entries());
+  if (entries.length > PROJECT_FORM_MAX_FIELDS) return "O formulário excede o limite de campos permitido.";
+
+  for (const [key, value] of entries) {
+    if (typeof value !== "string") return "O formulário contém um campo inválido.";
+    const limit = key.endsWith("_json") ? PROJECT_FORM_MAX_JSON_LENGTH : PROJECT_FORM_MAX_FIELD_LENGTH;
+    if (value.length > limit) return "Um campo do formulário excede o tamanho permitido.";
+  }
+
+  const photoUrls = parseStringArray(text(formData, "photo_urls_json"));
+  if (photoUrls.length > PROJECT_IMAGES_PER_PROJECT - 1) return "Cada projeto pode ter no máximo 12 imagens.";
+  return null;
+}
+
 function parseRelatedPayload(formData: FormData) {
   const keys = ["photo_urls_json", "parts_json", "updates_json", "expenses_json"];
   if (!keys.every((key) => isJsonArray(formData, key))) {
@@ -582,6 +612,17 @@ export async function createCarProject(formData: FormData): Promise<CreateCarPro
       return { ok: false, status: 401, message: auth.error ?? "Erro de autenticacao." };
     }
 
+    const formError = validateProjectFormData(formData);
+    if (formError) return { ok: false, status: 400, message: formError };
+    const { count, error: countError } = await auth.supabase
+      .from("cars")
+      .select("id", { count: "exact", head: true })
+      .eq("owner_id", auth.user.id);
+    if (countError) return { ok: false, status: 503, message: "Não foi possível confirmar o limite de projetos agora." };
+    if ((count ?? 0) >= PROJECTS_PER_USER) {
+      return { ok: false, status: 429, message: `Cada conta pode manter até ${PROJECTS_PER_USER} projetos.` };
+    }
+
     const profile = await ensureUserProfile(auth.supabase, auth.user);
     if (!profile.ok) {
       return {
@@ -649,6 +690,8 @@ export async function updateCarProject(
       return { ok: false, status: 401, message: auth.error ?? "Erro de autenticacao." };
     }
 
+    const formError = validateProjectFormData(formData);
+    if (formError) return { ok: false, status: 400, message: formError };
     if (!carId) {
       return { ok: false, status: 400, message: "Projeto nao encontrado." };
     }
@@ -665,7 +708,7 @@ export async function updateCarProject(
       .maybeSingle();
 
     if (readError) {
-      return { ok: false, status: 400, message: readError.message };
+      return { ok: false, status: 400, message: "Não foi possível consultar o projeto agora." };
     }
 
     if (!current) {
@@ -710,7 +753,7 @@ export async function updateCarProject(
       return {
         ok: false,
         status: 400,
-        message: error?.message ?? "Nao foi possivel salvar.",
+        message: "Não foi possível salvar o projeto agora.",
       };
     }
 
@@ -743,7 +786,7 @@ export async function updateCarProject(
     return {
       ok: false,
       status: 500,
-      message: errorMessage(error, "Nao foi possivel salvar."),
+      message: "Não foi possível salvar o projeto agora.",
     };
   }
 }

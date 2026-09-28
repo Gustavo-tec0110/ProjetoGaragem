@@ -462,9 +462,11 @@ export async function qCarCatalogVersions(): Promise<QueryResult<CarCatalogVersi
 }
 
 async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryResult<CarCard[]>> {
+  const safeLimit = Math.max(1, Math.min(120, Math.floor(filters.limit ?? (filters.q?.trim() ? 120 : 48))));
+  const safeQuery = (filters.q ?? "").trim().slice(0, 120);
   const timer = performanceTimer("supabase", "qExploreCars", {
     hasQuery: Boolean(filters.q?.trim()),
-    limit: filters.limit ?? 48,
+    limit: safeLimit,
     sort: filters.sort ?? "recent",
   });
   const supabase = getSupabasePublicClient();
@@ -473,13 +475,13 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
     return { data: [], error: null };
   }
 
-  if (filters.q?.trim()) {
+  if (safeQuery) {
     const { data: matches, error: searchError } = await supabase.rpc("search_car_projects", {
-      p_query: filters.q.trim(),
+      p_query: safeQuery,
       p_category: filters.category?.trim() || null,
       p_engine: filters.engine?.trim() || null,
       p_tag: filters.tag?.trim() || null,
-      p_limit: filters.limit ?? 120,
+      p_limit: safeLimit,
     });
 
     if (!searchError) {
@@ -489,7 +491,8 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
           .from("cars")
           .select("*")
           .in("id", rankedIds)
-          .eq("is_public", true);
+          .eq("is_public", true)
+          .limit(safeLimit);
 
         if (filters.brand?.trim()) rankedQuery = rankedQuery.ilike("brand", `%${cleanLike(filters.brand)}%`);
         if (filters.model?.trim()) rankedQuery = rankedQuery.ilike("model", `%${cleanLike(filters.model)}%`);
@@ -523,7 +526,7 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
       .from("cars")
       .select("*")
       .eq("is_public", true)
-      .limit(filters.limit ?? 120);
+      .limit(safeLimit);
 
     if (filters.category?.trim()) fallbackQuery = fallbackQuery.eq("category", filters.category.trim());
     if (filters.brand?.trim()) fallbackQuery = fallbackQuery.ilike("brand", `%${cleanLike(filters.brand)}%`);
@@ -544,13 +547,13 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
     const { data: fallbackRows, error: fallbackError } = await fallbackQuery;
     if (fallbackError) return { data: null, error: fallbackError.message };
 
-    const terms = normalizeSearchTerm(filters.q).split(" ").filter(Boolean);
+    const terms = normalizeSearchTerm(safeQuery).split(" ").filter(Boolean);
     const rows = ((fallbackRows ?? []) as CarRow[])
       .filter((row) => {
         const searchText = carSearchText(row);
         return terms.every((term) => searchText.includes(term));
       })
-      .sort((left, right) => carSearchRank(right, filters.q ?? "") - carSearchRank(left, filters.q ?? ""));
+      .sort((left, right) => carSearchRank(right, safeQuery) - carSearchRank(left, safeQuery));
     const cards = await hydrateCards(supabase, rows);
     return { data: cards, error: null };
   }
@@ -559,7 +562,7 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
     .from("cars")
     .select("*")
     .eq("is_public", true)
-    .limit(filters.limit ?? 48);
+    .limit(safeLimit);
 
   if (filters.brand?.trim()) query = query.ilike("brand", `%${cleanLike(filters.brand)}%`);
   if (filters.model?.trim()) query = query.ilike("model", `%${cleanLike(filters.model)}%`);
@@ -670,7 +673,8 @@ export async function qProjectSearchSuggestions(query: string, limit = 8): Promi
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
 
-  const term = query.trim();
+  const term = query.trim().slice(0, 80);
+  const safeLimit = Math.max(1, Math.min(12, Math.floor(limit)));
   if (term.length < 2) return { data: [], error: null };
 
   const { data: rows, error } = await supabase
@@ -730,7 +734,7 @@ export async function qProjectSearchSuggestions(query: string, limit = 8): Promi
   return {
     data: Array.from(unique.values())
       .sort((left, right) => right.rank - left.rank || left.term.length - right.term.length)
-      .slice(0, limit),
+      .slice(0, safeLimit),
     error: null,
   };
 }

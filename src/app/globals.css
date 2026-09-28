@@ -254,6 +254,16 @@
     scroll-margin-bottom: calc(var(--mobile-bottom-nav-space) + 1rem);
   }
 
+  .pg-cookie-consent {
+    bottom: calc(var(--mobile-bottom-nav-space) + 0.75rem);
+  }
+
+  @media (min-width: 1024px) {
+    .pg-cookie-consent {
+      bottom: 1.25rem;
+    }
+  }
+
   @media (max-width: 1023px) {
     body main {
       padding-bottom: var(--mobile-bottom-nav-space) !important;

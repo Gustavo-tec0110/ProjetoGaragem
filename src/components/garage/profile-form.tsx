@@ -15,9 +15,7 @@ import { normalizeSlug } from "@/lib/garage/constants";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import {
   PROJECT_IMAGE_MAX_BYTES,
-  PROJECT_IMAGES_BUCKET,
   isAllowedProjectImage,
-  profileImagePath,
 } from "@/lib/supabase/storage";
 import type { ProfileRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -26,10 +24,17 @@ const initialActionState: ActionState = { status: "idle", message: "" };
 
 function uploadErrorMessage(uploadError: unknown) {
   if (!(uploadError instanceof Error)) return "Não foi possível enviar a imagem agora.";
-  if (uploadError.message.toLowerCase().includes("bucket")) {
-    return `Não foi possível acessar o bucket "${PROJECT_IMAGES_BUCKET}".`;
-  }
   return uploadError.message || "Não foi possível enviar a imagem agora.";
+}
+
+async function uploadProfileImage(kind: "avatar" | "cover", file: File) {
+  const formData = new FormData();
+  formData.set("kind", kind);
+  formData.set("file", file);
+  const response = await fetch("/api/uploads/image", { method: "POST", body: formData });
+  const body = (await response.json().catch(() => null)) as { url?: string; message?: string } | null;
+  if (!response.ok || !body?.url) throw new Error(body?.message ?? "Não foi possível enviar a imagem agora.");
+  return body.url;
 }
 
 function ProfileImageField({
@@ -70,17 +75,7 @@ function ProfileImageField({
 
     setPending(true);
     try {
-      const path = profileImagePath(currentUser.id, kind, file);
-      const { error: uploadError } = await supabase.storage
-        .from(PROJECT_IMAGES_BUCKET)
-        .upload(path, file, {
-          cacheControl: "31536000",
-          contentType: file.type,
-          upsert: false,
-        });
-      if (uploadError) throw uploadError;
-      const { data } = supabase.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
-      onChange(data.publicUrl);
+      onChange(await uploadProfileImage(kind, file));
     } catch (uploadError) {
       setError(uploadErrorMessage(uploadError));
     } finally {

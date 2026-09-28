@@ -7,6 +7,12 @@ import type { NotificationType } from "@/lib/types";
 import { normalizeSlug } from "@/lib/garage/constants";
 import { serverLog } from "@/lib/server-log";
 import { performanceTimer } from "@/lib/performance";
+import {
+  COMMENT_MAX_LENGTH,
+  PROFILE_CITY_MAX_LENGTH,
+  PROFILE_DISPLAY_NAME_MAX_LENGTH,
+  PROFILE_INSTAGRAM_MAX_LENGTH,
+} from "@/lib/security/limits";
 import { PROJECT_CATALOG_CACHE_TAG, PUBLIC_PROFILE_CACHE_TAG } from "@/lib/projects/cache";
 import type { CarCommentWithAuthor, ProfileSummary } from "@/lib/supabase/queries";
 import {
@@ -29,9 +35,10 @@ type SupabaseActionError = {
 
 type DiagnosticContext = Record<string, string | boolean | null | undefined>;
 
-function formatSupabaseActionError(action: string, error: SupabaseActionError) {
-  const code = error.code ? ` (${error.code})` : "";
-  return `${action} falhou${code}: ${error.message}`;
+function formatSupabaseActionError(_action: string, _error: SupabaseActionError) {
+  void _action;
+  void _error;
+  return "Não foi possível concluir a operação agora. Tente novamente.";
 }
 
 function logSupabaseActionError(action: string, context: Record<string, string>, error: SupabaseActionError) {
@@ -291,7 +298,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
     timer.end({ ok: false, reason: "project-not-found" });
     return {
       ok: false,
-      message: carError?.message ?? "Projeto não encontrado.",
+      message: carError ? "Não foi possível consultar o projeto agora." : "Projeto não encontrado.",
       active: false,
     };
   }
@@ -371,7 +378,10 @@ export async function saveProfileAction(
   const displayName = text(formData, "display_name");
 
   if (username.length < 3) return { status: "error", message: "Escolha um username com pelo menos 3 caracteres." };
-  if (!displayName) return { status: "error", message: "Informe seu nome." };
+  if (!displayName || displayName.length > PROFILE_DISPLAY_NAME_MAX_LENGTH) return { status: "error", message: "Informe um nome de até 80 caracteres." };
+  if (text(formData, "bio").length > 240 || text(formData, "city").length > PROFILE_CITY_MAX_LENGTH || text(formData, "instagram_handle").length > PROFILE_INSTAGRAM_MAX_LENGTH) {
+    return { status: "error", message: "Revise os campos do perfil: eles excedem o tamanho permitido." };
+  }
 
   const { error } = await auth.supabase.from("profiles").upsert({
     id: auth.user.id,
@@ -389,7 +399,7 @@ export async function saveProfileAction(
     is_likes_public: formData.get("is_likes_public") === "true",
   });
 
-  if (error) return { status: "error", message: error.message };
+  if (error) return { status: "error", message: "Não foi possível salvar o perfil agora. Tente novamente." };
 
   revalidatePath("/perfil");
   revalidatePath(`/perfil/${username}`);
@@ -416,7 +426,7 @@ export async function deleteCarAction(
     .eq("id", carId)
     .maybeSingle();
 
-  if (readError) return { status: "error", message: readError.message };
+  if (readError) return { status: "error", message: "Não foi possível confirmar o projeto agora." };
   if (!current || current.owner_id !== auth.user.id) {
     return { status: "error", message: "Você só pode excluir seus próprios projetos." };
   }
@@ -427,7 +437,7 @@ export async function deleteCarAction(
     .eq("id", carId)
     .eq("owner_id", auth.user.id);
 
-  if (error) return { status: "error", message: error.message };
+  if (error) return { status: "error", message: "Não foi possível excluir o projeto agora." };
 
   revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
   updateTag(PUBLIC_PROFILE_CACHE_TAG);
@@ -569,12 +579,11 @@ export async function createCommentAction(
     timer.end({ ok: false, reason: "unauthenticated" });
     return { status: "error", message: auth.error ?? "Entre para comentar." };
   }
-
   const carId = text(formData, "car_id");
   const content = text(formData, "content");
-  if (!carId || content.length < 2) {
+  if (!carId || content.length < 2 || content.length > COMMENT_MAX_LENGTH) {
     timer.end({ ok: false, reason: "validation" });
-    return { status: "error", message: "Escreva um comentario com pelo menos 2 caracteres." };
+    return { status: "error", message: "Escreva um comentário entre 2 e 1.000 caracteres." };
   }
 
   const prepareStartedAt = performance.now();
@@ -602,7 +611,7 @@ export async function createCommentAction(
 
   if (error || !comment) {
     timer.end({ ok: false, reason: "insert-error" });
-    return { status: "error", message: error?.message ?? "Nao foi possivel publicar o comentario." };
+    return { status: "error", message: "Não foi possível publicar o comentário agora." };
   }
 
   const finalizeStartedAt = performance.now();
@@ -641,14 +650,13 @@ export async function createCommentAction(
 export async function deleteCommentAction(commentId: string) {
   const auth = await requireUser();
   if (!auth.supabase || !auth.user) return { ok: false, message: auth.error ?? "Entre para continuar." };
-
   const { data: comment, error: readError } = await auth.supabase
     .from("car_comments")
     .select("id, user_id, car_id")
     .eq("id", commentId)
     .maybeSingle();
 
-  if (readError) return { ok: false, message: readError.message };
+  if (readError) return { ok: false, message: "Não foi possível consultar o comentário agora." };
   if (!comment) return { ok: false, message: "Comentario nao encontrado." };
 
   const { data: car } = await auth.supabase
@@ -666,7 +674,7 @@ export async function deleteCommentAction(commentId: string) {
     updateTag(PROJECT_CATALOG_CACHE_TAG);
     updateTag(PUBLIC_PROFILE_CACHE_TAG);
   }
-  return { ok: !error, message: error?.message };
+  return { ok: !error, message: error ? "Não foi possível excluir o comentário agora." : undefined };
 }
 
 export async function markNotificationReadAction(notificationId: string) {
@@ -674,14 +682,13 @@ export async function markNotificationReadAction(notificationId: string) {
   if (!auth.supabase || !auth.user) {
     return { ok: false, message: auth.error ?? "Entre para ver notificações." };
   }
-
   const { error } = await auth.supabase
     .from("notifications")
     .update({ read_at: new Date().toISOString() })
     .eq("id", notificationId)
     .eq("user_id", auth.user.id);
 
-  return { ok: !error, message: error?.message };
+  return { ok: !error, message: error ? "Não foi possível atualizar a notificação agora." : undefined };
 }
 
 export async function markNotificationsReadAction(notificationIds: string[]) {
@@ -689,8 +696,7 @@ export async function markNotificationsReadAction(notificationIds: string[]) {
   if (!auth.supabase || !auth.user) {
     return { ok: false, message: auth.error ?? "Entre para ver notificações." };
   }
-
-  const ids = Array.from(new Set(notificationIds)).filter((id) =>
+  const ids = Array.from(new Set(notificationIds)).slice(0, 60).filter((id) =>
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
   );
   if (!ids.length) return { ok: true };
@@ -702,5 +708,5 @@ export async function markNotificationsReadAction(notificationIds: string[]) {
     .eq("user_id", auth.user.id)
     .is("read_at", null);
 
-  return { ok: !error, message: error?.message };
+  return { ok: !error, message: error ? "Não foi possível atualizar as notificações agora." : undefined };
 }
