@@ -11,11 +11,6 @@ import {
   uniqueProjectName,
 } from "./helpers";
 
-const pngPixel = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/axnXwAAAABJRU5ErkJggg==",
-  "base64"
-);
-
 async function socialCount(button: Locator) {
   const label = (await button.getAttribute("aria-label")) ?? (await button.innerText());
   const match = label.match(/(\d[\d.]*)/);
@@ -96,15 +91,15 @@ test.describe("fluxos autenticados Supabase", () => {
     await modelSelect.selectOption("Gol");
     await page.getByLabel("Ano").fill("1994");
 
-    await page.locator('input[type="file"]').first().setInputFiles({
-      name: "e2e-project.png",
-      mimeType: "image/png",
-      buffer: pngPixel,
-    });
+    await page.locator('input[type="file"]').first().setInputFiles("public/ref/hero-opala-ss.webp");
     await expect(page.getByText("Principal").first()).toBeVisible({ timeout: 30_000 });
 
+    const projectNavigation = page.waitForURL(/\/projeto\/[^/]+$/, {
+      timeout: 30_000,
+      waitUntil: "commit",
+    });
     await page.getByRole("button", { name: /Criar projeto agora|Criar pagina do projeto|Criar página do projeto/i }).click();
-    await page.waitForURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
+    await projectNavigation;
     projectSlug = new URL(page.url()).pathname.split("/").filter(Boolean).at(-1) ?? "";
     expect(projectSlug).toBeTruthy();
     await expect(page.getByRole("heading", { name: new RegExp(projectTitle, "i") })).toBeVisible();
