@@ -47,8 +47,14 @@ export async function login(page: Page, next = "/garagem", account: E2EAccount =
   await page.goto(`/login?next=${encodeURIComponent(next)}`);
   await page.getByPlaceholder("Email").fill(account.email);
   await page.getByPlaceholder("Senha").fill(account.password);
+  const authenticatedNavigation = page.waitForURL(
+    (url) => !url.pathname.startsWith("/login"),
+    { timeout: 30_000, waitUntil: "commit" }
+  );
   await page.getByRole("button", { name: /^Entrar$/ }).click();
-  await expect(page).not.toHaveURL(/\/login/);
+  await authenticatedNavigation;
+  await page.waitForLoadState("domcontentloaded", { timeout: 30_000 });
+  await page.locator("main").waitFor({ state: "visible", timeout: 30_000 });
 }
 
 export async function logout(page: Page) {

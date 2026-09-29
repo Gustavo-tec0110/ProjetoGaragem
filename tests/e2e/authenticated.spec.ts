@@ -30,6 +30,21 @@ test.describe("fluxos autenticados Supabase", () => {
   );
   test.describe.configure({ mode: "serial" });
 
+  test.beforeAll(async ({ browser }, testInfo) => {
+    // The cold Next.js development compiler is intentionally outside each
+    // user-flow budget; every test below still retains the 60-second limit.
+    testInfo.setTimeout(120_000);
+    const page = await browser.newPage();
+    try {
+      await login(page, "/garagem", e2eUser);
+      await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
+      await page.goto("/criar-projeto", { waitUntil: "domcontentloaded" });
+      await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
+    } finally {
+      await page.close();
+    }
+  });
+
   let projectTitle = "";
   let projectSlug = "";
   let ownerProfileHref = "";
@@ -45,7 +60,7 @@ test.describe("fluxos autenticados Supabase", () => {
     await page.reload();
     await expect(page).not.toHaveURL(/\/login/);
 
-    await page.goto("/criar-projeto");
+    await page.goto("/criar-projeto", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
     const projectName = page.getByLabel("Nome do projeto");
     await page.getByRole("button", { name: /Criar projeto agora|Criar pagina do projeto|Criar página do projeto/i }).click();
@@ -55,8 +70,10 @@ test.describe("fluxos autenticados Supabase", () => {
     const brandSelect = page.getByRole("combobox", { name: "Marca", exact: true });
     const modelSelect = page.getByRole("combobox", { name: "Modelo", exact: true });
 
-    await brandSelect.selectOption("Volkswagen");
-    await expect(modelSelect.locator('option[value="Gol"]')).toHaveCount(1);
+    await expect(async () => {
+      await brandSelect.selectOption("Volkswagen");
+      await expect(modelSelect.locator('option[value="Gol"]')).toHaveCount(1, { timeout: 1_000 });
+    }).toPass({ timeout: 30_000 });
     await modelSelect.selectOption("Gol");
 
     await brandSelect.selectOption("Chevrolet");
