@@ -15,11 +15,6 @@ const remotePatterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatte
     pathname: "/**",
     search: "",
   },
-  {
-    protocol: "https",
-    hostname: "projetogaragem.netlify.app",
-    pathname: "/**",
-  },
 ];
 
 if (supabaseUrl) {
@@ -43,6 +38,20 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [75, 85],
     remotePatterns,
+  },
+  async redirects() {
+    return [
+      {
+        // Keep links already indexed under the Netlify subdomain working without
+        // making that hostname a public canonical URL. Next.js preserves the path
+        // and query string and emits a permanent 308 response for this redirect.
+        source: "/:path*",
+        has: [{ type: "host", value: "projetogaragem.netlify.app" }],
+        destination: "https://projetogaragem.com.br/:path*",
+        permanent: true,
+        basePath: false,
+      },
+    ];
   },
   async headers() {
     return [

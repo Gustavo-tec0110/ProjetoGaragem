@@ -22,7 +22,7 @@ Plataforma full stack para publicar, explorar e acompanhar projetos automotivos.
 
 ## Demonstração
 
-- **Aplicação:** [projetogaragem.netlify.app](https://projetogaragem.netlify.app)
+- **Aplicação:** [projetogaragem.com.br](https://projetogaragem.com.br)
 
 O modo de demonstração também pode ser executado localmente sem credenciais do Supabase seguindo as instruções abaixo.
 

@@ -1,4 +1,5 @@
-const DEFAULT_SITE_URL = "https://projetogaragem.netlify.app";
+/** Canonical public origin. Keep the hosting subdomain out of public URLs. */
+const DEFAULT_SITE_URL = "https://projetogaragem.com.br";
 
 function trimEnvValue(value: string | undefined) {
   return value?.trim() ?? "";
