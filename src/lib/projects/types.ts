@@ -1,4 +1,4 @@
-type ProjectSource = "supabase" | "demo" | "local";
+type ProjectSource = "supabase" | "local";
 
 export const PROJECT_STATUS_VALUES = [
   "Planejamento",
@@ -216,6 +216,6 @@ export type ProjectCollectionResult = {
   availableInductions: string[];
   availableDrivetrains: string[];
   availableCategories: string[];
-  source: "supabase" | "demo";
+  source: "supabase";
   notice: string | null;
 };

@@ -174,6 +174,50 @@ export type CarPartRow = {
   updated_at: string;
 };
 
+export type ModificationCompatibilityType = "universal" | "specific" | "adaptable";
+export type ProjectModificationStatus = "installed" | "planned" | "wishlist" | "removed";
+
+export type ModificationCategoryRow = {
+  id: string;
+  parent_id: string | null;
+  slug: string;
+  name: string;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ModificationCatalogRow = {
+  id: string;
+  category_id: string;
+  slug: string;
+  name: string;
+  short_description: string | null;
+  default_image_path: string | null;
+  estimated_price_min: number | null;
+  estimated_price_max: number | null;
+  compatibility_type: ModificationCompatibilityType;
+  compatibility_notes: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProjectModificationRow = {
+  id: string;
+  car_id: string;
+  catalog_id: string;
+  status: ProjectModificationStatus;
+  paid_amount: number | null;
+  note: string | null;
+  project_photo_url: string | null;
+  project_photo_storage_path: string | null;
+  installed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type CarCommentRow = {
   id: string;
   car_id: string;
@@ -383,6 +427,47 @@ export interface Database {
           installed_at?: string | null;
           image_url?: string | null;
           storage_path?: string | null;
+        }
+      >;
+      modification_categories: Table<
+        ModificationCategoryRow,
+        {
+          id?: string;
+          parent_id?: string | null;
+          slug: string;
+          name: string;
+          sort_order?: number;
+          is_active?: boolean;
+        }
+      >;
+      modification_catalog: Table<
+        ModificationCatalogRow,
+        {
+          id?: string;
+          category_id: string;
+          slug: string;
+          name: string;
+          short_description?: string | null;
+          default_image_path?: string | null;
+          estimated_price_min?: number | null;
+          estimated_price_max?: number | null;
+          compatibility_type?: ModificationCompatibilityType;
+          compatibility_notes?: string | null;
+          is_active?: boolean;
+        }
+      >;
+      project_modifications: Table<
+        ProjectModificationRow,
+        {
+          id?: string;
+          car_id: string;
+          catalog_id: string;
+          status?: ProjectModificationStatus;
+          paid_amount?: number | null;
+          note?: string | null;
+          project_photo_url?: string | null;
+          project_photo_storage_path?: string | null;
+          installed_at?: string | null;
         }
       >;
       car_likes: Table<{

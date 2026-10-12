@@ -23,8 +23,7 @@ import {
 } from "@/lib/projects/utils";
 
 function sourceLabel(project: Project) {
-  if (project.source === "local") return "Demo local";
-  if (project.source === "demo") return "Projeto demo";
+  if (project.source === "local") return "Projeto local";
   return null;
 }
 

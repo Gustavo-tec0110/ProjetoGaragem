@@ -1,7 +1,6 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 
-import { demoProjects } from "@/lib/projects/demo-projects";
 import { mapCarCardToProject, mapCarDetailsToProject } from "@/lib/projects/mappers";
 import type {
   Project,
@@ -26,7 +25,6 @@ import {
   normalizeSearchText,
   normalizeProjectFilters,
   sortProjects,
-  selectProjectCatalog,
   uniqueProjects,
 } from "@/lib/projects/utils";
 import { createSeoMetadata } from "@/lib/seo";
@@ -100,9 +98,6 @@ async function getRouteProjectBySlug(slug: string) {
     }
   }
 
-  const demoProject = demoProjects.find((entry) => entry.slug === slug || entry.id === slug);
-  if (demoProject) return { project: demoProject, detail: null };
-
   return {
     project: null,
     detail: null,
@@ -114,7 +109,7 @@ const getPublicRouteProjectCardBySlug = cache(async (slug: string) => {
     const result = await qPublicCarCardBySlug(slug);
     if (result.data) return mapCarCardToProject(result.data);
   }
-  return demoProjects.find((entry) => entry.slug === slug || entry.id === slug) ?? null;
+  return null;
 });
 
 function emptyProjectRecommendations(): ProjectRecommendationGroups {
@@ -189,8 +184,7 @@ export async function getProjectCollection(
 ): Promise<ProjectCollectionResult> {
   const normalizedFilters = normalizeProjectFilters(filters);
   const catalog = await getSupabaseProjectCatalog(normalizedFilters, personalize);
-  const hasRealProjects = catalog.projects.length > 0;
-  const allProjects = selectProjectCatalog(catalog.projects, demoProjects);
+  const allProjects = uniqueProjects(catalog.projects);
 
   const filteredProjects = sortProjects(
     filterProjects(allProjects, normalizedFilters),
@@ -210,15 +204,13 @@ export async function getProjectCollection(
     availableInductions: getAvailableInductions(allProjects),
     availableDrivetrains: getAvailableDrivetrains(allProjects),
     availableCategories: getAvailableStyles(allProjects),
-    source: hasRealProjects ? "supabase" : "demo",
+    source: "supabase",
     notice:
-      hasRealProjects
-        ? null
-        : catalog.error === "not_configured"
-          ? "Mostrando projetos demo enquanto o Supabase nao e configurado."
-          : catalog.error
-            ? "Mostrando projetos demo enquanto a conexao com o banco e revisada."
-            : "Mostrando projetos demo ate a primeira garagem real ser publicada.",
+      catalog.error === "not_configured"
+        ? "O catálogo ficará disponível quando o Supabase for configurado."
+        : catalog.error
+          ? "Não foi possível carregar o catálogo agora. Tente novamente em instantes."
+          : null,
   };
 }
 
@@ -235,7 +227,7 @@ export const getFeaturedProjects = cache(
         ? sort
         : null;
 
-    let featuredPool: Project[] = demoProjects;
+    let featuredPool: Project[] = [];
     if (isSupabaseConfigured && querySort) {
       const result = await qExploreCars(
         { sort: querySort, limit: Math.max(1, limit) },

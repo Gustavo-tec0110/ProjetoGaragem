@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { SkeletonProjectGrid } from "@/components/ui/page-skeletons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getProjectCollection } from "@/lib/projects/server";
-import { demoProjects } from "@/lib/projects/demo-projects";
 import type { Project, ProjectFilters as ProjectFiltersType } from "@/lib/projects/types";
 import {
   getAvailableBrands,
@@ -43,7 +42,7 @@ function buildHref(basePath: string, filters: ProjectFiltersType, page?: number)
   return query ? `${basePath}?${query}` : basePath;
 }
 
-const QUICK_SEARCHES = ["JDM", "off-road", "Gol", "Turbo", "Stance", "Track day"] as const;
+const QUICK_SEARCHES = ["JDM", "off-road", "Turbo", "Stance", "Track day"] as const;
 
 function DiscoverySection({
   title,
@@ -80,15 +79,15 @@ function DiscoveryFallback({ basePath }: { basePath: string }) {
       <div className="mt-5 md:mt-8">
         <ProjectFilters
           filters={normalizeProjectFilters({})}
-          availableStyles={getAvailableStyles(demoProjects)}
-          availableEngines={getAvailableEngines(demoProjects)}
-          availableBrands={getAvailableBrands(demoProjects)}
-          availableModels={getAvailableModels(demoProjects)}
-          availableYears={getAvailableYears(demoProjects)}
-          availableFuels={getAvailableFuels(demoProjects)}
-          availableInductions={getAvailableInductions(demoProjects)}
-          availableDrivetrains={getAvailableDrivetrains(demoProjects)}
-          availableCategories={getAvailableStyles(demoProjects)}
+          availableStyles={[]}
+          availableEngines={[]}
+          availableBrands={[]}
+          availableModels={[]}
+          availableYears={[]}
+          availableFuels={[]}
+          availableInductions={[]}
+          availableDrivetrains={[]}
+          availableCategories={[]}
           actionPath={basePath}
         />
       </div>
@@ -236,7 +235,7 @@ async function ProjectDiscoveryResults({
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs text-muted">
-          {result.source === "supabase" ? "Projetos reais" : "Modo demo"}
+          Projetos publicados
             </p>
             <h2 className="mt-1 font-title text-2xl tracking-tight">
               {hasFilters
@@ -259,7 +258,7 @@ async function ProjectDiscoveryResults({
           emptyTitle={emptyTitle}
           emptyDescription={
             hasFilters
-              ? "Tente buscar por Gol, JDM, off-road, turbo, stance ou limpe os filtros para voltar ao catalogo completo."
+              ? "Tente ajustar os filtros ou limpe a busca para voltar ao catálogo completo."
               : "Adicione um projeto novo ou aguarde a primeira publicacao real aparecer por aqui."
           }
           emptyAction={

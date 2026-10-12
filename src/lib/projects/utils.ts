@@ -489,8 +489,6 @@ export function enrichProject(project: ProjectSeed): Project {
 export function uniqueProjects(projects: Project[]) {
   const result: Project[] = [];
   const positions = new Map<string, number>();
-  const demoPositions = new Map<string, number>();
-  const livePositions = new Map<string, number[]>();
 
   for (const project of projects) {
     const stableKey = project.databaseId ? `database:${project.databaseId}` : `slug:${project.slug}`;
@@ -501,39 +499,12 @@ export function uniqueProjects(projects: Project[]) {
       normalizeSearchText(project.model),
     ].join(":");
     const ownerKey = project.ownerId || project.ownerUsername || normalizeSearchText(project.ownerName);
-    const semanticKey =
-      project.source === "demo"
-        ? `demo:${semanticFingerprint}`
-        : ownerKey
-          ? `owner:${ownerKey}:${semanticFingerprint}`
-          : stableKey;
-
-    const matchingLive = livePositions.get(semanticFingerprint) ?? [];
-    const matchingDemo = demoPositions.get(semanticFingerprint);
-    const position =
-      positions.get(stableKey) ??
-      positions.get(semanticKey) ??
-      (project.source === "supabase" && matchingDemo != null && result[matchingDemo]?.source === "demo"
-        ? matchingDemo
-        : undefined) ??
-      (project.source === "demo" && matchingLive.length === 1 ? matchingLive[0] : undefined);
+    const semanticKey = ownerKey ? `owner:${ownerKey}:${semanticFingerprint}` : stableKey;
+    const position = positions.get(stableKey) ?? positions.get(semanticKey);
     if (position == null) {
       positions.set(stableKey, result.length);
       positions.set(semanticKey, result.length);
       result.push(project);
-    } else if (result[position].source === "demo" && project.source === "supabase") {
-      result[position] = project;
-      positions.set(stableKey, position);
-      positions.set(semanticKey, position);
-    }
-
-    const resolvedPosition = position ?? result.length - 1;
-    if (project.source === "demo") {
-      demoPositions.set(semanticFingerprint, resolvedPosition);
-    } else {
-      const existing = livePositions.get(semanticFingerprint) ?? [];
-      if (!existing.includes(resolvedPosition)) existing.push(resolvedPosition);
-      livePositions.set(semanticFingerprint, existing);
     }
   }
   return result;
@@ -682,10 +653,6 @@ export function getAvailableFuels(projects: Project[]) {
     ),
     normalizeFuelFacet
   );
-}
-
-export function selectProjectCatalog(realProjects: Project[], demoProjects: Project[]) {
-  return uniqueProjects(realProjects.length > 0 ? realProjects : demoProjects);
 }
 
 export function getAvailableInductions(projects: Project[]) {

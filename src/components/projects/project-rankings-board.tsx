@@ -513,7 +513,7 @@ export function ProjectRankingsBoard({
 }: {
   projects: Project[];
   selectedCategoryKey: RankingCategoryKey;
-  source: "supabase" | "demo";
+  source: "supabase";
   notice: string | null;
 }) {
   const category =
@@ -538,7 +538,7 @@ export function ProjectRankingsBoard({
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="secondary">Area de destaque</Badge>
-                <Badge>{source === "supabase" ? "Base real" : "Fallback demo"}</Badge>
+                <Badge>Projetos publicados</Badge>
               </div>
               <h1 className="mt-3 font-title text-[2rem] leading-tight tracking-tight md:mt-4 md:text-6xl">
                 Ranking de Projetos

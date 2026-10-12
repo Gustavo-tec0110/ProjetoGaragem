@@ -149,7 +149,7 @@ export function ProjectForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
       <Card className="p-4 md:p-6">
-        <p className="text-xs text-warning">Modo demo/local</p>
+        <p className="text-xs text-warning">Modo local</p>
         <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
           Adicionar projeto sem Supabase
         </h1>

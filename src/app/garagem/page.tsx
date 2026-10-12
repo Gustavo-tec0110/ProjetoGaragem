@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
-import { InspirationPlanner } from "@/components/garage/inspiration-planner";
 import { ProfileExperience, type ProfileTabKey } from "@/components/garage/profile-experience";
 import { ProfileForm } from "@/components/garage/profile-form";
 import { LocalGaragePanel } from "@/components/projects/local-garage-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { demoProjects } from "@/lib/projects/demo-projects";
 import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 import { getCurrentProfile } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
@@ -45,7 +43,6 @@ export default async function GaragemPage({ searchParams }: { searchParams: Sear
               <Button asChild><Link href="/criar-projeto"><Plus className="size-4" />Adicionar projeto local</Link></Button>
             </div>
             <div className="mt-6"><LocalGaragePanel /></div>
-            <section className="mt-8"><InspirationPlanner mode="local" storageScope="local" inspirationProjects={demoProjects.slice(0, 8)} referenceSourceLabel="Projetos demo" /></section>
           </div>
         </main>
       </div>

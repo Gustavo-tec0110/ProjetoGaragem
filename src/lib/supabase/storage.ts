@@ -32,6 +32,11 @@ export function projectImagePath(userId: string, file: ImageFileDescriptor) {
   return `${userId}/${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}-${safeName || "imagem"}.${extension}`;
 }
 
+/** Caminho separado para fotos reais vinculadas a modificações de um projeto. */
+export function projectModificationImagePath(userId: string) {
+  return `${userId}/modifications/${crypto.randomUUID()}.webp`;
+}
+
 export function profileImagePath(userId: string, kind: "avatar" | "cover", file: ImageFileDescriptor) {
   const extension = getProjectImageExtension(file);
   return `${userId}/profile/${kind}-${crypto.randomUUID()}.${extension}`;

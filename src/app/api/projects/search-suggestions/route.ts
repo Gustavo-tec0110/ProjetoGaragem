@@ -1,59 +1,10 @@
 import { NextResponse } from "next/server";
 
-import { demoProjects } from "@/lib/projects/demo-projects";
-import { normalizeSearchText } from "@/lib/projects/utils";
 import { qProjectSearchSuggestions } from "@/lib/supabase/queries";
 import { allowRequest } from "@/lib/security/request-rate-limit";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-type Suggestion = {
-  term: string;
-  source: string;
-  rank: number;
-  href?: string;
-};
-
-function demoSuggestions(query: string, limit: number): Suggestion[] {
-  const normalizedQuery = normalizeSearchText(query);
-  const candidates = demoProjects.flatMap((project) => [
-    { term: project.title, source: `${project.brand ?? ""} ${project.model ?? ""} ${project.year}`.trim(), rank: 140, href: `/projeto/${project.slug}` },
-    { term: project.brand ?? "", source: "Marca", rank: 80, href: `/explorar?q=${encodeURIComponent(project.brand ?? "")}` },
-    { term: project.model ?? "", source: "Modelo", rank: 78, href: `/explorar?q=${encodeURIComponent(project.model ?? "")}` },
-    { term: String(project.year), source: "Ano", rank: 70, href: `/explorar?year=${project.year}` },
-    { term: project.engine, source: "Motor", rank: 68, href: `/explorar?q=${encodeURIComponent(project.engine)}` },
-    { term: project.style, source: "Categoria", rank: 72, href: `/explorar?category=${encodeURIComponent(project.style)}` },
-    ...project.tags.map((tag) => ({
-      term: tag.replace(/^#+/, ""),
-      source: "Tag",
-      rank: 76,
-      href: `/explorar?tag=${encodeURIComponent(tag.replace(/^#+/, ""))}`,
-    })),
-  ]);
-
-  const unique = new Map<string, Suggestion>();
-  for (const candidate of candidates) {
-    const term = candidate.term.trim();
-    if (!term) continue;
-
-    const normalizedTerm = normalizeSearchText(term);
-    if (!normalizedTerm.includes(normalizedQuery)) continue;
-
-    const ranked = {
-      ...candidate,
-      term,
-      rank: candidate.rank + (normalizedTerm.startsWith(normalizedQuery) ? 20 : 0),
-    };
-    const key = `${ranked.source}:${normalizeSearchText(ranked.term)}:${ranked.href ?? ""}`;
-    const current = unique.get(key);
-    if (!current || ranked.rank > current.rank) unique.set(key, ranked);
-  }
-
-  return Array.from(unique.values())
-    .sort((left, right) => right.rank - left.rank || left.term.length - right.term.length)
-    .slice(0, limit);
-}
 
 export async function GET(request: Request) {
   const rate = allowRequest(request.headers, "search-suggestions", 30, 60_000);
@@ -68,9 +19,5 @@ export async function GET(request: Request) {
 
   const result = await qProjectSearchSuggestions(query, limit);
 
-  if (result.error || !result.data?.length) {
-    return NextResponse.json({ suggestions: demoSuggestions(query, limit) });
-  }
-
-  return NextResponse.json({ suggestions: result.data });
+  return NextResponse.json({ suggestions: result.error ? [] : result.data ?? [] });
 }

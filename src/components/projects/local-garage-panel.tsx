@@ -23,7 +23,7 @@ export function LocalGaragePanel() {
     <ProjectGrid
       projects={projects}
       emptyTitle="Sua garagem local ainda esta vazia."
-      emptyDescription="Crie um projeto em modo demo para testar cadastro, pagina individual e compartilhamento sem depender do banco."
+      emptyDescription="Crie um projeto local para testar cadastro, página individual e compartilhamento sem depender do banco."
       emptyAction={
         <Button asChild>
           <Link href="/criar-projeto">Adicionar projeto local</Link>

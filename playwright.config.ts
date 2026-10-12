@@ -37,7 +37,7 @@ export default defineConfig({
     },
     {
       name: "mobile-chromium",
-      testMatch: /(public|project-hydration)\.spec\.ts/,
+      testMatch: /(public|project-hydration|project-modifications)\.spec\.ts/,
       use: { ...devices["Pixel 5"] },
     },
   ],

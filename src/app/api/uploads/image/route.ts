@@ -4,7 +4,12 @@ import { enforceActionRateLimit } from "@/lib/security/action-rate-limit";
 import { UPLOAD_REQUEST_MAX_BYTES } from "@/lib/security/limits";
 import { requireSupabaseUser } from "@/lib/supabase/auth-server";
 import { getSupabaseServiceRoleClient } from "@/lib/supabase/service-role";
-import { PROJECT_IMAGES_BUCKET, profileImagePath, projectImagePath } from "@/lib/supabase/storage";
+import {
+  PROJECT_IMAGES_BUCKET,
+  profileImagePath,
+  projectImagePath,
+  projectModificationImagePath,
+} from "@/lib/supabase/storage";
 import { validateAndNormalizeImage } from "@/lib/uploads/image-validation";
 
 export const dynamic = "force-dynamic";
@@ -41,7 +46,7 @@ export async function POST(request: Request) {
   }
   const kind = formData.get("kind");
   const file = formData.get("file");
-  if ((kind !== "project" && kind !== "avatar" && kind !== "cover") || !(file instanceof File)) {
+  if ((kind !== "project" && kind !== "modification" && kind !== "avatar" && kind !== "cover") || !(file instanceof File)) {
     return NextResponse.json({ message: "Upload inválido." }, { status: 400 });
   }
 
@@ -58,7 +63,9 @@ export async function POST(request: Request) {
   const normalizedFile = { name: "imagem.webp", type: normalized.contentType };
   const path = kind === "project"
     ? projectImagePath(auth.user.id, normalizedFile)
-    : profileImagePath(auth.user.id, kind, normalizedFile);
+    : kind === "modification"
+      ? projectModificationImagePath(auth.user.id)
+      : profileImagePath(auth.user.id, kind, normalizedFile);
 
   const storage = getSupabaseServiceRoleClient();
   if (!storage) {
@@ -101,6 +108,7 @@ export async function POST(request: Request) {
   const { data } = storage.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
   return NextResponse.json({
     url: data.publicUrl,
+    path,
     width: normalized.width,
     height: normalized.height,
   }, { status: 201 });

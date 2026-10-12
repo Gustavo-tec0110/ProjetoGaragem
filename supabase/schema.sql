@@ -224,6 +224,53 @@ create table if not exists public.car_parts (
   constraint car_parts_price_chk check (price_estimate is null or price_estimate >= 0)
 );
 
+-- Catálogo central, de leitura pública, e ocorrências pertencentes a cada projeto.
+create table if not exists public.modification_categories (
+  id uuid primary key default gen_random_uuid(),
+  parent_id uuid references public.modification_categories(id) on delete restrict,
+  slug text not null unique,
+  name text not null,
+  sort_order integer not null default 0,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.modification_catalog (
+  id uuid primary key default gen_random_uuid(),
+  category_id uuid not null references public.modification_categories(id) on delete restrict,
+  slug text not null unique,
+  name text not null,
+  short_description text,
+  default_image_path text,
+  estimated_price_min integer,
+  estimated_price_max integer,
+  compatibility_type text not null default 'universal' check (compatibility_type in ('universal', 'specific', 'adaptable')),
+  compatibility_notes text,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint modification_catalog_price_chk check (
+    (estimated_price_min is null or estimated_price_min >= 0)
+    and (estimated_price_max is null or estimated_price_max >= 0)
+    and (estimated_price_min is null or estimated_price_max is null or estimated_price_min <= estimated_price_max)
+  )
+);
+
+create table if not exists public.project_modifications (
+  id uuid primary key default gen_random_uuid(),
+  car_id uuid not null references public.cars(id) on delete cascade,
+  catalog_id uuid not null references public.modification_catalog(id) on delete restrict,
+  status text not null default 'planned' check (status in ('installed', 'planned', 'wishlist', 'removed')),
+  paid_amount integer check (paid_amount is null or paid_amount >= 0),
+  note text,
+  project_photo_url text,
+  project_photo_storage_path text,
+  installed_at date,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.car_likes (
   car_id uuid not null references public.cars(id) on delete cascade,
   user_id uuid not null references public.profiles(id) on delete cascade,
@@ -347,6 +394,9 @@ create index if not exists idx_cars_started_at on public.cars (started_at desc);
 create index if not exists idx_cars_tags on public.cars using gin (tags);
 create index if not exists idx_car_parts_car_id on public.car_parts (car_id);
 create index if not exists idx_car_parts_status_category on public.car_parts (car_id, status, category);
+create index if not exists modification_categories_parent_sort_idx on public.modification_categories (parent_id, sort_order, name);
+create index if not exists modification_catalog_category_active_idx on public.modification_catalog (category_id, is_active, name);
+create index if not exists project_modifications_car_status_idx on public.project_modifications (car_id, status, created_at desc);
 create index if not exists idx_car_photos_car_id on public.car_photos (car_id);
 create index if not exists idx_car_comments_car_id on public.car_comments (car_id, created_at desc);
 create index if not exists idx_car_likes_user_id on public.car_likes (user_id);
@@ -488,6 +538,21 @@ for each row execute function public.set_updated_at();
 drop trigger if exists trg_car_parts_updated_at on public.car_parts;
 create trigger trg_car_parts_updated_at
 before update on public.car_parts
+for each row execute function public.set_updated_at();
+
+drop trigger if exists trg_modification_categories_updated_at on public.modification_categories;
+create trigger trg_modification_categories_updated_at
+before update on public.modification_categories
+for each row execute function public.set_updated_at();
+
+drop trigger if exists trg_modification_catalog_updated_at on public.modification_catalog;
+create trigger trg_modification_catalog_updated_at
+before update on public.modification_catalog
+for each row execute function public.set_updated_at();
+
+drop trigger if exists trg_project_modifications_updated_at on public.project_modifications;
+create trigger trg_project_modifications_updated_at
+before update on public.project_modifications
 for each row execute function public.set_updated_at();
 
 drop trigger if exists trg_car_build_updates_updated_at on public.car_build_updates;
@@ -720,6 +785,9 @@ alter table public.car_catalog_versions enable row level security;
 alter table public.cars enable row level security;
 alter table public.car_photos enable row level security;
 alter table public.car_parts enable row level security;
+alter table public.modification_categories enable row level security;
+alter table public.modification_catalog enable row level security;
+alter table public.project_modifications enable row level security;
 alter table public.car_likes enable row level security;
 alter table public.car_saves enable row level security;
 alter table public.car_comments enable row level security;
@@ -794,6 +862,28 @@ for select to anon, authenticated using (
 
 drop policy if exists "car_parts_write_owner" on public.car_parts;
 create policy "car_parts_write_owner" on public.car_parts
+for all to authenticated using (
+  exists (select 1 from public.cars c where c.id = car_id and c.owner_id = auth.uid())
+) with check (
+  exists (select 1 from public.cars c where c.id = car_id and c.owner_id = auth.uid())
+);
+
+drop policy if exists "modification_categories_read_active" on public.modification_categories;
+create policy "modification_categories_read_active" on public.modification_categories
+for select to anon, authenticated using (is_active = true);
+
+drop policy if exists "modification_catalog_read_active" on public.modification_catalog;
+create policy "modification_catalog_read_active" on public.modification_catalog
+for select to anon, authenticated using (is_active = true);
+
+drop policy if exists "project_modifications_read_public_or_owner" on public.project_modifications;
+create policy "project_modifications_read_public_or_owner" on public.project_modifications
+for select to anon, authenticated using (
+  exists (select 1 from public.cars c where c.id = car_id and (c.is_public = true or c.owner_id = auth.uid()))
+);
+
+drop policy if exists "project_modifications_write_owner" on public.project_modifications;
+create policy "project_modifications_write_owner" on public.project_modifications
 for all to authenticated using (
   exists (select 1 from public.cars c where c.id = car_id and c.owner_id = auth.uid())
 ) with check (
@@ -928,6 +1018,8 @@ grant select on
   public.cars,
   public.car_photos,
   public.car_parts,
+  public.modification_categories,
+  public.modification_catalog,
   public.car_likes,
   public.car_comments,
   public.car_build_updates,
@@ -947,6 +1039,7 @@ grant insert, update, delete on
   public.cars,
   public.car_photos,
   public.car_parts,
+  public.project_modifications,
   public.car_build_updates,
   public.car_expenses
 to authenticated;

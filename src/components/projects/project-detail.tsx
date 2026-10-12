@@ -740,7 +740,7 @@ export function ProjectDetail({
         <nav className="grid grid-cols-3 rounded-3xl border border-border/70 bg-background/25 p-1.5 lg:hidden" aria-label="Seções do projeto" data-testid="mobile-project-tabs">
           {[
             { href: "#visao-geral", label: "Visão geral" },
-            { href: "#modificacoes", label: "Modificações" },
+            { href: `/projeto/${project.slug}/modificacoes`, label: "Modificações" },
             { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
           ].map((item) => (
             <Link
@@ -756,7 +756,7 @@ export function ProjectDetail({
         <nav className="hidden gap-2 rounded-4xl border border-border/70 bg-background/25 p-2 lg:flex" aria-label="Navegação completa do projeto">
           {[
             { href: "#visao-geral", label: "Visão geral" },
-            { href: "#modificacoes", label: "Modificações" },
+            { href: `/projeto/${project.slug}/modificacoes`, label: "Modificações" },
             { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
             { href: "#comentarios", label: "Comentários" },
             { href: "#compartilhar", label: "Compartilhar" },
