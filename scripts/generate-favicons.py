@@ -50,7 +50,7 @@ CONCEPTS = [
     Concept("premium", "B · Premium", logo_width=0.71, corner_radius=0.20, inset_stroke=True),
     Concept("impactante", "C · Impactante", logo_width=0.78, corner_radius=0.165),
 ]
-RECOMMENDED = "impactante"
+RECOMMENDED = "premium"
 ALPHA_THRESHOLD = 24
 SUPERSAMPLE = 4
 
