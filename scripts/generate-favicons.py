@@ -43,13 +43,29 @@ class Concept:
     logo_width: float
     corner_radius: float
     inset_stroke: bool = False
+    offset_x: float = 0
+    offset_y: float = 0
 
 
 CONCEPTS = [
     Concept("minimalista", "A · Minimalista", logo_width=0.66, corner_radius=0.22),
-    Concept("premium", "B · Premium", logo_width=0.71, corner_radius=0.20, inset_stroke=True),
+    Concept(
+        "premium",
+        "B · Premium",
+        logo_width=0.76,
+        corner_radius=0.20,
+        inset_stroke=True,
+        offset_y=-0.025,
+    ),
     Concept("impactante", "C · Impactante", logo_width=0.78, corner_radius=0.165),
 ]
+CURRENT_PREMIUM = Concept(
+    "premium-current",
+    "B · Premium refinada atual",
+    logo_width=0.71,
+    corner_radius=0.20,
+    inset_stroke=True,
+)
 RECOMMENDED = "premium"
 ALPHA_THRESHOLD = 24
 RENDER_SCALE = 4
@@ -68,44 +84,6 @@ def crop_logo(original: Image.Image) -> Image.Image:
     if bounds is None:
         raise ValueError("The source logo is fully transparent")
     return original.crop(bounds)
-
-
-def rounded_background_legacy(size: int, concept: Concept) -> Image.Image:
-    scale = RENDER_SCALE
-    large_size = size * scale
-    radius = round(size * concept.corner_radius * scale)
-    canvas = Image.new("RGBA", (large_size, large_size), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle(
-        (0, 0, large_size - 1, large_size - 1),
-        radius=radius,
-        fill=(0, 0, 0, 255),
-    )
-
-    if concept.inset_stroke:
-        inset = max(scale, round(size * 0.025 * scale))
-        stroke = max(scale, round(size * 0.009 * scale))
-        draw.rounded_rectangle(
-            (inset, inset, large_size - 1 - inset, large_size - 1 - inset),
-            radius=max(0, radius - inset),
-            outline=(38, 41, 46, 255),
-            width=stroke,
-        )
-
-    return canvas.resize((size, size), Image.Resampling.LANCZOS)
-
-
-def render_concept_legacy(original: Image.Image, size: int, concept: Concept) -> Image.Image:
-    canvas = rounded_background_legacy(size, concept)
-    logo = crop_logo(original)
-    target_width = max(1, round(size * concept.logo_width))
-    target_height = max(1, round(logo.height * target_width / logo.width))
-    logo = logo.resize((target_width, target_height), Image.Resampling.LANCZOS)
-
-    x = (size - target_width) // 2
-    y = (size - target_height) // 2
-    canvas.alpha_composite(logo, (x, y))
-    return canvas
 
 
 def rounded_background_at_resolution(size: int, concept: Concept) -> Image.Image:
@@ -139,8 +117,8 @@ def render_concept_refined(original: Image.Image, size: int, concept: Concept) -
     target_height = max(1, round(logo.height * target_width / logo.width))
     logo = logo.resize((target_width, target_height), Image.Resampling.LANCZOS)
 
-    x = (working_size - target_width) // 2
-    y = (working_size - target_height) // 2
+    x = round((working_size - target_width) / 2 + concept.offset_x * working_size)
+    y = round((working_size - target_height) / 2 + concept.offset_y * working_size)
     canvas.alpha_composite(logo, (x, y))
     reduced = canvas.resize((size, size), Image.Resampling.LANCZOS)
     alpha = reduced.getchannel("A")
@@ -168,7 +146,7 @@ def refinement_comparison(
     refined: dict[int, Image.Image],
 ) -> None:
     sizes = [16, 32, 48, 192]
-    columns = [("B atual", current), ("B refinada", refined)]
+    columns = [("B refinada atual", current), ("B ajustada", refined)]
     cell_w, cell_h, header_h = 350, 245, 92
     canvas = Image.new(
         "RGB",
@@ -217,7 +195,7 @@ def refinement_background_matrix(
     current: dict[int, Image.Image],
     refined: dict[int, Image.Image],
 ) -> None:
-    columns = [("B atual", current), ("B refinada", refined)]
+    columns = [("B refinada atual", current), ("B ajustada", refined)]
     label_w, cell_w, cell_h, header_h = 150, 280, 120, 70
     canvas = Image.new(
         "RGB",
@@ -259,9 +237,8 @@ def main() -> None:
         }
         for concept in CONCEPTS
     }
-    premium = next(concept for concept in CONCEPTS if concept.slug == "premium")
     current = {
-        size: render_concept_legacy(original, size, premium)
+        size: render_concept_refined(original, size, CURRENT_PREMIUM)
         for size in sizes
     }
 
