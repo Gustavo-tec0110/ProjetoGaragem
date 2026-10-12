@@ -22,8 +22,10 @@ OUTPUTS = {
     180: APP / "apple-icon.png",
 }
 
-OUTLINE_RADIUS = {16: 1, 32: 1, 48: 1, 180: 1, 192: 1, 512: 2}
-OUTLINE_ALPHA = 224
+PREVIOUS_OUTLINE_RADIUS = {16: 1, 32: 1, 48: 1, 180: 1, 192: 1, 512: 2}
+OUTLINE_RADIUS = {16: 2, 32: 2, 48: 2, 180: 2, 192: 2, 512: 4}
+PREVIOUS_OUTLINE_ALPHA = 224
+OUTLINE_ALPHA = 240
 ALPHA_THRESHOLD = 24
 
 
@@ -38,7 +40,7 @@ def resize_original(original: Image.Image, size: int) -> Image.Image:
     return original.resize((size, size), Image.Resampling.LANCZOS)
 
 
-def add_outline(original: Image.Image, radius: int) -> Image.Image:
+def add_outline(original: Image.Image, radius: int, outline_alpha: int) -> Image.Image:
     """Add black only where the source is fully transparent; source pixels stay exact."""
     source = original.convert("RGBA")
     alpha = source.getchannel("A")
@@ -52,7 +54,7 @@ def add_outline(original: Image.Image, radius: int) -> Image.Image:
     for y in range(source.height):
         for x in range(source.width):
             if alpha_pixels[x, y] == 0 and expanded_pixels[x, y] > 0:
-                ring_pixels[x, y] = OUTLINE_ALPHA
+                ring_pixels[x, y] = outline_alpha
 
     outlined = Image.new("RGBA", source.size, (0, 0, 0, 0))
     outlined.paste((0, 0, 0, 255), mask=ring)
@@ -68,26 +70,26 @@ def place_on_background(icon: Image.Image, background: tuple[int, int, int], can
     return tile.convert("RGB")
 
 
-def comparison(original: Image.Image, generated: dict[int, Image.Image]) -> None:
+def comparison(previous: dict[int, Image.Image], generated: dict[int, Image.Image]) -> None:
     sizes = [16, 32, 48, 192]
-    cell_w, cell_h = 250, 250
+    cell_w, cell_h = 300, 250
     canvas = Image.new("RGB", (cell_w * 2, 72 + cell_h * len(sizes)), "#E9EAEC")
     draw = ImageDraw.Draw(canvas)
     title_font, label_font = font(24), font(18)
-    draw.text((20, 18), "Original", fill="#111111", font=title_font)
-    draw.text((cell_w + 20, 18), "Atualizado", fill="#111111", font=title_font)
+    draw.text((20, 18), "Versão anterior", fill="#111111", font=title_font)
+    draw.text((cell_w + 20, 18), "Outline mais grosso", fill="#111111", font=title_font)
 
     for row, size in enumerate(sizes):
         y = 72 + row * cell_h
-        before = resize_original(original, size)
+        before = previous[size]
         after = generated[size]
         for col, icon in enumerate((before, after)):
             x = col * cell_w
             tile = place_on_background(icon, (255, 255, 255), 110)
-            canvas.paste(tile, (x + 70, y + 14))
+            canvas.paste(tile, (x + 95, y + 14))
             zoom = icon.resize((size * min(4, max(1, 192 // size)),) * 2, Image.Resampling.NEAREST)
             zoom_tile = place_on_background(zoom, (214, 216, 220), 110)
-            canvas.paste(zoom_tile, (x + 70, y + 128))
+            canvas.paste(zoom_tile, (x + 95, y + 128))
         draw.text((12, y + 18), f"{size}px", fill="#111111", font=label_font)
         draw.text((12, y + 152), "zoom", fill="#555555", font=font(14))
 
@@ -127,9 +129,15 @@ def main() -> None:
         raise ValueError(f"Expected a 512x512 source, got {original.size}")
 
     generated: dict[int, Image.Image] = {}
+    previous: dict[int, Image.Image] = {}
     for size, destination in OUTPUTS.items():
         resized = resize_original(original, size)
-        outlined = add_outline(resized, OUTLINE_RADIUS[size])
+        previous[size] = add_outline(
+            resized,
+            PREVIOUS_OUTLINE_RADIUS[size],
+            PREVIOUS_OUTLINE_ALPHA,
+        )
+        outlined = add_outline(resized, OUTLINE_RADIUS[size], OUTLINE_ALPHA)
         outlined.save(destination, optimize=True)
         generated[size] = outlined
 
@@ -140,7 +148,7 @@ def main() -> None:
         append_images=[generated[32], generated[16]],
     )
 
-    comparison(original, generated)
+    comparison(previous, generated)
     background_matrix(generated)
 
 
