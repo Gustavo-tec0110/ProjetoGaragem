@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,7 +52,7 @@ CONCEPTS = [
 ]
 RECOMMENDED = "premium"
 ALPHA_THRESHOLD = 24
-SUPERSAMPLE = 4
+RENDER_SCALE = 4
 
 
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -70,8 +70,8 @@ def crop_logo(original: Image.Image) -> Image.Image:
     return original.crop(bounds)
 
 
-def rounded_background(size: int, concept: Concept) -> Image.Image:
-    scale = SUPERSAMPLE
+def rounded_background_legacy(size: int, concept: Concept) -> Image.Image:
+    scale = RENDER_SCALE
     large_size = size * scale
     radius = round(size * concept.corner_radius * scale)
     canvas = Image.new("RGBA", (large_size, large_size), (0, 0, 0, 0))
@@ -95,8 +95,8 @@ def rounded_background(size: int, concept: Concept) -> Image.Image:
     return canvas.resize((size, size), Image.Resampling.LANCZOS)
 
 
-def render_concept(original: Image.Image, size: int, concept: Concept) -> Image.Image:
-    canvas = rounded_background(size, concept)
+def render_concept_legacy(original: Image.Image, size: int, concept: Concept) -> Image.Image:
+    canvas = rounded_background_legacy(size, concept)
     logo = crop_logo(original)
     target_width = max(1, round(size * concept.logo_width))
     target_height = max(1, round(logo.height * target_width / logo.width))
@@ -106,6 +106,49 @@ def render_concept(original: Image.Image, size: int, concept: Concept) -> Image.
     y = (size - target_height) // 2
     canvas.alpha_composite(logo, (x, y))
     return canvas
+
+
+def rounded_background_at_resolution(size: int, concept: Concept) -> Image.Image:
+    radius = round(size * concept.corner_radius)
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle(
+        (0, 0, size - 1, size - 1),
+        radius=radius,
+        fill=(0, 0, 0, 255),
+    )
+
+    if concept.inset_stroke:
+        inset = max(1, round(size * 0.025))
+        stroke = max(1, round(size * 0.009))
+        draw.rounded_rectangle(
+            (inset, inset, size - 1 - inset, size - 1 - inset),
+            radius=max(0, radius - inset),
+            outline=(38, 41, 46, 255),
+            width=stroke,
+        )
+
+    return canvas
+
+
+def render_concept_refined(original: Image.Image, size: int, concept: Concept) -> Image.Image:
+    working_size = size * RENDER_SCALE
+    canvas = rounded_background_at_resolution(working_size, concept)
+    logo = crop_logo(original)
+    target_width = max(1, round(working_size * concept.logo_width))
+    target_height = max(1, round(logo.height * target_width / logo.width))
+    logo = logo.resize((target_width, target_height), Image.Resampling.LANCZOS)
+
+    x = (working_size - target_width) // 2
+    y = (working_size - target_height) // 2
+    canvas.alpha_composite(logo, (x, y))
+    reduced = canvas.resize((size, size), Image.Resampling.LANCZOS)
+    alpha = reduced.getchannel("A")
+    sharpened = reduced.convert("RGB").filter(
+        ImageFilter.UnsharpMask(radius=0.55, percent=70, threshold=2),
+    )
+    sharpened.putalpha(alpha)
+    return sharpened
 
 
 def place_on_background(
@@ -120,76 +163,83 @@ def place_on_background(
     return tile.convert("RGB")
 
 
-def concepts_comparison(rendered: dict[str, dict[int, Image.Image]]) -> None:
+def refinement_comparison(
+    current: dict[int, Image.Image],
+    refined: dict[int, Image.Image],
+) -> None:
     sizes = [16, 32, 48, 192]
-    cell_w, cell_h, header_h = 280, 245, 92
+    columns = [("B atual", current), ("B refinada", refined)]
+    cell_w, cell_h, header_h = 350, 245, 92
     canvas = Image.new(
         "RGB",
-        (cell_w * len(CONCEPTS), header_h + cell_h * len(sizes)),
+        (cell_w * len(columns), header_h + cell_h * len(sizes)),
         "#E9EAEC",
     )
     draw = ImageDraw.Draw(canvas)
 
-    for column, concept in enumerate(CONCEPTS):
+    for column, (name, _) in enumerate(columns):
         x = column * cell_w
-        draw.text((x + 18, 18), concept.name, fill="#111111", font=font(22, bold=True))
-        if concept.slug == RECOMMENDED:
+        draw.text((x + 18, 18), name, fill="#111111", font=font(22, bold=True))
+        if column == 1:
             draw.rounded_rectangle((x + 18, 52, x + 145, 78), radius=13, fill="#D91D2B")
-            draw.text((x + 31, 57), "RECOMENDADA", fill="white", font=font(12, bold=True))
+            draw.text((x + 52, 57), "FINAL", fill="white", font=font(12, bold=True))
 
     for row, size in enumerate(sizes):
         y = header_h + row * cell_h
-        for column, concept in enumerate(CONCEPTS):
+        for column, (_, icons) in enumerate(columns):
             x = column * cell_w
-            icon = rendered[concept.slug][size]
+            icon = icons[size]
             if size == 192:
                 preview = icon.resize((180, 180), Image.Resampling.LANCZOS)
                 tile = place_on_background(preview, (255, 255, 255), 200)
-                canvas.paste(tile, (x + 40, y + 18))
+                canvas.paste(tile, (x + 75, y + 18))
                 continue
 
             tile = place_on_background(icon, (255, 255, 255), 110)
-            canvas.paste(tile, (x + 90, y + 10))
+            canvas.paste(tile, (x + 120, y + 10))
 
             zoom_factor = min(4, max(1, 192 // size))
-            zoom = icon.resize((size * zoom_factor,) * 2, Image.Resampling.NEAREST)
+            zoom = icon.resize((size * zoom_factor,) * 2, Image.Resampling.LANCZOS)
             zoom_tile = place_on_background(zoom, (214, 216, 220), 110)
-            canvas.paste(zoom_tile, (x + 90, y + 128))
+            canvas.paste(zoom_tile, (x + 120, y + 128))
 
         label = "192px" if size == 192 else f"{size}px"
         draw.text((12, y + 18), label, fill="#111111", font=font(17, bold=True))
         if size == 192:
             draw.text((12, y + 44), "prévia", fill="#555555", font=font(13))
         else:
-            draw.text((12, y + 162), "zoom", fill="#555555", font=font(13))
+            draw.text((12, y + 162), "ampliação", fill="#555555", font=font(13))
 
     canvas.save(DOCS / "comparison.png", optimize=True)
 
 
-def concepts_background_matrix(rendered: dict[str, dict[int, Image.Image]]) -> None:
-    label_w, cell_w, cell_h, header_h = 150, 190, 120, 70
+def refinement_background_matrix(
+    current: dict[int, Image.Image],
+    refined: dict[int, Image.Image],
+) -> None:
+    columns = [("B atual", current), ("B refinada", refined)]
+    label_w, cell_w, cell_h, header_h = 150, 280, 120, 70
     canvas = Image.new(
         "RGB",
-        (label_w + cell_w * len(CONCEPTS), header_h + cell_h * len(BACKGROUNDS)),
+        (label_w + cell_w * len(columns), header_h + cell_h * len(BACKGROUNDS)),
         "#F4F4F5",
     )
     draw = ImageDraw.Draw(canvas)
 
-    for column, concept in enumerate(CONCEPTS):
+    for column, (name, _) in enumerate(columns):
         x = label_w + column * cell_w
-        draw.text((x + 18, 14), concept.name, fill="#111111", font=font(16, bold=True))
-        draw.text((x + 18, 39), "16 px  ·  48 px", fill="#606166", font=font(12))
+        draw.text((x + 18, 14), name, fill="#111111", font=font(16, bold=True))
+        draw.text((x + 18, 39), "16 px  ·  32 px  ·  48 px", fill="#606166", font=font(12))
 
     for row, (name, color) in enumerate(BACKGROUNDS):
         y = header_h + row * cell_h
         draw.text((12, y + 49), name, fill="#111111", font=font(15))
-        for column, concept in enumerate(CONCEPTS):
+        for column, (_, icons) in enumerate(columns):
             x = label_w + column * cell_w
             tile = Image.new("RGBA", (cell_w, cell_h), (*color, 255))
-            small = rendered[concept.slug][16]
-            regular = rendered[concept.slug][48]
-            tile.alpha_composite(small, (35, (cell_h - 16) // 2))
-            tile.alpha_composite(regular, (105, (cell_h - 48) // 2))
+            tile.alpha_composite(icons[16], (40, (cell_h - 16) // 2))
+            tile.alpha_composite(icons[32], (112, (cell_h - 32) // 2))
+            tile.alpha_composite(icons[48], (200, (cell_h - 48) // 2))
             canvas.paste(tile.convert("RGB"), (x, y))
 
     canvas.save(DOCS / "background-tests.png", optimize=True)
@@ -204,10 +254,15 @@ def main() -> None:
     sizes = sorted(OUTPUTS)
     rendered = {
         concept.slug: {
-            size: render_concept(original, size, concept)
+            size: render_concept_refined(original, size, concept)
             for size in sizes
         }
         for concept in CONCEPTS
+    }
+    premium = next(concept for concept in CONCEPTS if concept.slug == "premium")
+    current = {
+        size: render_concept_legacy(original, size, premium)
+        for size in sizes
     }
 
     for concept in CONCEPTS:
@@ -224,8 +279,8 @@ def main() -> None:
         append_images=[selected[32], selected[16]],
     )
 
-    concepts_comparison(rendered)
-    concepts_background_matrix(rendered)
+    refinement_comparison(current, selected)
+    refinement_background_matrix(current, selected)
 
 
 if __name__ == "__main__":
