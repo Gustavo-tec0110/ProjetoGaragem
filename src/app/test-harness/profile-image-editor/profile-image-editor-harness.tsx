@@ -9,6 +9,7 @@ import type { ProfileCropKind } from "@/lib/profile/image-crop";
 export function ProfileImageEditorHarness() {
   const [kind, setKind] = React.useState<ProfileCropKind>("avatar");
   const [file, setFile] = React.useState<File | null>(null);
+  const [selectionKey, setSelectionKey] = React.useState(0);
   const [result, setResult] = React.useState<{ url: string; name: string } | null>(null);
 
   React.useEffect(() => () => {
@@ -28,7 +29,10 @@ export function ProfileImageEditorHarness() {
           data-testid="editor-file-input"
           type="file"
           accept="image/png,image/jpeg,image/webp"
-          onChange={(event) => setFile(event.currentTarget.files?.[0] ?? null)}
+          onChange={(event) => {
+            setFile(event.currentTarget.files?.[0] ?? null);
+            setSelectionKey((current) => current + 1);
+          }}
         />
       </label>
       {result ? (
@@ -40,7 +44,13 @@ export function ProfileImageEditorHarness() {
       ) : null}
       <ProfileImageCropDialog
         file={file}
+        selectionKey={selectionKey}
         kind={kind}
+        onReplace={(nextFile) => {
+          setFile(nextFile);
+          setSelectionKey((current) => current + 1);
+          return null;
+        }}
         onCancel={() => setFile(null)}
         onApply={async (croppedFile) => {
           setResult((current) => {

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Check, LoaderCircle, Minus, Move, Plus, RotateCcw, X } from "lucide-react";
+import { Check, ImagePlus, LoaderCircle, Minus, Move, Plus, RotateCcw, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,31 +39,36 @@ function localPoint(element: HTMLElement, point: CropPoint) {
   return { x: point.x - bounds.left, y: point.y - bounds.top };
 }
 
-export function ProfileImageCropDialog({ file, kind, onCancel, onApply }: {
+export function ProfileImageCropDialog({ file, selectionKey, kind, onReplace, onCancel, onApply }: {
   file: File | null;
+  selectionKey: number;
   kind: ProfileCropKind;
+  onReplace: (file: File) => string | null;
   onCancel: () => void;
   onApply: (croppedFile: File) => Promise<void>;
 }) {
   if (!file) return null;
   return (
     <ProfileImageCropEditor
-      key={`${file.name}-${file.lastModified}-${file.size}`}
+      key={selectionKey}
       file={file}
       kind={kind}
+      onReplace={onReplace}
       onCancel={onCancel}
       onApply={onApply}
     />
   );
 }
 
-function ProfileImageCropEditor({ file, kind, onCancel, onApply }: {
+function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
   file: File;
   kind: ProfileCropKind;
+  onReplace: (file: File) => string | null;
   onCancel: () => void;
   onApply: (croppedFile: File) => Promise<void>;
 }) {
   const cropRef = React.useRef<HTMLDivElement | null>(null);
+  const replaceInputRef = React.useRef<HTMLInputElement | null>(null);
   const cropCleanupRef = React.useRef<() => void>(() => undefined);
   const gestureRef = React.useRef<PointerGesture | null>(null);
   const stateRef = React.useRef({ zoom: PROFILE_CROP_MIN_ZOOM, position: { x: 0, y: 0 } });
@@ -339,6 +344,7 @@ function ProfileImageCropEditor({ file, kind, onCancel, onApply }: {
             <div>
               <Dialog.Title className="font-title text-xl tracking-tight sm:text-2xl">Ajustar {isAvatar ? "foto de perfil" : "imagem de capa"}</Dialog.Title>
               <Dialog.Description className="mt-1 text-sm text-muted">Arraste para posicionar. Use a roda do mouse ou dois dedos para ampliar.</Dialog.Description>
+              {!isAvatar ? <p className="mt-1 text-xs text-muted">No cabeçalho do perfil, a capa pode receber um corte adicional conforme a largura da tela.</p> : null}
             </div>
             <Dialog.Close asChild>
               <Button type="button" size="icon" variant="ghost" className="size-10 shrink-0" disabled={saving} aria-label="Cancelar recorte"><X className="size-5" /></Button>
@@ -417,8 +423,27 @@ function ProfileImageCropEditor({ file, kind, onCancel, onApply }: {
 
           {error ? <p className="mt-4 rounded-xl border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger" role="alert">{error}</p> : null}
 
+          <input
+            ref={replaceInputRef}
+            data-testid={`profile-${kind}-replace-input`}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="sr-only"
+            onChange={(event) => {
+              const nextFile = event.currentTarget.files?.[0];
+              if (nextFile) {
+                const replacementError = onReplace(nextFile);
+                if (replacementError) setError(replacementError);
+              }
+              event.currentTarget.value = "";
+            }}
+          />
+
           <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <Button type="button" variant="ghost" onClick={reset} disabled={saving || !imageSize || (zoom === PROFILE_CROP_MIN_ZOOM && position.x === 0 && position.y === 0)}><RotateCcw className="size-4" /> Redefinir</Button>
+            <div className="flex flex-wrap gap-1">
+              <Button type="button" variant="ghost" onClick={() => replaceInputRef.current?.click()} disabled={saving}><ImagePlus className="size-4" /> Trocar imagem</Button>
+              <Button type="button" variant="ghost" onClick={reset} disabled={saving || !imageSize || (zoom === PROFILE_CROP_MIN_ZOOM && position.x === 0 && position.y === 0)}><RotateCcw className="size-4" /> Redefinir</Button>
+            </div>
             <div className="flex flex-col-reverse gap-2 sm:flex-row">
               <Button type="button" variant="outline" onClick={onCancel} disabled={saving}>Cancelar</Button>
               <Button type="button" onClick={() => void apply()} disabled={saving || !imageSize || Boolean(error)}>

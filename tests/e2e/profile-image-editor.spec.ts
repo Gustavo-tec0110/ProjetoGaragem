@@ -59,6 +59,49 @@ async function appliedPixels(page: Page) {
   });
 }
 
+async function previewPixels(page: Page, kind: "avatar" | "cover") {
+  return page.getByTestId(`profile-${kind}-crop-area`).evaluate(async (area: HTMLElement, output) => {
+    const image = area.querySelector<HTMLImageElement>('img[alt="Prévia do recorte"]');
+    if (!image) throw new Error("Crop preview unavailable");
+    await image.decode();
+    const areaBox = area.getBoundingClientRect();
+    const imageBox = image.getBoundingClientRect();
+    const canvas = document.createElement("canvas");
+    canvas.width = output.width;
+    canvas.height = output.height;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) throw new Error("Canvas unavailable");
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    const scaleX = output.width / areaBox.width;
+    const scaleY = output.height / areaBox.height;
+    context.drawImage(
+      image,
+      (imageBox.left - areaBox.left) * scaleX,
+      (imageBox.top - areaBox.top) * scaleY,
+      imageBox.width * scaleX,
+      imageBox.height * scaleY
+    );
+    const points = [
+      [0, 0],
+      [output.width - 1, 0],
+      [Math.floor(output.width / 2), Math.floor(output.height / 2)],
+      [0, output.height - 1],
+      [output.width - 1, output.height - 1],
+    ];
+    return points.map(([x, y]) => [...context.getImageData(x, y, 1, 1).data]);
+  }, PROFILE_CROP_OUTPUT_SIZES[kind]);
+}
+
+function expectPixelsToMatch(actual: number[][], expected: number[][]) {
+  expect(actual).toHaveLength(expected.length);
+  for (let index = 0; index < expected.length; index += 1) {
+    for (let channel = 0; channel < 4; channel += 1) {
+      expect(Math.abs(actual[index][channel] - expected[index][channel])).toBeLessThanOrEqual(20);
+    }
+  }
+}
+
 test("geometria limita deslocamento, preserva proporção e ancora o zoom", () => {
   const image = { width: 1200, height: 800 };
   const crop = { width: 600, height: 200 };
@@ -73,6 +116,17 @@ test("geometria limita deslocamento, preserva proporção e ancora o zoom", () =
   const after = getProfileImageLayout(image, crop, anchored.zoom, anchored.position);
   expect((75 - before.left) / before.width).toBeCloseTo((75 - after.left) / after.width, 8);
   expect((50 - before.top) / before.height).toBeCloseTo((50 - after.top) / after.height, 8);
+});
+
+test("arquivo ilegível mostra erro e impede aplicar o recorte", async ({ page }) => {
+  await page.goto("/test-harness/profile-image-editor");
+  await page.getByTestId("editor-file-input").setInputFiles({
+    name: "quebrada.png",
+    mimeType: "image/png",
+    buffer: Buffer.from("não é uma imagem"),
+  });
+  await expect(page.getByRole("alert")).toContainText("Não foi possível ler esta imagem");
+  await expect(page.getByRole("button", { name: "Aplicar recorte" })).toBeDisabled();
 });
 
 test("avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels", async ({ page }, testInfo) => {
@@ -126,6 +180,7 @@ test("avatar responde a slider, botões, roda, arraste, limites, reset e exporta
   const keyboardPositionBefore = Number(await area.getAttribute("data-position-x"));
   await page.keyboard.press("ArrowRight");
   expect(Number(await area.getAttribute("data-position-x"))).toBeGreaterThan(keyboardPositionBefore);
+  const expectedPixels = await previewPixels(page, "avatar");
   await testInfo.attach("avatar-editado", { body: await page.screenshot(), contentType: "image/png" });
 
   await page.getByRole("button", { name: "Aplicar recorte" }).click();
@@ -134,6 +189,7 @@ test("avatar responde a slider, botões, roda, arraste, limites, reset e exporta
   expect(output.width).toBe(PROFILE_CROP_OUTPUT_SIZES.avatar.width);
   expect(output.height).toBe(PROFILE_CROP_OUTPUT_SIZES.avatar.height);
   expect(output.samples.every((sample: number[]) => sample[3] === 255)).toBe(true);
+  expectPixelsToMatch(output.samples, expectedPixels);
 });
 
 test("capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo", async ({ page }, testInfo) => {
@@ -145,14 +201,18 @@ test("capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo", asy
   await page.mouse.down();
   await page.mouse.move(box!.x + 30, box!.y + 30, { steps: 5 });
   await page.mouse.up();
-  await page.getByRole("button", { name: "Cancelar", exact: true }).click();
-  await expect(page.getByTestId("applied-image")).toHaveCount(0);
-
-  await page.getByTestId("editor-file-input").setInputFiles(await testImage("replacement.png"));
+  await page.getByTestId("profile-cover-replace-input").setInputFiles(await testImage("replacement.png"));
   const replacementArea = page.getByTestId("profile-cover-crop-area");
   await expect(replacementArea).toHaveAttribute("data-zoom", "1.000");
   await expect(replacementArea).toHaveAttribute("data-position-x", "0.0000");
+  await page.getByRole("button", { name: "Cancelar", exact: true }).click();
+  await expect(page.getByTestId("applied-image")).toHaveCount(0);
+
+  await page.getByTestId("editor-file-input").setInputFiles(await testImage("final.png"));
+  await expect(replacementArea).toHaveAttribute("data-zoom", "1.000");
+  await expect(replacementArea).toHaveAttribute("data-position-x", "0.0000");
   await page.getByTestId("profile-cover-zoom").fill("3");
+  const expectedPixels = await previewPixels(page, "cover");
   await testInfo.attach("capa-editada", { body: await page.screenshot(), contentType: "image/png" });
   await page.getByRole("button", { name: "Aplicar recorte" }).click();
   const output = await appliedPixels(page);
@@ -160,11 +220,12 @@ test("capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo", asy
   expect(output.height).toBe(PROFILE_CROP_OUTPUT_SIZES.cover.height);
   expect(output.width / output.height).toBe(3);
   expect(output.samples.every((sample: number[]) => sample[3] === 255)).toBe(true);
+  expectPixelsToMatch(output.samples, expectedPixels);
 });
 
-test("pinça amplia sem rolar a página", async ({ page }, testInfo) => {
+for (const kind of ["avatar", "cover"] as const) test(`pinça e arraste por toque funcionam na ${kind === "avatar" ? "foto" : "capa"}`, async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-chromium", "Gesto multitoque validado no projeto mobile.");
-  const area = await openEditor(page, "avatar");
+  const area = await openEditor(page, kind);
   const box = await area.boundingBox();
   const client = await page.context().newCDPSession(page);
   const center = { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 };
@@ -186,5 +247,16 @@ test("pinça amplia sem rolar a página", async ({ page }, testInfo) => {
   await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
   expect(Number(await area.getAttribute("data-zoom"))).toBeGreaterThan(2);
   expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
-  await testInfo.attach("avatar-pinca-mobile", { body: await page.screenshot(), contentType: "image/png" });
+  const panBefore = Number(await area.getAttribute("data-position-x"));
+  await client.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: center.x, y: center.y, id: 3 }],
+  });
+  await client.send("Input.dispatchTouchEvent", {
+    type: "touchMove",
+    touchPoints: [{ x: center.x + 45, y: center.y + 20, id: 3 }],
+  });
+  await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  expect(Number(await area.getAttribute("data-position-x"))).toBeGreaterThan(panBefore);
+  await testInfo.attach(`${kind}-pinca-mobile`, { body: await page.screenshot(), contentType: "image/png" });
 });
