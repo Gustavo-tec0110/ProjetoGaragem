@@ -451,10 +451,10 @@
   .pg-skeleton {
     background-image: linear-gradient(
       90deg,
-      --alpha(var(--color-background) / 28%) 0%,
-      --alpha(var(--color-background) / 42%) 20%,
-      --alpha(var(--color-background) / 28%) 40%,
-      --alpha(var(--color-background) / 28%) 100%
+      --alpha(var(--color-foreground) / 5%) 0%,
+      --alpha(var(--color-foreground) / 10%) 35%,
+      --alpha(var(--color-foreground) / 5%) 70%,
+      --alpha(var(--color-foreground) / 5%) 100%
     );
     background-size: 200% 100%;
     animation: var(--animate-pg-shimmer);
