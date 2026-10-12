@@ -1,5 +1,6 @@
-import { RankingsPageSkeleton } from "@/components/ui/page-skeletons";
+import { EmptyRankingsPageSkeleton, RankingsPageSkeleton } from "@/components/ui/page-skeletons";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export default function LoadingRankingsPage() {
-  return <RankingsPageSkeleton />;
+  return isSupabaseConfigured ? <RankingsPageSkeleton /> : <EmptyRankingsPageSkeleton />;
 }

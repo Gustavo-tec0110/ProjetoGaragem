@@ -1,5 +1,6 @@
-import { GaragePageSkeleton } from "@/components/ui/page-skeletons";
+import { GaragePageSkeleton, LocalGaragePageSkeleton } from "@/components/ui/page-skeletons";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export default function LoadingGaragePage() {
-  return <GaragePageSkeleton />;
+  return isSupabaseConfigured ? <GaragePageSkeleton /> : <LocalGaragePageSkeleton />;
 }
