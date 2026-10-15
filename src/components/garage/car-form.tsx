@@ -215,7 +215,7 @@ function newExpense(): ExpenseDraft {
     spent_at: isoDate(new Date().toISOString()),
     note: "",
     part_name: "",
-    is_public: true,
+    is_public: false,
   };
 }
 
@@ -756,7 +756,7 @@ export function CarForm({
         <input type="hidden" name="category" value="Projeto automotivo" />
         <input type="hidden" name="project_status" value="Em andamento" />
         <input type="hidden" name="is_public" value="true" />
-        <input type="hidden" name="show_expenses_public" value="true" />
+        <input type="hidden" name="show_expenses_public" value="false" />
         <input type="hidden" name="catalog_version_id" value={realCatalogId(selectedCatalogVersion)} />
         <input type="hidden" name="version" value={selectedCatalogVersion?.version ?? ""} />
         <input type="hidden" name="version_confidence" value={createVersionConfidence} />
@@ -1231,7 +1231,7 @@ export function CarForm({
               type="checkbox"
               name="show_expenses_public"
               value="true"
-              defaultChecked={car?.show_expenses_public ?? true}
+              defaultChecked={car?.show_expenses_public ?? false}
               className="size-4 accent-red-500"
             />
             Mostrar custos públicos permitidos na página do projeto
@@ -1862,7 +1862,7 @@ export function CarForm({
                     placeholder="Ex: turbina, rodas, coilover..."
                   />
                 </Field>
-                <Field label="Observação" className="md:col-span-2">
+                <Field label="Anotação privada" className="md:col-span-2">
                   <Input
                     value={expense.note}
                     onChange={(event) =>

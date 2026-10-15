@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import Image from "next/image";
+import { ProjectImage } from "@/components/projects/project-image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CarFront, ChevronDown, Compass, Home, LogOut, Plus, Trophy, User, Warehouse } from "lucide-react";
@@ -63,7 +63,7 @@ function UserAvatar({
       aria-hidden="true"
     >
       {avatarUrl ? (
-        <Image src={avatarUrl} alt="" fill sizes="32px" className="object-cover" />
+        <ProjectImage src={avatarUrl} alt="" fill sizes="32px" className="object-cover" />
       ) : (
         displayName.slice(0, 1).toUpperCase()
       )}
@@ -77,6 +77,7 @@ export function SiteNavbar() {
   const { user, loading, signOut } = useAuth();
   const displayName = getAuthUserName(user) ?? "Membro Projeto Garagem";
   const avatarUrl = getAuthUserAvatar(user);
+  const deferCreatePrefetch = pathname === "/" || pathname === "/login" || pathname === "/register" || pathname === "/explorar";
   const isActive = React.useCallback(
     (href: string) => pathname === href || pathname.startsWith(`${href}/`),
     [pathname]
@@ -144,7 +145,7 @@ export function SiteNavbar() {
         <div className="px-4 sm:px-6">
           <div className="mx-auto w-full max-w-[85rem]">
               <div className="flex min-h-16 items-center justify-between gap-2 lg:gap-4">
-                <Link href="/" className="flex min-w-0 items-center gap-2" aria-label="Projeto Garagem - inicio">
+                <Link href="/" className="flex min-w-0 items-center gap-2">
                   <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 lg:size-10">
                     <CarFront className="size-4 text-accent lg:size-5" />
                   </span>
@@ -172,7 +173,7 @@ export function SiteNavbar() {
                     </Button>
                   )}
                   <Button asChild size="sm">
-                    <Link href="/criar-projeto">Criar projeto</Link>
+                    <Link href="/criar-projeto" prefetch={deferCreatePrefetch ? false : undefined}>Criar projeto</Link>
                   </Button>
                 </div>
 
@@ -206,6 +207,7 @@ export function SiteNavbar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={isCreate && deferCreatePrefetch ? false : undefined}
                     className={cn(
                       "group flex min-w-0 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1 transition active:scale-[0.98] sm:px-2",
                       active

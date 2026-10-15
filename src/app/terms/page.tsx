@@ -8,7 +8,7 @@ export const metadata: Metadata = createSeoMetadata({
   path: "/terms",
 });
 
-const updatedAt = "22 de setembro de 2026";
+const updatedAt = "13 de outubro de 2026";
 
 export default function TermsPage() {
   return (
@@ -51,6 +51,21 @@ export default function TermsPage() {
               autoriza sua exibição e disponibilização dentro do Projeto Garagem para operar e divulgar a plataforma.
               Publique apenas material sobre o qual possua os direitos necessários e respeite a privacidade e os direitos
               de terceiros.
+            </p>
+            <p className="mt-3">
+              Ao enviar imagens, fotografias, textos ou outros materiais, você declara possuir os direitos ou as autorizações
+              necessários para publicá-los. É proibido publicar obras protegidas por direitos autorais sem autorização
+              ou outra base legal válida. Nos limites da legislação aplicável, você responde por violações de direitos autorais
+              e de terceiros decorrentes do conteúdo que enviar.
+            </p>
+            <p className="mt-3">
+              Podemos analisar denúncias e remover ou restringir conteúdos que violem direitos de terceiros ou as regras
+              da plataforma, observada a legislação aplicável. Para denunciar, envie a identificação do conteúdo e uma
+              descrição do motivo para{" "}
+              <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:ggtopxbox1@gmail.com">
+                ggtopxbox1@gmail.com
+              </a>. Uma denúncia será avaliada conforme as informações disponíveis; estes Termos não afastam
+              responsabilidades legais do Projeto Garagem.
             </p>
           </section>
 

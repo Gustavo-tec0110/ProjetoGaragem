@@ -1,0 +1,796 @@
+{
+  "current-first": {
+    "explorar": {
+      "count": 5,
+      "stats": {
+        "score": {
+          "median": 64,
+          "min": 58,
+          "max": 67
+        },
+        "lcpMs": {
+          "median": 3924,
+          "min": 3542,
+          "max": 4513
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1199,
+          "min": 1084,
+          "max": 1334
+        },
+        "fcpMs": {
+          "median": 1665,
+          "min": 1464,
+          "max": 2095
+        },
+        "jsTransferBytes": {
+          "median": 298342,
+          "min": 298342,
+          "max": 298342
+        },
+        "requests": {
+          "median": 47,
+          "min": 46,
+          "max": 47
+        },
+        "loadEventMs": {
+          "median": 1145,
+          "min": 1054,
+          "max": 1861
+        },
+        "lcpRenderDelayMs": {
+          "median": 1095.6119999923706,
+          "min": 823.5079999923706,
+          "max": 1185.105
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 5,
+      "samples": [
+        {
+          "route": "explorar",
+          "run": 1,
+          "score": 58,
+          "lcpMs": 4513,
+          "cls": 0,
+          "tbtMs": 1260,
+          "fcpMs": 1732,
+          "speedIndexMs": 3486,
+          "requests": 46,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1861,
+          "lcpRenderDelayMs": 1095.6119999923706,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 2,
+          "score": 64,
+          "lcpMs": 3810,
+          "cls": 0,
+          "tbtMs": 1199,
+          "fcpMs": 1663,
+          "speedIndexMs": 2235,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1145,
+          "lcpRenderDelayMs": 1132.7409999923707,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 3,
+          "score": 61,
+          "lcpMs": 3945,
+          "cls": 0,
+          "tbtMs": 1334,
+          "fcpMs": 2095,
+          "speedIndexMs": 2148,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1145,
+          "lcpRenderDelayMs": 823.5079999923706,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 4,
+          "score": 67,
+          "lcpMs": 3542,
+          "cls": 0,
+          "tbtMs": 1084,
+          "fcpMs": 1464,
+          "speedIndexMs": 1743,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1054,
+          "lcpRenderDelayMs": 1062.917,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 5,
+          "score": 64,
+          "lcpMs": 3924,
+          "cls": 0,
+          "tbtMs": 1145,
+          "fcpMs": 1665,
+          "speedIndexMs": 2186,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1146,
+          "lcpRenderDelayMs": 1185.105,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        }
+      ]
+    }
+  },
+  "old-template": {
+    "explorar": {
+      "count": 5,
+      "stats": {
+        "score": {
+          "median": 71,
+          "min": 67,
+          "max": 74
+        },
+        "lcpMs": {
+          "median": 2433,
+          "min": 2407,
+          "max": 3150
+        },
+        "cls": {
+          "median": 0.00007298442266522987,
+          "min": 0.00007298442266522987,
+          "max": 0.00007298442266522987
+        },
+        "tbtMs": {
+          "median": 1464,
+          "min": 1128,
+          "max": 1514
+        },
+        "fcpMs": {
+          "median": 1627,
+          "min": 1430,
+          "max": 1645
+        },
+        "jsTransferBytes": {
+          "median": 301514,
+          "min": 301514,
+          "max": 301514
+        },
+        "requests": {
+          "median": 50,
+          "min": 50,
+          "max": 50
+        },
+        "loadEventMs": {
+          "median": 973,
+          "min": 866,
+          "max": 2116
+        },
+        "lcpRenderDelayMs": {
+          "median": 577.5219999923706,
+          "min": 497.56,
+          "max": 613.002
+        }
+      },
+      "lcpElements": [
+        "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…"
+      ],
+      "supabaseScriptRuns": 5,
+      "samples": [
+        {
+          "route": "explorar",
+          "run": 1,
+          "score": 71,
+          "lcpMs": 2407,
+          "cls": 0.00007298442266522987,
+          "tbtMs": 1464,
+          "fcpMs": 1430,
+          "speedIndexMs": 3332,
+          "requests": 50,
+          "jsTransferBytes": 301514,
+          "loadEventMs": 2116,
+          "lcpRenderDelayMs": 577.5219999923706,
+          "lcpElement": "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 2,
+          "score": 74,
+          "lcpMs": 2419,
+          "cls": 0.00007298442266522987,
+          "tbtMs": 1128,
+          "fcpMs": 1627,
+          "speedIndexMs": 2040,
+          "requests": 50,
+          "jsTransferBytes": 301514,
+          "loadEventMs": 1092,
+          "lcpRenderDelayMs": 613.002,
+          "lcpElement": "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 3,
+          "score": 71,
+          "lcpMs": 2433,
+          "cls": 0.00007298442266522987,
+          "tbtMs": 1514,
+          "fcpMs": 1637,
+          "speedIndexMs": 1867,
+          "requests": 50,
+          "jsTransferBytes": 301514,
+          "loadEventMs": 973,
+          "lcpRenderDelayMs": 599.285,
+          "lcpElement": "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 4,
+          "score": 67,
+          "lcpMs": 3150,
+          "cls": 0.00007298442266522987,
+          "tbtMs": 1473,
+          "fcpMs": 1645,
+          "speedIndexMs": 1890,
+          "requests": 50,
+          "jsTransferBytes": 301514,
+          "loadEventMs": 918,
+          "lcpRenderDelayMs": 515.984,
+          "lcpElement": "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 5,
+          "score": 72,
+          "lcpMs": 2709,
+          "cls": 0.00007298442266522987,
+          "tbtMs": 1220,
+          "fcpMs": 1619,
+          "speedIndexMs": 1664,
+          "requests": 50,
+          "jsTransferBytes": 301514,
+          "loadEventMs": 866,
+          "lcpRenderDelayMs": 497.56,
+          "lcpElement": "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…",
+          "supabaseScript": true
+        }
+      ]
+    }
+  },
+  "current-repeat": {
+    "explorar": {
+      "count": 5,
+      "stats": {
+        "score": {
+          "median": 63,
+          "min": 62,
+          "max": 65
+        },
+        "lcpMs": {
+          "median": 3722,
+          "min": 3660,
+          "max": 3863
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1440,
+          "min": 1128,
+          "max": 1570
+        },
+        "fcpMs": {
+          "median": 1617,
+          "min": 1592,
+          "max": 1702
+        },
+        "jsTransferBytes": {
+          "median": 298342,
+          "min": 298342,
+          "max": 298342
+        },
+        "requests": {
+          "median": 47,
+          "min": 46,
+          "max": 47
+        },
+        "loadEventMs": {
+          "median": 1116,
+          "min": 928,
+          "max": 1893
+        },
+        "lcpRenderDelayMs": {
+          "median": 1189.7420000076295,
+          "min": 1055.0799999923706,
+          "max": 1394.645
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 5,
+      "samples": [
+        {
+          "route": "explorar",
+          "run": 1,
+          "score": 62,
+          "lcpMs": 3863,
+          "cls": 0,
+          "tbtMs": 1304,
+          "fcpMs": 1702,
+          "speedIndexMs": 3215,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1893,
+          "lcpRenderDelayMs": 1394.645,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 2,
+          "score": 63,
+          "lcpMs": 3722,
+          "cls": 0,
+          "tbtMs": 1440,
+          "fcpMs": 1610,
+          "speedIndexMs": 1770,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 928,
+          "lcpRenderDelayMs": 1077.089,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 3,
+          "score": 63,
+          "lcpMs": 3660,
+          "cls": 0,
+          "tbtMs": 1483,
+          "fcpMs": 1617,
+          "speedIndexMs": 2260,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1024,
+          "lcpRenderDelayMs": 1055.0799999923706,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 4,
+          "score": 65,
+          "lcpMs": 3777,
+          "cls": 0,
+          "tbtMs": 1128,
+          "fcpMs": 1648,
+          "speedIndexMs": 1967,
+          "requests": 47,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1179,
+          "lcpRenderDelayMs": 1216.599,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        },
+        {
+          "route": "explorar",
+          "run": 5,
+          "score": 63,
+          "lcpMs": 3692,
+          "cls": 0,
+          "tbtMs": 1570,
+          "fcpMs": 1592,
+          "speedIndexMs": 1876,
+          "requests": 46,
+          "jsTransferBytes": 298342,
+          "loadEventMs": 1116,
+          "lcpRenderDelayMs": 1189.7420000076295,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": true
+        }
+      ]
+    },
+    "garagem": {
+      "count": 5,
+      "stats": {
+        "score": {
+          "median": 65,
+          "min": 64,
+          "max": 68
+        },
+        "lcpMs": {
+          "median": 4190,
+          "min": 3644,
+          "max": 4229
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 919,
+          "min": 671,
+          "max": 1243
+        },
+        "fcpMs": {
+          "median": 1602,
+          "min": 1461,
+          "max": 1628
+        },
+        "jsTransferBytes": {
+          "median": 318785,
+          "min": 318785,
+          "max": 318785
+        },
+        "requests": {
+          "median": 48,
+          "min": 48,
+          "max": 48
+        },
+        "loadEventMs": {
+          "median": 851,
+          "min": 826,
+          "max": 926
+        },
+        "lcpRenderDelayMs": {
+          "median": 946.872,
+          "min": 863.748,
+          "max": 1612.769
+        }
+      },
+      "lcpElements": [
+        "Crie um projeto local para testar cadastro, página individual e compartilhament…"
+      ],
+      "supabaseScriptRuns": 5,
+      "samples": [
+        {
+          "route": "garagem",
+          "run": 1,
+          "score": 64,
+          "lcpMs": 4229,
+          "cls": 0,
+          "tbtMs": 946,
+          "fcpMs": 1622,
+          "speedIndexMs": 1711,
+          "requests": 48,
+          "jsTransferBytes": 318785,
+          "loadEventMs": 926,
+          "lcpRenderDelayMs": 946.872,
+          "lcpElement": "Crie um projeto local para testar cadastro, página individual e compartilhament…",
+          "supabaseScript": true
+        },
+        {
+          "route": "garagem",
+          "run": 2,
+          "score": 66,
+          "lcpMs": 4018,
+          "cls": 0,
+          "tbtMs": 881,
+          "fcpMs": 1602,
+          "speedIndexMs": 1602,
+          "requests": 48,
+          "jsTransferBytes": 318785,
+          "loadEventMs": 842,
+          "lcpRenderDelayMs": 959.84,
+          "lcpElement": "Crie um projeto local para testar cadastro, página individual e compartilhament…",
+          "supabaseScript": true
+        },
+        {
+          "route": "garagem",
+          "run": 3,
+          "score": 65,
+          "lcpMs": 3644,
+          "cls": 0,
+          "tbtMs": 1243,
+          "fcpMs": 1602,
+          "speedIndexMs": 1602,
+          "requests": 48,
+          "jsTransferBytes": 318785,
+          "loadEventMs": 826,
+          "lcpRenderDelayMs": 863.748,
+          "lcpElement": "Crie um projeto local para testar cadastro, página individual e compartilhament…",
+          "supabaseScript": true
+        },
+        {
+          "route": "garagem",
+          "run": 4,
+          "score": 64,
+          "lcpMs": 4190,
+          "cls": 0,
+          "tbtMs": 919,
+          "fcpMs": 1628,
+          "speedIndexMs": 1991,
+          "requests": 48,
+          "jsTransferBytes": 318785,
+          "loadEventMs": 897,
+          "lcpRenderDelayMs": 935.663,
+          "lcpElement": "Crie um projeto local para testar cadastro, página individual e compartilhament…",
+          "supabaseScript": true
+        },
+        {
+          "route": "garagem",
+          "run": 5,
+          "score": 68,
+          "lcpMs": 4227,
+          "cls": 0,
+          "tbtMs": 671,
+          "fcpMs": 1461,
+          "speedIndexMs": 2864,
+          "requests": 48,
+          "jsTransferBytes": 318785,
+          "loadEventMs": 851,
+          "lcpRenderDelayMs": 1612.769,
+          "lcpElement": "Crie um projeto local para testar cadastro, página individual e compartilhament…",
+          "supabaseScript": true
+        }
+      ]
+    }
+  },
+  "no-explore-prefetch": {
+    "explorar": {
+      "count": 5,
+      "stats": {
+        "score": {
+          "median": 63,
+          "min": 55,
+          "max": 68
+        },
+        "lcpMs": {
+          "median": 3781,
+          "min": 3034,
+          "max": 4438
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1354,
+          "min": 1142,
+          "max": 1730
+        },
+        "fcpMs": {
+          "median": 1647,
+          "min": 1615,
+          "max": 2117
+        },
+        "jsTransferBytes": {
+          "median": 212990,
+          "min": 212990,
+          "max": 212990
+        },
+        "requests": {
+          "median": 42,
+          "min": 42,
+          "max": 42
+        },
+        "loadEventMs": {
+          "median": 1283,
+          "min": 999,
+          "max": 2028
+        },
+        "lcpRenderDelayMs": {
+          "median": 1147.299,
+          "min": 1065.534,
+          "max": 1475.188
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 0,
+      "samples": [
+        {
+          "route": "explorar",
+          "run": 1,
+          "score": 55,
+          "lcpMs": 4438,
+          "cls": 0,
+          "tbtMs": 1730,
+          "fcpMs": 1749,
+          "speedIndexMs": 3733,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 2028,
+          "lcpRenderDelayMs": 1184.361,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 2,
+          "score": 68,
+          "lcpMs": 3034,
+          "cls": 0,
+          "tbtMs": 1223,
+          "fcpMs": 2117,
+          "speedIndexMs": 2903,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 1622,
+          "lcpRenderDelayMs": 1065.534,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 3,
+          "score": 63,
+          "lcpMs": 3744,
+          "cls": 0,
+          "tbtMs": 1406,
+          "fcpMs": 1615,
+          "speedIndexMs": 1870,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 999,
+          "lcpRenderDelayMs": 1090.071,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 4,
+          "score": 64,
+          "lcpMs": 3848,
+          "cls": 0,
+          "tbtMs": 1142,
+          "fcpMs": 1647,
+          "speedIndexMs": 2294,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 1079,
+          "lcpRenderDelayMs": 1147.299,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 5,
+          "score": 63,
+          "lcpMs": 3781,
+          "cls": 0,
+          "tbtMs": 1354,
+          "fcpMs": 1635,
+          "speedIndexMs": 2347,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 1283,
+          "lcpRenderDelayMs": 1475.188,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        }
+      ]
+    }
+  },
+  "final": {
+    "explorar": {
+      "count": 3,
+      "stats": {
+        "score": {
+          "median": 60,
+          "min": 59,
+          "max": 69
+        },
+        "lcpMs": {
+          "median": 3863,
+          "min": 3806,
+          "max": 4130
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1415,
+          "min": 767,
+          "max": 1911
+        },
+        "fcpMs": {
+          "median": 1646,
+          "min": 1631,
+          "max": 1726
+        },
+        "jsTransferBytes": {
+          "median": 212990,
+          "min": 212990,
+          "max": 212990
+        },
+        "requests": {
+          "median": 42,
+          "min": 42,
+          "max": 42
+        },
+        "loadEventMs": {
+          "median": 1091,
+          "min": 977,
+          "max": 1908
+        },
+        "lcpRenderDelayMs": {
+          "median": 1146.2910000076295,
+          "min": 1052.581,
+          "max": 1345.408
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 0,
+      "samples": [
+        {
+          "route": "explorar",
+          "run": 1,
+          "score": 59,
+          "lcpMs": 4130,
+          "cls": 0,
+          "tbtMs": 1415,
+          "fcpMs": 1726,
+          "speedIndexMs": 3323,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 1908,
+          "lcpRenderDelayMs": 1345.408,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 2,
+          "score": 69,
+          "lcpMs": 3863,
+          "cls": 0,
+          "tbtMs": 767,
+          "fcpMs": 1631,
+          "speedIndexMs": 2038,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 977,
+          "lcpRenderDelayMs": 1052.581,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        },
+        {
+          "route": "explorar",
+          "run": 3,
+          "score": 60,
+          "lcpMs": 3806,
+          "cls": 0,
+          "tbtMs": 1911,
+          "fcpMs": 1646,
+          "speedIndexMs": 2058,
+          "requests": 42,
+          "jsTransferBytes": 212990,
+          "loadEventMs": 1091,
+          "lcpRenderDelayMs": 1146.2910000076295,
+          "lcpElement": "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…",
+          "supabaseScript": false
+        }
+      ]
+    }
+  }
+}

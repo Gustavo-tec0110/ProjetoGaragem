@@ -1,0 +1,10 @@
+# Default uncached Edge Functions run before the Netlify cache and Image CDN.
+# Keep this guard in the ONE consolidated deployment; validate it on the real
+# adapter before reopening the site. Do not set cache = "manual" here.
+[[edge_functions]]
+  function = "protect-project-images"
+  path = "/.netlify/images"
+
+[[edge_functions]]
+  function = "protect-project-images"
+  path = "/_next/image"

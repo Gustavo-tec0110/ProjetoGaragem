@@ -1,0 +1,96 @@
+{
+  "settings": {
+    "buildId": "zbhYHuFUE2nf7DjyfcvjK",
+    "lighthouse": "13.5.0",
+    "runsPerRouteAndDevice": 1,
+    "storageReset": true,
+    "environment": "isolated-local-production-empty-catalog",
+    "comparison": "same viewport/throttling settings as performance stage 3; no controlled old/new causal claim"
+  },
+  "rows": [
+    {
+      "route": "/",
+      "device": "mobile",
+      "scores": {
+        "performance": 67,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 4119,
+      "tbtMs": 740,
+      "cls": 0.00917808320251418,
+      "jsTransferBytes": 205626
+    },
+    {
+      "route": "/explorar",
+      "device": "mobile",
+      "scores": {
+        "performance": 68,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 3583,
+      "tbtMs": 962,
+      "cls": 0,
+      "jsTransferBytes": 210919
+    },
+    {
+      "route": "/login",
+      "device": "mobile",
+      "scores": {
+        "performance": 67,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "lcpMs": 4400,
+      "tbtMs": 590,
+      "cls": 0.00002581085534116897,
+      "jsTransferBytes": 209812
+    },
+    {
+      "route": "/",
+      "device": "desktop",
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 1093,
+      "tbtMs": 155,
+      "cls": 0.0004976682712506036,
+      "jsTransferBytes": 205626
+    },
+    {
+      "route": "/explorar",
+      "device": "desktop",
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 893,
+      "tbtMs": 88,
+      "cls": 0.0009733313436569561,
+      "jsTransferBytes": 210919
+    },
+    {
+      "route": "/login",
+      "device": "desktop",
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "lcpMs": 972,
+      "tbtMs": 97,
+      "cls": 0.011422132981230043,
+      "jsTransferBytes": 209812
+    }
+  ]
+}

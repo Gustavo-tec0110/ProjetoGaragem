@@ -84,6 +84,7 @@ const getSupabaseProjectDetailsBySlug = cache(async (slug: string) => {
   const card = await getSupabaseProjectCardBySlug(slug);
   if (!card) return null;
   const result = await qCarDetailsFromCard(card);
+  if (result.error) throw new Error("Não foi possível carregar os dados do projeto. Tente novamente.");
   return result.data ?? null;
 });
 

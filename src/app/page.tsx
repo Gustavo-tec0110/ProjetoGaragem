@@ -108,7 +108,7 @@ export default function Home() {
 
                 <div className="mt-5 grid grid-cols-[1.12fr_.88fr] gap-2">
                   <Button asChild size="lg" className="h-12 min-w-0 rounded-sm px-3 text-xs uppercase min-[390px]:px-4 min-[390px]:text-sm">
-                    <Link href="/criar-projeto">
+                    <Link href="/criar-projeto" prefetch={false}>
                       Criar projeto
                       <ArrowRight className="size-4 shrink-0" />
                     </Link>
@@ -185,7 +185,7 @@ export default function Home() {
 
                 <div className="mt-5 flex max-w-md flex-col gap-2 sm:flex-row md:gap-3">
                   <Button asChild size="lg" className="h-12 w-full rounded-sm uppercase sm:w-auto md:h-11">
-                    <Link href="/criar-projeto">
+                    <Link href="/criar-projeto" prefetch={false}>
                       Criar projeto
                       <ArrowRight className="size-4" />
                     </Link>
@@ -277,7 +277,7 @@ export default function Home() {
                   </p>
                 </div>
                 <Button asChild size="lg" className="min-h-11 md:min-h-12">
-                  <Link href="/criar-projeto">
+                  <Link href="/criar-projeto" prefetch={false}>
                     Adicionar meu projeto
                     <Share2 className="size-4" />
                   </Link>

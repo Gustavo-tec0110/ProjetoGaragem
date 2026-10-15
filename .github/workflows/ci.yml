@@ -22,6 +22,10 @@ jobs:
         run: npm ci
       - name: Executar lint
         run: npm run lint
+      - name: Executar testes unitários
+        run: npm run test:unit
+      - name: Validar SQL e bootstrap em PostgreSQL isolado
+        run: npm run test:sql
       - name: Verificar tipos
         run: npm run typecheck
       - name: Gerar build
@@ -29,6 +33,13 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ""
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
+      SUPABASE_SERVICE_ROLE_KEY: ""
+      PROFILE_IMAGE_EDITOR_TEST_HARNESS: "1"
+      MODIFICATION_PHOTOS_TEST_HARNESS: "1"
+      SKELETON_VISUAL_TEST: "1"
     steps:
       - name: Baixar o código
         uses: actions/checkout@v6

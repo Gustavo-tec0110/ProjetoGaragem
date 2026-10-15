@@ -1,0 +1,20 @@
+{
+  "origin": "http://127.0.0.1:3101",
+  "device": "desktop",
+  "runs": 1,
+  "routes": [
+    "inicial",
+    "explorar",
+    "garagem",
+    "login",
+    "cadastro"
+  ],
+  "lighthouse": "13.5.0",
+  "chrome": "/home/gustavo/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome",
+  "throttlingMethod": "simulate",
+  "cpuSlowdownMultiplier": 1,
+  "rttMs": 40,
+  "throughputKbps": 10240,
+  "viewport": "1366x768@1",
+  "storageReset": "Lighthouse default"
+}

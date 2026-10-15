@@ -1,0 +1,46 @@
+{
+  "mode": "local-real-sharp-processing",
+  "node": "v24.21.0",
+  "rows": [
+    {
+      "width": 384,
+      "quality": 75,
+      "originalBytes": 202298,
+      "variantBytes": 12026,
+      "processingMedianMs": 84,
+      "processingP95Ms": 93,
+      "per10000Gets": {
+        "authorizationRPCs": 20000,
+        "upstreamBytes": 2022980000,
+        "downstreamBytes": 120260000
+      }
+    },
+    {
+      "width": 640,
+      "quality": 75,
+      "originalBytes": 202298,
+      "variantBytes": 26630,
+      "processingMedianMs": 133,
+      "processingP95Ms": 137,
+      "per10000Gets": {
+        "authorizationRPCs": 20000,
+        "upstreamBytes": 2022980000,
+        "downstreamBytes": 266300000
+      }
+    },
+    {
+      "width": 1080,
+      "quality": 75,
+      "originalBytes": 202298,
+      "variantBytes": 56586,
+      "processingMedianMs": 243,
+      "processingP95Ms": 257,
+      "per10000Gets": {
+        "authorizationRPCs": 20000,
+        "upstreamBytes": 2022980000,
+        "downstreamBytes": 565860000
+      }
+    }
+  ],
+  "limitations": "Excludes Supabase authorization/download latency, Netlify billing memory and network. No provider requests or real private images. Each authorized GET uses two RPCs and no shared image cache. HEAD currently performs the same processing."
+}

@@ -1,0 +1,53 @@
+
+Running 40 tests using 1 worker
+
+
+(node:19330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/40] [desktop-chromium] › tests/e2e/image-security.spec.ts:5:5 › optimizer refuses protected media, old Storage URLs and encoded aliases
+[2/40] [desktop-chromium] › tests/e2e/image-security.spec.ts:18:5 › shipped public assets retain image optimization
+[3/40] [desktop-chromium] › tests/e2e/image-security.spec.ts:24:5 › invalid direct media requests have no body and no shared cache
+[4/40] [desktop-chromium] › tests/e2e/integration-local.spec.ts:3:5 › login remains clickable before the optional cookie choice
+[5/40] [desktop-chromium] › tests/e2e/integration-local.spec.ts:15:5 › cookie choices persist, can be revoked, and the dialog supports Escape
+[6/40] [desktop-chromium] › tests/e2e/integration-local.spec.ts:40:5 › legal pages and SEO metadata survive the integrated layout
+[7/40] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária
+[8/40] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida
+[9/40] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova
+[10/40] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão
+[11/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:108:5 › geometria limita deslocamento, preserva proporção e ancora o zoom
+[12/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:124:5 › arquivo ilegível mostra erro e impede aplicar o recorte
+[13/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:135:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels
+[14/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:198:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo
+[15/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na foto
+[16/40] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na capa
+[17/40] [desktop-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados
+[18/40] [desktop-chromium] › tests/e2e/public.spec.ts:16:5 › footer acompanha skeletons, conteúdo carregado e histórico de rotas
+[19/40] [desktop-chromium] › tests/e2e/public.spec.ts:48:5 › slugs removidos retornam o estado de projeto inexistente
+[20/40] [desktop-chromium] › tests/e2e/public.spec.ts:54:5 › busca vazia preserva o termo e oferece recuperação
+
+(node:19810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[21/40] [mobile-chromium] › tests/e2e/image-security.spec.ts:5:5 › optimizer refuses protected media, old Storage URLs and encoded aliases
+[22/40] [mobile-chromium] › tests/e2e/image-security.spec.ts:18:5 › shipped public assets retain image optimization
+[23/40] [mobile-chromium] › tests/e2e/image-security.spec.ts:24:5 › invalid direct media requests have no body and no shared cache
+[24/40] [mobile-chromium] › tests/e2e/integration-local.spec.ts:3:5 › login remains clickable before the optional cookie choice
+[25/40] [mobile-chromium] › tests/e2e/integration-local.spec.ts:15:5 › cookie choices persist, can be revoked, and the dialog supports Escape
+[26/40] [mobile-chromium] › tests/e2e/integration-local.spec.ts:40:5 › legal pages and SEO metadata survive the integrated layout
+[27/40] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária
+[28/40] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida
+[29/40] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova
+[30/40] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão
+[31/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:108:5 › geometria limita deslocamento, preserva proporção e ancora o zoom
+[32/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:124:5 › arquivo ilegível mostra erro e impede aplicar o recorte
+[33/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:135:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels
+[34/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:198:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo
+[35/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na foto
+[36/40] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na capa
+[37/40] [mobile-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados
+[38/40] [mobile-chromium] › tests/e2e/public.spec.ts:16:5 › footer acompanha skeletons, conteúdo carregado e histórico de rotas
+[39/40] [mobile-chromium] › tests/e2e/public.spec.ts:48:5 › slugs removidos retornam o estado de projeto inexistente
+[40/40] [mobile-chromium] › tests/e2e/public.spec.ts:54:5 › busca vazia preserva o termo e oferece recuperação
+  3 skipped
+  37 passed (2.0m)

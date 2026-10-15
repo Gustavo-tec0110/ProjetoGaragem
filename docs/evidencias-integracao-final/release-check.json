@@ -1,0 +1,48 @@
+{
+  "mode": "local-production-no-supabase",
+  "buildId": "zbhYHuFUE2nf7DjyfcvjK",
+  "result": "passed",
+  "results": [
+    {
+      "route": "/test-harness/profile-image-editor",
+      "status": 404,
+      "testRouteDisabled": true
+    },
+    {
+      "route": "/test-harness/modification-photos",
+      "status": 404,
+      "testRouteDisabled": true
+    },
+    {
+      "route": "/dev-skeletons/explorar",
+      "status": 404,
+      "testRouteDisabled": true
+    },
+    {
+      "route": "/_next/image",
+      "status": 404,
+      "protectedSourceBlocked": true
+    },
+    {
+      "route": "/_next/image",
+      "status": 404,
+      "protectedSourceBlocked": true
+    },
+    {
+      "route": "/api/media/project/invalid.webp",
+      "method": "GET",
+      "status": 404,
+      "bytes": 0,
+      "noStore": true
+    },
+    {
+      "route": "/api/media/project/invalid.webp",
+      "method": "HEAD",
+      "status": 404,
+      "bytes": 0,
+      "noStore": true
+    }
+  ],
+  "canonicalAndFavicon": true,
+  "remoteValidation": false
+}

@@ -23,6 +23,7 @@ import { logPerformance, performanceTimer } from "@/lib/performance";
 import { PROJECT_CATALOG_CACHE_TAG, PUBLIC_PROFILE_CACHE_TAG } from "@/lib/projects/cache";
 import { getSupabasePublicClient, getSupabaseServerClient } from "./server";
 import { getSupabaseServerUser } from "./auth-server";
+import { protectedImageUrl } from "@/lib/images/project-image-url";
 
 export type QueryResult<T> =
   | { data: T; error: null }
@@ -104,7 +105,8 @@ function stringArray(value: unknown) {
 function normalizeCarRow(row: CarRow): CarRow {
   return {
     ...row,
-    photo_urls: stringArray(row.photo_urls),
+    main_photo_url: protectedImageUrl(row.main_photo_url),
+    photo_urls: stringArray(row.photo_urls).map((url) => protectedImageUrl(url) ?? url),
     tags: stringArray(row.tags),
   };
 }
@@ -175,13 +177,14 @@ function cleanLike(value: string) {
 function normalizeUpdateRow(row: CarBuildUpdateRow): CarBuildUpdateRow {
   return {
     ...row,
-    photo_urls: stringArray(row.photo_urls),
+    photo_url: protectedImageUrl(row.photo_url),
+    photo_urls: stringArray(row.photo_urls).map((url) => protectedImageUrl(url) ?? url),
   };
 }
 
 function asProfileMap(rows: ProfileSummary[]) {
   const map = new Map<string, ProfileSummary>();
-  for (const row of rows) map.set(row.id, row);
+  for (const row of rows) map.set(row.id, { ...row, avatar_url: protectedImageUrl(row.avatar_url) });
   return map;
 }
 
@@ -254,21 +257,23 @@ async function aggregatePartsByCar(supabase: Client, carIds: string[]) {
   return map;
 }
 
-async function aggregateExpensesByCar(supabase: Client, carIds: string[]) {
-  const uniqueIds = Array.from(new Set(carIds));
+async function aggregateExpensesByCar(supabase: Client, rows: CarRow[], viewerId: string | null) {
+  const uniqueIds = Array.from(new Set(rows.map((row) => row.id)));
   if (!uniqueIds.length) {
     return new Map<string, { totalInvested: number }>();
   }
 
-  const { data } = await supabase
-    .from("car_expenses")
-    .select("car_id, amount")
-    .in("car_id", uniqueIds);
+  const ownedIds = rows.filter((row) => row.owner_id === viewerId).map((row) => row.id);
+  const publicIds = rows.filter((row) => row.owner_id !== viewerId).map((row) => row.id);
+  const [owned, publicExpenses] = await Promise.all([
+    ownedIds.length ? supabase.from("car_expenses").select("car_id, amount").in("car_id", ownedIds) : Promise.resolve({ data: [] }),
+    publicIds.length ? supabase.rpc("list_public_car_expenses", { p_car_ids: publicIds }).select("car_id, amount") : Promise.resolve({ data: [] }),
+  ]);
 
   const map = new Map<string, { totalInvested: number }>();
   for (const id of uniqueIds) map.set(id, { totalInvested: 0 });
 
-  for (const row of (data ?? []) as Array<{ car_id: string; amount: number }>) {
+  for (const row of [...(owned.data ?? []), ...(publicExpenses.data ?? [])] as Array<{ car_id: string; amount: number }>) {
     const current = map.get(row.car_id) ?? { totalInvested: 0 };
     current.totalInvested += Math.max(0, row.amount);
     map.set(row.car_id, current);
@@ -277,21 +282,23 @@ async function aggregateExpensesByCar(supabase: Client, carIds: string[]) {
   return map;
 }
 
-async function aggregateUpdatesByCar(supabase: Client, carIds: string[]) {
-  const uniqueIds = Array.from(new Set(carIds));
+async function aggregateUpdatesByCar(supabase: Client, rows: CarRow[], viewerId: string | null) {
+  const uniqueIds = Array.from(new Set(rows.map((row) => row.id)));
   if (!uniqueIds.length) {
     return new Map<string, { updatesCount: number; lastUpdateAt: string | null }>();
   }
 
-  const { data } = await supabase
-    .from("car_build_updates")
-    .select("car_id, happened_at")
-    .in("car_id", uniqueIds);
+  const ownedIds = rows.filter((row) => row.owner_id === viewerId).map((row) => row.id);
+  const publicIds = rows.filter((row) => row.owner_id !== viewerId).map((row) => row.id);
+  const [owned, publicUpdates] = await Promise.all([
+    ownedIds.length ? supabase.from("car_build_updates").select("car_id, happened_at").in("car_id", ownedIds) : Promise.resolve({ data: [] }),
+    publicIds.length ? supabase.rpc("list_public_car_build_updates", { p_car_ids: publicIds }).select("car_id, happened_at") : Promise.resolve({ data: [] }),
+  ]);
 
   const map = new Map<string, { updatesCount: number; lastUpdateAt: string | null }>();
   for (const id of uniqueIds) map.set(id, { updatesCount: 0, lastUpdateAt: null });
 
-  for (const row of (data ?? []) as Array<{ car_id: string; happened_at: string }>) {
+  for (const row of [...(owned.data ?? []), ...(publicUpdates.data ?? [])] as Array<{ car_id: string; happened_at: string }>) {
     const current = map.get(row.car_id) ?? { updatesCount: 0, lastUpdateAt: null };
     current.updatesCount += 1;
     if (!current.lastUpdateAt || row.happened_at > current.lastUpdateAt) {
@@ -338,8 +345,8 @@ async function hydrateCards(
       rows.map((row) => row.owner_id)
     ),
     aggregatePartsByCar(supabase, carIds),
-    aggregateExpensesByCar(supabase, carIds),
-    aggregateUpdatesByCar(supabase, carIds),
+    aggregateExpensesByCar(supabase, rows, viewerId),
+    aggregateUpdatesByCar(supabase, rows, viewerId),
   ]);
   timer.lap("aggregates", aggregateStartedAt, { authenticated: Boolean(viewerId) });
   const flagsStartedAt = performance.now();
@@ -380,7 +387,7 @@ export async function qProfileById(
   const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
   if (error) return { data: null, error: error.message };
   if (!data) return { data: null, error: "profile_not_found" };
-  return { data: data as ProfileRow, error: null };
+  return { data: { ...data, avatar_url: protectedImageUrl(data.avatar_url), cover_url: protectedImageUrl(data.cover_url) } as ProfileRow, error: null };
 }
 
 export async function qProfileByUsername(
@@ -394,7 +401,7 @@ export async function qProfileByUsername(
     .maybeSingle();
   if (error) return { data: null, error: error.message };
   if (!data) return { data: null, error: "profile_not_found" };
-  return { data: { ...data, email: null, full_name: null } as ProfileRow, error: null };
+  return { data: { ...data, avatar_url: protectedImageUrl(data.avatar_url), cover_url: protectedImageUrl(data.cover_url), email: null, full_name: null } as ProfileRow, error: null };
 }
 
 export async function getCurrentProfile() {
@@ -616,7 +623,7 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
 
 const qCachedExploreCarsPublic = unstable_cache(
   async (filters: ExploreFilters) => qExploreCarsPublic(filters),
-  ["project-catalog-v1"],
+  ["project-catalog-v2-protected-images"],
   { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
 );
 
@@ -639,6 +646,12 @@ export async function qExploreCars(
     timer.end({ rows: publicResult.data?.length ?? 0, personalized: false });
     return publicResult;
   }
+
+  // A cached catalog must not keep advertising a project made private through
+  // another session/REST client. Keep the heavy hydration cache; batch the gate.
+  const visibility = await currentPublicCarIds(publicResult.data.map((car) => car.id));
+  if (!visibility) return { data: null, error: "visibility_check_failed" };
+  publicResult.data = publicResult.data.filter((car) => visibility.has(car.id));
 
   if (!personalize) {
     timer.end({ rows: publicResult.data.length, personalized: false });
@@ -932,7 +945,7 @@ async function loadCarDetails(
 ): Promise<QueryResult<CarDetails>> {
   const cardResult = await loadCarCardBySlug(supabase, slug, viewerId, publicOnly);
   if (!cardResult.data) return cardResult;
-  return hydrateCarDetails(supabase, cardResult.data);
+  return hydrateCarDetails(supabase, cardResult.data, viewerId === cardResult.data.owner_id);
 }
 
 const qCachedPublicProfileByUsername = unstable_cache(
@@ -941,7 +954,7 @@ const qCachedPublicProfileByUsername = unstable_cache(
     if (!supabase) return { data: null, error: "supabase_not_configured" };
     return qProfileByUsername(supabase, username);
   },
-  ["public-profile-by-username-v1"],
+  ["public-profile-by-username-v2-protected-images"],
   { revalidate: 60, tags: [PUBLIC_PROFILE_CACHE_TAG] }
 );
 
@@ -951,26 +964,28 @@ export function qPublicProfileByUsername(username: string) {
 
 async function hydrateCarDetails(
   supabase: Client,
-  card: CarCard
+  card: CarCard,
+  isOwner: boolean
 ): Promise<QueryResult<CarDetails>> {
   const carId = card.id;
   const [photosResult, partsResult, commentsResult, updatesResult, expensesResult] = await Promise.all([
     supabase.from("car_photos").select("*").eq("car_id", carId).order("sort_order", { ascending: true }),
     supabase.from("car_parts").select("*").eq("car_id", carId).order("status", { ascending: true }).order("created_at", { ascending: true }),
     supabase.from("car_comments").select("*").eq("car_id", carId).order("created_at", { ascending: false }).limit(50),
-    supabase
-      .from("car_build_updates")
-      .select("*")
-      .eq("car_id", carId)
-      .order("happened_at", { ascending: false })
-      .order("created_at", { ascending: false }),
-    supabase
-      .from("car_expenses")
-      .select("*")
-      .eq("car_id", carId)
-      .order("spent_at", { ascending: false })
-      .order("created_at", { ascending: false }),
+    isOwner
+      ? supabase.from("car_build_updates").select("*").eq("car_id", carId)
+          .order("happened_at", { ascending: false }).order("created_at", { ascending: false })
+      : supabase.rpc("list_public_car_build_updates", { p_car_ids: [carId] })
+          .order("happened_at", { ascending: false }).order("created_at", { ascending: false }),
+    isOwner
+      ? supabase.from("car_expenses").select("*").eq("car_id", carId)
+          .order("spent_at", { ascending: false }).order("created_at", { ascending: false })
+      : supabase.rpc("list_public_car_expenses", { p_car_ids: [carId] })
+          .order("spent_at", { ascending: false }).order("created_at", { ascending: false }),
   ]);
+  const relatedError = [photosResult, partsResult, commentsResult, updatesResult, expensesResult]
+    .find((result) => result.error)?.error;
+  if (relatedError) return { data: null, error: relatedError.message };
   const { data: photos } = photosResult;
   const { data: parts } = partsResult;
   const { data: comments } = commentsResult;
@@ -1008,8 +1023,8 @@ async function hydrateCarDetails(
   return {
     data: {
       ...hydratedCard,
-      photos: (photos ?? []) as CarPhotoRow[],
-      parts: (parts ?? []) as CarPartRow[],
+      photos: ((photos ?? []) as CarPhotoRow[]).map((photo) => ({ ...photo, url: protectedImageUrl(photo.url) ?? photo.url })),
+      parts: ((parts ?? []) as CarPartRow[]).map((part) => ({ ...part, image_url: protectedImageUrl(part.image_url) })),
       comments: commentRows.map((comment) => ({
         ...comment,
         author: commentAuthorMap.get(comment.user_id) ?? null,
@@ -1064,23 +1079,31 @@ const qCachedPublicCarCardBySlug = unstable_cache(
     if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarCard>;
     return loadCarCardBySlug(supabase, slug, null, true);
   },
-  ["public-project-critical-v1"],
+  ["public-project-critical-v2-protected-images"],
   { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
 );
 
-export function qPublicCarCardBySlug(slug: string): Promise<QueryResult<CarCard>> {
-  return qCachedPublicCarCardBySlug(slug);
+async function currentPublicCarIds(ids: string[]) {
+  const supabase = getSupabasePublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.from("cars").select("id").in("id", ids).eq("is_public", true);
+  return error || !data ? null : new Set(data.map((row) => row.id));
 }
 
-const qCachedPublicCarDetailsFromCard = unstable_cache(
-  async (card: CarCard) => {
-    const supabase = getSupabasePublicClient();
-    if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarDetails>;
-    return hydrateCarDetails(supabase, card);
-  },
-  ["public-project-secondary-v1"],
-  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
-);
+export async function qPublicCarCardBySlug(slug: string): Promise<QueryResult<CarCard>> {
+  const result = await qCachedPublicCarCardBySlug(slug);
+  if (!result.data) return result;
+  const visible = await currentPublicCarIds([result.data.id]);
+  return visible?.has(result.data.id) ? result : { data: null, error: "car_not_found" };
+}
+
+// Expense consent can be revoked directly through REST, without an application
+// cache invalidation. Always read these projections with the current RLS state.
+async function qPublicCarDetailsFromCard(card: CarCard): Promise<QueryResult<CarDetails>> {
+  const supabase = getSupabasePublicClient();
+  if (!supabase) return { data: null, error: "supabase_not_configured" };
+  return hydrateCarDetails(supabase, card, false);
+}
 
 export async function qCarCardBySlug(slug: string): Promise<QueryResult<CarCard>> {
   const timer = performanceTimer("supabase", "qCarCardBySlug", { slug });
@@ -1098,7 +1121,7 @@ export async function qCarCardBySlug(slug: string): Promise<QueryResult<CarCard>
     return result;
   }
 
-  const result = await qCachedPublicCarCardBySlug(slug);
+  const result = await qPublicCarCardBySlug(slug);
   timer.end({ cachedPublic: true, personalized: false, found: Boolean(result.data) });
   return result;
 }
@@ -1107,8 +1130,12 @@ export async function qCarDetailsFromCard(card: CarCard): Promise<QueryResult<Ca
   const timer = performanceTimer("supabase", "qCarDetailsFromCard", { slug: card.slug });
   const viewerId = await getViewerId();
   if (!viewerId) {
-    const result = await qCachedPublicCarDetailsFromCard(card);
-    timer.end({ cachedPublic: true, personalized: false, found: Boolean(result.data) });
+    const visible = await currentPublicCarIds([card.id]);
+    if (!visible?.has(card.id)) return { data: null, error: "car_not_found" };
+    const result = await qPublicCarDetailsFromCard(card);
+    const stillVisible = await currentPublicCarIds([card.id]);
+    if (!stillVisible?.has(card.id)) return { data: null, error: "car_not_found" };
+    timer.end({ cachedPublic: false, personalized: false, found: Boolean(result.data) });
     return result;
   }
 
@@ -1119,20 +1146,16 @@ export async function qCarDetailsFromCard(card: CarCard): Promise<QueryResult<Ca
     return { data: null, error: "supabase_not_configured" };
   }
 
-  const result = await hydrateCarDetails(supabase, card);
+  const result = await hydrateCarDetails(supabase, card, viewerId === card.owner_id);
   timer.end({ cachedPublic: false, personalized: true, found: Boolean(result.data) });
   return result;
 }
 
-const qCachedPublicCarBySlug = unstable_cache(
-  async (slug: string) => {
-    const supabase = getSupabasePublicClient();
-    if (!supabase) return { data: null, error: "supabase_not_configured" } as QueryResult<CarDetails>;
-    return loadCarDetails(supabase, slug, null, true);
-  },
-  ["public-project-detail-v1"],
-  { revalidate: 60, tags: [PROJECT_CATALOG_CACHE_TAG] }
-);
+async function qPublicCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {
+  const supabase = getSupabasePublicClient();
+  if (!supabase) return { data: null, error: "supabase_not_configured" };
+  return loadCarDetails(supabase, slug, null, true);
+}
 
 export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>> {
   const timer = performanceTimer("supabase", "qCarBySlug", { slug });
@@ -1156,9 +1179,13 @@ export async function qCarBySlug(slug: string): Promise<QueryResult<CarDetails>>
     return personalizedResult;
   }
 
-  const publicResult = await qCachedPublicCarBySlug(slug);
+  const publicResult = await qPublicCarBySlug(slug);
+  if (publicResult.data) {
+    const visible = await currentPublicCarIds([publicResult.data.id]);
+    if (!visible?.has(publicResult.data.id)) return { data: null, error: "car_not_found" };
+  }
   timer.end({
-    cachedPublic: true,
+    cachedPublic: false,
     personalized: false,
     found: Boolean(publicResult.data),
     comments: publicResult.data?.comments.length ?? 0,

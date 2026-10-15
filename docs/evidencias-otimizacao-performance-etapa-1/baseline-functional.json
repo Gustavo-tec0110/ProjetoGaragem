@@ -1,0 +1,16 @@
+{
+  "label": "baseline",
+  "origin": "http://127.0.0.1:3101",
+  "startedAt": "2026-10-13T01:06:29.957Z",
+  "checks": [
+    "login e aviso visíveis na primeira visita",
+    "preferência salva e aviso ausente após reload",
+    "navegação para recuperar senha",
+    "cadastro acessível sem enviar dados",
+    "navegação pública"
+  ],
+  "forgotPrefetchRequestsBeforeClick": 2,
+  "passed": true,
+  "finishedAt": "2026-10-13T01:06:37.105Z",
+  "runtimeErrors": []
+}

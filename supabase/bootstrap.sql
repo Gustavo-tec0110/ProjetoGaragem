@@ -1,0 +1,52 @@
+-- ONLY for an EMPTY, disposable Supabase database. Never run on production.
+-- Requires Supabase Auth/Storage schemas and roles to exist.
+-- Stop on the first failure; partial bootstrap is not a production migration.
+\set ON_ERROR_STOP on
+\ir bootstrap-empty-guard.sql
+\ir schema.sql
+\ir bootstrap-snapshot-compatibility.sql
+\ir migrations/003_create_parts_tables.sql
+\ir migrations/20260602170000_social_upgrade.sql
+\ir migrations/20260605120000_persistent_auth_profiles.sql
+\ir migrations/20260606100000_project_creation_grants.sql
+\ir migrations/20260607150000_phase2_project_ecosystem.sql
+\ir migrations/20260608120000_improve_car_project_onboarding.sql
+\ir migrations/20260608180000_project_state_social_updates.sql
+\ir migrations/20260609120000_alert_rules.sql
+\ir migrations/20260610120000_add_deleted_at_to_part_requirements.sql
+\ir migrations/20260610121000_modify_factory_spec_confidence_default.sql
+\ir migrations/20260610122000_add_unique_constraint_car_photos_url.sql
+\ir migrations/20260610125000_add_missing_indices.sql
+\ir migrations/20260610126000_modify_notifications_insert_policy.sql
+\ir migrations/20260615120000_ensure_project_images_bucket.sql
+\ir migrations/20260615130000_ensure_notifications_and_project_images.sql
+\ir migrations/20260615143000_repair_project_creation_flow.sql
+\ir migrations/20260615153000_repair_project_creation_schema.sql
+\ir migrations/20260617183000_repair_social_actions_rls_counters.sql
+\ir migrations/20260625115900_ensure_notifications_table.sql
+\ir migrations/20260625120000_secure_notification_creation.sql
+\ir migrations/20260625123000_consolidate_notifications_runtime.sql
+\ir migrations/20260625124500_fix_create_notification_rpc_ambiguity.sql
+\ir migrations/20260625133000_project_smart_search.sql
+\ir migrations/20260706120000_refine_project_search_normalization.sql
+\ir migrations/20260706140622_reconcile_remote_manual_schema.sql
+\ir migrations/20260712150000_reconcile_project_images_bucket.sql
+\ir migrations/20260814120000_index_public_project_rankings.sql
+\ir migrations/20260920120000_transactional_project_writes.sql
+\ir migrations/20260920121000_deduplicate_project_views.sql
+\ir migrations/20260923203000_profile_cover.sql
+\ir migrations/20260928090000_operational_abuse_protection.sql
+\ir migrations/20260928100000_storage_upload_reservations.sql
+\ir migrations/20260928102000_harden_notification_rpc.sql
+\ir migrations/20260928110000_enforce_write_rate_limits_in_rls.sql
+\ir migrations/20260928111000_block_direct_storage_writes.sql
+\ir migrations/20260928120000_reconcile_profile_cover_and_social_links.sql
+\ir migrations/20260929120000_add_modification_catalog.sql
+\ir migrations/20261013010000_restrict_modification_photo_ownership.sql
+\ir migrations/20261013020000_private_modifications_public_projection.sql
+\ir migrations/20261013025000_private_expense_defaults_atomic.sql
+\ir migrations/20261013030000_pending_modification_photo_leases.sql
+\ir migrations/20261014010000_project_image_access_registry.sql
+\ir migrations/20261014015000_project_image_cleanup_guards.sql
+\ir migrations/20261014020000_activate_private_project_images.sql
+\ir bootstrap-finish.sql

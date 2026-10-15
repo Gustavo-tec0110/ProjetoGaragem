@@ -1,0 +1,96 @@
+{
+  "origin": "http://127.0.0.1:3101",
+  "passed": true,
+  "checks": [
+    {
+      "name": "mobile",
+      "route": "/",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "bannerVisible": true
+    },
+    {
+      "name": "mobile",
+      "route": "/login",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "bannerVisible": true
+    },
+    {
+      "name": "mobile",
+      "route": "/register",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "bannerVisible": true
+    },
+    {
+      "name": "desktop",
+      "route": "/",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "bannerVisible": true
+    },
+    {
+      "name": "desktop",
+      "route": "/login",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "bannerVisible": true
+    },
+    {
+      "name": "desktop",
+      "route": "/register",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "bannerVisible": true
+    },
+    {
+      "choice": "Aceitar",
+      "stored": {
+        "version": 1,
+        "necessary": true,
+        "analytics": false,
+        "marketing": false,
+        "decidedAt": "2026-10-13T09:16:12.577Z"
+      },
+      "savedVisitBannerHidden": true,
+      "footerHit": {
+        "targetTag": "DIV",
+        "targetClass": "mx-auto w-full max-w-[100rem] py-7 md:pb-14 md:pt-7",
+        "buttonReceivesClick": false
+      }
+    },
+    {
+      "choice": "Recusar opcionais",
+      "stored": {
+        "version": 1,
+        "necessary": true,
+        "analytics": false,
+        "marketing": false,
+        "decidedAt": "2026-10-13T09:16:22.068Z"
+      },
+      "savedVisitBannerHidden": true,
+      "footerHit": {
+        "targetTag": "DIV",
+        "targetClass": "mx-auto w-full max-w-[100rem] py-7 md:pb-14 md:pt-7",
+        "buttonReceivesClick": false
+      }
+    },
+    {
+      "firstVisitPreferencesDialogOpens": true,
+      "escapeClosesDialog": true
+    }
+  ]
+}

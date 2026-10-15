@@ -1,0 +1,84 @@
+{
+  "settings": {
+    "origin": "http://127.0.0.1:3101",
+    "device": "desktop",
+    "runs": 1,
+    "routes": [
+      "inicial",
+      "explorar",
+      "garagem",
+      "login",
+      "cadastro"
+    ],
+    "lighthouse": "13.5.0",
+    "chrome": "/home/gustavo/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome",
+    "throttlingMethod": "simulate",
+    "cpuSlowdownMultiplier": 1,
+    "rttMs": 40,
+    "throughputKbps": 10240,
+    "viewport": "1366x768@1",
+    "storageReset": "Lighthouse default"
+  },
+  "summary": [
+    {
+      "route": "inicial",
+      "run": 1,
+      "score": 81,
+      "lcpMs": 1072,
+      "cls": 0.27769322510005234,
+      "tbtMs": 142,
+      "fcpMs": 417,
+      "speedIndexMs": 989,
+      "requests": 46,
+      "jsTransferBytes": 208614
+    },
+    {
+      "route": "explorar",
+      "run": 1,
+      "score": 77,
+      "lcpMs": 1029,
+      "cls": 0.49538170715172275,
+      "tbtMs": 71,
+      "fcpMs": 424,
+      "speedIndexMs": 658,
+      "requests": 51,
+      "jsTransferBytes": 301514
+    },
+    {
+      "route": "garagem",
+      "run": 1,
+      "score": 91,
+      "lcpMs": 1002,
+      "cls": 0.147453161632991,
+      "tbtMs": 106,
+      "fcpMs": 435,
+      "speedIndexMs": 674,
+      "requests": 50,
+      "jsTransferBytes": 318785
+    },
+    {
+      "route": "login",
+      "run": 1,
+      "score": 97,
+      "lcpMs": 1069,
+      "cls": 0.0026124121674177916,
+      "tbtMs": 106,
+      "fcpMs": 412,
+      "speedIndexMs": 954,
+      "requests": 50,
+      "jsTransferBytes": 212787
+    },
+    {
+      "route": "cadastro",
+      "run": 1,
+      "score": 95,
+      "lcpMs": 1082,
+      "cls": 0.00004732427368753589,
+      "tbtMs": 159,
+      "fcpMs": 402,
+      "speedIndexMs": 840,
+      "requests": 48,
+      "jsTransferBytes": 212787
+    }
+  ]
+}

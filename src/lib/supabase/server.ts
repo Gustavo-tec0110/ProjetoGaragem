@@ -13,6 +13,7 @@ export function getSupabasePublicClient() {
   if (publicClient) return publicClient;
 
   publicClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    global: { fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }) },
     auth: {
       persistSession: false,
       autoRefreshToken: false,

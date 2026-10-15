@@ -1,0 +1,31 @@
+{
+  "label": "final-home-login",
+  "origin": "http://127.0.0.1:3101",
+  "settings": "412x823 Mobile, CDP CPU x4, RTT 150 ms, 1638.4 Kbps down/up, fresh context, 2.5 s before click",
+  "results": [
+    {
+      "scenario": "home-login",
+      "run": 1,
+      "clickToHeadingMs": 785,
+      "destination": "http://127.0.0.1:3101/login",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "home-login",
+      "run": 2,
+      "clickToHeadingMs": 857,
+      "destination": "http://127.0.0.1:3101/login",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "home-login",
+      "run": 3,
+      "clickToHeadingMs": 784,
+      "destination": "http://127.0.0.1:3101/login",
+      "beforeRequests": [],
+      "errors": []
+    }
+  ]
+}

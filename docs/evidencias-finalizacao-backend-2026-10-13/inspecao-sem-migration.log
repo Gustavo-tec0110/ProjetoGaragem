@@ -1,0 +1,9 @@
+file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem-performance-etapa-1/scripts/inspect-pending-modification-photos.mjs:53
+  if (error || !Array.isArray(data)) throw new Error(`Inspeção indisponível; nenhuma exclusão: ${error?.message ?? "resposta inválida"}`);
+                                           ^
+
+Error: Inspeção indisponível; nenhuma exclusão: Could not find the function public.inspect_stale_pending_modification_photos(p_limit) in the schema cache
+    at file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem-performance-etapa-1/scripts/inspect-pending-modification-photos.mjs:53:44
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0

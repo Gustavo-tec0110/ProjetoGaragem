@@ -10,14 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getProjectCollection } from "@/lib/projects/server";
 import type { Project, ProjectFilters as ProjectFiltersType } from "@/lib/projects/types";
 import {
-  getAvailableBrands,
-  getAvailableDrivetrains,
-  getAvailableEngines,
-  getAvailableFuels,
-  getAvailableInductions,
-  getAvailableModels,
-  getAvailableStyles,
-  getAvailableYears,
   normalizeProjectFilters,
   paginateProjects,
   sortProjects,
@@ -292,7 +284,7 @@ async function ProjectDiscoveryResults({
               </div>
             ) : (
               <Button asChild>
-                <Link href="/criar-projeto">Adicionar meu primeiro projeto</Link>
+                <Link href="/criar-projeto" prefetch={false}>Adicionar meu primeiro projeto</Link>
               </Button>
             )
           }
@@ -363,7 +355,7 @@ export function ProjectDiscoveryPage({
           <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-5 text-muted md:mt-3 md:line-clamp-none md:text-base">{description}</p>
         </div>
         <Button asChild size="sm" className="self-start md:h-10">
-          <Link href="/criar-projeto">Adicionar meu projeto</Link>
+          <Link href="/criar-projeto" prefetch={false}>Adicionar meu projeto</Link>
         </Button>
       </div>
       <Suspense fallback={<DiscoveryFallback basePath={basePath} />}>

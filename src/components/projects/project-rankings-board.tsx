@@ -508,7 +508,6 @@ export function isRankingCategoryKey(value: string): value is RankingCategoryKey
 export function ProjectRankingsBoard({
   projects,
   selectedCategoryKey,
-  source,
   notice,
 }: {
   projects: Project[];

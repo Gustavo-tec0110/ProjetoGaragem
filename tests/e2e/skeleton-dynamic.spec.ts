@@ -6,6 +6,15 @@ const previews = ["perfil", "projeto", "editar-projeto", "evolucao", "modificaco
 test.describe("skeletons de rotas dinâmicas", () => {
   test.skip(process.env.SKELETON_VISUAL_TEST !== "1", "Auditoria visual sob demanda.");
 
+  test("rodapé fica oculto somente durante o fallback da página", async ({ page }) => {
+    await page.goto("/dev-skeletons/explorar");
+    await expect(page.locator("[data-page-skeleton]")).toBeVisible();
+    await expect(page.locator("footer")).toBeHidden();
+    await page.goto("/explorar");
+    await expect(page.locator("[data-page-skeleton]")).toHaveCount(0);
+    await expect(page.locator("footer")).toBeVisible();
+  });
+
   for (const width of widths) {
     for (const preview of previews) {
       test(`${preview} em ${width}px`, async ({ page }) => {

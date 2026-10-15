@@ -1,0 +1,93 @@
+{
+  "runId": "483f5cc7-c8ee-42b5-878e-2a76a2e24b19",
+  "ref": "hxqhudfzdwfxnjzmphya",
+  "startedAt": "2026-10-14T20:48:26.122Z",
+  "checks": [
+    {
+      "label": "real owner profile read",
+      "status": "passed"
+    },
+    {
+      "label": "real profile isolation A/B",
+      "status": "passed"
+    },
+    {
+      "label": "real session renewal",
+      "status": "passed"
+    },
+    {
+      "label": "real logout removes client session",
+      "status": "passed"
+    },
+    {
+      "label": "real private project owner read",
+      "status": "passed"
+    },
+    {
+      "label": "real private project hidden from B and anonymous API",
+      "status": "passed"
+    },
+    {
+      "label": "real foreign project update blocked",
+      "status": "passed"
+    },
+    {
+      "label": "real private modification isolated from B",
+      "status": "passed"
+    },
+    {
+      "label": "real remote photo ownership policy still rejects B's folder",
+      "status": "passed"
+    },
+    {
+      "label": "real Storage denies B deletion of A's object",
+      "status": "passed"
+    },
+    {
+      "label": "QA account has no remaining projects",
+      "status": "passed"
+    },
+    {
+      "label": "QA account has no remaining Storage objects",
+      "status": "passed"
+    },
+    {
+      "label": "QA account has no remaining projects",
+      "status": "passed"
+    },
+    {
+      "label": "QA account has no remaining Storage objects",
+      "status": "passed"
+    }
+  ],
+  "cleanup": {
+    "errors": [],
+    "authUsersAfter": 10,
+    "originalUsersPreserved": true,
+    "ownUsersRemoved": true,
+    "storageInventoryPreserved": true,
+    "storageObjectsAfter": 2
+  },
+  "initialInventory": {
+    "authUsers": 10,
+    "storageObjects": 2
+  },
+  "publicModifications": {
+    "status": 401,
+    "code": "42501",
+    "classification": "blocked_pending_migration"
+  },
+  "publicStorage": {
+    "anonymousStatus": 200,
+    "classification": "private_media_blocker"
+  },
+  "googleOAuth": {
+    "status": 302,
+    "googleRedirect": true,
+    "interactiveCompletion": "not_tested"
+  },
+  "playwright": {
+    "exitCode": 0
+  },
+  "finishedAt": "2026-10-14T20:50:51.929Z"
+}

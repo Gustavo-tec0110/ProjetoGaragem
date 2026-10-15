@@ -1,0 +1,330 @@
+{
+  "current-first": {
+    "explorar": {
+      "stats": {
+        "score": {
+          "median": 64,
+          "min": 58,
+          "max": 67
+        },
+        "lcpMs": {
+          "median": 3924,
+          "min": 3542,
+          "max": 4513
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1199,
+          "min": 1084,
+          "max": 1334
+        },
+        "fcpMs": {
+          "median": 1665,
+          "min": 1464,
+          "max": 2095
+        },
+        "jsTransferBytes": {
+          "median": 298342,
+          "min": 298342,
+          "max": 298342
+        },
+        "requests": {
+          "median": 47,
+          "min": 46,
+          "max": 47
+        },
+        "loadEventMs": {
+          "median": 1145,
+          "min": 1054,
+          "max": 1861
+        },
+        "lcpRenderDelayMs": {
+          "median": 1095.6119999923706,
+          "min": 823.5079999923706,
+          "max": 1185.105
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 5
+    }
+  },
+  "old-template": {
+    "explorar": {
+      "stats": {
+        "score": {
+          "median": 71,
+          "min": 67,
+          "max": 74
+        },
+        "lcpMs": {
+          "median": 2433,
+          "min": 2407,
+          "max": 3150
+        },
+        "cls": {
+          "median": 0.00007298442266522987,
+          "min": 0.00007298442266522987,
+          "max": 0.00007298442266522987
+        },
+        "tbtMs": {
+          "median": 1464,
+          "min": 1128,
+          "max": 1514
+        },
+        "fcpMs": {
+          "median": 1627,
+          "min": 1430,
+          "max": 1645
+        },
+        "jsTransferBytes": {
+          "median": 301514,
+          "min": 301514,
+          "max": 301514
+        },
+        "requests": {
+          "median": 50,
+          "min": 50,
+          "max": 50
+        },
+        "loadEventMs": {
+          "median": 973,
+          "min": 866,
+          "max": 2116
+        },
+        "lcpRenderDelayMs": {
+          "median": 577.5219999923706,
+          "min": 497.56,
+          "max": 613.002
+        }
+      },
+      "lcpElements": [
+        "O lugar para documentar cada fase e descobrir projetos que inspiram a próxima v…"
+      ],
+      "supabaseScriptRuns": 5
+    }
+  },
+  "current-repeat": {
+    "explorar": {
+      "stats": {
+        "score": {
+          "median": 63,
+          "min": 62,
+          "max": 65
+        },
+        "lcpMs": {
+          "median": 3722,
+          "min": 3660,
+          "max": 3863
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1440,
+          "min": 1128,
+          "max": 1570
+        },
+        "fcpMs": {
+          "median": 1617,
+          "min": 1592,
+          "max": 1702
+        },
+        "jsTransferBytes": {
+          "median": 298342,
+          "min": 298342,
+          "max": 298342
+        },
+        "requests": {
+          "median": 47,
+          "min": 46,
+          "max": 47
+        },
+        "loadEventMs": {
+          "median": 1116,
+          "min": 928,
+          "max": 1893
+        },
+        "lcpRenderDelayMs": {
+          "median": 1189.7420000076295,
+          "min": 1055.0799999923706,
+          "max": 1394.645
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 5
+    },
+    "garagem": {
+      "stats": {
+        "score": {
+          "median": 65,
+          "min": 64,
+          "max": 68
+        },
+        "lcpMs": {
+          "median": 4190,
+          "min": 3644,
+          "max": 4229
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 919,
+          "min": 671,
+          "max": 1243
+        },
+        "fcpMs": {
+          "median": 1602,
+          "min": 1461,
+          "max": 1628
+        },
+        "jsTransferBytes": {
+          "median": 318785,
+          "min": 318785,
+          "max": 318785
+        },
+        "requests": {
+          "median": 48,
+          "min": 48,
+          "max": 48
+        },
+        "loadEventMs": {
+          "median": 851,
+          "min": 826,
+          "max": 926
+        },
+        "lcpRenderDelayMs": {
+          "median": 946.872,
+          "min": 863.748,
+          "max": 1612.769
+        }
+      },
+      "lcpElements": [
+        "Crie um projeto local para testar cadastro, página individual e compartilhament…"
+      ],
+      "supabaseScriptRuns": 5
+    }
+  },
+  "no-explore-prefetch": {
+    "explorar": {
+      "stats": {
+        "score": {
+          "median": 63,
+          "min": 55,
+          "max": 68
+        },
+        "lcpMs": {
+          "median": 3781,
+          "min": 3034,
+          "max": 4438
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1354,
+          "min": 1142,
+          "max": 1730
+        },
+        "fcpMs": {
+          "median": 1647,
+          "min": 1615,
+          "max": 2117
+        },
+        "jsTransferBytes": {
+          "median": 212990,
+          "min": 212990,
+          "max": 212990
+        },
+        "requests": {
+          "median": 42,
+          "min": 42,
+          "max": 42
+        },
+        "loadEventMs": {
+          "median": 1283,
+          "min": 999,
+          "max": 2028
+        },
+        "lcpRenderDelayMs": {
+          "median": 1147.299,
+          "min": 1065.534,
+          "max": 1475.188
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 0
+    }
+  },
+  "final": {
+    "explorar": {
+      "stats": {
+        "score": {
+          "median": 60,
+          "min": 59,
+          "max": 69
+        },
+        "lcpMs": {
+          "median": 3863,
+          "min": 3806,
+          "max": 4130
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "tbtMs": {
+          "median": 1415,
+          "min": 767,
+          "max": 1911
+        },
+        "fcpMs": {
+          "median": 1646,
+          "min": 1631,
+          "max": 1726
+        },
+        "jsTransferBytes": {
+          "median": 212990,
+          "min": 212990,
+          "max": 212990
+        },
+        "requests": {
+          "median": 42,
+          "min": 42,
+          "max": 42
+        },
+        "loadEventMs": {
+          "median": 1091,
+          "min": 977,
+          "max": 1908
+        },
+        "lcpRenderDelayMs": {
+          "median": 1146.2910000076295,
+          "min": 1052.581,
+          "max": 1345.408
+        }
+      },
+      "lcpElements": [
+        "Descubra builds reais da comunidade, pesquise por nome, marca, modelo, tags e e…"
+      ],
+      "supabaseScriptRuns": 0
+    }
+  }
+}

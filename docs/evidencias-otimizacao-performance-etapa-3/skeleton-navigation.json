@@ -1,0 +1,14 @@
+[
+  {
+    "device": "mobile",
+    "delayedRscMs": 2500,
+    "skeletonObserved": false,
+    "destination": "/explorar"
+  },
+  {
+    "device": "desktop",
+    "delayedRscMs": 2500,
+    "skeletonObserved": false,
+    "destination": "/explorar"
+  }
+]

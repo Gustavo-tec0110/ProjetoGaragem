@@ -1,0 +1,423 @@
+{
+  "collectedAt": "2026-10-13T00:35:50.567Z",
+  "browserVersion": "149.0.7827.55",
+  "method": "CDP Profiler.start/stop, new isolated browser context per route",
+  "consentSaved": true,
+  "viewport": {
+    "width": 412,
+    "height": 823
+  },
+  "deviceScaleFactor": 1,
+  "cpuThrottlingRate": 4,
+  "network": {
+    "latencyMs": 150,
+    "downloadKbps": 1638.4,
+    "uploadKbps": 1638.4
+  },
+  "wait": "DOMContentLoaded, then up to 12 s for load, then 3 s to capture post-load work",
+  "routes": [
+    {
+      "name": "cadastro",
+      "url": "https://projetogaragem.com.br/register",
+      "status": 200,
+      "elapsedWallMs": 6906,
+      "timing": {
+        "name": "https://projetogaragem.com.br/register",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 3464.2000000029802,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "h2",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "br",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.5,
+        "domainLookupStart": 7.900000002235174,
+        "domainLookupEnd": 104.70000000298023,
+        "connectStart": 104.70000000298023,
+        "secureConnectionStart": 142.20000000298023,
+        "connectEnd": 389.1000000014901,
+        "requestStart": 389.5,
+        "responseStart": 513.6000000014901,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 513.6000000014901,
+        "responseEnd": 578,
+        "transferSize": 6499,
+        "encodedBodySize": 6199,
+        "decodedBodySize": 33973,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 2191.5,
+        "domContentLoadedEventStart": 2191.5,
+        "domContentLoadedEventEnd": 2191.60000000149,
+        "domComplete": 3463.300000000745,
+        "loadEventStart": 3464.2000000029802,
+        "loadEventEnd": 3464.2000000029802,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "evidence": {
+        "longTasks": [
+          {
+            "startTime": 1075.5,
+            "duration": 605
+          },
+          {
+            "startTime": 2439,
+            "duration": 74
+          },
+          {
+            "startTime": 2522.10000000149,
+            "duration": 867
+          },
+          {
+            "startTime": 3456.800000000745,
+            "duration": 87
+          },
+          {
+            "startTime": 3864.900000002235,
+            "duration": 420
+          },
+          {
+            "startTime": 4649.900000002235,
+            "duration": 125
+          },
+          {
+            "startTime": 4817.300000000745,
+            "duration": 79
+          },
+          {
+            "startTime": 4909.70000000298,
+            "duration": 133
+          },
+          {
+            "startTime": 5509.800000000745,
+            "duration": 55
+          },
+          {
+            "startTime": 5851.5,
+            "duration": 59
+          },
+          {
+            "startTime": 6219.800000000745,
+            "duration": 55
+          }
+        ],
+        "lcp": [
+          {
+            "startTime": 2308,
+            "renderTime": 2308,
+            "loadTime": 0,
+            "element": "<p class=\"mt-3 text-sm leading-6 text-muted\">Publique projetos, salve referências e acompanhe a evolução da sua garagem.</p>"
+          }
+        ]
+      },
+      "consentVisible": false,
+      "scripts": [
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/3_pz_xyhj63hd.js",
+          "transferSize": 648,
+          "duration": 314.80000000074506
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2mmpezlrfmbu5.js",
+          "transferSize": 8741,
+          "duration": 372.5
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/1_vgly0gd1oic.js",
+          "transferSize": 70809,
+          "duration": 965.8999999985099
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0x92b1cogv8_d.js",
+          "transferSize": 33063,
+          "duration": 1685
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2i-v122p6l25a.js",
+          "transferSize": 9619,
+          "duration": 1260.9000000022352
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/turbopack-3lc6abxlur--y.js",
+          "transferSize": 4503,
+          "duration": 753.5
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2zy_uq0f7l5dr.js",
+          "transferSize": 10021,
+          "duration": 1264.5
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0lsgc6b20nj7-.js",
+          "transferSize": 9595,
+          "duration": 1273.800000000745
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0jzramuvz58o-.js",
+          "transferSize": 11008,
+          "duration": 775.3999999985099
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0cd3v45gy0f5y.js",
+          "transferSize": 16503,
+          "duration": 1238.5
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0ri6zvct-eq-5.js",
+          "transferSize": 10856,
+          "duration": 1307.0999999977648
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0b1qz51k7lfq3.js",
+          "transferSize": 892,
+          "duration": 1175.300000000745
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0p0m_2biq_qco.js",
+          "transferSize": 3636,
+          "duration": 1218.199999999255
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/3u3q0ma1mf89l.js",
+          "transferSize": 972,
+          "duration": 1178.800000000745
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/1lw42kklc8pbl.js",
+          "transferSize": 3509,
+          "duration": 253.29999999701977
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/13kehraqg7p-n.js",
+          "transferSize": 3246,
+          "duration": 172.70000000298023
+        }
+      ],
+      "cpuProfileFile": "consent-saved-cadastro-mobile-cpu-profile.json"
+    },
+    {
+      "name": "login",
+      "url": "https://projetogaragem.com.br/login",
+      "status": 200,
+      "elapsedWallMs": 7423,
+      "timing": {
+        "name": "https://projetogaragem.com.br/login",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 4032.60000000149,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "h2",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "br",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 1.1000000014901161,
+        "domainLookupStart": 3.800000000745058,
+        "domainLookupEnd": 6.199999999254942,
+        "connectStart": 6.199999999254942,
+        "secureConnectionStart": 53.600000001490116,
+        "connectEnd": 289.1000000014901,
+        "requestStart": 289.5,
+        "responseStart": 358.6000000014901,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 358.6000000014901,
+        "responseEnd": 479.19999999925494,
+        "transferSize": 6518,
+        "encodedBodySize": 6218,
+        "decodedBodySize": 34000,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 1465.800000000745,
+        "domContentLoadedEventStart": 1465.8999999985099,
+        "domContentLoadedEventEnd": 1466,
+        "domComplete": 4032.5,
+        "loadEventStart": 4032.60000000149,
+        "loadEventEnd": 4032.60000000149,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "evidence": {
+        "longTasks": [
+          {
+            "startTime": 911.3999999985099,
+            "duration": 553
+          },
+          {
+            "startTime": 2002.8999999985099,
+            "duration": 853
+          },
+          {
+            "startTime": 3156.39999999851,
+            "duration": 244
+          },
+          {
+            "startTime": 3574.89999999851,
+            "duration": 189
+          },
+          {
+            "startTime": 3767,
+            "duration": 186
+          },
+          {
+            "startTime": 4246.199999999255,
+            "duration": 369
+          },
+          {
+            "startTime": 5012.5,
+            "duration": 109
+          },
+          {
+            "startTime": 5159.10000000149,
+            "duration": 132
+          },
+          {
+            "startTime": 5487.39999999851,
+            "duration": 56
+          },
+          {
+            "startTime": 5990.199999999255,
+            "duration": 54
+          },
+          {
+            "startTime": 6344.10000000149,
+            "duration": 65
+          },
+          {
+            "startTime": 6487.60000000149,
+            "duration": 116
+          },
+          {
+            "startTime": 6672.39999999851,
+            "duration": 68
+          },
+          {
+            "startTime": 6768.699999999255,
+            "duration": 69
+          }
+        ],
+        "lcp": [
+          {
+            "startTime": 1800,
+            "renderTime": 1800,
+            "loadTime": 0,
+            "element": "<h1 class=\"mt-3 font-title text-3xl tracking-tight md:text-4xl\">Entre no Projeto Garagem</h1>"
+          }
+        ]
+      },
+      "consentVisible": false,
+      "scripts": [
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/3_pz_xyhj63hd.js",
+          "transferSize": 648,
+          "duration": 273.69999999925494
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2mmpezlrfmbu5.js",
+          "transferSize": 8739,
+          "duration": 328.30000000074506
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/1_vgly0gd1oic.js",
+          "transferSize": 70685,
+          "duration": 1204.4000000022352
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0x92b1cogv8_d.js",
+          "transferSize": 33049,
+          "duration": 591.1999999992549
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2i-v122p6l25a.js",
+          "transferSize": 9539,
+          "duration": 933.7000000029802
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/turbopack-3lc6abxlur--y.js",
+          "transferSize": 4491,
+          "duration": 916.6999999992549
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/2zy_uq0f7l5dr.js",
+          "transferSize": 9975,
+          "duration": 1054.9000000022352
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0lsgc6b20nj7-.js",
+          "transferSize": 9651,
+          "duration": 1172.7000000029802
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0jzramuvz58o-.js",
+          "transferSize": 11026,
+          "duration": 1137.3999999985099
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0cd3v45gy0f5y.js",
+          "transferSize": 16492,
+          "duration": 1339
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0ri6zvct-eq-5.js",
+          "transferSize": 10857,
+          "duration": 1306.699999999255
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/0b1qz51k7lfq3.js",
+          "transferSize": 892,
+          "duration": 1773.199999999255
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/1lw42kklc8pbl.js",
+          "transferSize": 3509,
+          "duration": 1834.1000000014901
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/3u3q0ma1mf89l.js",
+          "transferSize": 972,
+          "duration": 1784.5
+        },
+        {
+          "name": "https://projetogaragem.com.br/_next/static/chunks/13kehraqg7p-n.js",
+          "transferSize": 3246,
+          "duration": 185
+        }
+      ],
+      "cpuProfileFile": "consent-saved-login-mobile-cpu-profile.json"
+    }
+  ]
+}
