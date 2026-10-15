@@ -1,0 +1,16 @@
+[
+  {
+    "device": "mobile",
+    "beforeClickScripts": 19,
+    "supabaseChunkBeforeClick": false,
+    "destination": "/criar-projeto",
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "beforeClickScripts": 20,
+    "supabaseChunkBeforeClick": false,
+    "destination": "/criar-projeto",
+    "errors": []
+  }
+]

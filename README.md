@@ -89,12 +89,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=SUA_CHAVE_ANON_PUBLICA
 NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
 ```
 
-Somente a chave `anon` pode ser usada no frontend. A chave `service_role` nunca deve ser exposta ao navegador. Valores vazios mantêm apenas os fallbacks demo/local.
+Somente a chave `anon` pode ser usada no frontend. A chave `service_role` nunca deve ser exposta ao navegador. Valores vazios permitem a navegação pública com catálogo vazio e formulários locais.
 
 ## Qualidade e testes
 
 ```bash
 npm run lint
+npm run test:unit
+npm run test:sql
 npm run typecheck
 npm run build
 npm run test:e2e
@@ -110,6 +112,20 @@ E2E_SECOND_USER_PASSWORD=senha-de-qa
 ```
 
 Sem essas quatro variáveis, a suíte autenticada é ignorada de forma explícita e os testes públicos continuam sendo executados.
+
+Os testes de SQL executam as migrations reais em PostgreSQL/WASM (PGlite), com
+Auth/Storage representados por fixtures, sem acessar o Supabase remoto. O replay
+completo usa `supabase/bootstrap.sql`, que recusa bancos com schema, usuários ou
+objetos existentes. `supabase/schema.sql` é uma base histórica e não deve ser
+reaplicado nem usado sozinho. Atualizações de produção usam somente migrations
+incrementais, após preflight e autorização.
+
+Editor, fotos e skeletons têm harnesses locais opt-in. Para a suíte completa,
+inicie o servidor local com `PROFILE_IMAGE_EDITOR_TEST_HARNESS=1`,
+`MODIFICATION_PHOTOS_TEST_HARNESS=1` e `SKELETON_VISUAL_TEST=1`, e informe
+`PLAYWRIGHT_BASE_URL` local ao Playwright. Builds e servidores de publicação
+devem manter esses três flags desligados. Skips de contas/fixtures remotas não
+representam aprovação dos fluxos de produção.
 
 ## Estrutura do projeto
 

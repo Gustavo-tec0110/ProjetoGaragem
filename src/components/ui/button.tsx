@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-accent text-white shadow-glow hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:brightness-95",
+          "bg-accent-2 text-white shadow-glow hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:brightness-95",
         outline:
           "border border-border/80 bg-background-2/70 text-foreground hover:border-foreground/20 hover:bg-surface",
         secondary:

@@ -1,0 +1,19 @@
+{
+  "label": "cookie",
+  "origin": "http://127.0.0.1:3101",
+  "startedAt": "2026-10-13T01:16:29.370Z",
+  "checks": [
+    "login e aviso visíveis na primeira visita",
+    "preferência salva e aviso ausente após reload",
+    "navegação para recuperar senha",
+    "cadastro acessível sem enviar dados",
+    "navegação para criar projeto sem envio de dados",
+    "navegação pública"
+  ],
+  "forgotPrefetchRequestsBeforeClick": 0,
+  "createPrefetchRequestsBeforeClick": 0,
+  "supabaseSdkRequestsBeforeClick": 0,
+  "passed": true,
+  "finishedAt": "2026-10-13T01:16:38.490Z",
+  "runtimeErrors": []
+}

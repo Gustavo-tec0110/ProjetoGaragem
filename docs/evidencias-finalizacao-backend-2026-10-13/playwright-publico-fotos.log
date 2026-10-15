@@ -1,0 +1,25 @@
+[WebServer] (node:7055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 1 worker
+
+(node:7071) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária (3.2s)
+  ✓   2 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida (1.5s)
+  ✓   3 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova (2.1s)
+  ✓   4 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão (1.6s)
+  ✓   5 [desktop-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados (2.1s)
+  ✓   6 [desktop-chromium] › tests/e2e/public.spec.ts:16:5 › slugs removidos retornam o estado de projeto inexistente (845ms)
+  ✓   7 [desktop-chromium] › tests/e2e/public.spec.ts:22:5 › busca vazia preserva o termo e oferece recuperação (2.2s)
+(node:7213) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária (2.7s)
+  ✓   9 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida (1.3s)
+  ✓  10 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova (1.9s)
+  ✓  11 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão (1.4s)
+  ✓  12 [mobile-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados (1.6s)
+  ✓  13 [mobile-chromium] › tests/e2e/public.spec.ts:16:5 › slugs removidos retornam o estado de projeto inexistente (735ms)
+  ✓  14 [mobile-chromium] › tests/e2e/public.spec.ts:22:5 › busca vazia preserva o termo e oferece recuperação (1.2s)
+
+  14 passed (31.6s)

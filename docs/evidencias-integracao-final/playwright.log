@@ -1,0 +1,151 @@
+
+Running 138 tests using 1 worker
+
+
+(node:13069) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/138] [desktop-chromium] › tests/e2e/authenticated-city.spec.ts:4:5 › cidade editada aparece no projeto e persiste após recarga
+[2/138] [desktop-chromium] › tests/e2e/authenticated.spec.ts:77:7 › fluxos autenticados Supabase › usuario principal faz login, acessa garagem, cria projeto, faz upload, edita e sai
+[3/138] [desktop-chromium] › tests/e2e/authenticated.spec.ts:151:7 › fluxos autenticados Supabase › segundo usuario nao edita projeto alheio e valida interacoes sociais
+[4/138] [desktop-chromium] › tests/e2e/authenticated.spec.ts:198:7 › fluxos autenticados Supabase › usuario principal le notificacoes, nao recebe auto-notificacao e gera update para seguidor
+[5/138] [desktop-chromium] › tests/e2e/authenticated.spec.ts:271:7 › fluxos autenticados Supabase › segundo usuario le notificacao de update, remove interacoes e projeto continua publico
+[6/138] [desktop-chromium] › tests/e2e/authenticated.spec.ts:299:7 › fluxos autenticados Supabase › usuario principal remove o projeto de QA criado pela suite
+[7/138] [desktop-chromium] › tests/e2e/catalog-and-dates.spec.ts:25:5 › datas de projeto são formatadas em UTC e não mudam no limite do dia
+[8/138] [desktop-chromium] › tests/e2e/catalog-and-dates.spec.ts:30:5 › deduplicação preserva carros semelhantes de donos diferentes
+[9/138] [desktop-chromium] › tests/e2e/catalog-and-dates.spec.ts:36:5 › facetas automotivas são canônicas e descartam valores inválidos
+[10/138] [desktop-chromium] › tests/e2e/image-security.spec.ts:5:5 › optimizer refuses protected media, old Storage URLs and encoded aliases
+[11/138] [desktop-chromium] › tests/e2e/image-security.spec.ts:18:5 › shipped public assets retain image optimization
+[12/138] [desktop-chromium] › tests/e2e/image-security.spec.ts:24:5 › invalid direct media requests have no body and no shared cache
+[13/138] [desktop-chromium] › tests/e2e/integration-local.spec.ts:3:5 › login remains clickable before the optional cookie choice
+[14/138] [desktop-chromium] › tests/e2e/integration-local.spec.ts:15:5 › cookie choices persist, can be revoked, and the dialog supports Escape
+[15/138] [desktop-chromium] › tests/e2e/integration-local.spec.ts:40:5 › legal pages and SEO metadata survive the integrated layout
+[16/138] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária
+[17/138] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida
+[18/138] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova
+[19/138] [desktop-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão
+[20/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:108:5 › geometria limita deslocamento, preserva proporção e ancora o zoom
+[21/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:124:5 › arquivo ilegível mostra erro e impede aplicar o recorte
+[22/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:135:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels
+[23/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:198:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo
+[24/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na foto
+[25/138] [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na capa
+[26/138] [desktop-chromium] › tests/e2e/project-data.spec.ts:28:5 › normaliza facetas livres e nunca transforma texto de projeto em tracao
+[27/138] [desktop-chromium] › tests/e2e/project-data.spec.ts:38:5 › deduplica apenas a mesma identidade e preserva projetos iguais de donos diferentes
+[28/138] [desktop-chromium] › tests/e2e/project-data.spec.ts:48:5 › facetas e filtros usam os valores canonicos do projeto, nao tags livres
+[29/138] [desktop-chromium] › tests/e2e/project-modifications.spec.ts:3:5 › página de modificações integra-se a um projeto publicado
+[30/138] [desktop-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados
+[31/138] [desktop-chromium] › tests/e2e/public.spec.ts:16:5 › footer acompanha skeletons, conteúdo carregado e histórico de rotas
+[32/138] [desktop-chromium] › tests/e2e/public.spec.ts:48:5 › slugs removidos retornam o estado de projeto inexistente
+[33/138] [desktop-chromium] › tests/e2e/public.spec.ts:54:5 › busca vazia preserva o termo e oferece recuperação
+[34/138] [desktop-chromium] › tests/e2e/registration.spec.ts:3:5 › novo usuario solicita cadastro pelo formulario oficial
+[35/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:9:7 › skeletons de rotas dinâmicas › rodapé fica oculto somente durante o fallback da página
+[36/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 360px
+[37/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 360px
+[38/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 360px
+[39/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 360px
+[40/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 360px
+[41/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 390px
+[42/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 390px
+[43/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 390px
+[44/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 390px
+[45/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 390px
+[46/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 768px
+[47/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 768px
+[48/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 768px
+[49/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 768px
+[50/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 768px
+[51/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 1024px
+[52/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 1024px
+[53/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 1024px
+[54/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 1024px
+[55/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 1024px
+[56/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 1440px
+[57/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 1440px
+[58/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 1440px
+[59/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 1440px
+[60/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 1440px
+[61/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › perfil em 1920px
+[62/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › projeto em 1920px
+[63/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › editar-projeto em 1920px
+[64/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › evolucao em 1920px
+[65/138] [desktop-chromium] › tests/e2e/skeleton-dynamic.spec.ts:20:11 › skeletons de rotas dinâmicas › modificacoes em 1920px
+[66/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 360px
+[67/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 360px
+[68/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 360px
+[69/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 360px
+[70/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 360px
+[71/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 360px
+[72/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 360px
+[73/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 360px
+[74/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 390px
+[75/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 390px
+[76/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 390px
+[77/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 390px
+[78/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 390px
+[79/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 390px
+[80/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 390px
+[81/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 390px
+[82/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 768px
+[83/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 768px
+[84/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 768px
+[85/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 768px
+[86/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 768px
+[87/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 768px
+[88/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 768px
+[89/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 768px
+[90/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 1024px
+[91/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 1024px
+[92/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 1024px
+[93/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 1024px
+[94/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 1024px
+[95/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 1024px
+[96/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 1024px
+[97/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 1024px
+[98/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 1440px
+[99/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 1440px
+[100/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 1440px
+[101/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 1440px
+[102/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 1440px
+[103/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 1440px
+[104/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 1440px
+[105/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 1440px
+[106/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › explorar em 1920px
+[107/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › rankings em 1920px
+[108/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › comparar em 1920px
+[109/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › atualizacoes em 1920px
+[110/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › garagem em 1920px
+[111/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › notificacoes em 1920px
+[112/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › criar-projeto em 1920px
+[113/138] [desktop-chromium] › tests/e2e/skeleton-visual.spec.ts:38:11 › skeletons responsivos › formulario-perfil em 1920px
+[114/138] [desktop-chromium] › tests/e2e/social-links.spec.ts:10:7 › normalização de links sociais › normaliza os formatos amigáveis aceitos
+[115/138] [desktop-chromium] › tests/e2e/social-links.spec.ts:18:7 › normalização de links sociais › rejeita protocolos, hosts e destinos não permitidos
+[116/138] [desktop-chromium] › tests/e2e/social-links.spec.ts:31:7 › normalização de links sociais › mantém Instagram legado visível e permite links novos extensíveis
+
+(node:15732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[117/138] [mobile-chromium] › tests/e2e/authenticated-city.spec.ts:4:5 › cidade editada aparece no projeto e persiste após recarga
+[118/138] [mobile-chromium] › tests/e2e/image-security.spec.ts:5:5 › optimizer refuses protected media, old Storage URLs and encoded aliases
+[119/138] [mobile-chromium] › tests/e2e/image-security.spec.ts:18:5 › shipped public assets retain image optimization
+[120/138] [mobile-chromium] › tests/e2e/image-security.spec.ts:24:5 › invalid direct media requests have no body and no shared cache
+[121/138] [mobile-chromium] › tests/e2e/integration-local.spec.ts:3:5 › login remains clickable before the optional cookie choice
+[122/138] [mobile-chromium] › tests/e2e/integration-local.spec.ts:15:5 › cookie choices persist, can be revoked, and the dialog supports Escape
+[123/138] [mobile-chromium] › tests/e2e/integration-local.spec.ts:40:5 › legal pages and SEO metadata survive the integrated layout
+[124/138] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária
+[125/138] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida
+[126/138] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova
+[127/138] [mobile-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão
+[128/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:108:5 › geometria limita deslocamento, preserva proporção e ancora o zoom
+[129/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:124:5 › arquivo ilegível mostra erro e impede aplicar o recorte
+[130/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:135:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels
+[131/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:198:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo
+[132/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na foto
+[133/138] [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:229:54 › pinça e arraste por toque funcionam na capa
+[134/138] [mobile-chromium] › tests/e2e/project-modifications.spec.ts:3:5 › página de modificações integra-se a um projeto publicado
+[135/138] [mobile-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados
+[136/138] [mobile-chromium] › tests/e2e/public.spec.ts:16:5 › footer acompanha skeletons, conteúdo carregado e histórico de rotas
+[137/138] [mobile-chromium] › tests/e2e/public.spec.ts:48:5 › slugs removidos retornam o estado de projeto inexistente
+[138/138] [mobile-chromium] › tests/e2e/public.spec.ts:54:5 › busca vazia preserva o termo e oferece recuperação
+  13 skipped
+  125 passed (6.4m)

@@ -1,0 +1,24 @@
+{
+  "label": "etapa-2-final",
+  "origin": "http://127.0.0.1:3101",
+  "startedAt": "2026-10-13T09:16:09.299Z",
+  "checks": [
+    "login e aviso visíveis na primeira visita",
+    "preferência salva e aviso ausente após reload",
+    "campos obrigatórios do login impedem envio vazio",
+    "navegação para recuperar senha",
+    "cadastro acessível sem enviar dados",
+    "senha curta bloqueada antes de chamar cadastro remoto",
+    "navegação para criar projeto sem envio de dados",
+    "criar projeto acessível a partir da página inicial",
+    "navegação pública"
+  ],
+  "forgotPrefetchRequestsBeforeClick": 0,
+  "createPrefetchRequestsBeforeClick": 0,
+  "supabaseSdkRequestsBeforeClick": 0,
+  "homeCreatePrefetchRequestsBeforeClick": 0,
+  "homeSupabaseSdkRequestsBeforeClick": 0,
+  "passed": true,
+  "finishedAt": "2026-10-13T09:16:31.617Z",
+  "runtimeErrors": []
+}

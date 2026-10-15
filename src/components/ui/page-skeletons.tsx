@@ -17,7 +17,7 @@ export function SkeletonAvatar({ className }: { className?: string }) {
 
 export function StandardSkeletonShell({ children, maxWidth = "max-w-6xl", className }: { children: ReactNode; maxWidth?: string; className?: string }) {
   return (
-    <main className={cn("mobile-page-shell mx-auto w-full flex-1 px-4 pb-12 sm:px-6 md:pt-24", maxWidth, className)} aria-busy="true" aria-label="Carregando conteúdo">
+    <main className={cn("mobile-page-shell mx-auto w-full flex-1 px-4 pb-12 sm:px-6 md:pt-24", maxWidth, className)} aria-busy="true" aria-label="Carregando conteúdo" data-page-skeleton>
       {children}
     </main>
   );

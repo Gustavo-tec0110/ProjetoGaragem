@@ -58,16 +58,20 @@ function ProfileImageField({
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState("");
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [selectionKey, setSelectionKey] = React.useState(0);
   const isAvatar = kind === "avatar";
 
   function selectFile(file: File | undefined) {
-    if (!file) return;
+    if (!file) return null;
     setError("");
     if (!isAllowedProjectImage(file) || file.size > PROJECT_IMAGE_MAX_BYTES) {
-      setError("Envie JPG, PNG ou WebP com até 5 MB.");
-      return;
+      const message = "Envie JPG, PNG ou WebP com até 5 MB.";
+      setError(message);
+      return message;
     }
     setSelectedFile(file);
+    setSelectionKey((current) => current + 1);
+    return null;
   }
 
   async function applyCrop(file: File) {
@@ -128,7 +132,7 @@ function ProfileImageField({
         ) : null}
       </div>
       {error ? <p className="text-xs text-danger" role="status">{error}</p> : null}
-      <ProfileImageCropDialog file={selectedFile} kind={kind} onCancel={() => setSelectedFile(null)} onApply={applyCrop} />
+      <ProfileImageCropDialog file={selectedFile} selectionKey={selectionKey} kind={kind} onReplace={selectFile} onCancel={() => setSelectedFile(null)} onApply={applyCrop} />
     </div>
   );
 }

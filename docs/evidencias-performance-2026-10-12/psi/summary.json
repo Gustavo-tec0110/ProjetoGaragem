@@ -1,0 +1,90 @@
+[
+  {
+    "name": "inicio",
+    "url": "https://projetogaragem.com.br/",
+    "strategy": "mobile",
+    "time": "2026-10-12T20:16:43.000Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "inicio",
+    "url": "https://projetogaragem.com.br/",
+    "strategy": "desktop",
+    "time": "2026-10-12T20:16:45.122Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "login",
+    "url": "https://projetogaragem.com.br/login",
+    "strategy": "mobile",
+    "time": "2026-10-12T20:16:45.427Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "login",
+    "url": "https://projetogaragem.com.br/login",
+    "strategy": "desktop",
+    "time": "2026-10-12T20:16:46.393Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "cadastro",
+    "url": "https://projetogaragem.com.br/register",
+    "strategy": "mobile",
+    "time": "2026-10-12T20:16:47.406Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "cadastro",
+    "url": "https://projetogaragem.com.br/register",
+    "strategy": "desktop",
+    "time": "2026-10-12T20:16:48.435Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "explorar",
+    "url": "https://projetogaragem.com.br/explorar",
+    "strategy": "mobile",
+    "time": "2026-10-12T20:16:49.353Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  },
+  {
+    "name": "explorar",
+    "url": "https://projetogaragem.com.br/explorar",
+    "strategy": "desktop",
+    "time": "2026-10-12T20:16:50.277Z",
+    "httpStatus": 429,
+    "ok": false,
+    "error": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+    "lighthouse": null,
+    "fieldData": false
+  }
+]

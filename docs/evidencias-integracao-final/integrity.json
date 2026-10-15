@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "source": "principal",
+      "expected": 190,
+      "verified": 190,
+      "mismatches": []
+    },
+    {
+      "source": "performance",
+      "expected": 527,
+      "verified": 527,
+      "mismatches": []
+    }
+  ],
+  "known_root_loading_deletion": true,
+  "plan_equal_to_imported": true,
+  "client_js_checked": 38,
+  "client_secret_pattern_matches": [],
+  "env_local_copied": false,
+  "supabase_link_copied": false,
+  "ext4_errors": "0",
+  "head": "8841a3acce71a1ce02aec99131423116d174e3d3",
+  "branch": "codex/integracao-final-projeto-garagem",
+  "release_build_id": "zbhYHuFUE2nf7DjyfcvjK"
+}

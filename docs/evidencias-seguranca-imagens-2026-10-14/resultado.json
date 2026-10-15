@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-14",
+  "timezone": "America/Bahia",
+  "branch": "codex/performance-etapa-1",
+  "unit": {
+    "passed": 25,
+    "failed": 0,
+    "storage_auth": "simulated",
+    "sharp": "real"
+  },
+  "postgresql_http": {
+    "checks": 107,
+    "image_checks": 68,
+    "backend_checks": 39,
+    "postgresql": "real isolated PGlite",
+    "http": "real local transport, actual Route Handler",
+    "auth_storage": "fixtures"
+  },
+  "playwright": {
+    "passed": 26,
+    "skipped": 3,
+    "failed": 0,
+    "runtime": "local next start production build",
+    "upload": "intercepted"
+  },
+  "typecheck": "passed",
+  "eslint_full": "passed",
+  "local_build": "passed",
+  "diff_check": "passed",
+  "remote_tests": 0,
+  "remote_mutations": 0,
+  "commits": 0,
+  "pushes": 0,
+  "merges": 0,
+  "deploys": 0,
+  "production_security": "unchanged; requires approved cutover and cache/token retirement",
+  "provider_edge_validation": "logic simulated locally; infrastructure pending"
+}

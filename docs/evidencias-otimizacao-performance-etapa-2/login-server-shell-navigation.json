@@ -1,0 +1,103 @@
+{
+  "label": "login-server-shell",
+  "origin": "http://127.0.0.1:3101",
+  "settings": "412x823 Mobile, CDP CPU x4, RTT 150 ms, 1638.4 Kbps down/up, fresh context, 2.5 s before click",
+  "results": [
+    {
+      "scenario": "login-forgot",
+      "run": 1,
+      "clickToHeadingMs": 1537,
+      "destination": "http://127.0.0.1:3101/forgot-password",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "login-forgot",
+      "run": 2,
+      "clickToHeadingMs": 1431,
+      "destination": "http://127.0.0.1:3101/forgot-password",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "login-forgot",
+      "run": 3,
+      "clickToHeadingMs": 1398,
+      "destination": "http://127.0.0.1:3101/forgot-password",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "login-create",
+      "run": 1,
+      "clickToHeadingMs": 2401,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "login-create",
+      "run": 2,
+      "clickToHeadingMs": 2443,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "login-create",
+      "run": 3,
+      "clickToHeadingMs": 2294,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "register-create",
+      "run": 1,
+      "clickToHeadingMs": 2491,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "register-create",
+      "run": 2,
+      "clickToHeadingMs": 2405,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "register-create",
+      "run": 3,
+      "clickToHeadingMs": 2436,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "home-create",
+      "run": 1,
+      "clickToHeadingMs": 2273,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "home-create",
+      "run": 2,
+      "clickToHeadingMs": 2261,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    },
+    {
+      "scenario": "home-create",
+      "run": 3,
+      "clickToHeadingMs": 2219,
+      "destination": "http://127.0.0.1:3101/criar-projeto",
+      "beforeRequests": [],
+      "errors": []
+    }
+  ]
+}

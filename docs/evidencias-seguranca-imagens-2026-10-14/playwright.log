@@ -1,0 +1,43 @@
+
+Running 29 tests using 2 workers
+
+(node:12270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-chromium] › tests/e2e/image-security.spec.ts:5:5 › optimizer refuses protected media, old Storage URLs and encoded aliases (674ms)
+  ✓   2 [desktop-chromium] › tests/e2e/image-security.spec.ts:18:5 › shipped public assets retain image optimization (151ms)
+  ✓   4 [desktop-chromium] › tests/e2e/image-security.spec.ts:24:5 › invalid direct media requests have no body and no shared cache (648ms)
+  ✓   5 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:105:5 › geometria limita deslocamento, preserva proporção e ancora o zoom (658ms)
+  ✓   6 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:121:5 › arquivo ilegível mostra erro e impede aplicar o recorte (3.8s)
+  ✓   3 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária (9.2s)
+  ✓   8 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida (3.5s)
+  ✓   9 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova (4.8s)
+  ✓  10 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão (2.8s)
+  ✓   7 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:132:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels (17.5s)
+  ✓  11 [desktop-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados (5.0s)
+  ✓  13 [desktop-chromium] › tests/e2e/public.spec.ts:16:5 › slugs removidos retornam o estado de projeto inexistente (2.6s)
+  ✓  14 [desktop-chromium] › tests/e2e/public.spec.ts:22:5 › busca vazia preserva o termo e oferece recuperação (2.1s)
+(node:12550) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:195:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo (12.2s)
+  -  16 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:226:54 › pinça e arraste por toque funcionam na foto
+  -  17 [desktop-chromium] › tests/e2e/profile-image-editor.spec.ts:226:54 › pinça e arraste por toque funcionam na capa
+(node:12642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária (6.0s)
+  ✓  18 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:105:5 › geometria limita deslocamento, preserva proporção e ancora o zoom (484ms)
+  ✓  19 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida (2.3s)
+  ✓  20 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:121:5 › arquivo ilegível mostra erro e impede aplicar o recorte (2.0s)
+  -  22 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:132:5 › avatar responde a slider, botões, roda, arraste, limites, reset e exporta pixels
+  ✓  21 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova (3.4s)
+  ✓  24 [mobile-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão (2.0s)
+  ✓  25 [mobile-chromium] › tests/e2e/public.spec.ts:3:5 › home e explorar continuam disponíveis sem projetos publicados (2.1s)
+  ✓  26 [mobile-chromium] › tests/e2e/public.spec.ts:16:5 › slugs removidos retornam o estado de projeto inexistente (1.0s)
+  ✓  23 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:195:5 › capa mantém 3:1, descarta cancelamento e reinicia ao trocar arquivo (8.6s)
+  ✓  27 [mobile-chromium] › tests/e2e/public.spec.ts:22:5 › busca vazia preserva o termo e oferece recuperação (1.3s)
+  ✓  28 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:226:54 › pinça e arraste por toque funcionam na foto (4.8s)
+  ✓  29 [mobile-chromium] › tests/e2e/profile-image-editor.spec.ts:226:54 › pinça e arraste por toque funcionam na capa (4.9s)
+
+  3 skipped
+  26 passed (1.1m)

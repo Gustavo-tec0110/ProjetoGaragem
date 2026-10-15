@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag, updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { NotificationType } from "@/lib/types";
@@ -465,7 +465,7 @@ export async function deleteCarAction(
 
   if (error) return { status: "error", message: "Não foi possível excluir o projeto agora." };
 
-  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
+  updateTag(PROJECT_CATALOG_CACHE_TAG);
   updateTag(PUBLIC_PROFILE_CACHE_TAG);
   redirect("/garagem");
 }

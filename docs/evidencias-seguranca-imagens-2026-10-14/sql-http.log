@@ -1,0 +1,97 @@
+(node:12921) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem-performance-etapa-1/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem-performance-etapa-1/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS anonymous projection hides legacy note and private cost
+PASS private project has no public modifications
+PASS user B cannot directly read A's private fields
+PASS restrictive read guards survive legacy permissive policies
+PASS owner retains original note and cost; default is private
+PASS explicitly shared cost is public
+PASS edited private cost remains hidden
+PASS B cannot update A's modification
+PASS public update projection redacts cost and excludes private project
+PASS owner reads own update cost
+PASS publishing an expense cost never publishes its personal note
+PASS B cannot bypass expense note projection
+PASS owner keeps private expense note
+PASS private expense amount cannot be queried publicly
+PASS changing project to private closes both public projections
+PASS public RPCs declare their security model and fixed search path
+PASS atomic RPC defaults omitted expense visibility to private
+PASS old untracked objects are preserved
+PASS B cannot renew A's photo lease
+PASS nonexistent objects cannot allocate leases
+PASS active editor renews its own old photo
+PASS renew-before-cleanup preserves active editor
+PASS inspection excludes active editors
+PASS bounded inspection finds an expired tracked object
+PASS inspection does not claim or delete objects
+PASS expired unreferenced photo can be claimed
+PASS cleanup-before-renew prevents resurrecting a claimed path
+PASS repeated cleanup does not duplicate a current claim
+PASS defensive reference check protects even a legacy invalid pending reference
+PASS images: preparation leaves existing public-bucket contract unchanged
+PASS images: failed RLS precondition leaves cutover transaction unchanged
+PASS images: A reads own private image
+PASS images: B cannot read A's private image
+PASS images: anonymous cannot read private image
+PASS images: anonymous reads public image from legacy reference
+PASS images: B reads public image
+PASS images: profile avatar stays public
+PASS images: profile cover stays public
+PASS images: bucket is private
+PASS images: activation/backfill preserve every existing object
+PASS images: direct anonymous Storage SELECT blocked despite legacy FOR ALL
+PASS images: owner cannot directly download/sign using Storage SELECT
+PASS images: direct deletion cannot bypass reference claims
+PASS images: B cannot launder A's photo through B's public project
+PASS images: public to private immediately revokes both visitor roles
+PASS images: owner keeps access after changing to private
+PASS images: private to public restores access without copy/move
+PASS images: one private reference takes precedence over public references
+PASS images: removing private duplicate restores intentional public access
+PASS images: private project reference overrides an otherwise public profile cover
+PASS images: profile cover restores when its private project reference is removed
+PASS images: public reference registered: gallery.webp
+PASS images: public reference registered: part.webp
+PASS images: public reference registered: event.webp
+PASS images: public reference registered: 88888888-8888-4888-8888-888888888888.webp
+PASS images: visibility gate covers: gallery.webp
+PASS images: visibility gate covers: part.webp
+PASS images: visibility gate covers: event.webp
+PASS images: visibility gate covers: 88888888-8888-4888-8888-888888888888.webp
+PASS images: referenced modification cannot be claimed for removal
+PASS images: B cannot claim A's image
+PASS images: replacing hero removes stale public reference
+PASS images: unreferenced old hero can be claimed
+PASS images: claimed object is blocked even if Storage deletion fails
+PASS images: failed late attachment rolls back and preserves replacement
+PASS images: missing Storage object leaves DB reference unchanged
+PASS images: gallery deletion removes public access without erasing original bytes
+PASS images: new image guards preserve owner lease renewal
+PASS images: lease inspection protects references from every image-bearing table
+PASS images: cleanup cannot claim a globally referenced legacy temporary
+PASS images: expired unreferenced temporary can still be claimed
+PASS images: claim-before-renew cannot resurrect a pending image
+PASS images: claimed pending image is not delivered while Storage deletion is pending
+PASS images: direct private URL HTTP: fixture=A -> 200
+PASS images: HTTP response forbids shared cache
+PASS images: direct private URL HTTP: fixture=B -> 404
+PASS images: HTTP response forbids shared cache
+PASS images: direct private URL HTTP: anonymous -> 404
+PASS images: HTTP response forbids shared cache
+PASS images: direct public URL works anonymously
+PASS images: HEAD follows public authorization
+PASS images: old public Storage URL denied by private-bucket fixture
+PASS images: visibility changes during Storage I/O release no bytes
+PASS images: previous public app URL remains denied for B
+PASS images: owner retains direct HTTP access after transition
+PASS images: HTTP access restores after private-to-public transition
+PASS images: DB outage fails closed over HTTP
+PASS images: Storage outage fails closed over HTTP
+PASS images: test preserves originals; only local fixture uploads added
+PASS images: containment keeps bucket private rather than rolling back exposure
+{"mode":"isolated-postgresql-and-http-fixtures","checks":68,"result":"passed","remoteWrites":0}
+PASS containment rollback preserves owner access and data
+{"mode":"isolated-postgresql","checks":107,"result":"passed","remoteWrites":0}

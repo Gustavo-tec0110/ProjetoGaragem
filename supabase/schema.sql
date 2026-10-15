@@ -1,6 +1,8 @@
 -- Projeto Garagem MVP schema
--- Fonte canonica: perfis de usuario, paginas publicas de carros/projetos,
--- pecas, fotos e interacoes sociais simples.
+-- Snapshot legado de base. NAO executar isoladamente nem reaplicar em producao:
+-- migrations posteriores substituem defaults e policies publicas abaixo.
+-- Para banco NOVO e descartavel: psql -X -v ON_ERROR_STOP=1 -f supabase/bootstrap.sql
+-- O bootstrap aplica esta base e TODO o historico ate o contrato privado atual.
 
 begin;
 

@@ -1,0 +1,78 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+
+import { GoogleSigninButton } from "@/components/auth/google-signin-button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/components/AuthProvider";
+import { getSafeNextPath } from "@/lib/auth/redirect";
+
+export function LoginForm() {
+  const { signInWithEmail } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const { error: signInError } = await signInWithEmail(email, password);
+
+    if (signInError) {
+      setLoading(false);
+      setError("Email ou senha incorretos.");
+      return;
+    }
+
+    const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
+    const session = (await sessionResponse.json()) as { authenticated?: boolean };
+    if (!sessionResponse.ok || !session.authenticated) {
+      setLoading(false);
+      setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+      return;
+    }
+
+    const nextPath = new URLSearchParams(window.location.search).get("next");
+    window.location.assign(getSafeNextPath(nextPath));
+  };
+
+  return (
+    <>
+      <GoogleSigninButton />
+
+      <div className="my-5 flex items-center gap-3 text-[10px] font-ui font-semibold uppercase tracking-[0.18em] text-muted">
+        <span className="h-px flex-1 bg-border/70" />
+        <span>ou use seu email</span>
+        <span className="h-px flex-1 bg-border/70" />
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <label className="grid gap-2 text-sm font-medium text-foreground/85">
+          Email
+          <Input placeholder="voce@email.com" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+        </label>
+        <label className="grid gap-2 text-sm font-medium text-foreground/85">
+          Senha
+          <Input placeholder="Sua senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
+        </label>
+        {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
+        <Button type="submit" disabled={loading} className="mobile-cta-safe w-full">
+          {loading ? "Entrando..." : "Entrar"}
+        </Button>
+      </form>
+
+      <div className="mt-5 flex items-center justify-between gap-3 text-xs">
+        <Link href="/forgot-password" prefetch={false} className="text-muted underline-offset-4 hover:text-foreground hover:underline">Esqueci minha senha</Link>
+        <Link href="/register" className="font-semibold text-foreground underline-offset-4 hover:text-accent">Criar conta</Link>
+      </div>
+      <Button asChild variant="ghost" className="mt-5 w-full">
+        <Link href="/explorar">Continuar explorando</Link>
+      </Button>
+    </>
+  );
+}

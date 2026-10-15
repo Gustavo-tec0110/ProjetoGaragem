@@ -6,7 +6,6 @@ import {
   Camera,
   ChevronLeft,
   CircleDollarSign,
-  ImageIcon,
   LoaderCircle,
   Pencil,
   Plus,
@@ -46,6 +45,8 @@ type Draft = {
   status: ProjectModificationStatus;
   paidAmount: number | null;
   note: string;
+  publicDescription: string;
+  showPaidAmount: boolean;
   photoPath: string | null;
   photoUrl: string | null;
 };
@@ -62,6 +63,8 @@ const emptyDraft = (): Draft => ({
   status: "planned",
   paidAmount: null,
   note: "",
+  publicDescription: "",
+  showPaidAmount: false,
   photoPath: null,
   photoUrl: null,
 });
@@ -191,6 +194,7 @@ function ModificationEditor({
   categories,
   draft,
   pending,
+  uploading,
   onClose,
   onChange,
   onSave,
@@ -202,6 +206,7 @@ function ModificationEditor({
   categories: ModificationCategoryRow[];
   draft: Draft;
   pending: boolean;
+  uploading: boolean;
   onClose: () => void;
   onChange: (draft: Draft) => void;
   onSave: () => void;
@@ -209,7 +214,7 @@ function ModificationEditor({
 }) {
   if (!open) return null;
   const selected = catalog.find((item) => item.id === draft.catalogId);
-  const submittingDisabled = pending || !draft.catalogId;
+  const submittingDisabled = pending || uploading || !draft.catalogId;
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/65 p-0 backdrop-blur-sm sm:items-center sm:justify-center sm:p-6" role="dialog" aria-modal="true" aria-label={editing ? "Editar modificação" : "Adicionar modificação"}>
       <Card className="max-h-[92vh] w-full overflow-y-auto rounded-b-none p-4 sm:max-w-3xl sm:rounded-2xl sm:p-6">
@@ -263,8 +268,18 @@ function ModificationEditor({
             </label>
           </div>
 
+          <label className="flex items-center gap-2 text-sm font-semibold">
+            <input type="checkbox" checked={draft.showPaidAmount} onChange={(event) => onChange({ ...draft, showPaidAmount: event.target.checked })} />
+            Mostrar o valor pago aos visitantes
+          </label>
+
           <label className="grid gap-2 text-sm font-semibold">
-            Observação do projeto (opcional)
+            Descrição pública (opcional)
+            <textarea value={draft.publicDescription} onChange={(event) => onChange({ ...draft, publicDescription: event.target.value })} maxLength={1000} rows={3} placeholder="Conte o que foi instalado ou planejado." className="rounded-xl border border-border/80 bg-background p-3 font-normal text-foreground outline-none placeholder:text-muted focus:border-accent" />
+          </label>
+
+          <label className="grid gap-2 text-sm font-semibold">
+            Anotações privadas (somente você)
             <textarea
               value={draft.note}
               onChange={(event) => onChange({ ...draft, note: event.target.value })}
@@ -284,7 +299,7 @@ function ModificationEditor({
               <label className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-border/80 bg-surface px-4 text-sm font-semibold hover:bg-card">
                 <Camera className="size-4" />
                 Enviar foto
-                <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(event) => {
+                <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" disabled={pending || uploading} onChange={(event) => {
                   const file = event.target.files?.[0];
                   if (file) onUpload(file);
                   event.currentTarget.value = "";
@@ -294,7 +309,7 @@ function ModificationEditor({
             {draft.photoUrl ? (
               <div className="mt-4 flex items-center gap-3">
                 <img src={draft.photoUrl} alt="Prévia da foto do projeto" className="size-16 rounded-xl border border-border/70 object-cover" />
-                <Button type="button" variant="ghost" size="sm" onClick={() => onChange({ ...draft, photoPath: null, photoUrl: null })}>Remover foto</Button>
+                <Button type="button" variant="ghost" size="sm" disabled={pending || uploading} onClick={() => onChange({ ...draft, photoPath: null, photoUrl: null })}>Remover foto</Button>
               </div>
             ) : null}
           </div>
@@ -303,7 +318,7 @@ function ModificationEditor({
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button type="button" variant="ghost" onClick={onClose} disabled={pending}>Cancelar</Button>
           <Button type="button" onClick={onSave} disabled={submittingDisabled}>
-            {pending ? <LoaderCircle className="size-4 animate-spin" /> : null}
+            {pending || uploading ? <LoaderCircle className="size-4 animate-spin" /> : null}
             {editing ? "Salvar alterações" : "Adicionar modificação"}
           </Button>
         </div>
@@ -317,21 +332,67 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
   const [editing, setEditing] = React.useState<ProjectModification | null>(null);
   const [draft, setDraft] = React.useState<Draft>(emptyDraft);
   const [notice, setNotice] = React.useState<string | null>(null);
+  const [uploading, setUploading] = React.useState(false);
   const [pending, startTransition] = React.useTransition();
+  const draftRef = React.useRef(draft);
+  const editorGeneration = React.useRef(0);
+
+  const discardPendingPhoto = (path: string | null) => {
+    if (!path?.includes("/pending-modifications/")) return;
+    void fetch("/api/uploads/image", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path }),
+      keepalive: true,
+    }).catch(() => undefined);
+  };
+  const changeDraft = (next: Draft) => {
+    const previous = draftRef.current;
+    draftRef.current = next;
+    setDraft(next);
+    if (previous.photoPath !== next.photoPath) discardPendingPhoto(previous.photoPath);
+  };
+  React.useEffect(() => () => discardPendingPhoto(draftRef.current.photoPath), []);
+  React.useEffect(() => {
+    const path = draft.photoPath;
+    if (!open || !path?.includes("/pending-modifications/")) return;
+    const renew = () => {
+      void fetch("/api/uploads/image", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path }),
+      }).then((response) => {
+        if (response.status === 409) setNotice("A foto temporária expirou. Envie novamente antes de salvar.");
+      }).catch(() => undefined);
+    };
+    renew();
+    const timer = window.setInterval(renew, 2 * 60 * 1000);
+    window.addEventListener("focus", renew);
+    document.addEventListener("visibilitychange", renew);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("focus", renew);
+      document.removeEventListener("visibilitychange", renew);
+    };
+  }, [open, draft.photoPath]);
 
   const startNew = () => {
+    editorGeneration.current += 1;
     setEditing(null);
-    setDraft(emptyDraft());
+    changeDraft(emptyDraft());
     setNotice(null);
     setOpen(true);
   };
   const startEdit = (modification: ProjectModification) => {
+    editorGeneration.current += 1;
     setEditing(modification);
-    setDraft({
+    changeDraft({
       catalogId: modification.catalog_id,
       status: modification.status,
       paidAmount: modification.paid_amount,
       note: modification.note ?? "",
+      publicDescription: modification.public_description ?? "",
+      showPaidAmount: modification.show_paid_amount ?? false,
       photoPath: modification.project_photo_storage_path,
       photoUrl: modification.project_photo_url,
     });
@@ -341,12 +402,18 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
   const save = () => {
     if (!carId) return;
     startTransition(async () => {
-      const input = { catalogId: draft.catalogId, status: draft.status, paidAmount: draft.paidAmount, note: draft.note, photoPath: draft.photoPath };
+      const input = { catalogId: draft.catalogId, status: draft.status, paidAmount: draft.paidAmount, note: draft.note, publicDescription: draft.publicDescription, showPaidAmount: draft.showPaidAmount, photoPath: draft.photoPath };
       const result = editing
         ? await updateProjectModification(carId, editing.id, input)
         : await createProjectModification(carId, input);
       setNotice(result.message);
-      if (result.ok) setOpen(false);
+      if (result.ok) {
+        editorGeneration.current += 1;
+        changeDraft(emptyDraft());
+        setOpen(false);
+      } else if (draftRef.current.photoPath?.includes("/pending-modifications/")) {
+        changeDraft({ ...draftRef.current, photoPath: null, photoUrl: null });
+      }
     });
   };
   const remove = (modification: ProjectModification) => {
@@ -357,6 +424,8 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
     });
   };
   const upload = async (file: File) => {
+    const generation = ++editorGeneration.current;
+    setUploading(true);
     setNotice(null);
     const data = new FormData();
     data.append("kind", "modification");
@@ -365,14 +434,17 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
       const response = await fetch("/api/uploads/image", { method: "POST", body: data });
       const payload = await response.json() as { message?: string; path?: string; url?: string };
       if (!response.ok || !payload.path || !payload.url) throw new Error(payload.message || "Não foi possível enviar a foto.");
-      setDraft((current) => ({ ...current, photoPath: payload.path ?? null, photoUrl: payload.url ?? null }));
+      if (generation !== editorGeneration.current) discardPendingPhoto(payload.path);
+      else changeDraft({ ...draftRef.current, photoPath: payload.path, photoUrl: payload.url });
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "Não foi possível enviar a foto.");
+      if (generation === editorGeneration.current) setNotice(error instanceof Error ? error.message : "Não foi possível enviar a foto.");
+    } finally {
+      if (generation === editorGeneration.current) setUploading(false);
     }
   };
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+    <main className="mx-auto w-full max-w-7xl px-4 pb-6 pt-24 sm:px-6 lg:px-8 lg:pb-10 lg:pt-28">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Link href={projectHref} className="inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-foreground"><ChevronLeft className="size-4" /> Voltar ao projeto</Link>
@@ -408,9 +480,10 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
                 </div>
                 <Badge variant={statusMeta[modification.status].variant}>{statusMeta[modification.status].label}</Badge>
               </div>
-              {modification.note ? <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted">{modification.note}</p> : <p className="mt-3 text-sm text-muted">Sem observações.</p>}
+              {modification.public_description ? <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted">{modification.public_description}</p> : <p className="mt-3 text-sm text-muted">Sem descrição pública.</p>}
+              {canEdit && modification.note ? <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">Anotação privada: {modification.note}</p> : null}
               <div className="mt-4 grid gap-1 border-t border-border/60 pt-3 text-xs">
-                {modification.paid_amount !== null ? <span className="inline-flex items-center gap-1.5 font-semibold"><CircleDollarSign className="size-3.5 text-accent" /> Pago: {formatCurrency(modification.paid_amount)}</span> : null}
+                {modification.paid_amount !== null ? <span className="inline-flex items-center gap-1.5 font-semibold"><CircleDollarSign className="size-3.5 text-accent" /> Pago: {formatCurrency(modification.paid_amount)}{canEdit && !modification.show_paid_amount ? " (privado)" : ""}</span> : null}
                 {estimate ? <span className="text-muted">Estimativa do catálogo: {estimate}</span> : null}
                 {!estimate && modification.paid_amount === null ? <span className="text-muted">Valor não informado</span> : null}
               </div>
@@ -431,8 +504,9 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
         categories={categories}
         draft={draft}
         pending={pending}
-        onClose={() => { if (!pending) setOpen(false); }}
-        onChange={setDraft}
+        uploading={uploading}
+        onClose={() => { if (!pending) { editorGeneration.current += 1; changeDraft(emptyDraft()); setUploading(false); setOpen(false); } }}
+        onChange={changeDraft}
         onSave={save}
         onUpload={upload}
       />

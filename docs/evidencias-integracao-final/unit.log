@@ -1,0 +1,62 @@
+
+> projeto-garagem@0.1.0 test:unit
+> node --test tests/unit/*.test.mjs
+
+(node:15310) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/src/lib/auth/redirect.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: generated upload path belongs to owner and finalizes to DB-compatible path (3.983275ms)
+✔ A1: malformed paths, formats, folders and traversal are rejected (1.118188ms)
+✔ A2: only internal redirects resolve to the permitted origin (2.850425ms)
+✔ A3: cleanup never removes another user's or referenced photo and fails closed (4.863665ms)
+(node:15317) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ offline rotation plan retains every object, every reference and the ownership-compatible folder (9.516718ms)
+✔ cutover plan blocks missing objects, other owners, invalid keys and collisions (2.099056ms)
+(node:15318) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ legacy URLs convert only from the configured origin; encoded traversal is rejected (8.661539ms)
+✔ denied/invalid paths never reach privileged Storage; DB errors fail closed (13.390044ms)
+✔ visibility/reference removal during download prevents serving already fetched bytes (13.125742ms)
+✔ private transition while generating a thumbnail also fails closed (38.79166ms)
+✔ public/owner delivery and HEAD never opt into CDN caching, redirects, signed URLs or ETags (65.688023ms)
+✔ Storage outages and unexpected MIME types return no image bytes (9.770731ms)
+(node:15355) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ project, modification, avatar and cover uploads return only protected URLs and normalized WebP (1328.829107ms)
+✔ lease failures compensate only the newly uploaded object; failed upload releases its reservation (666.213503ms)
+✔ anonymous, quota failure, injected paths and invalid file bytes never upload (809.110243ms)
+✔ protected responsive thumbnails really resize with Sharp and reject unbounded variants (116.06864ms)
+(node:15369) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/src/lib/modifications/photo-path.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/.codex/worktrees/integracao-final-projeto-garagem/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: authenticated create moves pending photo and stores only final path (959.668499ms)
+✔ claimed or unavailable lease prevents moving or saving the photo (489.365709ms)
+✔ A1: failed move keeps database unchanged; failed insert compensates moved photo (1469.590068ms)
+✔ A1: replacement failure preserves old photo; success removes it after saving (292.899578ms)
+✔ A1: deletion removes photo only after row deletion; foreign path and anonymous writes are rejected (985.840568ms)
+✔ Netlify guard runs before simulated cached private images and blocks encoded/nested aliases (176.34202ms)
+✔ Netlify guard preserves shipped assets and existing permitted public external images (55.566144ms)
+✔ missing/duplicate source parameters fail closed (7.012756ms)
+✔ cleanup age and path gate (6.136446ms)
+✔ a populated public projection returns events and explicitly shared expenses (1822.039237ms)
+✔ RPC and related-table failures are reported instead of empty successful projects (3262.995008ms)
+✔ owner uses RLS tables and receives their query errors (328.874203ms)
+✔ revoking shared cost bypasses a warmed public-detail cache (739.742905ms)
+✔ the project page propagates detail failures to its retry boundary (218.059314ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16813.480497

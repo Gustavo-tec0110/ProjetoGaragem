@@ -3,6 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
 import type { Database } from "@/types/supabase";
+import { protectedImageUrl, projectImagePathFromUrl } from "@/lib/images/project-image-url";
+import { MEDIA_NO_STORE_HEADERS } from "@/lib/images/delivery";
+
+export const dynamic = "force-dynamic";
 
 export const contentType = "image/png";
 
@@ -15,7 +19,7 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   if (!isSupabaseConfigured) {
-    return new Response("Supabase nao configurado.", { status: 500 });
+    return new Response(null, { status: 503, headers: MEDIA_NO_STORE_HEADERS });
   }
 
   const { slug } = await params;
@@ -30,17 +34,24 @@ export async function GET(
     .eq("is_public", true)
     .maybeSingle();
 
-  if (!car) return new Response("Not found", { status: 404 });
+  if (!car) return new Response(null, { status: 404, headers: MEDIA_NO_STORE_HEADERS });
 
   const [{ data: owner }, { data: parts }] = await Promise.all([
     supabase.from("public_profiles").select("username, display_name").eq("id", car.owner_id).maybeSingle(),
     supabase.from("car_parts").select("name, category, status").eq("car_id", car.id).limit(4),
   ]);
 
-  const heroSrc = car.main_photo_url ?? new URL(fallbackImage(), request.url).toString();
+  let hero = protectedImageUrl(car.main_photo_url);
+  const heroPath = hero ? projectImagePathFromUrl(hero) : null;
+  if (heroPath) {
+    const { data: allowed, error } = await supabase.rpc("can_read_project_image", { p_path: heroPath });
+    if (error) return new Response(null, { status: 503, headers: MEDIA_NO_STORE_HEADERS });
+    if (allowed !== true) hero = null;
+  }
+  const heroSrc = new URL(hero ?? fallbackImage(), request.url).toString();
   const accent = "#FF2A2A";
 
-  return new ImageResponse(
+  const response = new ImageResponse(
     (
       <div
         style={{
@@ -117,8 +128,13 @@ export async function GET(
         </div>
       </div>
     ),
-    { width: 1200, height: 630 }
+    { width: 1200, height: 630, headers: MEDIA_NO_STORE_HEADERS }
   );
+  const body = await response.arrayBuffer();
+  const { data: stillPublic, error } = await supabase.from("cars").select("id")
+    .eq("id", car.id).eq("is_public", true).maybeSingle();
+  if (error || !stillPublic) return new Response(null, { status: error ? 503 : 404, headers: MEDIA_NO_STORE_HEADERS });
+  return new Response(body, { headers: response.headers });
 }
 
 function Metric({ label, value }: { label: string; value: number }) {

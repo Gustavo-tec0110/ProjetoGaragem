@@ -1,0 +1,26 @@
+(node:6267) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem-performance-etapa-1/src/lib/auth/redirect.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem-performance-etapa-1/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: generated upload path belongs to owner and finalizes to DB-compatible path (16.47785ms)
+✔ A1: malformed paths, formats, folders and traversal are rejected (5.307895ms)
+✔ A2: only internal redirects resolve to the permitted origin (7.726855ms)
+✔ A3: cleanup never removes another user's or referenced photo and fails closed (12.469462ms)
+(node:6269) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem-performance-etapa-1/src/lib/modifications/photo-path.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem-performance-etapa-1/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: authenticated create moves pending photo and stores only final path (674.653586ms)
+✔ claimed or unavailable lease prevents moving or saving the photo (348.881711ms)
+✔ A1: failed move keeps database unchanged; failed insert compensates moved photo (978.373436ms)
+✔ A1: replacement failure preserves old photo; success removes it after saving (270.837807ms)
+✔ A1: deletion removes photo only after row deletion; foreign path and anonymous writes are rejected (362.672342ms)
+✔ cleanup age and path gate (44.827318ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4690.89166

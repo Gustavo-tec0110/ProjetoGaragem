@@ -39,7 +39,7 @@ export function SiteFooter() {
               <Link className="text-muted hover:text-foreground" href="/garagem">
                 Minha Garagem
               </Link>
-              <Link className="text-muted hover:text-foreground" href="/criar-projeto">
+              <Link className="text-muted hover:text-foreground" href="/criar-projeto" prefetch={false}>
                 Adicionar projeto
               </Link>
               <Link className="text-muted hover:text-foreground" href="/privacy">

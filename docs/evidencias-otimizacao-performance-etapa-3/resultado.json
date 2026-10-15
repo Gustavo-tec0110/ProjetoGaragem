@@ -1,0 +1,110 @@
+{
+  "origin": "http://127.0.0.1:3101",
+  "checks": [
+    {
+      "device": "mobile",
+      "route": "/",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "banner": true
+    },
+    {
+      "device": "mobile",
+      "route": "/privacy",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "banner": true
+    },
+    {
+      "device": "mobile",
+      "route": "/terms",
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "banner": true
+    },
+    {
+      "device": "mobile",
+      "configurable": true,
+      "analyticsDefaultOff": true,
+      "analyticsAccepted": true,
+      "revocable": true,
+      "footerAfterContentAndClickableOn": [
+        "/",
+        "/privacy",
+        "/terms"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "banner": true
+    },
+    {
+      "device": "desktop",
+      "route": "/privacy",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "banner": true
+    },
+    {
+      "device": "desktop",
+      "route": "/terms",
+      "widths": {
+        "viewport": 1366,
+        "document": 1366
+      },
+      "banner": true
+    },
+    {
+      "device": "desktop",
+      "configurable": true,
+      "analyticsDefaultOff": true,
+      "analyticsAccepted": true,
+      "revocable": true,
+      "footerAfterContentAndClickableOn": [
+        "/",
+        "/privacy",
+        "/terms"
+      ]
+    },
+    {
+      "button": "Aceitar",
+      "analytics": true,
+      "persisted": true
+    },
+    {
+      "button": "Recusar",
+      "analytics": false,
+      "persisted": true
+    },
+    {
+      "authNavigationAndLocalValidation": true,
+      "remoteSubmission": false
+    }
+  ],
+  "screenshots": [
+    "mobile-inicial.png",
+    "mobile-privacy.png",
+    "mobile-terms.png",
+    "mobile-configurar.png",
+    "desktop-inicial.png",
+    "desktop-privacy.png",
+    "desktop-terms.png",
+    "desktop-configurar.png"
+  ],
+  "runtimeErrors": [],
+  "analyticsRequests": [],
+  "passed": true
+}

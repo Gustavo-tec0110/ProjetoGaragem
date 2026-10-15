@@ -598,11 +598,13 @@ function buildRelatedPayload(
 }
 
 export function revalidateProjectCreationPaths() {
-  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
+  revalidateTag(PROJECT_CATALOG_CACHE_TAG, { expire: 0 });
 }
 
 export function revalidateProjectUpdatePaths() {
-  revalidateTag(PROJECT_CATALOG_CACHE_TAG, "max");
+  // The project hero uses this public cache. After an edit it must not serve
+  // the former city or other fields on the redirect's first request.
+  revalidateTag(PROJECT_CATALOG_CACHE_TAG, { expire: 0 });
 }
 
 export async function createCarProject(formData: FormData): Promise<CreateCarProjectResult> {

@@ -1,0 +1,62 @@
+ M playwright.config.ts
+ M src/app/(auth)/login/page.tsx
+ M src/app/api/uploads/image/route.ts
+ M src/app/carros/actions.ts
+ M src/app/page.tsx
+ M src/app/privacy/page.tsx
+ M src/app/projeto/[slug]/modificacoes/actions.ts
+ M src/app/projeto/[slug]/modificacoes/page.tsx
+ M src/app/template.tsx
+ M src/app/terms/page.tsx
+ M src/components/garage/car-form.tsx
+ M src/components/privacy/cookie-consent.tsx
+ M src/components/projects/project-discovery-page.tsx
+ M src/components/projects/project-modifications.tsx
+ M src/components/projects/project-rankings-board.tsx
+ M src/components/site/site-footer.tsx
+ M src/components/site/site-navbar.tsx
+ M src/lib/auth/redirect.ts
+ M src/lib/garage/create-car-project.ts
+ M src/lib/modifications/server.ts
+ M src/lib/supabase/queries.ts
+ M src/lib/supabase/storage.ts
+ M src/lib/types.ts
+ M src/proxy.ts
+ M tests/e2e/authenticated.spec.ts
+ M tests/e2e/helpers.ts
+?? docs/auditoria-independente-performance-2026-10-13.md
+?? docs/cookies-protecao-juridica-2026-10-13.md
+?? docs/correcoes-auditoria-2026-10-13.md
+?? docs/evidencias-cookies-juridico-2026-10-13/
+?? docs/evidencias-finalizacao-backend-2026-10-13/
+?? docs/evidencias-otimizacao-performance-etapa-1/
+?? docs/evidencias-otimizacao-performance-etapa-2/
+?? docs/evidencias-otimizacao-performance-etapa-3/
+?? docs/evidencias-performance-continuacao-2026-10-13/
+?? docs/evidencias-seguranca-imagens-2026-10-14/
+?? docs/finalizacao-backend-supabase-2026-10-13.md
+?? docs/otimizacao-performance-etapa-1.md
+?? docs/otimizacao-performance-etapa-2-continuacao.md
+?? docs/otimizacao-performance-etapa-2.md
+?? docs/otimizacao-performance-etapa-3.md
+?? docs/preparacao-supabase-isolado-2026-10-13.md
+?? docs/sql/
+?? docs/validacao-correcoes-auditoria.md
+?? docs/validacao-definitiva-supabase-2026-10-13.md
+?? docs/validacao-real-supabase-2026-10-13.md
+?? scripts/check-isolated-supabase.mjs
+?? scripts/inspect-pending-modification-photos.mjs
+?? scripts/pending-photo-cleanup-policy.mjs
+?? scripts/test-backend-migrations.mjs
+?? scripts/validate-backend-real.mjs
+?? src/app/(auth)/login/login-form.tsx
+?? src/app/test-harness/modification-photos/
+?? src/lib/modifications/photo-path.ts
+?? src/lib/modifications/photo-storage.ts
+?? supabase/migrations/20261013010000_restrict_modification_photo_ownership.sql
+?? supabase/migrations/20261013020000_private_modifications_public_projection.sql
+?? supabase/migrations/20261013025000_private_expense_defaults_atomic.sql
+?? supabase/migrations/20261013030000_pending_modification_photo_leases.sql
+?? tests/e2e/authenticated-city.spec.ts
+?? tests/e2e/modification-photos.spec.ts
+?? tests/unit/

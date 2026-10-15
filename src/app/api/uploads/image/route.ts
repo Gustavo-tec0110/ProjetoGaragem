@@ -11,6 +11,11 @@ import {
   projectModificationImagePath,
 } from "@/lib/supabase/storage";
 import { validateAndNormalizeImage } from "@/lib/uploads/image-validation";
+import { isOwnedModificationPhotoPath } from "@/lib/modifications/photo-path";
+import { removeUnreferencedModificationPhoto } from "@/lib/modifications/photo-storage";
+import { serverLog } from "@/lib/server-log";
+import { projectImageUrl } from "@/lib/images/project-image-url";
+import { MEDIA_NO_STORE_HEADERS } from "@/lib/images/delivery";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -89,7 +94,7 @@ export async function POST(request: Request) {
   const { error: uploadError } = await (async () => {
     try {
       return await storage.storage.from(PROJECT_IMAGES_BUCKET).upload(path, normalized.data, {
-        cacheControl: "31536000",
+        cacheControl: "0",
         contentType: normalized.contentType,
         upsert: false,
       });
@@ -105,11 +110,56 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Não foi possível salvar a imagem agora." }, { status: 400 });
   }
 
-  const { data } = storage.storage.from(PROJECT_IMAGES_BUCKET).getPublicUrl(path);
+  if (kind === "modification") {
+    const { data: leased, error: leaseError } = await auth.supabase.rpc("touch_pending_modification_photo", { p_path: path });
+    if (leaseError || leased !== true) {
+      serverLog.warn("project-modification-photo", { action: "lease.failed", message: leaseError?.message });
+      const compensation = await storage.storage.from(PROJECT_IMAGES_BUCKET).remove([path]);
+      if (compensation.error) serverLog.warn("project-modification-photo", { action: "lease.compensation.failed", message: compensation.error.message });
+      return NextResponse.json({ message: "Não foi possível preparar a edição da foto. Tente novamente." }, { status: 503 });
+    }
+  }
+
   return NextResponse.json({
-    url: data.publicUrl,
+    url: projectImageUrl(path),
     path,
     width: normalized.width,
     height: normalized.height,
-  }, { status: 201 });
+  }, { status: 201, headers: MEDIA_NO_STORE_HEADERS });
+}
+
+export async function PATCH(request: Request) {
+  const auth = await requireSupabaseUser();
+  if (!auth.supabase || !auth.user) return NextResponse.json({ message: "Entre para continuar." }, { status: 401 });
+  let path: unknown;
+  try {
+    if (Number(request.headers.get("content-length")) > 1024) throw new Error("large request");
+    path = (await request.json() as { path?: unknown }).path;
+  } catch {
+    return NextResponse.json({ message: "Solicitação inválida." }, { status: 400 });
+  }
+  if (typeof path !== "string" || !isOwnedModificationPhotoPath(path, auth.user.id, true)) {
+    return NextResponse.json({ message: "Caminho inválido." }, { status: 400 });
+  }
+  const { data, error } = await auth.supabase.rpc("touch_pending_modification_photo", { p_path: path });
+  return error || data !== true
+    ? NextResponse.json({ message: "Não foi possível renovar a edição." }, { status: error ? 503 : 409 })
+    : NextResponse.json({ ok: true });
+}
+
+export async function DELETE(request: Request) {
+  const auth = await requireSupabaseUser();
+  if (!auth.user) return NextResponse.json({ message: "Entre para continuar." }, { status: 401 });
+  let path: unknown;
+  try {
+    if (Number(request.headers.get("content-length")) > 1024) throw new Error("large request");
+    path = (await request.json() as { path?: unknown }).path;
+  } catch {
+    return NextResponse.json({ message: "Solicitação inválida." }, { status: 400 });
+  }
+  if (typeof path !== "string" || !isOwnedModificationPhotoPath(path, auth.user.id, true)) {
+    return NextResponse.json({ message: "Caminho inválido." }, { status: 400 });
+  }
+  const removed = await removeUnreferencedModificationPhoto(path, auth.user.id, true);
+  return NextResponse.json({ removed });
 }

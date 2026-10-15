@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingProjectPage() {
   return (
-    <div className="w-full flex-1" aria-busy="true">
+    <div className="w-full flex-1" aria-busy="true" data-page-skeleton>
       <section className="px-4 sm:px-6">
         <div className="mx-auto grid w-full max-w-6xl gap-4 pb-10 pt-24 lg:min-h-[78vh] lg:grid-cols-[1fr_0.9fr] lg:content-end lg:gap-x-8 lg:pt-28">
           <div className="flex flex-col justify-end space-y-4">

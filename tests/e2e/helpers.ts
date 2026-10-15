@@ -45,6 +45,9 @@ export async function login(page: Page, next = "/garagem", account: E2EAccount =
 
   await clearAuthState(page);
   await page.goto(`/login?next=${encodeURIComponent(next)}`);
+  const cookieBanner = page.getByRole("region", { name: "Preferências de cookies" });
+  await cookieBanner.waitFor({ state: "visible", timeout: 5_000 }).catch(() => undefined);
+  if (await cookieBanner.isVisible()) await cookieBanner.getByRole("button", { name: "Recusar" }).click();
   await page.getByPlaceholder("Email").fill(account.email);
   await page.getByPlaceholder("Senha").fill(account.password);
   const authenticatedNavigation = page.waitForURL(
@@ -54,7 +57,7 @@ export async function login(page: Page, next = "/garagem", account: E2EAccount =
   await page.getByRole("button", { name: /^Entrar$/ }).click();
   await authenticatedNavigation;
   await page.waitForLoadState("domcontentloaded", { timeout: 30_000 });
-  await page.locator("main").waitFor({ state: "visible", timeout: 30_000 });
+  await page.getByRole("main").first().waitFor({ state: "visible", timeout: 30_000 });
 }
 
 export async function logout(page: Page) {
