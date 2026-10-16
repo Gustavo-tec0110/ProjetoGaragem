@@ -18,6 +18,9 @@ test("Netlify guard runs before simulated cached private images and blocks encod
   for(const source of [
     "/api/media/project/owner/private.webp", "/api/og/project", "/api%2fmedia%2fproject/private.webp",
     "/ref/%2e%2e%2fapi/media/project/private.webp", "/ref/../api/media/project/private.webp",
+    "/partnerships/creators/%2e%2e%2fapi/media/project/private.webp",
+    "/partnerships/creators/../../../api/media/project/private.webp",
+    "/partnerships/creators/perfil-exemplo-avatar.webp?token=old",
     "https://project.supabase.co/storage/v1/object/public/project-images/owner/private.webp",
     "https://project.supabase.co/storage/v1/object/sign/project-images/private.webp?token=old",
     "/.netlify/images?url=/api/media/project/private.webp", "https://evil.test/ref/private.webp",
@@ -32,10 +35,12 @@ test("Netlify guard runs before simulated cached private images and blocks encod
 
 test("Netlify guard preserves shipped assets and existing permitted public external images",async()=>{
   let forwards=0;
-  for(const source of ["/ref/hero-opala-ss.webp","/modifications/brakes/discos.webp","/og-image.jpg","https://images.unsplash.com/photo-test?auto=format","https://lh3.googleusercontent.com/avatar"]){
-    assert.equal((await guard(request(source),{next:async()=>{forwards++;return new Response("static image");}})).status,200);
+  const sources = ["/ref/hero-opala-ss.webp","/modifications/brakes/discos.webp","/og-image.jpg","https://images.unsplash.com/photo-test?auto=format","https://lh3.googleusercontent.com/avatar",
+    "/partnerships/creators/colecao-parceria.webp", "/partnerships/creators/perfil-exemplo-avatar.webp"];
+  for(const source of sources) for(const endpoint of ["/.netlify/images","/_next/image"]){
+    assert.equal((await guard(request(source, endpoint),{next:async()=>{forwards++;return new Response("static image");}})).status,200);
   }
-  assert.equal(forwards,5);
+  assert.equal(forwards,sources.length * 2);
 });
 
 test("missing/duplicate source parameters fail closed",async()=>{

@@ -16,9 +16,15 @@ test("optimizer refuses protected media, old Storage URLs and encoded aliases", 
 });
 
 test("shipped public assets retain image optimization", async ({ request }) => {
-  const response = await request.get("/_next/image?url=%2Fref%2Fhero-opala-ss.webp&w=640&q=75");
-  expect(response.status()).toBe(200);
-  expect(response.headers()["content-type"]).toMatch(/^image\//);
+  for (const source of [
+    "/ref/hero-opala-ss.webp",
+    "/partnerships/creators/colecao-parceria.webp",
+    "/partnerships/creators/perfil-exemplo-avatar.webp",
+  ]) {
+    const response = await request.get(`/_next/image?url=${encodeURIComponent(source)}&w=640&q=75`);
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toMatch(/^image\//);
+  }
 });
 
 test("invalid direct media requests have no body and no shared cache", async ({ request }) => {

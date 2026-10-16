@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: "/ref/**", search: "" },
       { pathname: "/modifications/**", search: "" },
+      { pathname: "/partnerships/creators/**", search: "" },
       { pathname: "/og-image.jpg", search: "" },
       { pathname: "/_next/static/media/**", search: "" },
     ],
@@ -50,6 +51,10 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/parcerias/criadores",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
       {
         source: "/:path*",
         headers: [

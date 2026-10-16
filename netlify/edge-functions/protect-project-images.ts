@@ -12,6 +12,7 @@ export default async function protectProjectImages(request: Request, context: { 
       if (!source.username && !source.password && !source.pathname.includes("%") && !source.hash) {
         const shipped = source.origin === requestUrl.origin && !source.search &&
           (source.pathname.startsWith("/ref/") || source.pathname.startsWith("/modifications/") ||
+            source.pathname.startsWith("/partnerships/creators/") ||
             source.pathname.startsWith("/_next/static/media/") || source.pathname === "/og-image.jpg");
         const external = source.protocol === "https:" && !source.port && (
           (source.hostname === "images.unsplash.com" && source.pathname.startsWith("/photo-")) ||
