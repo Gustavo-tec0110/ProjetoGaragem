@@ -13,11 +13,11 @@ export function SiteFooter() {
   }
 
   return (
-    <footer className="mt-auto px-4 pb-[calc(var(--mobile-bottom-nav-space)+1.25rem)] pt-6 sm:px-6 lg:pb-10 lg:pt-8">
-      <div className="mx-auto w-full max-w-6xl">
+    <footer className="mt-auto px-4 pb-[calc(var(--mobile-bottom-nav-space)+1.25rem)] pt-8 sm:px-6 lg:pb-8 lg:pt-10">
+      <div className="mx-auto w-full max-w-6xl [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-accent [&_a:focus-visible]:outline-offset-4 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-accent [&_button:focus-visible]:outline-offset-4">
         <div className="border-t border-border/60 px-1 pt-7">
-          <div className="grid grid-cols-2 gap-x-6 gap-y-7 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-x-8">
-            <div className="col-span-2 min-w-0 sm:col-span-1 lg:pr-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-x-8">
+            <div className="col-span-2 min-w-0 lg:col-span-1 lg:pr-4">
               <div className="flex items-center gap-3">
                 <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
                   <CarFront aria-hidden="true" className="size-5" />
@@ -46,7 +46,7 @@ export function SiteFooter() {
                 <li><CookiePreferencesTrigger /></li>
               </ul>
             </nav>
-            <div className="col-span-2 min-w-0 sm:col-span-1">
+            <div className="col-span-2 min-w-0 lg:col-span-1">
               <h2 className="font-ui text-xs font-semibold uppercase tracking-widest text-foreground">Contato</h2>
               <p className="mt-3 text-sm leading-6 text-muted">Fale com o Projeto Garagem.</p>
               <a className="mt-1 inline-flex min-h-9 max-w-full items-center rounded-sm text-sm text-foreground underline decoration-accent/60 underline-offset-4 transition-colors [overflow-wrap:anywhere] hover:text-accent" href="mailto:gustavo.sl.0110@gmail.com">

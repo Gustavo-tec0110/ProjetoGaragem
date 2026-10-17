@@ -22,7 +22,7 @@
 .headerNote { position: relative; padding-left: 15px; font-family: var(--font-ui); font-size: 10px; font-weight: 600; letter-spacing: .12em; line-height: 1.8; }
 .headerNote > span:last-child { display: block; color: var(--secondary); font-size: 8px; letter-spacing: .14em; }
 .redDot { position: absolute; top: 6px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); }
-.hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 96px 88px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 64px 56px; }
 .heroCopy { animation: arrive 700ms var(--pg-ease-out) both; }
 .eyebrow { font-family: var(--font-ui); font-size: 9px; font-weight: 600; line-height: 1.8; letter-spacing: .16em; }
 .eyebrow > span { padding-inline: 7px; color: var(--color-accent); }
@@ -32,22 +32,6 @@
 .exploreLink { display: inline-flex; align-items: center; gap: 32px; min-height: 48px; margin-top: 28px; border-bottom: 1px solid #606168; font-size: 12px; font-weight: 600; transition: color 180ms, gap 180ms; }
 .exploreLink:hover { color: var(--color-accent); gap: 40px; }
 .heroArtwork { min-width: 0; padding-top: 20px; animation: arrive 850ms 100ms var(--pg-ease-out) both; }
-.badgeFrame { position: relative; display: grid; place-items: center; padding: 24px 18px 34px; }
-.badgeFrame::before, .badgeFrame::after { content: ""; position: absolute; width: 34px; height: 34px; border-color: #333438; border-style: solid; pointer-events: none; }
-.badgeFrame::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
-.badgeFrame::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
-.badge { position: relative; width: min(100%, 304px); padding: 23px 27px 25px; border: 1px solid #414147; border-radius: 9px; background: linear-gradient(125deg, #222226 0%, #17171a 35%, #111113 65%, #1c1c20 100%); box-shadow: 0 22px 60px #0006, inset 0 1px 0 #ffffff0d; transform: rotate(-5deg); transition: transform 300ms var(--pg-ease-out), border-color 300ms; }
-.badge::before { content: ""; position: absolute; width: 40px; height: 3px; top: -1px; left: 27px; background: var(--color-accent); }
-.badgeTop { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: var(--font-ui); font-size: 8px; font-weight: 600; letter-spacing: .14em; color: #c1c1c7; }
-.badgeTop > span:last-child { font-size: 16px; color: var(--color-accent); }
-.badgeLogo { display: block; width: 152px; height: 152px; margin: 21px auto 10px; }
-.badgeTitle { font-family: var(--font-ui); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -.025em; }
-.badgeTitle > span { font-size: 32px; color: #b1b1b8; }
-.badgeRule { height: 1px; margin-block: 23px 18px; background: #414147; }
-.badgeBottom { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-family: var(--font-ui); font-size: 9px; line-height: 1.7; letter-spacing: .1em; color: #b1b1b8; }
-.badgeBottom svg { color: var(--color-accent); }
-.artworkCaption { display: flex; align-items: center; justify-content: center; gap: 13px; margin-top: 30px; color: var(--secondary); font-family: var(--font-ui); font-size: 7px; letter-spacing: .17em; }
-.artworkCaption > span { height: 1px; width: 16px; background: #424249; }
 .values { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 25px; border-block: 1px solid var(--rule); color: var(--secondary); font-family: var(--font-ui); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .17em; }
 .values > span { display: flex; align-items: center; gap: 12px; }
 .values > span::before { content: ""; width: 4px; height: 4px; background: var(--color-accent); }
@@ -58,8 +42,8 @@
 .page h2 span { color: var(--secondary); }
 .programGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; margin-top: 30px; }
 .programGrid h2 { max-width: 440px; }
-.programCopy > p, .identityCopy > p:not(.sectionLabel), .founderCopy > p { color: var(--secondary); font-size: 14px; line-height: 1.95; }
-.programCopy > p + p, .founderCopy > p + p { margin-top: 16px; }
+.programCopy > p{ color: var(--secondary); font-size: 14px; line-height: 1.95; }
+.programCopy > p + p{ margin-top: 16px; }
 .invitationCount { display: flex; gap: 20px; align-items: center; margin-top: 30px; }
 .invitationCount > span { font-family: var(--font-title); font-size: 43px; line-height: 1; letter-spacing: -.06em; color: var(--color-accent); }
 .invitationCount > p { font-size: 12px; line-height: 1.8; }
@@ -82,9 +66,6 @@
 .future li { display: flex; align-items: baseline; gap: 12px; font-size: 12px; line-height: 1.6; color: #cbcad0; }
 .future li svg { flex-shrink: 0; align-self: flex-start; margin-top: 3px; color: #a6a5ad; }
 .future .futureNote { padding-top: 20px; border-top: 1px solid var(--rule); font-size: 11px; }
-.identity { background: #101012; border-bottom: 1px solid var(--rule); }
-.identityGrid { display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; gap: 100px; padding-block: 85px; }
-.identityArtwork { display: grid; place-items: center; }
 .profilePreview { width: 100%; min-width: 0; }
 .profilePreviewLabel { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; font-family: var(--font-ui); font-size: 8px; line-height: 1.8; letter-spacing: .09em; text-transform: uppercase; color: #b8b6c0; }
 .profilePreviewLabel > span:first-child { color: #e2dfe5; }
@@ -97,23 +78,11 @@
 .profilePreviewAvatar img { object-fit: cover; }
 .profilePreviewName { display: flex; flex-wrap: wrap; align-items: center; gap: 9px 12px; margin-top: 15px; }
 .profilePreviewName h3 { font-family: var(--font-title); font-size: 23px; font-weight: 700; letter-spacing: -.035em; line-height: 1.4; }
-.profileFounderBadge { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 5px 9px; border: 1px solid #743338; border-radius: 999px; background: #ff352f0d; color: #f1e9e9; font-family: var(--font-ui); font-size: 9px; font-weight: 600; line-height: 1.6; }
-.profileFounderBadge svg { flex-shrink: 0; color: var(--color-accent); }
 .profilePreviewHandle { margin-top: 5px; color: #a7a3af; font-size: 12px; line-height: 1.7; }
 .profilePreviewBio { max-width: 360px; margin-top: 15px; color: #d2cfd7; font-size: 12px; line-height: 1.9; }
 .profilePreviewFooter { display: flex; flex-wrap: wrap; gap: 19px; margin-top: 22px; padding-top: 17px; border-top: 1px solid #302d35; color: #a7a3af; font-family: var(--font-ui); font-size: 8px; font-weight: 600; line-height: 1.8; letter-spacing: .07em; }
 .profilePreviewFooter > span:first-child { color: var(--ink); }
 .profilePreviewNote { margin-top: 13px; color: var(--secondary); font-size: 10px; line-height: 1.8; }
-.badgeCompact { width: 245px; padding: 20px 23px; transform: rotate(4deg); }
-.badgeCompact .badgeLogo { width: 108px; height: 108px; margin-block: 12px; }
-.badgeCompact .badgeTitle, .badgeCompact .badgeTitle > span { font-size: 26px; }
-.badgeCompact .badgeTop { font-size: 8px; }
-.badgeCompact .badgeRule { margin-block: 20px 14px; }
-.badgeCompact .badgeBottom { font-size: 8px; }
-.identityCopy h2 { margin-top: 24px; }
-.identityCopy > p:not(.sectionLabel) { max-width: 420px; margin-top: 25px; }
-.identitySignature { display: flex; align-items: center; gap: 10px; margin-top: 27px; color: #b5b4bc; font-family: var(--font-ui); font-size: 8px; font-weight: 600; letter-spacing: .07em; }
-.identitySignature svg { color: var(--color-accent); flex-shrink: 0; }
 .merchHeading, .collaborationHeading { display: grid; grid-template-columns: 1.2fr 1fr; gap: 100px; align-items: end; margin-top: 30px; }
 .merchHeading h2 { max-width: 550px; }
 .merchHeading > p, .collaborationHeading > p { max-width: 410px; color: var(--secondary); font-size: 14px; line-height: 1.9; }
@@ -136,12 +105,12 @@
 .merchGalleryHeading h3 { font-size: 14px; font-weight: 600; }
 .merchGalleryHeading > span { display: inline-flex; align-items: center; gap: 12px; color: var(--secondary); font-family: var(--font-ui); font-size: 8px; letter-spacing: .1em; }
 .merchGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
-.product { min-width: 0; }
+.product { min-width: 0; padding: 12px; border: 1px solid var(--rule); border-radius: 10px; background: #101012; }
 .productImageLink { position: relative; display: block; border-radius: 6px; background: #d5d5d5; }
 .productImage { display: block; width: 100%; height: auto; border-radius: inherit; }
 .productExpand { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #ffffff21; border-radius: 50%; background: #111113; color: #fff; transition: background 180ms, transform 180ms; }
 .productImageLink:hover .productExpand { background: var(--color-accent-2); transform: translate(1px, -1px); }
-.product figcaption { display: flex; gap: 14px; align-items: baseline; padding: 18px 2px 0; }
+.product figcaption { display: flex; gap: 14px; align-items: baseline; padding: 18px 6px 8px; }
 .productNumber { flex-shrink: 0; color: var(--color-accent); font-family: var(--font-ui); font-size: 9px; }
 .product h3 { font-family: var(--font-ui); font-size: 14px; font-weight: 600; line-height: 1.5; letter-spacing: -.02em; }
 .product figcaption p { max-width: 460px; margin-top: 7px; color: var(--secondary); font-size: 12px; line-height: 1.9; }
@@ -178,11 +147,6 @@
 .creators img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
 .creators h3 { margin-top: 15px; }
 .creators a > span { display: flex; align-items: center; justify-content: space-between; min-height: 44px; color: var(--secondary); font-size: 13px; }
-.founder { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
-.founderName { margin-top: 28px; font-family: var(--font-title); font-size: 75px; font-weight: 700; letter-spacing: -.07em; line-height: 1.2; }
-.founderName > span { color: var(--color-accent); }
-.founderRole { margin-top: 17px; font-family: var(--font-ui); font-size: 8px; line-height: 1.9; letter-spacing: .12em; color: var(--secondary); }
-.founderCopy h2 { font-size: 28px; margin-bottom: 25px; }
 .invite { max-width: 780px; margin-inline: auto; padding-block: 105px; text-align: center; }
 .invite > .eyebrow { color: #b8b7bf; font-size: 8px; }
 .invite h2 { margin-top: 27px; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.2; }
@@ -200,27 +164,17 @@
 .skipLink:focus { transform: translateY(0); }
 .page a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; }
 
-@media (hover: hover) {
-  .badge:hover { transform: rotate(-2deg) translateY(-3px); border-color: #66646b; }
-  .badgeCompact:hover { transform: rotate(2deg) translateY(-3px); }
-}
-
 @media (min-width: 1600px) {
-  .hero { padding-block: 115px 105px; }
+  .hero { padding-block: 80px 64px; }
 }
 
 @media (max-width: 1000px) {
   .container { width: calc(100% - 64px); }
-  .hero { gap: 36px; padding-block: 72px; }
+  .hero { gap: 36px; padding-block: 56px; }
   .hero h1 { font-size: 42px; }
   .heroDescription { font-size: 13px; }
-  .badge { padding-inline: 21px; }
-  .badgeTitle, .badgeTitle > span { font-size: 27px; }
-  .badgeLogo { width: 125px; height: 125px; }
-  .badgeTop { font-size: 8px; }
-  .programGrid, .founder { gap: 50px; }
+  .programGrid{ gap: 50px; }
   .benefitsGrid { gap: 45px; }
-  .identityGrid { gap: 55px; }
   .merchHeading, .collaborationHeading { gap: 45px; }
   .collection { gap: 30px; }
   .collectionCopy h3 { font-size: 19px; margin-top: 16px; }
@@ -247,13 +201,6 @@
   .heroDescription { margin-top: 22px; font-size: 13px; line-height: 1.85; }
   .exploreLink { margin-top: 20px; font-size: 11px; }
   .heroArtwork { width: min(100%, 330px); margin-inline: auto; padding: 5px 10px 0; }
-  .badgeFrame { padding: 20px 25px 26px; }
-  .badge { width: 245px; padding: 20px 23px; }
-  .badgeLogo { width: 108px; height: 108px; margin-block: 12px; }
-  .badgeTitle, .badgeTitle > span { font-size: 26px; }
-  .badgeRule { margin-block: 20px 14px; }
-  .badgeBottom { font-size: 8px; }
-  .artworkCaption { margin-top: 22px; font-size: 8px; letter-spacing: .08em; }
   .values { flex-wrap: wrap; justify-content: center; gap: 14px 20px; padding-block: 22px; font-size: 8px; }
   .values > span { gap: 8px; }
   .values > span::before { width: 3px; height: 3px; }
@@ -261,10 +208,10 @@
   .sectionLabel { font-size: 9px; gap: 14px; }
   .sectionLabel > span { font-size: 9px; }
   .page h2 { font-size: clamp(1.7rem, 6.2vw, 2.2rem); line-height: 1.25; }
-  .programGrid, .benefitsGrid, .founder { grid-template-columns: 1fr; gap: 28px; }
+  .programGrid, .benefitsGrid{ grid-template-columns: 1fr; gap: 28px; }
   .programGrid { margin-top: 24px; }
   .programGrid h2 { max-width: 400px; }
-  .programCopy > p, .identityCopy > p:not(.sectionLabel), .founderCopy > p { font-size: 13px; }
+  .programCopy > p{ font-size: 13px; }
   .invitationCount { margin-top: 25px; }
   .invitationCount > span { font-size: 38px; }
   .benefitsTitle { margin-top: 24px; }
@@ -275,10 +222,6 @@
   .benefitsList p { font-size: 11px; }
   .future { padding: 27px 24px; border: 1px solid var(--rule); border-radius: 6px; background: #111113; }
   .future h3 { font-size: 20px; }
-  .identityGrid { grid-template-columns: 1fr; gap: 40px; padding-block: 56px; }
-  .identityArtwork { order: 2; padding-block: 10px; }
-  .identityCopy h2 { margin-top: 24px; }
-  .identitySignature { font-size: 8px; }
   .profilePreviewLabel { font-size: 8px; }
   .profilePreviewBanner { height: 155px; }
   .profilePreviewBody { padding-inline: 18px; }
@@ -312,10 +255,6 @@
   .faq > div > p:not(.sectionLabel) { font-size: 13px; }
   .faqList summary { min-height: 64px; font-size: 12px; }
   .faqList details > p { padding-right: 0; }
-  .founder { gap: 32px; }
-  .founderName { font-size: 64px; margin-top: 22px; }
-  .founderRole { font-size: 9px; margin-top: 10px; }
-  .founderCopy h2 { margin-bottom: 20px; }
   .invite { padding-block: 65px; }
   .invite > .eyebrow { max-width: 230px; margin-inline: auto; font-size: 9px; line-height: 1.9; }
   .invite h2 { margin-top: 22px; font-size: clamp(1.8rem, 7.3vw, 2.4rem); }
@@ -341,5 +280,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; }
-  .badge, .badgeCompact, .badge:hover, .badgeCompact:hover, .contactButton:hover { transform: none; }
+ .contactButton:hover { transform: none; }
 }
+
+.verifiedBadge { display: inline-flex; flex-shrink: 0; align-items: center; color: #54a9ff; }

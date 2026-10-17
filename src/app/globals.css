@@ -154,9 +154,12 @@
 }
 
 @layer base {
-  html,
-  body {
+  html {
     height: 100%;
+  }
+
+  body {
+    min-height: 100%;
   }
 
   html {
@@ -168,6 +171,8 @@
     background:
       radial-gradient(circle at 8% -10%, rgba(255, 53, 47, 0.08), transparent 28rem),
       linear-gradient(180deg, #08090b 0%, #090a0d 100%);
+    background-color: var(--color-background);
+    background-repeat: no-repeat;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     overflow-x: clip;

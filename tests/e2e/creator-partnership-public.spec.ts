@@ -28,22 +28,24 @@ test("programa apresenta os benefícios, limites e convite com contato oficial",
   await page.goto(partnershipPath);
 
   for (const heading of [
-    "Mais do que uma parceria. Um lugar desde o começo.",
-    "O que significa ser um Criador Fundador?",
+    "Cultura automotiva. Projetos que conectam pessoas.",
+    "O que significa ser um criador parceiro?",
     "Benefícios da fase inicial",
     "Possibilidades para o futuro",
-    "Toda grande história começa com quem acreditou primeiro.",
+    "Vamos conectar sua marca à cultura automotiva.",
   ]) {
     await expect(page.getByRole("heading", { name: heading, exact: true })).toBeVisible();
   }
 
-  await expect(page.locator("main")).toContainText("Gustaf");
+  await expect(page.locator("main")).not.toContainText(/fundador|de onde veio|Gustaf/i);
+  await expect(page.getByRole("img", { name: "Criador verificado pelo Projeto Garagem", exact: true })).toBeVisible();
+  expect(await page.locator("main section").evaluateAll(sections => sections[1].id)).toBe("produtos");
   const introductionLink = page.getByRole("link", { name: /Conheça o programa/ });
   await expect(introductionLink).toHaveAttribute("href", "#programa");
   await introductionLink.click();
   await expect(page).toHaveURL(new RegExp(`${partnershipPath}#programa$`));
   await expect(page.locator("#programa").getByRole("heading", {
-    name: "Mais do que uma parceria. Um lugar desde o começo.",
+    name: "Cultura automotiva. Projetos que conectam pessoas.",
   })).toBeInViewport();
 
   const contactLink = page.getByRole("link", { name: "Conversar sobre a parceria", exact: true });

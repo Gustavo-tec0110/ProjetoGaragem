@@ -3,7 +3,7 @@ import { BadgeCheck } from "lucide-react";
 
 import styles from "./page.module.css";
 
-export function FounderProfilePreview() {
+export function CreatorProfilePreview() {
   return (
     <figure className={styles.profilePreview} aria-labelledby="perfil-exemplo-legenda">
       <figcaption id="perfil-exemplo-legenda" className={styles.profilePreviewLabel}>
@@ -32,9 +32,8 @@ export function FounderProfilePreview() {
           </div>
           <div className={styles.profilePreviewName}>
             <h3>Seu nome</h3>
-            <span className={styles.profileFounderBadge}>
-              <BadgeCheck size={15} strokeWidth={1.8} aria-hidden="true" />
-              Criador Fundador
+            <span className={styles.verifiedBadge} role="img" aria-label="Criador verificado pelo Projeto Garagem" title="Criador verificado pelo Projeto Garagem">
+              <BadgeCheck size={20} strokeWidth={2} aria-hidden="true" />
             </span>
           </div>
           <p className={styles.profilePreviewHandle}>@seuperfil</p>

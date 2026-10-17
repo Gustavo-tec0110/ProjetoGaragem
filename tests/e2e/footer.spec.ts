@@ -14,11 +14,18 @@ test("footer responsivo preserva navegação, contato e preferências de cookies
     await expect(page).toHaveURL(new RegExp(`${route}$`), { timeout: 30_000 });
     await page.goto("/terms");
   }
-  for (const width of [320, 390, 768, 1024, 1440]) {
+  for (const width of [320, 390, 768, 1024, 1366, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await footer.scrollIntoViewIfNeeded();
     await expect(footer).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    const background = await page.evaluate(() => ({
+      bodyHeight: document.body.getBoundingClientRect().height,
+      documentHeight: document.documentElement.scrollHeight,
+      repeat: getComputedStyle(document.body).backgroundRepeat,
+    }));
+    expect(background.bodyHeight).toBeGreaterThanOrEqual(background.documentHeight - 1);
+    expect(background.repeat.split(",").every(value => value.trim() === "no-repeat")).toBe(true);
     const mainBounds = await page.locator("main").boundingBox();
     const footerBounds = await footer.boundingBox();
     expect(footerBounds!.y).toBeGreaterThanOrEqual(mainBounds!.y + mainBounds!.height - 1);

@@ -33,7 +33,7 @@ const products = [
 export function MerchShowcase() {
   return (
     <section id="produtos" className={styles.section} aria-labelledby="produtos-titulo">
-      <p className={styles.sectionLabel}><span>04</span> PRODUTOS E MERCH</p>
+      <p className={styles.sectionLabel}><span>01</span> PRODUTOS E MERCH</p>
       <div className={styles.merchHeading}>
         <h2 id="produtos-titulo">Produtos e merch <span>com a nossa identidade.</span></h2>
         <p>Uma primeira visão do que podemos criar juntos: peças que levam a cultura da garagem para além da tela.</p>
