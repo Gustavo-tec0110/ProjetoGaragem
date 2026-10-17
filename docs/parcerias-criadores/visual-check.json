@@ -1,0 +1,35 @@
+{
+  "status": 200,
+  "title": "Criadores Fundadores | Projeto Garagem",
+  "robots": "noindex, nofollow, noarchive",
+  "widths": [
+    {
+      "viewport": 320,
+      "documentWidth": 320,
+      "mainBottomPadding": "0px",
+      "outside": []
+    },
+    {
+      "viewport": 390,
+      "documentWidth": 390,
+      "mainBottomPadding": "0px",
+      "outside": []
+    },
+    {
+      "viewport": 768,
+      "documentWidth": 768,
+      "mainBottomPadding": "0px",
+      "outside": []
+    },
+    {
+      "viewport": 1440,
+      "documentWidth": 1440,
+      "mainBottomPadding": "0px",
+      "outside": []
+    }
+  ],
+  "faqExpanded": {
+    "viewport": 320,
+    "documentWidth": 320
+  }
+}

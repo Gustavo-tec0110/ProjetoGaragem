@@ -74,7 +74,7 @@ export default function PrivacyPage() {
           </Section>
           <Section id="alteracoes" title="9. Alterações e contato">
             <p className="mt-3">Podemos atualizar esta Política quando o serviço ou requisitos legais mudarem. A versão vigente ficará nesta página com a data de atualização.</p>
-            <p className="mt-3">Para dúvidas, solicitações relacionadas a dados pessoais ou esta Política, escreva para <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:ggtopxbox1@gmail.com">ggtopxbox1@gmail.com</a>. O Projeto Garagem não informa nesta página um DPO, CNPJ ou endereço comercial porque essas informações institucionais não constam da aplicação atual.</p>
+            <p className="mt-3">Para dúvidas, solicitações relacionadas a dados pessoais ou esta Política, escreva para <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:gustavo.sl.0110@gmail.com">gustavo.sl.0110@gmail.com</a>. O Projeto Garagem não informa nesta página um DPO, CNPJ ou endereço comercial porque essas informações institucionais não constam da aplicação atual.</p>
           </Section>
         </div>
         <p className="mt-10 text-xs text-muted">Leia também os <Link href="/terms" className="underline-offset-4 hover:text-foreground hover:underline">Termos de Uso</Link>.</p>

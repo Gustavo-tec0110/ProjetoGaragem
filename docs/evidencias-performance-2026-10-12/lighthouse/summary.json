@@ -1,0 +1,162 @@
+[
+  {
+    "page": "inicio",
+    "url": "https://projetogaragem.com.br/",
+    "mode": "mobile",
+    "started": "2026-10-12T20:19:15.769Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "inicio-mobile.json",
+    "log": "inicio-mobile.log",
+    "score": 56,
+    "metrics": {
+      "fcp": "2.0 s",
+      "lcp": "3.6 s",
+      "cls": "0.01",
+      "tbt": "2,470 ms",
+      "speedIndex": "5.5 s"
+    },
+    "fetchTime": "2026-10-12T20:19:24.948Z",
+    "finalUrl": "https://projetogaragem.com.br/"
+  },
+  {
+    "page": "inicio",
+    "url": "https://projetogaragem.com.br/",
+    "mode": "desktop",
+    "started": "2026-10-12T20:19:44.458Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "inicio-desktop.json",
+    "log": "inicio-desktop.log",
+    "score": 70,
+    "metrics": {
+      "fcp": "0.9 s",
+      "lcp": "1.4 s",
+      "cls": "0.016",
+      "tbt": "490 ms",
+      "speedIndex": "2.2 s"
+    },
+    "fetchTime": "2026-10-12T20:20:00.236Z",
+    "finalUrl": "https://projetogaragem.com.br/"
+  },
+  {
+    "page": "login",
+    "url": "https://projetogaragem.com.br/login",
+    "mode": "mobile",
+    "started": "2026-10-12T20:20:27.067Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "login-mobile.json",
+    "log": "login-mobile.log",
+    "score": 46,
+    "metrics": {
+      "fcp": "2.2 s",
+      "lcp": "4.8 s",
+      "cls": "0",
+      "tbt": "5,050 ms",
+      "speedIndex": "5.6 s"
+    },
+    "fetchTime": "2026-10-12T20:20:41.300Z",
+    "finalUrl": "https://projetogaragem.com.br/login"
+  },
+  {
+    "page": "login",
+    "url": "https://projetogaragem.com.br/login",
+    "mode": "desktop",
+    "started": "2026-10-12T20:21:02.121Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "login-desktop.json",
+    "log": "login-desktop.log",
+    "score": 78,
+    "metrics": {
+      "fcp": "0.6 s",
+      "lcp": "0.7 s",
+      "cls": "0.017",
+      "tbt": "470 ms",
+      "speedIndex": "1.5 s"
+    },
+    "fetchTime": "2026-10-12T20:21:10.710Z",
+    "finalUrl": "https://projetogaragem.com.br/login"
+  },
+  {
+    "page": "cadastro",
+    "url": "https://projetogaragem.com.br/register",
+    "mode": "mobile",
+    "started": "2026-10-12T20:21:31.220Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "cadastro-mobile.json",
+    "log": "cadastro-mobile.log",
+    "score": 34,
+    "metrics": {
+      "fcp": "3.1 s",
+      "lcp": "7.4 s",
+      "cls": "0",
+      "tbt": "6,450 ms",
+      "speedIndex": "7.1 s"
+    },
+    "fetchTime": "2026-10-12T20:21:44.568Z",
+    "finalUrl": "https://projetogaragem.com.br/register"
+  },
+  {
+    "page": "cadastro",
+    "url": "https://projetogaragem.com.br/register",
+    "mode": "desktop",
+    "started": "2026-10-12T20:22:03.249Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "cadastro-desktop.json",
+    "log": "cadastro-desktop.log",
+    "score": 90,
+    "metrics": {
+      "fcp": "0.6 s",
+      "lcp": "0.9 s",
+      "cls": "0.007",
+      "tbt": "200 ms",
+      "speedIndex": "1.9 s"
+    },
+    "fetchTime": "2026-10-12T20:22:11.413Z",
+    "finalUrl": "https://projetogaragem.com.br/register"
+  },
+  {
+    "page": "explorar",
+    "url": "https://projetogaragem.com.br/explorar",
+    "mode": "mobile",
+    "started": "2026-10-12T20:22:33.048Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "explorar-mobile.json",
+    "log": "explorar-mobile.log",
+    "score": 61,
+    "metrics": {
+      "fcp": "1.6 s",
+      "lcp": "3.4 s",
+      "cls": "0",
+      "tbt": "2,280 ms",
+      "speedIndex": "4.1 s"
+    },
+    "fetchTime": "2026-10-12T20:22:47.691Z",
+    "finalUrl": "https://projetogaragem.com.br/explorar"
+  },
+  {
+    "page": "explorar",
+    "url": "https://projetogaragem.com.br/explorar",
+    "mode": "desktop",
+    "started": "2026-10-12T20:23:25.454Z",
+    "exitCode": 0,
+    "error": null,
+    "report": "explorar-desktop.json",
+    "log": "explorar-desktop.log",
+    "score": 77,
+    "metrics": {
+      "fcp": "0.6 s",
+      "lcp": "1.0 s",
+      "cls": "0.016",
+      "tbt": "410 ms",
+      "speedIndex": "2.1 s"
+    },
+    "fetchTime": "2026-10-12T20:23:38.417Z",
+    "finalUrl": "https://projetogaragem.com.br/explorar"
+  }
+]

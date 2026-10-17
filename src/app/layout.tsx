@@ -10,10 +10,7 @@ import "@fontsource/montserrat/latin-700.css";
 import "@fontsource/poppins/latin-700.css";
 import "@fontsource/poppins/latin-800.css";
 
-import { AuthProvider } from "@/components/AuthProvider";
-import { CookieConsent } from "@/components/privacy/cookie-consent";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteNavbar } from "@/components/site/site-navbar";
+import { SiteChrome } from "@/components/site/site-chrome";
 import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo";
 import { performanceTimer } from "@/lib/performance";
 import "./globals.css";
@@ -66,12 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   const layout = (
     <html lang="pt-BR" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <AuthProvider>
-          <SiteNavbar />
-          {children}
-          <SiteFooter />
-          <CookieConsent />
-        </AuthProvider>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

@@ -222,6 +222,12 @@
     animation: pg-route-enter 180ms var(--pg-ease-out) both;
   }
 
+  /* The root layout keeps the footer outside route-level loading boundaries.
+     Keep it out of view while the active route is represented by its skeleton. */
+  body:has([data-page-skeleton]) footer {
+    display: none;
+  }
+
   .pg-gallery-slide {
     animation: pg-gallery-enter 280ms var(--pg-ease-out) both;
   }

@@ -1,0 +1,72 @@
+{
+  "page": "https://projetogaragem.com.br/parcerias/criadores",
+  "status": 200,
+  "xRobotsTag": "noindex, nofollow, noarchive",
+  "meta": {
+    "robots": "noindex, nofollow, noarchive",
+    "googlebot": "noindex, nofollow, noimageindex"
+  },
+  "canonical": "https://projetogaragem.com.br/parcerias/criadores",
+  "globalNavigationCount": 0,
+  "inSitemap": false,
+  "hasFutureNotice": true,
+  "hasProfilePreview": true,
+  "images": [
+    {
+      "alt": "Logo do Projeto Garagem",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 154389
+    },
+    {
+      "alt": "",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 154389
+    },
+    {
+      "alt": "Banner ilustrativo do perfil, com um carro clássico em uma garagem.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 172818
+    },
+    {
+      "alt": "Foto de perfil ilustrativa de um criador fictício, gerada por IA.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 19278
+    },
+    {
+      "alt": "Conceito de coleção Projeto Garagem com moletom, boné, garrafa, copo, canecas, adesivos e chaveiro.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 152002
+    },
+    {
+      "alt": "Mockup de camiseta preta com a marca Projeto Garagem no peito e detalhes da frente, das costas e da gola.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 90900
+    },
+    {
+      "alt": "Conceito de camiseta com silhuetas de carros, texto Seu carro e espaço ilustrativo para o perfil do criador nas costas.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 82420
+    },
+    {
+      "alt": "Mockup de camiseta com ilustração de um Subaru Impreza na frente e arte de motor boxer nas costas.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 134486
+    },
+    {
+      "alt": "Conceito de camiseta com desenho técnico de um Volkswagen Gol quadrado e a frase Cada um no seu quadrado nas costas.",
+      "status": 200,
+      "type": "image/webp",
+      "bytes": 131248
+    }
+  ],
+  "commit": "735af931c552d72e3099df7ba90e87df485b8adb",
+  "deployId": "6ad22f07fa2d72817de7b08a"
+}
