@@ -62,8 +62,8 @@ export default function TermsPage() {
               Podemos analisar denúncias e remover ou restringir conteúdos que violem direitos de terceiros ou as regras
               da plataforma, observada a legislação aplicável. Para denunciar, envie a identificação do conteúdo e uma
               descrição do motivo para{" "}
-              <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:ggtopxbox1@gmail.com">
-                ggtopxbox1@gmail.com
+              <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:gustavo.sl.0110@gmail.com">
+                gustavo.sl.0110@gmail.com
               </a>. Uma denúncia será avaliada conforme as informações disponíveis; estes Termos não afastam
               responsabilidades legais do Projeto Garagem.
             </p>
@@ -102,8 +102,8 @@ export default function TermsPage() {
             <h2 className="font-title text-xl font-semibold text-foreground">8. Contato e alterações</h2>
             <p className="mt-3">
               Dúvidas sobre estes Termos podem ser enviadas para{" "}
-              <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:ggtopxbox1@gmail.com">
-                ggtopxbox1@gmail.com
+              <a className="font-semibold text-accent underline-offset-4 hover:underline" href="mailto:gustavo.sl.0110@gmail.com">
+                gustavo.sl.0110@gmail.com
               </a>
               . Estes Termos podem ser atualizados; a versão vigente ficará disponível nesta página com a respectiva data.
             </p>

@@ -1,0 +1,81 @@
+{
+  "status": 200,
+  "checks": [
+    {
+      "viewport": 320,
+      "documentWidth": 320,
+      "badge": true,
+      "images": [
+        {
+          "loaded": true,
+          "alt": "Banner ilustrativo do perfil, com um carro clássico em uma garagem."
+        },
+        {
+          "loaded": true,
+          "alt": "Foto de perfil ilustrativa de um criador fictício, gerada por IA."
+        }
+      ],
+      "bounds": {
+        "left": 20,
+        "right": 300
+      }
+    },
+    {
+      "viewport": 390,
+      "documentWidth": 390,
+      "badge": true,
+      "images": [
+        {
+          "loaded": true,
+          "alt": "Banner ilustrativo do perfil, com um carro clássico em uma garagem."
+        },
+        {
+          "loaded": true,
+          "alt": "Foto de perfil ilustrativa de um criador fictício, gerada por IA."
+        }
+      ],
+      "bounds": {
+        "left": 20,
+        "right": 370
+      }
+    },
+    {
+      "viewport": 768,
+      "documentWidth": 768,
+      "badge": true,
+      "images": [
+        {
+          "loaded": true,
+          "alt": "Banner ilustrativo do perfil, com um carro clássico em uma garagem."
+        },
+        {
+          "loaded": true,
+          "alt": "Foto de perfil ilustrativa de um criador fictício, gerada por IA."
+        }
+      ],
+      "bounds": {
+        "left": 32,
+        "right": 327
+      }
+    },
+    {
+      "viewport": 1440,
+      "documentWidth": 1440,
+      "badge": true,
+      "images": [
+        {
+          "loaded": true,
+          "alt": "Banner ilustrativo do perfil, com um carro clássico em uma garagem."
+        },
+        {
+          "loaded": true,
+          "alt": "Foto de perfil ilustrativa de um criador fictício, gerada por IA."
+        }
+      ],
+      "bounds": {
+        "left": 120,
+        "right": 620
+      }
+    }
+  ]
+}
