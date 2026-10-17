@@ -1,0 +1,31 @@
+PASS anonymous projection hides legacy note and private cost
+PASS private project has no public modifications
+PASS user B cannot directly read A's private fields
+PASS restrictive read guards survive legacy permissive policies
+PASS owner retains original note and cost; default is private
+PASS explicitly shared cost is public
+PASS edited private cost remains hidden
+PASS B cannot update A's modification
+PASS public update projection redacts cost and excludes private project
+PASS owner reads own update cost
+PASS publishing an expense cost never publishes its personal note
+PASS B cannot bypass expense note projection
+PASS owner keeps private expense note
+PASS private expense amount cannot be queried publicly
+PASS changing project to private closes both public projections
+PASS public RPCs declare their security model and fixed search path
+PASS atomic RPC defaults omitted expense visibility to private
+PASS old untracked objects are preserved
+PASS B cannot renew A's photo lease
+PASS nonexistent objects cannot allocate leases
+PASS active editor renews its own old photo
+PASS renew-before-cleanup preserves active editor
+PASS inspection excludes active editors
+PASS bounded inspection finds an expired tracked object
+PASS inspection does not claim or delete objects
+PASS expired unreferenced photo can be claimed
+PASS cleanup-before-renew prevents resurrecting a claimed path
+PASS repeated cleanup does not duplicate a current claim
+PASS defensive reference check protects even a legacy invalid pending reference
+PASS containment rollback preserves owner access and data
+{"mode":"isolated-postgresql","checks":39,"result":"passed","remoteWrites":0}

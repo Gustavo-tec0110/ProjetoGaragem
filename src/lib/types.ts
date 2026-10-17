@@ -211,6 +211,8 @@ export type ProjectModificationRow = {
   status: ProjectModificationStatus;
   paid_amount: number | null;
   note: string | null;
+  public_description: string | null;
+  show_paid_amount: boolean;
   project_photo_url: string | null;
   project_photo_storage_path: string | null;
   installed_at: string | null;
@@ -465,6 +467,8 @@ export interface Database {
           status?: ProjectModificationStatus;
           paid_amount?: number | null;
           note?: string | null;
+          public_description?: string | null;
+          show_paid_amount?: boolean;
           project_photo_url?: string | null;
           project_photo_storage_path?: string | null;
           installed_at?: string | null;
@@ -557,6 +561,32 @@ export interface Database {
       public_profiles: Table<PublicProfileRow, never, never>;
     };
     Functions: {
+      can_read_project_image: {
+        Args: { p_path: string };
+        Returns: boolean;
+      };
+      claim_unreferenced_project_image: {
+        Args: { p_path: string };
+        Returns: boolean;
+      };
+      list_public_car_expenses: {
+        Args: { p_car_ids: string[] };
+        Returns: CarExpenseRow[];
+      };
+      list_public_car_build_updates: {
+        Args: { p_car_ids: string[] };
+        Returns: CarBuildUpdateRow[];
+      };
+      touch_pending_modification_photo: {
+        Args: { p_path: string };
+        Returns: boolean;
+      };
+      list_public_project_modifications: {
+        Args: { p_car_id: string };
+        Returns: Array<Pick<ProjectModificationRow,
+          "id" | "car_id" | "catalog_id" | "status" | "paid_amount" |
+          "public_description" | "project_photo_url" | "installed_at" | "created_at" | "updated_at">>;
+      };
       save_car_project_atomic: {
         Args: {
           p_car_id: string | null;

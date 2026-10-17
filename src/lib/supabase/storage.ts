@@ -1,4 +1,5 @@
 import { IMAGE_UPLOAD_MAX_BYTES } from "@/lib/security/limits";
+import { newPendingModificationPhotoPath } from "@/lib/modifications/photo-path";
 
 export const PROJECT_IMAGES_BUCKET = "project-images";
 export const PROJECT_IMAGE_MAX_BYTES = IMAGE_UPLOAD_MAX_BYTES;
@@ -34,7 +35,7 @@ export function projectImagePath(userId: string, file: ImageFileDescriptor) {
 
 /** Caminho separado para fotos reais vinculadas a modificações de um projeto. */
 export function projectModificationImagePath(userId: string) {
-  return `${userId}/modifications/${crypto.randomUUID()}.webp`;
+  return newPendingModificationPhotoPath(userId);
 }
 
 export function profileImagePath(userId: string, kind: "avatar" | "cover", file: ImageFileDescriptor) {

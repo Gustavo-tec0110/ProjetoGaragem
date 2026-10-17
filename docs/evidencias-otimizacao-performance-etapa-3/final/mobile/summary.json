@@ -1,0 +1,56 @@
+{
+  "settings": {
+    "origin": "http://127.0.0.1:3101",
+    "device": "mobile",
+    "runs": 3,
+    "routes": [
+      "explorar"
+    ],
+    "lighthouse": "13.5.0",
+    "chrome": "/home/gustavo/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome",
+    "throttlingMethod": "simulate",
+    "cpuSlowdownMultiplier": 4,
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "viewport": "412x823@1",
+    "storageReset": "Lighthouse default"
+  },
+  "summary": [
+    {
+      "route": "explorar",
+      "run": 1,
+      "score": 59,
+      "lcpMs": 4130,
+      "cls": 0,
+      "tbtMs": 1415,
+      "fcpMs": 1726,
+      "speedIndexMs": 3323,
+      "requests": 42,
+      "jsTransferBytes": 212990
+    },
+    {
+      "route": "explorar",
+      "run": 2,
+      "score": 69,
+      "lcpMs": 3863,
+      "cls": 0,
+      "tbtMs": 767,
+      "fcpMs": 1631,
+      "speedIndexMs": 2038,
+      "requests": 42,
+      "jsTransferBytes": 212990
+    },
+    {
+      "route": "explorar",
+      "run": 3,
+      "score": 60,
+      "lcpMs": 3806,
+      "cls": 0,
+      "tbtMs": 1911,
+      "fcpMs": 1646,
+      "speedIndexMs": 2058,
+      "requests": 42,
+      "jsTransferBytes": 212990
+    }
+  ]
+}

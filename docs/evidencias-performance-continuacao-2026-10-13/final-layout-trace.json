@@ -1,0 +1,449 @@
+{
+  "shifts": [
+    {
+      "startTime": 1454.5,
+      "value": 0.018220867437404434,
+      "hadRecentInput": false,
+      "sources": [
+        {
+          "node": "DIV",
+          "className": "mt-5",
+          "previousRect": {
+            "x": 41,
+            "y": 392,
+            "width": 330,
+            "height": 138,
+            "top": 392,
+            "right": 371,
+            "bottom": 530,
+            "left": 41
+          },
+          "currentRect": {
+            "x": 41,
+            "y": 420,
+            "width": 330,
+            "height": 138,
+            "top": 420,
+            "right": 371,
+            "bottom": 558,
+            "left": 41
+          }
+        },
+        {
+          "node": "P",
+          "className": "mx-auto mt-2 max-w-xl text-sm text-muted",
+          "previousRect": {
+            "x": 41,
+            "y": 349,
+            "width": 330,
+            "height": 60,
+            "top": 349,
+            "right": 371,
+            "bottom": 409,
+            "left": 41
+          },
+          "currentRect": {
+            "x": 41,
+            "y": 377,
+            "width": 330,
+            "height": 60,
+            "top": 377,
+            "right": 371,
+            "bottom": 437,
+            "left": 41
+          }
+        },
+        {
+          "className": "",
+          "previousRect": {
+            "x": 41,
+            "y": 313,
+            "width": 330,
+            "height": 56,
+            "top": 313,
+            "right": 371,
+            "bottom": 369,
+            "left": 41
+          },
+          "currentRect": {
+            "x": 41,
+            "y": 313,
+            "width": 330,
+            "height": 56,
+            "top": 313,
+            "right": 371,
+            "bottom": 369,
+            "left": 41
+          }
+        }
+      ]
+    },
+    {
+      "startTime": 1780.800000000745,
+      "value": 0.0005115843590487003,
+      "hadRecentInput": false,
+      "sources": [
+        {
+          "node": "A",
+          "className": "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-ui font-semibold tra",
+          "previousRect": {
+            "x": 66.03125,
+            "y": 420,
+            "width": 279.921875,
+            "height": 138,
+            "top": 420,
+            "right": 345.953125,
+            "bottom": 558,
+            "left": 66.03125
+          },
+          "currentRect": {
+            "x": 62.515625,
+            "y": 420,
+            "width": 286.953125,
+            "height": 138,
+            "top": 420,
+            "right": 349.46875,
+            "bottom": 558,
+            "left": 62.515625
+          }
+        },
+        {
+          "className": "",
+          "previousRect": {
+            "x": 41,
+            "y": 471,
+            "width": 330,
+            "height": 18,
+            "top": 471,
+            "right": 371,
+            "bottom": 489,
+            "left": 41
+          },
+          "currentRect": {
+            "x": 41,
+            "y": 472,
+            "width": 330,
+            "height": 18,
+            "top": 472,
+            "right": 371,
+            "bottom": 490,
+            "left": 41
+          }
+        },
+        {
+          "node": "svg",
+          "className": "[object SVGAnimatedString]",
+          "previousRect": {
+            "x": 119.03125,
+            "y": 232,
+            "width": 16,
+            "height": 16,
+            "top": 232,
+            "right": 135.03125,
+            "bottom": 248,
+            "left": 119.03125
+          },
+          "currentRect": {
+            "x": 115.515625,
+            "y": 232,
+            "width": 16,
+            "height": 16,
+            "top": 232,
+            "right": 131.515625,
+            "bottom": 248,
+            "left": 115.515625
+          }
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "time": 334.5,
+      "wrapperBottom": 202,
+      "footerTop": 202
+    },
+    {
+      "time": 427.9000000022352,
+      "wrapperBottom": 202,
+      "footerTop": 202
+    },
+    {
+      "time": 531.3000000007451,
+      "wrapperBottom": 202,
+      "footerTop": 202
+    },
+    {
+      "time": 894.5,
+      "wrapperBottom": 826,
+      "footerTop": 823
+    },
+    {
+      "time": 1055,
+      "wrapperBottom": 826,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1139.199999999255,
+      "wrapperBottom": 823.2015362232924,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1314.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1393.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1465.5,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1528.6000000014901,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1630.4000000022352,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1728.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1827.199999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 1948.1000000014901,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 2703.900000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 2739.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3035.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3141.5,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3350,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3466.10000000149,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3561.10000000149,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3627.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3740.5,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3827.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 3954.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4027.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4157.300000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4227.199999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4327.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4427.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4527.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4627.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4727.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4827.5,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 4929.300000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5027.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5128.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5227.60000000149,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5328.10000000149,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5428.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5527.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5627.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5729.10000000149,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5828.199999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 5927.300000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 6027.699999999255,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 6127.800000000745,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    },
+    {
+      "time": 6228.400000002235,
+      "wrapperBottom": 823,
+      "footerTop": 823,
+      "title": "Garagem local"
+    }
+  ],
+  "route": "/garagem",
+  "title": "Minha Garagem | Projeto Garagem",
+  "content": "Minha GaragemGaragem localEnquanto o Supabase não está configurado, seus projetos ficam salvos neste navegador.Adicionar projeto localSua garagem loca"
+}

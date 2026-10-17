@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const remotePatterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatterns"]> = [
   {
     protocol: "https",
@@ -17,19 +16,6 @@ const remotePatterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatte
   },
 ];
 
-if (supabaseUrl) {
-  const storageUrl = new URL(supabaseUrl);
-  if (storageUrl.protocol === "https:") {
-    remotePatterns.push({
-      protocol: "https",
-      hostname: storageUrl.hostname,
-      port: storageUrl.port,
-      pathname: "/storage/v1/object/public/project-images/**",
-      search: "",
-    });
-  }
-}
-
 const nextConfig: NextConfig = {
   experimental: {
     // O proxy pode executar antes de handlers; evita buffer de requests desnecessariamente grandes.
@@ -37,6 +23,15 @@ const nextConfig: NextConfig = {
   },
   images: {
     qualities: [75, 85],
+    // Only shipped assets can use the local optimizer. Dynamic media (including
+    // encoded path aliases and generated OG images) never enters its cache.
+    localPatterns: [
+      { pathname: "/ref/**", search: "" },
+      { pathname: "/modifications/**", search: "" },
+      { pathname: "/og-image.jpg", search: "" },
+      { pathname: "/_next/static/media/**", search: "" },
+    ],
+    maximumRedirects: 0,
     remotePatterns,
   },
   async redirects() {

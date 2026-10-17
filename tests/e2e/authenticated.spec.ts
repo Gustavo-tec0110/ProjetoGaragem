@@ -24,6 +24,7 @@ test.describe("fluxos autenticados Supabase", () => {
     "Defina E2E_USER_EMAIL/E2E_USER_PASSWORD e E2E_SECOND_USER_EMAIL/E2E_SECOND_USER_PASSWORD para rodar fluxos autenticados reais."
   );
   test.describe.configure({ mode: "serial" });
+  let referenceProjectSlug = "";
 
   test.beforeAll(async ({ browser }, testInfo) => {
     // The cold Next.js development compiler is intentionally outside each
@@ -35,6 +36,32 @@ test.describe("fluxos autenticados Supabase", () => {
       await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
       await page.goto("/criar-projeto", { waitUntil: "domcontentloaded" });
       await expect(page.getByRole("heading", { name: /Crie o projeto/i })).toBeVisible();
+      // The inspiration planner must not depend on somebody else's real data.
+      await login(page, "/criar-projeto", e2eSecondUser);
+      await page.getByLabel("Nome do projeto").fill(`E2E QA referência ${Date.now()}`);
+      const model = page.getByRole("combobox", { name: "Modelo", exact: true });
+      await expect(async () => {
+        await page.getByRole("combobox", { name: "Marca", exact: true }).selectOption("Volkswagen");
+        await expect(model.locator('option[value="Gol"]')).toHaveCount(1, { timeout: 1_000 });
+      }).toPass({ timeout: 30_000 });
+      await model.selectOption("Gol");
+      await page.getByLabel("Ano").fill("1994");
+      await page.getByRole("button", { name: /Criar projeto agora|Criar pagina do projeto|Criar página do projeto/i }).click();
+      await expect(page).toHaveURL(/\/projeto\/[^/]+$/, { timeout: 30_000 });
+      referenceProjectSlug = new URL(page.url()).pathname.split("/").at(-1) ?? "";
+    } finally {
+      await page.close();
+    }
+  });
+
+  test.afterAll(async ({ browser }) => {
+    if (!referenceProjectSlug) return;
+    const page = await browser.newPage();
+    try {
+      await login(page, `/projeto/${referenceProjectSlug}/editar`, e2eSecondUser);
+      page.once("dialog", (dialog) => dialog.accept());
+      await page.getByRole("button", { name: /Excluir projeto/i }).click();
+      await expect(page).not.toHaveURL(/\/editar$/);
     } finally {
       await page.close();
     }
@@ -209,6 +236,7 @@ test.describe("fluxos autenticados Supabase", () => {
       }
     });
     await page.reload();
+    await page.getByText("Ferramenta privada: similaridade com inspiração", { exact: false }).click();
 
     const currentProject = page.getByLabel("Meu projeto atual").last();
     const inspiration = page.getByLabel("Build inspiracao").last();
@@ -217,11 +245,8 @@ test.describe("fluxos autenticados Supabase", () => {
     await expect(inspiration.locator('option[value=""]')).toHaveText("Nenhuma inspiracao selecionada");
     const inspirationLabels = await inspiration.locator("option").allTextContents();
     expect(inspirationLabels).not.toContain(projectTitle);
-    const inspirationSlug = await inspiration.evaluate((select: HTMLSelectElement) =>
-      Array.from(select.options).find((option) => option.value)?.value ?? ""
-    );
-    expect(inspirationSlug).toBeTruthy();
-    await inspiration.selectOption(inspirationSlug);
+    await expect(inspiration.locator(`option[value="${referenceProjectSlug}"]`)).toHaveCount(1);
+    await inspiration.selectOption(referenceProjectSlug);
     await expect(page.getByText(/Parecido com a referencia/i)).toBeVisible();
     await expect(page).toHaveURL(/\/garagem/);
 
@@ -236,6 +261,7 @@ test.describe("fluxos autenticados Supabase", () => {
       );
     }, plannerStorageKey);
     await page.reload();
+    await page.getByText("Ferramenta privada: similaridade com inspiração", { exact: false }).click();
     await expect(page.getByLabel("Meu projeto atual").last()).toHaveValue(projectSlug);
     await expect(page.getByLabel("Build inspiracao").last()).toHaveValue("");
 

@@ -1,0 +1,130 @@
+{
+  "settings": {
+    "origin": "http://127.0.0.1:3101",
+    "device": "desktop",
+    "runs": 3,
+    "routes": [
+      "inicial",
+      "explorar",
+      "garagem"
+    ],
+    "lighthouse": "13.5.0",
+    "chrome": "/home/gustavo/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome",
+    "throttlingMethod": "simulate",
+    "cpuSlowdownMultiplier": 1,
+    "rttMs": 40,
+    "throughputKbps": 10240,
+    "viewport": "1366x768@1",
+    "storageReset": "Lighthouse default"
+  },
+  "summary": [
+    {
+      "route": "inicial",
+      "run": 1,
+      "score": 92,
+      "lcpMs": 1031,
+      "cls": 0.00014386926543900267,
+      "tbtMs": 191,
+      "fcpMs": 427,
+      "speedIndexMs": 1378,
+      "requests": 46,
+      "jsTransferBytes": 208614
+    },
+    {
+      "route": "inicial",
+      "run": 2,
+      "score": 87,
+      "lcpMs": 1037,
+      "cls": 0.00004732427368753589,
+      "tbtMs": 277,
+      "fcpMs": 435,
+      "speedIndexMs": 954,
+      "requests": 46,
+      "jsTransferBytes": 208614
+    },
+    {
+      "route": "inicial",
+      "run": 3,
+      "score": 96,
+      "lcpMs": 1097,
+      "cls": 0.0006587493328467219,
+      "tbtMs": 117,
+      "fcpMs": 492,
+      "speedIndexMs": 971,
+      "requests": 46,
+      "jsTransferBytes": 208614
+    },
+    {
+      "route": "explorar",
+      "run": 1,
+      "score": 95,
+      "lcpMs": 1012,
+      "cls": 0.0002382818692688211,
+      "tbtMs": 145,
+      "fcpMs": 465,
+      "speedIndexMs": 761,
+      "requests": 51,
+      "jsTransferBytes": 301514
+    },
+    {
+      "route": "explorar",
+      "run": 2,
+      "score": 99,
+      "lcpMs": 833,
+      "cls": 0.00004732427368753589,
+      "tbtMs": 43,
+      "fcpMs": 410,
+      "speedIndexMs": 761,
+      "requests": 51,
+      "jsTransferBytes": 301514
+    },
+    {
+      "route": "explorar",
+      "run": 3,
+      "score": 97,
+      "lcpMs": 923,
+      "cls": 0.00004732427368753589,
+      "tbtMs": 117,
+      "fcpMs": 428,
+      "speedIndexMs": 775,
+      "requests": 50,
+      "jsTransferBytes": 301514
+    },
+    {
+      "route": "garagem",
+      "run": 1,
+      "score": 97,
+      "lcpMs": 1016,
+      "cls": 0.00004793631726311694,
+      "tbtMs": 122,
+      "fcpMs": 423,
+      "speedIndexMs": 703,
+      "requests": 50,
+      "jsTransferBytes": 318785
+    },
+    {
+      "route": "garagem",
+      "run": 2,
+      "score": 98,
+      "lcpMs": 873,
+      "cls": 0.00597451013903029,
+      "tbtMs": 96,
+      "fcpMs": 389,
+      "speedIndexMs": 629,
+      "requests": 50,
+      "jsTransferBytes": 318785
+    },
+    {
+      "route": "garagem",
+      "run": 3,
+      "score": 97,
+      "lcpMs": 951,
+      "cls": 0.00004793631726311694,
+      "tbtMs": 113,
+      "fcpMs": 406,
+      "speedIndexMs": 596,
+      "requests": 50,
+      "jsTransferBytes": 318785
+    }
+  ]
+}

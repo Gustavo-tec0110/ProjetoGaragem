@@ -32,18 +32,19 @@ export default async function ProjectModificationsPage({ params }: PageProps) {
   const { slug } = await params;
   const [{ project }, user] = await Promise.all([getProjectPageData(slug), getSupabaseServerUser()]);
   if (!project) notFound();
+  const isOwner = Boolean(user && project.ownerId === user.id);
 
   const modifications = project.databaseId
-    ? await getProjectModificationData(project.databaseId)
-    : { categories: [], catalog: [], modifications: [] };
+    ? getProjectModificationData(project.databaseId, isOwner)
+    : Promise.resolve({ categories: [], catalog: [], modifications: [] });
 
   return (
     <ProjectModifications
       carId={project.databaseId}
       projectName={project.title}
       projectHref={`/projeto/${project.slug}`}
-      canEdit={Boolean(user && project.ownerId === user.id)}
-      {...modifications}
+      canEdit={isOwner}
+      {...await modifications}
     />
   );
 }

@@ -1,0 +1,53 @@
+{
+  "projectRef": "hxqhudfzdwfxnjzmphya",
+  "productionBuildId": "RjwBQe6Pb74tl-IDjsRNY",
+  "localProductionBuild": {
+    "exitCode": 0
+  },
+  "unitTests": {
+    "passed": 10,
+    "classification": "simulated"
+  },
+  "isolatedPostgreSQL": {
+    "checks": 39,
+    "engine": "PGlite 0.5.10",
+    "classification": "controlled_auth_storage_fixtures"
+  },
+  "playwrightAuthenticated": {
+    "passed": 7,
+    "classification": "real_supabase_local_app"
+  },
+  "playwrightPublic": {
+    "passed": 6
+  },
+  "playwrightPhotos": {
+    "passed": 8,
+    "classification": "intercepted_simulation"
+  },
+  "eslintExitCode": 0,
+  "typecheckExitCode": 0,
+  "diffCheckExitCode": 0,
+  "remoteSQLApplied": false,
+  "cleanup": {
+    "errors": [],
+    "authUsersAfter": 10,
+    "originalUsersPreserved": true,
+    "ownUsersRemoved": true,
+    "storageInventoryPreserved": true,
+    "storageObjectsAfter": 2
+  },
+  "googleOAuth": {
+    "status": 302,
+    "googleRedirect": true,
+    "interactiveCompletion": "not_tested"
+  },
+  "publicStorage": {
+    "anonymousStatus": 200,
+    "classification": "private_media_blocker"
+  },
+  "publicModifications": {
+    "status": 401,
+    "code": "42501",
+    "classification": "blocked_pending_migration"
+  }
+}

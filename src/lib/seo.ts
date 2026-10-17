@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { configuredSiteUrl } from "@/lib/supabase/env";
+import { protectedImageUrl } from "@/lib/images/project-image-url";
 
 export const SITE_NAME = "Projeto Garagem";
 export const SITE_DESCRIPTION =
@@ -39,7 +40,7 @@ export function createSeoMetadata({
   noIndex = false,
 }: SeoInput): Metadata {
   const canonical = canonicalPath ?? path;
-  const resolvedImage = toAbsoluteUrl(image || SITE_FALLBACK_IMAGE);
+  const resolvedImage = toAbsoluteUrl(noIndex ? SITE_FALLBACK_IMAGE : protectedImageUrl(image) || SITE_FALLBACK_IMAGE);
   const resolvedUrl = toAbsoluteUrl(canonical);
 
   return {

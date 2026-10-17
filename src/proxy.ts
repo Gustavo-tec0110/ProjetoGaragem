@@ -2,13 +2,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 import {
-  getRequestSiteUrl,
   isSupabaseConfigured,
   supabaseAnonKey,
   supabaseUrl,
 } from "@/lib/supabase/env";
 import type { Database } from "@/types/supabase";
 import { logPerformance, performanceTimer } from "@/lib/performance";
+import { isProtectedImageSource } from "@/lib/images/project-image-url";
+import { MEDIA_NO_STORE_HEADERS } from "@/lib/images/delivery";
 
 function isProtectedPath(pathname: string) {
   return (
@@ -28,6 +29,14 @@ function buildNextParam(url: URL) {
 }
 
 export async function proxy(request: NextRequest) {
+  // Runs BEFORE the optimizer cache, including requests for former public URLs.
+  if (request.nextUrl.pathname === "/_next/image") {
+    const source = request.nextUrl.searchParams.get("url") ?? "";
+    if (isProtectedImageSource(source)) {
+      return new NextResponse(null, { status: 404, headers: MEDIA_NO_STORE_HEADERS });
+    }
+    return NextResponse.next();
+  }
   const timer = performanceTimer("request", "proxy", {
     method: request.method,
     pathname: request.nextUrl.pathname,
@@ -79,7 +88,9 @@ export async function proxy(request: NextRequest) {
   });
 
   if (!user && isProtectedPath(pathname)) {
-    const loginUrl = new URL("/login", getRequestSiteUrl(request.nextUrl.origin));
+    // Access-control redirects stay on the origin that served this request.
+    // Canonical URLs belong to SEO and OAuth configuration, not RSC navigation.
+    const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", nextParam);
     const redirectResponse = NextResponse.redirect(loginUrl);
     const durationMs = timer.end({ authenticated: false, outcome: "redirect" });
@@ -101,6 +112,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/_next/image",
     // Executa autenticação somente onde há redirecionamento de acesso protegido.
     "/garagem/:path*",
     "/criar-projeto",

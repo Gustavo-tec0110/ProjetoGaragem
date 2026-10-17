@@ -10,7 +10,7 @@ export const metadata: Metadata = createSeoMetadata({
   path: "/privacy",
 });
 
-const updatedAt = "27 de setembro de 2026";
+const updatedAt = "13 de outubro de 2026";
 const sections = [
   ["visao-geral", "Visão geral"], ["dados", "Dados tratados"], ["finalidades", "Finalidades e bases"],
   ["publico", "Conteúdo público"], ["cookies", "Cookies e armazenamento"], ["compartilhamento", "Operadores e compartilhamento"],
@@ -58,19 +58,20 @@ export default function PrivacyPage() {
             <p className="mt-3">Nome de usuário, nome de exibição, foto de perfil, projetos marcados como públicos, fotos, atualizações, comentários e contagens de interação podem ser vistos por visitantes. Não publique dados pessoais, localização precisa, documentos ou conteúdo de terceiros sem ter permissão para isso. E-mail e nome completo de cadastro não são exibidos como dados públicos do perfil.</p>
           </Section>
           <Section id="cookies" title="5. Cookies e armazenamento local">
-            <p className="mt-3">Usamos cookies essenciais da autenticação para manter a sessão e armazenamos localmente a decisão sobre cookies. A aplicação também pode usar armazenamento local ou de sessão para preferências e estados de interface. Esses recursos são necessários para o funcionamento ou não identificam visitantes para publicidade.</p>
-            <p className="mt-3">Na data desta política, não identificamos no código analytics, pixel de marketing ou outra tecnologia opcional de rastreamento. Portanto, nenhuma categoria opcional é carregada. Você pode rever a explicação e sua escolha em cookies pelo rodapé.</p>
+            <p className="mt-3">Cookies de autenticação são usados para manter a sessão. A escolha sobre cookies é guardada no armazenamento local do navegador, junto de preferências e estados de alguns recursos da interface. A categoria essencial permanece ativa para que a conta e essas funções operem.</p>
+            <p className="mt-3">A opção de estatísticas de acesso fica desativada por padrão. O botão “Aceitar” registra sua autorização para essa categoria; “Recusar” a mantém desativada. Em “Configurar”, você pode escolher separadamente e, pelo botão “Gerenciar cookies” no rodapé, alterar ou revogar a escolha depois.</p>
+            <p className="mt-3">Na versão atual, não há integração do Google Analytics nem outro serviço de analytics ou pixel de marketing no código da aplicação. Assim, escolher estatísticas não inicia uma coleta desse tipo hoje. Se um serviço de estatísticas for integrado, esta Política e a forma de obter consentimento deverão ser revistas antes de ativá-lo.</p>
           </Section>
           <Section id="compartilhamento" title="6. Operadores e compartilhamento">
             <p className="mt-3">Utilizamos o Supabase para autenticação, banco de dados e Storage; o Netlify para hospedagem e execução da aplicação; e o Google somente quando você escolhe entrar com Google. Esses fornecedores operam dados para viabilizar o serviço. Conteúdo público é compartilhado com os visitantes da plataforma por sua própria natureza.</p>
-            <p className="mt-3">Não vendemos dados pessoais. Não declaramos integração com analytics ou publicidade porque ela não foi encontrada na aplicação atual.</p>
+            <p className="mt-3">As categorias envolvidas nesses serviços podem incluir dados de conta e sessão, conteúdo enviado e dados técnicos necessários à entrega do site. Não encontramos integração do Google Analytics ou de publicidade na aplicação atual.</p>
           </Section>
           <Section id="retencao" title="7. Retenção, exclusão e segurança">
-            <p className="mt-3">Mantemos os dados enquanto a conta e o conteúdo forem necessários para operar o serviço, atender solicitações, resolver disputas ou cumprir obrigações legais. A exclusão de uma conta ou conteúdo pode exigir etapas técnicas e não elimina imediatamente cópias de backup retidas de forma limitada e segura.</p>
-            <p className="mt-3">Aplicamos controles de sessão, autorização e limites contra abuso. Nenhuma medida online elimina todos os riscos; por isso, mantenha sua senha protegida e não compartilhe links ou dados que devam permanecer privados.</p>
+            <p className="mt-3">Dados de conta e conteúdos permanecem disponíveis conforme o uso da plataforma e as regras aplicáveis. Pedidos de exclusão serão analisados pelo canal abaixo. Prazos específicos de retenção e de eliminação em sistemas e cópias de segurança dependem de verificação operacional e não são afirmados nesta página.</p>
+            <p className="mt-3">A aplicação usa controles de sessão e autorização para operações protegidas. Nenhuma medida online elimina todos os riscos; mantenha sua senha protegida e evite publicar dados que devam permanecer privados.</p>
           </Section>
           <Section id="direitos" title="8. Seus direitos">
-            <p className="mt-3">Nos termos da LGPD e da legislação aplicável, você pode solicitar confirmação do tratamento, acesso, correção, anonimização, bloqueio ou eliminação quando cabíveis, portabilidade, informações sobre compartilhamento e revisão de consentimento. Alguns pedidos podem ter limites legais, de segurança ou técnicos. Para proteger sua conta, poderemos pedir comprovação razoável de identidade.</p>
+            <p className="mt-3">Nos termos da LGPD e da legislação aplicável, você pode solicitar confirmação do tratamento, acesso, correção, anonimização, bloqueio ou eliminação quando cabíveis, portabilidade, informações sobre compartilhamento e revogação do consentimento. Alguns pedidos podem ter limites legais ou exigir verificação de identidade para proteger a conta. Use o contato abaixo para fazer sua solicitação; a preferência de estatísticas também pode ser alterada diretamente no rodapé.</p>
           </Section>
           <Section id="alteracoes" title="9. Alterações e contato">
             <p className="mt-3">Podemos atualizar esta Política quando o serviço ou requisitos legais mudarem. A versão vigente ficará nesta página com a data de atualização.</p>
