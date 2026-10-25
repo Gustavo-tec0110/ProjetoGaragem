@@ -79,6 +79,14 @@ export default function CreatorPartnershipPage() {
           </div>
         </section>
 
+        <aside className={styles.creatorHighlight} aria-label="Selo de criador parceiro">
+          <BadgeCheck size={24} strokeWidth={1.8} aria-hidden="true" />
+          <div>
+            <p className={styles.creatorHighlightTitle}>Criador Verificado</p>
+            <p>Criadores parceiros recebem um selo azul em seus perfis dentro do Projeto Garagem.</p>
+          </div>
+        </aside>
+
         <MerchShowcase />
 
         <div className={styles.values} aria-label="O que nos conecta">
