@@ -234,45 +234,45 @@ function ProjectPartsShowcase({
 
   return (
     <section>
-      <Card className="p-4 md:p-6">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs text-muted">{eyebrow}</p>
-            <h2 className="mt-1 font-title text-2xl tracking-tight">{title}</h2>
+      <Card className="min-w-0 overflow-hidden border-accent/20 p-3 sm:p-4 md:p-6">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs text-accent">{eyebrow}</p>
+            <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">{title}</h2>
           </div>
-          <Badge>{parts.length} itens</Badge>
+          <Badge className="shrink-0">{parts.length} itens</Badge>
         </div>
 
-        <div className="mt-5 grid gap-4">
+        <div className="mt-4 grid gap-3 md:mt-5 md:gap-4">
           {parts.length ? (
             Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
               <div key={category} className="rounded-3xl border border-border/70 bg-background/25 p-3 md:p-4">
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <h3 className="font-title text-xl tracking-tight">{category}</h3>
-                  <Badge>{categoryParts.length} itens</Badge>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="min-w-0 break-words font-title text-base tracking-tight md:text-lg">{category}</h3>
+                  <Badge className="shrink-0">{categoryParts.length} itens</Badge>
                 </div>
 
                 <div className="grid gap-3">
                   {categoryParts.map((part) => (
                     <div
                       key={part.id}
-                      className="grid grid-cols-[5rem_minmax(0,1fr)] gap-3 rounded-3xl border border-border/70 bg-surface/70 p-3 md:grid-cols-[7rem_1fr_auto] md:gap-4 md:p-4"
+                      className="grid min-w-0 grid-cols-[3.5rem_minmax(0,1fr)] items-start gap-3 rounded-2xl border border-border/70 bg-surface/70 p-3 sm:grid-cols-[5rem_minmax(0,1fr)] md:grid-cols-[6rem_minmax(0,1fr)_auto] md:gap-4 md:p-4"
                     >
-                      <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-surface">
+                      <div className="relative aspect-square overflow-hidden rounded-2xl border border-border/70 bg-surface">
                         {part.imageUrl ? (
                           <ProjectImage
                             src={part.imageUrl}
                             alt={`Imagem de ${part.name}`}
                             fill
                             className="object-cover"
-                            sizes="112px"
+                            sizes="(min-width: 768px) 96px, (min-width: 640px) 80px, 56px"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/65" />
                         )}
                       </div>
 
-                      <div>
+                      <div className="min-w-0 break-words">
                         <Badge
                           variant={
                             part.status === "installed"
@@ -288,24 +288,24 @@ function ProjectPartsShowcase({
                               ? "Removida"
                               : "Planejada"}
                         </Badge>
-                        <h4 className="mt-3 font-title text-lg tracking-tight">
+                        <h4 className="mt-2 font-title text-base leading-snug tracking-tight md:text-lg">
                           {part.brand ? `${part.brand} ` : ""}
                           {part.name}
                         </h4>
                         {part.description ? (
-                          <p className="mt-2 text-sm text-foreground/85">{part.description}</p>
+                          <p className="mt-2 text-xs leading-relaxed text-foreground/85 md:text-sm">{part.description}</p>
                         ) : null}
                         <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
                           {part.installedAt ? <span>Instalada em {formatProjectDate(part.installedAt)}</span> : null}
                           {part.externalUrl ? (
-                            <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="font-semibold text-foreground">
-                              Ver peca
+                            <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-foreground underline-offset-4 hover:underline">
+                              Ver peça
                             </Link>
                           ) : null}
                         </div>
                       </div>
 
-                      <div className="col-start-2 text-left md:col-start-auto md:min-w-36 md:text-right">
+                      <div className="col-start-2 min-w-0 border-t border-border/60 pt-2 text-left md:col-start-auto md:border-t-0 md:pt-0 md:text-right">
                         <p className="text-xs text-muted">Valor estimado</p>
                         <p className="mt-1 font-ui text-sm font-semibold">
                           {formatProjectCurrency(part.priceEstimate)}
@@ -807,6 +807,43 @@ export function ProjectDetail({
           ))}
         </section>
 
+        <div id="modificacoes" className="scroll-mt-24 space-y-4 md:space-y-6">
+          {/* Alertas da Build */}
+          <div className="mb-6">
+            <h3 className="text-xs text-muted mb-2">Alertas da Build</h3>
+            {buildAlerts.length ? (
+              <ul className="space-y-2">
+                {buildAlerts.map((alert, idx) => (
+                  <li key={idx} className={`p-3 rounded-xl border ${
+                    alert.severity === 'info' ? 'border-blue-400 bg-blue-50' :
+                    alert.severity === 'success' ? 'border-green-400 bg-green-50' :
+                    alert.severity === 'warning' ? 'border-yellow-400 bg-yellow-50' :
+                    'border-red-400 bg-red-50'}
+                  }`}
+                  >
+                    <p className="font-medium">{alert.title}</p>
+                    <p className="text-sm text-muted">{alert.message}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted">Nenhum alerta relevante.</p>
+            )}
+          </div>
+          <ProjectPartsShowcase
+            title="Modificações atuais"
+            eyebrow="Instaladas no projeto"
+            parts={project.installedParts}
+            emptyText="Nenhuma modificacao atual cadastrada."
+          />
+          <ProjectPartsShowcase
+            title="Planos futuros"
+            eyebrow="Próximos passos"
+            parts={project.plannedParts}
+            emptyText="Nenhum plano futuro cadastrado."
+          />
+        </div>
+
         <section id="compartilhar">
           <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
             <div>
@@ -953,43 +990,6 @@ export function ProjectDetail({
             )}
           </div>
         </section>
-
-        <div id="modificacoes" className="space-y-8">
-          {/* Alertas da Build */}
-          <div className="mb-6">
-            <h3 className="text-xs text-muted mb-2">Alertas da Build</h3>
-            {buildAlerts.length ? (
-              <ul className="space-y-2">
-                {buildAlerts.map((alert, idx) => (
-                  <li key={idx} className={`p-3 rounded-xl border ${
-                    alert.severity === 'info' ? 'border-blue-400 bg-blue-50' :
-                    alert.severity === 'success' ? 'border-green-400 bg-green-50' :
-                    alert.severity === 'warning' ? 'border-yellow-400 bg-yellow-50' :
-                    'border-red-400 bg-red-50'}
-                  }`}
-                  >
-                    <p className="font-medium">{alert.title}</p>
-                    <p className="text-sm text-muted">{alert.message}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted">Nenhum alerta relevante.</p>
-            )}
-          </div>
-          <ProjectPartsShowcase
-            title="Modificações atuais"
-            eyebrow="Instaladas no projeto"
-            parts={project.installedParts}
-            emptyText="Nenhuma modificacao atual cadastrada."
-          />
-          <ProjectPartsShowcase
-            title="Planos futuros"
-            eyebrow="Próximos passos"
-            parts={project.plannedParts}
-            emptyText="Nenhum plano futuro cadastrado."
-          />
-        </div>
 
         <section>
           <p className="text-xs text-muted">Financeiro</p>
