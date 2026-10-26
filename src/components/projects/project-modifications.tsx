@@ -105,7 +105,7 @@ function ModificationImage({
         title={isProjectPhoto ? "Foto do projeto" : "Imagem ilustrativa"}
       >
         {isProjectPhoto ? <Camera className="size-3" aria-hidden="true" /> : <Sparkles className="size-3" aria-hidden="true" />}
-        {isProjectPhoto ? "Foto do projeto" : "Ilustrativa"}
+        {isProjectPhoto ? "Foto do projeto" : "Imagem ilustrativa"}
       </span>
     </div>
   );
@@ -451,6 +451,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
           <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-accent">{projectName}</p>
           <h1 className="mt-1 font-title text-3xl tracking-tight sm:text-4xl">Modificações</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">Documente o que já foi instalado, os próximos planos e a wishlist. Fotos reais aparecem primeiro; a imagem ilustrativa do catálogo continua preservada.</p>
+          <a href="/modifications/photo-credits.html" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs text-muted underline underline-offset-4">Créditos e licenças das fotos ilustrativas</a>
         </div>
         {canEdit ? <Button onClick={startNew}><Plus className="size-4" /> Adicionar modificação</Button> : null}
       </div>
