@@ -1,0 +1,2108 @@
+[
+  {
+    "slug": "turbo",
+    "category": "motor-performance",
+    "name": "Turbocompressor",
+    "description": "Compressor de admissão acionado pelos gases de escape.",
+    "aliases": "turbo turbina turbocharger",
+    "legacy": true
+  },
+  {
+    "slug": "supercharger",
+    "category": "motor-performance",
+    "name": "Supercharger",
+    "description": "Compressor mecânico de admissão acionado pelo motor.",
+    "aliases": "compressor mecânico blower",
+    "legacy": true
+  },
+  {
+    "slug": "intercooler",
+    "category": "motor-performance",
+    "name": "Intercooler",
+    "description": "Trocador de calor para resfriar o ar pressurizado da admissão.",
+    "aliases": "resfriador ar pressurizado",
+    "legacy": true
+  },
+  {
+    "slug": "intake-filtro-esportivo",
+    "category": "motor-performance",
+    "name": "Intake / filtro esportivo",
+    "description": "Conjunto de admissão ou elemento filtrante para o ar de entrada do motor.",
+    "aliases": "admissão filtro de ar cold air intake",
+    "legacy": true
+  },
+  {
+    "slug": "coletor-admissao",
+    "category": "motor-performance",
+    "name": "Coletor de admissão",
+    "description": "Distribui o ar admitido entre os cilindros do motor.",
+    "aliases": "intake manifold plenum",
+    "legacy": true
+  },
+  {
+    "slug": "coletor-escape",
+    "category": "motor-performance",
+    "name": "Coletor de escape",
+    "description": "Reúne os gases de escape na saída do cabeçote.",
+    "aliases": "header dimensionado",
+    "legacy": true
+  },
+  {
+    "slug": "downpipe",
+    "category": "motor-performance",
+    "name": "Downpipe",
+    "description": "Tubo que conecta a saída da turbina ao restante do escapamento.",
+    "aliases": "saída turbina",
+    "legacy": true
+  },
+  {
+    "slug": "escape",
+    "category": "motor-performance",
+    "name": "Sistema de escapamento",
+    "description": "Conjunto de tubos e silenciadores para conduzir os gases de escape.",
+    "aliases": "escape exaustão catback",
+    "legacy": true
+  },
+  {
+    "slug": "bicos-injetores",
+    "category": "motor-performance",
+    "name": "Bicos injetores",
+    "description": "Válvulas dosadoras de combustível para sistemas de injeção.",
+    "aliases": "injetor fuel injector",
+    "legacy": true
+  },
+  {
+    "slug": "bomba-combustivel",
+    "category": "motor-performance",
+    "name": "Bomba de combustível",
+    "description": "Fornece combustível ao sistema de alimentação do motor.",
+    "aliases": "fuel pump",
+    "legacy": true
+  },
+  {
+    "slug": "regulador-pressao",
+    "category": "motor-performance",
+    "name": "Regulador de pressão de combustível",
+    "description": "Controla a pressão de alimentação dos injetores.",
+    "aliases": "dosador fuel pressure regulator",
+    "legacy": true
+  },
+  {
+    "slug": "ecu-modulo",
+    "category": "motor-performance",
+    "name": "ECU / módulo de injeção",
+    "description": "Central eletrônica para gerenciamento da injeção e ignição do motor.",
+    "aliases": "injeção programável standalone fueltech",
+    "legacy": true
+  },
+  {
+    "slug": "bobinas",
+    "category": "motor-performance",
+    "name": "Bobinas de ignição",
+    "description": "Transformam a tensão elétrica para gerar a centelha nas velas.",
+    "aliases": "ignition coil",
+    "legacy": true
+  },
+  {
+    "slug": "velas",
+    "category": "motor-performance",
+    "name": "Velas de ignição",
+    "description": "Produzem a centelha de ignição na câmara de combustão.",
+    "aliases": "spark plug",
+    "legacy": true
+  },
+  {
+    "slug": "radiador",
+    "category": "motor-performance",
+    "name": "Radiador de arrefecimento",
+    "description": "Trocador de calor do líquido de arrefecimento do motor.",
+    "aliases": "radiator água",
+    "legacy": true
+  },
+  {
+    "slug": "motor",
+    "category": "motor-performance",
+    "name": "Motor completo",
+    "description": "Conjunto do motor para substituição ou preparação do veículo.",
+    "aliases": "swap engine",
+    "legacy": true
+  },
+  {
+    "slug": "cabecote",
+    "category": "motor-performance",
+    "name": "Cabeçote",
+    "description": "Conjunto superior do motor com dutos e válvulas.",
+    "aliases": "cylinder head",
+    "legacy": true
+  },
+  {
+    "slug": "comando",
+    "category": "motor-performance",
+    "name": "Comando de válvulas",
+    "description": "Eixo responsável pelo acionamento e tempo de abertura das válvulas.",
+    "aliases": "camshaft eixo comando",
+    "legacy": true
+  },
+  {
+    "slug": "pistoes-bielas",
+    "category": "motor-performance",
+    "name": "Conjunto de pistões e bielas",
+    "description": "Kit de componentes internos que liga os pistões ao virabrequim.",
+    "aliases": "kit forjado piston connecting rod pistão",
+    "legacy": true
+  },
+  {
+    "slug": "coilover",
+    "category": "suspensao",
+    "name": "Coilover",
+    "description": "Conjunto integrado de mola e amortecedor regulável. Também encontrado como suspensão a rosca.",
+    "aliases": "coil over suspensão rosca",
+    "legacy": true
+  },
+  {
+    "slug": "suspensao-rosca",
+    "category": "suspensao",
+    "name": "Suspensão a rosca",
+    "description": "Denominação legada de suspensão com regulagem de altura por rosca; consulte também Coilover.",
+    "aliases": "coilover rosca",
+    "legacy": true,
+    "selectionAliasOf": "coilover"
+  },
+  {
+    "slug": "suspensao-fixa",
+    "category": "suspensao",
+    "name": "Suspensão fixa",
+    "description": "Conjunto de molas e amortecedores com altura definida, sem ajuste por rosca ou ar.",
+    "aliases": "kit rebaixamento",
+    "legacy": true
+  },
+  {
+    "slug": "molas",
+    "category": "suspensao",
+    "name": "Molas de suspensão",
+    "description": "Elementos elásticos de sustentação da suspensão.",
+    "aliases": "spring",
+    "legacy": true
+  },
+  {
+    "slug": "amortecedores",
+    "category": "suspensao",
+    "name": "Amortecedores",
+    "description": "Controlam a oscilação das molas e da carroceria.",
+    "aliases": "shock absorber damper",
+    "legacy": true
+  },
+  {
+    "slug": "barra-estabilizadora",
+    "category": "suspensao",
+    "name": "Barra estabilizadora",
+    "description": "Interliga lados da suspensão para controlar a rolagem da carroceria.",
+    "aliases": "anti roll sway bar",
+    "legacy": true
+  },
+  {
+    "slug": "buchas",
+    "category": "suspensao",
+    "name": "Buchas de suspensão",
+    "description": "Elementos de articulação e isolamento das fixações da suspensão.",
+    "aliases": "silentblock poliuretano",
+    "legacy": true
+  },
+  {
+    "slug": "bracos",
+    "category": "suspensao",
+    "name": "Braços de suspensão",
+    "description": "Braços e bandejas que posicionam a roda na suspensão.",
+    "aliases": "bandeja control arm",
+    "legacy": true
+  },
+  {
+    "slug": "camber-alinhamento",
+    "category": "suspensao",
+    "name": "Kit de ajuste de cambagem",
+    "description": "Componentes para ajuste da cambagem; não representa um serviço de alinhamento.",
+    "aliases": "camber plate parafuso excêntrico",
+    "legacy": true
+  },
+  {
+    "slug": "reforcos-estruturais",
+    "category": "suspensao",
+    "name": "Reforços estruturais",
+    "description": "Barras e reforços adicionais para rigidez do chassi e das torres.",
+    "aliases": "strut bar barra torção",
+    "legacy": true
+  },
+  {
+    "slug": "discos",
+    "category": "freios",
+    "name": "Discos de freio",
+    "description": "Superfícies de frenagem que trabalham em conjunto com as pastilhas.",
+    "aliases": "rotor brake disc",
+    "legacy": true
+  },
+  {
+    "slug": "pincas",
+    "category": "freios",
+    "name": "Pinças de freio",
+    "description": "Conjuntos que pressionam as pastilhas contra os discos.",
+    "aliases": "caliper",
+    "legacy": true
+  },
+  {
+    "slug": "pastilhas",
+    "category": "freios",
+    "name": "Pastilhas de freio",
+    "description": "Materiais de atrito utilizados em freios a disco.",
+    "aliases": "brake pads",
+    "legacy": true
+  },
+  {
+    "slug": "mangueiras",
+    "category": "freios",
+    "name": "Flexíveis de freio",
+    "description": "Mangueiras hidráulicas que conectam a tubulação às pinças ou cilindros.",
+    "aliases": "aeroquip malha aço brake hose",
+    "legacy": true
+  },
+  {
+    "slug": "kit-freio",
+    "category": "freios",
+    "name": "Kit de freios de performance",
+    "description": "Conjunto de upgrade com componentes de frenagem dimensionados em conjunto.",
+    "aliases": "big brake kit bbk",
+    "legacy": true
+  },
+  {
+    "slug": "rodas",
+    "category": "rodas-pneus",
+    "name": "Rodas",
+    "description": "Rodas automotivas para substituição ou personalização.",
+    "aliases": "aro wheel",
+    "legacy": true
+  },
+  {
+    "slug": "pneus",
+    "category": "rodas-pneus",
+    "name": "Pneus",
+    "description": "Pneus automotivos para uso compatível com a proposta do veículo.",
+    "aliases": "tire tyre semislick slick",
+    "legacy": true
+  },
+  {
+    "slug": "espacadores",
+    "category": "rodas-pneus",
+    "name": "Espaçadores de roda",
+    "description": "Peças entre cubo e roda para alterar o afastamento da roda.",
+    "aliases": "wheel spacer",
+    "legacy": true
+  },
+  {
+    "slug": "adaptadores",
+    "category": "rodas-pneus",
+    "name": "Adaptadores de roda",
+    "description": "Adaptam o padrão de fixação entre cubo e roda.",
+    "aliases": "furação wheel adapter",
+    "legacy": true
+  },
+  {
+    "slug": "cambio",
+    "category": "transmissao",
+    "name": "Câmbio",
+    "description": "Conjunto de transmissão que seleciona as relações de marcha.",
+    "aliases": "gearbox transmissão",
+    "legacy": true
+  },
+  {
+    "slug": "embreagem",
+    "category": "transmissao",
+    "name": "Embreagem",
+    "description": "Conjunto que acopla e desacopla o motor da transmissão.",
+    "aliases": "clutch kit platô disco",
+    "legacy": true
+  },
+  {
+    "slug": "diferencial",
+    "category": "transmissao",
+    "name": "Diferencial",
+    "description": "Conjunto que distribui torque entre as rodas motrizes.",
+    "aliases": "differential autoblocante lsd",
+    "legacy": true
+  },
+  {
+    "slug": "short-shifter",
+    "category": "transmissao",
+    "name": "Engate rápido de câmbio",
+    "description": "Mecanismo que reduz o curso de seleção das marchas.",
+    "aliases": "short shifter quick shift",
+    "legacy": true
+  },
+  {
+    "slug": "alavanca",
+    "category": "transmissao",
+    "name": "Alavanca de câmbio",
+    "description": "Comando físico de seleção de marchas, separado da manopla.",
+    "aliases": "gear lever shifter",
+    "legacy": true
+  },
+  {
+    "slug": "relacoes-marcha",
+    "category": "transmissao",
+    "name": "Engrenagens de câmbio",
+    "description": "Conjunto de engrenagens para alterar as relações internas da transmissão.",
+    "aliases": "relações de marcha gearset",
+    "legacy": true
+  },
+  {
+    "slug": "banco-esportivo",
+    "category": "interior",
+    "name": "Banco esportivo reclinável",
+    "description": "Banco com apoio lateral e encosto reclinável, distinto do banco concha fixo.",
+    "aliases": "sport seat",
+    "legacy": true
+  },
+  {
+    "slug": "banco-concha",
+    "category": "interior",
+    "name": "Banco concha",
+    "description": "Banco de estrutura fixa com apoios laterais para uso esportivo.",
+    "aliases": "bucket seat baquet",
+    "legacy": true
+  },
+  {
+    "slug": "volante",
+    "category": "interior",
+    "name": "Volante esportivo",
+    "description": "Volante de direção para substituição ou personalização.",
+    "aliases": "steering wheel",
+    "legacy": true
+  },
+  {
+    "slug": "manopla",
+    "category": "interior",
+    "name": "Manopla de câmbio",
+    "description": "Empunhadura da alavanca de seleção de marchas.",
+    "aliases": "shift knob pomo",
+    "legacy": true
+  },
+  {
+    "slug": "pedaleiras",
+    "category": "interior",
+    "name": "Pedaleiras",
+    "description": "Superfícies e apoios de acionamento dos pedais.",
+    "aliases": "pedal covers",
+    "legacy": true
+  },
+  {
+    "slug": "cintos",
+    "category": "interior",
+    "name": "Cintos de segurança",
+    "description": "Conjunto de retenção dos ocupantes, incluindo cintos de competição.",
+    "aliases": "harness cinto multiponto",
+    "legacy": true
+  },
+  {
+    "slug": "roll-cage",
+    "category": "interior",
+    "name": "Gaiola de proteção",
+    "description": "Estrutura tubular de proteção da cabine.",
+    "aliases": "roll cage santo antônio",
+    "legacy": true
+  },
+  {
+    "slug": "instrumentacao-interior",
+    "category": "interior",
+    "name": "Conjunto de instrumentos",
+    "description": "Instrumentos adicionais de monitoramento instalados na cabine.",
+    "aliases": "manômetros gauges instrumentação",
+    "legacy": true
+  },
+  {
+    "slug": "shift-light",
+    "category": "interior",
+    "name": "Luz de troca de marcha",
+    "description": "Indicador luminoso de rotação para troca de marcha.",
+    "aliases": "shift light",
+    "legacy": true
+  },
+  {
+    "slug": "painel-digital",
+    "category": "interior",
+    "name": "Painel digital",
+    "description": "Painel eletrônico integrado de informações do veículo.",
+    "aliases": "digital dash dashboard",
+    "legacy": true
+  },
+  {
+    "slug": "aerofolio",
+    "category": "exterior",
+    "name": "Aerofólio",
+    "description": "Perfil aerodinâmico elevado, normalmente com suportes e passagem de ar inferior.",
+    "aliases": "rear wing asa",
+    "legacy": true
+  },
+  {
+    "slug": "spoiler",
+    "category": "exterior",
+    "name": "Spoiler traseiro",
+    "description": "Apêndice junto à carroceria ou tampa traseira para modificar o escoamento do ar.",
+    "aliases": "ducktail spoiler",
+    "legacy": true
+  },
+  {
+    "slug": "front-lip",
+    "category": "exterior",
+    "name": "Lip dianteiro",
+    "description": "Extensão na borda inferior do para-choque dianteiro.",
+    "aliases": "front lip saia dianteira",
+    "legacy": true
+  },
+  {
+    "slug": "side-skirts",
+    "category": "exterior",
+    "name": "Saias laterais",
+    "description": "Extensões de carroceria junto às soleiras laterais.",
+    "aliases": "side skirts",
+    "legacy": true
+  },
+  {
+    "slug": "difusor",
+    "category": "exterior",
+    "name": "Difusor traseiro",
+    "description": "Elemento inferior com canais para orientar o fluxo de ar sob a traseira.",
+    "aliases": "rear diffuser",
+    "legacy": true
+  },
+  {
+    "slug": "body-kit",
+    "category": "exterior",
+    "name": "Kit de carroceria",
+    "description": "Conjunto de componentes externos para transformação visual da carroceria.",
+    "aliases": "body kit widebody",
+    "legacy": true
+  },
+  {
+    "slug": "capo",
+    "category": "exterior",
+    "name": "Capô",
+    "description": "Painel de fechamento do compartimento do motor.",
+    "aliases": "hood bonnet",
+    "legacy": true
+  },
+  {
+    "slug": "para-choque",
+    "category": "exterior",
+    "name": "Para-choque",
+    "description": "Conjunto de acabamento externo dianteiro ou traseiro.",
+    "aliases": "bumper",
+    "legacy": true
+  },
+  {
+    "slug": "retrovisores",
+    "category": "exterior",
+    "name": "Retrovisores",
+    "description": "Espelhos externos de visão traseira do veículo.",
+    "aliases": "wing mirror",
+    "legacy": true
+  },
+  {
+    "slug": "farois",
+    "category": "iluminacao",
+    "name": "Faróis principais",
+    "description": "Conjuntos ópticos dianteiros para iluminação da via.",
+    "aliases": "headlamp farol",
+    "legacy": true
+  },
+  {
+    "slug": "lanternas",
+    "category": "iluminacao",
+    "name": "Lanternas traseiras",
+    "description": "Conjuntos ópticos traseiros de sinalização.",
+    "aliases": "tail light",
+    "legacy": true
+  },
+  {
+    "slug": "farois-auxiliares",
+    "category": "iluminacao",
+    "name": "Faróis auxiliares",
+    "description": "Conjuntos adicionais de iluminação, como faróis de neblina.",
+    "aliases": "milha fog lamp farol auxiliar farol de milha",
+    "legacy": true
+  },
+  {
+    "slug": "drl",
+    "category": "iluminacao",
+    "name": "Luzes de rodagem diurna",
+    "description": "Conjuntos luminosos dedicados à sinalização diurna.",
+    "aliases": "drl daytime running light",
+    "legacy": true
+  },
+  {
+    "slug": "iluminacao-interna",
+    "category": "iluminacao",
+    "name": "Iluminação interna",
+    "description": "Luminárias e conjuntos de luz para cabine e porta-malas.",
+    "aliases": "luz teto plafonier dome light",
+    "legacy": true
+  },
+  {
+    "slug": "chicote",
+    "category": "eletrica-eletronica",
+    "name": "Chicote elétrico",
+    "description": "Conjunto organizado de cabos e conectores do veículo.",
+    "aliases": "wiring harness",
+    "legacy": true
+  },
+  {
+    "slug": "reles",
+    "category": "eletrica-eletronica",
+    "name": "Relés automotivos",
+    "description": "Dispositivos de comutação de circuitos elétricos.",
+    "aliases": "relay",
+    "legacy": true
+  },
+  {
+    "slug": "fusiveis",
+    "category": "eletrica-eletronica",
+    "name": "Fusíveis automotivos",
+    "description": "Dispositivos de proteção de circuitos contra sobrecorrente.",
+    "aliases": "fuse",
+    "legacy": true
+  },
+  {
+    "slug": "sensores",
+    "category": "eletrica-eletronica",
+    "name": "Sensores automotivos",
+    "description": "Registro genérico legado para sensores; os tipos específicos têm entradas próprias.",
+    "aliases": "sensor",
+    "legacy": true
+  },
+  {
+    "slug": "wideband",
+    "category": "eletrica-eletronica",
+    "name": "Kit de sonda wideband",
+    "description": "Sonda de banda larga com controlador para monitoramento da mistura.",
+    "aliases": "lambda afr banda larga",
+    "legacy": true
+  },
+  {
+    "slug": "instrumentacao-eletrica",
+    "category": "eletrica-eletronica",
+    "name": "Instrumentação elétrica",
+    "description": "Registro legado de instrumentos eletrônicos; consulte Conjunto de instrumentos.",
+    "aliases": "instrumentação gauges",
+    "legacy": true,
+    "selectionAliasOf": "instrumentacao-interior"
+  },
+  {
+    "slug": "sistema-eletrico-customizado",
+    "category": "eletrica-eletronica",
+    "name": "Sistema elétrico customizado",
+    "description": "Conjunto integrado para refazer ou personalizar a distribuição elétrica.",
+    "aliases": "painel elétrico distribuição kit",
+    "legacy": true
+  },
+  {
+    "slug": "alto-falantes",
+    "category": "som",
+    "name": "Alto-falantes automotivos",
+    "description": "Transdutores para reprodução de áudio no veículo.",
+    "aliases": "speaker falante coaxial",
+    "legacy": true
+  },
+  {
+    "slug": "subwoofer",
+    "category": "som",
+    "name": "Subwoofer",
+    "description": "Alto-falante dedicado à reprodução de subgraves.",
+    "aliases": "sub woofer",
+    "legacy": true
+  },
+  {
+    "slug": "amplificador",
+    "category": "som",
+    "name": "Amplificador automotivo",
+    "description": "Módulo de potência para alimentar os alto-falantes.",
+    "aliases": "amplifier módulo som",
+    "legacy": true
+  },
+  {
+    "slug": "multimidia",
+    "category": "som",
+    "name": "Central multimídia",
+    "description": "Unidade principal de áudio e conectividade com tela.",
+    "aliases": "head unit receiver carplay android auto",
+    "legacy": true
+  },
+  {
+    "slug": "wastegate",
+    "category": "motor-performance",
+    "name": "Válvula wastegate",
+    "description": "Válvula de controle dos gases que passam pela turbina.",
+    "aliases": "válvula alívio escape",
+    "legacy": false
+  },
+  {
+    "slug": "valvula-blow-off",
+    "category": "motor-performance",
+    "name": "Válvula blow-off",
+    "description": "Válvula de descarga ou recirculação da pressão da admissão.",
+    "aliases": "bov diverter prioridade",
+    "legacy": false
+  },
+  {
+    "slug": "atuador-wastegate",
+    "category": "motor-performance",
+    "name": "Atuador de wastegate",
+    "description": "Atuador mecânico ou eletrônico de abertura da wastegate.",
+    "aliases": "actuator",
+    "legacy": false
+  },
+  {
+    "slug": "controlador-boost",
+    "category": "motor-performance",
+    "name": "Controlador de pressão do turbo",
+    "description": "Dispositivo dedicado ao ajuste da pressão de sobrealimentação.",
+    "aliases": "boost controller solenoide",
+    "legacy": false
+  },
+  {
+    "slug": "pressurizacao",
+    "category": "motor-performance",
+    "name": "Tubulação de pressurização",
+    "description": "Tubos entre compressor, intercooler e corpo de borboleta.",
+    "aliases": "charge pipe piping",
+    "legacy": false
+  },
+  {
+    "slug": "mangotes-silicone",
+    "category": "motor-performance",
+    "name": "Mangotes de admissão",
+    "description": "Uniões flexíveis para a tubulação de admissão e pressurização.",
+    "aliases": "silicone coupler",
+    "legacy": false
+  },
+  {
+    "slug": "flange-turbo",
+    "category": "motor-performance",
+    "name": "Flange de turbocompressor",
+    "description": "Interface de fixação entre turbocompressor e coletor ou tubulação.",
+    "aliases": "turbo flange",
+    "legacy": false
+  },
+  {
+    "slug": "manta-termica-turbo",
+    "category": "motor-performance",
+    "name": "Manta térmica de turbo",
+    "description": "Cobertura térmica da carcaça quente do turbocompressor.",
+    "aliases": "turbo blanket",
+    "legacy": false
+  },
+  {
+    "slug": "linha-lubrificacao-turbo",
+    "category": "motor-performance",
+    "name": "Linha de óleo do turbo",
+    "description": "Conjunto de alimentação e retorno de óleo do turbocompressor.",
+    "aliases": "oil feed drain",
+    "legacy": false
+  },
+  {
+    "slug": "corpo-borboleta",
+    "category": "motor-performance",
+    "name": "Corpo de borboleta",
+    "description": "Válvula de controle da passagem de ar para o motor.",
+    "aliases": "tbi throttle body",
+    "legacy": false
+  },
+  {
+    "slug": "carburador",
+    "category": "motor-performance",
+    "name": "Carburador",
+    "description": "Componente de dosagem e mistura de combustível e ar.",
+    "aliases": "carburetor",
+    "legacy": false
+  },
+  {
+    "slug": "cornetas-admissao",
+    "category": "motor-performance",
+    "name": "Cornetas de admissão",
+    "description": "Bocais de entrada para dutos de admissão ou corpos individuais.",
+    "aliases": "velocity stack",
+    "legacy": false
+  },
+  {
+    "slug": "reservatorio-respiro",
+    "category": "motor-performance",
+    "name": "Reservatório de respiro de óleo",
+    "description": "Separa óleo dos vapores do respiro do motor.",
+    "aliases": "oil catch can decantador",
+    "legacy": false
+  },
+  {
+    "slug": "filtro-combustivel",
+    "category": "motor-performance",
+    "name": "Filtro de combustível",
+    "description": "Elemento filtrante do sistema de alimentação.",
+    "aliases": "fuel filter",
+    "legacy": false
+  },
+  {
+    "slug": "flauta-combustivel",
+    "category": "motor-performance",
+    "name": "Flauta de combustível",
+    "description": "Galeria de distribuição de combustível aos injetores.",
+    "aliases": "fuel rail",
+    "legacy": false
+  },
+  {
+    "slug": "surge-tank",
+    "category": "motor-performance",
+    "name": "Reservatório auxiliar de combustível",
+    "description": "Reservatório intermediário para reduzir falta de combustível em manobras.",
+    "aliases": "surge tank catch tank",
+    "legacy": false
+  },
+  {
+    "slug": "celula-combustivel",
+    "category": "motor-performance",
+    "name": "Célula de combustível automotiva",
+    "description": "Reservatório de combustível dedicado a projetos de competição.",
+    "aliases": "fuel cell tanque competição",
+    "legacy": false
+  },
+  {
+    "slug": "linhas-combustivel",
+    "category": "motor-performance",
+    "name": "Linhas de combustível",
+    "description": "Tubos e mangueiras do circuito de alimentação e retorno.",
+    "aliases": "fuel line ptfe",
+    "legacy": false
+  },
+  {
+    "slug": "cabos-vela",
+    "category": "motor-performance",
+    "name": "Cabos de vela",
+    "description": "Condutores de alta tensão entre ignição e velas.",
+    "aliases": "ignition wire",
+    "legacy": false
+  },
+  {
+    "slug": "modulo-ignicao",
+    "category": "motor-performance",
+    "name": "Módulo de ignição",
+    "description": "Unidade de acionamento ou amplificação da ignição, separada da ECU.",
+    "aliases": "igniter cdi",
+    "legacy": false
+  },
+  {
+    "slug": "distribuidor",
+    "category": "motor-performance",
+    "name": "Distribuidor de ignição",
+    "description": "Distribui a centelha entre os cilindros em sistemas compatíveis.",
+    "aliases": "distributor",
+    "legacy": false
+  },
+  {
+    "slug": "virabrequim",
+    "category": "motor-performance",
+    "name": "Virabrequim",
+    "description": "Eixo de conversão do movimento dos pistões em torque.",
+    "aliases": "crankshaft",
+    "legacy": false
+  },
+  {
+    "slug": "valvulas-motor",
+    "category": "motor-performance",
+    "name": "Válvulas do motor",
+    "description": "Válvulas de admissão e escape do cabeçote.",
+    "aliases": "engine valve",
+    "legacy": false
+  },
+  {
+    "slug": "molas-valvulas",
+    "category": "motor-performance",
+    "name": "Molas de válvulas",
+    "description": "Molas responsáveis pelo retorno das válvulas do cabeçote.",
+    "aliases": "valve spring",
+    "legacy": false
+  },
+  {
+    "slug": "pratos-valvulas",
+    "category": "motor-performance",
+    "name": "Pratos e travas de válvulas",
+    "description": "Retentores mecânicos das molas nas hastes das válvulas.",
+    "aliases": "retainer keeper",
+    "legacy": false
+  },
+  {
+    "slug": "polia-comando",
+    "category": "motor-performance",
+    "name": "Polia de comando regulável",
+    "description": "Polia que permite ajustar o sincronismo do comando.",
+    "aliases": "cam gear",
+    "legacy": false
+  },
+  {
+    "slug": "junta-cabecote",
+    "category": "motor-performance",
+    "name": "Junta de cabeçote",
+    "description": "Vedação entre bloco e cabeçote do motor.",
+    "aliases": "head gasket",
+    "legacy": false
+  },
+  {
+    "slug": "prisioneiros-motor",
+    "category": "motor-performance",
+    "name": "Prisioneiros de motor",
+    "description": "Fixadores de cabeçote ou mancais para montagem do motor.",
+    "aliases": "stud kit",
+    "legacy": false
+  },
+  {
+    "slug": "bronzinas",
+    "category": "motor-performance",
+    "name": "Bronzinas de motor",
+    "description": "Casquilhos de apoio dos mancais e bielas.",
+    "aliases": "engine bearing",
+    "legacy": false
+  },
+  {
+    "slug": "bomba-oleo",
+    "category": "motor-performance",
+    "name": "Bomba de óleo",
+    "description": "Bomba do circuito de lubrificação do motor.",
+    "aliases": "oil pump",
+    "legacy": false
+  },
+  {
+    "slug": "carter",
+    "category": "motor-performance",
+    "name": "Cárter de óleo",
+    "description": "Reservatório inferior de óleo do motor.",
+    "aliases": "oil pan",
+    "legacy": false
+  },
+  {
+    "slug": "kit-carter-seco",
+    "category": "motor-performance",
+    "name": "Sistema de cárter seco",
+    "description": "Conjunto de lubrificação com bombas e reservatório externos.",
+    "aliases": "dry sump",
+    "legacy": false
+  },
+  {
+    "slug": "radiador-oleo",
+    "category": "motor-performance",
+    "name": "Radiador de óleo do motor",
+    "description": "Trocador de calor do óleo lubrificante do motor.",
+    "aliases": "oil cooler",
+    "legacy": false
+  },
+  {
+    "slug": "bomba-agua",
+    "category": "motor-performance",
+    "name": "Bomba de água",
+    "description": "Bomba de circulação do líquido de arrefecimento.",
+    "aliases": "water pump",
+    "legacy": false
+  },
+  {
+    "slug": "ventoinha",
+    "category": "motor-performance",
+    "name": "Ventoinha de arrefecimento",
+    "description": "Ventilador para passagem de ar pelo radiador.",
+    "aliases": "electric fan eletroventilador",
+    "legacy": false
+  },
+  {
+    "slug": "valvula-termostatica",
+    "category": "motor-performance",
+    "name": "Válvula termostática",
+    "description": "Regula o fluxo do líquido conforme a temperatura do motor.",
+    "aliases": "thermostat",
+    "legacy": false
+  },
+  {
+    "slug": "reservatorio-expansao",
+    "category": "motor-performance",
+    "name": "Reservatório de expansão",
+    "description": "Reservatório do circuito pressurizado de arrefecimento.",
+    "aliases": "expansion tank",
+    "legacy": false
+  },
+  {
+    "slug": "mangueiras-arrefecimento",
+    "category": "motor-performance",
+    "name": "Mangueiras de arrefecimento",
+    "description": "Mangueiras de circulação do líquido de arrefecimento.",
+    "aliases": "radiator hose",
+    "legacy": false
+  },
+  {
+    "slug": "defletor-radiador",
+    "category": "motor-performance",
+    "name": "Defletor de radiador",
+    "description": "Carenagem que direciona o fluxo de ar da ventoinha.",
+    "aliases": "fan shroud",
+    "legacy": false
+  },
+  {
+    "slug": "coxins-motor",
+    "category": "motor-performance",
+    "name": "Coxins de motor",
+    "description": "Suportes de fixação e isolamento do motor no chassi.",
+    "aliases": "engine mount coxim de motor",
+    "legacy": false
+  },
+  {
+    "slug": "abafador",
+    "category": "motor-performance",
+    "name": "Abafador de escapamento",
+    "description": "Silenciador individual do sistema de escapamento.",
+    "aliases": "muffler",
+    "legacy": false
+  },
+  {
+    "slug": "ressonador",
+    "category": "motor-performance",
+    "name": "Ressonador de escapamento",
+    "description": "Elemento dedicado ao controle de ressonâncias do escape.",
+    "aliases": "resonator",
+    "legacy": false
+  },
+  {
+    "slug": "catalisador",
+    "category": "motor-performance",
+    "name": "Catalisador automotivo",
+    "description": "Elemento de tratamento dos gases do escapamento.",
+    "aliases": "catalytic converter",
+    "legacy": false
+  },
+  {
+    "slug": "ponteira-escape",
+    "category": "motor-performance",
+    "name": "Ponteira de escapamento",
+    "description": "Acabamento terminal da saída do escapamento.",
+    "aliases": "exhaust tip",
+    "legacy": false
+  },
+  {
+    "slug": "valvula-escape",
+    "category": "motor-performance",
+    "name": "Válvula de escapamento",
+    "description": "Válvula externa que seleciona o percurso dos gases no escape.",
+    "aliases": "exhaust cutout bypass",
+    "legacy": false
+  },
+  {
+    "slug": "fita-termica-escape",
+    "category": "motor-performance",
+    "name": "Fita térmica de escapamento",
+    "description": "Revestimento térmico para coletores e tubos de escape.",
+    "aliases": "exhaust wrap",
+    "legacy": false
+  },
+  {
+    "slug": "kit-oxido-nitroso",
+    "category": "motor-performance",
+    "name": "Kit de óxido nitroso",
+    "description": "Sistema dosador de óxido nitroso para preparação do motor.",
+    "aliases": "nitrous nos",
+    "legacy": false
+  },
+  {
+    "slug": "injecao-agua-metanol",
+    "category": "motor-performance",
+    "name": "Kit de injeção de água e metanol",
+    "description": "Sistema auxiliar de injeção de líquido na admissão.",
+    "aliases": "water methanol injection",
+    "legacy": false
+  },
+  {
+    "slug": "suspensao-ar",
+    "category": "suspensao",
+    "name": "Suspensão a ar",
+    "description": "Conjunto de suspensão com elementos pneumáticos de altura ajustável.",
+    "aliases": "air ride air suspension suspensão pneumática",
+    "legacy": false
+  },
+  {
+    "slug": "bolsas-ar",
+    "category": "suspensao",
+    "name": "Bolsas de suspensão a ar",
+    "description": "Elementos pneumáticos de sustentação da suspensão.",
+    "aliases": "air bag air spring",
+    "legacy": false
+  },
+  {
+    "slug": "compressor-suspensao",
+    "category": "suspensao",
+    "name": "Compressor de suspensão a ar",
+    "description": "Compressor que abastece o circuito pneumático da suspensão.",
+    "aliases": "air compressor",
+    "legacy": false
+  },
+  {
+    "slug": "reservatorio-ar",
+    "category": "suspensao",
+    "name": "Reservatório de ar da suspensão",
+    "description": "Tanque de ar comprimido para o sistema de suspensão.",
+    "aliases": "air tank cilindro",
+    "legacy": false
+  },
+  {
+    "slug": "bloco-valvulas-ar",
+    "category": "suspensao",
+    "name": "Bloco de válvulas da suspensão a ar",
+    "description": "Distribui o ar comprimido entre as bolsas da suspensão.",
+    "aliases": "valve manifold",
+    "legacy": false
+  },
+  {
+    "slug": "central-suspensao-ar",
+    "category": "suspensao",
+    "name": "Central de suspensão a ar",
+    "description": "Unidade de comando da altura e pressão da suspensão.",
+    "aliases": "air management",
+    "legacy": false
+  },
+  {
+    "slug": "bieletas",
+    "category": "suspensao",
+    "name": "Bieletas",
+    "description": "Hastes de ligação entre barra estabilizadora e suspensão.",
+    "aliases": "end link",
+    "legacy": false
+  },
+  {
+    "slug": "pivos-suspensao",
+    "category": "suspensao",
+    "name": "Pivôs de suspensão",
+    "description": "Articulações esféricas entre braços e mangas de eixo.",
+    "aliases": "ball joint",
+    "legacy": false
+  },
+  {
+    "slug": "coxins-amortecedor",
+    "category": "suspensao",
+    "name": "Coxins de amortecedor",
+    "description": "Apoios superiores de fixação do amortecedor à carroceria.",
+    "aliases": "strut mount coxim de amortecedor",
+    "legacy": false
+  },
+  {
+    "slug": "batentes-suspensao",
+    "category": "suspensao",
+    "name": "Batentes de suspensão",
+    "description": "Elementos de limitação do curso de compressão.",
+    "aliases": "bump stop",
+    "legacy": false
+  },
+  {
+    "slug": "manga-eixo",
+    "category": "suspensao",
+    "name": "Manga de eixo",
+    "description": "Suporte da roda e de suas articulações na suspensão.",
+    "aliases": "steering knuckle",
+    "legacy": false
+  },
+  {
+    "slug": "caixa-direcao",
+    "category": "suspensao",
+    "name": "Caixa de direção",
+    "description": "Mecanismo de transmissão do comando do volante às rodas.",
+    "aliases": "steering rack",
+    "legacy": false
+  },
+  {
+    "slug": "terminais-direcao",
+    "category": "suspensao",
+    "name": "Terminais de direção",
+    "description": "Articulações entre barras de direção e mangas de eixo.",
+    "aliases": "tie rod end terminal de direção",
+    "legacy": false
+  },
+  {
+    "slug": "bracos-axiais",
+    "category": "suspensao",
+    "name": "Braços axiais de direção",
+    "description": "Barras internas de ligação da caixa aos terminais de direção.",
+    "aliases": "inner tie rod",
+    "legacy": false
+  },
+  {
+    "slug": "bomba-direcao",
+    "category": "suspensao",
+    "name": "Bomba de direção hidráulica",
+    "description": "Bomba do circuito de assistência hidráulica da direção.",
+    "aliases": "power steering pump",
+    "legacy": false
+  },
+  {
+    "slug": "reservatorio-direcao",
+    "category": "suspensao",
+    "name": "Reservatório de direção hidráulica",
+    "description": "Reservatório de fluido da assistência de direção.",
+    "aliases": "power steering tank",
+    "legacy": false
+  },
+  {
+    "slug": "amortecedor-direcao",
+    "category": "suspensao",
+    "name": "Amortecedor de direção",
+    "description": "Componente de amortecimento de oscilações do sistema de direção.",
+    "aliases": "steering damper",
+    "legacy": false
+  },
+  {
+    "slug": "kit-angulo-direcao",
+    "category": "suspensao",
+    "name": "Kit de aumento de ângulo de direção",
+    "description": "Conjunto de geometria de direção para projetos de drift.",
+    "aliases": "angle kit",
+    "legacy": false
+  },
+  {
+    "slug": "barra-panhard",
+    "category": "suspensao",
+    "name": "Barra Panhard",
+    "description": "Barra de localização lateral de eixo rígido.",
+    "aliases": "panhard rod",
+    "legacy": false
+  },
+  {
+    "slug": "feixe-molas",
+    "category": "suspensao",
+    "name": "Feixe de molas",
+    "description": "Conjunto de lâminas elásticas da suspensão.",
+    "aliases": "leaf spring",
+    "legacy": false
+  },
+  {
+    "slug": "subchassi",
+    "category": "suspensao",
+    "name": "Subchassi",
+    "description": "Estrutura auxiliar de fixação dos conjuntos de suspensão.",
+    "aliases": "subframe agregado",
+    "legacy": false
+  },
+  {
+    "slug": "cilindro-mestre-freio",
+    "category": "freios",
+    "name": "Cilindro mestre de freio",
+    "description": "Gera pressão hidráulica para o circuito de frenagem.",
+    "aliases": "master cylinder",
+    "legacy": false
+  },
+  {
+    "slug": "servofreio",
+    "category": "freios",
+    "name": "Servo de freio",
+    "description": "Assistente de força do acionamento do freio.",
+    "aliases": "hidrovácuo brake booster",
+    "legacy": false
+  },
+  {
+    "slug": "valvula-proporcao-freio",
+    "category": "freios",
+    "name": "Válvula proporcionadora de freio",
+    "description": "Controla a distribuição de pressão entre circuitos de freio.",
+    "aliases": "proportioning valve bias",
+    "legacy": false
+  },
+  {
+    "slug": "freio-mao-hidraulico",
+    "category": "freios",
+    "name": "Freio de mão hidráulico",
+    "description": "Acionamento hidráulico independente para frenagem auxiliar esportiva.",
+    "aliases": "hydraulic handbrake drift",
+    "legacy": false
+  },
+  {
+    "slug": "pedal-box",
+    "category": "freios",
+    "name": "Pedaleira de competição",
+    "description": "Conjunto de pedais e acionamentos, distinto das capas de pedais.",
+    "aliases": "pedal box balance bar",
+    "legacy": false
+  },
+  {
+    "slug": "reservatorio-fluido-freio",
+    "category": "freios",
+    "name": "Reservatório de fluido de freio",
+    "description": "Reservatório de alimentação do circuito hidráulico de freio.",
+    "aliases": "brake fluid reservoir",
+    "legacy": false
+  },
+  {
+    "slug": "dutos-freio",
+    "category": "freios",
+    "name": "Dutos de ar para freios",
+    "description": "Conduzem ar aos freios para auxiliar o resfriamento.",
+    "aliases": "brake cooling duct",
+    "legacy": false
+  },
+  {
+    "slug": "sapatas-freio",
+    "category": "freios",
+    "name": "Sapatas de freio",
+    "description": "Elementos de atrito dos freios a tambor.",
+    "aliases": "brake shoe",
+    "legacy": false
+  },
+  {
+    "slug": "tambores-freio",
+    "category": "freios",
+    "name": "Tambores de freio",
+    "description": "Superfícies cilíndricas de frenagem dos freios a tambor.",
+    "aliases": "brake drum",
+    "legacy": false
+  },
+  {
+    "slug": "cilindro-roda",
+    "category": "freios",
+    "name": "Cilindro de roda de freio",
+    "description": "Acionador hidráulico das sapatas de freio.",
+    "aliases": "wheel cylinder",
+    "legacy": false
+  },
+  {
+    "slug": "cabos-freio-mao",
+    "category": "freios",
+    "name": "Cabos de freio de estacionamento",
+    "description": "Cabos mecânicos de acionamento do freio de estacionamento.",
+    "aliases": "handbrake cable",
+    "legacy": false
+  },
+  {
+    "slug": "linhas-rigidas-freio",
+    "category": "freios",
+    "name": "Tubulação rígida de freio",
+    "description": "Tubos rígidos de condução do fluido de freio.",
+    "aliases": "brake pipe",
+    "legacy": false
+  },
+  {
+    "slug": "prisioneiros-roda",
+    "category": "rodas-pneus",
+    "name": "Prisioneiros de roda",
+    "description": "Fixadores roscados de roda instalados no cubo.",
+    "aliases": "wheel stud",
+    "legacy": false
+  },
+  {
+    "slug": "porcas-roda",
+    "category": "rodas-pneus",
+    "name": "Porcas de roda",
+    "description": "Porcas de fixação da roda aos prisioneiros.",
+    "aliases": "lug nut",
+    "legacy": false
+  },
+  {
+    "slug": "parafusos-roda",
+    "category": "rodas-pneus",
+    "name": "Parafusos de roda",
+    "description": "Parafusos de fixação direta da roda ao cubo.",
+    "aliases": "lug bolt",
+    "legacy": false
+  },
+  {
+    "slug": "aneis-centralizadores",
+    "category": "rodas-pneus",
+    "name": "Anéis centralizadores de roda",
+    "description": "Anéis de ajuste do diâmetro central da roda ao cubo.",
+    "aliases": "hub centric ring anel centralizador",
+    "legacy": false
+  },
+  {
+    "slug": "cubos-roda",
+    "category": "rodas-pneus",
+    "name": "Cubos de roda",
+    "description": "Interfaces de fixação e rotação das rodas.",
+    "aliases": "wheel hub",
+    "legacy": false
+  },
+  {
+    "slug": "rolamentos-roda",
+    "category": "rodas-pneus",
+    "name": "Rolamentos de roda",
+    "description": "Conjuntos de apoio rotativo dos cubos de roda.",
+    "aliases": "wheel bearing",
+    "legacy": false
+  },
+  {
+    "slug": "valvulas-pneu",
+    "category": "rodas-pneus",
+    "name": "Válvulas de pneus",
+    "description": "Válvulas de enchimento e vedação dos pneus.",
+    "aliases": "tire valve",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-tpms",
+    "category": "rodas-pneus",
+    "name": "Sensores de pressão dos pneus",
+    "description": "Sensores do sistema de monitoramento de pressão dos pneus.",
+    "aliases": "tpms",
+    "legacy": false
+  },
+  {
+    "slug": "travas-roda",
+    "category": "rodas-pneus",
+    "name": "Travas antifurto de roda",
+    "description": "Fixadores com chave específica para proteção das rodas.",
+    "aliases": "locking wheel nut",
+    "legacy": false
+  },
+  {
+    "slug": "calotas",
+    "category": "rodas-pneus",
+    "name": "Calotas",
+    "description": "Coberturas de acabamento das rodas.",
+    "aliases": "hubcap wheel cover",
+    "legacy": false
+  },
+  {
+    "slug": "volante-motor",
+    "category": "transmissao",
+    "name": "Volante do motor",
+    "description": "Disco de inércia entre motor e conjunto de embreagem.",
+    "aliases": "flywheel",
+    "legacy": false
+  },
+  {
+    "slug": "conversor-torque",
+    "category": "transmissao",
+    "name": "Conversor de torque",
+    "description": "Acoplamento hidrodinâmico de transmissões automáticas.",
+    "aliases": "torque converter",
+    "legacy": false
+  },
+  {
+    "slug": "carda",
+    "category": "transmissao",
+    "name": "Eixo cardã",
+    "description": "Eixo de transmissão de torque entre conjuntos da linha de tração.",
+    "aliases": "driveshaft propeller shaft",
+    "legacy": false
+  },
+  {
+    "slug": "semieixos",
+    "category": "transmissao",
+    "name": "Semieixos",
+    "description": "Eixos de transmissão de torque do diferencial às rodas.",
+    "aliases": "axle shaft",
+    "legacy": false
+  },
+  {
+    "slug": "juntas-homocineticas",
+    "category": "transmissao",
+    "name": "Juntas homocinéticas",
+    "description": "Articulações de transmissão de torque com variação de ângulo.",
+    "aliases": "cv joint",
+    "legacy": false
+  },
+  {
+    "slug": "cruzetas",
+    "category": "transmissao",
+    "name": "Cruzetas de cardã",
+    "description": "Articulações universais do eixo cardã.",
+    "aliases": "universal joint",
+    "legacy": false
+  },
+  {
+    "slug": "coxim-cambio",
+    "category": "transmissao",
+    "name": "Coxim de câmbio",
+    "description": "Suporte de fixação e isolamento da transmissão.",
+    "aliases": "transmission mount coxins de câmbio",
+    "legacy": false
+  },
+  {
+    "slug": "trambulador",
+    "category": "transmissao",
+    "name": "Trambulador de câmbio",
+    "description": "Mecanismo externo de seleção de marchas.",
+    "aliases": "shift linkage",
+    "legacy": false
+  },
+  {
+    "slug": "cabos-cambio",
+    "category": "transmissao",
+    "name": "Cabos de câmbio",
+    "description": "Cabos de ligação entre alavanca e seletor da transmissão.",
+    "aliases": "shift cable",
+    "legacy": false
+  },
+  {
+    "slug": "cilindro-mestre-embreagem",
+    "category": "transmissao",
+    "name": "Cilindro mestre de embreagem",
+    "description": "Gera pressão no acionamento hidráulico da embreagem.",
+    "aliases": "clutch master cylinder",
+    "legacy": false
+  },
+  {
+    "slug": "atuador-embreagem",
+    "category": "transmissao",
+    "name": "Atuador de embreagem",
+    "description": "Cilindro ou conjunto receptor de acionamento da embreagem.",
+    "aliases": "slave cylinder",
+    "legacy": false
+  },
+  {
+    "slug": "radiador-oleo-cambio",
+    "category": "transmissao",
+    "name": "Radiador de óleo de câmbio",
+    "description": "Trocador de calor do fluido da transmissão.",
+    "aliases": "transmission cooler",
+    "legacy": false
+  },
+  {
+    "slug": "capa-seca",
+    "category": "transmissao",
+    "name": "Capa seca de câmbio",
+    "description": "Carcaça de ligação entre bloco do motor e transmissão.",
+    "aliases": "bellhousing",
+    "legacy": false
+  },
+  {
+    "slug": "flange-adaptadora-cambio",
+    "category": "transmissao",
+    "name": "Flange adaptadora de câmbio",
+    "description": "Placa de interface entre motor e câmbio de padrões diferentes.",
+    "aliases": "adapter plate",
+    "legacy": false
+  },
+  {
+    "slug": "cinta-carda",
+    "category": "transmissao",
+    "name": "Cinta de segurança do cardã",
+    "description": "Contenção do eixo cardã em caso de ruptura.",
+    "aliases": "driveshaft loop",
+    "legacy": false
+  },
+  {
+    "slug": "cubo-volante",
+    "category": "interior",
+    "name": "Cubo de volante",
+    "description": "Interface de fixação entre volante e coluna de direção.",
+    "aliases": "steering boss hub",
+    "legacy": false
+  },
+  {
+    "slug": "engate-rapido-volante",
+    "category": "interior",
+    "name": "Engate rápido de volante",
+    "description": "Acoplamento removível entre volante e cubo.",
+    "aliases": "quick release",
+    "legacy": false
+  },
+  {
+    "slug": "trilhos-banco",
+    "category": "interior",
+    "name": "Trilhos de banco",
+    "description": "Mecanismo deslizante de posicionamento longitudinal do banco.",
+    "aliases": "seat slider",
+    "legacy": false
+  },
+  {
+    "slug": "suportes-banco",
+    "category": "interior",
+    "name": "Suportes de banco",
+    "description": "Bases e suportes laterais de fixação dos bancos.",
+    "aliases": "seat bracket",
+    "legacy": false
+  },
+  {
+    "slug": "revestimento-bancos",
+    "category": "interior",
+    "name": "Revestimento de bancos",
+    "description": "Material de acabamento e personalização dos bancos.",
+    "aliases": "estofamento upholstery",
+    "legacy": false
+  },
+  {
+    "slug": "forros-porta",
+    "category": "interior",
+    "name": "Forros de porta",
+    "description": "Painéis de revestimento interno das portas.",
+    "aliases": "door card",
+    "legacy": false
+  },
+  {
+    "slug": "carpete",
+    "category": "interior",
+    "name": "Carpete automotivo",
+    "description": "Revestimento têxtil do piso da cabine.",
+    "aliases": "car carpet",
+    "legacy": false
+  },
+  {
+    "slug": "tapetes",
+    "category": "interior",
+    "name": "Tapetes automotivos",
+    "description": "Tapetes removíveis de proteção do piso.",
+    "aliases": "floor mat",
+    "legacy": false
+  },
+  {
+    "slug": "soleiras",
+    "category": "interior",
+    "name": "Soleiras de porta",
+    "description": "Acabamentos de proteção das entradas das portas.",
+    "aliases": "door sill",
+    "legacy": false
+  },
+  {
+    "slug": "console-central",
+    "category": "interior",
+    "name": "Console central",
+    "description": "Conjunto de acabamento e apoio entre os ocupantes dianteiros.",
+    "aliases": "center console",
+    "legacy": false
+  },
+  {
+    "slug": "apoio-braco",
+    "category": "interior",
+    "name": "Apoio de braço",
+    "description": "Apoio interno para conforto e acabamento da cabine.",
+    "aliases": "armrest",
+    "legacy": false
+  },
+  {
+    "slug": "extintor-automotivo",
+    "category": "interior",
+    "name": "Extintor automotivo",
+    "description": "Extintor e suporte destinados à instalação no veículo.",
+    "aliases": "fire extinguisher",
+    "legacy": false
+  },
+  {
+    "slug": "rede-seguranca",
+    "category": "interior",
+    "name": "Rede de segurança de janela",
+    "description": "Rede lateral de retenção utilizada em veículos de competição.",
+    "aliases": "window net",
+    "legacy": false
+  },
+  {
+    "slug": "barra-cintos",
+    "category": "interior",
+    "name": "Barra de fixação de cintos",
+    "description": "Estrutura de ancoragem de cintos de competição.",
+    "aliases": "harness bar",
+    "legacy": false
+  },
+  {
+    "slug": "splitter-dianteiro",
+    "category": "exterior",
+    "name": "Splitter dianteiro",
+    "description": "Plano aerodinâmico que se projeta sob a dianteira, distinto do acabamento lip.",
+    "aliases": "front splitter",
+    "legacy": false
+  },
+  {
+    "slug": "canards",
+    "category": "exterior",
+    "name": "Canards",
+    "description": "Pequenos perfis aerodinâmicos nas laterais da dianteira.",
+    "aliases": "dive plane",
+    "legacy": false
+  },
+  {
+    "slug": "alargadores-paralama",
+    "category": "exterior",
+    "name": "Alargadores de para-lama",
+    "description": "Extensões dos arcos de roda para maior cobertura lateral.",
+    "aliases": "fender flare",
+    "legacy": false
+  },
+  {
+    "slug": "paralamas",
+    "category": "exterior",
+    "name": "Para-lamas",
+    "description": "Painéis de carroceria que contornam as rodas.",
+    "aliases": "fender wing",
+    "legacy": false
+  },
+  {
+    "slug": "grade-dianteira",
+    "category": "exterior",
+    "name": "Grade dianteira",
+    "description": "Grade de acabamento e entrada de ar na dianteira.",
+    "aliases": "grille",
+    "legacy": false
+  },
+  {
+    "slug": "entrada-ar-capo",
+    "category": "exterior",
+    "name": "Entrada de ar de capô",
+    "description": "Duto ou tomada de ar instalada no capô.",
+    "aliases": "hood scoop",
+    "legacy": false
+  },
+  {
+    "slug": "respiros-capo",
+    "category": "exterior",
+    "name": "Respiros de capô",
+    "description": "Saídas de ar do compartimento do motor.",
+    "aliases": "hood vent louver",
+    "legacy": false
+  },
+  {
+    "slug": "travas-capo",
+    "category": "exterior",
+    "name": "Travas de capô",
+    "description": "Fixadores adicionais de fechamento do capô.",
+    "aliases": "hood pin",
+    "legacy": false
+  },
+  {
+    "slug": "engate-reboque",
+    "category": "exterior",
+    "name": "Engate de reboque",
+    "description": "Conjunto de acoplamento para reboque.",
+    "aliases": "tow hitch",
+    "legacy": false
+  },
+  {
+    "slug": "olhal-reboque",
+    "category": "exterior",
+    "name": "Olhal de reboque",
+    "description": "Ponto ou cinta de tração para recuperação do veículo.",
+    "aliases": "tow hook strap",
+    "legacy": false
+  },
+  {
+    "slug": "protetor-carter",
+    "category": "exterior",
+    "name": "Protetor de cárter",
+    "description": "Placa de proteção inferior do conjunto mecânico.",
+    "aliases": "skid plate",
+    "legacy": false
+  },
+  {
+    "slug": "bagageiro-teto",
+    "category": "exterior",
+    "name": "Bagageiro de teto",
+    "description": "Estrutura de transporte montada no teto.",
+    "aliases": "roof rack",
+    "legacy": false
+  },
+  {
+    "slug": "pelicula-vidros",
+    "category": "exterior",
+    "name": "Película para vidros",
+    "description": "Filme de aplicação nos vidros automotivos.",
+    "aliases": "window tint",
+    "legacy": false
+  },
+  {
+    "slug": "vinil-envelopamento",
+    "category": "exterior",
+    "name": "Vinil de envelopamento",
+    "description": "Filme adesivo para personalização da carroceria.",
+    "aliases": "wrap",
+    "legacy": false
+  },
+  {
+    "slug": "pelicula-protecao-pintura",
+    "category": "exterior",
+    "name": "Película de proteção de pintura",
+    "description": "Filme transparente de proteção da carroceria.",
+    "aliases": "ppf paint protection film",
+    "legacy": false
+  },
+  {
+    "slug": "emblemas",
+    "category": "exterior",
+    "name": "Emblemas automotivos",
+    "description": "Símbolos e inscrições de acabamento da carroceria.",
+    "aliases": "badge",
+    "legacy": false
+  },
+  {
+    "slug": "frisos",
+    "category": "exterior",
+    "name": "Frisos de carroceria",
+    "description": "Molduras e perfis externos de acabamento.",
+    "aliases": "body trim",
+    "legacy": false
+  },
+  {
+    "slug": "borrachas-vedacao",
+    "category": "exterior",
+    "name": "Borrachas de vedação",
+    "description": "Perfis de vedação de portas, vidros e tampas.",
+    "aliases": "weatherstrip",
+    "legacy": false
+  },
+  {
+    "slug": "lampadas-farol",
+    "category": "iluminacao",
+    "name": "Lâmpadas de farol",
+    "description": "Fontes de luz substituíveis dos faróis principais.",
+    "aliases": "headlight bulb led halógena xenon",
+    "legacy": false
+  },
+  {
+    "slug": "projetor-farol",
+    "category": "iluminacao",
+    "name": "Projetor de farol",
+    "description": "Módulo óptico de projeção para conjuntos de farol.",
+    "aliases": "projector retrofit",
+    "legacy": false
+  },
+  {
+    "slug": "reator-farol",
+    "category": "iluminacao",
+    "name": "Reator de farol",
+    "description": "Unidade de alimentação de lâmpadas de descarga.",
+    "aliases": "hid ballast",
+    "legacy": false
+  },
+  {
+    "slug": "modulo-led",
+    "category": "iluminacao",
+    "name": "Módulo controlador de LED",
+    "description": "Unidade de acionamento de iluminação LED automotiva.",
+    "aliases": "led driver",
+    "legacy": false
+  },
+  {
+    "slug": "setas",
+    "category": "iluminacao",
+    "name": "Indicadores de direção",
+    "description": "Conjuntos luminosos de sinalização de conversão.",
+    "aliases": "pisca turn signal",
+    "legacy": false
+  },
+  {
+    "slug": "luz-freio-adicional",
+    "category": "iluminacao",
+    "name": "Luz de freio adicional",
+    "description": "Terceira luz de freio do veículo.",
+    "aliases": "brake light brake lamp",
+    "legacy": false
+  },
+  {
+    "slug": "luz-placa",
+    "category": "iluminacao",
+    "name": "Luz de placa",
+    "description": "Conjunto de iluminação da placa de identificação.",
+    "aliases": "license plate light",
+    "legacy": false
+  },
+  {
+    "slug": "luz-re",
+    "category": "iluminacao",
+    "name": "Luz de ré",
+    "description": "Conjunto luminoso dedicado à sinalização de marcha à ré.",
+    "aliases": "reverse light",
+    "legacy": false
+  },
+  {
+    "slug": "iluminacao-ambiente",
+    "category": "iluminacao",
+    "name": "Iluminação ambiente",
+    "description": "Conjunto de luzes decorativas internas, distinto da luz de serviço da cabine.",
+    "aliases": "ambient light",
+    "legacy": false
+  },
+  {
+    "slug": "bateria",
+    "category": "eletrica-eletronica",
+    "name": "Bateria automotiva",
+    "description": "Acumulador elétrico de partida e alimentação do veículo.",
+    "aliases": "battery",
+    "legacy": false
+  },
+  {
+    "slug": "alternador",
+    "category": "eletrica-eletronica",
+    "name": "Alternador",
+    "description": "Gerador elétrico do sistema de carga do veículo.",
+    "aliases": "alternator",
+    "legacy": false
+  },
+  {
+    "slug": "motor-partida",
+    "category": "eletrica-eletronica",
+    "name": "Motor de partida",
+    "description": "Motor elétrico de acionamento inicial do motor a combustão.",
+    "aliases": "starter",
+    "legacy": false
+  },
+  {
+    "slug": "chave-geral",
+    "category": "eletrica-eletronica",
+    "name": "Chave geral elétrica",
+    "description": "Dispositivo de corte da alimentação elétrica principal.",
+    "aliases": "battery disconnect kill switch",
+    "legacy": false
+  },
+  {
+    "slug": "caixa-fusiveis",
+    "category": "eletrica-eletronica",
+    "name": "Caixa de fusíveis",
+    "description": "Suporte de organização e distribuição dos fusíveis do veículo.",
+    "aliases": "fuse box",
+    "legacy": false
+  },
+  {
+    "slug": "modulo-distribuicao",
+    "category": "eletrica-eletronica",
+    "name": "Módulo de distribuição de potência",
+    "description": "Unidade eletrônica de controle e proteção dos circuitos elétricos.",
+    "aliases": "pdm power distribution",
+    "legacy": false
+  },
+  {
+    "slug": "conectores-eletricos",
+    "category": "eletrica-eletronica",
+    "name": "Conectores elétricos automotivos",
+    "description": "Terminais e conectores de interligação dos circuitos.",
+    "aliases": "connector deutsch",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-map",
+    "category": "eletrica-eletronica",
+    "name": "Sensor MAP",
+    "description": "Sensor de pressão absoluta do coletor de admissão.",
+    "aliases": "manifold absolute pressure",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-tps",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de posição da borboleta",
+    "description": "Sensor de posição do acelerador no corpo de borboleta.",
+    "aliases": "tps throttle position",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-temperatura",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de temperatura do motor",
+    "description": "Sensor da temperatura do líquido de arrefecimento.",
+    "aliases": "ect coolant temperature",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-rotacao",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de rotação do motor",
+    "description": "Sensor de posição e rotação do virabrequim.",
+    "aliases": "crankshaft position ckp",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-fase",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de fase do motor",
+    "description": "Sensor de posição do comando de válvulas.",
+    "aliases": "camshaft position cmp",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-detonacao",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de detonação",
+    "description": "Sensor de vibração para identificação de detonação.",
+    "aliases": "knock sensor",
+    "legacy": false
+  },
+  {
+    "slug": "sonda-lambda",
+    "category": "eletrica-eletronica",
+    "name": "Sonda lambda convencional",
+    "description": "Sensor de oxigênio de banda estreita, distinto do kit wideband.",
+    "aliases": "narrowband oxygen sensor",
+    "legacy": false
+  },
+  {
+    "slug": "manometro-turbo",
+    "category": "eletrica-eletronica",
+    "name": "Manômetro de pressão do turbo",
+    "description": "Instrumento dedicado à pressão da admissão.",
+    "aliases": "boost gauge",
+    "legacy": false
+  },
+  {
+    "slug": "manometro-oleo",
+    "category": "eletrica-eletronica",
+    "name": "Manômetro de pressão de óleo",
+    "description": "Instrumento de leitura da pressão de lubrificação.",
+    "aliases": "oil pressure gauge",
+    "legacy": false
+  },
+  {
+    "slug": "termometro-oleo",
+    "category": "eletrica-eletronica",
+    "name": "Termômetro de óleo",
+    "description": "Instrumento de leitura da temperatura do óleo do motor.",
+    "aliases": "oil temperature gauge",
+    "legacy": false
+  },
+  {
+    "slug": "termometro-agua",
+    "category": "eletrica-eletronica",
+    "name": "Termômetro de arrefecimento",
+    "description": "Instrumento de leitura da temperatura do líquido de arrefecimento.",
+    "aliases": "water temperature gauge",
+    "legacy": false
+  },
+  {
+    "slug": "contagiros",
+    "category": "eletrica-eletronica",
+    "name": "Conta-giros",
+    "description": "Instrumento de leitura da rotação do motor.",
+    "aliases": "tachometer rpm",
+    "legacy": false
+  },
+  {
+    "slug": "voltimetro",
+    "category": "eletrica-eletronica",
+    "name": "Voltímetro automotivo",
+    "description": "Instrumento de leitura da tensão do sistema elétrico.",
+    "aliases": "voltmeter",
+    "legacy": false
+  },
+  {
+    "slug": "registrador-dados",
+    "category": "eletrica-eletronica",
+    "name": "Registrador de dados",
+    "description": "Unidade de gravação de parâmetros e telemetria do veículo.",
+    "aliases": "data logger",
+    "legacy": false
+  },
+  {
+    "slug": "alarme",
+    "category": "eletrica-eletronica",
+    "name": "Alarme automotivo",
+    "description": "Sistema de detecção e sinalização de intrusão no veículo.",
+    "aliases": "car alarm",
+    "legacy": false
+  },
+  {
+    "slug": "rastreador",
+    "category": "eletrica-eletronica",
+    "name": "Rastreador veicular",
+    "description": "Unidade de localização e acompanhamento do veículo.",
+    "aliases": "gps tracker",
+    "legacy": false
+  },
+  {
+    "slug": "camera-re",
+    "category": "eletrica-eletronica",
+    "name": "Câmera de ré",
+    "description": "Câmera para auxílio de visão em manobras.",
+    "aliases": "reverse camera",
+    "legacy": false
+  },
+  {
+    "slug": "sensor-estacionamento",
+    "category": "eletrica-eletronica",
+    "name": "Sensor de estacionamento",
+    "description": "Sistema de detecção de obstáculos em manobras.",
+    "aliases": "parking sensor",
+    "legacy": false
+  },
+  {
+    "slug": "camera-veicular",
+    "category": "eletrica-eletronica",
+    "name": "Câmera veicular",
+    "description": "Câmera de gravação do percurso e entorno do veículo.",
+    "aliases": "dashcam",
+    "legacy": false
+  },
+  {
+    "slug": "tweeter",
+    "category": "som",
+    "name": "Tweeter automotivo",
+    "description": "Alto-falante dedicado à reprodução de frequências agudas.",
+    "aliases": "high frequency",
+    "legacy": false
+  },
+  {
+    "slug": "midbass",
+    "category": "som",
+    "name": "Midbass automotivo",
+    "description": "Alto-falante dedicado às frequências médias e graves do sistema.",
+    "aliases": "woofer médio grave",
+    "legacy": false
+  },
+  {
+    "slug": "kit-duas-vias",
+    "category": "som",
+    "name": "Kit de alto-falantes de duas vias",
+    "description": "Conjunto de midbass, tweeter e divisor de frequências.",
+    "aliases": "component speaker",
+    "legacy": false
+  },
+  {
+    "slug": "caixa-subwoofer",
+    "category": "som",
+    "name": "Caixa para subwoofer",
+    "description": "Gabinete acústico para instalação de subwoofer.",
+    "aliases": "enclosure dutada selada",
+    "legacy": false
+  },
+  {
+    "slug": "processador-audio",
+    "category": "som",
+    "name": "Processador de áudio",
+    "description": "Unidade de processamento e ajuste dos sinais de áudio.",
+    "aliases": "dsp digital signal processor",
+    "legacy": false
+  },
+  {
+    "slug": "crossover",
+    "category": "som",
+    "name": "Divisor de frequências de áudio",
+    "description": "Circuito de separação de faixas para os alto-falantes.",
+    "aliases": "crossover",
+    "legacy": false
+  },
+  {
+    "slug": "manta-acustica",
+    "category": "som",
+    "name": "Manta de tratamento acústico",
+    "description": "Revestimento de amortecimento de vibrações dos painéis do veículo.",
+    "aliases": "sound deadening",
+    "legacy": false
+  },
+  {
+    "slug": "cabos-audio",
+    "category": "som",
+    "name": "Cabos de áudio automotivo",
+    "description": "Cabos de sinal e conexão entre fontes, processadores e amplificadores.",
+    "aliases": "rca speaker wire",
+    "legacy": false
+  },
+  {
+    "slug": "conversor-audio",
+    "category": "som",
+    "name": "Conversor de sinal de áudio",
+    "description": "Interface entre saídas amplificadas e entradas de sinal de áudio.",
+    "aliases": "line output converter loc",
+    "legacy": false
+  },
+  {
+    "slug": "interface-volante",
+    "category": "som",
+    "name": "Interface de comandos do volante",
+    "description": "Adaptador de comunicação dos botões do volante com a unidade de áudio.",
+    "aliases": "steering wheel control",
+    "legacy": false
+  },
+  {
+    "slug": "antena",
+    "category": "som",
+    "name": "Antena automotiva",
+    "description": "Antena para recepção de rádio no veículo.",
+    "aliases": "car antenna",
+    "legacy": false
+  }
+]

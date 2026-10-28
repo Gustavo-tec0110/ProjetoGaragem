@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-27",
+  "mode": "local-only",
+  "initialPending": 225,
+  "previouslyApprovedPreserved": 38,
+  "newPhotographs": 23,
+  "newBindings": 24,
+  "approvedBindings": 62,
+  "pending": 201,
+  "sourcesByProvider": {
+    "Flickr": 22,
+    "Wikimedia Commons": 1
+  },
+  "searches": {
+    "flickr": {
+      "cachedQueriesOrAlbums": 296,
+      "errors": 7,
+      "candidateEntries": 5403
+    },
+    "exact": {
+      "cachedQueriesOrAlbums": 225,
+      "errors": 8,
+      "candidateEntries": 1216
+    },
+    "parts": {
+      "cachedQueriesOrAlbums": 80,
+      "errors": 1,
+      "candidateEntries": 1181
+    },
+    "pxhere": {
+      "cachedQueriesOrAlbums": 39,
+      "errors": 0,
+      "candidateEntries": 837
+    },
+    "manufacturer": {
+      "cachedQueriesOrAlbums": 2,
+      "errors": 0,
+      "candidateEntries": 234
+    },
+    "product": {
+      "cachedQueriesOrAlbums": 2,
+      "errors": 0,
+      "candidateEntries": 155
+    },
+    "sound": {
+      "cachedQueriesOrAlbums": 7,
+      "errors": 0,
+      "candidateEntries": 51
+    }
+  },
+  "sourceNotes": {
+    "Flickr": "Licença confirmada na página individual, não apenas no filtro de busca. Inclui HPA, CTS Turbo, Spidertrax, VIBE Audio, PRIOR DESIGN e MIKI Yoshihito.",
+    "Wikimedia Commons": "Fortune Auto: CC BY-SA 4.0. Mesma foto em coilover e no alias suspensao-rosca.",
+    "PxHere": "39 consultas: resultados avaliados em pranchas, sem nova aprovação por qualidade/correspondência. CC0 do site não torna um resultado adequado à peça.",
+    "Pexels": "Páginas de fotos consultadas: mecânico segurando suspensão, motor montado e close de peça. Sem foto isolada aprovada.",
+    "Pixabay": "Busca web consultada; acesso direto às páginas de pesquisa retornou 403. Nenhuma imagem incorporada.",
+    "Public Domain Pictures": "Resultados consultados, distinguindo anúncios pagos e renders; download dos candidatos retornou 403. Sem aprovação.",
+    "StockSnap": "Página de engine block e CC0 consultadas; download retornou 403 e a cena não oferecia peça isolada aprovada.",
+    "Openverse": "API não respondeu dentro do prazo. Não contabilizada como coleta bem-sucedida."
+  },
+  "remoteWrites": 0,
+  "published": false,
+  "pushed": false
+}

@@ -1,0 +1,1843 @@
+[
+  {
+    "slug": "turbo",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/turbo.webp",
+    "destination": "public/modifications/approved/turbo.webp",
+    "sha256": "f351c68968f5dbf18302bd970da510544546b472e54b4a78fafdb34c9209fb43",
+    "version": "v1"
+  },
+  {
+    "slug": "supercharger",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/supercharger.webp",
+    "destination": "public/modifications/approved/supercharger.webp",
+    "sha256": "50763b8299fc48387c89fe74ac22f6017aa560353a42371f02662b0bc8240ac0",
+    "version": "v1"
+  },
+  {
+    "slug": "intercooler",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/intercooler.webp",
+    "destination": "public/modifications/approved/intercooler.webp",
+    "sha256": "8e72242c4c443478fd08874c782c6b9363e60fcc14474535e2d1f2b0fde88cae",
+    "version": "v1"
+  },
+  {
+    "slug": "intake-filtro-esportivo",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/intake-filtro-esportivo.webp",
+    "destination": "public/modifications/approved/intake-filtro-esportivo.webp",
+    "sha256": "da008110b86115a50fa4581f386b572b73add122ad842d13abcb858eadc6aafb",
+    "version": "v1"
+  },
+  {
+    "slug": "coletor-admissao",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/coletor-admissao.webp",
+    "destination": "public/modifications/approved/coletor-admissao.webp",
+    "sha256": "ee8534a4f3ecf8096307dc0855e097aa2edb665310a240e2e218e15bc027c5f3",
+    "version": "v1"
+  },
+  {
+    "slug": "coletor-escape",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/coletor-escape.webp",
+    "destination": "public/modifications/approved/coletor-escape.webp",
+    "sha256": "4eda97435b4ae784bf60a340fa540ca75d04abca109fbeb19bde73275e1edf34",
+    "version": "v1"
+  },
+  {
+    "slug": "downpipe",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/downpipe.webp",
+    "destination": "public/modifications/approved/downpipe.webp",
+    "sha256": "85a54c37145bfbfa7ed58133743ec4d3a3db0a63a4db97cc9220d867ac320bb0",
+    "version": "v1"
+  },
+  {
+    "slug": "escape",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/escape.webp",
+    "destination": "public/modifications/approved/escape.webp",
+    "sha256": "1e8390f4bc598226400888e20fb742906d683e23e623993acb631bea4e05179d",
+    "version": "v1"
+  },
+  {
+    "slug": "bicos-injetores",
+    "source": "artifacts/catalog-ai-2026-10-27/test/lote-01/bicos-injetores.webp",
+    "destination": "public/modifications/approved/bicos-injetores.webp",
+    "sha256": "027f3af985e7bd76c747c908901d0198cf2e5b810611e745a5021ac32ef53e6a",
+    "version": "v1"
+  },
+  {
+    "slug": "bomba-combustivel",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/bomba-combustivel.webp",
+    "destination": "public/modifications/approved/bomba-combustivel.webp",
+    "sha256": "859a21c5fd2968c24b027334752254f294370e291359db60ebb3a3c0ec4717f3",
+    "version": "v1"
+  },
+  {
+    "slug": "regulador-pressao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/regulador-pressao.webp",
+    "destination": "public/modifications/approved/regulador-pressao.webp",
+    "sha256": "219e20c02c1b8179d0200b8525b3c9e68096c4737f8256c01e30553d3eecbab7",
+    "version": "v1"
+  },
+  {
+    "slug": "ecu-modulo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/ecu-modulo.webp",
+    "destination": "public/modifications/approved/ecu-modulo.webp",
+    "sha256": "5ad1cf8a3b7f4e28df95690ba6172631bb2b47295d393aefc27794264921bc10",
+    "version": "v1"
+  },
+  {
+    "slug": "bobinas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/bobinas.webp",
+    "destination": "public/modifications/approved/bobinas.webp",
+    "sha256": "fdb4cc47c76f47d35c92e33131d059957ace4f2d2ebf1cdec3cba69860d7ee98",
+    "version": "v1"
+  },
+  {
+    "slug": "velas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/velas.webp",
+    "destination": "public/modifications/approved/velas.webp",
+    "sha256": "9de457f813c42f71088b739fac808786f9b88c947d79d09221494cc6a81c2ec7",
+    "version": "v1"
+  },
+  {
+    "slug": "radiador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/radiador.webp",
+    "destination": "public/modifications/approved/radiador.webp",
+    "sha256": "8dd86fb1d9f0ce37881a0a0ee20263afe3a3b8dbf05029e5e25ea7ea1a0695d7",
+    "version": "v1"
+  },
+  {
+    "slug": "motor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/motor.webp",
+    "destination": "public/modifications/approved/motor.webp",
+    "sha256": "f8de46f8a07679761593d853b2abd32c1b3e3dd15c5b89824666853d11418eb6",
+    "version": "v1"
+  },
+  {
+    "slug": "cabecote",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/cabecote.webp",
+    "destination": "public/modifications/approved/cabecote.webp",
+    "sha256": "bd17985f870279e90535c03e6c8cff053389cbec2ebc543b9088a9cb40ce7ddf",
+    "version": "v1"
+  },
+  {
+    "slug": "comando",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-02/comando.webp",
+    "destination": "public/modifications/approved/comando.webp",
+    "sha256": "5df78dbbe90b56d8fe1fc0faecc3e53db165571c578aaa5ed3a513f2e274f92d",
+    "version": "v1"
+  },
+  {
+    "slug": "pistoes-bielas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/pistoes-bielas.webp",
+    "destination": "public/modifications/approved/pistoes-bielas.webp",
+    "sha256": "fc94378ac3cd743b74c61660b4060a4976f28a838354fdce9423350d641c9ec3",
+    "version": "v1"
+  },
+  {
+    "slug": "wastegate",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/wastegate.webp",
+    "destination": "public/modifications/approved/wastegate.webp",
+    "sha256": "2d2e19f4cdd6908012868c7fd1b3485fd91e67ff8c28e929d11e859ee8a819fe",
+    "version": "v1"
+  },
+  {
+    "slug": "valvula-blow-off",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/valvula-blow-off.webp",
+    "destination": "public/modifications/approved/valvula-blow-off.webp",
+    "sha256": "e7f3df4f28d74c5997a3b17e6d19419bd7ffa4fde523ff2af2b664e55fec4dee",
+    "version": "v1"
+  },
+  {
+    "slug": "atuador-wastegate",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/atuador-wastegate.webp",
+    "destination": "public/modifications/approved/atuador-wastegate.webp",
+    "sha256": "3cc788fd6c2bfd24513d7dbcc1e48459473ec7bb9acf3cc288ecff8a0b356e79",
+    "version": "v1"
+  },
+  {
+    "slug": "controlador-boost",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/controlador-boost.webp",
+    "destination": "public/modifications/approved/controlador-boost.webp",
+    "sha256": "927328adb3443ca5de12ad25f201afab180a49a63f81c69dff7006cb10362e2e",
+    "version": "v1"
+  },
+  {
+    "slug": "pressurizacao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/pressurizacao.webp",
+    "destination": "public/modifications/approved/pressurizacao.webp",
+    "sha256": "ec50b4961c0babc8b05944cfdfde58807fa3e3d68ecf121a05cfe45df0d6af3a",
+    "version": "v1"
+  },
+  {
+    "slug": "mangotes-silicone",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/mangotes-silicone.webp",
+    "destination": "public/modifications/approved/mangotes-silicone.webp",
+    "sha256": "72e7389d35e15b52498fd1847e1e36bc38be37be26746f43297c0084f1b9e701",
+    "version": "v1"
+  },
+  {
+    "slug": "flange-turbo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/flange-turbo.webp",
+    "destination": "public/modifications/approved/flange-turbo.webp",
+    "sha256": "5018c7cf0e69dcc12def14c0bd10cad1dfc7f4198b3cc0629ed02401cbb20539",
+    "version": "v1"
+  },
+  {
+    "slug": "manta-termica-turbo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-03/manta-termica-turbo.webp",
+    "destination": "public/modifications/approved/manta-termica-turbo.webp",
+    "sha256": "fd76f76b1d9fbc51b8664dd755e27e1c3c1090bd74a9a3b15c6ac21ad2547762",
+    "version": "v1"
+  },
+  {
+    "slug": "linha-lubrificacao-turbo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/linha-lubrificacao-turbo.webp",
+    "destination": "public/modifications/approved/linha-lubrificacao-turbo.webp",
+    "sha256": "9508a0279eb70c1661eb87c62c93e383b4c980f9d1066c29c9887afe2e6800db",
+    "version": "v1"
+  },
+  {
+    "slug": "corpo-borboleta",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/corpo-borboleta.webp",
+    "destination": "public/modifications/approved/corpo-borboleta.webp",
+    "sha256": "5591a35d4dc4c28d41e6df6b62125f3adc480097b0c7614e4970dd44421a111a",
+    "version": "v1"
+  },
+  {
+    "slug": "carburador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/carburador.webp",
+    "destination": "public/modifications/approved/carburador.webp",
+    "sha256": "d7ef6e1b8e65d99ab1dd0aa3050fce9e97c6717bb0fdfa8d8c644f703acf8f1c",
+    "version": "v1"
+  },
+  {
+    "slug": "cornetas-admissao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/cornetas-admissao.webp",
+    "destination": "public/modifications/approved/cornetas-admissao.webp",
+    "sha256": "16711db8bf11247d2716f865143b55c3cd07e956527116a722fc988bd67f5142",
+    "version": "v1"
+  },
+  {
+    "slug": "reservatorio-respiro",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/reservatorio-respiro.webp",
+    "destination": "public/modifications/approved/reservatorio-respiro.webp",
+    "sha256": "4b36d2acf0da888d3ba29c2fc6da354f4f17f4a701c41cfcb678d3f335bf4bf2",
+    "version": "v1"
+  },
+  {
+    "slug": "filtro-combustivel",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/filtro-combustivel.webp",
+    "destination": "public/modifications/approved/filtro-combustivel.webp",
+    "sha256": "7af08d846fefb5d4c4cf7b71491035ad2e845550e0c40b8ec1675a65953f9249",
+    "version": "v1"
+  },
+  {
+    "slug": "flauta-combustivel",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/flauta-combustivel.webp",
+    "destination": "public/modifications/approved/flauta-combustivel.webp",
+    "sha256": "707a8b0dc38855b9f07fd319e9437f8c65ae86a4cc7c58a65482839a46220cad",
+    "version": "v1"
+  },
+  {
+    "slug": "surge-tank",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/surge-tank.webp",
+    "destination": "public/modifications/approved/surge-tank.webp",
+    "sha256": "bed629f15aaef72301c2b17e035b881c6231c23d9e4e71e2f666f51e86119d7b",
+    "version": "v1"
+  },
+  {
+    "slug": "celula-combustivel",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-04/celula-combustivel.webp",
+    "destination": "public/modifications/approved/celula-combustivel.webp",
+    "sha256": "4c740b36198c500ff43f656e0a8136fac546b8ff293ca5e7a9f011e9d4280312",
+    "version": "v1"
+  },
+  {
+    "slug": "linhas-combustivel",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/linhas-combustivel.webp",
+    "destination": "public/modifications/approved/linhas-combustivel.webp",
+    "sha256": "55cd411acddb52b1df3acf188b34668b0b12fe462d939294e2609e8df48252b1",
+    "version": "v1"
+  },
+  {
+    "slug": "cabos-vela",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/cabos-vela.webp",
+    "destination": "public/modifications/approved/cabos-vela.webp",
+    "sha256": "c6a2919a38e2cb602753317afdffd4c465cd9461157da782f7a05338f6a62053",
+    "version": "v1"
+  },
+  {
+    "slug": "modulo-ignicao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/modulo-ignicao.webp",
+    "destination": "public/modifications/approved/modulo-ignicao.webp",
+    "sha256": "8ff2b6c326e5e2142281920b8ab79c76de77e3d0b498867b64693f93005ad428",
+    "version": "v1"
+  },
+  {
+    "slug": "distribuidor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/distribuidor.webp",
+    "destination": "public/modifications/approved/distribuidor.webp",
+    "sha256": "1476fd9cbf71390cc33f4f53df4e8b8149e22ffde9aebb1699a15380fa141e0a",
+    "version": "v1"
+  },
+  {
+    "slug": "virabrequim",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/virabrequim.webp",
+    "destination": "public/modifications/approved/virabrequim.webp",
+    "sha256": "923c9d0e84263bfe79f1d8abea7628f35062489dd9f7f279af30d9bbaaac6ab3",
+    "version": "v1"
+  },
+  {
+    "slug": "valvulas-motor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/valvulas-motor.webp",
+    "destination": "public/modifications/approved/valvulas-motor.webp",
+    "sha256": "2ad6466871cfdb16c4c0251b04e42f3cb78d2e76a1cfccaa2e8f0203e60b7d2c",
+    "version": "v1"
+  },
+  {
+    "slug": "molas-valvulas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/molas-valvulas.webp",
+    "destination": "public/modifications/approved/molas-valvulas.webp",
+    "sha256": "bcf128aa558fc98d3f05b495f60ba659f09cd1aad01c5ee4d6319297e09e8189",
+    "version": "v1"
+  },
+  {
+    "slug": "pratos-valvulas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/pratos-valvulas.webp",
+    "destination": "public/modifications/approved/pratos-valvulas.webp",
+    "sha256": "a74df5845767707c4de7fc6cee9420cdb73b0c7cc46e78eb2a4b92ef3a1b2e58",
+    "version": "v1"
+  },
+  {
+    "slug": "polia-comando",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-05/polia-comando.webp",
+    "destination": "public/modifications/approved/polia-comando.webp",
+    "sha256": "25793f5c131615020a214a6d002a3d195311e72ed63d082a2066123e82ef4cc1",
+    "version": "v1"
+  },
+  {
+    "slug": "junta-cabecote",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/junta-cabecote.webp",
+    "destination": "public/modifications/approved/junta-cabecote.webp",
+    "sha256": "b288697c2ae126a354ca0aaaf91f4b4e569c00e57875f0d3079358ea6cfcff0b",
+    "version": "v1"
+  },
+  {
+    "slug": "prisioneiros-motor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/prisioneiros-motor.webp",
+    "destination": "public/modifications/approved/prisioneiros-motor.webp",
+    "sha256": "62e0979d7c4ff7f87955749d692e8bde302778a4f8f06acb5dbf22915923c0bf",
+    "version": "v1"
+  },
+  {
+    "slug": "bronzinas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/bronzinas.webp",
+    "destination": "public/modifications/approved/bronzinas.webp",
+    "sha256": "50d2eff97a85cddeaa11cc850c58b8acaeca666b28df03bec8e7bd7f8fcbe172",
+    "version": "v1"
+  },
+  {
+    "slug": "bomba-oleo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/bomba-oleo.webp",
+    "destination": "public/modifications/approved/bomba-oleo.webp",
+    "sha256": "9637fe1d6c91828a0101fddc3bed836443eca86593c907d0844e464771aeb234",
+    "version": "v1"
+  },
+  {
+    "slug": "carter",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/carter.webp",
+    "destination": "public/modifications/approved/carter.webp",
+    "sha256": "92903e9c0016c486247cbacedd34e6e7d04424405ced9294589ff07af4ea4f0f",
+    "version": "v1"
+  },
+  {
+    "slug": "kit-carter-seco",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/kit-carter-seco.webp",
+    "destination": "public/modifications/approved/kit-carter-seco.webp",
+    "sha256": "6047b6720f2f0ada1e24df2bd51957b13d4c34d66d7c760ee13ab12b5b685d74",
+    "version": "v1"
+  },
+  {
+    "slug": "radiador-oleo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/radiador-oleo.webp",
+    "destination": "public/modifications/approved/radiador-oleo.webp",
+    "sha256": "8841e2c95da344671b6fbf03375186bde7a27822e79450d3724c570108d9d256",
+    "version": "v1"
+  },
+  {
+    "slug": "bomba-agua",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/bomba-agua.webp",
+    "destination": "public/modifications/approved/bomba-agua.webp",
+    "sha256": "4dbae5cbc008445df0c405bbd45d8ebd1ed3186581e1f7cad886cadd22d62949",
+    "version": "v1"
+  },
+  {
+    "slug": "ventoinha",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-06/ventoinha.webp",
+    "destination": "public/modifications/approved/ventoinha.webp",
+    "sha256": "6b2cbf4941175fc29f0143256c2c6b538f45348f0ccabb975f4ee334ee3bb017",
+    "version": "v1"
+  },
+  {
+    "slug": "valvula-termostatica",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/valvula-termostatica.webp",
+    "destination": "public/modifications/approved/valvula-termostatica.webp",
+    "sha256": "37224db7e353deae8b84335b8996d93c6734ac4a2e4b65fa70964d441b31cdca",
+    "version": "v1"
+  },
+  {
+    "slug": "reservatorio-expansao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/reservatorio-expansao.webp",
+    "destination": "public/modifications/approved/reservatorio-expansao.webp",
+    "sha256": "dc6eb351a5128fb35de24db4a3d0dce37c82ecfefc84cbd662bfe6fe7b055667",
+    "version": "v1"
+  },
+  {
+    "slug": "mangueiras-arrefecimento",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/mangueiras-arrefecimento.webp",
+    "destination": "public/modifications/approved/mangueiras-arrefecimento.webp",
+    "sha256": "52577443ae067ad24900d3b302ecd05bf6e1f4d9a9a23dd269e8b0771cdf9cdc",
+    "version": "v1"
+  },
+  {
+    "slug": "defletor-radiador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/defletor-radiador.webp",
+    "destination": "public/modifications/approved/defletor-radiador.webp",
+    "sha256": "e57e2580909134b1078487b320f67d78c2002303ac453d892c7b009f33bdf3f1",
+    "version": "v1"
+  },
+  {
+    "slug": "coxins-motor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/coxins-motor.webp",
+    "destination": "public/modifications/approved/coxins-motor.webp",
+    "sha256": "27521cedc331a819c4925eff97360dc36c773817adf85ba7b73cc21e8fe6c1fe",
+    "version": "v1"
+  },
+  {
+    "slug": "abafador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/abafador.webp",
+    "destination": "public/modifications/approved/abafador.webp",
+    "sha256": "65ae754daed52a72abc18a50f7c8f3e23d5c9b10f5682859d57f76666d34ee2f",
+    "version": "v1"
+  },
+  {
+    "slug": "ressonador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/ressonador.webp",
+    "destination": "public/modifications/approved/ressonador.webp",
+    "sha256": "6fafeb733fd2da439534c5bf30496d394eb4b826abd2dbee025f3977483095ee",
+    "version": "v1"
+  },
+  {
+    "slug": "catalisador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/catalisador.webp",
+    "destination": "public/modifications/approved/catalisador.webp",
+    "sha256": "b005562949c89d33f06e741324831fcf77bcedbff0aa3dc0412e1892ce95c207",
+    "version": "v1"
+  },
+  {
+    "slug": "ponteira-escape",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-07/ponteira-escape.webp",
+    "destination": "public/modifications/approved/ponteira-escape.webp",
+    "sha256": "0c24a3bc52fdc05ff57bfcff452410d78061a0f66e4d211d70ecc67fd661f3ed",
+    "version": "v1"
+  },
+  {
+    "slug": "valvula-escape",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/valvula-escape.webp",
+    "destination": "public/modifications/approved/valvula-escape.webp",
+    "sha256": "7ea3eb9ed84e12705159e1b453a728698f9013c1c075ac952d123d7be71774b9",
+    "version": "v1"
+  },
+  {
+    "slug": "fita-termica-escape",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/fita-termica-escape.webp",
+    "destination": "public/modifications/approved/fita-termica-escape.webp",
+    "sha256": "baed2611873229276a4015b4b387e1ced350d26f10181bddbc844634ca1ada19",
+    "version": "v1"
+  },
+  {
+    "slug": "kit-oxido-nitroso",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/kit-oxido-nitroso.webp",
+    "destination": "public/modifications/approved/kit-oxido-nitroso.webp",
+    "sha256": "d837bd3cda343a9a924f7072deac3c572d32c1b28409bd5aa76d5f0269449533",
+    "version": "v1"
+  },
+  {
+    "slug": "injecao-agua-metanol",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/injecao-agua-metanol.webp",
+    "destination": "public/modifications/approved/injecao-agua-metanol.webp",
+    "sha256": "8d6f4c69d737553a2a4d8563e0f6c5565bd3edac067c6711fc8c51be26f7a5d5",
+    "version": "v1"
+  },
+  {
+    "slug": "coilover",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/coilover.webp",
+    "destination": "public/modifications/approved/coilover.webp",
+    "sha256": "3dcfefb0a1d756af2cc672265bf6a18c6dc7ca683025fde2532c8375f92859d7",
+    "version": "v1"
+  },
+  {
+    "slug": "suspensao-rosca",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/suspensao-rosca.webp",
+    "destination": "public/modifications/approved/suspensao-rosca.webp",
+    "sha256": "e15493d17e4f536315091d51154ae8f08c9ff777aff8582ddfefb20b8d8eb518",
+    "version": "v1"
+  },
+  {
+    "slug": "suspensao-fixa",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/suspensao-fixa.webp",
+    "destination": "public/modifications/approved/suspensao-fixa.webp",
+    "sha256": "eb056bbaf8a1858b6bd485540860de162f5c26a5cccc144933fe3276233b6d12",
+    "version": "v1"
+  },
+  {
+    "slug": "molas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/molas.webp",
+    "destination": "public/modifications/approved/molas.webp",
+    "sha256": "9b833855186aaa0d6e15265aafb8268a7a2d856620f0be4ccb4c5f3edae11b88",
+    "version": "v1"
+  },
+  {
+    "slug": "amortecedores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-08/amortecedores.webp",
+    "destination": "public/modifications/approved/amortecedores.webp",
+    "sha256": "ecbde912a76e0128c2aae0256d8b49c237dc9e03cd73673aca125ca9baa2d18a",
+    "version": "v1"
+  },
+  {
+    "slug": "barra-estabilizadora",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/barra-estabilizadora.webp",
+    "destination": "public/modifications/approved/barra-estabilizadora.webp",
+    "sha256": "ca31d915e56f93a291c2fd04d951f6d23f410411774e96dfa281f76e1789de2b",
+    "version": "v1"
+  },
+  {
+    "slug": "buchas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/buchas.webp",
+    "destination": "public/modifications/approved/buchas.webp",
+    "sha256": "11e55b30615e8cc92649f8ce1b25a772415f9448504c559a89f81e0a899565e2",
+    "version": "v1"
+  },
+  {
+    "slug": "bracos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/bracos.webp",
+    "destination": "public/modifications/approved/bracos.webp",
+    "sha256": "e15c756ad31cba4b78a9a0b3af1769616110950a23a7707889ab264a8421dbd9",
+    "version": "v1"
+  },
+  {
+    "slug": "camber-alinhamento",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/camber-alinhamento.webp",
+    "destination": "public/modifications/approved/camber-alinhamento.webp",
+    "sha256": "593ac75adb857694fe446851343fbd8bccd07303b91969e045697a3dfbc4dc4d",
+    "version": "v1"
+  },
+  {
+    "slug": "reforcos-estruturais",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/reforcos-estruturais.webp",
+    "destination": "public/modifications/approved/reforcos-estruturais.webp",
+    "sha256": "d2eb7a273b058c4ca7fb435e01f8b2989510ef67ca7cb6fd0adf8f5167956f87",
+    "version": "v1"
+  },
+  {
+    "slug": "suspensao-ar",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/suspensao-ar.webp",
+    "destination": "public/modifications/approved/suspensao-ar.webp",
+    "sha256": "cc92d6188d04528f513d3189aef38787f483ffa85ba656d6c0a26e370c35fc06",
+    "version": "v1"
+  },
+  {
+    "slug": "bolsas-ar",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/bolsas-ar.webp",
+    "destination": "public/modifications/approved/bolsas-ar.webp",
+    "sha256": "ae2698cabdfb31da15d0f851ace0d135b1ce6941faa1b7085feb09df5142e6ac",
+    "version": "v1"
+  },
+  {
+    "slug": "compressor-suspensao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/compressor-suspensao.webp",
+    "destination": "public/modifications/approved/compressor-suspensao.webp",
+    "sha256": "235c2a1cc741c8eea5e1f4cf451ff444f1b77187aca6bf325aaadb41591b4af9",
+    "version": "v1"
+  },
+  {
+    "slug": "reservatorio-ar",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-09/reservatorio-ar.webp",
+    "destination": "public/modifications/approved/reservatorio-ar.webp",
+    "sha256": "ce4b193a966773d749ae13792a0c64a20f28630fa2a47810fc5eeb1d697d5dd4",
+    "version": "v1"
+  },
+  {
+    "slug": "bloco-valvulas-ar",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/bloco-valvulas-ar.webp",
+    "destination": "public/modifications/approved/bloco-valvulas-ar.webp",
+    "sha256": "e511f1786c25900ad5e9952c56662c440f03f03f0ddc8e31c20b33ba6a246db3",
+    "version": "v1"
+  },
+  {
+    "slug": "central-suspensao-ar",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/central-suspensao-ar.webp",
+    "destination": "public/modifications/approved/central-suspensao-ar.webp",
+    "sha256": "0952e064246b6b129fd157026ab365b405aac04bb484b924364cd761ae21e643",
+    "version": "v1"
+  },
+  {
+    "slug": "bieletas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/bieletas.webp",
+    "destination": "public/modifications/approved/bieletas.webp",
+    "sha256": "e5e779fb16f57fad5976ec717937e2bac4a97df0b2c529f971f473037820c166",
+    "version": "v1"
+  },
+  {
+    "slug": "pivos-suspensao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/pivos-suspensao.webp",
+    "destination": "public/modifications/approved/pivos-suspensao.webp",
+    "sha256": "9fe8a4fab7ff8e3fe164de778ced07e62e90b7931c628602f4da77f2301bf6d7",
+    "version": "v1"
+  },
+  {
+    "slug": "coxins-amortecedor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/coxins-amortecedor.webp",
+    "destination": "public/modifications/approved/coxins-amortecedor.webp",
+    "sha256": "3ccaf2cd90bfad420c5619043d0da85810643cf8cc2dc210ac2d7cbd8193606a",
+    "version": "v1"
+  },
+  {
+    "slug": "batentes-suspensao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/batentes-suspensao.webp",
+    "destination": "public/modifications/approved/batentes-suspensao.webp",
+    "sha256": "9adcb539e89389b3e3c978901d6533765e3d60b0e149958a9aa8d876e8c1ee65",
+    "version": "v1"
+  },
+  {
+    "slug": "manga-eixo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/manga-eixo.webp",
+    "destination": "public/modifications/approved/manga-eixo.webp",
+    "sha256": "57ccba4411efdb01ea7fdae93eb825c1867adcb49d20faf321abcb449fc756d5",
+    "version": "v1"
+  },
+  {
+    "slug": "caixa-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/caixa-direcao.webp",
+    "destination": "public/modifications/approved/caixa-direcao.webp",
+    "sha256": "9312bb40ec64c5eead4600884237d927242c6e4cabd873d3f232bfbb540c5267",
+    "version": "v1"
+  },
+  {
+    "slug": "terminais-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-10/terminais-direcao.webp",
+    "destination": "public/modifications/approved/terminais-direcao.webp",
+    "sha256": "dab0b3e12d9815cda9cfe3ce427ce35abc13790604eed625213642ef47214c03",
+    "version": "v1"
+  },
+  {
+    "slug": "bracos-axiais",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/bracos-axiais.webp",
+    "destination": "public/modifications/approved/bracos-axiais.webp",
+    "sha256": "f3b2ad69163b6e5c6e827b4aed5b7a57b4f902d579e4f60db26fb6985822c093",
+    "version": "v1"
+  },
+  {
+    "slug": "bomba-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/bomba-direcao.webp",
+    "destination": "public/modifications/approved/bomba-direcao.webp",
+    "sha256": "05ea933df1257920a05a8f130c635ea8c5707a53b2eca23c446978b657c657a5",
+    "version": "v1"
+  },
+  {
+    "slug": "reservatorio-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/reservatorio-direcao.webp",
+    "destination": "public/modifications/approved/reservatorio-direcao.webp",
+    "sha256": "2a8d8d971e9a48c8686c661b17a9e2604d76f98c84c5cb0ae58e4181f5a70aba",
+    "version": "v1"
+  },
+  {
+    "slug": "amortecedor-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/amortecedor-direcao.webp",
+    "destination": "public/modifications/approved/amortecedor-direcao.webp",
+    "sha256": "7e707a72e203f6d2935fd39754b402a5b0126c9785bac95f74beeb965ddb6944",
+    "version": "v1"
+  },
+  {
+    "slug": "kit-angulo-direcao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/kit-angulo-direcao.webp",
+    "destination": "public/modifications/approved/kit-angulo-direcao.webp",
+    "sha256": "653df62e8c74c3f2a7ac38c10f080a710206d75bca23c2c68fb4f8fca1e882d3",
+    "version": "v1"
+  },
+  {
+    "slug": "barra-panhard",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/barra-panhard.webp",
+    "destination": "public/modifications/approved/barra-panhard.webp",
+    "sha256": "488158bb6be0636bc52a292de9d8387f063cc6885659e0a37ffcc78a3c789d90",
+    "version": "v1"
+  },
+  {
+    "slug": "feixe-molas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/feixe-molas.webp",
+    "destination": "public/modifications/approved/feixe-molas.webp",
+    "sha256": "ea81281c99859e42cbd7e44ad2f3913e91cd250899b131c8383ee5b4aff90812",
+    "version": "v1"
+  },
+  {
+    "slug": "subchassi",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/subchassi.webp",
+    "destination": "public/modifications/approved/subchassi.webp",
+    "sha256": "c17592fa1ea06aa11a7430a3fe154d6e07fd1d2d31986539aa9a348001bfaf01",
+    "version": "v1"
+  },
+  {
+    "slug": "discos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-11/discos.webp",
+    "destination": "public/modifications/approved/discos.webp",
+    "sha256": "7ddf8f868d5d3d1109776a084017478a7695fde51c6ef1d3bd094481a0a554d7",
+    "version": "v1"
+  },
+  {
+    "slug": "pincas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/pincas.webp",
+    "destination": "public/modifications/approved/pincas.webp",
+    "sha256": "5d6c7d60b8f7683a77e554a33c40388ca2d64153f090cb0c19d3f324aabf0092",
+    "version": "v1"
+  },
+  {
+    "slug": "pastilhas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/pastilhas.webp",
+    "destination": "public/modifications/approved/pastilhas.webp",
+    "sha256": "c296d2698cb0d83ad5d1cc99ea4ec110794d130a83cc1be17fea884330f85d8e",
+    "version": "v1"
+  },
+  {
+    "slug": "mangueiras",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/mangueiras.webp",
+    "destination": "public/modifications/approved/mangueiras.webp",
+    "sha256": "196fac359308b8b5035aca17b4531fd9cbf11441bd89433a1bec35c2682c4393",
+    "version": "v1"
+  },
+  {
+    "slug": "kit-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/kit-freio.webp",
+    "destination": "public/modifications/approved/kit-freio.webp",
+    "sha256": "e089ed77815bff8dd4acc39cc62d9dbb9e64f15fb209628c0263cbd282d7b5cf",
+    "version": "v1"
+  },
+  {
+    "slug": "cilindro-mestre-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/cilindro-mestre-freio.webp",
+    "destination": "public/modifications/approved/cilindro-mestre-freio.webp",
+    "sha256": "01040796fb8b33843e9fbcce2a8773b4fa0589f25c00d9c7acb9983d59d41715",
+    "version": "v1"
+  },
+  {
+    "slug": "servofreio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/servofreio.webp",
+    "destination": "public/modifications/approved/servofreio.webp",
+    "sha256": "3c03b07b495521789f2e3016d5d38ec30669048e262d20034e6d85fc5d410631",
+    "version": "v1"
+  },
+  {
+    "slug": "valvula-proporcao-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/valvula-proporcao-freio.webp",
+    "destination": "public/modifications/approved/valvula-proporcao-freio.webp",
+    "sha256": "b1719502e83798b6b708b40389da7d2eb4b2a00499543034775e87374d2602cf",
+    "version": "v1"
+  },
+  {
+    "slug": "freio-mao-hidraulico",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/freio-mao-hidraulico.webp",
+    "destination": "public/modifications/approved/freio-mao-hidraulico.webp",
+    "sha256": "a1be7bcde5c40f09366935bb60be0632dc319a4ca8359ba576cba0a7b9fcff32",
+    "version": "v1"
+  },
+  {
+    "slug": "pedal-box",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-12/pedal-box.webp",
+    "destination": "public/modifications/approved/pedal-box.webp",
+    "sha256": "c9dcce798170357a9a932f20b321b586d9c923bf2b4578a0a9fb66c9ed904740",
+    "version": "v1"
+  },
+  {
+    "slug": "reservatorio-fluido-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/reservatorio-fluido-freio.webp",
+    "destination": "public/modifications/approved/reservatorio-fluido-freio.webp",
+    "sha256": "84a2915ad727e80471af8c451aaad9c66c6423a0b725402ecf0992c1cd6cb386",
+    "version": "v1"
+  },
+  {
+    "slug": "dutos-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/dutos-freio.webp",
+    "destination": "public/modifications/approved/dutos-freio.webp",
+    "sha256": "26f14241c7ea8f5265888d46f964348733edc3688b4650b7e3e3f8426699049a",
+    "version": "v1"
+  },
+  {
+    "slug": "sapatas-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/sapatas-freio.webp",
+    "destination": "public/modifications/approved/sapatas-freio.webp",
+    "sha256": "3955c93d85db9130a0ddb83be789c5944769f8d3de6d0ce494c3220fb50722f8",
+    "version": "v1"
+  },
+  {
+    "slug": "tambores-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/tambores-freio.webp",
+    "destination": "public/modifications/approved/tambores-freio.webp",
+    "sha256": "62942de726a188cb378969e1266fc4cd190f309e962c5b841f14439bf8962681",
+    "version": "v1"
+  },
+  {
+    "slug": "cilindro-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/cilindro-roda.webp",
+    "destination": "public/modifications/approved/cilindro-roda.webp",
+    "sha256": "ab3b50bb50ed294a9c1b9c4b03ec20cb486bb1e7e2b92657a36c32551afe97f2",
+    "version": "v1"
+  },
+  {
+    "slug": "cabos-freio-mao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/cabos-freio-mao.webp",
+    "destination": "public/modifications/approved/cabos-freio-mao.webp",
+    "sha256": "7046023613aafb2aceb78b56295d478852e17944062e7889cc532ec682f23776",
+    "version": "v1"
+  },
+  {
+    "slug": "linhas-rigidas-freio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/linhas-rigidas-freio.webp",
+    "destination": "public/modifications/approved/linhas-rigidas-freio.webp",
+    "sha256": "a28db0a0eddd1971630685739aa6b6522b5dc3da65b7b6dbc0130f59de41f8c0",
+    "version": "v1"
+  },
+  {
+    "slug": "rodas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/rodas.webp",
+    "destination": "public/modifications/approved/rodas.webp",
+    "sha256": "8d274bebeb678cb809ec4bd5c75f1228b95c6fe242f7e9c2a4947ca63c53407a",
+    "version": "v1"
+  },
+  {
+    "slug": "pneus",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-13/pneus.webp",
+    "destination": "public/modifications/approved/pneus.webp",
+    "sha256": "08cd083ebce23c82f4b334226a33c986a7a4b96af8c793db9e3207b6ad7da6a5",
+    "version": "v1"
+  },
+  {
+    "slug": "espacadores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/espacadores.webp",
+    "destination": "public/modifications/approved/espacadores.webp",
+    "sha256": "071ecd63d64f39cb76928c6bfea3dfab247fffb7378c8e6fcb287070ff645990",
+    "version": "v1"
+  },
+  {
+    "slug": "adaptadores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/adaptadores.webp",
+    "destination": "public/modifications/approved/adaptadores.webp",
+    "sha256": "8fa2d534e7176d072104d36b5793ddadca7fc6837c76c761865683576f669cbd",
+    "version": "v1"
+  },
+  {
+    "slug": "prisioneiros-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/prisioneiros-roda.webp",
+    "destination": "public/modifications/approved/prisioneiros-roda.webp",
+    "sha256": "bc51ecf726a0cde3a61ee9429ff283e686c1515d88efaf0fa514dfe9c57e1ffc",
+    "version": "v1"
+  },
+  {
+    "slug": "porcas-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/porcas-roda.webp",
+    "destination": "public/modifications/approved/porcas-roda.webp",
+    "sha256": "ca1837325e6d3ef6aeea2566b30b7edd8b6164a543e2bf158e7875d2be61e61d",
+    "version": "v1"
+  },
+  {
+    "slug": "parafusos-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/parafusos-roda.webp",
+    "destination": "public/modifications/approved/parafusos-roda.webp",
+    "sha256": "43df60d0148f291cb057dab9552edd670958d8db98b2f94dd8c22674d643f097",
+    "version": "v1"
+  },
+  {
+    "slug": "aneis-centralizadores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/aneis-centralizadores.webp",
+    "destination": "public/modifications/approved/aneis-centralizadores.webp",
+    "sha256": "7fb4b7a7338c00a4493bca62600b35502aa12ab9d30cf1ded7d734ece54721ff",
+    "version": "v1"
+  },
+  {
+    "slug": "cubos-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/cubos-roda.webp",
+    "destination": "public/modifications/approved/cubos-roda.webp",
+    "sha256": "9b7c0c08a536efcf70638f36f2cf4884c940c4ea8f406f4f27ffe13daaa78d7f",
+    "version": "v1"
+  },
+  {
+    "slug": "rolamentos-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/rolamentos-roda.webp",
+    "destination": "public/modifications/approved/rolamentos-roda.webp",
+    "sha256": "de8ac226a043956f5d1f4df56ac0952cf0a8bab0b45fa899f0dcfd18825ea45a",
+    "version": "v1"
+  },
+  {
+    "slug": "valvulas-pneu",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-14/valvulas-pneu.webp",
+    "destination": "public/modifications/approved/valvulas-pneu.webp",
+    "sha256": "ecb231ff9112e80d6f958321deb57efc38571daaf8494afffc902c2c924ed4f5",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-tpms",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/sensor-tpms.webp",
+    "destination": "public/modifications/approved/sensor-tpms.webp",
+    "sha256": "8e7767d7246ab437be0c7d4bc0e03bfa4299a36751c49931a59ce3bc751b5eb8",
+    "version": "v1"
+  },
+  {
+    "slug": "travas-roda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/travas-roda.webp",
+    "destination": "public/modifications/approved/travas-roda.webp",
+    "sha256": "7ff74170336b950169c26d393c3066e0caadac24bc2af783d4e594fdb992a55a",
+    "version": "v1"
+  },
+  {
+    "slug": "calotas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/calotas.webp",
+    "destination": "public/modifications/approved/calotas.webp",
+    "sha256": "7557653c95383cdc32120f34af2e44dcf1f4e1672f7eae3b2aa23f5a1ab74cd6",
+    "version": "v1"
+  },
+  {
+    "slug": "cambio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/cambio.webp",
+    "destination": "public/modifications/approved/cambio.webp",
+    "sha256": "6b1203fd347e4106aedcafdc6e851701c960a5c096e71ca102478a0ed7fdaa11",
+    "version": "v1"
+  },
+  {
+    "slug": "embreagem",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/embreagem.webp",
+    "destination": "public/modifications/approved/embreagem.webp",
+    "sha256": "fd3765f111a6c1b9290b4314ae5921354d70933d7a4638dad7253b8e3caef211",
+    "version": "v1"
+  },
+  {
+    "slug": "diferencial",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/diferencial.webp",
+    "destination": "public/modifications/approved/diferencial.webp",
+    "sha256": "260fed988b9d0c5e4a5f8a6b90296967ba1f2651a9a9e9d5e4dfcba2c7385a8f",
+    "version": "v1"
+  },
+  {
+    "slug": "short-shifter",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/short-shifter.webp",
+    "destination": "public/modifications/approved/short-shifter.webp",
+    "sha256": "68bcddb8b959d024e48ef64ffb6f6c3a37ebd16f042ff359cb82f8c92f9eb884",
+    "version": "v1"
+  },
+  {
+    "slug": "alavanca",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/alavanca.webp",
+    "destination": "public/modifications/approved/alavanca.webp",
+    "sha256": "ca0823b3ca640bb4ffb2c8ca7aebbb0d819c6d183b11cfce95bf8db2944ceb20",
+    "version": "v1"
+  },
+  {
+    "slug": "relacoes-marcha",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-15/relacoes-marcha.webp",
+    "destination": "public/modifications/approved/relacoes-marcha.webp",
+    "sha256": "d0e210f00a9b3fa6a5b42f9d39fa2eb2bcef4ed1c67c5a45be101f3fb3a27a4e",
+    "version": "v1"
+  },
+  {
+    "slug": "volante-motor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/volante-motor.webp",
+    "destination": "public/modifications/approved/volante-motor.webp",
+    "sha256": "e03be6cac39f797cf11921196ee6fe653ea669220948108ab7a836ce777b5f8e",
+    "version": "v1"
+  },
+  {
+    "slug": "conversor-torque",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/conversor-torque.webp",
+    "destination": "public/modifications/approved/conversor-torque.webp",
+    "sha256": "9989eb11f3501be7d20c189b0dafa31b05cc8037fe6238a66ab382a6e40895ab",
+    "version": "v1"
+  },
+  {
+    "slug": "carda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/carda.webp",
+    "destination": "public/modifications/approved/carda.webp",
+    "sha256": "a331650fb616ca793a9b3a2542b8b3e5368b00f7da86a6f8b26106fe9743bd33",
+    "version": "v1"
+  },
+  {
+    "slug": "semieixos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/semieixos.webp",
+    "destination": "public/modifications/approved/semieixos.webp",
+    "sha256": "9aebc6ed95d03a92de3d1c1e3cb9923c367676accdeceb6c99a7ac480d26c42e",
+    "version": "v1"
+  },
+  {
+    "slug": "juntas-homocineticas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/juntas-homocineticas.webp",
+    "destination": "public/modifications/approved/juntas-homocineticas.webp",
+    "sha256": "caf0c5e6e448cce40e12982d6929f045a6756d3df1d8668b3da9f6b5d8c57e46",
+    "version": "v1"
+  },
+  {
+    "slug": "cruzetas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/cruzetas.webp",
+    "destination": "public/modifications/approved/cruzetas.webp",
+    "sha256": "0f32b507c28bf4ceb13989196e67e182b33a543925ca5522ed203f50354c80d4",
+    "version": "v1"
+  },
+  {
+    "slug": "coxim-cambio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/coxim-cambio.webp",
+    "destination": "public/modifications/approved/coxim-cambio.webp",
+    "sha256": "ff9c92fa7011488ec2e4a5e655494a719679b8ab89e248f1b594f95a0ee2e1a3",
+    "version": "v1"
+  },
+  {
+    "slug": "trambulador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/trambulador.webp",
+    "destination": "public/modifications/approved/trambulador.webp",
+    "sha256": "3135eca377d9275e1523fab160ea3f88d8de1f1be2e9aebfcce15a0d483bd195",
+    "version": "v1"
+  },
+  {
+    "slug": "cabos-cambio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-16/cabos-cambio.webp",
+    "destination": "public/modifications/approved/cabos-cambio.webp",
+    "sha256": "e83ec400696caba476e2414a69e838bc53b7c83bb5157991a2f5f3e03668e325",
+    "version": "v1"
+  },
+  {
+    "slug": "cilindro-mestre-embreagem",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/cilindro-mestre-embreagem.webp",
+    "destination": "public/modifications/approved/cilindro-mestre-embreagem.webp",
+    "sha256": "d314a2ab33d6ec7c708b5b10bf5051aabe0914a42436c8cc78c84374d5abce07",
+    "version": "v1"
+  },
+  {
+    "slug": "atuador-embreagem",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/atuador-embreagem.webp",
+    "destination": "public/modifications/approved/atuador-embreagem.webp",
+    "sha256": "6163a594c06084f990b1f804111a4d8ec57d7c58b1ceca59ff977b04af51b500",
+    "version": "v1"
+  },
+  {
+    "slug": "radiador-oleo-cambio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/radiador-oleo-cambio.webp",
+    "destination": "public/modifications/approved/radiador-oleo-cambio.webp",
+    "sha256": "42d84341746c3c493749be8312aae73f87984f097bd2a1dbcc9fe3f348d23afc",
+    "version": "v1"
+  },
+  {
+    "slug": "capa-seca",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/capa-seca.webp",
+    "destination": "public/modifications/approved/capa-seca.webp",
+    "sha256": "6a17419a76347bd36856f3ff407fc087ff3fb781e28a2f71078d0cce7a3fa6dd",
+    "version": "v1"
+  },
+  {
+    "slug": "flange-adaptadora-cambio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/flange-adaptadora-cambio.webp",
+    "destination": "public/modifications/approved/flange-adaptadora-cambio.webp",
+    "sha256": "2e585f33a1c85c34a59e36e179e0b2e008f3d48dbcd19619a9dd6d6a853b747f",
+    "version": "v1"
+  },
+  {
+    "slug": "cinta-carda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/cinta-carda.webp",
+    "destination": "public/modifications/approved/cinta-carda.webp",
+    "sha256": "6f1edd2cdcb4f9254025308ef0bb54c9991fb4893f994cbc586c7f1013c96e0e",
+    "version": "v1"
+  },
+  {
+    "slug": "banco-esportivo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/banco-esportivo.webp",
+    "destination": "public/modifications/approved/banco-esportivo.webp",
+    "sha256": "26efe466cce7eca9dc969a3c4215ba113fea91d721ea210225aeab530d2a9fed",
+    "version": "v1"
+  },
+  {
+    "slug": "banco-concha",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/banco-concha.webp",
+    "destination": "public/modifications/approved/banco-concha.webp",
+    "sha256": "711d1b3fba5e9549e769d00499f6cc0820feda3c3a70d941b03101809dc70338",
+    "version": "v1"
+  },
+  {
+    "slug": "volante",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-17/volante.webp",
+    "destination": "public/modifications/approved/volante.webp",
+    "sha256": "29601b306bdb2271a704a06eeac4f4623bab91cdc6277dac432cbe0e80e2a3c2",
+    "version": "v1"
+  },
+  {
+    "slug": "manopla",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/manopla.webp",
+    "destination": "public/modifications/approved/manopla.webp",
+    "sha256": "f6cfbd2da471732710db4e2ac9b821b95038953a116dfe25e20fceb817a55bdc",
+    "version": "v1"
+  },
+  {
+    "slug": "pedaleiras",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/pedaleiras.webp",
+    "destination": "public/modifications/approved/pedaleiras.webp",
+    "sha256": "f30d6f754f8e046ad7a530e51125de226ed3ffa59321c2caff3e8838674501f5",
+    "version": "v1"
+  },
+  {
+    "slug": "cintos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/cintos.webp",
+    "destination": "public/modifications/approved/cintos.webp",
+    "sha256": "827246c98757f0997a5345085aa75a27ce66b6ee1e6a375844f21e6a7064c26e",
+    "version": "v1"
+  },
+  {
+    "slug": "roll-cage",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/roll-cage.webp",
+    "destination": "public/modifications/approved/roll-cage.webp",
+    "sha256": "dca43c13d42bc12e91389c7782c6392678bb9b20fcdf7e8823122a799c57b986",
+    "version": "v1"
+  },
+  {
+    "slug": "instrumentacao-interior",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/instrumentacao-interior.webp",
+    "destination": "public/modifications/approved/instrumentacao-interior.webp",
+    "sha256": "15d8b2c2d2b0051d15130fc6611fd7586443aca04cc9c9b842351582a1ab3fe9",
+    "version": "v1"
+  },
+  {
+    "slug": "shift-light",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/shift-light.webp",
+    "destination": "public/modifications/approved/shift-light.webp",
+    "sha256": "219404f446a87e2a50a17a6034a079f8078f5c01c1e04c294460be41a076e3bc",
+    "version": "v1"
+  },
+  {
+    "slug": "painel-digital",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/painel-digital.webp",
+    "destination": "public/modifications/approved/painel-digital.webp",
+    "sha256": "adaf68fef2ebc802fb6cdec1f70b155d1017c867efb86077f08ea000389a934e",
+    "version": "v1"
+  },
+  {
+    "slug": "cubo-volante",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/cubo-volante.webp",
+    "destination": "public/modifications/approved/cubo-volante.webp",
+    "sha256": "cde55c44e35fb9741ae4f38c3bbf58c9278735ee070ac50bee5da0787e32adc3",
+    "version": "v1"
+  },
+  {
+    "slug": "engate-rapido-volante",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-18/engate-rapido-volante.webp",
+    "destination": "public/modifications/approved/engate-rapido-volante.webp",
+    "sha256": "1acf3415c0d2a6598951fe10a3eb561d6a4d3144df386c676693dc505e24d5f2",
+    "version": "v1"
+  },
+  {
+    "slug": "trilhos-banco",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/trilhos-banco.webp",
+    "destination": "public/modifications/approved/trilhos-banco.webp",
+    "sha256": "c1ed86dde96c6029132615cd2f9ad927db5855b5055f143ed2ab9ea9ee21c43a",
+    "version": "v1"
+  },
+  {
+    "slug": "suportes-banco",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/suportes-banco.webp",
+    "destination": "public/modifications/approved/suportes-banco.webp",
+    "sha256": "159dd1eb07204dda5984edaef87c112887663e73f2a6d2620637c0915611252b",
+    "version": "v1"
+  },
+  {
+    "slug": "revestimento-bancos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/revestimento-bancos.webp",
+    "destination": "public/modifications/approved/revestimento-bancos.webp",
+    "sha256": "47072539f7f179c592ae48d36026b778f3d5a691d0b21b984626410353334977",
+    "version": "v1"
+  },
+  {
+    "slug": "forros-porta",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/forros-porta.webp",
+    "destination": "public/modifications/approved/forros-porta.webp",
+    "sha256": "7e25a8d38cb8f2110d79bb7adc6eaa4b3fa3ea4f4385e7f160b9b0e8b2f9768e",
+    "version": "v1"
+  },
+  {
+    "slug": "carpete",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/carpete.webp",
+    "destination": "public/modifications/approved/carpete.webp",
+    "sha256": "6ed1100b2ebd5b0b702f679fe0158ca3e730fd2f845c215991c57a569949ae17",
+    "version": "v1"
+  },
+  {
+    "slug": "tapetes",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/tapetes.webp",
+    "destination": "public/modifications/approved/tapetes.webp",
+    "sha256": "53c530e52e3de254c210a86dedce63c3f2907cb13ce1062b30352354dfd7a184",
+    "version": "v1"
+  },
+  {
+    "slug": "soleiras",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/soleiras.webp",
+    "destination": "public/modifications/approved/soleiras.webp",
+    "sha256": "d9d97fc397e8772032ced073161c0845b2daf7a1f93c87f798c90ab6189e621c",
+    "version": "v1"
+  },
+  {
+    "slug": "console-central",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/console-central.webp",
+    "destination": "public/modifications/approved/console-central.webp",
+    "sha256": "9c88bdb94a12083c37696fcb44212b52d34281ddb3de838d02cc8adf78184b78",
+    "version": "v1"
+  },
+  {
+    "slug": "apoio-braco",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-19/apoio-braco.webp",
+    "destination": "public/modifications/approved/apoio-braco.webp",
+    "sha256": "ff927ebd001d0f07dd4f1b36c10e93bf209b04a562db7ddf6bb821b7caf1420b",
+    "version": "v1"
+  },
+  {
+    "slug": "extintor-automotivo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/extintor-automotivo.webp",
+    "destination": "public/modifications/approved/extintor-automotivo.webp",
+    "sha256": "d071071726ec2d4c00e31b1ae2de8eb814594886e67ca559246cb439238a62fc",
+    "version": "v1"
+  },
+  {
+    "slug": "rede-seguranca",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/rede-seguranca.webp",
+    "destination": "public/modifications/approved/rede-seguranca.webp",
+    "sha256": "369ef5b9fc975558e205d389ec234de4252efd424e15332524c593397f15b57e",
+    "version": "v1"
+  },
+  {
+    "slug": "barra-cintos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/barra-cintos.webp",
+    "destination": "public/modifications/approved/barra-cintos.webp",
+    "sha256": "afabe14b6fef504bd84a8cbc0d2717b9776463978f3a37c510fc3a32a3dd3a91",
+    "version": "v1"
+  },
+  {
+    "slug": "aerofolio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/aerofolio.webp",
+    "destination": "public/modifications/approved/aerofolio.webp",
+    "sha256": "a8bb95abd37ecc5ee042a2e576cd70127fbbb49e2b5d3c86095ca309bc5a56fd",
+    "version": "v1"
+  },
+  {
+    "slug": "spoiler",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/spoiler.webp",
+    "destination": "public/modifications/approved/spoiler.webp",
+    "sha256": "c4ff22212c3af1b0c97b7a8391286f1a3b362c13373da71df602f8c65dd5318f",
+    "version": "v1"
+  },
+  {
+    "slug": "front-lip",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/front-lip.webp",
+    "destination": "public/modifications/approved/front-lip.webp",
+    "sha256": "6683d0d9af9f2526973359de60460cca58afc2b574843c9c85baeb61699783fb",
+    "version": "v1"
+  },
+  {
+    "slug": "side-skirts",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/side-skirts.webp",
+    "destination": "public/modifications/approved/side-skirts.webp",
+    "sha256": "ca57158d42ec9f9bdece2022f3bf6753e9d793303794b8d816c6511639e38554",
+    "version": "v1"
+  },
+  {
+    "slug": "difusor",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/difusor.webp",
+    "destination": "public/modifications/approved/difusor.webp",
+    "sha256": "37558bef718404ec649b6a93f513540d91c4e9b331a1be7265c2e4051b44ef82",
+    "version": "v1"
+  },
+  {
+    "slug": "body-kit",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-20/body-kit.webp",
+    "destination": "public/modifications/approved/body-kit.webp",
+    "sha256": "d57da80103f9b70c330c9360f7c42bc054856e3b4ebc8ecf520e3866cdac4492",
+    "version": "v1"
+  },
+  {
+    "slug": "capo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/capo.webp",
+    "destination": "public/modifications/approved/capo.webp",
+    "sha256": "7b9b7592356617a39ae3c24730d5a149560beb81468b7343504f2d4d206b9fed",
+    "version": "v1"
+  },
+  {
+    "slug": "para-choque",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/para-choque.webp",
+    "destination": "public/modifications/approved/para-choque.webp",
+    "sha256": "a057f83d1fa688693c1b80edba2e5be548bbeff926d8f7199fc69157e77bd92a",
+    "version": "v1"
+  },
+  {
+    "slug": "retrovisores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/retrovisores.webp",
+    "destination": "public/modifications/approved/retrovisores.webp",
+    "sha256": "ae0eb16f8402ef003468ae8a78073f75ded9109b32520a4bc3eb46d98e9b79fc",
+    "version": "v1"
+  },
+  {
+    "slug": "splitter-dianteiro",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/splitter-dianteiro.webp",
+    "destination": "public/modifications/approved/splitter-dianteiro.webp",
+    "sha256": "165114ce2f1fc2fa90a951a6673910d22a90f1705e4bedbd9d163c46f903388c",
+    "version": "v1"
+  },
+  {
+    "slug": "canards",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/canards.webp",
+    "destination": "public/modifications/approved/canards.webp",
+    "sha256": "169b974d0de4e082c91b712afd1ac9bbb8248c47628d6545c524189a644a1e57",
+    "version": "v1"
+  },
+  {
+    "slug": "alargadores-paralama",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/alargadores-paralama.webp",
+    "destination": "public/modifications/approved/alargadores-paralama.webp",
+    "sha256": "1303e5f861639671c2dbcbacd0d3e0bf6b5e5e208bd7ee2720dee167528b2c9b",
+    "version": "v1"
+  },
+  {
+    "slug": "paralamas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/paralamas.webp",
+    "destination": "public/modifications/approved/paralamas.webp",
+    "sha256": "bc98652c8dbb6f3c40d74a2dd9ed29aad8ab91660528156a1199fbcdf5dc0a64",
+    "version": "v1"
+  },
+  {
+    "slug": "grade-dianteira",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/grade-dianteira.webp",
+    "destination": "public/modifications/approved/grade-dianteira.webp",
+    "sha256": "940c332790ca38416624fb8417f2f28ebf0ac655a5724defb2d1642f25ce7772",
+    "version": "v1"
+  },
+  {
+    "slug": "entrada-ar-capo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-21/entrada-ar-capo.webp",
+    "destination": "public/modifications/approved/entrada-ar-capo.webp",
+    "sha256": "180f21d8c6a05004d959d3599a8cfbbe588280a9c3c98b3b45eb1f12af7ead64",
+    "version": "v1"
+  },
+  {
+    "slug": "respiros-capo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/respiros-capo.webp",
+    "destination": "public/modifications/approved/respiros-capo.webp",
+    "sha256": "147579cd7a32662d3b850cc743896ca332bb81340134b48f1a38ef371c51ebe4",
+    "version": "v1"
+  },
+  {
+    "slug": "travas-capo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/travas-capo.webp",
+    "destination": "public/modifications/approved/travas-capo.webp",
+    "sha256": "6c479f67556ee5789bcf106258d7d641baf5c47162b7569cef7df5f239ca431d",
+    "version": "v1"
+  },
+  {
+    "slug": "engate-reboque",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/engate-reboque.webp",
+    "destination": "public/modifications/approved/engate-reboque.webp",
+    "sha256": "6e93306ba35f809a76663ad1d92e772938e1c0be7e18a040ea8ced45c1023d19",
+    "version": "v1"
+  },
+  {
+    "slug": "olhal-reboque",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/olhal-reboque.webp",
+    "destination": "public/modifications/approved/olhal-reboque.webp",
+    "sha256": "74d29835d5d83f3da1d8190fd855e3930bf185cd51f20799d62b22167fe050ac",
+    "version": "v1"
+  },
+  {
+    "slug": "protetor-carter",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/protetor-carter.webp",
+    "destination": "public/modifications/approved/protetor-carter.webp",
+    "sha256": "44817aa65bd88e43afc1c8ad28a4fc13c59d182b9c2b7878e6db6ddc251a2910",
+    "version": "v1"
+  },
+  {
+    "slug": "bagageiro-teto",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/bagageiro-teto.webp",
+    "destination": "public/modifications/approved/bagageiro-teto.webp",
+    "sha256": "09181406b2a1d45080fc94783c7f1c88c8838ffffb66a92a1d044c7cf0025b09",
+    "version": "v1"
+  },
+  {
+    "slug": "pelicula-vidros",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/pelicula-vidros.webp",
+    "destination": "public/modifications/approved/pelicula-vidros.webp",
+    "sha256": "fe5b4fc190b3c0d7dd4832725622a5059ce33c0acd19129f68d8dccb509f3716",
+    "version": "v1"
+  },
+  {
+    "slug": "vinil-envelopamento",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/vinil-envelopamento.webp",
+    "destination": "public/modifications/approved/vinil-envelopamento.webp",
+    "sha256": "1884d66621cdce7a57810598ce6d3244099a182464d386197927f6c2d565c441",
+    "version": "v1"
+  },
+  {
+    "slug": "pelicula-protecao-pintura",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-22/pelicula-protecao-pintura.webp",
+    "destination": "public/modifications/approved/pelicula-protecao-pintura.webp",
+    "sha256": "5d5ef4e4558b77319720bd1aba3c478569590ef3498c2617c734968be98722e8",
+    "version": "v1"
+  },
+  {
+    "slug": "emblemas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/emblemas.webp",
+    "destination": "public/modifications/approved/emblemas.webp",
+    "sha256": "072c687c09f3a0632ea8a9c45ca2e3dd38f6aa46d3eaa443e6bdfd66e4fab3c3",
+    "version": "v1"
+  },
+  {
+    "slug": "frisos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/frisos.webp",
+    "destination": "public/modifications/approved/frisos.webp",
+    "sha256": "ed844c336e1988c7d6e0a1f7d3c4a7e468bcbbe2a016ebbbcfb8e2484b982caf",
+    "version": "v1"
+  },
+  {
+    "slug": "borrachas-vedacao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/borrachas-vedacao.webp",
+    "destination": "public/modifications/approved/borrachas-vedacao.webp",
+    "sha256": "09ee34cfe2b8b4a5102ffddb8e798d55d6f9663729eb61ee362f5c44a4c48d31",
+    "version": "v1"
+  },
+  {
+    "slug": "farois",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/farois.webp",
+    "destination": "public/modifications/approved/farois.webp",
+    "sha256": "deacfbd001b1c546fd3306f9c6f99b7591cfb90648df9f0eeadcfd646700302c",
+    "version": "v1"
+  },
+  {
+    "slug": "lanternas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/lanternas.webp",
+    "destination": "public/modifications/approved/lanternas.webp",
+    "sha256": "076b0f15ebc92fdfd725e13593850e34c2bb38c01e5e481d11cca470627c2807",
+    "version": "v1"
+  },
+  {
+    "slug": "farois-auxiliares",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/farois-auxiliares.webp",
+    "destination": "public/modifications/approved/farois-auxiliares.webp",
+    "sha256": "bbfdaf07fa22295e2e9afeb12551984c6700026eb8a0acbe23eacb816a473c17",
+    "version": "v1"
+  },
+  {
+    "slug": "drl",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/drl.webp",
+    "destination": "public/modifications/approved/drl.webp",
+    "sha256": "b3717404d28b327ecfdc15a5b1ff1b3fc7b228b4dae646c2295b2b8fab7c9b04",
+    "version": "v1"
+  },
+  {
+    "slug": "iluminacao-interna",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/iluminacao-interna.webp",
+    "destination": "public/modifications/approved/iluminacao-interna.webp",
+    "sha256": "0920e63bc202e2840af76b51c2c16938eac7e5a827c6bc55a3680f3088b9cc6c",
+    "version": "v1"
+  },
+  {
+    "slug": "lampadas-farol",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-23/lampadas-farol.webp",
+    "destination": "public/modifications/approved/lampadas-farol.webp",
+    "sha256": "4c6da52840dc31f420c6e3d639e9c14c22344df2906b7b1b636f9922d2c549d9",
+    "version": "v1"
+  },
+  {
+    "slug": "projetor-farol",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/projetor-farol.webp",
+    "destination": "public/modifications/approved/projetor-farol.webp",
+    "sha256": "2b99d338c92bb1bf6e84fd8b79b4c88ca72b33373318edefc08469f4abcd1b72",
+    "version": "v1"
+  },
+  {
+    "slug": "reator-farol",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/reator-farol.webp",
+    "destination": "public/modifications/approved/reator-farol.webp",
+    "sha256": "31dca06f176952bba7fc5fecb5dba8ec36c12a4bdf7960fd56c5506d132f1414",
+    "version": "v1"
+  },
+  {
+    "slug": "modulo-led",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/modulo-led.webp",
+    "destination": "public/modifications/approved/modulo-led.webp",
+    "sha256": "f11dd716ec720f9e30ec0b4cf06ba10bd64b0ea5096c01bb887419a84c0e89f3",
+    "version": "v1"
+  },
+  {
+    "slug": "setas",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/setas.webp",
+    "destination": "public/modifications/approved/setas.webp",
+    "sha256": "310028a07c98cc2375137c49a76c4a504525faa80a3d5d32da5de000246bed29",
+    "version": "v1"
+  },
+  {
+    "slug": "luz-freio-adicional",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/luz-freio-adicional.webp",
+    "destination": "public/modifications/approved/luz-freio-adicional.webp",
+    "sha256": "8712ffe4b81af81ab59d6203fa8aa728cfee7cbfb6ab179b28df3bf7f8a634b6",
+    "version": "v1"
+  },
+  {
+    "slug": "luz-placa",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/luz-placa.webp",
+    "destination": "public/modifications/approved/luz-placa.webp",
+    "sha256": "78e590f258ee8eac48473280ebaf5b1dbda679d8eb01706c49618a2069c75153",
+    "version": "v1"
+  },
+  {
+    "slug": "luz-re",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/luz-re.webp",
+    "destination": "public/modifications/approved/luz-re.webp",
+    "sha256": "e4e12622753b91164330437bf90ed937fb225a86155983f3699b79e991194d98",
+    "version": "v1"
+  },
+  {
+    "slug": "iluminacao-ambiente",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/iluminacao-ambiente.webp",
+    "destination": "public/modifications/approved/iluminacao-ambiente.webp",
+    "sha256": "f4c6e78b06ee2b65f09a9aba37f81f8cdc007ed4b5ca08bf45ebd094f6a0eac9",
+    "version": "v1"
+  },
+  {
+    "slug": "chicote",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-24/chicote.webp",
+    "destination": "public/modifications/approved/chicote.webp",
+    "sha256": "4bbc25ce1e05cd7566dd3f2834aa4f993a6c612ef26befef18f926415cfa8865",
+    "version": "v1"
+  },
+  {
+    "slug": "reles",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/reles.webp",
+    "destination": "public/modifications/approved/reles.webp",
+    "sha256": "73a88dbaf0db3c439a0d794b6a7be48b91137132ddb943f8c0b3d920f05a5176",
+    "version": "v1"
+  },
+  {
+    "slug": "fusiveis",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/fusiveis.webp",
+    "destination": "public/modifications/approved/fusiveis.webp",
+    "sha256": "94f4d07911e6a2e691dc1776b2f9c561172abf388252f3421eb748f1dfedf02b",
+    "version": "v1"
+  },
+  {
+    "slug": "sensores",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/sensores.webp",
+    "destination": "public/modifications/approved/sensores.webp",
+    "sha256": "4ac88d13d73b7b2fd998d039c5107777439b330b55b8011f8ca8ad86f31db20d",
+    "version": "v1"
+  },
+  {
+    "slug": "wideband",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/wideband.webp",
+    "destination": "public/modifications/approved/wideband.webp",
+    "sha256": "17f361f6a384a5a4906f7949715b11f048c5527af4f51d62d643b1975abd2352",
+    "version": "v1"
+  },
+  {
+    "slug": "instrumentacao-eletrica",
+    "source": "artifacts/catalog-ai-2026-10-27/corrections/instrumentacao-eletrica-v3/instrumentacao-eletrica.webp",
+    "destination": "public/modifications/approved/instrumentacao-eletrica.webp",
+    "sha256": "7cf08980475f55e03aa893380f74ae11662fb6791ef2dfbaf0537058422f079c",
+    "version": "v3"
+  },
+  {
+    "slug": "sistema-eletrico-customizado",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/sistema-eletrico-customizado.webp",
+    "destination": "public/modifications/approved/sistema-eletrico-customizado.webp",
+    "sha256": "46d5c8a12b2ec6c079ee09e0fd2dbbf67a3e6ff0baa01e101e3d410d2f768a48",
+    "version": "v1"
+  },
+  {
+    "slug": "bateria",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/bateria.webp",
+    "destination": "public/modifications/approved/bateria.webp",
+    "sha256": "7474204f703a09ac6dbc2726a3ab1d99335bfd92497b181caeacb2c4587ba26a",
+    "version": "v1"
+  },
+  {
+    "slug": "alternador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/alternador.webp",
+    "destination": "public/modifications/approved/alternador.webp",
+    "sha256": "d731031749ecfc4a76d7c596d3822f1063bb441f2e5b8845f7f1d167f5e2a533",
+    "version": "v1"
+  },
+  {
+    "slug": "motor-partida",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-25/motor-partida.webp",
+    "destination": "public/modifications/approved/motor-partida.webp",
+    "sha256": "203204ad79cc790fa5e7dfba871afaf62f68bee676f08ea65dc5af3b03b5d5d1",
+    "version": "v1"
+  },
+  {
+    "slug": "chave-geral",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/chave-geral.webp",
+    "destination": "public/modifications/approved/chave-geral.webp",
+    "sha256": "e9396609c5e235efe971c506e6aec71ad03f960f52064da69ef9545b5225dce8",
+    "version": "v1"
+  },
+  {
+    "slug": "caixa-fusiveis",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/caixa-fusiveis.webp",
+    "destination": "public/modifications/approved/caixa-fusiveis.webp",
+    "sha256": "d65cadd7f318a3c96ee7d3fe089cb676a5efee6239f815f915f7a26c62aeb68f",
+    "version": "v1"
+  },
+  {
+    "slug": "modulo-distribuicao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/modulo-distribuicao.webp",
+    "destination": "public/modifications/approved/modulo-distribuicao.webp",
+    "sha256": "687b93710a19017dfb55f5634454302694e6cd1ce7645f9a88d0943643501921",
+    "version": "v1"
+  },
+  {
+    "slug": "conectores-eletricos",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/conectores-eletricos.webp",
+    "destination": "public/modifications/approved/conectores-eletricos.webp",
+    "sha256": "6e4eff371d27808d6a9ff407f95b86e244e6708c5232a99a064abeea85c50746",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-map",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/sensor-map.webp",
+    "destination": "public/modifications/approved/sensor-map.webp",
+    "sha256": "c24c3e06e019a30eda8601958ab9cbba3d6012ac16fffb26ec9eef425ad62a74",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-tps",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/sensor-tps.webp",
+    "destination": "public/modifications/approved/sensor-tps.webp",
+    "sha256": "7d19eb036de0636c734afd92f164300c7d3bff43d0399cfd8749e07f97301a8a",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-temperatura",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/sensor-temperatura.webp",
+    "destination": "public/modifications/approved/sensor-temperatura.webp",
+    "sha256": "462a2ac2d0d340681db1c8e1f02eb1da458f0bfcbc0c0397f38e429ccfb18bfb",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-rotacao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/sensor-rotacao.webp",
+    "destination": "public/modifications/approved/sensor-rotacao.webp",
+    "sha256": "15136e0199d33b93a5556cd4f05372a9abea0d52329defb1b487021bc211221f",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-fase",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-26/sensor-fase.webp",
+    "destination": "public/modifications/approved/sensor-fase.webp",
+    "sha256": "8f573c5a35d4fbf4cb4347205e7b437df8438356f2b06741741b3292cf2a0de5",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-detonacao",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/sensor-detonacao.webp",
+    "destination": "public/modifications/approved/sensor-detonacao.webp",
+    "sha256": "25b269d86abd07aaea674adc8280da2f7349d30ab2c7a3d0edf60408280d1db0",
+    "version": "v1"
+  },
+  {
+    "slug": "sonda-lambda",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/sonda-lambda.webp",
+    "destination": "public/modifications/approved/sonda-lambda.webp",
+    "sha256": "846853c123c31c81d71197d800c7e53ff5e8902c3c705c514f8d5cf739d2d90e",
+    "version": "v1"
+  },
+  {
+    "slug": "manometro-turbo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/manometro-turbo.webp",
+    "destination": "public/modifications/approved/manometro-turbo.webp",
+    "sha256": "19af38347e4993e45b9c5040f37bb17f3a067323950139b3ea7706d711098650",
+    "version": "v1"
+  },
+  {
+    "slug": "manometro-oleo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/manometro-oleo.webp",
+    "destination": "public/modifications/approved/manometro-oleo.webp",
+    "sha256": "cd88c59fec848d9bb7e13137dc90f9bf5ae585e2f8863cce08707344b40df01a",
+    "version": "v1"
+  },
+  {
+    "slug": "termometro-oleo",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/termometro-oleo.webp",
+    "destination": "public/modifications/approved/termometro-oleo.webp",
+    "sha256": "bd1c02b99001a0a45cf2db08c8093252cbadc987ae5891c840211ba88ac9a291",
+    "version": "v1"
+  },
+  {
+    "slug": "termometro-agua",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/termometro-agua.webp",
+    "destination": "public/modifications/approved/termometro-agua.webp",
+    "sha256": "7c13ddeb3c0667a33b3bfdd1137c5cb203ba3879321c860137c71093d0d4c404",
+    "version": "v1"
+  },
+  {
+    "slug": "contagiros",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/contagiros.webp",
+    "destination": "public/modifications/approved/contagiros.webp",
+    "sha256": "57028c04da87627c76b66d9ef78e1be497856d2f96fa6f65fc3c76e06d538f10",
+    "version": "v1"
+  },
+  {
+    "slug": "voltimetro",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/voltimetro.webp",
+    "destination": "public/modifications/approved/voltimetro.webp",
+    "sha256": "cfe11ab952360539cc3728fdeb363a6b73960f0d40ea9ec51e0a5cf498f01cdd",
+    "version": "v1"
+  },
+  {
+    "slug": "registrador-dados",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-27/registrador-dados.webp",
+    "destination": "public/modifications/approved/registrador-dados.webp",
+    "sha256": "45e84f40947457fed51d08ae3be39c0d64ae2dc941df201018226a3819a28e44",
+    "version": "v1"
+  },
+  {
+    "slug": "alarme",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/alarme.webp",
+    "destination": "public/modifications/approved/alarme.webp",
+    "sha256": "7c554d77ef713778f83f28282fb9db68c975567027e9313bc7b675f990b81a94",
+    "version": "v1"
+  },
+  {
+    "slug": "rastreador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/rastreador.webp",
+    "destination": "public/modifications/approved/rastreador.webp",
+    "sha256": "d835e3630ab3da0596ff271b21589407a596c328cc963be94fd8c8e8784bc6b6",
+    "version": "v1"
+  },
+  {
+    "slug": "camera-re",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/camera-re.webp",
+    "destination": "public/modifications/approved/camera-re.webp",
+    "sha256": "8bf6f49de725cd1af46b86faa97e192f78312a068434a48ea124334591220526",
+    "version": "v1"
+  },
+  {
+    "slug": "sensor-estacionamento",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/sensor-estacionamento.webp",
+    "destination": "public/modifications/approved/sensor-estacionamento.webp",
+    "sha256": "d66b5da5aedd82d0f52e4e02230cd4941a6ae9191dc93f21c360ab59bb299ee8",
+    "version": "v1"
+  },
+  {
+    "slug": "camera-veicular",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/camera-veicular.webp",
+    "destination": "public/modifications/approved/camera-veicular.webp",
+    "sha256": "9b81d01ba2415021246b840ed4a940aa11f6f77fca99a8dd6c55e469220a6dba",
+    "version": "v1"
+  },
+  {
+    "slug": "alto-falantes",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/alto-falantes.webp",
+    "destination": "public/modifications/approved/alto-falantes.webp",
+    "sha256": "42f09933721a504c3c8590c08e92416256cdc85c793a284bd78b7f4adbe474a6",
+    "version": "v1"
+  },
+  {
+    "slug": "subwoofer",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/subwoofer.webp",
+    "destination": "public/modifications/approved/subwoofer.webp",
+    "sha256": "3eac95f4bcab45588d50e245ac1632dec10e9fcd9762118b6ec7990d75c091e4",
+    "version": "v1"
+  },
+  {
+    "slug": "amplificador",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/amplificador.webp",
+    "destination": "public/modifications/approved/amplificador.webp",
+    "sha256": "3471531e8a79095df737941acf3ab5a36711988df76ee747ca2ac0ae209f7c7e",
+    "version": "v1"
+  },
+  {
+    "slug": "multimidia",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-28/multimidia.webp",
+    "destination": "public/modifications/approved/multimidia.webp",
+    "sha256": "5832dc7ec9d58055bef0092e1e84e7bfb86d650bfc435ff4d814d6ac6e45fc26",
+    "version": "v1"
+  },
+  {
+    "slug": "tweeter",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/tweeter.webp",
+    "destination": "public/modifications/approved/tweeter.webp",
+    "sha256": "22c1d815e8980c817a2b2b28facecec6d18a83e4793cbccf448491e50fb234f5",
+    "version": "v1"
+  },
+  {
+    "slug": "midbass",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/midbass.webp",
+    "destination": "public/modifications/approved/midbass.webp",
+    "sha256": "d9b6c0a5d9319f407504a06831df26e9c9296f325d4ca95ed81ff25c47540b1f",
+    "version": "v1"
+  },
+  {
+    "slug": "kit-duas-vias",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/kit-duas-vias.webp",
+    "destination": "public/modifications/approved/kit-duas-vias.webp",
+    "sha256": "91414eb70d62ee30fc437dda4ffa68923cf9036b0d8597ccc241fe1b5101af5b",
+    "version": "v1"
+  },
+  {
+    "slug": "caixa-subwoofer",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/caixa-subwoofer.webp",
+    "destination": "public/modifications/approved/caixa-subwoofer.webp",
+    "sha256": "8192fbc5e008e2eb4597bd7b6adfb992aebe4026fa5ecf9b77f26e60eea1ab5f",
+    "version": "v1"
+  },
+  {
+    "slug": "processador-audio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/processador-audio.webp",
+    "destination": "public/modifications/approved/processador-audio.webp",
+    "sha256": "82408283848a0d6fe986f4eb11b4d8d753afa34dc8349cced68e49006b9e88c8",
+    "version": "v1"
+  },
+  {
+    "slug": "crossover",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/crossover.webp",
+    "destination": "public/modifications/approved/crossover.webp",
+    "sha256": "a52f227c83ee43b0ccd311883ebe275dbed9d1424435a046a856d41e814fc4d0",
+    "version": "v1"
+  },
+  {
+    "slug": "manta-acustica",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/manta-acustica.webp",
+    "destination": "public/modifications/approved/manta-acustica.webp",
+    "sha256": "ca5c1247cd43bf1692fd057de93a0f1812116df9b9e26e854507b84a5dc97291",
+    "version": "v1"
+  },
+  {
+    "slug": "cabos-audio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/cabos-audio.webp",
+    "destination": "public/modifications/approved/cabos-audio.webp",
+    "sha256": "8b457af2a53e7ccb31d9b808d20287c3ebee35ad7f41786b3772b2f2036c8783",
+    "version": "v1"
+  },
+  {
+    "slug": "conversor-audio",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-29/conversor-audio.webp",
+    "destination": "public/modifications/approved/conversor-audio.webp",
+    "sha256": "b657562464fa5ac82e813d5447a6b9b18f3a1d764f3c7ba7b17a7320602b0320",
+    "version": "v1"
+  },
+  {
+    "slug": "interface-volante",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-30/interface-volante.webp",
+    "destination": "public/modifications/approved/interface-volante.webp",
+    "sha256": "4245ed47f5d2d689b8ef78bb3a3ff64bb6d6c99ae6b553f5745c85c2984e2972",
+    "version": "v1"
+  },
+  {
+    "slug": "antena",
+    "source": "artifacts/catalog-ai-2026-10-27/production/lote-30/antena.webp",
+    "destination": "public/modifications/approved/antena.webp",
+    "sha256": "5de5886a67fd02f9a09435ba442604ab90b4720cfc94b3251e2945be2c812d32",
+    "version": "v1"
+  }
+]

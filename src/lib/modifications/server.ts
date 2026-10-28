@@ -7,45 +7,49 @@ import type {
 } from "@/lib/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { serverLog } from "@/lib/server-log";
-import { getCatalogAssetPath } from "@/lib/modifications/catalog-assets";
+import definitions from "./catalog-definitions.json";
+import { resolveApprovedCatalogImage as resolveCatalogImage } from "@/lib/modifications/approved-catalog-images";
 import type { ModificationPageData } from "@/lib/modifications/types";
 import { protectedImageUrl } from "@/lib/images/project-image-url";
 
-export async function getProjectModificationData(carId: string, isOwner: boolean): Promise<ModificationPageData> {
+const definitionBySlug = new Map(definitions.map((item) => [item.slug, item]));
+
+export async function getProjectModificationData(carId: string, isOwner: boolean, overview = false): Promise<ModificationPageData> {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { categories: [], catalog: [], modifications: [] };
 
-  const [categoriesResult, catalogResult, modificationsResult] = await Promise.all([
-    supabase
-      .from("modification_categories")
-      .select("*")
-      .eq("is_active", true)
-      .order("sort_order", { ascending: true })
-      .order("name", { ascending: true }),
-    supabase
-      .from("modification_catalog")
-      .select("*")
-      .eq("is_active", true)
-      .order("name", { ascending: true }),
-    isOwner
-      ? supabase.from("project_modifications").select("*").eq("car_id", carId).order("created_at", { ascending: false })
-      : supabase.rpc("list_public_project_modifications", { p_car_id: carId }),
-  ]);
-
+  const modificationsResult = await (isOwner
+    ? supabase.from("project_modifications").select("*").eq("car_id", carId).order("created_at", { ascending: false })
+    : supabase.rpc("list_public_project_modifications", { p_car_id: carId }));
   if (modificationsResult.error) {
-    serverLog.warn("project-modifications", { action: "read.failed", message: modificationsResult.error.message });
+    serverLog.warn("project-modifications", { action: "read.failed", code: modificationsResult.error.code });
     throw new Error("Não foi possível carregar as modificações deste projeto.");
+  }
+  const linkedIds = [...new Set((modificationsResult.data ?? []).map((item) => item.catalog_id))];
+  // The project overview needs only linked components, never the entire picker catalog.
+  if (overview && !linkedIds.length) return { categories: [], catalog: [], modifications: [] };
+  let catalogQuery = supabase.from("modification_catalog").select("*").eq("is_active", true).order("name");
+  if (overview) catalogQuery = catalogQuery.in("id", linkedIds);
+  const [categoriesResult, catalogResult] = await Promise.all([
+    supabase.from("modification_categories").select("*").eq("is_active", true).order("sort_order").order("name"),
+    catalogQuery,
+  ]);
+  if (categoriesResult.error || catalogResult.error) {
+    serverLog.warn("project-modifications", { action: "catalog.read.failed", code: categoriesResult.error?.code ?? catalogResult.error?.code });
+    throw new Error("Não foi possível carregar o catálogo deste projeto.");
   }
 
   const categories = (categoriesResult.data ?? []) as ModificationCategoryRow[];
   const categoryById = new Map(categories.map((category) => [category.id, category]));
   const catalog = ((catalogResult.data ?? []) as ModificationCatalogRow[]).flatMap((item) => {
     const category = categoryById.get(item.category_id);
+    const definition = definitionBySlug.get(item.slug);
     return category ? [{
       ...item,
-      // A populated database value always wins. This keeps the shipped asset
-      // mapping safe while the remote catalog is progressively backfilled.
-      default_image_path: item.default_image_path ?? getCatalogAssetPath(category.slug, item.slug),
+      // Only replace known shipped defaults; preserve independently curated database photos.
+      default_image_path: resolveCatalogImage(category.slug, item.slug, item.default_image_path),
+      search_terms: definition?.aliases,
+      selection_alias_of: definition?.selectionAliasOf,
       category,
     }] : [];
   });

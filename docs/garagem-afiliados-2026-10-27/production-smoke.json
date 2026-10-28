@@ -1,0 +1,42 @@
+{
+  "mode": "local-production-only",
+  "origin": "http://127.0.0.1:3108",
+  "buildId": "tz-utTRoooMWfLsO9Y7uQ",
+  "flagsIntentionallyRetained": [
+    "CATALOG_OFFERS_DEMO=1",
+    "CATALOG_OFFERS_LOCAL=1"
+  ],
+  "productionFlagsIgnored": true,
+  "noSupabaseConfigured": true,
+  "result": "passed",
+  "results": [
+    {
+      "route": "/test-harness/project-overview",
+      "status": 404,
+      "disabled": true
+    },
+    {
+      "route": "/test-harness/catalog-details",
+      "status": 404,
+      "disabled": true
+    },
+    {
+      "route": "/test-harness/catalog-details/stress",
+      "status": 404,
+      "disabled": true
+    },
+    {
+      "route": "/api/catalog/UUID/offers?demonstration=1",
+      "status": 200,
+      "body": {
+        "offers": [],
+        "demonstration": false,
+        "unavailable": true
+      }
+    }
+  ],
+  "localSlugRejected": true,
+  "visitorWriteMethodRejected": true,
+  "homeStatus": 200,
+  "remoteWrites": 0
+}

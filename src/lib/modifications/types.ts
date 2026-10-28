@@ -6,6 +6,8 @@ import type {
 
 export type ModificationCatalogItem = ModificationCatalogRow & {
   category: ModificationCategoryRow;
+  search_terms?: string;
+  selection_alias_of?: string;
 };
 
 export type ProjectModification = ProjectModificationRow & {

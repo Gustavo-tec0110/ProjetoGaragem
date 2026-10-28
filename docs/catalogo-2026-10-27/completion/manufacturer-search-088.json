@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "bolsas-ar",
+    "compressor-suspensao",
+    "reservatorio-ar",
+    "bloco-valvulas-ar"
+  ],
+  "queries": [
+    {
+      "q": "\"car air spring\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"air suspension compressor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"air suspension tank\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"air suspension valve block\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "1052250660,0062250660,062250660,62250660,D782300302,D782300402,105 2350035,62350035,0062350035,1052250611,90X19982,0062250611,62250611 - Miessler Automotive GmbH & Co. KG Air Suspension Parts. - The Better Choice",
+      "url": "https://www.miessler-automotive.com/Air-suspension-valve-block_4"
+    },
+    {
+      "title": "Air Suspension compressor series",
+      "url": "https://airshockrep.com/wp-content/uploads/2021/12/2022-Airshockrep-Air-suspension-compressor-PDF-catalogue-1.pdf"
+    },
+    {
+      "title": "AIR SUSPENSION",
+      "url": "https://rimmerbros.com/images/PDFs/Land-Rover-Popular-Parts-Catalogue-2019.pdf"
+    },
+    {
+      "title": "Z49303R — ZIKMAR — Air Suspension Valve Block — Zikmar",
+      "url": "https://zikmar.com/catalog/suspension-and-steering-system/pneumatic-valve/Z49303R"
+    },
+    {
+      "title": "Air Suspension & CDC",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/mics/10000007202401/0052392028/1656917996034_bogap-20presentation-202022.pdf"
+    },
+    {
+      "title": "Air Suspension Valve Block Manufacturer - Rycomtech",
+      "url": "https://www.rycomtech.com/air-suspension-valve-block/"
+    },
+    {
+      "title": "Retrofit Air Suspension Solenoid Valve Block , Air Suspension Air Supply - Air Suspension Parts . - Miessler Automotive GmbH & Co. KG Air Suspension Parts. - The Better Choice",
+      "url": "https://www.miessler-automotive.com/Valves_315?af=50"
+    },
+    {
+      "title": "YOUR TRUSTED SOURCE FOR",
+      "url": "https://gskauto.com/assets/catalog/Ningbo-GSK-Air-Suspension-valve.pdf"
+    },
+    {
+      "title": "JDMON Air Suspension Valve Block Instruction Manual",
+      "url": "https://manuals.plus/asin/B0CD7F4TBY"
+    },
+    {
+      "title": "Mercedes-Benz Air Suspension Valve Block (GL320, GL350, GL550, ML320, ML350, ML63 AMG, R320, R350, R63 AMG, S550, S600, S65 AMG, & more) 2123200358 by OE Supplier | Europa Parts",
+      "url": "https://www.europaparts.com/air-suspension-valve-block-2123200358.html"
+    },
+    {
+      "title": "Air Suspension Valve Block - Guangzhou Yuou Technology Co., Ltd",
+      "url": "https://www.chinax.com/air-suspensionpart/c2020024-air-suspension-valve-block"
+    },
+    {
+      "title": "AC8500 - Air Suspension Valve Block – Airbag Man Suspension",
+      "url": "https://airbagman.com.au/products/ac8500"
+    },
+    {
+      "title": "悬挂样本.cdr",
+      "url": "https://rjrorwxhoikrmq5p.ldycdn.com/Air%2BRide%2BSuspension%2BCatalog-aidqqBpiKmqRmjSnnmpjmlkl.pdf?dp=GvUApKfKKUAU"
+    },
+    {
+      "title": "Partzilla: OEM Motorcycle Parts, ATV Parts, Marine Parts",
+      "url": "https://www.partzilla.com/product/automotive/UTY-20-073000-H?app=a96900f84c0359125333e4a59568e8c905796bc5"
+    },
+    {
+      "title": "Magneti Marelli Parts & Services - Air Suspension Compressors",
+      "url": "https://www.magnetimarelli-parts-and-services.com/news/2025/press-releases/new-air-suspension-compressor-range.html"
+    },
+    {
+      "title": "Installation instructions for ECO Air running gear systems EA-ECO Air 37802001e",
+      "url": "https://device.report/m/0ed266d4e2575549ae8c56c4e9b4d18c4a5143d3d266d4ff55fe89561716c0e0.pdf"
+    },
+    {
+      "title": "Air Suspension Valve Block, Air Suspension Valve Block direct from Guangzhou Depin Auto Parts Technology Co., Ltd.",
+      "url": "https://www.ecer.com/corp/uuueqtg-shockabsorbercarparts/gu4gzam-air-suspension-valve-block.html"
+    },
+    {
+      "title": "Air Suspension Compressor Assembly - Wholesale $185 FOB",
+      "url": "https://www.motarox.com/de/parts/suspension/air-suspension-compressor"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "engate-rapido-volante",
+    "trilhos-banco",
+    "suportes-banco",
+    "revestimento-bancos"
+  ],
+  "queries": [
+    {
+      "q": "\"steering quick release\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car seat slider\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car seat bracket\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car seat upholstery\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "STEERING QUICK RELEASE",
+      "url": "https://us.bicknellracingproducts.com/STEERING-QUICK-RELEASE/folder/30193"
+    },
+    {
+      "title": "Car Seat Slider - Pelican Manufacturing",
+      "url": "https://pelicanmanufacturing.com/product/car-seat-slider/"
+    },
+    {
+      "title": "China Car Seat Slider Manufacturers Suppliers - Customized Car Seat Slider Wholesale - Shaanxi Yisirui",
+      "url": "https://www.ysrseating.com/driver-seat-parts/car-seat-slider.html"
+    },
+    {
+      "title": "Steering Quick Release Push Button – Bryke Racing",
+      "url": "https://www.bryke.com/products/steering-quick-release-push-button"
+    },
+    {
+      "title": "5/8\" HEX ALUM. RIM STYLE QUICK RELEASE",
+      "url": "https://us.bicknellracingproducts.com/5/8-HEX-ALUM-RIM-STYLE-QUICK-RELEASE/item/BRP177"
+    },
+    {
+      "title": "Car Seat Upholstery",
+      "url": "https://www.caiwingleather.com/5157.html"
+    },
+    {
+      "title": "Steering Quick Release Kit V3 (47mm) – Circuit Sports USA",
+      "url": "https://www.circuit-sports.com/products/steering-quick-release-kit-v3"
+    },
+    {
+      "title": "Car Upholstery Leather- One of The Best Manufacturers of Car Upholstery Fabric, Auto Veiling Fabric, & Others | IssueWire",
+      "url": "https://www.issuewire.com/pdf/2020/05/car-upholstery-leather-one-of-the-best-manufacturers-of-car-upholstery-fabric-auto-veiling-fabric-others-IssueWire.pdf"
+    },
+    {
+      "title": "T.C.H. Suminoe Company Limited",
+      "url": "https://www.tsuminoe.com/en/"
+    },
+    {
+      "title": "Repro – Seats & Interiors for Mobility",
+      "url": "https://reprointerior.com/"
+    },
+    {
+      "title": "Technical Bulletin 027 – Quick Release Steering Bosses",
+      "url": "https://ultraraymotorsports.com/wp-content/uploads/2021/02/tb027-quick-release-steering-bosses-rev1-22-12-2015.pdf"
+    },
+    {
+      "title": "B&K. KOUKKOS S.A. | Aloba car seat fabrics",
+      "url": "https://www.koukkos.gr/en/products/alova/"
+    },
+    {
+      "title": "Management Science Letters 7 (2017) 145–152",
+      "url": "https://www.growingscience.com/msl/Vol7/msl_2016_74.pdf"
+    },
+    {
+      "title": "W",
+      "url": "https://www.sentezkimya.com/documents-en/noise-insulation/JOWAT%20-%20Otomotiv%20sekt%C3%B6r%C3%BCne%20y%C3%B6nelik%20yap%C4%B1%C5%9Ft%C4%B1r%C4%B1c%C4%B1%20%C3%A7%C3%B6z%C3%BCmleri%20-%20%C4%B0ngilizce%20f.pdf"
+    },
+    {
+      "title": "Auto Textile Delta Artificial Leather | Automotive Fabrics & PVC Synthetic Leather Manufacturer – Turkey – Delta Artificial Leather, Turkey-based manufacturer of automotive fabrics, PVC synthetic leather and car seat upholstery. Exporting to 45+ countries with fast production and custom designs.",
+      "url": "https://deltaderi.com.tr/"
+    },
+    {
+      "title": "<visual_element id=\"e1\">",
+      "url": "https://www.atlatt.com/wp-content/uploads/2018/01/2007_automotive.pdf"
+    },
+    {
+      "title": "Wilwood Disc Brakes - Hub No: 270-2016",
+      "url": "https://www.wilwood.com/Hubs/HubProd?itemno=270-2016"
+    },
+    {
+      "title": "Steering Wheels",
+      "url": "https://www.targetdistributing.net/medias/2026_Target_Catalog.pdf"
+    },
+    {
+      "title": "Direct-drive sim racing wheel",
+      "url": "https://en.wikipedia.org/wiki/Direct-drive_sim_racing_wheel"
+    },
+    {
+      "title": "Steering wheel",
+      "url": "https://en.wikipedia.org/wiki/Steering_wheel"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

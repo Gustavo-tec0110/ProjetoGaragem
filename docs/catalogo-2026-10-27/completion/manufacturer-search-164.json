@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "frisos",
+    "projetor-farol",
+    "reator-farol",
+    "modulo-led"
+  ],
+  "queries": [
+    {
+      "q": "\"car body trim\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"headlight projector\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"headlight ballast\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive LED driver\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "\t 6\t Automotive grade q",
+      "url": "https://www.st.com/resource/en/brochure/automotive-brochure.pdf"
+    },
+    {
+      "title": "AT9917",
+      "url": "https://www.microchip.com/en-us/product/at9917"
+    },
+    {
+      "title": "LED Drivers | ams OSRAM",
+      "url": "https://ams-osram.com/products/drivers/led-drivers"
+    },
+    {
+      "title": "Automotive LED Driver ICs - STMicroelectronics",
+      "url": "https://www.st.com/en/automotive-analog-and-power/led-drivers.html"
+    },
+    {
+      "title": "Automotive LED drivers",
+      "url": "https://www.st.com.cn/resource/en/flyer/fl2308autoleddr.pdf"
+    },
+    {
+      "title": "Product Catalog",
+      "url": "https://cdnc.heyzine.com/files/uploaded/v2/b0d5beece6f039a2a514b85fddcc7a5eea264ea5.pdf"
+    },
+    {
+      "title": "STEVAL-ILL072V1 | Product - STMicroelectronics",
+      "url": "https://www.st.com/en/evaluation-tools/steval-ill072v1.html"
+    },
+    {
+      "title": "HID Headlight Ballast | BWD",
+      "url": "https://www.bwdbrand.com/en/products/electrical/electrical-components/hid-headlight-ballasts"
+    },
+    {
+      "title": "Automotive LED Drivers Selection Gude Ver.2.3",
+      "url": "https://www.rohm.com/documents/11303/8913724/P_LED_EN.pdf/1e71d9d6-7eae-304e-d8dd-f10a6db7e443?t=1616053796263"
+    },
+    {
+      "title": "Automotive-compliant Three-Channel low-side Linear LED Driver simplifies Rear-cluster Lamps",
+      "url": "https://www.diodes.com/assets/product-showcases/Low-Side-3-Channel-Linear-LED-Driver-Simplifies-Automotive-Rear-Cluster-Lamps-1.pdf"
+    },
+    {
+      "title": "3 Channel Automotive LED Driver",
+      "url": "https://www.elmos.com/securedl/sdl-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NzAzNDQ3OTQsImV4cCI6MTc3MDUxNzU5NCwidXNlciI6MCwiZ3JvdXBzIjpbMCwtMV0sImZpbGUiOiJmaWxlYWRtaW4vZWxtb3Mtd2Vic2l0ZS9wcm9kdWN0cy9kb2N1bWVudHMvZWxtb3MtMy1jaGFubmVsLWF1dG9tb3RpdmUtbGVkLWRyaXZlci1lNTIyNjAtaXMucGRmIiwicGFnZSI6MjYyMn0.I0IuiSNX1D1nqS04_Q10bA8wUwmUdtB9qTTRGbkHwJI/elmos-3-channel-automotive-led-driver-e52260-is.pdf"
+    },
+    {
+      "title": "AES Automotive Lighting | Global Leader in Headlight Projectors",
+      "url": "https://aescar.com/"
+    },
+    {
+      "title": "Automotive LED drivers | Nexperia",
+      "url": "https://www.nexperia.com/products/analog-logic-ics/power-management/automotive-led-driver-ics"
+    },
+    {
+      "title": "LED Drivers | Analog Devices",
+      "url": "https://www.analog.com/en/product-category/led-drivers.html"
+    },
+    {
+      "title": "Constant Current LED Drivers - ACG Electronics",
+      "url": "https://www.acgelectronics.com/index.php?syf=acg_driver&u=en"
+    },
+    {
+      "title": "Automotive interior trim suppliers - NOVARES",
+      "url": "https://www.novaresteam.com/our-solutions/our-product-lines/interior-body-trim/"
+    },
+    {
+      "title": "ISL78171 - 6-Channel, 50mA Automotive LED Driver with Ultra-High Dimming Ratio and Phase Shift Control | Renesas",
+      "url": "https://www.renesas.com/en/products/isl78171"
+    },
+    {
+      "title": "URO URO-020413 Headlight Ballast | THMotorsports",
+      "url": "https://thmotorsports.com/21966170-uro-uro-020413-headlight-ballast"
+    },
+    {
+      "title": "Anyone know hat this is? It came with my car in a parts bucket.",
+      "url": "https://www.reddit.com/r/mazdaspeed3/comments/t67efh"
+    },
+    {
+      "title": "Headlamp",
+      "url": "https://en.wikipedia.org/wiki/Headlamp"
+    },
+    {
+      "title": "Dont BUY headlights when you can make your own!",
+      "url": "https://www.reddit.com/r/redneckengineering/comments/1as5l8i"
+    },
+    {
+      "title": "Sh*tty headlight projector!",
+      "url": "https://www.reddit.com/r/DubaiPetrolHeads/comments/yta1qd"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

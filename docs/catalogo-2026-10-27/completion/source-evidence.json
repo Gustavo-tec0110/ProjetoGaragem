@@ -1,0 +1,185 @@
+{
+  "Flickr:9516723638 — BlackDeath 6C": {
+    "source": {
+      "title": "Flickr:9516723638 — BlackDeath 6C",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+      "original": "https://live.staticflickr.com/5477/9516723638_9eb9f3c713_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackDeath 2013",
+      "restrictions": ""
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+      "sourcePageSha256": "6b593ae83e32165a759cb691bfadcaa655f5fdbbc0658f6f2c2c34bf3faaf288",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "VIBE Audio",
+      "providerLicenseId": "4",
+      "providerLicenseName": "CC BY 2.0",
+      "sourceDimensions": [
+        5184,
+        3456
+      ],
+      "sourceSha256": "a79a51f52b8ccbec005c16f53f838b963818e3df2bdd598aa3b6ee018c7f9293"
+    },
+    "inputSha256": "a79a51f52b8ccbec005c16f53f838b963818e3df2bdd598aa3b6ee018c7f9293",
+    "binding": "crossover"
+  },
+  "File:Dragon Ball Z Shift Knob.jpg": {
+    "source": {
+      "title": "File:Dragon Ball Z Shift Knob.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Dragon_Ball_Z_Shift_Knob.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 500,
+      "height": 500,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Theflameless",
+      "description": "Dragon Ball Z Shift Knob",
+      "provider": "Wikimedia Commons",
+      "restrictions": "",
+      "inputRepresentation": "licensed cached preview, without enlargement",
+      "previewUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "attribution": "A conversão usa a versão licenciada em cache de 500 px, sem ampliação; o download posterior do original retornou HTTP 403."
+    },
+    "evidence": {
+      "DateTime": {
+        "value": "2016-03-31 12:44:41",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Dragon Ball Z Shift Knob",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Gear sticks|Self-published work|Dragon Balls",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Dragon Ball Z Shift Knob",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2016-03-12",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Theflameless&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Theflameless (page does not exist)\">Theflameless</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      },
+      "verifiedOn": {
+        "value": "2026-10-27"
+      },
+      "metadataCache": {
+        "value": "artifacts/catalog-photo-followup-2026-10-27/parts-preview-index.json"
+      },
+      "sourceSha256": "c2ba6f7128be99fce5cffd510c048c40ec2d62d0b779f5494ed013ac8bba295f"
+    },
+    "inputSha256": "c2ba6f7128be99fce5cffd510c048c40ec2d62d0b779f5494ed013ac8bba295f",
+    "binding": "manopla"
+  },
+  "Flickr:6776604261 — skunk2 camshaft gears": {
+    "source": {
+      "title": "Flickr:6776604261 — skunk2 camshaft gears",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+      "original": "https://live.staticflickr.com/7151/6776604261_5d6bcc98c9_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY-ND 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-nd/2.0/",
+      "author": "Garry dr",
+      "description": "skunk2 camshaft gears",
+      "restrictions": "",
+      "technicalChangesOnly": true
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY-ND 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-nd/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+      "sourcePageSha256": "399471ed4845095f2341d58c25f2cb03287376cc1b98768ca687152673f9523d",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "Garry dr",
+      "providerLicenseId": "6",
+      "providerLicenseName": "CC BY-ND 2.0",
+      "sourceDimensions": [
+        5184,
+        3456
+      ],
+      "sourceSha256": "51886fab6b8fe32afbd47f206bda4e76f362ac9d032a8c8f790264356b528e36"
+    },
+    "inputSha256": "51886fab6b8fe32afbd47f206bda4e76f362ac9d032a8c8f790264356b528e36",
+    "binding": "polia-comando"
+  }
+}

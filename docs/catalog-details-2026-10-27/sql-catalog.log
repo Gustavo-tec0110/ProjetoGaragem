@@ -1,0 +1,1 @@
+{"mode":"isolated-catalog-migration","original":79,"total":263,"new":184,"categories":10,"checks":["legacy IDs/FKs/private data","owner attaches new persisted UUID; other user denied","custom overrides/inactive conflicts","idempotence","atomic preflight","category integrity","RLS and ACL unchanged","anonymous read and denied writes"],"result":"passed","remoteWrites":0}

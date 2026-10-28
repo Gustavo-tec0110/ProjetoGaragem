@@ -1,0 +1,61 @@
+
+Running 23 tests using 1 worker
+
+(node:151578) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › desktop: detalhes, ofertas, teclado, foco e fechamento (1.0m)
+(node:152039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › tablet: detalhes, ofertas, teclado, foco e fechamento (52.8s)
+
+
+  1) [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › desktop: detalhes, ofertas, teclado, foco e fechamento 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.screenshot: Test timeout of 60000ms exceeded.
+    Call log:
+      - taking page screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+
+
+      70 |       if (count) await expect(details.getByRole("button", { name: /Ver na loja/ })).toHaveCount(count);
+      71 |       else await expect(details.getByText("Opções de compra ainda não disponíveis para este componente.")).toBeVisible();
+    > 72 |       await page.screenshot({ style: screenshotStyle, path: `${output}/${format}-${count}-offers.png` });
+         |                  ^
+      73 |       await page.keyboard.press("Escape");
+      74 |     }
+      75 |   });
+        at /home/gustavo/Área de trabalho/ProjetoGaragem/tests/e2e/catalog-details.spec.ts:72:18
+
+    Error Context: test-results/catalog-details-desktop-de-7c2f6-s-teclado-foco-e-fechamento-desktop-chromium/error-context.md
+
+  2) [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › tablet: detalhes, ofertas, teclado, foco e fechamento 
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'Ver detalhes de Coilover', exact: true })
+        - locator resolved to <button type="button" data-state="closed" aria-expanded="false" aria-haspopup="dialog" aria-label="Ver detalhes de Coilover" aria-controls="radix-_R_oqinebn5mqlb_" class="block w-full rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-accent">…</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+      66 |
+      67 |     for (const [name, count] of [["Coilover",1],["Radiador de arrefecimento",0],["Turbocompressor",3],["Volante esportivo",3]] as const) {
+    > 68 |       await page.getByRole("button", { name: `Ver detalhes de ${name}`, exact: true }).click();
+         |                                                                                        ^
+      69 |       const details = page.getByRole("dialog", { name, exact: true });
+      70 |       if (count) await expect(details.getByRole("button", { name: /Ver na loja/ })).toHaveCount(count);
+      71 |       else await expect(details.getByText("Opções de compra ainda não disponíveis para este componente.")).toBeVisible();
+        at /home/gustavo/Área de trabalho/ProjetoGaragem/tests/e2e/catalog-details.spec.ts:68:88
+
+    Error Context: test-results/catalog-details-tablet-det-47fc3-s-teclado-foco-e-fechamento-desktop-chromium/error-context.md
+
+  1 failed
+    [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › desktop: detalhes, ofertas, teclado, foco e fechamento 
+  1 interrupted
+    [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › tablet: detalhes, ofertas, teclado, foco e fechamento 
+  21 did not run

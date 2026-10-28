@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "manometro-turbo",
+    "termometro-oleo",
+    "termometro-agua",
+    "contagiros"
+  ],
+  "queries": [
+    {
+      "q": "\"boost gauge\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"oil temperature gauge\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"water temperature gauge\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"tachometer\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Product_Data_Sheet_KUS.xlsx",
+      "url": "https://kus-usa.com/wp-content/uploads/2019/11/Product_Data_Sheet_KUS_CPYR_Oil-Temp-Gauge.pdf"
+    },
+    {
+      "title": "Boost Gauge: The Garrett Mechanical Boost",
+      "url": "https://www.garrettmotion.com/wp-content/uploads/2020/06/Catalog-Volume-8_Full-Version_FINAL_web-version_June_2020_PAGES.pdf"
+    },
+    {
+      "title": "Water Temperature Gauge - CPTR | Temperature Monitor | KUS Americas, Inc.",
+      "url": "https://kus-usa.com/product/water-temp-gauge-cptr/"
+    },
+    {
+      "title": "Product Name:",
+      "url": "https://www.racedom.com/media/catalog/down/Boost_Gauge.pdf"
+    },
+    {
+      "title": "Water Temperature Gauges",
+      "url": "https://hiqlightingandgauge.ca/wp-content/uploads/2022/01/hiq-catalog-web.pdf"
+    },
+    {
+      "title": "Boost Gauge – Tuning Gauge Manufacturer | PROSPORT",
+      "url": "https://prosport.com.tw/product-type/boost-gauge/"
+    },
+    {
+      "title": "Temperature gauges",
+      "url": "https://vdo-webshop.nl/download_pdf/catalogi/viewline/2014_vdo_marine_catalogue_viewline_en.pdf"
+    },
+    {
+      "title": "PERFORMANCE METER No.1",
+      "url": "https://autogauge.com.tw/wp-content/uploads/p20_CompressPdf_CompressPdf-2.pdf"
+    },
+    {
+      "title": "New product development completed! ~Digital Oil Temperature Guage~",
+      "url": "https://www.qsps.com.tw/page/news/show.aspx?lang=US&num=96"
+    },
+    {
+      "title": "Water Temperature Gauge - Reliable Quality, Ships Today",
+      "url": "https://parts4engines.com/products/water-temperature-gauge"
+    },
+    {
+      "title": "Wema water temperature gauge 120° white - Marinekauppa.com",
+      "url": "https://marinekauppa.com/en/product/wema-water-temperature-gauge-120-white/14673"
+    },
+    {
+      "title": "52mm Water Temperature Gauge BD",
+      "url": "https://www.etbinstruments.com/index.php?path=59&product_id=93&route=product%2Fproduct"
+    },
+    {
+      "title": "Universal Water Temperature Gauge – The Brillman Company",
+      "url": "https://brillman.com/product/universal-water-temperature-gauge/"
+    },
+    {
+      "title": "12v Engine Oil Temperature Sensor | 1017077",
+      "url": "https://store.cobogroup.net/cobo/en/EUR/COBO-CATALOG/HMI-DEVICES/INSTRUMENTS-AND-CLUSTERS/12V-ENGINE-OIL-TEMPERATURE-SENSOR/p/000000000001017077"
+    },
+    {
+      "title": "Welcome to ASES - Water Temp Gauges White",
+      "url": "https://www.asesgauges.com/water-temp-gauges-white"
+    },
+    {
+      "title": "B02-52-13 TG100 WIFI WATER TEMPERATURE GAUGE | Rico Instrument Co., Ltd.",
+      "url": "https://www.rico-instrument.com/wi-fi-gauge/b02-52-13-tg100-wifi-water-temperature-gauge.html"
+    },
+    {
+      "title": "Digital Gauge, IoV | N4AI EGNAS",
+      "url": "https://www.n4ai.com/en/product_detail?item=99"
+    },
+    {
+      "title": "Oil Temperature Gauge Kit 140 to 320°F – Kent Automotive",
+      "url": "https://www.kent-automotive.com/products/oil-temperature-gauge-kit-140-to-320-f-90703"
+    },
+    {
+      "title": "Motometer",
+      "url": "https://en.wikipedia.org/wiki/Motometer"
+    },
+    {
+      "title": "Boost gauge",
+      "url": "https://en.wikipedia.org/wiki/Boost_gauge"
+    },
+    {
+      "title": "Tachometer",
+      "url": "https://en.wikipedia.org/wiki/Tachometer"
+    },
+    {
+      "title": "DIGITAL BOOST GAUGE",
+      "url": "https://www.reddit.com/r/ForteGT/comments/1rvn8r1/digital_boost_gauge/"
+    },
+    {
+      "title": "Boost gauge install I did today!",
+      "url": "https://www.reddit.com/r/SkyLine/comments/fwh409"
+    },
+    {
+      "title": "Tachometer",
+      "url": "https://de.wikipedia.org/wiki/Tachometer"
+    },
+    {
+      "title": "Hubometer",
+      "url": "https://en.wikipedia.org/wiki/Hubometer"
+    },
+    {
+      "title": "Boost gauge recommendations?",
+      "url": "https://www.reddit.com/r/abarth/comments/nf187a"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "voltimetro",
+    "registrador-dados",
+    "alarme",
+    "rastreador"
+  ],
+  "queries": [
+    {
+      "q": "\"automotive voltmeter\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive data logger\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car alarm\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"vehicle GPS tracker\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Template Product Datasheet.indd",
+      "url": "https://alarmasnemesis.com/en/docs/Nemesis_PDS_CarAlarm_OEM_3001BG.pdf"
+    },
+    {
+      "title": "Velleman K3504: CAR ALARM – Velleman – Wholesaler and developer of electronics",
+      "url": "https://www.velleman.eu/products/view/car-alarm-k3504/?country=fr&id=9151&lang=en"
+    },
+    {
+      "title": "Alibaba",
+      "url": "https://www.meitrack.com/wp-content/uploads/2013/05/Factory-Certificate/meitrack_supplier_assessment_by_bv.pdf"
+    },
+    {
+      "title": "Automotive Data Logger",
+      "url": "https://www.nxp.com/assets/block-diagram/en/AutomotiveDataLogger_AUTOMOTIVE-DATA-LOGGER.pdf"
+    },
+    {
+      "title": "FCC ID L2MAL41T - Car Alarm",
+      "url": "https://fccid.io/L2MAL41T"
+    },
+    {
+      "title": "Vehicle Security",
+      "url": "https://s.globalsources.com/IMAGES/SPL/PDF/461/D9407080059461.pdf"
+    },
+    {
+      "title": "Car",
+      "url": "https://imgusr.tradekey.com/images/uploadedimages/brochures/4/5/8498991-2013122005374552b3d7a962c95.pdf"
+    },
+    {
+      "title": "GPS VEHICLE TRACKING DEVICE",
+      "url": "https://www.fleettrack.org/fleet-track-telematics-solutions.pdf"
+    },
+    {
+      "title": "GPS tracking device system for car | Yuebiz",
+      "url": "https://www.gpstrack.cc/product/gps-tracking-device-system-for-car/"
+    },
+    {
+      "title": "PRODUCTS AUTOMOTIVE",
+      "url": "https://uttishtatechsolutions.com/products-automotive"
+    },
+    {
+      "title": "::: SUPERCODE CAR ALARM SYSTEM :::",
+      "url": "https://www.caralarm.com.my/products-ies-immobilizer-system01.html"
+    },
+    {
+      "title": "Vehicle GPS Tracker for Cars & Professional Fleets | Cantrack",
+      "url": "https://www.cantrackgps.com/vehicle_tracker/"
+    },
+    {
+      "title": "GPS Tracking System & GPS Tracker Manufacturer | NN Tracker",
+      "url": "https://nntracker.com/"
+    },
+    {
+      "title": "Data Logger for Vehicle, Test Bench and Bus Systems | Vector",
+      "url": "https://www.vector.com/en/business-unit/measurement-calibration/hardware/data-logger/"
+    },
+    {
+      "title": "Data Loggers – Robust, Reliable, Flexible and Scalable",
+      "url": "https://x2e.de/en/products/data-logger/"
+    },
+    {
+      "title": "Automotive Data Loggers for Cars & Trucks | Holley",
+      "url": "https://www.holley.com/products/data_acquisition/data_loggers/"
+    },
+    {
+      "title": "K-9 CAR ALARM",
+      "url": "https://www.voxxelectronics.com/our-brands/k-9-car-alarm"
+    },
+    {
+      "title": "Autonomous Automotive Data Logger Kit - Trident Systems",
+      "url": "https://tridsys.com/predictive-maintenance-and-logistics/a2dl/"
+    },
+    {
+      "title": "Car alarm",
+      "url": "https://en.wikipedia.org/wiki/Car_alarm"
+    },
+    {
+      "title": "Battery indicator",
+      "url": "https://en.wikipedia.org/wiki/Battery_indicator"
+    },
+    {
+      "title": "Tractive",
+      "url": "https://en.wikipedia.org/wiki/Tractive"
+    },
+    {
+      "title": "Dont know what device is this",
+      "url": "https://www.reddit.com/r/PakistanAutoHub/comments/1nn3z5p"
+    },
+    {
+      "title": "Car alarms",
+      "url": "https://www.reddit.com/r/CarAV/comments/t9kd21"
+    },
+    {
+      "title": "Multimeter",
+      "url": "https://en.wikipedia.org/wiki/Multimeter"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

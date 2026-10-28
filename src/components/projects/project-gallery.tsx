@@ -387,8 +387,17 @@ export function ProjectGallery({
   const [dragOffset, setDragOffset] = React.useState(0);
   const [isInteracting, setIsInteracting] = React.useState(false);
   const [isPageVisible, setIsPageVisible] = React.useState(true);
+  const [isGalleryVisible, setIsGalleryVisible] = React.useState(false);
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
   const hasMultipleImages = images.length > 1;
+
+  React.useEffect(() => {
+    const element = expandButtonRef.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => setIsGalleryVisible(entry.isIntersecting));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [hasMultipleImages, images.length]);
 
   React.useEffect(() => {
     const updateVisibility = () => setIsPageVisible(document.visibilityState === "visible");
@@ -438,6 +447,7 @@ export function ProjectGallery({
       !hasMultipleImages ||
       reducedMotion ||
       !isPageVisible ||
+      !isGalleryVisible ||
       isInteracting ||
       lightboxOpen
     ) {
@@ -452,6 +462,7 @@ export function ProjectGallery({
     hasMultipleImages,
     isInteracting,
     isPageVisible,
+    isGalleryVisible,
     lightboxOpen,
     navigate,
     reducedMotion,
@@ -555,7 +566,7 @@ export function ProjectGallery({
             <GalleryImage
               alt={`Foto ${activeIndex + 1} do projeto ${title}`}
               preload={activeIndex === 0}
-              sizes="(min-width: 1024px) 42vw, 100vw"
+              sizes="(min-width: 1200px) 544px, (min-width: 1024px) calc((100vw - 80px) / 2), (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)"
               src={activeImage}
             />
           </div>

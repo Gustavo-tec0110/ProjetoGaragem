@@ -49,4 +49,7 @@
 \ir migrations/20261014010000_project_image_access_registry.sql
 \ir migrations/20261014015000_project_image_cleanup_guards.sql
 \ir migrations/20261014020000_activate_private_project_images.sql
+\ir migrations/20261027120000_expand_modification_catalog.sql
+\ir migrations/20261027210000_modification_offers.sql
+\ir migrations/20261028010000_reviewed_catalog_offers.sql
 \ir bootstrap-finish.sql

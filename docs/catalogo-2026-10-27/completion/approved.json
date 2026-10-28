@@ -1,0 +1,71 @@
+{
+  "crossover": {
+    "candidate": "flickr-9516723638",
+    "page": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+    "reason": "Fotografia real do próprio fabricante VIBE Audio, licença CC BY 2.0 confirmada na página individual. Divisor passivo de frequências completo, isolado em fundo claro; bobinas, capacitores, resistores e terminais próprios do crossover estão visíveis e nítidos. Original 5184 × 3456 conferido visualmente.",
+    "visualDecision": "approved",
+    "technicalReference": "https://vibeaudio.co.uk/product/blackdeath6c-v6",
+    "source": {
+      "title": "Flickr:9516723638 — BlackDeath 6C",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+      "original": "https://live.staticflickr.com/5477/9516723638_9eb9f3c713_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackDeath 2013",
+      "restrictions": ""
+    },
+    "inputSha256": "a79a51f52b8ccbec005c16f53f838b963818e3df2bdd598aa3b6ee018c7f9293"
+  },
+  "manopla": {
+    "candidate": "commons-47890097",
+    "cachedCandidate": {
+      "index": "artifacts/catalog-photo-followup-2026-10-27/parts-preview-index.json",
+      "id": "47890097"
+    },
+    "reason": "Fotografia real de duas manoplas de câmbio de resina, completas e isoladas em fundo branco; rosca metálica e acabamento visíveis. Fonte Commons declara trabalho próprio de Theflameless sob CC BY-SA 4.0. Versão licenciada em cache mantém a resolução nativa de 500 × 500, suficiente para o conteúdo de 480 px sem ampliação; inspeção visual realizada.",
+    "visualDecision": "approved",
+    "cachedInput": "artifacts/catalog-photo-followup-2026-10-27/previews/parts-47890097.jpg",
+    "source": {
+      "title": "File:Dragon Ball Z Shift Knob.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Dragon_Ball_Z_Shift_Knob.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 500,
+      "height": 500,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Theflameless",
+      "description": "Dragon Ball Z Shift Knob",
+      "provider": "Wikimedia Commons",
+      "restrictions": "",
+      "inputRepresentation": "licensed cached preview, without enlargement",
+      "previewUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "attribution": "A conversão usa a versão licenciada em cache de 500 px, sem ampliação; o download posterior do original retornou HTTP 403."
+    },
+    "inputSha256": "c2ba6f7128be99fce5cffd510c048c40ec2d62d0b779f5494ed013ac8bba295f"
+  },
+  "polia-comando": {
+    "candidate": "flickr-6776604261",
+    "page": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+    "reason": "Fotografia real de Garry dr (Canon EOS 60D, original 5184 × 3456), com par completo de polias de comando reguláveis Skunk2 em fundo branco. Dentes, fixações e regulagem nítidos; fotografias da peça correta, sem veículo ou render. Licença individual CC BY-ND 2.0: reprodução integral com apenas orientação, redução proporcional e conversão de formato, sem recorte, alteração de fundo ou adaptação criativa.",
+    "visualDecision": "approved",
+    "source": {
+      "title": "Flickr:6776604261 — skunk2 camshaft gears",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+      "original": "https://live.staticflickr.com/7151/6776604261_5d6bcc98c9_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY-ND 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-nd/2.0/",
+      "author": "Garry dr",
+      "description": "skunk2 camshaft gears",
+      "restrictions": "",
+      "technicalChangesOnly": true
+    },
+    "inputSha256": "51886fab6b8fe32afbd47f206bda4e76f362ac9d032a8c8f790264356b528e36"
+  }
+}

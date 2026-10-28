@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "sensor-tpms",
+    "travas-roda",
+    "calotas",
+    "volante-motor"
+  ],
+  "queries": [
+    {
+      "q": "\"TPMS sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wheel lock nut\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"hubcap\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car flywheel\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "TPMS.com - Leading Supplier of Tire Pressure Monitoring Systems",
+      "url": "https://www.tpms.com/"
+    },
+    {
+      "title": "Tire Pressure Monitoring Systems (TPMS)",
+      "url": "https://www.continental-aftermarket.com/en-en/products/spare-partsrepair-parts/tire-pressure-monitoring-systems-tpms/"
+    },
+    {
+      "title": "TPMS sensor with Bluetooth Low Energy interface for valve and in-tire application",
+      "url": "https://www.bosch-semiconductors.com/products/mems-sensors/safety-systems/smp290/"
+    },
+    {
+      "title": "The TPMS provides a ver",
+      "url": "https://www.tsmtechnic.com/CMS/admin/product_upload/663cca7ad7d5d_TPMS.pdf"
+    },
+    {
+      "title": "McGard Wheel Accessories Catalog",
+      "url": "https://manuals.plus/m/31e19d27bf1864d662e6da3da46917c6a87c72c7bc2eb88a28a6a602ec215451.pdf"
+    },
+    {
+      "title": "Wheel Locks Manufacturer – Lock Nuts, Lock Bolts & Keys, Private Label | Shenzhao",
+      "url": "https://www.sz-autoparts.com/products/car-fasteners/wheel-locks/"
+    },
+    {
+      "title": "Launch TPMS Sensor - Vehicle Diagnostic Tools | Launch Tech USA",
+      "url": "https://launchtechusa.com/product/launch-tpms-sensor/"
+    },
+    {
+      "title": "REDI-Sensor Product Category - Air Control Products - Fluid Control",
+      "url": "https://www.dillvalves.com/product_category/tpms/redi-sensor/"
+    },
+    {
+      "title": "TPMS assignment list, part 1",
+      "url": "https://www.ronal-wheels.com/int/file-download/download/public/511"
+    },
+    {
+      "title": "Digital Portfolio: Tire Pressure Monitoring System",
+      "url": "https://www.standardbrand.com/media/11558/vpsg_2023_tpms_7-23.pdf"
+    },
+    {
+      "title": "World’s First TPMS",
+      "url": "https://schradertpms.com/sites/default/files/2019-12/EZ_Sensor_Sell_Sheet_ENG.pdf"
+    },
+    {
+      "title": "PREMA TPMS Catalog.indd",
+      "url": "https://www.premaproducts.com/downloads/PREMA-TPMS-Catalog-02-2023.pdf"
+    },
+    {
+      "title": "TPMS Sensors for Tire Pressure Monitoring Systems | Standard® | Products | Standard",
+      "url": "https://www.standardbrand.com/whats-in-your-box/tpms/?subtab=qwik-sensor-tpms-sensors&tab=tpms-sensors"
+    },
+    {
+      "title": "M12x1.25 Anti-Theft Locking Wheel Lug Nuts 4pcs Conical Seat Universal Wheel Lock Nuts - Wenzhou Moon Hall Products Co.,Ltd",
+      "url": "https://www.wzmhp.com/product/wheel-nuts-1001.html"
+    },
+    {
+      "title": "TPMS Sensor Manufacturer & Fleet Tire Management | QQR TPMS",
+      "url": "https://qqrdajin.com/"
+    },
+    {
+      "title": "Italsensor – ITALMATIC",
+      "url": "https://www.italmatic.group/en/home-accessories-tpms-equipment/italsensor/"
+    },
+    {
+      "title": "Mobiletron Electronics CO., LTD.",
+      "url": "https://www.mobiletron.com/TpmsLink/detail/7"
+    },
+    {
+      "title": "Hubcap",
+      "url": "https://en.wikipedia.org/wiki/Hubcap"
+    },
+    {
+      "title": "Hubcap (disambiguation)",
+      "url": "https://en.wikipedia.org/wiki/Hubcap_%28disambiguation%29"
+    },
+    {
+      "title": "Anyone got a functional/compatible TPMS sensor part number?",
+      "url": "https://www.reddit.com/r/Rivian/comments/wdzu6n"
+    },
+    {
+      "title": "does anyone know what company made this hubcap? I have been looking and I have no idea",
+      "url": "https://www.reddit.com/r/classiccars/comments/ujbu1s"
+    },
+    {
+      "title": "Nira Dynamics AB",
+      "url": "https://en.wikipedia.org/wiki/Nira_Dynamics_AB"
+    },
+    {
+      "title": "Does anyone know what key/manufacture these wheel locks are? Went on a trip only to find out technician I stopped at, forgot to put key back into my car, then lost it when I called about it…",
+      "url": "https://www.reddit.com/r/Wrangler/comments/q8oi4j"
+    },
+    {
+      "title": "Comparison between the HUBCAP and DIGITBrain Platforms for Model-Based Design and Evaluation of Digital Twins",
+      "url": "https://arxiv.org/abs/2212.07829"
+    },
+    {
+      "title": "Direct TPMS",
+      "url": "https://en.wikipedia.org/wiki/Direct_TPMS"
+    },
+    {
+      "title": "Tire-pressure monitoring system",
+      "url": "https://en.wikipedia.org/wiki/Tire-pressure_monitoring_system"
+    },
+    {
+      "title": "Where to buy tpms in the united states",
+      "url": "https://www.reddit.com/r/u_tpmssensortool/comments/10ztgcl"
+    },
+    {
+      "title": "Wheel TPMS OEM",
+      "url": "https://www.reddit.com/r/ElantraN/comments/t3oo2n"
+    },
+    {
+      "title": "Where to get TPMS in USA",
+      "url": "https://www.reddit.com/r/u_tpmssensortool/comments/10wsasm"
+    },
+    {
+      "title": "TPMSSensorTool Sitemap",
+      "url": "https://www.reddit.com/r/u_tpmssensortool/comments/10v082k"
+    },
+    {
+      "title": "Help me find what make/model this hubcap is from. Left by someone hitting a light pole in front of my house, no brand markings, \"made in taiwan\" stamped on the inside.",
+      "url": "https://www.reddit.com/r/HelpMeFind/comments/nfgobq"
+    },
+    {
+      "title": "Reifendruckkontrollsystem",
+      "url": "https://de.wikipedia.org/wiki/Reifendruckkontrollsystem"
+    },
+    {
+      "title": "Do y’all know what TPMS sensor this is and where to get it?",
+      "url": "https://www.reddit.com/r/tires/comments/1hkvnmn"
+    },
+    {
+      "title": "Can anyone please tell me what this nut / bolt is called?",
+      "url": "https://www.reddit.com/r/AskMechanics/comments/1nqut2e"
+    },
+    {
+      "title": "This hubcap rolled onto our lawn (UK) and we are trying to identify the model. Any ideas?",
+      "url": "https://www.reddit.com/r/HelpMeFind/comments/mrd1le"
+    },
+    {
+      "title": "Are these TPMS sensors legitimate?",
+      "url": "https://www.reddit.com/r/TeslaModelY/comments/1gw0m2a/are_these_tpms_sensors_legitimate/"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

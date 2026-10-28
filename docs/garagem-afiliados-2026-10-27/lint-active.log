@@ -1,0 +1,7 @@
+
+/home/gustavo/Área de trabalho/ProjetoGaragem/tests/unit/catalog-offers-api.test.mjs
+  20:203  error  'Response' is not defined  no-undef
+  21:58   error  'Request' is not defined   no-undef
+
+✖ 2 problems (2 errors, 0 warnings)
+

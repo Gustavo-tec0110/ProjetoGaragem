@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "flauta-combustivel",
+    "surge-tank",
+    "celula-combustivel",
+    "linhas-combustivel"
+  ],
+  "queries": [
+    {
+      "q": "\"fuel rail\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"fuel surge tank\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"racing fuel cell\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"fuel line\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Model Number 61711",
+      "url": "https://fuelab.com/file/174"
+    },
+    {
+      "title": "Fuel Surge Tank - Apikol Performance Automotive Components",
+      "url": "https://apikol.com/product/fuel-surge-tank/"
+    },
+    {
+      "title": "FUEL SURGE TANK SYSTEMS",
+      "url": "https://www.tecnauto.it/moduli/fuelab-2018-catalog.pdf"
+    },
+    {
+      "title": "Microsoft Word - 10-280 for FRK - Fuel Rail.doc",
+      "url": "https://documents.aemelectronics.com/techlibrary_25-100bk_high_volume_fuel_rail.pdf"
+    },
+    {
+      "title": "Fuel Cell with Integrated Brushless 5.0 GPM In-Tank Fuel Pump Module a – Aeromotive",
+      "url": "https://aeromotiveinc.com/products/fuel-cell-with-integrated-brushless-5-0-gpm-in-tank-fuel-pump-module-and-pre-pump-fuel-filter"
+    },
+    {
+      "title": "PRODUCT DESCRIPTI",
+      "url": "https://www.kongsbergautomotive.com/globalassets/productsservices/after-market/product-sheets/ka_fuel_lines.pdf"
+    },
+    {
+      "title": "114020100 Fuel Surge Tank Syste",
+      "url": "https://fuelab.com/files/attachments/category_installation_instruction-instruction_file-28-v1.pdf"
+    },
+    {
+      "title": "Dane aktualne na dzień: 24-04-2026 19:39",
+      "url": "https://bizongarage.pl/fst-fuel-surge-tank-standard-for-single-pump-radium-engineering-kartapdf-46706.html"
+    },
+    {
+      "title": "Fuel Line",
+      "url": "https://www.kongsbergautomotive.com/products-services/commercial-vehicles/fluid-transfer/fluid-transfer-assemblies/fuel-line/"
+    },
+    {
+      "title": "Fuel rail for gasoline port fuel injection",
+      "url": "https://www.bosch-mobility.com/en/solutions/fuel-supply/fuel-rail-pfi/"
+    },
+    {
+      "title": "Racing Fuel cells - Simtech",
+      "url": "https://www.simtech.biz/products/racing-fuel-cells/"
+    },
+    {
+      "title": "Fuel Rail Extrusion - Electromotive",
+      "url": "https://electromotive.com/our-products/fuel-rail-extrusion/"
+    },
+    {
+      "title": "Fuel Line | Abbott Rubber Company",
+      "url": "https://www.abbottrubber.com/products/brands/thermoid/automotive-hose/fuel-line.html"
+    },
+    {
+      "title": "Nuke Fuel Surge Tank for Walbro Ti Automotive GST450 GST520",
+      "url": "https://www.nukeperformance.com/product.html/walbro-gst450-gst520-fuel-surge-tank"
+    },
+    {
+      "title": "RCI Fuel Cells | Racing Fuel Cells | Day Motor Sports",
+      "url": "https://www.daymotorsports.com/shop-by/fuel-air-system/fuel-cells"
+    },
+    {
+      "title": "Nuke Performance fuel surge tank 3L GST400/GST450/GST520 | Qualitec | Qualitec.eu",
+      "url": "https://www.qualitec.eu/nuke-performance-fuel-surge-tank-3l-gst400gst450gst520"
+    },
+    {
+      "title": "Fuel Surge Tank with Brushed Fuel Pumps | Motorsport Fuel Pump Specialist Supplier | Protec Fuel Pumps",
+      "url": "https://www.protecfuelpumps.com/product/fuel-surge-tank-with-brushed-fuel-pumps/"
+    },
+    {
+      "title": "ATL Racing Fuel Cell 30L Ø553 x 163 mm | FIA FT3-1999 | Qualitec.eu",
+      "url": "https://www.qualitec.eu/atl-racing-fuel-cell-30l-%C3%B8550-x-160-mm-no-top-plate-fia-ft3-1999"
+    },
+    {
+      "title": "Fuel line",
+      "url": "https://en.wikipedia.org/wiki/Fuel_line"
+    },
+    {
+      "title": "Fuel cell (disambiguation)",
+      "url": "https://en.wikipedia.org/wiki/Fuel_cell_%28disambiguation%29"
+    },
+    {
+      "title": "Surge tank",
+      "url": "https://en.wikipedia.org/wiki/Surge_tank"
+    },
+    {
+      "title": "The introduce of CARB EPA Fuel Line Hose",
+      "url": "https://www.reddit.com/r/u_Cutiechen1/comments/120avgt"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

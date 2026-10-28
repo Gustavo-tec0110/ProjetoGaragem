@@ -1,0 +1,174 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "camera-re",
+    "sensor-estacionamento",
+    "camera-veicular",
+    "processador-audio"
+  ],
+  "queries": [
+    {
+      "q": "\"car reverse camera\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"parking sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"dashcam\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car audio DSP\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Industry Dashcam • Quick Start Guide",
+      "url": "https://assets.hikvision.com/prd/public/all/doc/m000163537/UD43041B_Baseline_G40-Pro_Industry-Dashcam_QSG_V1.0.0_20250527.pdf"
+    },
+    {
+      "title": "Dashcam design",
+      "url": "https://car.harman.com/Documents/Factsheet_DashCam.pdf"
+    },
+    {
+      "title": "Car Dashcam",
+      "url": "https://www.thedashcamstore.com/content/DR500GW-HD_EN_WEB_Ver.4.03_130913.pdf?srsltid=AfmBOorOETQJ8PgasGCwxoreoNsqchHyVWs3AQ_uyzJdU7jAEGiR9A0A"
+    },
+    {
+      "title": "Home | Dashcam Manufacturer",
+      "url": "https://www.oranic-tech.com/"
+    },
+    {
+      "title": "Car Audio Manufacturer: DSP, Amplifiers & Subwoofers | Audxeon",
+      "url": "https://www.audxeon.com/"
+    },
+    {
+      "title": "IMAGO TECHNOLOGIES",
+      "url": "https://imago-technologies.com/wp-content/uploads/2022/01/Specification-Industrial-DashCam.pdf"
+    },
+    {
+      "title": "Dashcams | Product Support - Transcend Information, Inc.",
+      "url": "https://ca.transcend-info.com/support/product/dashcam"
+    },
+    {
+      "title": "AL PRIORITY",
+      "url": "https://www.alpriority.com/"
+    },
+    {
+      "title": "infsoft Product Sheet Car Parking Sensor",
+      "url": "https://www.infsoft.com/wp-content/uploads/2025-02-infsoft-Product-sheet-Car-Parking-Sensor-EN.pdf"
+    },
+    {
+      "title": "Proxel - Electromagnetic Parking Sensor - NO holes on the bumper!",
+      "url": "https://www.proxel.com/en/"
+    },
+    {
+      "title": "Parking Sensor OEM",
+      "url": "https://www.ttech.pt/wp-content/uploads/2022/12/Catalogo-TTech_EN-2022.02_compressed.pdf"
+    },
+    {
+      "title": "Quality Night Vision Car Camera & 360 Car Camera Systems factory from China",
+      "url": "https://www.visioncarcamera.com/"
+    },
+    {
+      "title": "Nextbase",
+      "url": "https://en.wikipedia.org/wiki/Nextbase"
+    },
+    {
+      "title": "SDSP4.6ABT1 Digital Signal Processor | Wireless, 10-Ch Output, 31-Band EQ, 192kHz SPDIF Input – cadencesound.com",
+      "url": "https://cadencesound.com/product/sdsp4-6abt1/"
+    },
+    {
+      "title": "Rear Parking Assistance System | VOXX By Gentex Corporation",
+      "url": "https://www.voxxelectronics.com/our-products/adas-PSDBSN2"
+    },
+    {
+      "title": "Products - Smart Park",
+      "url": "https://smartpark.net/products/"
+    },
+    {
+      "title": "Car Audio DSP Processors & DSP Amplifiers | SMS",
+      "url": "https://smscaraudio.com/collections/car-audio-dsp-processors-dsp-amplifiers"
+    },
+    {
+      "title": "Velleman SPBS5: PARKING SENSOR SYSTEM WITH BUZZER AND 4 SENSORS – Velleman – Wholesaler and developer of electronics",
+      "url": "https://www.velleman.eu/products/view/parking-sensor-system-with-buzzer-and-4-sensors-spbs5/?id=375380&lang=en"
+    },
+    {
+      "title": ">Parking Sensor, Car Sensor, Car Parking Sensor, Radar Parking Sensor - Minpn",
+      "url": "https://minpn.com/"
+    },
+    {
+      "title": "Help with identifying dash cam",
+      "url": "https://www.reddit.com/r/Dashcam/comments/1vt2wpq/help_with_identifying_dash_cam/"
+    },
+    {
+      "title": "Newbie!  Which Major brand dashcam as gift?",
+      "url": "https://www.reddit.com/r/Dashcam/comments/1xcnvsq/newbie_which_major_brand_dashcam_as_gift/"
+    },
+    {
+      "title": "Looking for actual product information",
+      "url": "https://www.reddit.com/r/Dashcam/comments/1jo8v9i"
+    },
+    {
+      "title": "Dashcam",
+      "url": "https://en.wikipedia.org/wiki/Dashcam"
+    },
+    {
+      "title": "Question",
+      "url": "https://www.reddit.com/r/Dashcam/comments/1fjhepa"
+    },
+    {
+      "title": "Parking sensor",
+      "url": "https://en.wikipedia.org/wiki/Parking_sensor"
+    },
+    {
+      "title": "Any European dash cam manufacturers?",
+      "url": "https://www.reddit.com/r/BuyFromEU/comments/1p5q265/any_european_dash_cam_manufacturers/"
+    },
+    {
+      "title": "Dashcam",
+      "url": "https://de.wikipedia.org/wiki/Dashcam"
+    },
+    {
+      "title": "Dashcam",
+      "url": "https://fr.wikipedia.org/wiki/Dashcam"
+    },
+    {
+      "title": "Factory fitted dashcams?",
+      "url": "https://www.reddit.com/r/CarTalkUK/comments/16sret0"
+    },
+    {
+      "title": "Looking for a Dashcam Manufacturer for my Autocare accessories business",
+      "url": "https://www.reddit.com/r/ManufacturingInIndia/comments/1vfypt5/looking_for_a_dashcam_manufacturer_for_my/"
+    },
+    {
+      "title": "Lytx",
+      "url": "https://en.wikipedia.org/wiki/Lytx"
+    },
+    {
+      "title": "Are there any Dashcam/CarPlay dash/windshield products that aren’t complete crap?",
+      "url": "https://www.reddit.com/r/Dashcam/comments/1exe4rs"
+    },
+    {
+      "title": "What is a good dashcam that is not chinese?",
+      "url": "https://www.reddit.com/r/dashcams/comments/1eceg0y/what_is_a_good_dashcam_that_is_not_chinese/"
+    },
+    {
+      "title": "Is It a Okay to Start a Dashcam Business in India?",
+      "url": "https://www.reddit.com/r/Car_Motorcycle_India/comments/1hepyke"
+    },
+    {
+      "title": "DashCam Pay: A System for In-vehicle Payments Using Face and Voice",
+      "url": "https://arxiv.org/abs/2004.03756"
+    },
+    {
+      "title": "Dashcam for car",
+      "url": "https://www.reddit.com/r/avoidchineseproducts/comments/l78wci"
+    },
+    {
+      "title": "Hey Reddit! I got tired of \"fuzzy\" dashcams, so I launched my own.",
+      "url": "https://www.reddit.com/r/IndianEntrepreneur/comments/1rxvdv0/hey_reddit_i_got_tired_of_fuzzy_dashcams_so_i/"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

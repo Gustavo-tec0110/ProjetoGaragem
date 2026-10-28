@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "bomba-direcao",
+    "reservatorio-direcao",
+    "amortecedor-direcao",
+    "kit-angulo-direcao"
+  ],
+  "queries": [
+    {
+      "q": "\"power steering pump\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"power steering reservoir\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"steering damper\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"drift angle kit\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Power Steering Reservoir | Parts | Ford.com",
+      "url": "https://www.ford.com/product/reservoir-p4000136051"
+    },
+    {
+      "title": "SDK - Matris Dampers",
+      "url": "https://matrisdampers.com/en/prodotto/products/steering-damper-en/sdk/"
+    },
+    {
+      "title": "Power Steering Pump, Supplier and Manufacturer From China",
+      "url": "https://www.vehiclespareparts.com/upload/PDF/power%20steering%20pump.pdf"
+    },
+    {
+      "title": "MECHANIC & ELECTRIC PARTS | STEERING",
+      "url": "https://www.sustainera.com/content/dam/sustainera/brochure-reman/brochure-en/REMAN_2023_CE_BROCHURE_PRODUCT_SHEETS_EN-53.pdf"
+    },
+    {
+      "title": "Drift Angle Kit | Strutbarworks.com",
+      "url": "https://strutbarworks.com/drift-angle-kit/"
+    },
+    {
+      "title": "Power Steering Reservoir – NTF Replacements",
+      "url": "https://static.oemdtc.com/NHTSA-PDFs/MC-11027503-0002.pdf"
+    },
+    {
+      "title": "BRIEF INFO hydraulic steering pump | HELLA",
+      "url": "https://www.hella.com/partnerworld/uk/Support-materials/Brief-Product-Information/BRIEF-INFO-hydraulic-steering-pump-43195/"
+    },
+    {
+      "title": "POWER STEERING PUMPS",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000007202401/381141/1719423470526_165327996.pdf"
+    },
+    {
+      "title": "Steering Pump",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000055202401/374077/1729156816644_1936872356.pdf"
+    },
+    {
+      "title": "TOBY - We build the best road and racing steering dampers",
+      "url": "https://toby.be/"
+    },
+    {
+      "title": "Steering Damper | Titax Racing",
+      "url": "https://www.titax.com/products/steering-damper"
+    },
+    {
+      "title": "Steering Damper Racing Replica",
+      "url": "https://www.matrisdampers.com/wp-content/uploads/2021/08/CATALOGO-MATRIS-DAMPERS-web.pdf"
+    },
+    {
+      "title": "Steering damper kit for racing mounting",
+      "url": "https://www.bitubo.com/en/steering-damper-kit-for-racing-mounting-3"
+    },
+    {
+      "title": "Steering damper - Carbon Fox",
+      "url": "https://carbonfoxgroup.com/product/steering-damper/"
+    },
+    {
+      "title": "Power Steering Reservoir (LH), Welded Aluminum",
+      "url": "https://totalcontrolproducts.com/p-3399-power-steering-reservoir-lh-welded-aluminum.html"
+    },
+    {
+      "title": "MS50969 - Steering Damper - Mevotech",
+      "url": "https://www.mevotech.com/part/MS50969/"
+    },
+    {
+      "title": "ステアリングダンパー│HYPERPRO Steering damper",
+      "url": "https://www.acv.co.jp/hyperpro/index.php?tpl=01_steeringdamper"
+    },
+    {
+      "title": "Power steering reservoir",
+      "url": "https://www.reddit.com/r/LS430/comments/1dg5v25/power_steering_reservoir/"
+    },
+    {
+      "title": "Lenkungsdämpfer",
+      "url": "https://de.wikipedia.org/wiki/Lenkungsd%C3%A4mpfer"
+    },
+    {
+      "title": "Steering damper",
+      "url": "https://en.wikipedia.org/wiki/Steering_damper"
+    },
+    {
+      "title": "aluminium power steering reservoir",
+      "url": "https://www.reddit.com/r/e39/comments/1vlhwtu/aluminium_power_steering_reservoir/"
+    },
+    {
+      "title": "Ammortizzatore di sterzo",
+      "url": "https://it.wikipedia.org/wiki/Ammortizzatore_di_sterzo"
+    },
+    {
+      "title": "Worst P/S reservoir ever",
+      "url": "https://www.reddit.com/r/Justrolledintotheshop/comments/1voa1hz/worst_ps_reservoir_ever/"
+    },
+    {
+      "title": "Hydrosteer",
+      "url": "https://en.wikipedia.org/wiki/Hydrosteer"
+    },
+    {
+      "title": "Aftermarket power steering pump manufacturer?",
+      "url": "https://www.reddit.com/r/AskMechanics/comments/13n9nga"
+    },
+    {
+      "title": "Power steering reservoir in every car!",
+      "url": "https://www.reddit.com/r/CarMechanicSimulator/comments/wox8zo"
+    },
+    {
+      "title": "what is this?",
+      "url": "https://www.reddit.com/r/Cartalk/comments/zv5b00"
+    },
+    {
+      "title": "Steering kickback",
+      "url": "https://en.wikipedia.org/wiki/Steering_kickback"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

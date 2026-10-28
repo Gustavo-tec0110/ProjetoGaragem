@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { flushSync } from "react-dom";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import {
   ArrowRightLeft,
@@ -11,7 +10,6 @@ import {
   Calendar,
   Copy,
   Heart,
-  MoreHorizontal,
   Pencil,
   Share2,
 } from "lucide-react";
@@ -275,11 +273,8 @@ export function ProjectSocialActions({
     updateLocalSave();
   }
 
-  const mobileActionClass =
-    "flex min-h-14 min-w-0 flex-col items-center justify-center gap-0.5 rounded-2xl border border-border/70 bg-background/40 px-1 py-1.5 text-foreground transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 disabled:opacity-100";
-
   return (
-    <div className="w-full lg:w-auto">
+    <div className="pg-project-actions w-full min-w-0" role="group" aria-label="Ações do projeto">
       <LoginPromptDialog
         open={loginOpen}
         onOpenChange={setLoginOpen}
@@ -287,116 +282,38 @@ export function ProjectSocialActions({
         description="Faça login para curtir, salvar e acompanhar projetos reais da comunidade."
       />
       {actionError ? (
-        <p className="mb-2 text-sm text-danger" role="status" aria-live="polite">
-          {actionError}
-        </p>
+        <p className="mb-2 text-sm text-danger" role="status" aria-live="polite">{actionError}</p>
       ) : null}
-      <div className="grid grid-cols-5 gap-1.5 lg:hidden" aria-label="Ações do projeto" data-testid="mobile-project-actions">
-        <button
-          type="button"
-          className={`${mobileActionClass} ${liked ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
-          disabled={likePending}
-          aria-busy={likePending}
-          aria-label={`${liked ? "Remover curtida" : "Curtir"}; ${likes.toLocaleString("pt-BR")} curtidas`}
-          aria-pressed={liked}
-          onClick={() => void toggleLike()}
-        >
-          <Heart className={`size-4 ${liked ? "fill-current" : ""}`} aria-hidden="true" />
-          <span className="text-xs font-semibold leading-none">{likes.toLocaleString("pt-BR")}</span>
-          <span className="text-[9px] leading-none">{liked ? "Curtido" : "Curtir"}</span>
-        </button>
-        <button
-          type="button"
-          className={`${mobileActionClass} ${saved ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
-          disabled={savePending}
-          aria-busy={savePending}
-          aria-label={`${saved ? "Remover dos salvos" : "Salvar"}; ${saves.toLocaleString("pt-BR")} salvos`}
-          aria-pressed={saved}
-          onClick={() => void toggleSave()}
-        >
-          <Bookmark className="size-4" aria-hidden="true" />
-          <span className="text-xs font-semibold leading-none">{saves.toLocaleString("pt-BR")}</span>
-          <span className="text-[9px] leading-none">{saved ? "Salvo" : "Salvar"}</span>
-        </button>
-        <button
-          type="button"
-          className={`${mobileActionClass} ${followed ? "border-accent/40 bg-accent/15 text-accent" : ""}`}
-          disabled={followPending}
-          aria-busy={followPending}
-          aria-label={`${followed ? "Deixar de seguir" : "Seguir"}; ${followers.toLocaleString("pt-BR")} seguidores`}
-          aria-pressed={followed}
-          onClick={() => void toggleFollow()}
-        >
-          <BellPlus className="size-4" aria-hidden="true" />
-          <span className="text-xs font-semibold leading-none">{followers.toLocaleString("pt-BR")}</span>
-          <span className="text-[9px] leading-none">{followed ? "Seguindo" : "Seguir"}</span>
-        </button>
-        <button
-          type="button"
-          className={mobileActionClass}
-          aria-label="Compartilhar projeto"
-          onClick={() => void shareLink()}
-        >
-          <Share2 className="size-4" aria-hidden="true" />
-          <span className="text-[9px] font-semibold leading-none">Compartilhar</span>
-        </button>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild>
-            <button type="button" className={mobileActionClass} aria-label="Mais ações do projeto">
-              <MoreHorizontal className="size-4" aria-hidden="true" />
-              <span className="text-[9px] font-semibold leading-none">Mais</span>
-            </button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content
-              align="end"
-              sideOffset={8}
-              className="z-[75] min-w-56 rounded-3xl border border-border/70 bg-card/95 p-2 shadow-2xl backdrop-blur"
-            >
-              <DropdownMenu.Item asChild>
-                <button type="button" onClick={() => void copyCurrentUrl()} className="flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold outline-none focus:bg-background/55">
-                  <Copy className="size-4" /> {copied ? "Link copiado" : "Copiar link"}
-                </button>
-              </DropdownMenu.Item>
-              <DropdownMenu.Item asChild>
-                <Link href={compareHref} className="flex items-center gap-2 rounded-2xl px-3 py-2.5 text-sm font-semibold outline-none focus:bg-background/55">
-                  <ArrowRightLeft className="size-4" /> Comparar
-                </Link>
-              </DropdownMenu.Item>
-              {editHref ? (
-                <DropdownMenu.Item asChild>
-                  <Link href={editHref} className="flex items-center gap-2 rounded-2xl px-3 py-2.5 text-sm font-semibold outline-none focus:bg-background/55">
-                    <Pencil className="size-4" /> Editar ficha
-                  </Link>
-                </DropdownMenu.Item>
-              ) : null}
-              <DropdownMenu.Item asChild>
-                <Link href={evolutionHref} className="flex items-center gap-2 rounded-2xl px-3 py-2.5 text-sm font-semibold outline-none focus:bg-background/55">
-                  <Calendar className="size-4" /> Evolução
-                </Link>
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu.Root>
-      </div>
-
-      <div className="hidden flex-wrap gap-2 lg:flex">
-        <Button type="button" variant={followed ? "default" : "outline"} disabled={followPending} aria-pressed={followed} aria-busy={followPending} className="disabled:opacity-100" onClick={() => void toggleFollow()}>
-          <BellPlus className="size-4" /> {followed ? "Seguindo" : "Seguir"} ({followers.toLocaleString("pt-BR")})
+      <div className="pg-social-group" role="group" aria-label="Interações sociais">
+        <Button type="button" variant="outline" disabled={followPending} aria-label={`${followed ? "Seguindo" : "Seguir"} (${followers.toLocaleString("pt-BR")})`} aria-pressed={followed} aria-busy={followPending} onClick={() => void toggleFollow()}>
+          <BellPlus aria-hidden="true" /> <span>{followed ? "Seguindo" : "Seguir"}</span>
+          <span className="pg-action-count" aria-label={`${followers.toLocaleString("pt-BR")} seguidores`}>{followers.toLocaleString("pt-BR")}</span>
         </Button>
-        <Button type="button" variant={liked ? "default" : "outline"} disabled={likePending} aria-pressed={liked} aria-busy={likePending} className="disabled:opacity-100" onClick={() => void toggleLike()}>
-          <Heart className={`size-4 ${liked ? "fill-current" : ""}`} /> {liked ? "Curtido" : "Curtir"} ({likes.toLocaleString("pt-BR")})
+        <Button type="button" variant="outline" disabled={likePending} aria-label={`${liked ? "Curtido" : "Curtir"} (${likes.toLocaleString("pt-BR")})`} aria-pressed={liked} aria-busy={likePending} onClick={() => void toggleLike()}>
+          <Heart className={liked ? "fill-current" : ""} aria-hidden="true" /> <span>{liked ? "Curtido" : "Curtir"}</span>
+          <span className="pg-action-count" aria-label={`${likes.toLocaleString("pt-BR")} curtidas`}>{likes.toLocaleString("pt-BR")}</span>
         </Button>
-        <Button type="button" variant={saved ? "default" : "outline"} disabled={savePending} aria-pressed={saved} aria-busy={savePending} className="disabled:opacity-100" onClick={() => void toggleSave()}>
-          <Bookmark className={`size-4 ${saved ? "fill-current" : ""}`} /> {saved ? "Salvo" : "Salvar"} ({saves.toLocaleString("pt-BR")})
-        </Button>
-        <Button type="button" variant="outline" onClick={() => void copyCurrentUrl()}>
-          <Copy className="size-4" /> {copied ? "Copiado" : "Copiar link"}
+        <Button type="button" variant="outline" disabled={savePending} aria-label={`${saved ? "Salvo" : "Salvar"} (${saves.toLocaleString("pt-BR")})`} aria-pressed={saved} aria-busy={savePending} onClick={() => void toggleSave()}>
+          <Bookmark className={saved ? "fill-current" : ""} aria-hidden="true" /> <span>{saved ? "Salvo" : "Salvar"}</span>
+          <span className="pg-action-count" aria-label={`${saves.toLocaleString("pt-BR")} salvos`}>{saves.toLocaleString("pt-BR")}</span>
         </Button>
         <Button type="button" variant="outline" onClick={() => void shareLink()}>
-          <Share2 className="size-4" /> Compartilhar
+          <Share2 aria-hidden="true" /> Compartilhar
         </Button>
       </div>
+      <div className="pg-secondary-actions">
+        <div role="group" aria-label="Ações complementares">
+          <Button type="button" variant="ghost" onClick={() => void copyCurrentUrl()}>
+            <Copy aria-hidden="true" /> {copied ? "Copiado" : "Copiar link"}
+          </Button>
+          <Button asChild variant="ghost"><Link href={compareHref}><ArrowRightLeft aria-hidden="true" /> Comparar</Link></Button>
+        </div>
+        <div role="group" aria-label="Gerenciamento e navegação">
+          {editHref ? <Button asChild variant="ghost"><Link href={editHref}><Pencil aria-hidden="true" /> Editar ficha</Link></Button> : null}
+          <Button asChild variant="ghost"><Link href={evolutionHref}><Calendar aria-hidden="true" /> Evolução</Link></Button>
+        </div>
+      </div>
+      <span className="sr-only" role="status" aria-live="polite">{copied ? "Link copiado" : ""}</span>
     </div>
   );
 }

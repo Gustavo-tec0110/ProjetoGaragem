@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test:e2e": "playwright test",
     "test:unit": "node --test tests/unit/*.test.mjs",
-    "test:sql": "node scripts/test-backend-migrations.mjs && node scripts/test-bootstrap-migrations.mjs"
+    "offers": "node scripts/manage-catalog-offers.mjs",
+    "test:sql": "node scripts/test-backend-migrations.mjs && node scripts/test-bootstrap-migrations.mjs && node scripts/test-catalog-migration.mjs && node scripts/test-catalog-offers-migration.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",

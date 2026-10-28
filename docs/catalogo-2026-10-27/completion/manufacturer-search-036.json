@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "drl",
+    "chicote",
+    "reles",
+    "sensores"
+  ],
+  "queries": [
+    {
+      "q": "\"daytime running light\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive wiring harness\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive relay\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive sensor\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "@ 2025 OE Industry",
+      "url": "https://oeindustry.com/en/products/daytime-running-light-module-38?download=1"
+    },
+    {
+      "title": "Daytime Running",
+      "url": "https://www.documents.philips.com/assets/20230216/f453797c88b4476dbb22afab00f155fa.pdf"
+    },
+    {
+      "title": "DAYTIME RUNNING LIGHTS",
+      "url": "https://m-tech.pl/wp-content/uploads/2021/11/M-TECH_Katalog_12V_2024.pdf"
+    },
+    {
+      "title": "ST-01100 – Automotive Relay - SHENG TENG",
+      "url": "https://www.shengteng.de/index.php/en/product-view.html?article=st-01100&id=7"
+    },
+    {
+      "title": "Catalogue-ENG",
+      "url": "https://sanel.com.tr/wp-content/uploads/2020/09/Sanel-Catalogue-ENG-2020.pdf"
+    },
+    {
+      "title": "Automotive Relays - Panasonic",
+      "url": "https://tp.industry.panasonic.com/en/products/control/relay/vehicle"
+    },
+    {
+      "title": "DAYTIME RUNNING, POSITION AND DIRECTION INDICATOR LAMPS",
+      "url": "https://www.hella.com/soe/assets/documents_global/1900_brochure_soe_agriculture_construction_and_material_handling_en.pdf"
+    },
+    {
+      "title": "Automotive Relays | OMRON Device ＆ Module Solutions - Europe",
+      "url": "https://components.omron.com/eu-en/products/relays/automotive-relays"
+    },
+    {
+      "title": "Automotive relays",
+      "url": "https://industry.panasonic.eu/products/components/relays/automotive-relays"
+    },
+    {
+      "title": "Daytime Running Lights",
+      "url": "https://www.reinert.lu/wp-content/uploads/2016/07/PDF-HELLA-ECLAIRAGE.pdf"
+    },
+    {
+      "title": "List of Automotive Relays Models & Products | TE Connectivity",
+      "url": "https://www.te.com/en/plp/automotive-relays/Y30e9.html"
+    },
+    {
+      "title": "Automotive Relays | Panasonic Industrial Devices",
+      "url": "https://na.industrial.panasonic.com/products/relays-contactors/mechanical-power-relays/automotive"
+    },
+    {
+      "title": "Low-Voltage Relays for Automotive | TE Connectivity",
+      "url": "https://www.te.com/en/products/relays-and-contactors/electromechanical-relays/automotive-relays.html"
+    },
+    {
+      "title": "Automotive Sensor Manufacturer (IATF 16949) | SHR Autosensor",
+      "url": "https://www.autosensortech.com/"
+    },
+    {
+      "title": "About | Hardcore Harness Co.",
+      "url": "https://hardcoreharnessco.com/about"
+    },
+    {
+      "title": "Automotive Relays | Avnet Americas",
+      "url": "https://www.avnet.com/americas/products/c/relays/automotive-relays/"
+    },
+    {
+      "title": "Custom Automotive Wiring Harness Manufacturer | Onlink Group",
+      "url": "https://www.onlink-tech.com/automotive-industrial-wring/"
+    },
+    {
+      "title": "Daytime running lamp",
+      "url": "https://en.wikipedia.org/wiki/Daytime_running_lamp"
+    },
+    {
+      "title": "HellermannTyton",
+      "url": "https://en.wikipedia.org/wiki/HellermannTyton"
+    },
+    {
+      "title": "Cable harness",
+      "url": "https://en.wikipedia.org/wiki/Cable_harness"
+    },
+    {
+      "title": "Relé",
+      "url": "https://pt.wikipedia.org/wiki/Rel%C3%A9"
+    },
+    {
+      "title": "Mazo de cable",
+      "url": "https://es.wikipedia.org/wiki/Mazo_de_cable"
+    },
+    {
+      "title": "Automotive new energy wiring harness-professional customization",
+      "url": "https://www.reddit.com/r/u_jm-wireharness/comments/znbfjj"
+    },
+    {
+      "title": "Sumitomo Electric Industries",
+      "url": "https://en.wikipedia.org/wiki/Sumitomo_Electric_Industries"
+    },
+    {
+      "title": "Industrial Equipment Harness",
+      "url": "https://www.reddit.com/r/u_jm-wireharness/comments/12e57r8"
+    },
+    {
+      "title": "Automotive wiring harness",
+      "url": "https://www.reddit.com/r/u_jm-wireharness/comments/12qfzz4"
+    },
+    {
+      "title": "Low Voltage Wiring Harness",
+      "url": "https://www.reddit.com/r/u_jm-wireharness/comments/zak08b"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

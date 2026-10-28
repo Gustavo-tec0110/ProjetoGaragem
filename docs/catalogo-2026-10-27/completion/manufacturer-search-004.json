@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "bomba-combustivel",
+    "regulador-pressao",
+    "motor",
+    "comando"
+  ],
+  "queries": [
+    {
+      "q": "\"automotive fuel pump\" manufacturer product photograph"
+    },
+    {
+      "q": "\"fuel pressure regulator\" manufacturer product photograph"
+    },
+    {
+      "q": "\"car engine\" manufacturer product photograph"
+    },
+    {
+      "q": "\"camshaft\" manufacturer product photograph"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "FUEL PRESSURE REGULATORS",
+      "url": "https://turbozentrum.co.uk/media/pdf/TurboZentrum-Catalogue-2020.pdf"
+    },
+    {
+      "title": "Fuel Pump",
+      "url": "https://www.ecotrons.com/files/ECOTRONS%20Fuel%20Pressure%20regulator%20technical%20spec.pdf"
+    },
+    {
+      "title": "Printcatalog_2025",
+      "url": "https://www.interexmotorsport.com/wp-content/uploads/2025/07/Bosch_Fuel_Pressure_Pumps-Interex-Motorsport.pdf"
+    },
+    {
+      "title": "// FUEL PRESSURE REGULATOR",
+      "url": "https://www.obpltd.com/wp-content/uploads/2024/02/2024-Catalogue-.pdf"
+    },
+    {
+      "title": "Fuel Pressure Regulator",
+      "url": "https://www.topdiesel.com/uploads/682f46bf.pdf"
+    },
+    {
+      "title": "<visual_element id=\"e1\">",
+      "url": "https://www.eecs.umich.edu/courses/eng100/lecturesTC/E100.250W15visuals.pdf"
+    },
+    {
+      "title": "Spectre 2518 Fuel Pressure Regulator",
+      "url": "https://www.spectreperformance.com/accessories/2518-fuel-pressure-regulator"
+    },
+    {
+      "title": "23280-22010 Genuine Toyota Fuel Pressure Regulator Assembly",
+      "url": "https://www.toyotapartsdeal.com/oem/toyota~regulator~assy~fuel~pressure~23280-22010.html"
+    },
+    {
+      "title": "RIDEX 3996P0030 fuel pressure regulator, common rail – EAN 4064138134613 | Official Manufacturer",
+      "url": "https://en.ridex.eu/product/15752405"
+    },
+    {
+      "title": "Automotive Fuel Pump Supplier for Wholesalers | JCMSTECH",
+      "url": "https://jcmstech.com/fuel-pump/"
+    },
+    {
+      "title": "Automotive Fuel Pump Assembly for Consistent Fuel Delivery",
+      "url": "https://merhein.com/products/automotive-fuel-pump-assembly"
+    },
+    {
+      "title": "Fuel Injection Pressure Regulator | 904-7928 | Pressure Reducing Regulator | Dorman Products - Aftermarket Auto Parts & OE Solutions",
+      "url": "https://www.dormanproducts.com/p-130971-904-7928.aspx"
+    },
+    {
+      "title": "Close Up of Car Engine · Free Stock Photo",
+      "url": "https://www.pexels.com/photo/close-up-of-car-engine-9661362/"
+    },
+    {
+      "title": "ACDelco Fuel Pressure Regulator 2173073 | O'Reilly Auto Parts",
+      "url": "https://www.oreillyauto.com/detail/c/acdelco/fuel-delivery/fuel-injection/fuel-pressure-regulator/0ce0f00c815f/acdelco-fuel-pressure-regulator/acd0/2173073/v/a/3704/automotive-truck-2001-chevrolet-silverado-2500-hd"
+    },
+    {
+      "title": "FASS Fuel Pressure Regulator | FPR-1001",
+      "url": "https://www.thoroughbreddiesel.com/fpr1001/"
+    },
+    {
+      "title": "Radium Engineering Fuel Pressure Regulator (Body Only) | LMP",
+      "url": "https://lmpofmd.com/products/radium-engineering-fuel-pressure-regulator-body-only"
+    },
+    {
+      "title": "Fuel Pressure Regulator",
+      "url": "https://www.radiumauto.com/products/fuel-pressure-regulator"
+    },
+    {
+      "title": "DeatschWerks Adjustable Fuel Pressure Regulator – UPR Products",
+      "url": "https://www.uprproducts.com/products/deatschwerks-adjustable-fuel-pressure-regulator"
+    },
+    {
+      "title": "Camshaft",
+      "url": "https://en.wikipedia.org/wiki/Camshaft"
+    },
+    {
+      "title": "Motor Development International",
+      "url": "https://en.wikipedia.org/wiki/Motor_Development_International"
+    },
+    {
+      "title": "Walbro",
+      "url": "https://en.wikipedia.org/wiki/Walbro"
+    },
+    {
+      "title": "Advanced Engine Research",
+      "url": "https://en.wikipedia.org/wiki/Advanced_Engine_Research"
+    },
+    {
+      "title": "Straight-four engine",
+      "url": "https://en.wikipedia.org/wiki/Straight-four_engine"
+    },
+    {
+      "title": "Proton CamPro engine",
+      "url": "https://en.wikipedia.org/wiki/Proton_CamPro_engine"
+    }
+  ],
+  "note": "Discovery only. Product accessibility does not grant reuse. Primary source terms must be verified before any approval."
+}

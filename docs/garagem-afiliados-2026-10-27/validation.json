@@ -1,0 +1,62 @@
+{
+  "delivery": "local-only/manual-review",
+  "unit": {
+    "passed": 51,
+    "failed": 0,
+    "log": "unit-verified.log"
+  },
+  "browser": {
+    "passed": 23,
+    "failed": 0,
+    "viewports": [
+      1440,
+      768,
+      390,
+      360
+    ],
+    "log": "e2e-verified.log"
+  },
+  "typescript": "passed",
+  "build": "passed",
+  "localProductionSmoke": "passed",
+  "sql": {
+    "mode": "disposable PostgreSQL/WASM",
+    "bootstrapMigrations": 47,
+    "result": "passed",
+    "log": "sql-final.log",
+    "remoteWrites": 0
+  },
+  "lint": {
+    "applicationScriptsTests": "passed",
+    "unchangedArchivedScripts": {
+      "errors": 39,
+      "log": "lint-preexisting-artifacts.log"
+    }
+  },
+  "catalogImages": {
+    "approved": 263,
+    "originalAndOptimizedHttpRequests": 526,
+    "passed": true,
+    "existingFilesWithUnchangedSha256": 465
+  },
+  "preservation": {
+    "untouchedPreviouslyModifiedFilesVerified": 7,
+    "gitHeadUnchanged": true,
+    "stagedChanges": false
+  },
+  "offers": {
+    "realOffersSeeded": 0,
+    "manualManagement": "ready",
+    "officialApiAdapters": "pending credentials and implementation",
+    "remoteMigrationApplied": false
+  },
+  "publicationActions": {
+    "gitAdd": false,
+    "commit": false,
+    "push": false,
+    "pullRequest": false,
+    "deploy": false,
+    "productionDatabaseMutation": false
+  },
+  "previews": "http://127.0.0.1:3101/test-harness/project-overview?owner=1"
+}

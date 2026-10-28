@@ -1,0 +1,231 @@
+
+> projeto-garagem@0.1.0 test:sql
+> node scripts/test-backend-migrations.mjs && node scripts/test-bootstrap-migrations.mjs && node scripts/test-catalog-migration.mjs
+
+(node:137856) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS anonymous projection hides legacy note and private cost
+PASS private project has no public modifications
+PASS user B cannot directly read A's private fields
+PASS restrictive read guards survive legacy permissive policies
+PASS owner retains original note and cost; default is private
+PASS explicitly shared cost is public
+PASS edited private cost remains hidden
+PASS B cannot update A's modification
+PASS public update projection redacts cost and excludes private project
+PASS owner reads own update cost
+PASS publishing an expense cost never publishes its personal note
+PASS B cannot bypass expense note projection
+PASS owner keeps private expense note
+PASS private expense amount cannot be queried publicly
+PASS changing project to private closes both public projections
+PASS public RPCs declare their security model and fixed search path
+PASS atomic RPC defaults omitted expense visibility to private
+PASS old untracked objects are preserved
+PASS B cannot renew A's photo lease
+PASS nonexistent objects cannot allocate leases
+PASS active editor renews its own old photo
+PASS renew-before-cleanup preserves active editor
+PASS inspection excludes active editors
+PASS bounded inspection finds an expired tracked object
+PASS inspection does not claim or delete objects
+PASS expired unreferenced photo can be claimed
+PASS cleanup-before-renew prevents resurrecting a claimed path
+PASS repeated cleanup does not duplicate a current claim
+PASS defensive reference check protects even a legacy invalid pending reference
+PASS images: preparation leaves existing public-bucket contract unchanged
+PASS images: failed RLS precondition leaves cutover transaction unchanged
+PASS images: A reads own private image
+PASS images: B cannot read A's private image
+PASS images: anonymous cannot read private image
+PASS images: anonymous reads public image from legacy reference
+PASS images: B reads public image
+PASS images: profile avatar stays public
+PASS images: profile cover stays public
+PASS images: bucket is private
+PASS images: activation/backfill preserve every existing object
+PASS images: direct anonymous Storage SELECT blocked despite legacy FOR ALL
+PASS images: owner cannot directly download/sign using Storage SELECT
+PASS images: direct deletion cannot bypass reference claims
+PASS images: B cannot launder A's photo through B's public project
+PASS images: public to private immediately revokes both visitor roles
+PASS images: owner keeps access after changing to private
+PASS images: private to public restores access without copy/move
+PASS images: one private reference takes precedence over public references
+PASS images: removing private duplicate restores intentional public access
+PASS images: private project reference overrides an otherwise public profile cover
+PASS images: profile cover restores when its private project reference is removed
+PASS images: public reference registered: gallery.webp
+PASS images: public reference registered: part.webp
+PASS images: public reference registered: event.webp
+PASS images: public reference registered: 88888888-8888-4888-8888-888888888888.webp
+PASS images: visibility gate covers: gallery.webp
+PASS images: visibility gate covers: part.webp
+PASS images: visibility gate covers: event.webp
+PASS images: visibility gate covers: 88888888-8888-4888-8888-888888888888.webp
+PASS images: referenced modification cannot be claimed for removal
+PASS images: B cannot claim A's image
+PASS images: replacing hero removes stale public reference
+PASS images: unreferenced old hero can be claimed
+PASS images: claimed object is blocked even if Storage deletion fails
+PASS images: failed late attachment rolls back and preserves replacement
+PASS images: missing Storage object leaves DB reference unchanged
+PASS images: gallery deletion removes public access without erasing original bytes
+PASS images: new image guards preserve owner lease renewal
+PASS images: lease inspection protects references from every image-bearing table
+PASS images: cleanup cannot claim a globally referenced legacy temporary
+PASS images: expired unreferenced temporary can still be claimed
+PASS images: claim-before-renew cannot resurrect a pending image
+PASS images: claimed pending image is not delivered while Storage deletion is pending
+PASS images: direct private URL HTTP: fixture=A -> 200
+PASS images: HTTP response forbids shared cache
+PASS images: direct private URL HTTP: fixture=B -> 404
+PASS images: HTTP response forbids shared cache
+PASS images: direct private URL HTTP: anonymous -> 404
+PASS images: HTTP response forbids shared cache
+PASS images: direct public URL works anonymously
+PASS images: HEAD follows public authorization
+PASS images: old public Storage URL denied by private-bucket fixture
+PASS images: visibility changes during Storage I/O release no bytes
+PASS images: previous public app URL remains denied for B
+PASS images: owner retains direct HTTP access after transition
+PASS images: HTTP access restores after private-to-public transition
+PASS images: DB outage fails closed over HTTP
+PASS images: Storage outage fails closed over HTTP
+PASS images: test preserves originals; only local fixture uploads added
+PASS images: containment keeps bucket private rather than rolling back exposure
+{"mode":"isolated-postgresql-and-http-fixtures","checks":68,"result":"passed","remoteWrites":0}
+PASS containment rollback preserves owner access and data
+{"mode":"isolated-postgresql","checks":107,"result":"passed","remoteWrites":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    'bootstrap-empty-guard.sql',
+    'schema.sql',
+    'bootstrap-snapshot-compatibility.sql',
+    'migrations/003_create_parts_tables.sql',
+...
+    'migrations/20261027120000_expand_modification_catalog.sql',
+-   'migrations/20261027210000_modification_offers.sql',
+    'bootstrap-finish.sql'
+  ]
+
+    at file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/scripts/test-bootstrap-migrations.mjs:38:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'bootstrap-empty-guard.sql',
+    'schema.sql',
+    'bootstrap-snapshot-compatibility.sql',
+    'migrations/003_create_parts_tables.sql',
+    'migrations/20260602170000_social_upgrade.sql',
+    'migrations/20260605120000_persistent_auth_profiles.sql',
+    'migrations/20260606100000_project_creation_grants.sql',
+    'migrations/20260607150000_phase2_project_ecosystem.sql',
+    'migrations/20260608120000_improve_car_project_onboarding.sql',
+    'migrations/20260608180000_project_state_social_updates.sql',
+    'migrations/20260609120000_alert_rules.sql',
+    'migrations/20260610120000_add_deleted_at_to_part_requirements.sql',
+    'migrations/20260610121000_modify_factory_spec_confidence_default.sql',
+    'migrations/20260610122000_add_unique_constraint_car_photos_url.sql',
+    'migrations/20260610125000_add_missing_indices.sql',
+    'migrations/20260610126000_modify_notifications_insert_policy.sql',
+    'migrations/20260615120000_ensure_project_images_bucket.sql',
+    'migrations/20260615130000_ensure_notifications_and_project_images.sql',
+    'migrations/20260615143000_repair_project_creation_flow.sql',
+    'migrations/20260615153000_repair_project_creation_schema.sql',
+    'migrations/20260617183000_repair_social_actions_rls_counters.sql',
+    'migrations/20260625115900_ensure_notifications_table.sql',
+    'migrations/20260625120000_secure_notification_creation.sql',
+    'migrations/20260625123000_consolidate_notifications_runtime.sql',
+    'migrations/20260625124500_fix_create_notification_rpc_ambiguity.sql',
+    'migrations/20260625133000_project_smart_search.sql',
+    'migrations/20260706120000_refine_project_search_normalization.sql',
+    'migrations/20260706140622_reconcile_remote_manual_schema.sql',
+    'migrations/20260712150000_reconcile_project_images_bucket.sql',
+    'migrations/20260814120000_index_public_project_rankings.sql',
+    'migrations/20260920120000_transactional_project_writes.sql',
+    'migrations/20260920121000_deduplicate_project_views.sql',
+    'migrations/20260923203000_profile_cover.sql',
+    'migrations/20260928090000_operational_abuse_protection.sql',
+    'migrations/20260928100000_storage_upload_reservations.sql',
+    'migrations/20260928102000_harden_notification_rpc.sql',
+    'migrations/20260928110000_enforce_write_rate_limits_in_rls.sql',
+    'migrations/20260928111000_block_direct_storage_writes.sql',
+    'migrations/20260928120000_reconcile_profile_cover_and_social_links.sql',
+    'migrations/20260929120000_add_modification_catalog.sql',
+    'migrations/20261013010000_restrict_modification_photo_ownership.sql',
+    'migrations/20261013020000_private_modifications_public_projection.sql',
+    'migrations/20261013025000_private_expense_defaults_atomic.sql',
+    'migrations/20261013030000_pending_modification_photo_leases.sql',
+    'migrations/20261014010000_project_image_access_registry.sql',
+    'migrations/20261014015000_project_image_cleanup_guards.sql',
+    'migrations/20261014020000_activate_private_project_images.sql',
+    'migrations/20261027120000_expand_modification_catalog.sql',
+    'bootstrap-finish.sql'
+  ],
+  expected: [
+    'bootstrap-empty-guard.sql',
+    'schema.sql',
+    'bootstrap-snapshot-compatibility.sql',
+    'migrations/003_create_parts_tables.sql',
+    'migrations/20260602170000_social_upgrade.sql',
+    'migrations/20260605120000_persistent_auth_profiles.sql',
+    'migrations/20260606100000_project_creation_grants.sql',
+    'migrations/20260607150000_phase2_project_ecosystem.sql',
+    'migrations/20260608120000_improve_car_project_onboarding.sql',
+    'migrations/20260608180000_project_state_social_updates.sql',
+    'migrations/20260609120000_alert_rules.sql',
+    'migrations/20260610120000_add_deleted_at_to_part_requirements.sql',
+    'migrations/20260610121000_modify_factory_spec_confidence_default.sql',
+    'migrations/20260610122000_add_unique_constraint_car_photos_url.sql',
+    'migrations/20260610125000_add_missing_indices.sql',
+    'migrations/20260610126000_modify_notifications_insert_policy.sql',
+    'migrations/20260615120000_ensure_project_images_bucket.sql',
+    'migrations/20260615130000_ensure_notifications_and_project_images.sql',
+    'migrations/20260615143000_repair_project_creation_flow.sql',
+    'migrations/20260615153000_repair_project_creation_schema.sql',
+    'migrations/20260617183000_repair_social_actions_rls_counters.sql',
+    'migrations/20260625115900_ensure_notifications_table.sql',
+    'migrations/20260625120000_secure_notification_creation.sql',
+    'migrations/20260625123000_consolidate_notifications_runtime.sql',
+    'migrations/20260625124500_fix_create_notification_rpc_ambiguity.sql',
+    'migrations/20260625133000_project_smart_search.sql',
+    'migrations/20260706120000_refine_project_search_normalization.sql',
+    'migrations/20260706140622_reconcile_remote_manual_schema.sql',
+    'migrations/20260712150000_reconcile_project_images_bucket.sql',
+    'migrations/20260814120000_index_public_project_rankings.sql',
+    'migrations/20260920120000_transactional_project_writes.sql',
+    'migrations/20260920121000_deduplicate_project_views.sql',
+    'migrations/20260923203000_profile_cover.sql',
+    'migrations/20260928090000_operational_abuse_protection.sql',
+    'migrations/20260928100000_storage_upload_reservations.sql',
+    'migrations/20260928102000_harden_notification_rpc.sql',
+    'migrations/20260928110000_enforce_write_rate_limits_in_rls.sql',
+    'migrations/20260928111000_block_direct_storage_writes.sql',
+    'migrations/20260928120000_reconcile_profile_cover_and_social_links.sql',
+    'migrations/20260929120000_add_modification_catalog.sql',
+    'migrations/20261013010000_restrict_modification_photo_ownership.sql',
+    'migrations/20261013020000_private_modifications_public_projection.sql',
+    'migrations/20261013025000_private_expense_defaults_atomic.sql',
+    'migrations/20261013030000_pending_modification_photo_leases.sql',
+    'migrations/20261014010000_project_image_access_registry.sql',
+    'migrations/20261014015000_project_image_cleanup_guards.sql',
+    'migrations/20261014020000_activate_private_project_images.sql',
+    'migrations/20261027120000_expand_modification_catalog.sql',
+    'migrations/20261027210000_modification_offers.sql',
+    'bootstrap-finish.sql'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

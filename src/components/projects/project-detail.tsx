@@ -5,6 +5,8 @@ import { getBuildAlerts, BuildAlert } from "@/lib/buildAlerts";
 import Link from "next/link";
 import {
   ArrowRightLeft,
+  ChevronRight,
+  Link2,
   Bookmark,
   Calendar,
   Eye,
@@ -19,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { CommentForm, CommentsList } from "@/components/garage/comments";
+import { CatalogDetails } from "@/components/projects/catalog-details";
 import { ProjectFinanceChart } from "@/components/projects/project-finance-chart";
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
@@ -91,15 +94,6 @@ function Stat({ label, value, icon: Icon }: DetailStat) {
   );
 }
 
-function SpecCard({ label, value }: DetailSpec) {
-  return (
-    <Card className="p-4 transition hover:border-accent/35">
-      <p className="text-xs text-muted">{label}</p>
-      <p className="mt-1 font-ui text-sm font-semibold leading-snug">{formatSpecValue(value)}</p>
-    </Card>
-  );
-}
-
 function QuickFactCard({ label, value, icon: Icon }: QuickFact) {
   return (
     <Card className="p-3 md:p-4">
@@ -164,7 +158,7 @@ function TechnicalSpecRows({ specs }: { specs: DetailSpec[] }) {
   );
 }
 
-function MobileTechnicalSpecs({
+function TechnicalSpecs({
   specs,
   canEdit,
   editHref,
@@ -177,8 +171,8 @@ function MobileTechnicalSpecs({
   const missing = specs.filter(isMissingSpec);
 
   return (
-    <div className="mt-3 space-y-2 md:hidden" data-testid="mobile-technical-specs">
-      <Card className="px-3 py-1">
+    <div className="mt-3 space-y-3" data-testid="mobile-technical-specs">
+      <Card className="grid gap-x-6 px-4 py-2 md:grid-cols-2 md:px-6">
         {SPEC_GROUPS.map((group) => {
           const groupSpecs = filled.filter((spec) => getSpecGroup(spec.label) === group);
           if (!groupSpecs.length) return null;
@@ -218,11 +212,13 @@ function ProjectPartsShowcase({
   parts,
   eyebrow,
   emptyText,
+  compact = false,
 }: {
   title: string;
   parts: ProjectPart[];
   eyebrow: string;
   emptyText: string;
+  compact?: boolean;
 }) {
   const groupedParts = parts.reduce((map, part) => {
     const category = part.category || "Outros";
@@ -233,47 +229,48 @@ function ProjectPartsShowcase({
   }, new Map<string, ProjectPart[]>());
 
   return (
-    <section>
-      <Card className="min-w-0 overflow-hidden border-accent/20 p-3 sm:p-4 md:p-6">
+    <section aria-label={title}>
+      <Card className={compact ? "pg-installed-parts" : "min-w-0 overflow-hidden border-accent/20 p-3 sm:p-4 md:p-6"}>
+        {!compact ? (
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-accent">{eyebrow}</p>
             <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">{title}</h2>
           </div>
-          <Badge className="shrink-0">{parts.length} itens</Badge>
+          <Badge className="shrink-0">{parts.length} {parts.length === 1 ? "item" : "itens"}</Badge>
         </div>
+        ) : null}
 
-        <div className="mt-4 grid gap-3 md:mt-5 md:gap-4">
+        <div className={compact ? "pg-parts-groups mt-0" : "mt-4 grid gap-3 md:mt-5 md:gap-4"}>
           {parts.length ? (
             Array.from(groupedParts.entries()).map(([category, categoryParts]) => (
-              <div key={category} className="rounded-3xl border border-border/70 bg-background/25 p-3 md:p-4">
+              <div key={category} className={compact ? "pg-parts-category min-w-0" : "rounded-3xl border border-border/70 bg-background/25 p-3 md:p-4"}>
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <h3 className="min-w-0 break-words font-title text-base tracking-tight md:text-lg">{category}</h3>
-                  <Badge className="shrink-0">{categoryParts.length} itens</Badge>
+                  <Badge className="shrink-0">{categoryParts.length} {categoryParts.length === 1 ? "item" : "itens"}</Badge>
                 </div>
 
-                <div className="grid gap-3">
+                <div className={compact ? "pg-part-list" : "grid gap-3"}>
                   {categoryParts.map((part) => (
                     <div
                       key={part.id}
-                      className="grid min-w-0 grid-cols-[3.5rem_minmax(0,1fr)] items-start gap-3 rounded-2xl border border-border/70 bg-surface/70 p-3 sm:grid-cols-[5rem_minmax(0,1fr)] md:grid-cols-[6rem_minmax(0,1fr)_auto] md:gap-4 md:p-4"
+                      className={compact ? "pg-installed-part" : "grid min-w-0 grid-cols-[4rem_minmax(0,1fr)] items-start gap-3 rounded-2xl border border-border/70 bg-surface/70 p-3 sm:grid-cols-[5rem_minmax(0,1fr)] md:grid-cols-[6rem_minmax(0,1fr)] md:gap-4 md:p-4"}
                     >
-                      <div className="relative aspect-square overflow-hidden rounded-2xl border border-border/70 bg-surface">
-                        {part.imageUrl ? (
-                          <ProjectImage
-                            src={part.imageUrl}
-                            alt={`Imagem de ${part.name}`}
-                            fill
-                            className="object-cover"
-                            sizes="(min-width: 768px) 96px, (min-width: 640px) 80px, 56px"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/65" />
-                        )}
-                      </div>
+                      {part.catalog ? (
+                        <CatalogDetails item={part.catalog}>
+                          <button type="button" aria-label={`Ver detalhes de ${part.name}`} className="pg-interactive-card relative aspect-square overflow-hidden rounded-xl border border-border/70 bg-white outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                            <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={part.name} fill className="object-contain p-1" sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />
+                          </button>
+                        </CatalogDetails>
+                      ) : (
+                        <div className="relative aspect-square overflow-hidden rounded-xl border border-border/70 bg-surface">
+                          <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={`Imagem de ${part.name}`} fill className={compact ? "object-contain p-1" : "object-cover"} sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />
+                        </div>
+                      )}
 
-                      <div className="min-w-0 break-words">
+                      <div className={compact ? "pg-installed-part-content min-w-0 break-words" : "min-w-0 break-words"}>
                         <Badge
+                          className={compact ? "pg-part-status px-2 py-0.5 text-[10px]" : undefined}
                           variant={
                             part.status === "installed"
                               ? "success"
@@ -286,31 +283,41 @@ function ProjectPartsShowcase({
                             ? "Instalada"
                             : part.status === "removed"
                               ? "Removida"
-                              : "Planejada"}
+                              : part.wishlist ? "Wishlist" : "Planejada"}
                         </Badge>
-                        <h4 className="mt-2 font-title text-base leading-snug tracking-tight md:text-lg">
+                        <h4 className={compact ? "pg-part-name font-title text-sm leading-snug tracking-tight sm:text-base" : "mt-2 font-title text-base leading-snug tracking-tight md:text-lg"}>
                           {part.brand ? `${part.brand} ` : ""}
                           {part.name}
                         </h4>
                         {part.description ? (
                           <p className="mt-2 text-xs leading-relaxed text-foreground/85 md:text-sm">{part.description}</p>
                         ) : null}
-                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
-                          {part.installedAt ? <span>Instalada em {formatProjectDate(part.installedAt)}</span> : null}
+                        <div className={compact ? "mt-2 flex flex-wrap items-center gap-2 text-xs text-muted" : "mt-3 flex flex-wrap gap-2 text-xs text-muted"}>
+                          {part.installedAt && part.status === "installed" ? <span className={compact ? "inline-flex items-center gap-1.5" : undefined}>{compact ? <Calendar className="size-3.5 shrink-0" aria-hidden="true" /> : null}Instalada em {formatProjectDate(part.installedAt)}</span> : null}
                           {part.externalUrl ? (
                             <Link href={part.externalUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center font-semibold text-foreground underline-offset-4 hover:underline">
                               Ver peça
                             </Link>
                           ) : null}
+                          {!compact && part.catalog ? (
+                            <CatalogDetails item={part.catalog}>
+                              <button type="button" className="pg-text-action inline-flex min-h-11 items-center gap-1.5 rounded-md font-semibold text-foreground"><Wrench className="size-3.5" aria-hidden="true" /> Ver componente</button>
+                            </CatalogDetails>
+                          ) : !part.catalog ? <span>Registro de peça</span> : null}
                         </div>
+                        {part.paidAmount != null || part.priceEstimate != null ? (
+                          <p className="mt-3 border-t border-border/60 pt-2 text-xs text-muted">
+                            {part.paidAmount != null ? "Valor pago" : "Valor estimado"}: <span className="font-semibold text-foreground">{part.paidAmount != null ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(part.paidAmount) : formatProjectCurrency(part.priceEstimate)}</span>
+                          </p>
+                        ) : null}
                       </div>
-
-                      <div className="col-start-2 min-w-0 border-t border-border/60 pt-2 text-left md:col-start-auto md:border-t-0 md:pt-0 md:text-right">
-                        <p className="text-xs text-muted">Valor estimado</p>
-                        <p className="mt-1 font-ui text-sm font-semibold">
-                          {formatProjectCurrency(part.priceEstimate)}
-                        </p>
-                      </div>
+                      {compact && part.catalog ? (
+                        <CatalogDetails item={part.catalog}>
+                          <Button type="button" variant="outline" size="sm" className="pg-component-button h-11 gap-2 rounded-xl border-accent/45 bg-[#1b1e25] px-3 text-xs hover:border-accent/70 hover:bg-[#252832] active:bg-[#14161c]">
+                            <Link2 className="size-4" aria-hidden="true" /> Ver componente <ChevronRight className="size-3.5 text-muted" aria-hidden="true" />
+                          </Button>
+                        </CatalogDetails>
+                      ) : null}
                     </div>
                   ))}
                 </div>
@@ -362,6 +369,7 @@ export function ProjectDetail({
   similarProjects,
   viewerLoggedIn,
   canEdit = false,
+  modificationsUnavailable = false,
   technicalSpecs,
   stats,
   recommendations,
@@ -372,6 +380,7 @@ export function ProjectDetail({
   similarProjects: Project[];
   viewerLoggedIn: boolean;
   canEdit?: boolean;
+  modificationsUnavailable?: boolean;
   technicalSpecs?: DetailSpec[];
   stats?: DetailStat[];
   recommendations?: ProjectRecommendationGroups;
@@ -380,6 +389,8 @@ export function ProjectDetail({
 }) {
   const project = initialProject;
   const isProjectComplete = project.progressPercent >= 100;
+  const [alertsExpanded, setAlertsExpanded] = React.useState(false);
+  const [alertsLoaded, setAlertsLoaded] = React.useState(false);
   const [buildAlerts, setBuildAlerts] = React.useState<BuildAlert[]>([]);
   const [comments, setComments] = React.useState<CarCommentWithAuthor[]>(commentThread?.comments ?? []);
   const [socialCounts, setSocialCounts] = React.useState({
@@ -390,20 +401,20 @@ export function ProjectDetail({
   });
 
   React.useEffect(() => {
-    if (renderMode === "hero") return;
+    if (renderMode === "hero" || !alertsExpanded || alertsLoaded) return;
     let active = true;
     const databaseId = initialProject.databaseId;
     if (initialProject.source === "supabase" && databaseId) {
       const resolvedDatabaseId: string = databaseId;
       async function load() {
         const supabase = getSupabaseBrowserClient();
-        if (!supabase) return;
+        if (!supabase) { if (active) setAlertsLoaded(true); return; }
 
         try {
           const alerts = await getBuildAlerts(supabase, resolvedDatabaseId);
-          if (active) setBuildAlerts(alerts);
+          if (active) { setBuildAlerts(alerts); setAlertsLoaded(true); }
         } catch {
-          if (active) setBuildAlerts([]);
+          if (active) { setBuildAlerts([]); setAlertsLoaded(true); }
         }
       }
       void load();
@@ -412,7 +423,7 @@ export function ProjectDetail({
     return () => {
       active = false;
     };
-  }, [initialProject.databaseId, initialProject.source, renderMode]);
+  }, [initialProject.databaseId, initialProject.source, renderMode, alertsExpanded, alertsLoaded]);
   const localSocialState = React.useSyncExternalStore(
     subscribeLocalProjectSocial,
     () => getLocalProjectSocialState(project.slug),
@@ -580,17 +591,25 @@ export function ProjectDetail({
               {vehicleLine || `${project.carModel} - ${project.year}`} - {project.engine}
             </p>
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted md:mt-5 md:gap-4 md:text-sm">
+            <div className="mt-3 flex min-w-0 items-center gap-2.5 text-sm md:mt-5">
+              <div className="relative size-9 shrink-0 overflow-hidden rounded-full border border-border/70 bg-surface">
+                {project.ownerAvatarUrl ? (
+                  <ProjectImage src={project.ownerAvatarUrl} alt="" fill sizes="36px" className="object-cover" />
+                ) : (
+                  <Users className="m-2 size-5 text-muted" aria-hidden="true" />
+                )}
+              </div>
+              <span className="min-w-0 break-words font-semibold text-foreground">{project.ownerName}</span>
               {project.ownerUsername ? (
                 <Link
-                  href={`/perfil/${project.ownerUsername}`}
-                  className="font-semibold text-foreground hover:text-accent"
+                  href={`/perfil/${encodeURIComponent(project.ownerUsername)}`}
+                  className="shrink-0 rounded-md px-1 py-2 text-xs font-semibold text-accent hover:underline focus-visible:outline-2 focus-visible:outline-accent"
                 >
-                  Projeto de {project.ownerName}
+                  Ver garagem
                 </Link>
-              ) : (
-                <span className="font-semibold text-foreground">Projeto de {project.ownerName}</span>
-              )}
+              ) : null}
+            </div>
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted md:gap-4 md:text-sm">
               <span className="inline-flex items-center gap-1">
                 <Calendar className="size-4" />
                 Publicado em {formatProjectDate(project.createdAt)}
@@ -614,7 +633,7 @@ export function ProjectDetail({
                 <div className="bg-gradient-to-t from-background/95 to-transparent p-3 pr-36 md:p-5 md:pr-52">
                   <div className="flex flex-wrap gap-1.5 md:gap-2">
                     <Badge variant="secondary" className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">{project.progressPercent}% completo</Badge>
-                    {project.modificationsCount > 0 ? (
+                    {renderMode !== "hero" && project.modificationsCount > 0 ? (
                       <Badge className="px-2 py-0.5 text-[10px] md:px-3 md:py-1 md:text-xs">
                         {project.modificationsCount} modificações
                       </Badge>
@@ -645,10 +664,8 @@ export function ProjectDetail({
                 <p className="mt-1 font-ui text-sm font-semibold">{project.status}</p>
               </div>
               <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
-                <p className="text-xs text-muted">Modificações instaladas</p>
-                <p className="mt-1 font-ui text-sm font-semibold">
-                  {project.installedParts.length.toLocaleString("pt-BR")}
-                </p>
+                <p className="text-xs text-muted">Peças e modificações</p>
+                <a href="#modificacoes" className="mt-1 inline-flex min-h-8 items-center font-ui text-sm font-semibold text-accent hover:underline">Ver configuração</a>
               </div>
               <div className="rounded-2xl border border-border/70 bg-background/25 px-2.5 py-2 md:rounded-3xl md:px-4 md:py-3">
                 <p className="text-xs text-muted">Última atualização</p>
@@ -683,23 +700,6 @@ export function ProjectDetail({
                   }))
                 }
               />
-              <Button asChild variant="outline" className="hidden lg:inline-flex">
-                <Link href={compareHref}>
-                  <ArrowRightLeft className="size-4" />
-                  Comparar
-                </Link>
-              </Button>
-              {canEdit && project.editHref ? (
-                <Button asChild variant="outline" className="hidden lg:inline-flex">
-                  <Link href={project.editHref}>Editar ficha</Link>
-                </Button>
-              ) : null}
-              <Button asChild variant="outline" className="hidden lg:inline-flex">
-                <Link href={`${buildProjectHref(project.slug)}/evolucao`}>
-                  <Calendar className="size-4" />
-                  Evolução
-                </Link>
-              </Button>
             </div>
             ) : (
               <div className="mt-3 h-14 w-full max-w-2xl animate-pulse rounded-2xl border border-border/60 bg-background/25 lg:mt-7" aria-hidden="true" />
@@ -740,7 +740,7 @@ export function ProjectDetail({
         <nav className="grid grid-cols-3 rounded-3xl border border-border/70 bg-background/25 p-1.5 lg:hidden" aria-label="Seções do projeto" data-testid="mobile-project-tabs">
           {[
             { href: "#visao-geral", label: "Visão geral" },
-            { href: `/projeto/${project.slug}/modificacoes`, label: "Modificações" },
+            { href: "#modificacoes", label: "Modificações" },
             { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
           ].map((item) => (
             <Link
@@ -756,7 +756,7 @@ export function ProjectDetail({
         <nav className="hidden gap-2 rounded-4xl border border-border/70 bg-background/25 p-2 lg:flex" aria-label="Navegação completa do projeto">
           {[
             { href: "#visao-geral", label: "Visão geral" },
-            { href: `/projeto/${project.slug}/modificacoes`, label: "Modificações" },
+            { href: "#modificacoes", label: "Modificações" },
             { href: `${buildProjectHref(project.slug)}/evolucao`, label: "Evolução" },
             { href: "#comentarios", label: "Comentários" },
             { href: "#compartilhar", label: "Compartilhar" },
@@ -771,6 +771,41 @@ export function ProjectDetail({
             </Link>
           ))}
         </nav>
+
+        <div id="modificacoes" className="scroll-mt-24 space-y-4 md:space-y-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs text-accent">Configuração do veículo</p>
+              <div className="mt-1 flex flex-wrap items-center gap-3">
+                <h2 className="font-title text-2xl tracking-tight">Peças e modificações</h2>
+                <Badge>{project.installedParts.length} {project.installedParts.length === 1 ? "item" : "itens"}</Badge>
+              </div>
+            </div>
+            <Button asChild variant="outline" size="sm"><Link href={`${buildProjectHref(project.slug)}/modificacoes`}>{canEdit ? "Gerenciar modificações" : "Ver todas as modificações"}</Link></Button>
+          </div>
+          {modificationsUnavailable ? <p role="status" className="rounded-xl border border-border/70 p-4 text-sm text-muted">Não foi possível carregar as modificações do catálogo. Tente atualizar a página em instantes.</p> : null}
+          <ProjectPartsShowcase
+            title="Modificações atuais"
+            compact
+            eyebrow="Instaladas no projeto"
+            parts={project.installedParts}
+            emptyText={modificationsUnavailable ? "Os registros do catálogo estão temporariamente indisponíveis." : "Nenhuma modificação instalada cadastrada."}
+          />
+          {project.source === "supabase" && project.databaseId ? <details onToggle={(event) => setAlertsExpanded(event.currentTarget.open)} className="rounded-2xl border border-border/70 bg-background/25 p-4">
+            <summary className="cursor-pointer text-sm font-semibold">Alertas da build{alertsLoaded && buildAlerts.length ? ` · ${buildAlerts.length}` : ""}</summary>
+            {!alertsLoaded ? <p className="mt-3 text-xs text-muted" role="status">Carregando alertas…</p> : !buildAlerts.length ? <p className="mt-3 text-xs text-muted">Nenhum alerta relevante.</p> : null}
+            <ul className="mt-3 space-y-2">{buildAlerts.map((alert, index) => <li key={index} className="rounded-xl border border-border/70 bg-surface p-3">
+              <p className="text-sm font-semibold">{alert.title}</p><p className="mt-1 text-xs leading-relaxed text-muted">{alert.message}</p>
+            </li>)}</ul>
+          </details> : null}
+
+        </div>
+
+        <section id="visao-geral" className="grid scroll-mt-24 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
+          {detailStats.map((stat) => (
+            <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
+          ))}
+        </section>
 
         {canEdit && project.editHref ? (
           <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
@@ -801,64 +836,9 @@ export function ProjectDetail({
           </Card>
         ) : null}
 
-        <section id="visao-geral" className="grid scroll-mt-24 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
-          {detailStats.map((stat) => (
-            <Stat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} />
-          ))}
-        </section>
-
-        <div id="modificacoes" className="scroll-mt-24 space-y-4 md:space-y-6">
-          {/* Alertas da Build */}
-          <div className="mb-6">
-            <h3 className="text-xs text-muted mb-2">Alertas da Build</h3>
-            {buildAlerts.length ? (
-              <ul className="space-y-2">
-                {buildAlerts.map((alert, idx) => (
-                  <li key={idx} className={`p-3 rounded-xl border ${
-                    alert.severity === 'info' ? 'border-blue-400 bg-blue-50' :
-                    alert.severity === 'success' ? 'border-green-400 bg-green-50' :
-                    alert.severity === 'warning' ? 'border-yellow-400 bg-yellow-50' :
-                    'border-red-400 bg-red-50'}
-                  }`}
-                  >
-                    <p className="font-medium">{alert.title}</p>
-                    <p className="text-sm text-muted">{alert.message}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted">Nenhum alerta relevante.</p>
-            )}
-          </div>
-          <ProjectPartsShowcase
-            title="Modificações atuais"
-            eyebrow="Instaladas no projeto"
-            parts={project.installedParts}
-            emptyText="Nenhuma modificacao atual cadastrada."
-          />
-          <ProjectPartsShowcase
-            title="Planos futuros"
-            eyebrow="Próximos passos"
-            parts={project.plannedParts}
-            emptyText="Nenhum plano futuro cadastrado."
-          />
-        </div>
-
-        <section id="compartilhar">
-          <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
-            <div>
-              <p className="text-xs text-muted">Compartilhar projeto</p>
-              <h2 className="mt-1 font-title text-lg tracking-tight md:text-2xl">Mostre este build para alguem</h2>
-              <p className="mt-2 hidden text-sm text-muted md:block">
-                Envie a ficha completa com fotos, estatisticas, comentarios e evolucao do projeto.
-              </p>
-            </div>
-            <ProjectShareActions title={project.title} />
-          </Card>
-        </section>
 
         <section>
-          <p className="text-xs text-muted">Resumo rapido</p>
+          <p className="text-xs text-muted">Resumo rápido</p>
           <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">Dados essenciais</h2>
           <div className="mt-3 grid grid-cols-2 gap-2 [&>*:last-child]:col-span-2 sm:mt-4 sm:gap-3 lg:grid-cols-5 lg:[&>*:last-child]:col-span-1">
             {quickFacts.map((fact) => (
@@ -916,14 +896,32 @@ export function ProjectDetail({
         </section>
 
         <section>
-          <p className="text-xs text-muted">Resumo tecnico</p>
+          <p className="text-xs text-muted">Resumo técnico</p>
           <h2 className="mt-1 font-title text-xl tracking-tight md:text-2xl">Ficha do projeto</h2>
-          <MobileTechnicalSpecs specs={detailSpecs} canEdit={canEdit} editHref={project.editHref} />
-          <div className="mt-4 hidden gap-3 md:grid md:grid-cols-2 lg:grid-cols-4">
-            {detailSpecs.map((spec) => (
-              <SpecCard key={spec.label} label={spec.label} value={spec.value} />
-            ))}
-          </div>
+          <TechnicalSpecs specs={detailSpecs} canEdit={canEdit} editHref={project.editHref} />
+        </section>
+
+          <ProjectPartsShowcase
+            title="Planos futuros"
+            eyebrow="Próximos passos"
+            parts={project.plannedParts}
+            emptyText="Nenhum plano futuro cadastrado."
+          />
+        {project.removedParts.length ? <details className="rounded-3xl border border-border/70 p-4">
+          <summary className="cursor-pointer text-sm font-semibold">Modificações removidas · {project.removedParts.length}</summary>
+          <div className="mt-4"><ProjectPartsShowcase title="Histórico de peças" eyebrow="Fora da configuração atual" parts={project.removedParts} emptyText="Nenhuma peça removida." /></div>
+        </details> : null}
+        <section id="compartilhar">
+          <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">
+            <div>
+              <p className="text-xs text-muted">Compartilhar projeto</p>
+              <h2 className="mt-1 font-title text-lg tracking-tight md:text-2xl">Mostre este build para alguem</h2>
+              <p className="mt-2 hidden text-sm text-muted md:block">
+                Envie a ficha completa com fotos, estatisticas, comentarios e evolucao do projeto.
+              </p>
+            </div>
+            <ProjectShareActions title={project.title} />
+          </Card>
         </section>
 
         <section>

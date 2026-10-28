@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "central-suspensao-ar",
+    "bieletas",
+    "pivos-suspensao",
+    "coxins-amortecedor"
+  ],
+  "queries": [
+    {
+      "q": "\"air suspension controller\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"sway bar end link\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"suspension ball joint\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"strut mount\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "12 April 2022  P/N# 1032052 Sway Bar End Links (I-00478)  2",
+      "url": "https://d32vzsop7y1h3k.cloudfront.net/8e1b3acad0b1ff2c5b4fdf33880aa0d2.PDF"
+    },
+    {
+      "title": "7124",
+      "url": "https://cognitomotorsports.com/mwdownloads/download/link/id/614"
+    },
+    {
+      "title": "FRONT SWAY BAR COMPONENTS",
+      "url": "https://www.secure.amesperf.com/catalogs/F28.pdf"
+    },
+    {
+      "title": "Sway Bar End Link",
+      "url": "https://cuscousainc.com/products/sway-bar-end-link"
+    },
+    {
+      "title": "1971-76 SWAY BAR END LINK KIT",
+      "url": "https://www.impalaparts.com/7176EL/"
+    },
+    {
+      "title": "SWAY BAR END LINKS",
+      "url": "https://www.drivenbystyle.com/pub/media/Instructions_Coilovers_Rev9_Digital.pdf"
+    },
+    {
+      "title": "Compliment your sw",
+      "url": "https://www.groupenetwork.com/documents/02A-DrakeMuscleCars-Mustang.pdf"
+    },
+    {
+      "title": "G8 SWAY BAR END LINK INSTALLATION",
+      "url": "https://www.bmrsuspension.com/siteart/install/ELK007.pdf"
+    },
+    {
+      "title": "Synergy Sway Bar End Link Bushing | SYNERGY MANUFACTURING",
+      "url": "https://www.synergymfg.com/synergy-sway-bar-end-link-bushing.html"
+    },
+    {
+      "title": "Auto Spare Parts Manufacturer - MASUMA Global Official Website",
+      "url": "https://masuma.com/product_category/control-arm"
+    },
+    {
+      "title": "Suspension Parts｜Products Information｜THK RHYTHM CO., LTD.",
+      "url": "https://www.rhythm-mp.co.jp/z_english/product/suspension/"
+    },
+    {
+      "title": "Strut Mount Manufacturer | High Link Auto Parts",
+      "url": "https://hlc.com.tw/products/strut-mount.html"
+    },
+    {
+      "title": "Partzilla: OEM Motorcycle Parts, ATV Parts, Marine Parts",
+      "url": "https://www.partzilla.com/product/automotive/ISC-X15BJ0503?app=bfe7dafebc8bb6aa7e934f2cfb841e9916863bcd"
+    },
+    {
+      "title": "Eibach End Links",
+      "url": "https://suspension.eibach.com/products/end-links"
+    },
+    {
+      "title": "DanaAftermarket.com | Suspension Ball Joint",
+      "url": "https://www.danaaftermarket.com/40916"
+    },
+    {
+      "title": "Sway Bar Link & Stabiliser Link Wholesale Supplier | SwayBarLink",
+      "url": "https://www.swaybarlink.com/"
+    },
+    {
+      "title": "Parker Load-Tamer Service Manual | Manualzz",
+      "url": "https://manualzz.com/doc/html/79524601/parker-load-tamer-service-manual"
+    },
+    {
+      "title": "Suspension Ball Joint | S080183 | GSP North America",
+      "url": "https://www.gsplatinamerica.com/product/s080183"
+    },
+    {
+      "title": "What is this called?",
+      "url": "https://www.reddit.com/r/Duramax/comments/1fwzagq/what_is_this_called/"
+    },
+    {
+      "title": "Sway bar end link keeps breaking?",
+      "url": "https://www.reddit.com/r/E90/comments/19dvmyt/sway_bar_end_link_keeps_breaking/"
+    },
+    {
+      "title": "What is this called help thx",
+      "url": "https://www.reddit.com/r/RX8/comments/vthr5k"
+    },
+    {
+      "title": "Unidentified part",
+      "url": "https://www.reddit.com/r/AutoMechanics/comments/1idwrez"
+    },
+    {
+      "title": "What are these called?",
+      "url": "https://www.reddit.com/r/Mustang/comments/118hkid"
+    },
+    {
+      "title": "What is this part?",
+      "url": "https://www.reddit.com/r/Ram1500/comments/1hvk3h4"
+    },
+    {
+      "title": "What is this part?",
+      "url": "https://www.reddit.com/r/ChevyTrucks/comments/nmb6gm"
+    },
+    {
+      "title": "Do you guys know what this parts called?",
+      "url": "https://www.reddit.com/r/fordranger/comments/11sz4db"
+    },
+    {
+      "title": "Need help find out what is this part called, it’s located on the right side rear strut.",
+      "url": "https://www.reddit.com/r/MechanicAdvice/comments/q689mr"
+    },
+    {
+      "title": "Sway bar end links- is it worth it to go OEM?",
+      "url": "https://www.reddit.com/r/mazdaspeed3/comments/1p5a8ug/sway_bar_end_links_is_it_worth_it_to_go_oem/"
+    },
+    {
+      "title": "Name of this part?",
+      "url": "https://www.reddit.com/r/MechanicAdvice/comments/1tug43a/name_of_this_part/"
+    },
+    {
+      "title": "Does anyone know what this part is called? These two points used to be attached. The car had a rattling noise when encountering bumps. The noise went away and that's when I noticed this part had broke loose. Was not this way when rattling",
+      "url": "https://www.reddit.com/r/AskMechanics/comments/wh5jvp"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

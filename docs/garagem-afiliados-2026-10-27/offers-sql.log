@@ -1,0 +1,5 @@
+(node:147541) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: both offers migrations; preserved data; safe URLs; reviewed metadata; generated SQL create/update/deactivate; slug-to-FK binding; injection quoting; visitor writes denied; zero remote writes

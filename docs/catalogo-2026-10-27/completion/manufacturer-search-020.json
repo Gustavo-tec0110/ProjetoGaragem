@@ -1,0 +1,166 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "volante",
+    "manopla",
+    "pedaleiras",
+    "cintos"
+  ],
+  "queries": [
+    {
+      "q": "\"car steering wheel\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"shift knob\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car pedal\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"racing harness\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "HARNESSES HOMOLOGATED BY THE FIA ACC",
+      "url": "https://www.fia.com/sites/default/files/l24_approved_harnesses_8854-1998_8.pdf"
+    },
+    {
+      "title": "User Manual: Car Accelerator, Brake, and Rest Pedal Covers",
+      "url": "https://manuals.plus/m/5e9de21be3796670e02cafe9d34fa992efd1c83b8b5bc52aeec1bfaf04b80dd5"
+    },
+    {
+      "title": "GARSON | SHIFT KNOBS",
+      "url": "https://www.garson.co.jp/english/lcc/e_shift_index.html"
+    },
+    {
+      "title": "シフトノブ — TOMEI POWERED INC. ONLINE CATALOGUE",
+      "url": "https://www.tomei-p.co.jp/catalogue/shiftknob/"
+    },
+    {
+      "title": "Shift Knobs - EPCO Manufacturing",
+      "url": "https://epcomfg.com/shift-knobs/"
+    },
+    {
+      "title": "COMPANY INTRODUCTION",
+      "url": "https://pub-mediabox-storage.rxweb-prd.com/exhibitor/products/exh-a2856dba-43d0-4d69-89e2-09cce12c7283/product-documents/pro-354e08e0-ff28-4ecd-beb4-b2788e673ead/173f5251-c1ce-416d-9ac5-5b2bbf475e6b.pdf"
+    },
+    {
+      "title": "Microsoft Word - L24_Approved_harnesses.doc",
+      "url": "https://argent.fia.com/web/fia-public.nsf/072E3132137B7AF0C1257451004EC9BC/%24FILE/L24_Approved_harnesses.pdf"
+    },
+    {
+      "title": "Shift Knob — Engine Synchro Shift (ESS)",
+      "url": "https://globaltransmissionsupply.com/zf-meritor-9-10-platform-g-transmission.pdf"
+    },
+    {
+      "title": "〖新製品〗RACING HARNESS 6pt | SPOONSPORTS INFORMATIONSPOONSPORTS INFORMATION",
+      "url": "https://www.spoonsports.jp/blog/?p=7242"
+    },
+    {
+      "title": "INTERIOR SHIFT KNOB",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000007202401/383043/1719220142769_698792424.pdf"
+    },
+    {
+      "title": "DAP Shift Knob - 5 Speed",
+      "url": "https://www.shopdap.com/dap-shift-knob-5-speed.html"
+    },
+    {
+      "title": "NEW PRO H-9",
+      "url": "https://motorsport-technic.com/wp-content/uploads/2025/01/Sparco_Catalogo2025_LW_ENG_Prezzi.pdf"
+    },
+    {
+      "title": "Aluminum Shift Knob – IZANAMI株式会社",
+      "url": "https://www.izanami-wheel.com/en/aluminum-shift-knob/"
+    },
+    {
+      "title": "G1 Racing Harness - GWR Safety Systems - Seat belt Manufacturer",
+      "url": "https://gwrco.com/product/g1-racing-harness/"
+    },
+    {
+      "title": "SHIFT KNOB NEO CHROME - CAR MATE MFG.CO.,LTD.",
+      "url": "https://lps.carmate.co.jp/global-products/motor-sports/shift-knobs/product-153.html"
+    },
+    {
+      "title": "K20Mart // Delrin Shift Knobs",
+      "url": "https://www.k20mart.com/portfolio/delrin-shift-knobs/"
+    },
+    {
+      "title": "BLITZ POWER SITE : RACING SHIFT KNOB",
+      "url": "https://www.blitz.co.jp/products/interior/shift_knob.html"
+    },
+    {
+      "title": "4 Point Racing Harness | 彰茂企業股份有限公司 | Red Wood Enterprise Co., Ltd.",
+      "url": "https://www.redwood.com.tw/product_d.php?id=292&lang=en&tb=1"
+    },
+    {
+      "title": "Shift knob update: first knobs shipped, new batch inbound",
+      "url": "https://www.reddit.com/r/Fanatec/comments/1x198da/shift_knob_update_first_knobs_shipped_new_batch/"
+    },
+    {
+      "title": "Gear stick",
+      "url": "https://en.wikipedia.org/wiki/Gear_stick"
+    },
+    {
+      "title": "Let me see them shifters!",
+      "url": "https://www.reddit.com/r/veloster/comments/175ab0j"
+    },
+    {
+      "title": "I made my own shift knob and I’m giving away the first batch",
+      "url": "https://www.reddit.com/r/Fanatec/comments/1u3eavg/i_made_my_own_shift_knob_and_im_giving_away_the/"
+    },
+    {
+      "title": "New BFI shift knob 😍",
+      "url": "https://www.reddit.com/r/GolfGTI/comments/1dcej09"
+    },
+    {
+      "title": "What type of shift Knob is it?",
+      "url": "https://www.reddit.com/r/whatisit/comments/1rxa4qc/what_type_of_shift_knob_is_it/"
+    },
+    {
+      "title": "Shift knob Brand?",
+      "url": "https://www.reddit.com/r/Golf_R/comments/1n8vcp1"
+    },
+    {
+      "title": "Custom Shift Knob",
+      "url": "https://www.reddit.com/r/ManualTransmissions/comments/1p7a7bf/custom_shift_knob/"
+    },
+    {
+      "title": "Beta feedback and shift knob production",
+      "url": "https://www.reddit.com/r/Fanatec/comments/1vh6wal/beta_feedback_and_shift_knob_production/"
+    },
+    {
+      "title": "Where do I find this shift knob",
+      "url": "https://www.reddit.com/r/car/comments/1pcr4lq/where_do_i_find_this_shift_knob/"
+    },
+    {
+      "title": "HANS device",
+      "url": "https://en.wikipedia.org/wiki/HANS_device"
+    },
+    {
+      "title": "Digital Shiftknob",
+      "url": "https://www.reddit.com/r/CarHacking/comments/1xemq04/digital_shiftknob/"
+    },
+    {
+      "title": "Any Preferred Replacement Shift Knob?",
+      "url": "https://www.reddit.com/r/Volvo240/comments/1s554z2/any_preferred_replacement_shift_knob/"
+    },
+    {
+      "title": "Shift Knob",
+      "url": "https://www.reddit.com/r/ManualTransmissions/comments/1vrtksq/shift_knob/"
+    },
+    {
+      "title": "Pomo del cambio",
+      "url": "https://es.wikipedia.org/wiki/Pomo_del_cambio"
+    },
+    {
+      "title": "Horse harness",
+      "url": "https://en.wikipedia.org/wiki/Horse_harness"
+    },
+    {
+      "title": "Steering wheel",
+      "url": "https://en.wikipedia.org/wiki/Steering_wheel"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

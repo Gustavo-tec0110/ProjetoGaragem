@@ -1,0 +1,30 @@
+
+Running 23 tests using 1 worker
+
+(node:153218) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › desktop: detalhes, ofertas, teclado, foco e fechamento (28.4s)
+  ✓   2 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › tablet: detalhes, ofertas, teclado, foco e fechamento (16.3s)
+  ✓   3 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › mobile: detalhes, ofertas, teclado, foco e fechamento (11.9s)
+  ✓   4 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:78:5 › detalhes dentro do editor preservam seleção, filtros e formulário (7.0s)
+  ✓   5 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:101:5 › API valida entradas e demonstração não expõe destinos (333ms)
+  ✓   6 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 1440px (6.1s)
+  ✓   7 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 768px (5.8s)
+  ✓   8 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 390px (5.2s)
+  ✓   9 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:141:5 › ofertas indisponíveis permitem nova consulta (3.7s)
+  ✓  10 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:157:5 › links reais recebem proteção e identificação; preços vencidos e destinos inválidos são omitidos (5.1s)
+  ✓  11 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:178:5 › busca, categorias, paginação e edição legada continuam funcionando (18.9s)
+  ✓  12 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:13:5 › catálogo expandido permite pesquisar, combinar filtros e selecionar peças novas (19.0s)
+  ✓  13 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:62:5 › registro legado duplicado continua visível e editável (5.8s)
+  ✓  14 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:74:5 › todas as fotografias aprovadas e suas variantes otimizadas carregam localmente (4.2s)
+  ✓  15 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › desktop: ficha destaca instaladas, vínculo com catálogo e navegação preservada (7.9s)
+  ✓  16 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › tablet: ficha destaca instaladas, vínculo com catálogo e navegação preservada (7.1s)
+  ✓  17 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › mobile: ficha destaca instaladas, vínculo com catálogo e navegação preservada (6.0s)
+  ✓  18 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › compact: ficha destaca instaladas, vínculo com catálogo e navegação preservada (4.4s)
+  ✓  19 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:37:5 › visitante, estado vazio e falha do catálogo preservam a ficha (4.0s)
+  ✓  20 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:7:5 › cancelamento e falha de gravação limpam somente foto temporária (8.3s)
+  ✓  21 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:42:5 › cancelar edição não exclui foto persistida (3.2s)
+  ✓  22 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:54:5 › substituir foto descarta a anterior e cancelar descarta a nova (4.4s)
+  ✓  23 [desktop-chromium] › tests/e2e/modification-photos.spec.ts:84:5 › upload recusado não deixa prévia nem dispara exclusão (3.1s)
+
+  23 passed (3.2m)

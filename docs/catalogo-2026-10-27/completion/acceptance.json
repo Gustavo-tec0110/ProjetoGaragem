@@ -1,0 +1,16 @@
+{
+  "requiredApprovedComponents": 263,
+  "actualApprovedComponents": 65,
+  "allComponentsCovered": false,
+  "approvedFileCount": 64,
+  "missingApprovedFiles": [],
+  "previous62Preserved": true,
+  "sourcesDocumented": true,
+  "newPhotosVisuallyApproved": true,
+  "uniformWebp512VerifiedByTests": true,
+  "functionalAndVisualTests": "37 unit, 16 browser, isolated SQL migrations, build/typecheck and local review board passed",
+  "conclusion": "INCOMPLETE",
+  "uniformProfessionalPresentationForAll263": false,
+  "brokenApprovedImages": 0,
+  "remainingUnapprovedComponents": 198
+}

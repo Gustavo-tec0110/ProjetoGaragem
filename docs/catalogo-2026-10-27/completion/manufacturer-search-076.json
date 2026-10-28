@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "valvula-termostatica",
+    "reservatorio-expansao",
+    "mangueiras-arrefecimento",
+    "defletor-radiador"
+  ],
+  "queries": [
+    {
+      "q": "\"car thermostat\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"coolant expansion tank\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"radiator hose\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"radiator fan shroud\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Layout 1",
+      "url": "https://www.fusickautomotiveproducts.com/images/Catalog_58C.pdf"
+    },
+    {
+      "title": "Hedman Performance Group",
+      "url": "https://www.hedman.com/product-detail/9454"
+    },
+    {
+      "title": "195-0349: Radiator Fan Shroud | Cat® Parts Store",
+      "url": "https://parts.cat.com/en/catcorp/product/195-0349"
+    },
+    {
+      "title": "Cooling System",
+      "url": "https://keenparts.com/keenc1catalog/"
+    },
+    {
+      "title": "Engine Cooling Fan Shroud | 620-070 | Radiator Fan Shroud | Dorman Products - Aftermarket Auto Parts & OE Solutions",
+      "url": "https://www.dormanproducts.com/p-24145-620-070.aspx"
+    },
+    {
+      "title": "OER | All Makes All Models Parts | Cooling System | Fan Components | Shrouds | OER",
+      "url": "https://www.oerparts.com/shop/parts/brand/oer/cooling-system/fan-components/shrouds/"
+    },
+    {
+      "title": "CODAN COOLANT HOSES",
+      "url": "https://www.codan.com/wp-content/uploads/2023/05/codan-industrial-hose-catalogue.pdf"
+    },
+    {
+      "title": "Radiator Fan Shroud, Fiberglass, 1966-78 AMC with Factory AMC V-8 (See | American Performance Products, Co.",
+      "url": "https://www.amclives.com/collections/cooling-heating/products/copy-of-american-performance-fiberglass-quarter-window-trim-panel-right-700-tp9r-1969-1970-amc-amx"
+    },
+    {
+      "title": "Radiator and Fan Shroud Assembly",
+      "url": "https://www.toro.com/getpub/145376"
+    },
+    {
+      "title": "MX83 Radiator fan shrouds – Xcessive Manufacturing",
+      "url": "https://xcessivemanufacturing.com/products/t-mx83-fs"
+    },
+    {
+      "title": "COOLANT EXPANSION TANKS | 15",
+      "url": "https://marketdirectory.messefrankfurt.com/images/original/document_downloads/10000055202501/AEXV8A007MNK/1733226894376_1684857408.pdf"
+    },
+    {
+      "title": "1967-1968 All Makes All Models Parts | 3893814 | 1967-68 Camaro; Radiator Fan Shroud; Small Block; with Air Conditioning | OER",
+      "url": "https://www.oerparts.com/product/3893814.html"
+    },
+    {
+      "title": "HELLA 351024891 Radiator Fan Shroud With",
+      "url": "https://hellaeconnect.com/new_web/sku/download_pdf/465_351.024-891"
+    },
+    {
+      "title": "Omix",
+      "url": "https://www.omixparts.com/product-detail/17102.03/radiator-fan-shroud"
+    },
+    {
+      "title": "Coolant Expansion Tank - 1.5L Performance versin for motorsports",
+      "url": "https://www.nukeperformance.com/product.html/coolant-expansion-tank-15"
+    },
+    {
+      "title": "Radiator Fan Shrouds, 401-425 FAN SHROUD, TA_2040A | TAPerformance.com",
+      "url": "https://www.taperformance.com/proddetail.asp?prod=TA_2040A"
+    },
+    {
+      "title": "RADIACORD®/DIN | FlexCore",
+      "url": "https://particulair.eu/flexcore/en/high-temperature-hoses/radiacord-din/"
+    },
+    {
+      "title": "Radiator Fan Shroud, Black – Performance Online",
+      "url": "https://www.performanceonline.com/products/radiator-fan-shroud-black"
+    },
+    {
+      "title": "Radiator fan sitting low in shroud?",
+      "url": "https://www.reddit.com/r/BumpSide/comments/1w2ujx6/radiator_fan_sitting_low_in_shroud/"
+    },
+    {
+      "title": "Lookin to source an OEM fan and shroud for this ac condenser",
+      "url": "https://www.reddit.com/r/projectcar/comments/1sqwc14/lookin_to_source_an_oem_fan_and_shroud_for_this/"
+    },
+    {
+      "title": "Does anybody know the name of this part",
+      "url": "https://www.reddit.com/r/w204/comments/17ukpgg"
+    },
+    {
+      "title": "Question about radiator fan shroud",
+      "url": "https://www.reddit.com/r/MechanicAdvice/comments/1wp2w78/question_about_radiator_fan_shroud/"
+    },
+    {
+      "title": "Fans/shrouds that would be compatible with this radiator?",
+      "url": "https://www.reddit.com/r/PontiacFirebird/comments/za7omx"
+    },
+    {
+      "title": "Radiator Fan shroud",
+      "url": "https://www.reddit.com/r/canam_ryker/comments/1wj7s6i/radiator_fan_shroud/"
+    },
+    {
+      "title": "Thermostat",
+      "url": "https://en.wikipedia.org/wiki/Thermostat"
+    },
+    {
+      "title": "Radiator fan shroud ideas",
+      "url": "https://www.reddit.com/r/MechanicAdvice/comments/y98j17"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

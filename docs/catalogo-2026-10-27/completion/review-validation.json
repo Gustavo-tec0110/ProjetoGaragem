@@ -1,0 +1,24 @@
+{
+  "mode": "local-static-review",
+  "result": "passed",
+  "results": [
+    {
+      "viewport": "desktop",
+      "total": 263,
+      "approved": 65,
+      "pending": 198,
+      "loadedImages": 65,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "total": 263,
+      "approved": 65,
+      "pending": 198,
+      "loadedImages": 65,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}

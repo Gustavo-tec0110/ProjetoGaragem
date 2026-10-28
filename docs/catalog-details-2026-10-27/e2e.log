@@ -1,0 +1,18 @@
+
+Running 11 tests using 1 worker
+
+(node:142249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:14:7 › desktop: detalhes, ofertas, teclado, foco e fechamento (26.2s)
+  ✓   2 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:14:7 › tablet: detalhes, ofertas, teclado, foco e fechamento (16.6s)
+  ✓   3 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:14:7 › mobile: detalhes, ofertas, teclado, foco e fechamento (10.3s)
+  ✓   4 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:76:5 › detalhes dentro do editor preservam seleção, filtros e formulário (8.7s)
+  ✓   5 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:99:5 › API valida entradas e demonstração não expõe destinos (349ms)
+  ✓   6 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:111:7 › textos extensos, proporções e imagem ausente em 1440px (6.2s)
+  ✓   7 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:111:7 › textos extensos, proporções e imagem ausente em 768px (5.5s)
+  ✓   8 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:111:7 › textos extensos, proporções e imagem ausente em 390px (4.8s)
+  ✓   9 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:139:5 › ofertas indisponíveis permitem nova consulta (3.6s)
+  ✓  10 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:155:5 › links reais recebem proteção e identificação; preços vencidos e destinos inválidos são omitidos (3.1s)
+  ✓  11 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:176:5 › busca, categorias, paginação e edição legada continuam funcionando (10.7s)
+
+  11 passed (1.7m)

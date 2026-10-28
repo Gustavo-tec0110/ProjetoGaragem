@@ -10,11 +10,12 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`;
 if (!process.env.PLAYWRIGHT_BASE_URL) {
   process.env.PROFILE_IMAGE_EDITOR_TEST_HARNESS ??= "1";
   process.env.MODIFICATION_PHOTOS_TEST_HARNESS ??= "1";
+  process.env.CATALOG_OFFERS_DEMO ??= "1";
   process.env.SKELETON_VISUAL_TEST ??= "1";
 }
 const serverCommand = process.env.CI
   ? `npm run start -- --hostname 127.0.0.1 --port ${port}`
-  : `npm run dev -- --webpack --hostname 127.0.0.1 --port ${port}`;
+  : `npm run dev -- --hostname 127.0.0.1 --port ${port}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -44,7 +45,7 @@ export default defineConfig({
     },
     {
       name: "mobile-chromium",
-      testMatch: /(public|integration-local|project-modifications|modification-photos|profile-image-editor|image-security|authenticated-city)\.spec\.ts/,
+      testMatch: /(public|integration-local|catalog-expansion|project-modifications|modification-photos|profile-image-editor|image-security|authenticated-city)\.spec\.ts/,
       use: { ...devices["Pixel 5"] },
     },
   ],

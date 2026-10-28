@@ -1,0 +1,46 @@
+{
+  "implementation": "local component details and offers",
+  "browser": {
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "sizes": [
+      [
+        1440,
+        900
+      ],
+      [
+        768,
+        1024
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "runtimeErrors": 0
+  },
+  "unitSuitePassed": 42,
+  "additionalProductionGuardPassed": true,
+  "newOffersMigration": "passed in disposable PostgreSQL",
+  "bootstrapMigrations": 46,
+  "catalogMigration": "passed; 79 to 263; identities/associations preserved",
+  "build": "passed",
+  "changedCodeLint": "passed",
+  "globalLint": {
+    "status": "preexisting errors",
+    "count": 39,
+    "directory": "artifacts/catalog-images-2026-10-26"
+  },
+  "approvedImageCopies": 263,
+  "approvedImagesByteIdentical": true,
+  "originalsUnchanged": true,
+  "unchangedPreexistingFiles": 2825,
+  "preexistingFilesModifiedForImplementation": 7,
+  "deletedPreexistingFiles": 0,
+  "commit": false,
+  "push": false,
+  "deploy": false,
+  "remoteDatabaseModification": false,
+  "preview": "http://127.0.0.1:3101/test-harness/catalog-details"
+}

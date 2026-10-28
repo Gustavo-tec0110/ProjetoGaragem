@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "wideband",
+    "instrumentacao-eletrica",
+    "sistema-eletrico-customizado",
+    "amplificador"
+  ],
+  "queries": [
+    {
+      "q": "\"wideband oxygen sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car gauges\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"automotive electrical panel\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car amplifier\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Technology makes life better",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000055202501/498977/1762151310596_444303993.pdf"
+    },
+    {
+      "title": "Walker Direct Fit Buyer’s Guide",
+      "url": "https://www.walkerproducts.com/wp-content/uploads/2020/07/Oxygen-Sensor-OE_CATWC37-19-.pdf"
+    },
+    {
+      "title": "Wideband Oxygen Sensor Installation Guide",
+      "url": "https://wbo2.com/lsu/LsuInstal.pdf"
+    },
+    {
+      "title": "国外功放画册-电子版.cdr",
+      "url": "https://suoeraudio.com/upload/soft/Suoer%20Car%20Amplifier%20Catalogue%202021%20B.pdf"
+    },
+    {
+      "title": "JBL CAR  Amplifier A600 A754 A1000 A5055 6001A 3004A 10001A 7005A- EU DOC_V2.0.pdf",
+      "url": "https://www.jbl.com.my/on/demandware.static/-/Sites-masterCatalog_Harman/default/dwcf281209/pdfs/JBL%20CAR%20Amplifier%20A600%20A754%20A1000%20A5055%206001A%203004A%2010001A%207005A%20-EU%20DOC_V2.0.pdf"
+    },
+    {
+      "title": "PRODUCT CATALOG",
+      "url": "https://www.cyberauto.com/FJORevSJAN07Catalog.pdf"
+    },
+    {
+      "title": "Wideband Oxygen Sensor | JXPOWER",
+      "url": "https://jxpowertuner.com/en/products/wideband-oxygen-sensor"
+    },
+    {
+      "title": "A/F Oxygen sensor for gas and H2 applications",
+      "url": "https://plug.fkk-corporation.com/en/legal-disclaimer?catid=2&id=159%3Aaf-oxygen-sensor&view=article"
+    },
+    {
+      "title": "Wideband Oxygen Sensors - Wiki",
+      "url": "https://wiki.rusefi.com/Wide-Band-Sensors/"
+    },
+    {
+      "title": "Ceradex | Wideband Sensors for Advanced Air-Fuel Ratio Detection",
+      "url": "https://www.ceradex-sensor.com/product/wideband-sensor"
+    },
+    {
+      "title": "Sensor, LSU 4.9 Bosch Wide Band Oxygen Sensor - Edelbrock, LLC.",
+      "url": "https://www.edelbrock.com/edelbrock-sensor-lsu-4-9-bosch-wide-band-oxygen-sensor-36126.html"
+    },
+    {
+      "title": "Universal 8 Channel CAN bus wideband Oxygen sensor system (does not in | raceproductsusa.com",
+      "url": "https://raceproductsusa.com/products/universal-8-channel-can-bus-wideband-oxygen-sensor-system"
+    },
+    {
+      "title": "Technical report - FAE lambda sensor. Evolution and types - FAE",
+      "url": "https://www.fae.es/en/technical-report-fae-lambda-sensor-evolution-and-types"
+    },
+    {
+      "title": "Car Amplifiers | Products | TOA United States, Inc.",
+      "url": "https://www.toaelectronics.com/en-us/products/amplifiers/caramplifiers"
+    },
+    {
+      "title": "Müller - Product",
+      "url": "https://www.mullercaraudio.com/en/products"
+    },
+    {
+      "title": "O₂ Sensor Simulator - Alma Automotive",
+      "url": "https://alma-automotive.it/products/wideband-o%E2%82%82-sensor-simulator/"
+    },
+    {
+      "title": "Wideband O2 Air Fuel Ratio Sensor Module | Air/Fuel Ratio AFR",
+      "url": "https://www.plxdevices.com/ProductDetails.php?ProductCode=897346002726"
+    },
+    {
+      "title": "Custom and stock car amplifier",
+      "url": "https://www.suoeraudio.com/"
+    },
+    {
+      "title": "Phonocar",
+      "url": "https://en.wikipedia.org/wiki/Phonocar"
+    },
+    {
+      "title": "Audison",
+      "url": "https://it.wikipedia.org/wiki/Audison"
+    },
+    {
+      "title": "Need help identifying this amp",
+      "url": "https://www.reddit.com/r/diyaudio/comments/wshthv"
+    },
+    {
+      "title": "Advice for buying a Car Amp",
+      "url": "https://www.reddit.com/r/Autos/comments/lbc8f4"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

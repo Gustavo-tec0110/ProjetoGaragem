@@ -1,0 +1,90 @@
+{
+  "pincas": {
+    "candidate": "flickr-51101678429",
+    "reason": "Par de pinças azuis isoladas, fundo branco; confirmar licença individual e original."
+  },
+  "mangueiras": {
+    "candidate": "flickr-51101696002",
+    "reason": "Mangueiras de freio e acessórios isolados em fundo branco; confirmar licença e original."
+  },
+  "kit-freio": {
+    "candidate": "flickr-51101678789",
+    "reason": "Conjunto disco e pinça, isolado em fundo branco; confirmar licença e original."
+  },
+  "alto-falantes": {
+    "candidate": "flickr-9516988372",
+    "reason": "Alto-falante coaxial isolado em fundo branco; conferir licença individual atual."
+  },
+  "ponteira-escape": {
+    "candidate": "flickr-8641784466",
+    "reason": "Ponteira dupla real, isolada, fundo branco; verificar licença da Prior Design e original."
+  },
+  "short-shifter": {
+    "candidate": "manufacturer-51101791473",
+    "reason": "Mecanismo short shifter completo com pinos, em fundo branco; confirmar fonte e licença original."
+  },
+  "coxins-motor": {
+    "candidate": "flickr-34187727953",
+    "reason": "Coxim motor em fundo branco; identificar titular e licença."
+  },
+  "cubos-roda": {
+    "candidate": "flickr-16162466240",
+    "reason": "Cubo de roda completo Spidertrax em fundo branco; verificar licença do fabricante."
+  },
+  "adaptadores": {
+    "candidate": "product-53766352352",
+    "reason": "Adaptador de roda completo isolado em fundo branco, foto do fabricante Spidertrax."
+  },
+  "cabos-audio": {
+    "candidate": "flickr-51107416596",
+    "reason": "Par de cabos RCA completos em fundo neutro; verificar licença e autoria."
+  },
+  "barra-estabilizadora": {
+    "candidate": "product-52187563435",
+    "reason": "Barra de torção completa com buchas, isolada em fundo branco; não usar somente os braços do conjunto."
+  },
+  "kit-duas-vias": {
+    "candidate": "flickr-9516639652",
+    "reason": "Conjunto woofer, tweeter e crossover isolados em fundo neutro; confirmar licença individual."
+  },
+  "intake-filtro-esportivo": {
+    "candidate": "product-33744455865",
+    "reason": "Filtro esportivo cônico isolado e completo em fundo branco, publicado pelo fabricante."
+  },
+  "coxim-cambio": {
+    "candidate": "product-34187643523",
+    "reason": "Coxim de transmissão isolado e completo em fundo branco; confirmar aplicação pelo fabricante."
+  },
+  "reservatorio-respiro": {
+    "candidate": "product-33283730614",
+    "reason": "Kit de reservatório respiro de óleo desmontado em fundo branco; confirmar assunto e licença."
+  },
+  "espacadores": {
+    "candidate": "product-52927828924",
+    "reason": "Espaçador de roda completo isolado em fundo branco, foto do fabricante Spidertrax."
+  },
+  "semieixos": {
+    "candidate": "product-46203756114",
+    "reason": "Semieixo dianteiro completo isolado em fundo branco; confirmar descrição e autoria."
+  },
+  "manga-eixo": {
+    "candidate": "product-43950723800",
+    "reason": "Manga de eixo completa e isolada em fundo branco, foto do fabricante Spidertrax."
+  },
+  "rolamentos-roda": {
+    "candidate": "product-52339594635",
+    "reason": "Conjunto de rolamento de roda completo e isolado, fundo branco, fabricante Spidertrax."
+  },
+  "tweeter": {
+    "candidate": "sound-9517147124",
+    "reason": "Tweeter completo e isolado em fundo neutro; foto do fabricante."
+  },
+  "midbass": {
+    "candidate": "sound-9517108328",
+    "reason": "Woofer de kit duas vias completo e isolado; confirmar especificação do fabricante."
+  },
+  "caixa-subwoofer": {
+    "candidate": "sound-9514143577",
+    "reason": "Caixa de subwoofer completa, equipada, isolada em fundo neutro; confirmar original e licença."
+  }
+}

@@ -1,0 +1,15 @@
+(node:148441) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ offers API validates, rate-limits and isolates local preview from DB reads (1401.179701ms)
+✔ offers API hides unreviewed or inactive rows; DB errors return safe unavailable state (434.943307ms)
+✔ local offers flag is ignored in production even when retained (487.252608ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5292.59308

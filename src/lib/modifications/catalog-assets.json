@@ -1,0 +1,1538 @@
+{
+  "turbo": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/6f71b6f6434f9e7c006b899c374d2d70f1058583636ee6da2a05ff56ff44fede.webp",
+    "previousPaths": [
+      "/modifications/engine/cf7ec499a46552c40bc1a1b41174fa5377d20c1aa13549b02e8ad007c4d3083f.webp",
+      "/modifications/engine/turbo.webp"
+    ]
+  },
+  "supercharger": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/supercharger.webp"
+    ]
+  },
+  "intercooler": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/37c135e36b0344d5cbfdb83b8b4478853e8207194779fa120f17cbabe4b2a590.webp",
+    "previousPaths": [
+      "/modifications/engine/4e2c90e0941a0f4dd647fecff842cdf097ffc5d2a0f15a916f909c3ef1f8484c.webp",
+      "/modifications/engine/intercooler.webp"
+    ]
+  },
+  "intake-filtro-esportivo": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/d74c9dad2633748fe86bf5712b1d7ef70a7fa39e65cd4ecbeea655cbd62a1b31.webp",
+    "previousPaths": [
+      "/modifications/engine/231ee3d8b863047b6b917d39930f37c86fb77a20d57727d7f830dade42ea0167.webp",
+      "/modifications/engine/intake-filtro-esportivo.webp"
+    ]
+  },
+  "coletor-admissao": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/e1bc9b0bfa636db3be3395bd5be6a7fa67eb53799c6f4a910aa6c0838042e04e.webp",
+    "previousPaths": [
+      "/modifications/engine/3001a2e10347faa0af25fd3009b5356ec25ac83ecddc8af0f16d197eb04acf0f.webp",
+      "/modifications/engine/coletor-admissao.webp"
+    ]
+  },
+  "coletor-escape": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/6da123bd3cda4987c82aa5c57a7e2c0abb6c129fd1f2cf118c028997e43f6f94.webp",
+      "/modifications/engine/coletor-escape.webp"
+    ]
+  },
+  "downpipe": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/downpipe.webp"
+    ]
+  },
+  "escape": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/a2ed8b89b928059fb6957ef7c4b42f6e407e0b1ca3ae21c3229168a4856aaceb.webp",
+      "/modifications/engine/escape.webp"
+    ]
+  },
+  "bicos-injetores": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/3fd6e88656c36046e0805ae7abd3fee80a77fa8f46625e59d989789063659fc4.webp",
+    "previousPaths": [
+      "/modifications/engine/dfd6f69b96b93e88beeb955f7f543a25b87e07c07f446a1dd80333bcdea2b053.webp",
+      "/modifications/engine/bicos-injetores.webp"
+    ]
+  },
+  "bomba-combustivel": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/6b2512b3d9cb1ad2d3312536a74f37cf1c203885325d2509a661aafebe06bc42.webp",
+      "/modifications/engine/bomba-combustivel.webp"
+    ]
+  },
+  "regulador-pressao": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/regulador-pressao.webp"
+    ]
+  },
+  "ecu-modulo": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/0d0ec4283ebb68275b9ea91b6430667ba1580c2eeb221d04f9b88a683deb5ecc.webp",
+    "previousPaths": [
+      "/modifications/engine/36a62c04b812a26d2222def7f83d900a02d0a48603fae68df5a5e6b88ffecb7b.webp",
+      "/modifications/engine/ecu-modulo.webp"
+    ]
+  },
+  "bobinas": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/b7c58e7e0d9f9132204a87f95236072db111b1bb1766c990303cf15e4f74da0c.webp",
+    "previousPaths": [
+      "/modifications/engine/48d2b44c9043d2b838741493e0ac6d259b4e54ddc9bbdf1e8f682e8deeb16359.webp",
+      "/modifications/engine/bobinas.webp"
+    ]
+  },
+  "velas": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/97acc1eca03b0678ad34882a8a302cb245d1b832ecae2c3acfb344d0e2d19943.webp",
+    "previousPaths": [
+      "/modifications/engine/2105673a97213a3a58b7f3613455671757c022957736241783287b74ae9b97aa.webp",
+      "/modifications/engine/velas.webp"
+    ]
+  },
+  "radiador": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/7c34a74e58b16dd2b2a9511989d0dfdc8b43cc527bac44471bf4fbbc14f71672.webp",
+    "previousPaths": [
+      "/modifications/engine/e3e412b1794b2f3b0a7998f8cf51febc5ef32b0088203d3c0796a93a85ef3b72.webp",
+      "/modifications/engine/radiador.webp"
+    ]
+  },
+  "motor": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/a42ee002b5ae7656baf5369260bc8413cb92baceb2c5b6b2aa695ed8aeec10d3.webp",
+      "/modifications/engine/motor.webp"
+    ]
+  },
+  "cabecote": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/e2b3d34656979dd24b56de81bececa02dce3d987a1359972756d7080f013ee58.webp",
+    "previousPaths": [
+      "/modifications/engine/290ef5d63d9df99bceefd2a0650f54d29e9cab8e13bc12e8841aa57cb2857e84.webp",
+      "/modifications/engine/cabecote.webp"
+    ]
+  },
+  "comando": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": [
+      "/modifications/engine/9a32d742be7dc0d40f50756dc06a424698e69d0921ab092d4cb3418ca57fcd01.webp",
+      "/modifications/engine/comando.webp"
+    ]
+  },
+  "pistoes-bielas": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/401b76b29dc11112b9d186ee277316afb124c37507d31e55b5164c07a66f3f5a.webp",
+    "previousPaths": [
+      "/modifications/engine/00222231e09713271dc1c73893c34657b58f042cab78ae987f1711246ab38e51.webp",
+      "/modifications/engine/pistoes-bielas.webp"
+    ]
+  },
+  "coilover": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488.webp",
+    "previousPaths": [
+      "/modifications/suspension/5c8b5cc2b5e6cde70518d97594f4655de2500611f8dd26d9c9fb6532b5599be2.webp",
+      "/modifications/suspension/coilover.webp"
+    ]
+  },
+  "suspensao-rosca": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488.webp",
+    "previousPaths": [
+      "/modifications/suspension/5c8b5cc2b5e6cde70518d97594f4655de2500611f8dd26d9c9fb6532b5599be2.webp",
+      "/modifications/suspension/suspensao-rosca.webp"
+    ]
+  },
+  "suspensao-fixa": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/suspension/suspensao-fixa.webp"
+    ]
+  },
+  "molas": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/suspension/e6de8a136bb23f4184f967dd61702e34072edc108b3ca4bba36460679cedeb16.webp",
+      "/modifications/suspension/molas.webp"
+    ]
+  },
+  "amortecedores": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/suspension/80cfe89105b91b1e31fdc12b5530f4a5b8ed2145a5d298c0f2cc49ed66fd3a0e.webp",
+      "/modifications/suspension/amortecedores.webp"
+    ]
+  },
+  "barra-estabilizadora": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/6e816ebb91217a4833ba9603192ae3e35b1e15e40e82faf8e0d61c5e9d1ba2a3.webp",
+    "previousPaths": [
+      "/modifications/suspension/1b358e877efe940089caf0d37cbfdc569ac3b976f1fd6f02b950039b42fef074.webp",
+      "/modifications/suspension/barra-estabilizadora.webp"
+    ]
+  },
+  "buchas": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/suspension/611664d6c977f1b48f7a9bf059863822e3d2594e358b594062b83963e86261c3.webp",
+      "/modifications/suspension/buchas.webp"
+    ]
+  },
+  "bracos": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/df0a918678366470255aa1471035a165618102430d1b116ecc7421201756663d.webp",
+    "previousPaths": [
+      "/modifications/suspension/53a499e076fb75a876dff48f5fddf1f7411afa8ab65f5b20decbd91022f9fd91.webp",
+      "/modifications/suspension/bracos.webp"
+    ]
+  },
+  "camber-alinhamento": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/suspension/camber-alinhamento.webp"
+    ]
+  },
+  "reforcos-estruturais": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/6278bc560e66605e347985fcaebc97cf967ec5b26ec2e708c2713deed24010d1.webp",
+    "previousPaths": [
+      "/modifications/suspension/095381f2926ce8ba86a36c136c5b2a134ca0a525401fe0bbae2d5067782a3407.webp",
+      "/modifications/suspension/reforcos-estruturais.webp"
+    ]
+  },
+  "discos": {
+    "category": "freios",
+    "image": "/modifications/brakes/cbe3021781b81fdb74c27cdc68bb9548625ead0a091c05c386ef6d42be200477.webp",
+    "previousPaths": [
+      "/modifications/brakes/70e2625f7dfd61e12d62f0bbe99152c541b560130dc9e63a215ca72bd2b8bdc5.webp",
+      "/modifications/brakes/discos.webp"
+    ]
+  },
+  "pincas": {
+    "category": "freios",
+    "image": "/modifications/brakes/706c4a8965640de828b94ff2ef71bd9cbe608659f7a878428d47849452639392.webp",
+    "previousPaths": [
+      "/modifications/brakes/402dabbd449550dfdfc9eb68b8305522376c09ed6303a3c5f191d4fd0b4f3330.webp",
+      "/modifications/brakes/pincas.webp"
+    ]
+  },
+  "pastilhas": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": [
+      "/modifications/brakes/pastilhas.webp"
+    ]
+  },
+  "mangueiras": {
+    "category": "freios",
+    "image": "/modifications/brakes/ec945c53e1f16f87a9f477109a7b596257fa05cd27921ee28ca42c65222bd191.webp",
+    "previousPaths": [
+      "/modifications/brakes/mangueiras.webp"
+    ]
+  },
+  "kit-freio": {
+    "category": "freios",
+    "image": "/modifications/brakes/da79cc9f35701d60a93644e2995973944ad95895dfe7d2e468715e37a5f85783.webp",
+    "previousPaths": [
+      "/modifications/brakes/70e2625f7dfd61e12d62f0bbe99152c541b560130dc9e63a215ca72bd2b8bdc5.webp",
+      "/modifications/brakes/kit-freio.webp"
+    ]
+  },
+  "rodas": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/0f693fae5d7b758ea4e67d5cb46088509ec90495312af93545c60d01f7629fde.webp",
+    "previousPaths": [
+      "/modifications/wheels/3bfae60680d42ea04b69c901452245a58c496ea127e29b8823f6329032ec2644.webp",
+      "/modifications/wheels/rodas.webp"
+    ]
+  },
+  "pneus": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": [
+      "/modifications/wheels/2a6fd5168ad3b9ae42f3289f2748d354a9d0aa8765188feb5bd1f73dcaae21c5.webp",
+      "/modifications/wheels/pneus.webp"
+    ]
+  },
+  "espacadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/a8a40207cacece2e6a296f6209b0949fe7645304fd6619d39564a9987eb177db.webp",
+    "previousPaths": [
+      "/modifications/wheels/20655eb30b867fdbcb19b721bfc208a1ace0c1a74ed6b611714eaa29a20cf468.webp",
+      "/modifications/wheels/espacadores.webp"
+    ]
+  },
+  "adaptadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/91976fcde6d9cb561aea4a15ff750839a4452e04b015884d999a7d1d206d0099.webp",
+    "previousPaths": [
+      "/modifications/wheels/adaptadores.webp"
+    ]
+  },
+  "cambio": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/973d1d9a38c4da44f98e6ccb073e87006c3dc0d3efd21b62d56a114cda3e296a.webp",
+    "previousPaths": [
+      "/modifications/transmission/b4739c391fdc444c5368354205dfabeda99bad0f6a743979420119a34f02aa4e.webp",
+      "/modifications/transmission/cambio.webp"
+    ]
+  },
+  "embreagem": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/367f04ce81974b8799a3de2f4a807027b2f6b490b7a8d9ae71350c913bb9f99c.webp",
+    "previousPaths": [
+      "/modifications/transmission/8875ca935b0a4e2f7618ceca1ea07e75824f88c74cee3fb049ed4b5e5492665a.webp",
+      "/modifications/transmission/embreagem.webp"
+    ]
+  },
+  "diferencial": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/transmission/b690b86b7c2fd71304cc721fba630d1d6f38d68afc897458bf21078cd5049ed9.webp",
+      "/modifications/transmission/diferencial.webp"
+    ]
+  },
+  "short-shifter": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/95181884839923e0dfe00687659c54fa4b2b6dccec23d075e2e4312dc66573ea.webp",
+    "previousPaths": [
+      "/modifications/transmission/short-shifter.webp"
+    ]
+  },
+  "alavanca": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/transmission/04fa2e871125b0fb1f0e59227560fa1ddd073c0ff6944abb759ebf04039bc4a8.webp",
+      "/modifications/transmission/alavanca.webp"
+    ]
+  },
+  "relacoes-marcha": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/transmission/bab7ec26bd13deb8250ddb5dc18ee4d53038bd9e47b9e12185d2d199ac20952e.webp",
+      "/modifications/transmission/relacoes-marcha.webp"
+    ]
+  },
+  "banco-esportivo": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/38c5ee88b44f1cf3e872b494352b81eb5eebefc3d1963372689b9c780c557968.webp",
+      "/modifications/interior/banco-esportivo.webp"
+    ]
+  },
+  "banco-concha": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/a327620b148d64f2d3793007ae5795adb7f75b80f343309ff5a71befb1daca2d.webp",
+      "/modifications/interior/banco-concha.webp"
+    ]
+  },
+  "volante": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/73fc89bedb7c9df9a11edce985133662e7116708cdcfddfc58258b16e5d505d6.webp",
+      "/modifications/interior/volante.webp"
+    ]
+  },
+  "manopla": {
+    "category": "interior",
+    "image": "/modifications/interior/7a0c9852af1f06c750f36148ea485cad35b878c1f484661279a630d3ba8e9466.webp",
+    "previousPaths": [
+      "/modifications/interior/bd0af6f8bfde3bf32e69adfd0ee9ca7908428076435eb755ab29821dab9b12df.webp",
+      "/modifications/interior/manopla.webp"
+    ]
+  },
+  "pedaleiras": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/63fe0056f559255778ae48808bc382e7a461c19b168127f4134bb9bb74f8a443.webp",
+      "/modifications/interior/pedaleiras.webp"
+    ]
+  },
+  "cintos": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/a327620b148d64f2d3793007ae5795adb7f75b80f343309ff5a71befb1daca2d.webp",
+      "/modifications/interior/cintos.webp"
+    ]
+  },
+  "roll-cage": {
+    "category": "interior",
+    "image": "/modifications/interior/8455ed9242e99d55bb90be01d6b33d2f92d7dac212be9db6e4382e4de9d7431a.webp",
+    "previousPaths": [
+      "/modifications/interior/31b7e3863f1668ba28bf8043e93df438428715dfff773cbf83674684776a913a.webp",
+      "/modifications/interior/roll-cage.webp"
+    ]
+  },
+  "instrumentacao-interior": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/28ab5e0161988250eab22b6dc5659f52fd6b4d0c3788aff7809f8ff06fee771f.webp",
+      "/modifications/interior/instrumentacao-interior.webp"
+    ]
+  },
+  "shift-light": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/interior/fc75ec0a49380743917a819901cc9908c48804520b7ead5a679e86d49577a2bd.webp",
+      "/modifications/interior/shift-light.webp"
+    ]
+  },
+  "painel-digital": {
+    "category": "interior",
+    "image": "/modifications/interior/a15a94b2d647aa7cf6713ea809dba87c7f281d042bd6b907e0f61466547527dc.webp",
+    "previousPaths": [
+      "/modifications/interior/11627e3561da779d336803349534cea2d8efc90ce95109ca1ac9876058f54958.webp",
+      "/modifications/interior/painel-digital.webp"
+    ]
+  },
+  "aerofolio": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/d5eeec7210db2af9830dd6139784af7d5b94f9fcb4073961ef16a39c62a1691e.webp",
+      "/modifications/exterior/aerofolio.webp"
+    ]
+  },
+  "spoiler": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/955e1572e163819bf31ca3f01558607e752e4018b965401a785c56bc03341f36.webp",
+      "/modifications/exterior/spoiler.webp"
+    ]
+  },
+  "front-lip": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/df9eebbc94b0cc46dbd877a5537706d4ae46e7421e7ddf5e24bbc72379c9e2b4.webp",
+      "/modifications/exterior/front-lip.webp"
+    ]
+  },
+  "side-skirts": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/0d01578ed8ad06e83006740ec4568323e86f298f9b962bfea40fff09a1d076ee.webp",
+      "/modifications/exterior/side-skirts.webp"
+    ]
+  },
+  "difusor": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/046d99f1489bf0cc67f369c03d0bad93a4ae7248d9deef9e43180ac98f0311c1.webp",
+      "/modifications/exterior/difusor.webp"
+    ]
+  },
+  "body-kit": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/69a6eb6c75f763bcb05ce8624efc9bbc05271de532e743b2e3bc26afc010a463.webp",
+      "/modifications/exterior/body-kit.webp"
+    ]
+  },
+  "capo": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/capo.webp"
+    ]
+  },
+  "para-choque": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/3081e2e81426fff849d35d2efd975520b6a8710ce29a567eff5dbe551465a886.webp",
+      "/modifications/exterior/para-choque.webp"
+    ]
+  },
+  "retrovisores": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": [
+      "/modifications/exterior/81fa9523a9c11a08cee3541d0701a2bbd388b7a27443a866e0bf76abdf128ff5.webp",
+      "/modifications/exterior/retrovisores.webp"
+    ]
+  },
+  "farois": {
+    "category": "iluminacao",
+    "image": "/modifications/lighting/dfc101433a60f8247201d2d2580cc33515d48b478fcfcc497ec978111a4c9ddc.webp",
+    "previousPaths": [
+      "/modifications/lighting/8ad111e76c3ecd171f444359648e77d4debd791edf7ffee85917c45ace262918.webp",
+      "/modifications/lighting/farois.webp"
+    ]
+  },
+  "lanternas": {
+    "category": "iluminacao",
+    "image": "/modifications/lighting/a679ecc34eda31e744398ff5ece9f376b190a672efd0e784b1fb368816b0990c.webp",
+    "previousPaths": [
+      "/modifications/lighting/f9feacd8c2492dc4975bc3a799ffe53fa7ad78e9ca43b0db86d12c54125e74e6.webp",
+      "/modifications/lighting/lanternas.webp"
+    ]
+  },
+  "farois-auxiliares": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/lighting/farois-auxiliares.webp"
+    ]
+  },
+  "drl": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": [
+      "/modifications/lighting/8e6b5d0755f26f622df033e2ab887cf56ddc7dbd3554772495090113e3e0367f.webp",
+      "/modifications/lighting/drl.webp"
+    ]
+  },
+  "iluminacao-interna": {
+    "category": "iluminacao",
+    "image": "/modifications/lighting/71e92153f86685b7f640fb10d12947bc1a25d9fa2f8f18bf680fb28d27a15271.webp",
+    "previousPaths": [
+      "/modifications/lighting/e26f7e49d234b920313645a9e9d4b704c6c91b0f03be59b6a978675b81cdb6c9.webp",
+      "/modifications/lighting/iluminacao-interna.webp"
+    ]
+  },
+  "chicote": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/398b7d201e5aeb6c10c7d68f672add0ba302f8818cd921eea0f002fcecd4bd01.webp",
+      "/modifications/electrical/chicote.webp"
+    ]
+  },
+  "reles": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/c03878d07ff345abbf3eebf68fbf52504c4bd240f1c416a60d66b8388bb24269.webp",
+      "/modifications/electrical/reles.webp"
+    ]
+  },
+  "fusiveis": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/electrical/6b0381660152e09312ae9f5eb0dd5b804586f4f91aaa3a5d0e6ac159a12cab5f.webp",
+    "previousPaths": [
+      "/modifications/electrical/b85cdde5f29eeda53e721129e4c1c61efc2082009199392247a9fb4aac53eba9.webp",
+      "/modifications/electrical/fusiveis.webp"
+    ]
+  },
+  "sensores": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/sensores.webp"
+    ]
+  },
+  "wideband": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/wideband.webp"
+    ]
+  },
+  "instrumentacao-eletrica": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/instrumentacao-eletrica.webp"
+    ]
+  },
+  "sistema-eletrico-customizado": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": [
+      "/modifications/electrical/sistema-eletrico-customizado.webp"
+    ]
+  },
+  "alto-falantes": {
+    "category": "som",
+    "image": "/modifications/audio/c523a8a31713375e2730af32395de5eee89dffc597158af9b50579aa7f3056a2.webp",
+    "previousPaths": [
+      "/modifications/audio/20442f73b71426a7a09150b318363559f3cfe356c23f69596a0bfb5144fe4478.webp",
+      "/modifications/audio/alto-falantes.webp"
+    ]
+  },
+  "subwoofer": {
+    "category": "som",
+    "image": "/modifications/audio/10760f83c96093fef551a8ac1fae06c3ab84c6f88fac3584c902b452370bd4df.webp",
+    "previousPaths": [
+      "/modifications/audio/1c349af0f103a2f34e495145d44180ac23e99eab0e231a507931d573f435f407.webp",
+      "/modifications/audio/subwoofer.webp"
+    ]
+  },
+  "amplificador": {
+    "category": "som",
+    "image": null,
+    "previousPaths": [
+      "/modifications/audio/amplificador.webp"
+    ]
+  },
+  "multimidia": {
+    "category": "som",
+    "image": null,
+    "previousPaths": [
+      "/modifications/audio/d85c6c5f56531204fb471112f4555ef576681f47446d8833116f6d5b1b46ced2.webp",
+      "/modifications/audio/multimidia.webp"
+    ]
+  },
+  "wastegate": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "valvula-blow-off": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "atuador-wastegate": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "controlador-boost": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "pressurizacao": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "mangotes-silicone": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "flange-turbo": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "manta-termica-turbo": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "linha-lubrificacao-turbo": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "corpo-borboleta": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/2d34edc6c6e7dfb319e15341085abdf25f15633340cdda7f5eaf1d6b6d935d15.webp",
+    "previousPaths": []
+  },
+  "carburador": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/3628d10b860a69d2be2442e1a0ecc6b4e9c13eab358a5f88b418056b3203e94b.webp",
+    "previousPaths": []
+  },
+  "cornetas-admissao": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "reservatorio-respiro": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/d11fae7eb5a48ff839d4fb7b88b7f62886eb636fa09569bb8f03093e2e1c5ea9.webp",
+    "previousPaths": []
+  },
+  "filtro-combustivel": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "flauta-combustivel": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "surge-tank": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "celula-combustivel": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "linhas-combustivel": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "cabos-vela": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "modulo-ignicao": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "distribuidor": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/71ab21abf1d5c68e24f3841237c995b50f6be6a9141f59a9821e2b0daf0436c5.webp",
+    "previousPaths": []
+  },
+  "virabrequim": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "valvulas-motor": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "molas-valvulas": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "pratos-valvulas": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "polia-comando": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/edf9747ad993aa51e536801f1870c4e7d329988fac1cebd6dc72fe1e9f1bcb33.webp",
+    "previousPaths": []
+  },
+  "junta-cabecote": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "prisioneiros-motor": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "bronzinas": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "bomba-oleo": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "carter": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "kit-carter-seco": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "radiador-oleo": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "bomba-agua": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "ventoinha": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "valvula-termostatica": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "reservatorio-expansao": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "mangueiras-arrefecimento": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "defletor-radiador": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "coxins-motor": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/78e1692f800314c5fbf04af468973888b17b611764e81fe1bed219cf8cb78275.webp",
+    "previousPaths": []
+  },
+  "abafador": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "ressonador": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "catalisador": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "ponteira-escape": {
+    "category": "motor-performance",
+    "image": "/modifications/engine/62e06f6b84a83769126b74c6b400efaf890895a617e5f968f5a4c380bfb816da.webp",
+    "previousPaths": []
+  },
+  "valvula-escape": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "fita-termica-escape": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "kit-oxido-nitroso": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "injecao-agua-metanol": {
+    "category": "motor-performance",
+    "image": null,
+    "previousPaths": []
+  },
+  "suspensao-ar": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bolsas-ar": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "compressor-suspensao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "reservatorio-ar": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bloco-valvulas-ar": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "central-suspensao-ar": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bieletas": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "pivos-suspensao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "coxins-amortecedor": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "batentes-suspensao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "manga-eixo": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/6b52454241e97b5e64d4246f1b7577d28ec706b9e49984a89fd6057f869850d1.webp",
+    "previousPaths": []
+  },
+  "caixa-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "terminais-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bracos-axiais": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bomba-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "reservatorio-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "amortecedor-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "kit-angulo-direcao": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "barra-panhard": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "feixe-molas": {
+    "category": "suspensao",
+    "image": null,
+    "previousPaths": []
+  },
+  "subchassi": {
+    "category": "suspensao",
+    "image": "/modifications/suspension/8b1cb8f873472e218d7f24c90d1aa6b5f075d166bdddba4573c268b0ab62238c.webp",
+    "previousPaths": []
+  },
+  "cilindro-mestre-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "servofreio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "valvula-proporcao-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "freio-mao-hidraulico": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "pedal-box": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "reservatorio-fluido-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "dutos-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "sapatas-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "tambores-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "cilindro-roda": {
+    "category": "freios",
+    "image": "/modifications/brakes/9d0b5f550825c1e47e8c0b6e6f746d3406eefa870a0fd75f56ece7b9e8f573dc.webp",
+    "previousPaths": []
+  },
+  "cabos-freio-mao": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "linhas-rigidas-freio": {
+    "category": "freios",
+    "image": null,
+    "previousPaths": []
+  },
+  "prisioneiros-roda": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "porcas-roda": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "parafusos-roda": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "aneis-centralizadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/61f0ceabc2a5a24996c7c409865701d654cde210a42c82ba7d3b37b0e8172044.webp",
+    "previousPaths": []
+  },
+  "cubos-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/f2900b5fb32397b0361894da1981c028f4d738baeaa0f94ae8a2ffe7dc608eb6.webp",
+    "previousPaths": []
+  },
+  "rolamentos-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/022176cbee56cf4dee9966c69efe3db735e33dd9dd991d9ddd422e690fe3188b.webp",
+    "previousPaths": []
+  },
+  "valvulas-pneu": {
+    "category": "rodas-pneus",
+    "image": "/modifications/wheels/bf20e7a7978f0201a0e4e2b344a00d5897645861ba3512c6f543dacc1fcac627.webp",
+    "previousPaths": []
+  },
+  "sensor-tpms": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "travas-roda": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "calotas": {
+    "category": "rodas-pneus",
+    "image": null,
+    "previousPaths": []
+  },
+  "volante-motor": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "conversor-torque": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "carda": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "semieixos": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/063fad24658b8d67d147f72d6cf0b2701e6d212ae1bb9f27c430c0da55840782.webp",
+    "previousPaths": []
+  },
+  "juntas-homocineticas": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "cruzetas": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "coxim-cambio": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/826a7e990c4b0c7e8b15e597086294cbb0593c588bf6311fb73eee4d22d527db.webp",
+    "previousPaths": []
+  },
+  "trambulador": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "cabos-cambio": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "cilindro-mestre-embreagem": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "atuador-embreagem": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "radiador-oleo-cambio": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "capa-seca": {
+    "category": "transmissao",
+    "image": "/modifications/transmission/39b969249342dd37b8a742948d8ca09dafe17506b8cf001e4e74b5ff9e2ea9cc.webp",
+    "previousPaths": []
+  },
+  "flange-adaptadora-cambio": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "cinta-carda": {
+    "category": "transmissao",
+    "image": null,
+    "previousPaths": []
+  },
+  "cubo-volante": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "engate-rapido-volante": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "trilhos-banco": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "suportes-banco": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "revestimento-bancos": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "forros-porta": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "carpete": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "tapetes": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "soleiras": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "console-central": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "apoio-braco": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "extintor-automotivo": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "rede-seguranca": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "barra-cintos": {
+    "category": "interior",
+    "image": null,
+    "previousPaths": []
+  },
+  "splitter-dianteiro": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "canards": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "alargadores-paralama": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "paralamas": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "grade-dianteira": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "entrada-ar-capo": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "respiros-capo": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "travas-capo": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "engate-reboque": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "olhal-reboque": {
+    "category": "exterior",
+    "image": "/modifications/exterior/ff049ebcd9f07c7de1e6d15c15af6e22268f4c5a64c4aaddca246a684cc8d667.webp",
+    "previousPaths": []
+  },
+  "protetor-carter": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "bagageiro-teto": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "pelicula-vidros": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "vinil-envelopamento": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "pelicula-protecao-pintura": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "emblemas": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "frisos": {
+    "category": "exterior",
+    "image": null,
+    "previousPaths": []
+  },
+  "borrachas-vedacao": {
+    "category": "exterior",
+    "image": "/modifications/exterior/602460f3e10748706e03c7b206d980b9a455b5dde9f14d7c9c6c295cbdfaf00a.webp",
+    "previousPaths": []
+  },
+  "lampadas-farol": {
+    "category": "iluminacao",
+    "image": "/modifications/lighting/d89d97ea87a521917b6e2d0c5987b0bb3b2845151889726434674c364157d628.webp",
+    "previousPaths": []
+  },
+  "projetor-farol": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "reator-farol": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "modulo-led": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "setas": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "luz-freio-adicional": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "luz-placa": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "luz-re": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "iluminacao-ambiente": {
+    "category": "iluminacao",
+    "image": null,
+    "previousPaths": []
+  },
+  "bateria": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/electrical/87e477ed9874b14cd287ac75bb71379e596bb716f26845a3ab6f478e6dc87c4f.webp",
+    "previousPaths": []
+  },
+  "alternador": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "motor-partida": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/electrical/3628038dc7a52d2896bc94288cce31f78d27752c6a6a1bc2d3bb5d99e28ca04f.webp",
+    "previousPaths": []
+  },
+  "chave-geral": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "caixa-fusiveis": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "modulo-distribuicao": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "conectores-eletricos": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-map": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-tps": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/electrical/1af971fb77628cf076f80c1d5fae73afa121ab1176136f77de75823362cc42c7.webp",
+    "previousPaths": []
+  },
+  "sensor-temperatura": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-rotacao": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-fase": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-detonacao": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sonda-lambda": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "manometro-turbo": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "manometro-oleo": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/electrical/3b7c1e51da63fbad7657ebc8393c3582a1b3b835195e3611032c6861cadfebe4.webp",
+    "previousPaths": []
+  },
+  "termometro-oleo": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "termometro-agua": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "contagiros": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "voltimetro": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "registrador-dados": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "alarme": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "rastreador": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "camera-re": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "sensor-estacionamento": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "camera-veicular": {
+    "category": "eletrica-eletronica",
+    "image": null,
+    "previousPaths": []
+  },
+  "tweeter": {
+    "category": "som",
+    "image": "/modifications/audio/5c1f81b61198eccb4d10814dd0d61672b1ec9cfca6423f646be5a253719f9b14.webp",
+    "previousPaths": []
+  },
+  "midbass": {
+    "category": "som",
+    "image": "/modifications/audio/7fcc44a768a22d5ad8ed93c097a73a98b56952f703f1fd36e40ba3719136ecdd.webp",
+    "previousPaths": []
+  },
+  "kit-duas-vias": {
+    "category": "som",
+    "image": "/modifications/audio/7efbfd210a0377672f956a5489ae180a2b4059ce3e6bedd0702967093dc8302c.webp",
+    "previousPaths": []
+  },
+  "caixa-subwoofer": {
+    "category": "som",
+    "image": "/modifications/audio/58c4e1a5a332dcde450f04c0ca4ed2c1e045d40969dafce99fa35630ce43b12f.webp",
+    "previousPaths": []
+  },
+  "processador-audio": {
+    "category": "som",
+    "image": null,
+    "previousPaths": []
+  },
+  "crossover": {
+    "category": "som",
+    "image": "/modifications/audio/82f85b888f55eac35e2b9b7fd549917453ee4b0dd1ca7250f141cbc186fa37df.webp",
+    "previousPaths": []
+  },
+  "manta-acustica": {
+    "category": "som",
+    "image": null,
+    "previousPaths": []
+  },
+  "cabos-audio": {
+    "category": "som",
+    "image": "/modifications/audio/32dc98b583b0cf5544af0d8203d977b84168c249617f61b59e95b9f6197ab983.webp",
+    "previousPaths": []
+  },
+  "conversor-audio": {
+    "category": "som",
+    "image": null,
+    "previousPaths": []
+  },
+  "interface-volante": {
+    "category": "som",
+    "image": null,
+    "previousPaths": []
+  },
+  "antena": {
+    "category": "som",
+    "image": null,
+    "previousPaths": []
+  }
+}

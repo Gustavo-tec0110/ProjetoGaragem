@@ -1,0 +1,12 @@
+{
+  "untouchedPreexistingModifiedFiles": [
+    "playwright.config.ts",
+    "public/modifications/photo-credits.html",
+    "src/components/projects/project-gallery.tsx",
+    "src/components/projects/project-modifications.tsx",
+    "src/lib/modifications/catalog-assets.ts",
+    "src/lib/modifications/types.ts",
+    "src/lib/types.ts"
+  ],
+  "result": "byte-for-byte identical diff to starting snapshot"
+}

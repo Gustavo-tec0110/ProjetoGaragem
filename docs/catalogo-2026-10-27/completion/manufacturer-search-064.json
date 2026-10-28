@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "molas-valvulas",
+    "pratos-valvulas",
+    "polia-comando",
+    "junta-cabecote"
+  ],
+  "queries": [
+    {
+      "q": "\"valve spring\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"valve retainer\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"adjustable cam gear\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"head gasket\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "LC Adjustable Cam Gea",
+      "url": "https://www.lceperformance.com/content/v/vspfiles/assets/images/blog/23501/1022003-1022006%20Adjustable%20Cam%20Gear.pdf"
+    },
+    {
+      "title": "Valve Retainers",
+      "url": "https://www.elginind.com/wp-content/uploads/2018/12/Elgin-2018-ProStock-Catalog.pdf"
+    },
+    {
+      "title": "Adjustable Cam Gear - 2RZ/3RZ(Fits on Intake Cam)",
+      "url": "https://www.lceperformance.com/adjustable-cam-gear-2rz-3rz-fits-on-intake-cam/"
+    },
+    {
+      "title": "WITH TRI",
+      "url": "https://device.report/m/0b2c69f1617b6a3e15296ad46bdf8cbd8b040293c4b87b3b40b765114f51abf6.pdf"
+    },
+    {
+      "title": "1.8T Adjustable camshaft sprocket BAR-TEK®",
+      "url": "https://www.bar-tek.com/18t-camshaft-sprocket-adjustable?navigationId=305cc59fcd2445438f6b263eb3c59613"
+    },
+    {
+      "title": "Installation Ins",
+      "url": "https://www.andysautosport.com/additional_info/23-805bk_installation.pdf"
+    },
+    {
+      "title": "24 hours Product&Inventory search on http://www.tomeiusa.com",
+      "url": "https://www.tomeiusa.com/data/TOMEI_PRODUCT_LIST.pdf"
+    },
+    {
+      "title": "Ford Adjustable Cam Gear - Atlas Tractor",
+      "url": "https://www.atlastractor.com/engine/adjustable-cam-gear/"
+    },
+    {
+      "title": "Valve Spring Retainer Manufacturer in Coimbatore |India |Engine Valve Components| RKS Forgings",
+      "url": "https://rksforgings.com/valve-spring-retainers/"
+    },
+    {
+      "title": "What We Do | PAC Racing Springs",
+      "url": "https://www.racingsprings.com/what-we-do/"
+    },
+    {
+      "title": "JUN AUTO - JUN TITANIUM VALVE RETAINER",
+      "url": "https://junauto.co.jp/products/valveretainer/index.en.html"
+    },
+    {
+      "title": "エンジン型式  |  |",
+      "url": "https://www.tomeiusa.com/manuals/pdf/M-TA302-02_camgear.pdf"
+    },
+    {
+      "title": "Adjustable Camshaft Gear – M10 – Ireland Engineering | Racing & Performance Parts for BMW & MINI",
+      "url": "https://www.iemotorsport.com/product/adjustable-cam-gear-m10-single-row/"
+    },
+    {
+      "title": "COMP Cams 10254 COMP Cams Adjustable Cam Gears | Summit Racing",
+      "url": "https://www.summitracing.com/parts/cca-10254"
+    },
+    {
+      "title": "TRU-TIME ADJUSTABLE CAM GEAR",
+      "url": "https://manualzilla.com/doc/5998457/tru-time-adjustable-cam-gear"
+    },
+    {
+      "title": "Leading Vendor of Valve Spring Retainers in India | Garima Global",
+      "url": "https://www.garimaglobal.com/valve-retainers/"
+    },
+    {
+      "title": "JDC Adjustable Cam Gear (Evo 8/9) – Lowered Lifestyle",
+      "url": "https://loweredlifestyle.com/products/jdc-adjustable-cam-gear-evo-8-9"
+    },
+    {
+      "title": "Head gasket",
+      "url": "https://en.wikipedia.org/wiki/Head_gasket"
+    },
+    {
+      "title": "Ordered a head gasket and it looks like this. Should I return it? (Never done head gasket before so I’m unsure)",
+      "url": "https://www.reddit.com/r/Cartalk/comments/gfzxsy"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "linhas-rigidas-freio",
+    "prisioneiros-roda",
+    "porcas-roda",
+    "parafusos-roda"
+  ],
+  "queries": [
+    {
+      "q": "\"brake pipe\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wheel stud\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wheel lug nut\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wheel bolt\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Automec",
+      "url": "https://www.automec.co.uk/"
+    },
+    {
+      "title": "Wheelstuds – MSI Racing Products",
+      "url": "https://www.msirp.com/wheelstuds/"
+    },
+    {
+      "title": "Custom Military Wheel Studs | Made in the USA | Small-Batch",
+      "url": "https://wilsongarner.com/products/wheel-studs/"
+    },
+    {
+      "title": "Regular Bolt-TPi Wheel Fasteners Manufacturer-Wheel Lug Nut, Wheel Lug Bolt, Wheel Spacer, Wheel Lock, Wheel Accessories, Hub Rings, Tools.",
+      "url": "https://www.taperpro.com.tw/en/product/8/20"
+    },
+    {
+      "title": "Expanded Wheel Stud Selection From ARP – Electronic-PR.com",
+      "url": "https://electronic-pr.com/2024/10/wheel-studs/"
+    },
+    {
+      "title": "WHEEL STUDS",
+      "url": "https://www.zavodniauta.cz/user/documents/arp_katalog.pdf"
+    },
+    {
+      "title": "Wheel Hardware Assortments",
+      "url": "https://info.johndow.com/hubfs/Automotive%20Service%20Parts%20Assortments.pdf"
+    },
+    {
+      "title": "WHEEL BOLT RANGE",
+      "url": "https://shenkaindustries.co.za/wp-content/uploads/2025/06/Shenka-Master-Catalogue.pdf"
+    },
+    {
+      "title": "The Edge Products - Wheel Stud | The Edge Products",
+      "url": "https://theedgeproducts.com/products/wheel-stud"
+    },
+    {
+      "title": "WHEEL SERVICE PRODUCTS",
+      "url": "https://rubber-inc.com/catalogs_pdfs/Wheel%20Service%20Products%2022.pdf"
+    },
+    {
+      "title": "Wheel Stud Exporter, Manufacturer & Supplier",
+      "url": "https://www.caienterprises.com/wheel-stud-3586888.html"
+    },
+    {
+      "title": "Wheel Bolts and Nuts - Ryme Automotive Manufacturers since 1982",
+      "url": "https://en.rymeautomotive.com/products/wheel-bolts/"
+    },
+    {
+      "title": "Wheel Lug Nut Kit PN 2205456",
+      "url": "https://prdservicemanagementstg.blob.core.windows.net/knowledgearticle/2882783%20instructions.pdf"
+    },
+    {
+      "title": "Hub-mounting studs — Automotive fasteners & vehicle components | REL India",
+      "url": "https://relindia.com/products/automotive/hub-mounting-studs/"
+    },
+    {
+      "title": "Brake line nipples and pipes",
+      "url": "https://berner.com.mt/wp-content/uploads/2023/02/Tyre-and-brake-service.pdf"
+    },
+    {
+      "title": "Wheel Stud :: Custom & Speed Parts (CSP)",
+      "url": "https://www.csp-shop.com/en/csp/wheel-stud-601-143-072-14834a.html"
+    },
+    {
+      "title": "Serrated Wheel Stud (Knurled Shoulder, Press-In) – Dega Demir",
+      "url": "https://degademir.com/en/urun/serrated-wheel-stud"
+    },
+    {
+      "title": "Zafety Lug Lock® | Premier Wheel Nut Retainer & Safety Syste",
+      "url": "https://zafetyluglock.com/"
+    },
+    {
+      "title": "Wheel stud",
+      "url": "https://en.wikipedia.org/wiki/Wheel_stud"
+    },
+    {
+      "title": "Anyone know the Manufacturer of this Stud?",
+      "url": "https://www.reddit.com/r/partscounter/comments/1l89qov"
+    },
+    {
+      "title": "Lug nut",
+      "url": "https://en.wikipedia.org/wiki/Lug_nut"
+    },
+    {
+      "title": "Railway air brake",
+      "url": "https://en.wikipedia.org/wiki/Railway_air_brake"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

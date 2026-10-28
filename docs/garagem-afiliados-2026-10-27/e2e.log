@@ -1,0 +1,114 @@
+
+Running 19 tests using 1 worker
+
+(node:146874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › desktop: detalhes, ofertas, teclado, foco e fechamento (33.4s)
+  ✓   2 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › tablet: detalhes, ofertas, teclado, foco e fechamento (25.8s)
+  ✓   3 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:16:7 › mobile: detalhes, ofertas, teclado, foco e fechamento (50.7s)
+  ✓   4 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:78:5 › detalhes dentro do editor preservam seleção, filtros e formulário (15.7s)
+  ✓   5 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:101:5 › API valida entradas e demonstração não expõe destinos (847ms)
+  ✓   6 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 1440px (13.2s)
+  ✓   7 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 768px (13.5s)
+  ✓   8 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:113:7 › textos extensos, proporções e imagem ausente em 390px (9.7s)
+  ✘   9 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:141:5 › ofertas indisponíveis permitem nova consulta (17.6s)
+(node:148576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:157:5 › links reais recebem proteção e identificação; preços vencidos e destinos inválidos são omitidos (17.2s)
+(node:148749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [desktop-chromium] › tests/e2e/catalog-details.spec.ts:178:5 › busca, categorias, paginação e edição legada continuam funcionando (12.8s)
+  ✘  12 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:13:5 › catálogo expandido permite pesquisar, combinar filtros e selecionar peças novas (10.4s)
+(node:148940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:61:5 › registro legado duplicado continua visível e editável (7.5s)
+  ✓  14 [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:72:5 › todas as fotografias aprovadas e suas variantes otimizadas carregam localmente (7.7s)
+  ✓  15 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › desktop: ficha destaca instaladas, vínculo com catálogo e navegação preservada (18.2s)
+  ✓  16 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › tablet: ficha destaca instaladas, vínculo com catálogo e navegação preservada (6.5s)
+  ✓  17 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › mobile: ficha destaca instaladas, vínculo com catálogo e navegação preservada (5.0s)
+  ✓  18 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:8:7 › compact: ficha destaca instaladas, vínculo com catálogo e navegação preservada (5.1s)
+  ✓  19 [desktop-chromium] › tests/e2e/garage-overview.spec.ts:37:5 › visitante, estado vazio e falha do catálogo preservam a ficha (4.2s)
+
+
+  1) [desktop-chromium] › tests/e2e/catalog-details.spec.ts:141:5 › ofertas indisponíveis permitem nova consulta 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog').getByText('Não foi possível consultar as opções de compra agora.')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 10000ms
+      - waiting for getByRole('dialog').getByText('Não foi possível consultar as opções de compra agora.')
+
+
+      149 |   await page.getByRole("button", { name: "Ver detalhes de Aerofólio", exact: true }).click();
+      150 |   const dialog = page.getByRole("dialog");
+    > 151 |   await expect(dialog.getByText("Não foi possível consultar as opções de compra agora.")).toBeVisible();
+          |                                                                                           ^
+      152 |   await dialog.getByRole("button", { name: "Tentar novamente" }).click();
+      153 |   await expect(dialog.getByText("Opções de compra ainda não disponíveis para este componente.")).toBeVisible();
+      154 |   expect(reads).toBe(2);
+        at /home/gustavo/Área de trabalho/ProjetoGaragem/tests/e2e/catalog-details.spec.ts:151:91
+
+    Error Context: test-results/catalog-details-ofertas-indisponíveis-permitem-nova-consulta-desktop-chromium/error-context.md
+
+  2) [desktop-chromium] › tests/e2e/catalog-details.spec.ts:157:5 › links reais recebem proteção e identificação; preços vencidos e destinos inválidos são omitidos 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('dialog').getByRole('link', { name: /Ver na loja Amazon/ })
+    Expected: "_blank"
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" with timeout 10000ms
+      - waiting for getByRole('dialog').getByRole('link', { name: /Ver na loja Amazon/ })
+
+
+      166 |   const dialog = page.getByRole("dialog");
+      167 |   const link = dialog.getByRole("link", { name: /Ver na loja Amazon/ });
+    > 168 |   await expect(link).toHaveAttribute("target", "_blank");
+          |                      ^
+      169 |   await expect(link).toHaveAttribute("rel", "noopener noreferrer sponsored");
+      170 |   await expect(dialog.getByText("Link de afiliado", { exact: true })).toBeVisible();
+      171 |   await expect(dialog.getByText(/120,00/)).toBeVisible();
+        at /home/gustavo/Área de trabalho/ProjetoGaragem/tests/e2e/catalog-details.spec.ts:168:22
+
+    Error Context: test-results/catalog-details-links-reai-4f28d-inos-inválidos-são-omitidos-desktop-chromium/error-context.md
+
+  3) [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:13:5 › catálogo expandido permite pesquisar, combinar filtros e selecionar peças novas 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog').getByRole('button', { name: /Válvula blow-off/ })
+    Expected: visible
+    Error: strict mode violation: getByRole('dialog').getByRole('button', { name: /Válvula blow-off/ }) resolved to 3 elements:
+        1) <button type="button" data-state="closed" aria-expanded="false" aria-haspopup="dialog" aria-controls="radix-_r_pb_" aria-label="Ver detalhes de Válvula blow-off" class="relative flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f5f5f5] outline-none focus-visible:ring-2 focus-visible:ring-accent sm:size-20">…</button> aka getByRole('button', { name: 'Ver detalhes de Válvula blow-' })
+        2) <button type="button" aria-pressed="false" class="min-h-11 w-full rounded-md pr-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-accent">…</button> aka getByRole('button', { name: 'Válvula blow-off Motor /' })
+        3) <button type="button" data-state="closed" aria-expanded="false" aria-haspopup="dialog" aria-controls="radix-_r_pe_" aria-label="Detalhes de Válvula blow-off" class="min-h-8 rounded-md text-xs font-semibold text-muted underline underline-offset-4 hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent">Detalhes</button> aka getByRole('button', { name: 'Detalhes de Válvula blow-off', exact: true })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 10000ms
+      - waiting for getByRole('dialog').getByRole('button', { name: /Válvula blow-off/ })
+
+
+      34 |   await expect(dialog.getByRole("button", { name: /Turbocompressor Motor/ })).toBeVisible();
+      35 |   await search.fill("blow off");
+    > 36 |   await expect(dialog.getByRole("button", { name: /Válvula blow-off/ })).toBeVisible();
+         |                                                                          ^
+      37 |   await search.fill("");
+      38 |   await dialog.getByRole("navigation", { name: "Categorias de peças" }).getByRole("button", { name: "Motor / Performance", exact: true }).click();
+      39 |   await expect(dialog.getByLabel("Resultados do catálogo")).toHaveText("67 peças encontradas");
+        at /home/gustavo/Área de trabalho/ProjetoGaragem/tests/e2e/catalog-expansion.spec.ts:36:74
+
+    Error Context: test-results/catalog-expansion-catálogo-3a550-os-e-selecionar-peças-novas-desktop-chromium/error-context.md
+
+  3 failed
+    [desktop-chromium] › tests/e2e/catalog-details.spec.ts:141:5 › ofertas indisponíveis permitem nova consulta 
+    [desktop-chromium] › tests/e2e/catalog-details.spec.ts:157:5 › links reais recebem proteção e identificação; preços vencidos e destinos inválidos são omitidos 
+    [desktop-chromium] › tests/e2e/catalog-expansion.spec.ts:13:5 › catálogo expandido permite pesquisar, combinar filtros e selecionar peças novas 
+  16 passed (4.9m)

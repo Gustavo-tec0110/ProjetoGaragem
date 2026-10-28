@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "fita-termica-escape",
+    "kit-oxido-nitroso",
+    "injecao-agua-metanol",
+    "suspensao-ar"
+  ],
+  "queries": [
+    {
+      "q": "\"exhaust heat wrap\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"nitrous oxide kit\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"water methanol injection\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"air suspension kit\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "P/N A5059-SNOS",
+      "url": "https://www.nitroussupply.com/pdf/05117-05348%20Wet%20system.PDF"
+    },
+    {
+      "title": "Part Description  | Part Number  | Torque  | Qty Per Car  | Manufacturer",
+      "url": "https://www.performanceparts.ford.com/Download/PDFS/M-FP500-FP350S_Web_BOM_7-11-2018.pdf"
+    },
+    {
+      "title": "Water Injection System - RCC Turbos",
+      "url": "https://rccturbos.com/products/turbo-system-parts/water-injection-system"
+    },
+    {
+      "title": "Water/ Methanol Injection Kit",
+      "url": "https://www.bosphorusinnovations.com/wp-content/uploads/2020/02/WMI-Stage-4-PWM-EN-1.pdf"
+    },
+    {
+      "title": "Water/Methanol Injection V2",
+      "url": "https://www.turbo-total.com/media/pdf/d0/f6/45/30-3351-V2-Water-Methanol-Injection-Kit-Multi-Input-Controller.pdf"
+    },
+    {
+      "title": "LAP3 Stage4 Water Methanol Injection Kit | LAP3",
+      "url": "https://www.lap3usa.com/product-page/lap3-water-methanol-injection-kit"
+    },
+    {
+      "title": "Aqua Booster (Engine Injection Fluid) – R+ Racing Co., Ltd.",
+      "url": "https://www.rpluschemicals.com/product/aqua-booster-engine-injection-fluid"
+    },
+    {
+      "title": "AEM 30-3351 AEM V3 Water Methanol Injection Kit",
+      "url": "https://www.aemelectronics.com/products/water_methanol/na_high_compression/parts/30-3351"
+    },
+    {
+      "title": "V3 water-methanol injection multi-inlet controller AEM",
+      "url": "https://www.bar-tek.com/v3-water-methanol-injection-multi-inlet-controller-aem"
+    },
+    {
+      "title": "Exhaust Heat Wrap - Heat Shield Wrap | Heatshield Products",
+      "url": "https://heatshieldproducts.com/product/automotive/exhaust-wraps/exhaust-wrap/"
+    },
+    {
+      "title": "WATER/METHANOL INJECTION SYSTEMS",
+      "url": "https://www.em-racing.de/mediafiles/Sonstiges/AEM_Katalog.pdf"
+    },
+    {
+      "title": "Water/Methanol Injection V2",
+      "url": "https://documents.aemelectronics.com/techlibrary_30-3351_v2_water_methanol_injection_kit_multi_input_controller.pdf"
+    },
+    {
+      "title": "Water-Methanol Injection System, M276 | Weistec",
+      "url": "https://www.weistec.com/water-methanol-injection-system-m276.html"
+    },
+    {
+      "title": "Water Methanol Injection Kits, Pumps, & Components",
+      "url": "https://www.holley.com/products/fuel_systems/fuel_injection/modules_and_sensors/water_meth_kits_and_components/"
+    },
+    {
+      "title": "AEM V3 Water/Methanol Injection Kit, Multi Input Controller 0-5v",
+      "url": "https://www.racedom.com/en/v2-1-gallon-water-methanol-injection-kit-multi-input-30-3350"
+    },
+    {
+      "title": "Water Methanol Injection Kit",
+      "url": "https://www.methanolperformance.com/"
+    },
+    {
+      "title": "Aquamist Water Methanol Injection Kit – MDM Technik",
+      "url": "https://www.mdmtechnik.co.uk/product/aquamist-water-methanol-injection-kit/"
+    },
+    {
+      "title": "Oxford Exhaust Wrap",
+      "url": "https://www.oxfordproducts.com/oxford-exhaust-wrap-ox982.html"
+    },
+    {
+      "title": "Nitrous oxide engine",
+      "url": "https://en.wikipedia.org/wiki/Nitrous_oxide_engine"
+    },
+    {
+      "title": "Exhaust heat management",
+      "url": "https://en.wikipedia.org/wiki/Exhaust_heat_management"
+    },
+    {
+      "title": "Methanol",
+      "url": "https://en.wikipedia.org/wiki/Methanol"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

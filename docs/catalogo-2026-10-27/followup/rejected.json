@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-27",
+  "scope": "Exemplos das decisões desta rodada; não é lista exaustiva de todos os resultados encontrados.",
+  "decisions": [
+    {
+      "candidate": "Flickr 6674055343 — Hardcast Ball Joint",
+      "decision": "rejected",
+      "reason": "Componente de duto/HVAC; não corresponde a pivô de suspensão automotiva."
+    },
+    {
+      "candidate": "Flickr 8469163528 — Abilene Machine crankshaft",
+      "decision": "withheld",
+      "reason": "Aplicação agrícola; correspondência ao catálogo de automóveis não confirmada."
+    },
+    {
+      "candidate": "Commons — File:Ölwanne Handtmann-1.jpg",
+      "decision": "withheld",
+      "reason": "Aparência de render; não foi possível confirmar que é fotografia real."
+    },
+    {
+      "candidate": "HTKC — filtros de combustível em material de apresentação",
+      "decision": "withheld",
+      "reason": "Proveniência da fotografia individual insuficiente; material extraído de apresentação não aprovado."
+    },
+    {
+      "candidate": "CTS Turbo — candidatos de downpipe, escapamento e bomba de combustível",
+      "decision": "rejected",
+      "reason": "Páginas individuais indicam Flickr license 0 (All Rights Reserved), apesar da qualidade visual."
+    },
+    {
+      "candidate": "VIBE Audio — candidatos mais recentes de 2014",
+      "decision": "rejected",
+      "reason": "Páginas individuais indicam Flickr license 0 (All Rights Reserved). Somente fotografias de 2013 com licença individual adequada foram usadas."
+    },
+    {
+      "candidate": "Pastilhas muito desgastadas ou de bicicleta",
+      "decision": "rejected",
+      "reason": "Estado visual ou correspondência incompatível com a representação do componente automotivo."
+    },
+    {
+      "candidate": "Braços azuis de barra estabilizadora",
+      "decision": "rejected-for-this-binding",
+      "reason": "Braços isolados não representam a própria barra de torção; foi escolhida fotografia da barra com buchas."
+    },
+    {
+      "candidate": "Pexels — mecânico segurando suspensão e motores montados",
+      "decision": "withheld",
+      "reason": "Não atendem ao enquadramento de componente isolado solicitado."
+    }
+  ]
+}

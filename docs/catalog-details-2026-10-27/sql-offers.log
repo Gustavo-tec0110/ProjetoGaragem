@@ -1,0 +1,1 @@
+PASS: offers migration, safe URLs, price constraints, active-only RLS, visitor writes denied, trusted CRUD; zero remote writes

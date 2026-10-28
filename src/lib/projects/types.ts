@@ -1,3 +1,5 @@
+import type { ModificationCatalogItem } from "@/lib/modifications/types";
+
 type ProjectSource = "supabase" | "local";
 
 export const PROJECT_STATUS_VALUES = [
@@ -44,6 +46,9 @@ export type ProjectPart = {
   description?: string | null;
   status: ProjectPartStatus;
   priceEstimate: number | null;
+  paidAmount?: number | null;
+  catalog?: ModificationCatalogItem;
+  wishlist?: boolean;
   installedAt?: string | null;
   imageUrl?: string | null;
   externalUrl?: string | null;

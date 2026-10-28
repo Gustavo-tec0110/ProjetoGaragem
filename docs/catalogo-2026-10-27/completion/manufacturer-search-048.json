@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "controlador-boost",
+    "pressurizacao",
+    "mangotes-silicone",
+    "flange-turbo"
+  ],
+  "queries": [
+    {
+      "q": "\"boost controller\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"intercooler piping\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"silicone intake hose\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"turbo flange\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Silicone Intake Hose - Silicone Auto parts",
+      "url": "https://www.siliconeautopart.com/product/silicone-intake-hose/"
+    },
+    {
+      "title": "09_B&W_Catalog.indd",
+      "url": "https://www.spdexhaust.com/pdfs/58-59_Turbo_Flanges_.pdf"
+    },
+    {
+      "title": "INTERCOOLER PIPING SYSTEM",
+      "url": "https://injen.com/pdf/186922"
+    },
+    {
+      "title": "Product catalog | LX Performance",
+      "url": "https://www.intercooler-kit.com/products/"
+    },
+    {
+      "title": "Turbo Flange",
+      "url": "https://turbozentrum.co.uk/media/pdf/TurboZentrumUK-Catalog-2019.pdf"
+    },
+    {
+      "title": "INTERCOOLER PIPING SYSTEM",
+      "url": "https://d32vzsop7y1h3k.cloudfront.net/9d784ef92b965e014dc5b291b0a2210c.PDF"
+    },
+    {
+      "title": "CARB Document: https://www.arb.ca.gov/msprog/aftermkt/devices/eo/d-759-8.pdf",
+      "url": "https://ww2.arb.ca.gov/sites/default/files/aftermarket/devices/eo/d-759-8.pdf"
+    },
+    {
+      "title": "Intercooler Piping",
+      "url": "https://injen.com/p-35868-intercooler-piping.html"
+    },
+    {
+      "title": "MANUAL BOOST CONTROLLER - Officina Malpassi",
+      "url": "https://www.officinamalpassi.it/en/prodotti/boost-controller-en/manual-boost-controller/"
+    },
+    {
+      "title": "Intercooler piping Manufacturer & Supplier in China - Shanghai Shinemoto Technology Co.,Ltd",
+      "url": "https://www.shinemoto.com/categories/intercooler-piping"
+    },
+    {
+      "title": "China Leading Silicone Intake Hose Manufacturer",
+      "url": "https://ronteixauto.com/silicone-intake-hose/"
+    },
+    {
+      "title": "BOOST CONTROLLER – Belquip Competições",
+      "url": "https://www.belquip.com.br/produtos/boost-controller/"
+    },
+    {
+      "title": "Intercooler Piping Kit Archives - HKS Europe",
+      "url": "https://www.hkseurope.com/products/cooling/intercooler-piping-kit"
+    },
+    {
+      "title": "Intercooler Piping - intercooler piping , universal intercooler piping , aluminum intercooler kit for Sale – Ningbo Pino Metal Products Co., Ltd.",
+      "url": "https://www.cnpinometal.com/intercooler-piping.html"
+    },
+    {
+      "title": "BOOST CONTROLLER MANUALE - Officina Malpassi",
+      "url": "https://www.officinamalpassi.it/prodotti/boost-controller/boost-controller-manuale/"
+    },
+    {
+      "title": "Custom Silicone Intake Hose Manufacturer | OEM Silicone Hose Factory",
+      "url": "https://hbkinglinrubber.com/silicone-intake-hose/"
+    },
+    {
+      "title": "Cometic Product Release: Turbo Flange Gaskets",
+      "url": "https://www.cometic.com/news/cometic-product-release-turbo-flange-gaskets"
+    },
+    {
+      "title": "Boost controller",
+      "url": "https://en.wikipedia.org/wiki/Boost_controller"
+    },
+    {
+      "title": "What equipment for exhaust/intercooler piping?",
+      "url": "https://www.reddit.com/r/Welding/comments/jwptfb"
+    },
+    {
+      "title": "Intercooler piping.",
+      "url": "https://www.reddit.com/r/240sx/comments/1w6g8qv/intercooler_piping/"
+    },
+    {
+      "title": "Intercooler Piping | Australia's Best Automotive Productions Company | Plazmaman",
+      "url": "https://www.reddit.com/r/u_Hunter283/comments/j33aft"
+    },
+    {
+      "title": "Intercooler piping",
+      "url": "https://www.reddit.com/r/MK4GTI/comments/1n618vs"
+    },
+    {
+      "title": "Intercooler Piping | Universal Intercooler Engine Parts at Plazmaman",
+      "url": "https://www.reddit.com/r/u_Hunter283/comments/ho0lvu"
+    },
+    {
+      "title": "Intercooler Piping | Intercooler Turbo kits at Plazmaman | Online Auto-parts Store",
+      "url": "https://www.reddit.com/r/u_Hunter283/comments/i44544"
+    },
+    {
+      "title": "I bought an intercooler off of a parts car at a great price, except it doesn’t include piping for the cold side.",
+      "url": "https://www.reddit.com/r/abarth/comments/ekxbkv"
+    },
+    {
+      "title": "Do silicone intake hoses actually help with anything or is it just another expensive, flashy accessory",
+      "url": "https://www.reddit.com/r/Acura_RSX/comments/1jxan6y"
+    },
+    {
+      "title": "Intercooler Piping | Great Range of Universal Intercooler Pipe",
+      "url": "https://www.reddit.com/r/u_Hunter283/comments/gx2htn"
+    },
+    {
+      "title": "Intercooler Piping | Cooling Engine Kits Parts at Plazmaman",
+      "url": "https://www.reddit.com/r/u_Hunter283/comments/idr8af"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

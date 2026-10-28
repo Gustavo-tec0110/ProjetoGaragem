@@ -1,0 +1,116 @@
+ M package.json
+ M playwright.config.ts
+ M public/modifications/photo-credits.html
+ M src/components/projects/project-detail.tsx
+ M src/components/projects/project-gallery.tsx
+ M src/components/projects/project-modifications.tsx
+ M src/components/projects/project-page-content.tsx
+ M src/lib/modifications/catalog-assets.ts
+ M src/lib/modifications/server.ts
+ M src/lib/modifications/types.ts
+ M src/lib/projects/types.ts
+ M src/lib/types.ts
+ M supabase/bootstrap.sql
+?? artifacts/
+?? data/
+?? docs/catalog-details-2026-10-27/
+?? docs/catalogo-2026-10-27/
+?? docs/garagem-afiliados-2026-10-27/
+?? public/modifications/approved/
+?? public/modifications/audio/10760f83c96093fef551a8ac1fae06c3ab84c6f88fac3584c902b452370bd4df.webp
+?? public/modifications/audio/32dc98b583b0cf5544af0d8203d977b84168c249617f61b59e95b9f6197ab983.webp
+?? public/modifications/audio/58c4e1a5a332dcde450f04c0ca4ed2c1e045d40969dafce99fa35630ce43b12f.webp
+?? public/modifications/audio/5c1f81b61198eccb4d10814dd0d61672b1ec9cfca6423f646be5a253719f9b14.webp
+?? public/modifications/audio/7efbfd210a0377672f956a5489ae180a2b4059ce3e6bedd0702967093dc8302c.webp
+?? public/modifications/audio/7fcc44a768a22d5ad8ed93c097a73a98b56952f703f1fd36e40ba3719136ecdd.webp
+?? public/modifications/audio/82f85b888f55eac35e2b9b7fd549917453ee4b0dd1ca7250f141cbc186fa37df.webp
+?? public/modifications/audio/c523a8a31713375e2730af32395de5eee89dffc597158af9b50579aa7f3056a2.webp
+?? public/modifications/brakes/706c4a8965640de828b94ff2ef71bd9cbe608659f7a878428d47849452639392.webp
+?? public/modifications/brakes/9d0b5f550825c1e47e8c0b6e6f746d3406eefa870a0fd75f56ece7b9e8f573dc.webp
+?? public/modifications/brakes/cbe3021781b81fdb74c27cdc68bb9548625ead0a091c05c386ef6d42be200477.webp
+?? public/modifications/brakes/da79cc9f35701d60a93644e2995973944ad95895dfe7d2e468715e37a5f85783.webp
+?? public/modifications/brakes/ec945c53e1f16f87a9f477109a7b596257fa05cd27921ee28ca42c65222bd191.webp
+?? public/modifications/electrical/1af971fb77628cf076f80c1d5fae73afa121ab1176136f77de75823362cc42c7.webp
+?? public/modifications/electrical/3628038dc7a52d2896bc94288cce31f78d27752c6a6a1bc2d3bb5d99e28ca04f.webp
+?? public/modifications/electrical/3b7c1e51da63fbad7657ebc8393c3582a1b3b835195e3611032c6861cadfebe4.webp
+?? public/modifications/electrical/6b0381660152e09312ae9f5eb0dd5b804586f4f91aaa3a5d0e6ac159a12cab5f.webp
+?? public/modifications/electrical/87e477ed9874b14cd287ac75bb71379e596bb716f26845a3ab6f478e6dc87c4f.webp
+?? public/modifications/engine/0d0ec4283ebb68275b9ea91b6430667ba1580c2eeb221d04f9b88a683deb5ecc.webp
+?? public/modifications/engine/2d34edc6c6e7dfb319e15341085abdf25f15633340cdda7f5eaf1d6b6d935d15.webp
+?? public/modifications/engine/3628d10b860a69d2be2442e1a0ecc6b4e9c13eab358a5f88b418056b3203e94b.webp
+?? public/modifications/engine/37c135e36b0344d5cbfdb83b8b4478853e8207194779fa120f17cbabe4b2a590.webp
+?? public/modifications/engine/3fd6e88656c36046e0805ae7abd3fee80a77fa8f46625e59d989789063659fc4.webp
+?? public/modifications/engine/401b76b29dc11112b9d186ee277316afb124c37507d31e55b5164c07a66f3f5a.webp
+?? public/modifications/engine/62e06f6b84a83769126b74c6b400efaf890895a617e5f968f5a4c380bfb816da.webp
+?? public/modifications/engine/6f71b6f6434f9e7c006b899c374d2d70f1058583636ee6da2a05ff56ff44fede.webp
+?? public/modifications/engine/71ab21abf1d5c68e24f3841237c995b50f6be6a9141f59a9821e2b0daf0436c5.webp
+?? public/modifications/engine/78e1692f800314c5fbf04af468973888b17b611764e81fe1bed219cf8cb78275.webp
+?? public/modifications/engine/7c34a74e58b16dd2b2a9511989d0dfdc8b43cc527bac44471bf4fbbc14f71672.webp
+?? public/modifications/engine/97acc1eca03b0678ad34882a8a302cb245d1b832ecae2c3acfb344d0e2d19943.webp
+?? public/modifications/engine/b7c58e7e0d9f9132204a87f95236072db111b1bb1766c990303cf15e4f74da0c.webp
+?? public/modifications/engine/d11fae7eb5a48ff839d4fb7b88b7f62886eb636fa09569bb8f03093e2e1c5ea9.webp
+?? public/modifications/engine/d74c9dad2633748fe86bf5712b1d7ef70a7fa39e65cd4ecbeea655cbd62a1b31.webp
+?? public/modifications/engine/e1bc9b0bfa636db3be3395bd5be6a7fa67eb53799c6f4a910aa6c0838042e04e.webp
+?? public/modifications/engine/e2b3d34656979dd24b56de81bececa02dce3d987a1359972756d7080f013ee58.webp
+?? public/modifications/engine/edf9747ad993aa51e536801f1870c4e7d329988fac1cebd6dc72fe1e9f1bcb33.webp
+?? public/modifications/exterior/602460f3e10748706e03c7b206d980b9a455b5dde9f14d7c9c6c295cbdfaf00a.webp
+?? public/modifications/exterior/ff049ebcd9f07c7de1e6d15c15af6e22268f4c5a64c4aaddca246a684cc8d667.webp
+?? public/modifications/interior/7a0c9852af1f06c750f36148ea485cad35b878c1f484661279a630d3ba8e9466.webp
+?? public/modifications/interior/8455ed9242e99d55bb90be01d6b33d2f92d7dac212be9db6e4382e4de9d7431a.webp
+?? public/modifications/interior/a15a94b2d647aa7cf6713ea809dba87c7f281d042bd6b907e0f61466547527dc.webp
+?? public/modifications/lighting/71e92153f86685b7f640fb10d12947bc1a25d9fa2f8f18bf680fb28d27a15271.webp
+?? public/modifications/lighting/a679ecc34eda31e744398ff5ece9f376b190a672efd0e784b1fb368816b0990c.webp
+?? public/modifications/lighting/d89d97ea87a521917b6e2d0c5987b0bb3b2845151889726434674c364157d628.webp
+?? public/modifications/lighting/dfc101433a60f8247201d2d2580cc33515d48b478fcfcc497ec978111a4c9ddc.webp
+?? public/modifications/photo-credits-v1.html
+?? public/modifications/photo-unavailable.svg
+?? public/modifications/suspension/6278bc560e66605e347985fcaebc97cf967ec5b26ec2e708c2713deed24010d1.webp
+?? public/modifications/suspension/6b52454241e97b5e64d4246f1b7577d28ec706b9e49984a89fd6057f869850d1.webp
+?? public/modifications/suspension/6e816ebb91217a4833ba9603192ae3e35b1e15e40e82faf8e0d61c5e9d1ba2a3.webp
+?? public/modifications/suspension/8b1cb8f873472e218d7f24c90d1aa6b5f075d166bdddba4573c268b0ab62238c.webp
+?? public/modifications/suspension/c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488.webp
+?? public/modifications/suspension/df0a918678366470255aa1471035a165618102430d1b116ecc7421201756663d.webp
+?? public/modifications/transmission/063fad24658b8d67d147f72d6cf0b2701e6d212ae1bb9f27c430c0da55840782.webp
+?? public/modifications/transmission/367f04ce81974b8799a3de2f4a807027b2f6b490b7a8d9ae71350c913bb9f99c.webp
+?? public/modifications/transmission/39b969249342dd37b8a742948d8ca09dafe17506b8cf001e4e74b5ff9e2ea9cc.webp
+?? public/modifications/transmission/826a7e990c4b0c7e8b15e597086294cbb0593c588bf6311fb73eee4d22d527db.webp
+?? public/modifications/transmission/95181884839923e0dfe00687659c54fa4b2b6dccec23d075e2e4312dc66573ea.webp
+?? public/modifications/transmission/973d1d9a38c4da44f98e6ccb073e87006c3dc0d3efd21b62d56a114cda3e296a.webp
+?? public/modifications/wheels/022176cbee56cf4dee9966c69efe3db735e33dd9dd991d9ddd422e690fe3188b.webp
+?? public/modifications/wheels/0f693fae5d7b758ea4e67d5cb46088509ec90495312af93545c60d01f7629fde.webp
+?? public/modifications/wheels/61f0ceabc2a5a24996c7c409865701d654cde210a42c82ba7d3b37b0e8172044.webp
+?? public/modifications/wheels/91976fcde6d9cb561aea4a15ff750839a4452e04b015884d999a7d1d206d0099.webp
+?? public/modifications/wheels/a8a40207cacece2e6a296f6209b0949fe7645304fd6619d39564a9987eb177db.webp
+?? public/modifications/wheels/bf20e7a7978f0201a0e4e2b344a00d5897645861ba3512c6f543dacc1fcac627.webp
+?? public/modifications/wheels/f2900b5fb32397b0361894da1981c028f4d738baeaa0f94ae8a2ffe7dc608eb6.webp
+?? scripts/catalog/
+?? scripts/manage-catalog-offers.mjs
+?? scripts/test-catalog-migration.mjs
+?? scripts/test-catalog-offers-migration.mjs
+?? src/app/api/catalog/
+?? src/app/test-harness/catalog-details/
+?? src/app/test-harness/catalog/
+?? src/app/test-harness/project-overview/
+?? src/components/projects/catalog-details.tsx
+?? src/components/projects/catalog-picker.tsx
+?? src/lib/modifications/approved-catalog-images.json
+?? src/lib/modifications/approved-catalog-images.ts
+?? src/lib/modifications/catalog-assets.json
+?? src/lib/modifications/catalog-definitions.json
+?? src/lib/modifications/catalog-search.ts
+?? src/lib/modifications/demo-offers.ts
+?? src/lib/modifications/local-offers.ts
+?? src/lib/modifications/offers.ts
+?? src/lib/modifications/project-overview.ts
+?? supabase/migrations/20261027120000_expand_modification_catalog.sql
+?? supabase/migrations/20261027210000_modification_offers.sql
+?? supabase/migrations/20261028010000_reviewed_catalog_offers.sql
+?? tests/e2e/catalog-details.spec.ts
+?? tests/e2e/catalog-expansion.spec.ts
+?? tests/e2e/garage-overview.spec.ts
+?? tests/unit/approved-catalog-images.test.mjs
+?? tests/unit/catalog-expansion.test.mjs
+?? tests/unit/catalog-offers-api.test.mjs
+?? tests/unit/catalog-offers.test.mjs
+?? tests/unit/managed-catalog-offers.test.mjs
+?? tests/unit/project-modification-overview.test.mjs

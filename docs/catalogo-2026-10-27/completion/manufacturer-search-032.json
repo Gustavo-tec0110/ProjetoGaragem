@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "capo",
+    "para-choque",
+    "retrovisores",
+    "farois-auxiliares"
+  ],
+  "queries": [
+    {
+      "q": "\"car bonnet\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car bumper\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wing mirror\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"fog light\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "120 The Roadster Factory",
+      "url": "https://trf.zeni.net/spitfireGB/pdfs/SpitfireGB2009.pdf"
+    },
+    {
+      "title": "LIGHTING | FOG LIGHT",
+      "url": "https://unomindakart.com/catalog/open/19/Electrical%20Catalogue%20-%204W.pdf"
+    },
+    {
+      "title": "Vidiwave Limited",
+      "url": "https://bus.vidiwave.com/datasheets/WingmirrorHousing.pdf"
+    },
+    {
+      "title": "Car Bonnet at Best Price in Jaipur, Rajasthan | Shree Ganesh Industries",
+      "url": "https://www.tradeindia.com/products/car-bonnet-c5282312.html"
+    },
+    {
+      "title": "2025",
+      "url": "https://fristom.com/wp-content/uploads/2025/10/Fristom-katalog_07.2025_ANG_.pdf?x23565="
+    },
+    {
+      "title": "Car Bonnet manufacturing - PDFCOFFEE.COM",
+      "url": "https://pdfcoffee.com/car-bonnet-manufacturing-pdf-free.html"
+    },
+    {
+      "title": "LED FOG LIGHTS",
+      "url": "https://www.aps-supply.com/wp-content/uploads/2022/10/JW_Speaker_Solutions_Off-Road_2015.pdf"
+    },
+    {
+      "title": "Fo",
+      "url": "https://hamsar.com/wp-content/uploads/2018/11/2019-Hamsar-Catalogue.pdf"
+    },
+    {
+      "title": "Pro Round LED Fog Lights Manufacturer | Foke",
+      "url": "https://www.foke-led.com/led-fog-lights.html"
+    },
+    {
+      "title": "Direct Injection Car Bumper Prototype with LKM Standard Mould Base for Lightweight High Strength Carbon Fiber Parts from China Factory",
+      "url": "https://www.ecer.com/corp/details-uuuf1wb-p1gcbnp-direct-injection-car-bumper-prototype-with-lkm-standard-mould-base-for-lightweight-high-strength-carbon-fiber-parts.html"
+    },
+    {
+      "title": "Car Bumper | Tianchen",
+      "url": "https://www.tc-autoparts.com/product-category/car-bumper/"
+    },
+    {
+      "title": "FRP Fiberglass Hood & Bonnet for Car, Truck and Bus - miyabifrp",
+      "url": "https://www.miyabifrp.com/product/frp-fiberglass-hood-bonnet-for-car-truck-and-bus/"
+    },
+    {
+      "title": "Classic & Vintage Car Adjustable Left or Right Hand Chrome Door or Win – Classic Bits",
+      "url": "https://classic-bits.co.uk/products/classic-vintage-car-adjustable-left-or-right-hand-chrome-door-or-wing-mirror"
+    },
+    {
+      "title": "Home - Wing-Mirror",
+      "url": "https://www.wing-mirror.co.uk/"
+    },
+    {
+      "title": "Aftermarket Car Fog Light Manufacturer - Sunway Autoparts",
+      "url": "https://sunwayautoparts.com/product-category/fog-light/"
+    },
+    {
+      "title": "Best Aftermarket Rear View Mirror | KDC- OEM/ODM Car Rear Mirror Manufacturer",
+      "url": "https://www.kdc.com.tw/"
+    },
+    {
+      "title": "Premium OEM LED Fog Light Assembly",
+      "url": "https://www.ogaled.com/universal-oem-white-and-yellow-color-led-fog-light-assembly-kit.html"
+    },
+    {
+      "title": "Manufacturing_report_Bonnet_Anuj_AM2_S0555276 | PDF",
+      "url": "https://www.slideshare.net/slideshow/manufacturingreportbonnetanujam2s0555276/58519486"
+    },
+    {
+      "title": "Bumper (car)",
+      "url": "https://en.wikipedia.org/wiki/Bumper_%28car%29"
+    },
+    {
+      "title": "Side-view mirror",
+      "url": "https://en.wikipedia.org/wiki/Side-view_mirror"
+    },
+    {
+      "title": "Hood ornament",
+      "url": "https://en.wikipedia.org/wiki/Hood_ornament"
+    },
+    {
+      "title": "VAN WING MIRROR",
+      "url": "https://www.reddit.com/r/u_Wingmirrors/comments/16hkrw3"
+    },
+    {
+      "title": "Automotive lighting",
+      "url": "https://en.wikipedia.org/wiki/Automotive_lighting"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

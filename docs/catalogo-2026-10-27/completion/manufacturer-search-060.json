@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "cabos-vela",
+    "modulo-ignicao",
+    "virabrequim",
+    "valvulas-motor"
+  ],
+  "queries": [
+    {
+      "q": "\"ignition leads\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"ignition module\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"crankshaft\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"engine valves\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Ignition leads",
+      "url": "https://www.boschaftermarket.com/xrm/media/images/country_specific/sg/services_and_support_6/downloads_18/ignition_components.pdf"
+    },
+    {
+      "title": "Products – Gratco",
+      "url": "https://enginevalves.net/products/"
+    },
+    {
+      "title": "Products | Gen-C",
+      "url": "https://www.gen-c.co.uk/products/ignition-leads"
+    },
+    {
+      "title": "STYR - Forge Crankshaft Catalogue 2024-2025",
+      "url": "https://styrgroup.com/wp-content/uploads/2024/07/STYR-Forge-Crankshaft-Catalogue-2024-2025.pdf"
+    },
+    {
+      "title": "IPF Online - Industrial Products Finder",
+      "url": "https://www.ipfonline.com/auto-components-engine-parts-supplier/engines-engine-components-accessories/automotiveenginevalves-4-226-price"
+    },
+    {
+      "title": "Crankshaft",
+      "url": "https://www.desch.com/en/drive-components/crankshaft/"
+    },
+    {
+      "title": "Product Details - SBI",
+      "url": "https://www.sbintl.com/Product/DetailsENG?productId=16"
+    },
+    {
+      "title": "Crankshafts - CELSA Huta Ostrowiec",
+      "url": "https://celsaho.com/en/forge-products/crankshafts-2/"
+    },
+    {
+      "title": "ENGINE VALVES",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000055202501/491926/1761054008466_3868540150.pdf"
+    },
+    {
+      "title": "Ignition Leads - Champion Aerospace",
+      "url": "https://www.championaerospace.com/products/ignition-leads"
+    },
+    {
+      "title": "Ignition Module",
+      "url": "https://www.ignition.com.tw/Templates/att/TIS-Ignition-Module-Catalog.pdf?lng=en"
+    },
+    {
+      "title": "Ignition Leads - FAE",
+      "url": "https://www.fae.es/en/productos/ignition-leads"
+    },
+    {
+      "title": "Home - NSI",
+      "url": "https://www.nsicrankshaft.com/"
+    },
+    {
+      "title": "Compstar - Callies Precision Engine Components",
+      "url": "https://www.callies.com/compstar/"
+    },
+    {
+      "title": "Microsoft Word - Engine Valves.docx",
+      "url": "https://pexit.net/components/com_products/prodprofile/2330/Engine-Valves.pdf"
+    },
+    {
+      "title": "Ignition leads – EYQUEM",
+      "url": "https://www.eyquem.com/en/products/ignition-leads/"
+    },
+    {
+      "title": "SUPROF - Engine Valves, Valve Inserts and Valve Guides\"",
+      "url": "https://suprof.com/en"
+    },
+    {
+      "title": "PowerPoint Presentation",
+      "url": "https://pub-mediabox-storage.rxweb-prd.com/exhibitor/document/exh-c5cc6535-a6e1-401e-a9c3-8d465ffc304a/bc1bd966-e9c8-488b-91f9-5d312d2fe5d8.pdf"
+    },
+    {
+      "title": "Niterra",
+      "url": "https://en.wikipedia.org/wiki/Niterra"
+    },
+    {
+      "title": "Rane Engine Valve Limited",
+      "url": "https://en.wikipedia.org/wiki/Rane_Engine_Valve_Limited"
+    },
+    {
+      "title": "Crankshaft",
+      "url": "https://en.wikipedia.org/wiki/Crankshaft"
+    },
+    {
+      "title": "Crankshaft deep rolling",
+      "url": "https://en.wikipedia.org/wiki/Crankshaft_deep_rolling"
+    },
+    {
+      "title": "Crankshaft position sensor",
+      "url": "https://en.wikipedia.org/wiki/Crankshaft_position_sensor"
+    },
+    {
+      "title": "Harmonic damper",
+      "url": "https://en.wikipedia.org/wiki/Harmonic_damper"
+    },
+    {
+      "title": "CRANKSHAFT ASSEMBLY, Howo Crankshaft, Truck Crankshaft, bent axle",
+      "url": "https://www.reddit.com/r/u_zlhowotruckparts/comments/el8ecf"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

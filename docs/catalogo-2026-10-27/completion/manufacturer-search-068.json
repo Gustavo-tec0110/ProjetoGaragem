@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "prisioneiros-motor",
+    "bronzinas",
+    "bomba-oleo",
+    "carter"
+  ],
+  "queries": [
+    {
+      "q": "\"engine head studs\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"engine bearing shell\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"oil pump\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"oil pan\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "oilpan.com | Quality Oil Pan Cores & Engine Accessories",
+      "url": "https://www.oilpan.com/"
+    },
+    {
+      "title": "RUIFAN | Oil Pan and Engine Parts Manufacturer",
+      "url": "https://www.zjruifan.com/"
+    },
+    {
+      "title": "Oil Pans, Valve Covers, High Performance Racing Products | Champ Pans",
+      "url": "https://www.champpans.com/"
+    },
+    {
+      "title": "Industras Dol",
+      "url": "https://www.idolz.com/wp-content/uploads/2024/10/EN-New-Dolz-Oil-Pumps.pdf"
+    },
+    {
+      "title": "14 ADS CATALOGUE ENGINE BEARING -SHELL.xls",
+      "url": "https://ads-driveline.com/wp-content/uploads/2023/03/ADS-CATALOGUE-ENGINE-BEARING.pdf"
+    },
+    {
+      "title": "Plastic oil pan for commercial",
+      "url": "https://elringklinger.es/fileadmin/data/pdf/06-newsroom/broschueren/anwendungen-fuer-nutzfahrzeuge/fact-sheets/fs_plastic-oil-pan-for-commercial-vehicle-applications_2022-06_mit_kopierschutz.pdf"
+    },
+    {
+      "title": "Oil pan Product List and Ranking from 7 Manufacturers, Suppliers and Companies | IPROS GMS",
+      "url": "https://mono.ipros.com/en/cg2/Oil%20pan/"
+    },
+    {
+      "title": "Home - Global Bearing Shells Solutions",
+      "url": "https://www.bearingshell.com/"
+    },
+    {
+      "title": "Oil Pump / Oil Pump Rotor | AISIN aftermarket",
+      "url": "https://aisinaftermarket.jp/en/products/oilpump/index.html"
+    },
+    {
+      "title": "Main Bearing Shell by HANSUNG - Komachine Supplier Profile and Product List",
+      "url": "https://www.komachine.com/companies/hansung-machine/products/123858-main-bearing-shell-marine-engine-bearing-%28man%29"
+    },
+    {
+      "title": "Oil Pump - Gear, Screw, Centrifuge Type | CHINA KEMAIIND",
+      "url": "https://www.kemaiind.com/products/pumps/oil-pump/"
+    },
+    {
+      "title": "Bearing shell, Wholesale Bearing shell Manufacturer & Supplier in China - SNEIK AUTOMOTIVE PARTS-CHINA CO.,LTD.",
+      "url": "https://www.sneikautopart.com/bearing-shell"
+    },
+    {
+      "title": "This Just In!",
+      "url": "https://crpautomotive.com/wp-content/uploads/2020/06/2020.06-THIS-JUST-IN_Rein-Asian-Oil-Pans_FINAL.pdf"
+    },
+    {
+      "title": "Oil Pans – Dorman Products - Aftermarket Auto Parts & OE Solutions",
+      "url": "https://www.dormanproducts.com/pages/products/oil-pans/index.aspx?origin=homebanner"
+    },
+    {
+      "title": "OIL PANS FOR",
+      "url": "https://www.werner-metzger.de/en/_files/ugd/bd6229_68ac5b0138d249e59e578c12f5aacba1.pdf"
+    },
+    {
+      "title": "PAI Heavy Duty Oil Pans",
+      "url": "https://cache.paiindustries.com/media/resourcelist/201907181102000.DSF-1189_PAI%20Oil%20Pan%20Flyer_Jan2018.pdf"
+    },
+    {
+      "title": "Marine Engine Bearing | HANSUNG",
+      "url": "https://www.hansungmc.com/Product/Marine-Engine-Bearing/"
+    },
+    {
+      "title": "271-4068: Engine Oil Pan | Cat® Parts Store",
+      "url": "https://parts.cat.com/en/catcorp/product/271-4068"
+    },
+    {
+      "title": "Introduce one of our oil pan products",
+      "url": "https://www.reddit.com/r/u_automobileparts/comments/jfubxq"
+    },
+    {
+      "title": "Oil pump (internal combustion engine)",
+      "url": "https://en.wikipedia.org/wiki/Oil_pump_%28internal_combustion_engine%29"
+    },
+    {
+      "title": "Oil pump",
+      "url": "https://en.wikipedia.org/wiki/Oil_pump"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-27",
+  "mode": "local-only",
+  "original": 79,
+  "total": 263,
+  "new": 184,
+  "categoriesBefore": 10,
+  "categoriesAfter": 10,
+  "selectableWithoutLegacyAliases": 261,
+  "approvedPhotos": 65,
+  "legacyPhotoSourcesPreserved": 17,
+  "legacyPhotoSourcesReplaced": 18,
+  "legacyImagesWithdrawn": 44,
+  "newItemsWithPhoto": 30,
+  "pendingPhotos": 198,
+  "byteIdenticalLegacyFilesPreserved": 0,
+  "normalizedWebpFiles": 64,
+  "totalImageBytes": 1182964,
+  "remoteWrites": 0,
+  "published": false
+}

@@ -1,0 +1,166 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "sensor-rotacao",
+    "sensor-fase",
+    "sensor-detonacao",
+    "sonda-lambda"
+  ],
+  "queries": [
+    {
+      "q": "\"crankshaft position sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"camshaft position sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"knock sensor\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"oxygen sensor\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "<visual_element id=\"e1\">",
+      "url": "https://www.hella.com/salesapp/production/14118/BI_Knock-Sensor_2026.pdf"
+    },
+    {
+      "title": "Oxygen Sensor | Product Information | Product Information | Electronics",
+      "url": "https://www.fujikura.co.jp/en/products/electronics/sensor/oxygensensormodule.html"
+    },
+    {
+      "title": "Oxygen Sensor Manufacturer | Winpower Technology",
+      "url": "https://winpowersensor.com/"
+    },
+    {
+      "title": "Camshaft position sensor",
+      "url": "https://www.bosch-mobility.com/en/solutions/sensors/camshaft-position-sensor/"
+    },
+    {
+      "title": "Knock Sensor",
+      "url": "https://www.boschaftermarket.com/xrm/media/images/country_specific/in/parts_11/gasoline_parts/pdf_50/gasoline_sensors_catalogue.pdf"
+    },
+    {
+      "title": "产品介绍Product Des",
+      "url": "https://www.kesens.com/en/upload/2025-06/175100111078787300.pdf"
+    },
+    {
+      "title": "Knock Sensor - Electromotive",
+      "url": "https://electromotive.com/our-products/knock-sensor/"
+    },
+    {
+      "title": "Knock Sensors | BWD",
+      "url": "https://www.bwdbrand.com/en/products/sensors/sensors/knock-sensors"
+    },
+    {
+      "title": "Sensors and Switches | Customer-Specific Solutions* | Sensors for Engine Management Systems* | Knock sensor",
+      "url": "https://vdo-webshop.nl/download_pdf/catalogi/algemeen/2011_vdo_vehicle_electronics_catalog_en.pdf"
+    },
+    {
+      "title": "Engine control - TPO camshaft position sensor - EFI AUTOMOTIVE",
+      "url": "https://www.efiautomotive.com/en/produits/controle-moteur-capteur-position-cames-tpo/"
+    },
+    {
+      "title": "Engine management",
+      "url": "https://www.bosch-mobility.com/media/global/solutions/commercial-vehicles/powertrain-solutions/natural-gas/knock-sensor/product_data_sheet_knock_sensor.pdf"
+    },
+    {
+      "title": "Knock Sensor - Sensor | Niterra Co., Ltd.",
+      "url": "https://www.niterragroup.com/english/product/sensors_plugs/knock.html"
+    },
+    {
+      "title": "KNOCK SENSOR",
+      "url": "https://herko.com/media/catalogs/EMISSION%20SENSORS%202015.pdf"
+    },
+    {
+      "title": "Crankshaft Position Sensor | MPI | Internal combustion engine | Business | Hyundai KEFICO",
+      "url": "https://www.hyundai-kefico.com/en/business/mpi/product.do?detailsKey=84"
+    },
+    {
+      "title": "Knock Sensor KS4-R | Bosch Motorsport",
+      "url": "https://www.bosch-motorsport.com/products/sensors/knock/knock-sensor-ks4-r/"
+    },
+    {
+      "title": "Knock Detective Gen 2 | FWLRtuning",
+      "url": "https://www.fwlrtuning.com/"
+    },
+    {
+      "title": "Knock Sensor (KNS) | Link ECU",
+      "url": "https://linkecu.com/products/knock-sensor-kns"
+    },
+    {
+      "title": "Knock Control - HEINZMANN GmbH & Co. KG",
+      "url": "https://www.heinzmann.com/en/products/knock-control-gas"
+    },
+    {
+      "title": "Oxygen sensor",
+      "url": "https://en.wikipedia.org/wiki/Oxygen_sensor"
+    },
+    {
+      "title": "Crankshaft position sensor",
+      "url": "https://en.wikipedia.org/wiki/Crankshaft_position_sensor"
+    },
+    {
+      "title": "Crankshaft position sensor",
+      "url": "https://www.reddit.com/r/e46/comments/1uoqzcr/crankshaft_position_sensor/"
+    },
+    {
+      "title": "Where to find knock sensors?",
+      "url": "https://www.reddit.com/r/ProjectHondas/comments/1uxk7wh/where_to_find_knock_sensors/"
+    },
+    {
+      "title": "I just ordered a knock sensor for my Subaru. Thanks Rock Auto",
+      "url": "https://www.reddit.com/r/AskMechanics/comments/16ptpoe"
+    },
+    {
+      "title": "Where / what to buy (P0327) knock sensor + harness.",
+      "url": "https://www.reddit.com/r/350z/comments/1ldbjdp"
+    },
+    {
+      "title": "What brands Camshaft Position Sensor have people had luck with?",
+      "url": "https://www.reddit.com/r/CherokeeXJ/comments/1sqtzv0/what_brands_camshaft_position_sensor_have_people/"
+    },
+    {
+      "title": "Potentiometric sensor",
+      "url": "https://en.wikipedia.org/wiki/Potentiometric_sensor"
+    },
+    {
+      "title": "Are these knock sensors or something else?",
+      "url": "https://www.reddit.com/r/CarTalkUK/comments/12jz98w"
+    },
+    {
+      "title": "Knock sensor 08 TL fake ?",
+      "url": "https://www.reddit.com/r/AcuraTL/comments/1j4i5xd"
+    },
+    {
+      "title": "Portable Oxygen-Sensing Device for the Improved Assessment of Compartment Syndrome and other Hypoxia-Related Conditions",
+      "url": "https://arxiv.org/abs/2207.03338"
+    },
+    {
+      "title": "Genuine OEM Saab 9-3 & 9-5 4 Cylinder Crankshaft Position Sensor - 55557326",
+      "url": "https://www.reddit.com/r/u_SaabUSAParts-/comments/x2nd3y"
+    },
+    {
+      "title": "Ordered a crank sensor…. Received something else?",
+      "url": "https://www.reddit.com/r/XTerra/comments/1qxydpa/ordered_a_crank_sensor_received_something_else/"
+    },
+    {
+      "title": "Knock Sensor, NTK or OEM?",
+      "url": "https://www.reddit.com/r/350z/comments/1b756bn"
+    },
+    {
+      "title": "I just launched an affordable Audio Knock Detection Gauge!",
+      "url": "https://www.reddit.com/r/ECU_Tuning/comments/14fdtb4/i_just_launched_an_affordable_audio_knock/"
+    },
+    {
+      "title": "Can anyone tell me the branding on this?",
+      "url": "https://www.reddit.com/r/mk6gti/comments/1uha2jv/can_anyone_tell_me_the_branding_on_this/"
+    },
+    {
+      "title": "Catalytic converter",
+      "url": "https://en.wikipedia.org/wiki/Catalytic_converter"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

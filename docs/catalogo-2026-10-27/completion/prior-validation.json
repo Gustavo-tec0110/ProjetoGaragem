@@ -1,0 +1,169 @@
+{
+  "date": "2026-10-27",
+  "mode": "local-only",
+  "productionWrites": 0,
+  "checks": {
+    "build": {
+      "command": "npm run build",
+      "result": "passed",
+      "bundler": "Turbopack",
+      "next": "16.3.3",
+      "includesFinalTypeScriptCheck": true
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "finalReleaseTypeScript": "passed inside next build"
+    },
+    "unit": {
+      "command": "npm run test:unit",
+      "passed": 36,
+      "failed": 0,
+      "catalogTestsIncluded": {
+        "passed": 6,
+        "scope": "263 component searches, aliases, reviewed primary source licenses, SHA-256, 512px WebP decoding, immutable preservation of the prior 38 approvals"
+      }
+    },
+    "sql": {
+      "command": "npm run test:sql",
+      "result": "passed",
+      "imageSecurityFixtureChecks": 68,
+      "backendChecks": 107,
+      "bootstrapMigrations": 45,
+      "catalogMigration": {
+        "originalRows": 79,
+        "finalRows": 263,
+        "categories": 10,
+        "result": "passed",
+        "additionalFinalCommand": "node scripts/test-catalog-migration.mjs",
+        "checks": [
+          "all original UUIDs/slugs and project references retained",
+          "owner attaches new component using its persisted UUID",
+          "another user cannot insert/update that project reference",
+          "custom names/descriptions/photos/cost/compatibility and inactive slug conflicts retained",
+          "idempotent including updated_at",
+          "atomic category preflight",
+          "RLS, ACL and categories unchanged",
+          "anonymous reads and denied catalog writes"
+        ]
+      }
+    },
+    "browser": {
+      "command": "PLAYWRIGHT_BASE_URL=http://127.0.0.1:3100 npx playwright test tests/e2e/catalog-expansion.spec.ts tests/e2e/modification-photos.spec.ts tests/e2e/project-modifications.spec.ts --workers=1",
+      "server": "local production build; test-harness flags enabled only locally",
+      "passed": 16,
+      "failed": 0,
+      "consoleAndHydrationErrors": 0,
+      "viewports": {
+        "desktop": {
+          "width": 1280,
+          "height": 720
+        },
+        "mobile": {
+          "width": 393,
+          "height": 727
+        }
+      },
+      "scope": [
+        "new component search/selection and combined filters",
+        "legacy alias visible and editable",
+        "40 initial options, explicit expansion to 80",
+        "dialog portal above navigation and inside viewport",
+        "all 61 distinct approved image URLs and Next.js 96px WebP variants return 200",
+        "visible images decoded",
+        "photo cancellation/replacement/failure cleanup",
+        "read-only integration with an existing published project"
+      ]
+    },
+    "photographs": {
+      "approved": 62,
+      "uniqueFiles": 61,
+      "format": "webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 1144792,
+      "proportions": "contain, no cropping or stretching, maximum 480px content plus padding",
+      "sha256Verified": 61,
+      "individualLicenseEvidenceFiles": 61,
+      "licenseVerifiedOn": "2026-10-27",
+      "credits": "public/modifications/photo-credits.html",
+      "unreferencedNewWebpFiles": 0,
+      "visualInspection": "Prior 38 approvals preserved; new candidate contact sheets and selected originals reviewed; all 23 new normalized photographs inspected in two durable sheets. Browser verifies 61 distinct assets and optimized variants.",
+      "approvedBindings": 62,
+      "previouslyApprovedPreserved": 38,
+      "newDistinctPhotographs": 23,
+      "newlyCoveredBindings": 24,
+      "pendingBindings": 201,
+      "providersAdded": {
+        "Flickr": 22,
+        "Wikimedia Commons": 1
+      },
+      "licenseEvidenceNote": "61 distinct approved source records in license-evidence.json; four new CTS Turbo sources use Public Domain Mark 1.0, recorded separately from CC0."
+    },
+    "lintChangedFiles": {
+      "command": "npx eslint scripts/catalog/build-catalog.mjs scripts/test-catalog-migration.mjs tests/unit/catalog-expansion.test.mjs tests/e2e/catalog-expansion.spec.ts src/components/projects/catalog-picker.tsx src/components/projects/project-modifications.tsx src/lib/modifications/catalog-assets.ts src/lib/modifications/catalog-search.ts src/lib/modifications/server.ts src/lib/modifications/types.ts src/app/test-harness/catalog/page.tsx playwright.config.ts",
+      "errors": 0,
+      "warnings": 0,
+      "result": "passed"
+    },
+    "lintGlobal": {
+      "command": "npx eslint . --format=json",
+      "result": "failed on preexisting research scripts",
+      "errors": 39,
+      "files": [
+        {
+          "file": "artifacts/catalog-images-2026-10-26/activate-catalog-images.mjs",
+          "errors": 17
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/rollback-catalog-images.mjs",
+          "errors": 9
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/stage-approved.mjs",
+          "errors": 9
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/version-static-assets.mjs",
+          "errors": 4
+        }
+      ],
+      "resolution": "Preexisting scripts were preserved; no global lint exceptions added."
+    },
+    "diffWhitespace": {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    "generatorIdempotence": {
+      "command": "node scripts/catalog/build-catalog.mjs",
+      "result": "passed",
+      "comparison": "No changes to generated manifest, audit, summary, public credits or SQL migration after repeat run."
+    }
+  },
+  "limitations": [
+    "Photographic coverage remains partial: 201 records lack an approved image (45 original, 156 new).",
+    "The previous 38 approvals are unchanged, including some installation/workbench contexts. New approvals predominantly use white/neutral backgrounds; RCA cables and some VIBE images retain neutral tabletop/fabric surfaces.",
+    "Production migration, publication and push were not executed.",
+    "Authenticated writes to shared Supabase/Storage were not exercised. Persistence/ownership checks use disposable PostgreSQL/WASM fixtures; browser uploads use mocks.",
+    "Research includes failed requests and blocked downloads; candidate entry counts contain duplicates and irrelevant images and do not represent exhaustive visual inspection. See followup/research.json and followup/summary.json.",
+    "39 preexisting global lint errors remain in four untouched scripts under artifacts/catalog-images-2026-10-26."
+  ],
+  "artifacts": {
+    "report": "README.md",
+    "inventory": "inventory.csv",
+    "pending": "pending-images.csv",
+    "baseline": "baseline.json",
+    "audit": "audit.json",
+    "licenses": "license-evidence.json",
+    "desktop": "catalogo-desktop-chromium.png",
+    "mobile": "catalogo-mobile-chromium.png",
+    "migration": "supabase/migrations/20261027120000_expand_modification_catalog.sql",
+    "followupReport": "followup/README.md",
+    "followupSources": "followup/source-evidence.json",
+    "preserved38": "followup/preserved-38.json",
+    "localLogs": "artifacts/catalog-photo-followup-2026-10-27"
+  },
+  "round": "licensed-photos-followup-2026-10-27",
+  "pushed": false,
+  "published": false
+}

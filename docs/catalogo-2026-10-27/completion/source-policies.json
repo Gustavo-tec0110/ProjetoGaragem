@@ -1,0 +1,97 @@
+[
+  {
+    "provider": "Holley",
+    "page": "https://www.holley.com/terms/",
+    "status": "permission-required",
+    "basis": "O acordo de licença do site não concede reutilização comercial geral das imagens. Acesso pelo navegador de pesquisa confirmado; coleta HTTP local recebeu 403.",
+    "nextAction": "Obter autorização escrita por fotografia para catálogo público, redimensionamento e WebP."
+  },
+  {
+    "provider": "Wilwood",
+    "page": "https://www.wilwood.com/About/TermsOfUse",
+    "status": "permission-required",
+    "basis": "Os termos exigem autorização expressa por escrito para reprodução/exploração do conteúdo do serviço.",
+    "nextAction": "Solicitar pacote autorizado de fotografias de componentes e autorização de uso no Projeto Garagem."
+  },
+  {
+    "provider": "Bosch",
+    "page": "https://www.bosch.com/legal-notice/",
+    "status": "permission-required",
+    "basis": "O aviso legal reserva direitos sobre imagens e declara que o site não concede licença. A permissão da página Bosch Global não é uma licença para todo o catálogo Bosch Mobility.",
+    "nextAction": "Confirmar o titular e obter autorização específica para as imagens do sensor/peça desejado."
+  },
+  {
+    "provider": "Pioneer",
+    "page": "https://global.pioneer/en/terms/",
+    "status": "permission-required",
+    "basis": "Uso privado é distinto da reprodução autorizada; o conteúdo do site requer autorização do titular para outros usos.",
+    "nextAction": "Solicitar fotografias de produto licenciadas para o catálogo; não copiar arquivos de lojas ou manuais."
+  },
+  {
+    "provider": "SparkFun",
+    "page": "https://news.sparkfun.com/735",
+    "status": "noncommercial-restriction",
+    "basis": "A licença anunciada para imagens é CC BY-NC-SA 3.0; não tratada como autorização para este catálogo com uso comercial.",
+    "nextAction": "Autorização comercial específica ou outra fonte licenciada."
+  },
+  {
+    "provider": "VIBE Audio",
+    "page": "https://www.flickr.com/photos/vibeaudio/",
+    "status": "per-file-verification-required",
+    "basis": "O portfólio tem licenças diferentes por arquivo. A licença CC BY 2.0 de uma imagem não autoriza as demais ou imagens do manual.",
+    "nextAction": "Usar somente arquivo individual confirmado; arquivos All Rights Reserved continuam bloqueados."
+  },
+  {
+    "provider": "Flickr",
+    "page": "https://www.flickr.com/creativecommons/",
+    "status": "per-file-verification-required",
+    "basis": "A busca é apenas descoberta. A licença final é conferida na ficha individual e não inferida do filtro.",
+    "nextAction": "Conferir ID/nome/URL da licença, autor e original de cada selecionada."
+  },
+  {
+    "provider": "PxHere",
+    "page": "https://pxhere.com/en/license",
+    "status": "per-file-verification-required",
+    "basis": "CC0 do serviço foi consultado; continua necessária correspondência visual, autoria/proveniência e ficha da imagem. Muitos resultados são irrelevantes.",
+    "nextAction": "Só aprovar fotografias reais, adequadas e verificáveis por arquivo."
+  },
+  {
+    "provider": "Creative Commons BY-ND",
+    "page": "https://creativecommons.org/licenses/by-nd/4.0/legalcode.en",
+    "status": "research-only-until-individual-approval",
+    "basis": "A pesquisa também inclui versões BY-ND que admitem uso comercial e modificações técnicas. Não há autorização para adaptações criativas. Nenhuma aprovação é inferida apenas desse tipo de licença.",
+    "nextAction": "Se houver candidato adequado, verificar termos exatos e preservar imagem integral, sem recorte, remoção de fundo ou alterações criativas."
+  },
+  {
+    "provider": "Schaeffler",
+    "page": "https://www.schaeffler.us/us/news_media/media_library/press_media/?tab=mediathek-pic",
+    "status": "editorial-only",
+    "basis": "A biblioteca permite fins editoriais com crédito e proíbe publicidade/outros usos comerciais; edição exige aprovação.",
+    "nextAction": "Solicitar autorização específica para uso da fotografia no catálogo público do Projeto Garagem.",
+    "verifiedOn": "2026-10-27"
+  },
+  {
+    "provider": "Würth",
+    "page": "https://news.wuerth.com/media-library/",
+    "status": "editorial-only",
+    "basis": "O newsroom permite somente fins editoriais e proíbe uso comercial/publicitário; crédito não elimina essa restrição.",
+    "nextAction": "Obter autorização comercial por arquivo antes de incorporar imagens.",
+    "verifiedOn": "2026-10-27"
+  },
+  {
+    "provider": "GKN Automotive",
+    "page": "https://www.gknautomotive.com/en/news-and-media/latest-news-and-insights/2022/face-spline-joint-technology-by-gkn-automotive/",
+    "status": "press-purposes-only",
+    "basis": "A permissão desta nota se limita a fins de imprensa; não demonstra autorização geral para fotografia de produto em catálogo comercial.",
+    "nextAction": "Solicitar autorização do titular para os arquivos desejados de juntas/semieixos; verificar imagem real por arquivo.",
+    "verifiedOn": "2026-10-27"
+  },
+  {
+    "provider": "Dürr",
+    "page": "https://www.durr.com/en/media/images-movies",
+    "status": "editorial-only",
+    "basis": "A página permite reportagem editorial e exclui publicidade/marketing/comércio; outros usos ou modificações requerem autorização prévia.",
+    "nextAction": "Não aproveitar imagens desse banco editorial como licença comercial para peças do catálogo.",
+    "verifiedOn": "2026-10-27"
+  }
+]

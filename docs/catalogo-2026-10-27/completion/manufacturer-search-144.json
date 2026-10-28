@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "console-central",
+    "apoio-braco",
+    "extintor-automotivo",
+    "rede-seguranca"
+  ],
+  "queries": [
+    {
+      "q": "\"car center console\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car armrest\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car fire extinguisher\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"racing window net\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Sortimo Datenblatt",
+      "url": "https://www.mysortimo.com/en/Accessories/Original-Accessories/First-aid-and-safety/Car-fire-extinguisher-6-kg-incl-holder/p/000000000080713070/showFile?file=Datenblatt_000000000080713070_Fire+extinguisher%2C+6+kg+SOLO_en.pdf"
+    },
+    {
+      "title": "C A T A L O G U E / 2 0 2 4 / E N G L I S H",
+      "url": "https://nieuwe-stijl.speedwear.be/wp-content/uploads/2024/01/Sparco%20Cataloog%20Official%202024%20Speedwear.pdf"
+    },
+    {
+      "title": "Eco-Neut Neutral Eco-Wet Car Fire Extinguisher (3L)",
+      "url": "https://www.cheng-deh.com/product/CarFireExtinguisher"
+    },
+    {
+      "title": "WORLDWID",
+      "url": "https://race.parts/files//65067aba-851f-4f7c-bbf4-ae1300c23671/Raceparts%202022%20web%20version.pdf"
+    },
+    {
+      "title": "Racing Window Nets | Simpson Race Products",
+      "url": "https://www.simpsonraceproducts.com/products/window_nets/"
+    },
+    {
+      "title": "Fire Extinguisher Manufacturers, Car Fire Extinguisher Factory",
+      "url": "https://www.newideafire.com/product/fire-extinguishers/"
+    },
+    {
+      "title": "600g Car Fire Extinguisher - Filled with ABC Powder > Vigil Products",
+      "url": "https://vigilproducts.com/fire-extinguishers/dry-powder-fire-extinguishers/600g-car-fire-extinguisher"
+    },
+    {
+      "title": "3P Car Fire Extinguisher",
+      "url": "https://www.cheng-deh.com/product/3PCarFireExtinguisher"
+    },
+    {
+      "title": "Racequip Window Net - Racequip",
+      "url": "https://racequip.usabrandsmart.com/racequip-window-net/"
+    },
+    {
+      "title": "--- | ---",
+      "url": "https://racingwarehouse.com/1/pdf/PreciseRacingCatalog2012.pdf"
+    },
+    {
+      "title": "Car Armrest Manufacturer Canada | Windsor Machine Group",
+      "url": "https://os2.windsormachine.com/products/armrest/1"
+    },
+    {
+      "title": "Racing Car Window Nets | Behrents.com",
+      "url": "https://behrents.com/shop/window-nets.asp"
+    },
+    {
+      "title": "Car Fire Extinguisher - Portable Car Fire Extinguisher Trader - Wholesaler / Distributor from New Delhi",
+      "url": "https://www.varshafireengineers.in/car-fire-extinguisher.html"
+    },
+    {
+      "title": "Racing Window Nets | Automotive Safety Equipment",
+      "url": "https://www.daymotorsports.com/shop-by/safety-gear/window-nets"
+    },
+    {
+      "title": "OMP Racing Window Net",
+      "url": "https://store.drivenasa.com/products/omp-nylon-window-safety-net-fia-approved"
+    },
+    {
+      "title": "Home & Car fire extinguisher",
+      "url": "https://www.cnfirefighting.com/js/41384/Fire-Extinguisher-Catalogue.pdf"
+    },
+    {
+      "title": "Car Fire Extinguisher - Car Extinguisher Prices, Manufacturers & Suppliers",
+      "url": "https://www.tradeindia.com/manufacturers/car-fire-extinguisher.html"
+    },
+    {
+      "title": "Professional Armrest Solutions",
+      "url": "https://armrest-systems.com/wp-content/uploads/2019/01/product-data-sheet-ml285.pdf"
+    },
+    {
+      "title": "Fire and Safety Systems - Van fire extinguisher",
+      "url": "https://www.reddit.com/r/u_fireandsystemsuk/comments/124mq1e"
+    },
+    {
+      "title": "Fire and Safety Systems, Provides the Best Foam Fire Extinguisher",
+      "url": "https://www.reddit.com/r/u_fireandsystemsuk/comments/zaex25"
+    },
+    {
+      "title": "Armrest",
+      "url": "https://en.wikipedia.org/wiki/Armrest"
+    },
+    {
+      "title": "Reupload, is this center console armrest stock or aftermarket?",
+      "url": "https://www.reddit.com/r/MiataNC/comments/1rz6h0k/reupload_is_this_center_console_armrest_stock_or/"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

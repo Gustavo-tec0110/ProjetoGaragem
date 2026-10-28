@@ -1,0 +1,78 @@
+[
+  {
+    "url": "https://www.holley.com/terms/",
+    "verifiedOn": "2026-10-27",
+    "error": "403 Client Error: Forbidden for url: https://www.holley.com/terms/"
+  },
+  {
+    "url": "https://www.wilwood.com/About/TermsOfUse",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "f84e676e2ce0fc77d8718cfd56e90cf9c87b4bff4aedf442ce07402233ef8234",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-3222082bffa09420.txt"
+  },
+  {
+    "url": "https://www.bosch.com/legal-notice/",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "95184b7f0e43c2587f9414cb755a0dff8ee96fd6cee3026a90ddbeca7b4f3501",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-4d5a447931a66f40.txt"
+  },
+  {
+    "url": "https://global.pioneer/en/terms/",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "705d30bc0bc32087f65c2ac77a4ed4586d79804bc6a626bbc9de726dde64eedb",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-6b18ac18833bb82f.txt"
+  },
+  {
+    "url": "https://news.sparkfun.com/735",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "8af7f1fab2fbece056fe808049700168c983ad87ac0cc382b489dee043ece24a",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-1698c6b06d97477f.txt"
+  },
+  {
+    "url": "https://www.hella.com/online-services/en/General-Terms-and-Conditions-49.html",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "b20a32a215a5fab70d6db6080a9e24c16c21a28d67cf2703f7eea250bfa5eda2",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-a1bb9e9f842f4a59.txt"
+  },
+  {
+    "url": "https://www.flickr.com/creativecommons/",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "90e4c869f5493d6bf1ab2bc3b9193d6fffd036e5b28c0375eca843982f06415e",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-49a69d6becccc184.txt"
+  },
+  {
+    "url": "https://pxhere.com/en/license",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "4756e32a8310439d0e513d274e65c79c1a8a8f9da74fbfa60c07ba1b688b3a4e",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-50dbb83be1f5c5f2.txt"
+  },
+  {
+    "url": "https://www.pexels.com/license/",
+    "verifiedOn": "2026-10-27",
+    "error": "403 Client Error: Forbidden for url: https://www.pexels.com/license/"
+  },
+  {
+    "url": "https://unsplash.com/license",
+    "verifiedOn": "2026-10-27",
+    "status": 200,
+    "responseSha256": "231f07a5ea680836840b73aee747bc10d59dacf19f31f75d6e599ca571719c26",
+    "textFile": "artifacts/catalog-photo-completion-2026-10-27/raw/policy-899758642339c8f4.txt"
+  },
+  {
+    "url": "https://pixabay.com/service/license-summary/",
+    "verifiedOn": "2026-10-27",
+    "error": "403 Client Error: Forbidden for url: https://pixabay.com/service/license-summary/"
+  },
+  {
+    "url": "https://www.publicdomainpictures.net/en/license.php",
+    "verifiedOn": "2026-10-27",
+    "error": "403 Client Error: Forbidden for url: https://www.publicdomainpictures.net/en/license.php"
+  }
+]

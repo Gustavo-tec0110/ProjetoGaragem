@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "radiador-oleo-cambio",
+    "flange-adaptadora-cambio",
+    "cinta-carda",
+    "cubo-volante"
+  ],
+  "queries": [
+    {
+      "q": "\"transmission oil cooler\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"transmission adapter plate\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"driveshaft loop\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"steering wheel hub\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "TRANSMISSION OIL COOLER",
+      "url": "https://teile.com/pdf/teilecom_en_TRANSMISSION-OIL-COOLER_9963070158A.pdf"
+    },
+    {
+      "title": "SENSOR",
+      "url": "https://ogh.onegene.com/en/product/12"
+    },
+    {
+      "title": "Transmission Oil",
+      "url": "https://www.dana.com/globalassets/resource-library/light-vehicle/spec-sheets/spec-sheet-transmission-oil-coolers-1-en.pdf"
+    },
+    {
+      "title": "Transmission Oil Cooler",
+      "url": "https://www.kongsbergautomotive.com/products-services/passenger-cars/fluid-transfer/oil-and-coolant-hoses/transmission-oil-cooler/"
+    },
+    {
+      "title": "TRANSMISSION OIL COOLERS & KITS",
+      "url": "https://www.exactfrance.com/pdf-cata/PWR-Catalogue-2017.pdf"
+    },
+    {
+      "title": "Driveshaft Safety Loops - JEGS High Performance",
+      "url": "https://www.jegs.com/c/transmission-drivetrain/driveshafts-yokes/driveshaft-safety-loops"
+    },
+    {
+      "title": "Steering Wheel Hub | Valeo",
+      "url": "https://www.valeo.com/en/steering-wheel-hub/"
+    },
+    {
+      "title": "Driveshaft Loop Bolt-In, G Body | Trick Chassis",
+      "url": "https://trickchassis.com/product/driveshaft-loop/"
+    },
+    {
+      "title": "Technical Service Bulletin",
+      "url": "https://static.oemdtc.com/TSB/MC-10162337-9999.pdf"
+    },
+    {
+      "title": "Custom steering wheel hub | Paruzzi",
+      "url": "https://www.paruzzi.com/en/custom-steering-wheel-hub/2740"
+    },
+    {
+      "title": "Driveshaft Loops and Ovals - Chassis Accessories - Drag Race",
+      "url": "https://www.cachassisworks.com/c-151-driveshaft-loops-and-ovals.html"
+    },
+    {
+      "title": "Transmission Adapter Plate | Bellhousing Conversion",
+      "url": "https://transmissionadapters.com/collections/adapter-plates"
+    },
+    {
+      "title": "Drivetrain - Drive Shafts and Components - Drive Shaft Safety Loops - Page 1 - Allgaier Performance",
+      "url": "https://allgaierperformance.com/drivetrain/drive-shafts-and-components/drive-shaft-safety-loops/"
+    },
+    {
+      "title": "Silverado & Sierra Driveshaft Safety Loop 2000-2018 (2wd & 4wd) Satin – Suspension Engineering",
+      "url": "https://suspension-engineering.com/products/suspension-engineering-silverado-sierra-driveshaft-safety-loop-2000-2018-2wd-4wd-satin-black"
+    },
+    {
+      "title": "Installation  instructions",
+      "url": "https://persaker.se/produktfiler/0060.pdf"
+    },
+    {
+      "title": "Transmission Adapter",
+      "url": "https://www.zuksoffroadcanada.ca/Transmission-Adapter_p_994.html"
+    },
+    {
+      "title": "1JZ 2JZ engine to 300ZX/350Z/370Z transmission Adapter Plate – MMS FAB",
+      "url": "https://mmsfab.com/products/jz-to-350z-adapter-plate"
+    },
+    {
+      "title": "Steering Control Units",
+      "url": "https://d347awuzx0kdse.cloudfront.net/hyspecs/product-download/211-1001-002.pdf?v=6a9b20b3858816d46e27e1ceae649e331a73471a"
+    },
+    {
+      "title": "Seeking Real User Experiences with Transmission Oil Coolers: Share Your Insights!",
+      "url": "https://www.reddit.com/r/GXOR/comments/19adcvk"
+    },
+    {
+      "title": "Transmission oil cooler complete!",
+      "url": "https://www.reddit.com/r/ToyotaTundra/comments/1mni177/transmission_oil_cooler_complete/"
+    },
+    {
+      "title": "Transmission oil cooler - Does it do anything?",
+      "url": "https://www.reddit.com/r/Supra/comments/1xgtebl/transmission_oil_cooler_does_it_do_anything/"
+    },
+    {
+      "title": "Steering wheel",
+      "url": "https://en.wikipedia.org/wiki/Steering_wheel"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,387 @@
+{
+  "crossover": {
+    "source": {
+      "title": "Flickr:9516723638 — BlackDeath 6C",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+      "original": "https://live.staticflickr.com/5477/9516723638_9eb9f3c713_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackDeath 2013",
+      "restrictions": ""
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/vibeaudio/9516723638/",
+      "sourcePageSha256": "6b593ae83e32165a759cb691bfadcaa655f5fdbbc0658f6f2c2c34bf3faaf288",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "VIBE Audio",
+      "providerLicenseId": "4",
+      "providerLicenseName": "CC BY 2.0",
+      "sourceDimensions": [
+        5184,
+        3456
+      ],
+      "sourceSha256": "a79a51f52b8ccbec005c16f53f838b963818e3df2bdd598aa3b6ee018c7f9293"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/flickr-9516723638.jpg",
+    "inputSha256": "a79a51f52b8ccbec005c16f53f838b963818e3df2bdd598aa3b6ee018c7f9293",
+    "dimensions": [
+      5184,
+      3456
+    ]
+  },
+  "reles": {
+    "source": {
+      "title": "File:Avarrele.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Avarrele.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Avarrele.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 800,
+      "height": 378,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Avar",
+      "description": "Реле",
+      "provider": "Wikimedia Commons",
+      "restrictions": "",
+      "inputRepresentation": "licensed cached preview, without enlargement",
+      "previewUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Avarrele.jpg/500px-Avarrele.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "attribution": "A conversão usa a versão licenciada em cache de 500 px, sem ampliação; o download posterior do original retornou HTTP 403."
+    },
+    "evidence": {
+      "DateTime": {
+        "value": "2010-03-05 09:37:03",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Avarrele",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "GFDL|License migration redundant|Self-published work|Automobile relays|Socket relays",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Реле",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Avar&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Avar (page does not exist)\">Avar</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 3.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 3.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-3.0",
+        "source": "commons-templates",
+        "hidden": ""
+      },
+      "verifiedOn": {
+        "value": "2026-10-27"
+      },
+      "metadataCache": {
+        "value": "artifacts/catalog-photo-completion-2026-10-27/commons-candidates.json"
+      },
+      "sourceSha256": "1c0f777643b8827e488421804e52fdebd294a51f255c89ca7ed347dd6113bd0f"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/commons-9654257.jpg",
+    "inputSha256": "1c0f777643b8827e488421804e52fdebd294a51f255c89ca7ed347dd6113bd0f",
+    "dimensions": [
+      500,
+      236
+    ]
+  },
+  "manopla": {
+    "source": {
+      "title": "File:Dragon Ball Z Shift Knob.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Dragon_Ball_Z_Shift_Knob.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 500,
+      "height": 500,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Theflameless",
+      "description": "Dragon Ball Z Shift Knob",
+      "provider": "Wikimedia Commons",
+      "restrictions": "",
+      "inputRepresentation": "licensed cached preview, without enlargement",
+      "previewUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dragon_Ball_Z_Shift_Knob.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "attribution": "A conversão usa a versão licenciada em cache de 500 px, sem ampliação; o download posterior do original retornou HTTP 403."
+    },
+    "evidence": {
+      "DateTime": {
+        "value": "2016-03-31 12:44:41",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Dragon Ball Z Shift Knob",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Gear sticks|Self-published work|Dragon Balls",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Dragon Ball Z Shift Knob",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2016-03-12",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Theflameless&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Theflameless (page does not exist)\">Theflameless</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      },
+      "verifiedOn": {
+        "value": "2026-10-27"
+      },
+      "metadataCache": {
+        "value": "artifacts/catalog-photo-followup-2026-10-27/parts-preview-index.json"
+      },
+      "sourceSha256": "c2ba6f7128be99fce5cffd510c048c40ec2d62d0b779f5494ed013ac8bba295f"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/commons-47890097.jpg",
+    "inputSha256": "c2ba6f7128be99fce5cffd510c048c40ec2d62d0b779f5494ed013ac8bba295f",
+    "dimensions": [
+      500,
+      500
+    ]
+  },
+  "camber-alinhamento": {
+    "source": {
+      "title": "Flickr:18233241310 — cp-e36-g(4)",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/jestermx6/18233241310/",
+      "original": "https://live.staticflickr.com/7735/18233241310_e99f515859_o.jpg",
+      "width": 674,
+      "height": 380,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "George",
+      "description": "2015.05.31 - ebay camber plates",
+      "restrictions": ""
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/jestermx6/18233241310/",
+      "sourcePageSha256": "001600b6a05a73ae2051f3f3cb90befdaf8c445d4dbdadc5542af4746c9fa2db",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "George",
+      "providerLicenseId": "4",
+      "providerLicenseName": "CC BY 2.0",
+      "sourceDimensions": [
+        674,
+        380
+      ],
+      "sourceSha256": "fff02574a14c994ecf7b0f7323ca346c7623d7341e2ec28ba5df49b45cd9a8bf"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/flickr-18233241310.jpg",
+    "inputSha256": "fff02574a14c994ecf7b0f7323ca346c7623d7341e2ec28ba5df49b45cd9a8bf",
+    "dimensions": [
+      674,
+      380
+    ]
+  },
+  "polia-comando": {
+    "source": {
+      "title": "Flickr:6776604261 — skunk2 camshaft gears",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+      "original": "https://live.staticflickr.com/7151/6776604261_5d6bcc98c9_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY-ND 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-nd/2.0/",
+      "author": "Garry dr",
+      "description": "skunk2 camshaft gears",
+      "restrictions": "",
+      "technicalChangesOnly": true
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY-ND 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-nd/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/70241679@N07/6776604261/",
+      "sourcePageSha256": "399471ed4845095f2341d58c25f2cb03287376cc1b98768ca687152673f9523d",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "Garry dr",
+      "providerLicenseId": "6",
+      "providerLicenseName": "CC BY-ND 2.0",
+      "sourceDimensions": [
+        5184,
+        3456
+      ],
+      "sourceSha256": "51886fab6b8fe32afbd47f206bda4e76f362ac9d032a8c8f790264356b528e36"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/flickr-6776604261.jpg",
+    "inputSha256": "51886fab6b8fe32afbd47f206bda4e76f362ac9d032a8c8f790264356b528e36",
+    "dimensions": [
+      5184,
+      3456
+    ]
+  },
+  "farois-auxiliares": {
+    "source": {
+      "title": "Flickr:30638970666 — Fog Light By Alang7™",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/alang7/30638970666/",
+      "original": "https://live.staticflickr.com/5689/30638970666_8b56d00d20_k.jpg",
+      "width": 1920,
+      "height": 1080,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Alang7™",
+      "description": "<a href=\"https://sellfy.com/p/ubSO/\" rel=\"noreferrer nofollow\">sellfy.com/p/ubSO/</a>\n",
+      "restrictions": ""
+    },
+    "evidence": {
+      "LicenseShortName": {
+        "value": "CC BY 2.0"
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0/"
+      },
+      "Restrictions": {
+        "value": ""
+      },
+      "sourcePage": "https://www.flickr.com/photos/alang7/30638970666/",
+      "sourcePageSha256": "1fa5466bc3bfea0aa82a907b79f29801af6c773c6805a591852363fc23408b4e",
+      "provider": "Flickr",
+      "verifiedOn": "2026-10-27",
+      "author": "Alang7™",
+      "providerLicenseId": "4",
+      "providerLicenseName": "CC BY 2.0",
+      "sourceDimensions": [
+        1920,
+        1080
+      ],
+      "sourceSha256": "6ab3caa229bbdf57cd7bec6a0d859a676d71778c8961388cd886375bae054719"
+    },
+    "file": "artifacts/catalog-photo-completion-2026-10-27/candidates/flickr-30638970666.jpg",
+    "inputSha256": "6ab3caa229bbdf57cd7bec6a0d859a676d71778c8961388cd886375bae054719",
+    "dimensions": [
+      1920,
+      1080
+    ]
+  }
+}

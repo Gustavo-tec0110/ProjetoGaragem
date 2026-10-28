@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "kit-carter-seco",
+    "radiador-oleo",
+    "bomba-agua",
+    "ventoinha"
+  ],
+  "queries": [
+    {
+      "q": "\"dry sump\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"engine oil cooler\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car water pump\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"radiator fan\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "RCD Engineering > Product",
+      "url": "https://rcdengineering.com/product/dry-sump-pumps"
+    },
+    {
+      "title": "High Q",
+      "url": "https://www.hella.com/forvia-us/assets/documents/BI_Thermal_Management_Radiator_Fans_2026.pdf"
+    },
+    {
+      "title": "Trusted Oil Cooler& Intercooler Manufacturer - motorprocooling.com",
+      "url": "https://motorprocooling.com/"
+    },
+    {
+      "title": "ENGINE OIL COOLER",
+      "url": "https://www.hella.com/press/assets/media_global/Product_line_brochure_for_agricultural_and_construction_machinery_from_Behr_Hella_Service.pdf"
+    },
+    {
+      "title": "copertine_catalogo2021_ERAblu",
+      "url": "https://www.eraspares.com/wp-content/uploads/2022/08/Catalogo_istituzionale_ventole_raffreddamento_motore_EN.pdf"
+    },
+    {
+      "title": "Radiator Fan Assemblies",
+      "url": "https://www.viscofans.com/wp-content/uploads/viscofans-catalogue-august-2021.pdf"
+    },
+    {
+      "title": "E",
+      "url": "https://exhibitorsearch.messefrankfurt.com/images/original/document_downloads/10000007202401/316629/1724664922784_1087214992.pdf"
+    },
+    {
+      "title": "RADIATOR FAN-Changzhou Douyuan Auto Electrical Appliance Manufacturing Co., Ltd.",
+      "url": "https://en.chinadoowon.com/product_1/968191699102556160.html"
+    },
+    {
+      "title": "Armstrong Race Engineering",
+      "url": "https://drysump.com/"
+    },
+    {
+      "title": "MR RADIATOR FAN CATALOGUE",
+      "url": "https://misterradiator.com/wp-content/uploads/2021/03/MR-RADIATOR-FAN-catalogue-WITH-pictures.pdf"
+    },
+    {
+      "title": "Car Water Pumps - SP Water Pumps",
+      "url": "https://spwaterpumps.co.uk/car/"
+    },
+    {
+      "title": "Plastic Radiator Fans Manufacturer in Maharashtra | DS Auto",
+      "url": "https://www.radiatorfan.co.in/"
+    },
+    {
+      "title": "RIDEX 469O0062 engine oil cooler – EAN 4064138007214 | Official Manufacturer",
+      "url": "https://en.ridex.eu/product/15215523"
+    },
+    {
+      "title": "Radiator fans - NRF",
+      "url": "https://www.nrf.eu/product/radiator-fans/"
+    },
+    {
+      "title": "Water pumps for car water cooler | Valeo Service",
+      "url": "https://www.valeoservice.com/en-com/passenger-car/cooling-system-air-management-technologies/car-water-pumps"
+    },
+    {
+      "title": "Oil Cooler - FOCUSON ENGINE",
+      "url": "https://www.focusonengine.com/product/engine-cooling-system-components/oil-cooler/"
+    },
+    {
+      "title": "Home - BRD DRY SUMP",
+      "url": "https://brddrysump.com/"
+    },
+    {
+      "title": "A/C FAN ASSY｜Taiwan Auto Parts Manufacturer | CHIN LANG",
+      "url": "https://www.chinlang.com/en-US/p765-a-c-fan-assy"
+    },
+    {
+      "title": "Dry sump",
+      "url": "https://en.wikipedia.org/wiki/Dry_sump"
+    },
+    {
+      "title": "Cárter seco",
+      "url": "https://es.wikipedia.org/wiki/C%C3%A1rter_seco"
+    },
+    {
+      "title": "Advanced Engine Research",
+      "url": "https://en.wikipedia.org/wiki/Advanced_Engine_Research"
+    },
+    {
+      "title": "Radiator Fan Model",
+      "url": "https://www.reddit.com/r/CarParts/comments/1bz8wre"
+    },
+    {
+      "title": "Radiator (engine cooling)",
+      "url": "https://en.wikipedia.org/wiki/Radiator_%28engine_cooling%29"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,94 @@
+
+> projeto-garagem@0.1.0 build
+> next build
+
+▲ Next.js 16.3.3 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 140ms
+- Experiments (use with caution):
+  · proxyClientMaxBodySize: "6mb"
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.9s
+  Running TypeScript ...
+  Finished TypeScript in 27.4s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/39) ...
+  Generating static pages using 3 workers (9/39) 
+  Generating static pages using 3 workers (19/39) 
+  Generating static pages using 3 workers (29/39) 
+✓ Generating static pages using 3 workers (39/39) in 2.3s
+  Finalizing page optimization ...
+
+Route (app)                               Revalidate  Expire
+┌ ○ /                                             1m      1y
+├ ○ /_not-found
+├ ƒ /api/auth/session
+├ ƒ /api/catalog/[id]/offers
+├ ƒ /api/media/project/[...path]
+├ ƒ /api/notifications/unread-count
+├ ƒ /api/og/[slug]
+├ ƒ /api/projects/[id]/update
+├ ƒ /api/projects/create
+├ ƒ /api/projects/search-suggestions
+├ ƒ /api/projetos/criar
+├ ƒ /api/uploads/image
+├ ○ /apple-icon.png
+├ ○ /atualizacoes                                 1m      1y
+├ ○ /auth/auth-code-error
+├ ƒ /auth/callback
+├ ƒ /builds/[id]
+├ ○ /builds/new
+├ ƒ /buscar
+├ ƒ /carros/[slug]
+├ ƒ /carros/[slug]/editar
+├ ○ /carros/novo
+├ ƒ /comparar
+├ ○ /comunidade
+├ ○ /criar-projeto
+├ ○ /dashboard
+├ ƒ /dev-skeletons/[name]
+├ ƒ /explorar
+├ ○ /explore
+├ ○ /forgot-password
+├ ƒ /garagem
+├ ○ /icon.png
+├ ○ /icon1.png
+├ ○ /icon2.png
+├ ○ /icon3.png
+├ ○ /icon4.png
+├ ○ /kits
+├ ○ /login
+├ ○ /manifest.webmanifest
+├ ○ /montar
+├ ƒ /notificacoes
+├ ○ /onboarding
+├ ○ /parcerias/criadores
+├ ○ /perfil
+├ ƒ /perfil/[handle]
+├ ○ /privacy
+├ ƒ /profile/[username]
+├ ƒ /projeto/[slug]
+├ ƒ /projeto/[slug]/editar
+├ ƒ /projeto/[slug]/evolucao
+├ ƒ /projeto/[slug]/modificacoes
+├ ○ /projetos
+├ ƒ /rankings
+├ ○ /register
+├ ○ /reset-password
+├ ○ /robots.txt
+├ ○ /sitemap.xml
+├ ○ /terms
+├ ƒ /test-harness/catalog
+├ ƒ /test-harness/catalog-details
+├ ƒ /test-harness/catalog-details/stress
+├ ƒ /test-harness/modification-photos
+├ ƒ /test-harness/profile-image-editor
+└ ƒ /test-harness/project-overview
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

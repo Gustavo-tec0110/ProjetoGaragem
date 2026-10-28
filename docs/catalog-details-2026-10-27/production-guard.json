@@ -1,0 +1,14 @@
+{
+  "mode": "local-production-server",
+  "demoFlag": "1",
+  "detailsStatus": 404,
+  "stressStatus": 404,
+  "offers": {
+    "offers": [],
+    "demonstration": false,
+    "unavailable": true
+  },
+  "approvedAssetStatus": 200,
+  "result": "passed",
+  "remoteWrites": 0
+}

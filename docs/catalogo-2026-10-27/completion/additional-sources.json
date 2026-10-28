@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-27",
+  "probes": [
+    {
+      "provider": "Openverse",
+      "page": "https://api.openverse.org/v1/",
+      "result": "Official API documentation consulted; image query timed out after 15 seconds. No image approved or availability conclusion inferred."
+    },
+    {
+      "provider": "Unsplash",
+      "result": "Public search request returned HTTP 401; no authentication bypass, no photograph incorporated."
+    },
+    {
+      "provider": "Commons categories",
+      "plannedCategories": 94,
+      "attemptedCategories": 42,
+      "responsesWithoutError": 10,
+      "errors": 32,
+      "licensedCandidateEntries": 47,
+      "result": "Stopped after HTTP 429; remaining categories were not executed. Other providers were researched; no repeated calls to circumvent the limit."
+    },
+    {
+      "provider": "Flickr photographer/manufacturer profiles",
+      "licensedCandidateEntries": 710,
+      "result": "Additional portfolio discovery; title/license does not establish visual adequacy or ownership. Candidate previews screened selectively."
+    }
+  ]
+}

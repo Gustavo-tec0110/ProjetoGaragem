@@ -1,0 +1,327 @@
+{
+  "date": "2026-10-27",
+  "queues": [
+    {
+      "queue": "Flickr",
+      "entries": 426,
+      "scope": "Contact sheets screened, not full-size or license approval of every entry",
+      "sheets": [
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-001.jpg",
+          "sha256": "a83ff7c9ab4e40fa25c1e1085e709408aab91a5ccd5b252a7fc8668569738a2b"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-002.jpg",
+          "sha256": "0e97edc568eedc4518bf9725b104c0a5c84d80c3fcfc2ce30667ceb016ac5a42"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-003.jpg",
+          "sha256": "d62628e9d7714a11a3724fcec97e381c59203a39772f3c0648fc297de2ba4f13"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-004.jpg",
+          "sha256": "b6bfb823f64d3087c32880348a29cf561545cc42077d7dc4b7d3903960b7b853"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-005.jpg",
+          "sha256": "0f71c57b312905d8ec24f1dd8ebc18cd4581565fbe46957d8494c1cf47cf0dc3"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-006.jpg",
+          "sha256": "4dbd44baf4546f7734858961ca1d0877b0c80103f5355e39580492c4dc8abdf4"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-007.jpg",
+          "sha256": "6919da8255f2126e3c29eedfeb77912dfc277432f5f35965d73105d14688329d"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-008.jpg",
+          "sha256": "c5b387e096a7f82ed00dd33020e0a7be1c2daaeaa01f60f313b0a8bd575efb76"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-009.jpg",
+          "sha256": "b2d21eb8b9d29d36dbcb48696724317e5f6b84cc20b0e071f188a98f79e1a20a"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-010.jpg",
+          "sha256": "69287243c132835aec0f103f1ad4e4726e2abe120692fc2d72234c6ddce0f8d6"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-011.jpg",
+          "sha256": "71ab74ec3cbe62ef71f13a77b64b31421775ff979c7c469f9ca701131a270be6"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-012.jpg",
+          "sha256": "d26ca1f14de5ca04b402a72db6ccdbfa3ac070b67612e43453016f915c257f7c"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-013.jpg",
+          "sha256": "6d7b347e775f6283f67634da2e837c6d25900ffc840efbd1e3b3bac3ce18f66d"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-014.jpg",
+          "sha256": "14fb6a8171b273c3e0e16819081019bca4f6067a9a842f0cf0570f14e2d33965"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-015.jpg",
+          "sha256": "b4510e5f8d7475cd31c395fc0e28f4ceab48226e27f63f86ac0cd1990eaab396"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-016.jpg",
+          "sha256": "064e35f7db5286d2436ce8b6c82f4d1a271c8db6ba5c955daee29c9d12d7fb76"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-017.jpg",
+          "sha256": "d26fc2980086fd6d64ae71fafd0b7de5d26a338fba321adf80bcd7a52374e0d3"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/flickr-018.jpg",
+          "sha256": "42d7620391bda1bf101e3eb9207f72057602e41a6c2891242eb2675ca73e0b8c"
+        }
+      ]
+    },
+    {
+      "queue": "PxHere",
+      "entries": 204,
+      "scope": "Contact sheets screened, not full-size or license approval of every entry",
+      "sheets": [
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-001.jpg",
+          "sha256": "ea0971a31ac75b6c4c1a6a48d77b30138972542f4d5fe746b3dfe1399f887b4a"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-002.jpg",
+          "sha256": "24e05a8ef523d7cb250df01796ef793de9e6c0e7586e53540d4105eb3004e76e"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-003.jpg",
+          "sha256": "8d466009948d223a7b4e78467d056e6629ac231508c38737622766683f1c50fa"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-004.jpg",
+          "sha256": "1c8c11b5d46c01ea3dd5e5ac07791ce8c08b8f3a1f011bb12269d8842bf21353"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-005.jpg",
+          "sha256": "4dec75e4e10ca220cf237c6153a316b044be2b4367c8660eb85386fac9eaece2"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-006.jpg",
+          "sha256": "587cd6962ea91d169a87bc01a13d2a5e7b0b652ad914e3f971e58ef1d71f82c5"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-007.jpg",
+          "sha256": "394a3f4108a525308c42683b13f71ff2b7d54751f94e4b196375dc4ac566d971"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-008.jpg",
+          "sha256": "ddfe4ad2df8daa9b057684b19b12726b7147e6da3a1e332630ede8548d873761"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/pxhere-009.jpg",
+          "sha256": "2f93be1ed95ec8051136766aae79f29b50eeefdaa5f8597caf48831bbbc41c43"
+        }
+      ]
+    },
+    {
+      "queue": "Flickr portfolios",
+      "entries": 698,
+      "scope": "Contact sheets screened, not full-size or license approval of every entry",
+      "sheets": [
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-01.jpg",
+          "sha256": "35ab7c62dd73833659ff2dc5f1ac597135451476eeff1103ac6ac2ce66638802"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-02.jpg",
+          "sha256": "5f77ea00331271316649342b0b8dc1a5face3733c3d4e5d6f7781ba923f7857d"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-03.jpg",
+          "sha256": "476c65eb5c9e6f3d3359d1fb341874bfe3a4222d60c49ca9926684097b6f695b"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-04.jpg",
+          "sha256": "7c22ca68d7640f895d97072a1f8ac2f0aeae612c3dfea364453374b7c8fe911e"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-05.jpg",
+          "sha256": "6e46078d6a137704c4c5204caab4bd58141ee0541c5338603816a39dc82f2ae1"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-06.jpg",
+          "sha256": "2c0582b2da79f7d181aaf1d8b647d17507612d59477bea76f2f6c9fb62145fd2"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-07.jpg",
+          "sha256": "32f9ecb7b543440c9edb219858e33eb5d79a3a68e9ee9fd98a8901d9453a4b91"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-08.jpg",
+          "sha256": "fc13b34bc7962b091e2bff3cf0d9326dbde6252eae7514d57d9a3a62bf59c445"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-09.jpg",
+          "sha256": "5aba82212722fada9e73587d12ba793d29ca8188d8e1bb192821867ed5d062df"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-10.jpg",
+          "sha256": "c946a6b6ef5269322a72893bb24c432e19f0a281d21e4c4a560cac63801ac2ad"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-11.jpg",
+          "sha256": "e3f40c2485fb927ca4e15e8bc27ee06e51d232a9c0204ab3fd278755c62df68f"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-12.jpg",
+          "sha256": "0f4d18f2e994fb2c7c4c29a70e8195d5acd84ce778a1e3a01deb522f44f7a811"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-13.jpg",
+          "sha256": "3b20b5a23e6635e10f6ef65df55765c63521c3d5a93b3f39634f3e21b51b6562"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-14.jpg",
+          "sha256": "723cba92f8bd40cfe7fc75495523c50b7b7f3290f5fa66f2665b57c2980c1b0f"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-15.jpg",
+          "sha256": "d42f41ae5021cdc817cf64707880a9b6c669ba65e5c2b848ffbdd4161e7741f7"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-16.jpg",
+          "sha256": "9337d62dbe4d97b2c73d0380d091639e3aa4e38015b6d9983d9169b8f5b3fd53"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-17.jpg",
+          "sha256": "079ab550180f45ec8fdc3c34a06b62ca7d8b11ae0422c8d933045970234cccd8"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-18.jpg",
+          "sha256": "cb3e0b00e7eb83f76bb752dc5a43b9c51abd2492a077e1b08009ff93ff9da744"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-19.jpg",
+          "sha256": "6a882f4515095bcd5be1f323be33154668d972a0855f77b0b04506c465b14c53"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-20.jpg",
+          "sha256": "67b6f9f7567961da7bb21a581987c72bad82312e1b604fa7fa1fda28281ecbc9"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-21.jpg",
+          "sha256": "212bf1cd271a25f4c5a65ec2df2a71e78da8d4283da55ad4d35dc13fec9ceee9"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-22.jpg",
+          "sha256": "ecefb884f697a3da8c17d581b7cd264f15fcf04cf5a7d7b0e644ee1bcd090186"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-23.jpg",
+          "sha256": "b10d404900965bf3e3d1d23227666e980ee04e938411329138ec8f6b9f68b9a0"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/profiles-24.jpg",
+          "sha256": "6a19e33f8f604ae5502ecdb2ba6db13fe379110824c0acb5ba7e3bf20fba9b32"
+        }
+      ]
+    },
+    {
+      "queue": "Prior neutral candidates",
+      "entries": 419,
+      "scope": "Contact sheets screened, not full-size or license approval of every entry",
+      "sheets": [
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-01.jpg",
+          "sha256": "708b6623d23f77ec4edb28a31ecad321190e6fac0ad3ef99a17a142fd51ea9fc"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-02.jpg",
+          "sha256": "8eb95f6d2469e9b574606926a4a7302641e829656c5967517e24358a70e02c92"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-03.jpg",
+          "sha256": "30406617b184f5e0e49af92b051d49263f67e88d5a7b6c8ada11973c33942bb5"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-04.jpg",
+          "sha256": "bf9259a5a9fb7277fca626e5256314ee0e65cdee2184943f07aa472e4d1d4961"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-05.jpg",
+          "sha256": "d023373c84bf5f54cfc53c2ed55c8633437c4dcc24d5900367f9db89bf3dbe9d"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-06.jpg",
+          "sha256": "f6b440ea9c50c5255fda0165e0f89f01ffaeaf5c1ce94d720c3c019279c841a5"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-07.jpg",
+          "sha256": "1646f56e6534847c7fd2675d1c5c11b814a3e28632f4818ed035bd3270c14fa1"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-08.jpg",
+          "sha256": "abf4be50df13e20cd7a7d8957b8346a9e4df99e7fea6cc0686be974d7b7204c9"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-09.jpg",
+          "sha256": "58966150d14f951c4a09a3deeba462244ed29029646ec9453b370007374b43a2"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-10.jpg",
+          "sha256": "f11c45ccd79cc65a22eacf9267ef0ab07fccea99c860f92e8288e9eed4b9f288"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-11.jpg",
+          "sha256": "0340456426ba69faafec908b2ea4d9c968fd7b826a8a4f599a423d547939789b"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-12.jpg",
+          "sha256": "b0a8eabaa915eb594ee0df5132a68d969dff329064b71ba126f5b40545e7ee96"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-13.jpg",
+          "sha256": "c602663c28a006e3f5f30d0bbded226b53c22cf5ddb969a193b4780bdb94b126"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-14.jpg",
+          "sha256": "21bce427a70f0923eba26cab3dc86ac0bb57a7de21056c93c6d80a81599184aa"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-15.jpg",
+          "sha256": "7e3ab2af3186ea1a211e5643b46a0a469bb27315eca214a5becd94ced5f54145"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-16.jpg",
+          "sha256": "c7ae4b8958fa6571c8b155aebec644dbfac53e1c7a2f2bf56a9fa832ddf5a26f"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-17.jpg",
+          "sha256": "34b0ebd2f6f98a49154ed576b771d4c61d5e56fbfc4fed03847052313b0ce1f8"
+        },
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/prior-18.jpg",
+          "sha256": "04680f3799cd15b67164ee19f826cdf7da39e10411e626eca9b43f0d55e93ca3"
+        }
+      ]
+    },
+    {
+      "queue": "Commons categories",
+      "entries": 6,
+      "scope": "Contact sheets screened, not full-size or license approval of every entry",
+      "sheets": [
+        {
+          "path": "artifacts/catalog-photo-completion-2026-10-27/sheets/commons-001.jpg",
+          "sha256": "b9612b1fc73c4e422b6aaba8f538da2bdb600609d0522c247cd2f6922a0bdde1"
+        }
+      ]
+    }
+  ],
+  "acceptedFullImages": [
+    "crossover",
+    "manopla",
+    "polia-comando"
+  ],
+  "finalOutputSheet": "new-photos.jpg",
+  "note": "Queues overlap and include irrelevant material. No exhaustive full-size inspection of all search results is claimed. Every newly applied image was individually reviewed."
+}

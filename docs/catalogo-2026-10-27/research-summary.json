@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-27",
+  "originalItemsIndividuallyInspected": 79,
+  "plannedItemsReviewed": 263,
+  "primaryCandidateCellsInspected": 413,
+  "targetedCandidateCellsInspected": 417,
+  "sources": "Wikimedia Commons individual file pages and primary manufacturer catalogs linked in README.md",
+  "constraints": [
+    "Initial public API searches were rate limited (HTTP 429); subsequent research used cached evidence, article metadata and slower title searches.",
+    "Searches returning unrelated non-automotive subjects were rejected.",
+    "No paid photographs were purchased, no manufacturer photos copied without permission, and no AI photographs substituted.",
+    "No claim that no usable photograph exists outside the reviewed sources."
+  ],
+  "remoteWrites": 0,
+  "targetedQueriesAttempted": 204,
+  "targetedQueriesSucceeded": 190,
+  "targetedQueryErrors": {
+    "mangotes-silicone": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "linha-lubrificacao-turbo": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "modulo-ignicao": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "defletor-radiador": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "compressor-suspensao": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "reservatorio-ar": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "batentes-suspensao": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "cilindro-mestre-embreagem": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "atuador-embreagem": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "canards": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "bagageiro-teto": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "modulo-distribuicao": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "sensor-temperatura": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}",
+    "manta-acustica": "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.', '*': 'See https://commons.wikimedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}"
+  }
+}

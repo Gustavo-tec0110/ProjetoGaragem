@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-27",
+  "mode": "local-only",
+  "target": 263,
+  "initialApprovedBindings": 62,
+  "preservedApprovals": 62,
+  "newApprovedBindings": 3,
+  "approvedBindings": 65,
+  "pendingBindings": 198,
+  "uniqueFiles": 64,
+  "coveragePercent": 24.71,
+  "plannedComponentSearches": 1809,
+  "componentSearchResultFiles": 1809,
+  "notExecutedTasks": 0,
+  "providerSearches": {
+    "Flickr": {
+      "queriesWithResultFile": 1608,
+      "responsesWithoutError": 1007,
+      "errors": 601,
+      "candidateEntries": 8578
+    },
+    "PxHere": {
+      "queriesWithResultFile": 201,
+      "responsesWithoutError": 181,
+      "errors": 20,
+      "candidateEntries": 4264
+    }
+  },
+  "manufacturerDiscoveryQueries": 201,
+  "uniqueCandidateEntries": 7958,
+  "snapshot62Sha256": "1a8d33f20bd558cfcb74bd3385f5dbeb1baf04624807d43357b84451d9fc5af3",
+  "productionWrites": 0,
+  "pushed": false,
+  "published": false,
+  "complete": false,
+  "note": "A resposta HTTP, o número de candidatos e as consultas não são aprovações. Falhas e modelos de busca indisponíveis não são tratados como resultados vazios comprovados; a pesquisa não prova inexistência mundial de imagens licenciáveis."
+}

@@ -1,3 +1,4 @@
+import type { CatalogOfferRow } from "./modifications/offers";
 import type { SocialLinks } from "@/lib/profile/social-links";
 
 type Json =
@@ -441,6 +442,10 @@ export interface Database {
           sort_order?: number;
           is_active?: boolean;
         }
+      >;
+      modification_offers: Table<
+        CatalogOfferRow,
+        Omit<CatalogOfferRow, "id" | "created_at" | "updated_at"> & { id?: string; created_at?: string; updated_at?: string }
       >;
       modification_catalog: Table<
         ModificationCatalogRow,

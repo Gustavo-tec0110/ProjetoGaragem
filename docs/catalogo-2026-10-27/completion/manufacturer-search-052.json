@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "manta-termica-turbo",
+    "linha-lubrificacao-turbo",
+    "cornetas-admissao",
+    "filtro-combustivel"
+  ],
+  "queries": [
+    {
+      "q": "\"turbo blanket\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"turbo oil line\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"velocity stack\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"fuel filter\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "TURBO ACCESSORIES",
+      "url": "https://media.bddiesel.com/web/downloads/bd_product_catalog.pdf"
+    },
+    {
+      "title": "Turbomotiv T3 Turbo Blanket | Turbomotiv",
+      "url": "https://www.turbomotiv.com/product/turbomotiv-t3-turbo-blanket/"
+    },
+    {
+      "title": "Velocity Stack brochure-V8",
+      "url": "https://assets.ctfassets.net/bjl3f17nyta4/22ebF9iRz9duARJ5atuOb9/d3cff3635c3f93ecee05a33801384cd3/Velocity_Stack_brochure-V8.pdf"
+    },
+    {
+      "title": "Turbo Blanket",
+      "url": "https://badger5.co.uk/mqb/turbo-blanket-fmtubl1"
+    },
+    {
+      "title": "Turbo Blanket – K-Tuned",
+      "url": "https://k-tuned.com/products/turbo-blanket"
+    },
+    {
+      "title": "New product - VR Velocity stack - 1999-2013 Silverado 1500 & Sierra 1500 - GM-Trucks.com",
+      "url": "https://www.gm-trucks.com/forums/topic/22091-new-product-vr-velocity-stack/"
+    },
+    {
+      "title": "BOOST products heat protection blankets deliver the best quality at the best price.",
+      "url": "https://turbozentrum.co.uk/media/pdf/TurboZentrumUK-Catalog-2019.pdf"
+    },
+    {
+      "title": "Products | PTP Turbo Blankets",
+      "url": "https://www.ptpturboblankets.com/pages/products"
+    },
+    {
+      "title": "Thermal Zero - Heat Insulation Products",
+      "url": "https://www.thermalzero.com/home4/"
+    },
+    {
+      "title": "<visual_element id=\"e1\">",
+      "url": "https://www.hella.com/forvia-us/assets/documents/BI_Fuel_Filters_2026.pdf"
+    },
+    {
+      "title": "VELOCITY STACK",
+      "url": "https://www.neofactory.co.jp/img/pdf/2023_FEULING_e-catalogs_M8.pdf"
+    },
+    {
+      "title": "Turbo Blanket | Fire Sleeve - Great Pack Materials",
+      "url": "https://www.gwh-firesleeve.com/product/turbo-blanket/"
+    },
+    {
+      "title": "Installation Instructions",
+      "url": "https://www.proflow.com.au/assets/brochures/PFEOSFDTBO.pdf"
+    },
+    {
+      "title": "Turbo Blanket – Pittsburgh Power",
+      "url": "https://pittsburghpower.com/products/turbo-blanket"
+    },
+    {
+      "title": "PTP T3 Turbo Blanket - Black (FPRO35-008-02) | PTP Turbo Blankets",
+      "url": "https://www.ptpturboblankets.com/products/ptp-t3-turbo-blanket-black"
+    },
+    {
+      "title": "Rev9Power: Turbo Oil Line Kit (For Oil Cooled Turbos Only)",
+      "url": "https://rev9power.com/turbo-oil-line-kit-for-oil-cooled-turbos-only.html"
+    },
+    {
+      "title": "TPP Turbo Blanket - 7.3 Powerstroke (1994.5-2003) – KC Turbos",
+      "url": "https://kcturbos.com/products/tpp-turbo-blanket-7-3-powerstroke-1994-5-2003"
+    },
+    {
+      "title": "Velocity Stacks With Flanges",
+      "url": "https://www.pjmotorsports.com/velocity-stacks-with-flanges.html"
+    },
+    {
+      "title": "Velocity stack",
+      "url": "https://en.wikipedia.org/wiki/Velocity_stack"
+    },
+    {
+      "title": "My new budget Velocity stack option. I designed and produce these from my house, so price is able to be much cheaper. A friend overseas has tested them against other top options and they are on par, or better than other much more expensive options, and they are what he chooses for his race team.",
+      "url": "https://www.reddit.com/r/Ninja400/comments/q2xf51/my_new_budget_velocity_stack_option_i_designed/"
+    },
+    {
+      "title": "Fuel filter",
+      "url": "https://en.wikipedia.org/wiki/Fuel_filter"
+    },
+    {
+      "title": "Turbo Blanket",
+      "url": "https://www.reddit.com/r/FocusRS/comments/1g1flp3"
+    },
+    {
+      "title": "Turbo blanket install complete ‼️",
+      "url": "https://www.reddit.com/r/dodgehornet/comments/1vgr1ru/turbo_blanket_install_complete/"
+    },
+    {
+      "title": "Thoughts on Turbo Blanket",
+      "url": "https://www.reddit.com/r/ElantraN/comments/1dvltwi"
+    },
+    {
+      "title": "Motorcraft",
+      "url": "https://en.wikipedia.org/wiki/Motorcraft"
+    },
+    {
+      "title": "Ebay Turbo Blankets Good?",
+      "url": "https://www.reddit.com/r/ProjectHondas/comments/1e020r9"
+    },
+    {
+      "title": "So I put a turbo blanket on",
+      "url": "https://www.reddit.com/r/VelosterN/comments/fin39q"
+    },
+    {
+      "title": "Anyone have any recommednations on current fuel filter manufacturers?",
+      "url": "https://www.reddit.com/r/Diesel/comments/1eus5nj"
+    },
+    {
+      "title": "Turbo Blanket whoop whooooop!",
+      "url": "https://www.reddit.com/r/ElantraN/comments/16i7ne8"
+    },
+    {
+      "title": "Turbo blanket investigation",
+      "url": "https://www.reddit.com/r/wrx_vb/comments/1s755n7/turbo_blanket_investigation/"
+    },
+    {
+      "title": "To Turbo Blanket or Not?",
+      "url": "https://www.reddit.com/r/GolfGTI/comments/1rhf4ac/to_turbo_blanket_or_not/"
+    },
+    {
+      "title": "Turbo Blanket Q's",
+      "url": "https://www.reddit.com/r/ElantraN/comments/16dfovr"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

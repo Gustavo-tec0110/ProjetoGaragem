@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import {
   Camera,
@@ -23,6 +24,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CatalogDetails } from "@/components/projects/catalog-details";
+import { CatalogPicker } from "@/components/projects/catalog-picker";
+import { ProjectImage } from "@/components/projects/project-image";
 import { cn } from "@/lib/utils";
 import type {
   ModificationCatalogItem,
@@ -91,98 +95,21 @@ function ModificationImage({
   const isProjectPhoto = Boolean(item.project_photo_url);
   const image = item.project_photo_url ?? item.catalog.default_image_path;
   return (
-    <div className={cn("relative overflow-hidden rounded-2xl border border-border/70 bg-background/45", className)}>
+    <div className={cn("relative overflow-hidden rounded-2xl border border-border/70", isProjectPhoto ? "bg-background/45" : "bg-[#f5f5f5]", className)}>
       {image ? (
-        // Catalog assets are static files; project photos are already normalized by the secure upload route.
-        <img src={image} alt={item.catalog.name} className={cn("size-full", isProjectPhoto ? "object-cover" : "object-contain p-2")} />
+        <ProjectImage src={image} alt={item.catalog.name} fill sizes="(min-width: 1280px) 370px, (min-width: 640px) calc((100vw - 96px) / 2), calc(100vw - 58px)" fallbackSrc="/modifications/photo-unavailable.svg" className={isProjectPhoto ? "object-cover" : "object-contain p-2"} />
       ) : (
-        <div className="flex size-full items-center justify-center bg-gradient-to-br from-accent/15 via-surface to-background">
-          <Wrench className="size-9 text-accent/80" aria-hidden="true" />
+        <div className="flex size-full items-center justify-center bg-[#f5f5f5]">
+          <Wrench className="size-9 text-neutral-400" aria-hidden="true" />
         </div>
       )}
       <span
         className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/85 px-2 py-1 text-[10px] font-semibold text-foreground shadow-sm"
-        title={isProjectPhoto ? "Foto do projeto" : "Imagem ilustrativa"}
+        title={isProjectPhoto ? "Foto do projeto" : image ? "Imagem ilustrativa" : "Foto em revisão"}
       >
         {isProjectPhoto ? <Camera className="size-3" aria-hidden="true" /> : <Sparkles className="size-3" aria-hidden="true" />}
-        {isProjectPhoto ? "Foto do projeto" : "Imagem ilustrativa"}
+        {isProjectPhoto ? "Foto do projeto" : image ? "Imagem ilustrativa" : "Foto em revisão"}
       </span>
-    </div>
-  );
-}
-
-function CatalogPicker({
-  categories,
-  catalog,
-  selectedId,
-  onSelect,
-}: {
-  categories: ModificationCategoryRow[];
-  catalog: ModificationCatalogItem[];
-  selectedId: string;
-  onSelect: (id: string) => void;
-}) {
-  const [categoryId, setCategoryId] = React.useState<string>("");
-  const categoryScope = React.useMemo(() => {
-    if (!categoryId) return null;
-    const ids = new Set([categoryId]);
-    let changed = true;
-    while (changed) {
-      changed = false;
-      for (const category of categories) {
-        if (category.parent_id && ids.has(category.parent_id) && !ids.has(category.id)) {
-          ids.add(category.id);
-          changed = true;
-        }
-      }
-    }
-    return ids;
-  }, [categories, categoryId]);
-  const filtered = categoryScope ? catalog.filter((item) => categoryScope.has(item.category_id)) : catalog;
-
-  return (
-    <div className="grid gap-4 lg:grid-cols-[12rem_minmax(0,1fr)]">
-      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:block lg:space-y-1 lg:overflow-visible lg:px-0">
-        <button
-          type="button"
-          onClick={() => setCategoryId("")}
-          className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors", !categoryId ? "bg-accent text-white" : "bg-surface text-muted hover:text-foreground")}
-        >
-          Todas
-        </button>
-        {categories.filter((category) => !category.parent_id).map((category) => (
-          <button
-            type="button"
-            key={category.id}
-            onClick={() => setCategoryId(category.id)}
-            className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors", categoryId === category.id ? "bg-accent text-white" : "bg-surface text-muted hover:text-foreground")}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-      <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
-        {filtered.map((item) => (
-          <button
-            type="button"
-            key={item.id}
-            onClick={() => onSelect(item.id)}
-            className={cn(
-              "flex min-h-20 items-center gap-3 rounded-2xl border p-3 text-left transition-colors",
-              selectedId === item.id ? "border-accent bg-accent/10" : "border-border/70 bg-background/35 hover:border-foreground/25"
-            )}
-          >
-            <div className="size-11 shrink-0 overflow-hidden rounded-xl bg-surface">
-              {item.default_image_path ? <img src={item.default_image_path} alt="" className="size-full object-contain p-1" /> : <Wrench className="m-3 size-5 text-accent" aria-hidden="true" />}
-            </div>
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold">{item.name}</span>
-              <span className="block truncate text-xs text-muted">{item.category.name}</span>
-            </span>
-          </button>
-        ))}
-        {!filtered.length ? <p className="p-4 text-sm text-muted">Nenhum item nesta categoria.</p> : null}
-      </div>
     </div>
   );
 }
@@ -195,6 +122,7 @@ function ModificationEditor({
   draft,
   pending,
   uploading,
+  notice,
   onClose,
   onChange,
   onSave,
@@ -207,6 +135,7 @@ function ModificationEditor({
   draft: Draft;
   pending: boolean;
   uploading: boolean;
+  notice: string | null;
   onClose: () => void;
   onChange: (draft: Draft) => void;
   onSave: () => void;
@@ -216,12 +145,15 @@ function ModificationEditor({
   const selected = catalog.find((item) => item.id === draft.catalogId);
   const submittingDisabled = pending || uploading || !draft.catalogId;
   return (
-    <div className="fixed inset-0 z-50 flex items-end bg-black/65 p-0 backdrop-blur-sm sm:items-center sm:justify-center sm:p-6" role="dialog" aria-modal="true" aria-label={editing ? "Editar modificação" : "Adicionar modificação"}>
-      <Card className="max-h-[92vh] w-full overflow-y-auto rounded-b-none p-4 sm:max-w-3xl sm:rounded-2xl sm:p-6">
+    <Dialog.Root open={open} onOpenChange={(nextOpen) => { if (!nextOpen && !pending) onClose(); }}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[85] bg-black/65 backdrop-blur-sm" />
+        <Dialog.Content aria-describedby={undefined} onInteractOutside={(event) => event.preventDefault()} className="fixed inset-x-0 bottom-0 z-[86] max-h-[92dvh] overflow-y-auto overscroll-contain outline-none sm:inset-0 sm:m-auto sm:h-fit sm:max-w-3xl">
+      <Card className="w-full rounded-b-none p-4 sm:rounded-2xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Catálogo de modificações</p>
-            <h2 className="mt-1 font-title text-2xl tracking-tight">{editing ? "Editar modificação" : "Adicionar modificação"}</h2>
+            <Dialog.Title asChild><h2 className="mt-1 font-title text-2xl tracking-tight">{editing ? "Editar modificação" : "Adicionar modificação"}</h2></Dialog.Title>
           </div>
           <Button type="button" variant="ghost" size="icon" onClick={onClose} disabled={pending} aria-label="Fechar">
             <X className="size-5" />
@@ -315,6 +247,7 @@ function ModificationEditor({
           </div>
         </div>
 
+        {notice ? <div role="status" className="mt-5 rounded-xl border border-border/70 bg-surface/65 px-4 py-3 text-sm">{notice}</div> : null}
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button type="button" variant="ghost" onClick={onClose} disabled={pending}>Cancelar</Button>
           <Button type="button" onClick={onSave} disabled={submittingDisabled}>
@@ -323,7 +256,9 @@ function ModificationEditor({
           </Button>
         </div>
       </Card>
-    </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
@@ -456,7 +391,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
         {canEdit ? <Button onClick={startNew}><Plus className="size-4" /> Adicionar modificação</Button> : null}
       </div>
 
-      {notice ? <div role="status" className="mt-5 rounded-xl border border-border/70 bg-surface/65 px-4 py-3 text-sm">{notice}</div> : null}
+      {notice && !open ? <div role="status" className="mt-5 rounded-xl border border-border/70 bg-surface/65 px-4 py-3 text-sm">{notice}</div> : null}
       {!carId ? <Card className="mt-8 p-6 text-sm text-muted">As modificações estarão disponíveis quando este projeto estiver salvo no banco.</Card> : null}
       {carId && !catalog.length ? <Card className="mt-8 p-6 text-sm text-muted">O catálogo ainda não está disponível. Aplique a migration do catálogo para começar.</Card> : null}
       {carId && catalog.length && !modifications.length ? (
@@ -472,7 +407,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
         {modifications.map((modification) => {
           const estimate = formatEstimate(modification.catalog);
           return <Card key={modification.id} className="flex min-h-0 flex-col p-3">
-            <ModificationImage item={modification} className="aspect-[16/10]" />
+            <CatalogDetails item={modification.catalog}><button type="button" aria-label={`Ver detalhes de ${modification.catalog.name}`} className="pg-interactive-card block w-full rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-accent"><ModificationImage item={modification} className={modification.project_photo_url ? "aspect-[16/10]" : "aspect-square"} /></button></CatalogDetails>
             <div className="flex flex-1 flex-col px-1 pb-1 pt-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -488,6 +423,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
                 {estimate ? <span className="text-muted">Estimativa do catálogo: {estimate}</span> : null}
                 {!estimate && modification.paid_amount === null ? <span className="text-muted">Valor não informado</span> : null}
               </div>
+              <CatalogDetails item={modification.catalog}><button type="button" className="pg-text-action mt-3 min-h-11 self-start rounded-md text-sm font-semibold text-muted underline underline-offset-4 hover:text-foreground focus-visible:outline-2 focus-visible:outline-accent" aria-label={`Detalhes de ${modification.catalog.name}`}>Conhecer componente</button></CatalogDetails>
               {canEdit ? <div className="mt-4 flex gap-2">
                 <Button type="button" variant="outline" size="sm" className="flex-1" onClick={() => startEdit(modification)}><Pencil className="size-3.5" /> Editar</Button>
                 <Button type="button" variant="ghost" size="sm" onClick={() => remove(modification)} disabled={pending} aria-label={`Excluir ${modification.catalog.name}`}><Trash2 className="size-4 text-danger" /></Button>
@@ -506,6 +442,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
         draft={draft}
         pending={pending}
         uploading={uploading}
+        notice={notice}
         onClose={() => { if (!pending) { editorGeneration.current += 1; changeDraft(emptyDraft()); setUploading(false); setOpen(false); } }}
         onChange={changeDraft}
         onSave={save}

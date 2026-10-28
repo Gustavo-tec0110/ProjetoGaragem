@@ -1,3 +1,6 @@
+import { getProjectModificationData } from "@/lib/modifications/server";
+import { withCatalogModifications } from "@/lib/modifications/project-overview";
+import { serverLog } from "@/lib/server-log";
 import { Suspense } from "react";
 
 import { LocalProjectResolver } from "@/components/projects/local-project-resolver";
@@ -29,6 +32,17 @@ function technicalSpecs(detail: NonNullable<ProjectPageData["detail"]>) {
   ];
 }
 
+async function projectOverview(detail: NonNullable<ProjectPageData["detail"]>, isOwner: boolean) {
+  const project = mapCarDetailsToProject(detail);
+  try {
+    const { modifications } = await getProjectModificationData(detail.id, isOwner, true);
+    return { project: withCatalogModifications(project, modifications), unavailable: false };
+  } catch {
+    serverLog.warn("project-overview", { action: "modifications.unavailable" });
+    return { project, unavailable: true };
+  }
+}
+
 async function ProjectPageSecondaryContent({
   dataPromise,
   userPromise,
@@ -44,9 +58,11 @@ async function ProjectPageSecondaryContent({
   if (!project) return null;
 
   if (detail) {
+    const overview = await projectOverview(detail, user?.id === detail.owner_id);
     return (
       <ProjectDetail
-        project={mapCarDetailsToProject(detail)}
+        project={overview.project}
+        modificationsUnavailable={overview.unavailable}
         similarProjects={similarProjects}
         recommendations={recommendations}
         viewerLoggedIn={Boolean(user)}
@@ -90,9 +106,11 @@ export async function ProjectPageContent({ slug }: { slug: string }) {
     if (!project) {
       return <LocalProjectResolver slug={slug} viewerLoggedIn={Boolean(user)} />;
     }
+    const overview = detail ? await projectOverview(detail, user?.id === detail.owner_id) : { project, unavailable: false };
     return (
       <ProjectDetail
-        project={detail ? mapCarDetailsToProject(detail) : project}
+        project={overview.project}
+        modificationsUnavailable={overview.unavailable}
         similarProjects={similarProjects}
         recommendations={recommendations}
         viewerLoggedIn={Boolean(user)}

@@ -1,0 +1,2418 @@
+{
+  "turbo": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Turbocompressor seccionado em exposição; buscar unidade real completa.",
+    "source": {
+      "title": "File:Turbo charger with wastegate.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Turbo_charger_with_wastegate.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Turbo_charger_with_wastegate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Turbo_charger_with_wastegate.jpg/960px-Turbo_charger_with_wastegate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1920,
+      "height": 2560,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Panoha",
+      "credit": "Own work",
+      "description": "diesel engine turbocharger",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Turbo_charger_with_wastegate.jpg.jpg",
+    "reviewedCandidate": "wastegate--T0",
+    "previousSourceTitle": "File:Sectioned Garrett AiResearch turbocharger.JPG",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Turbo charger with wastegate.jpg",
+      "inputSha256": "6767c8b8627e98a90941e70b21bd474b553a64500e4ee3becb1dbad779fec821",
+      "path": "/modifications/engine/6f71b6f6434f9e7c006b899c374d2d70f1058583636ee6da2a05ff56ff44fede.webp",
+      "sha256": "6f71b6f6434f9e7c006b899c374d2d70f1058583636ee6da2a05ff56ff44fede",
+      "bytes": 15730
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:1978 Penske PC-6 Turbocharger.png",
+      "File:Turbocharger 3.jpg",
+      "File:Mercedes Benz M104 installed Turbocharger kit by MAD modify.jpg",
+      "File:Turbocharger Prototype 2.jpg"
+    ]
+  },
+  "intercooler": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/engine/4e2c90e0941a0f4dd647fecff842cdf097ffc5d2a0f15a916f909c3ef1f8484c.webp",
+    "preservePath": "/modifications/engine/4e2c90e0941a0f4dd647fecff842cdf097ffc5d2a0f15a916f909c3ef1f8484c.webp",
+    "source": {
+      "title": "File:Ic-extrior.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Ic-extrior.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Ic-extrior.jpg/500px-Ic-extrior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Ic-extrior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 800,
+      "height": 465,
+      "size": 115599,
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "author": "Freonr2 at English Wikipedia",
+      "credit": "Transferred from en.wikipedia to Commons by Quadell using CommonsHelper.",
+      "description": "Exterior view of an intercooler.",
+      "categories": "GFDL|Taken with Canon Digital IXUS 430|Intercoolers|License migration completed|Self-published work",
+      "restrictions": "",
+      "attributionRequired": "true",
+      "attribution": "Freonr2 at English Wikipedia"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Ic-extrior.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Ic-extrior.jpg",
+      "inputSha256": "4e2c90e0941a0f4dd647fecff842cdf097ffc5d2a0f15a916f909c3ef1f8484c",
+      "path": "/modifications/engine/37c135e36b0344d5cbfdb83b8b4478853e8207194779fa120f17cbabe4b2a590.webp",
+      "sha256": "37c135e36b0344d5cbfdb83b8b4478853e8207194779fa120f17cbabe4b2a590",
+      "bytes": 17504
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Intercooler-2 Stage system.jpg",
+      "File:Marine intercooler from MOTA catalog.png",
+      "File:Intercooler.jpg",
+      "File:Top mount intercooler.jpg"
+    ]
+  },
+  "intake-filtro-esportivo": {
+    "status": "approved",
+    "reason": "Filtro esportivo cônico isolado e completo em fundo branco, publicado pelo fabricante. Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Cofre do motor inteiro; conjunto de admissão sem isolamento adequado.",
+    "previousSourceTitle": "File:Mustang-v6-roush-intake.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:HVAC air filter.webp",
+      "File:Maserati engine with big air filter - Flickr - Triple-green.jpg",
+      "File:Dirty-air-filter.jpg",
+      "File:Air Filter Samples (06410251) (8467732482).jpg",
+      "File:Cleaning up air filter from a Caterpillar D7F Dozer, Waldo Canyon fire.jpg",
+      "File:1st Squadron, 11th Armored Cavalry Regiment soldier removes and checks the air filter on an M113.jpg",
+      "File:Air filter cleaner Fatran in exposition History of making of drugs in Kuks Hospital in Kuks, Trutnov District.jpg"
+    ],
+    "source": {
+      "title": "Flickr:33744455865 — CTS-AF-275 1",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/147828111@N02/33744455865/",
+      "original": "https://live.staticflickr.com/2897/33744455865_96bf67ec96_o.jpg",
+      "width": 4291,
+      "height": 4291,
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "author": "CTS Turbo",
+      "description": "                               ",
+      "restrictions": "",
+      "rightsMark": "Public Domain Mark 1.0"
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-33744455865.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Intake / filtro esportivo inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:33744455865 — CTS-AF-275 1",
+      "inputSha256": "d621467dfadc51e8b15b30f9311fba9424cb744a9fecc9669eef642e4f9f6108",
+      "path": "/modifications/engine/d74c9dad2633748fe86bf5712b1d7ef70a7fa39e65cd4ecbeea655cbd62a1b31.webp",
+      "sha256": "d74c9dad2633748fe86bf5712b1d7ef70a7fa39e65cd4ecbeea655cbd62a1b31",
+      "bytes": 20972
+    }
+  },
+  "coletor-admissao": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/engine/3001a2e10347faa0af25fd3009b5356ec25ac83ecddc8af0f16d197eb04acf0f.webp",
+    "preservePath": "/modifications/engine/3001a2e10347faa0af25fd3009b5356ec25ac83ecddc8af0f16d197eb04acf0f.webp",
+    "source": {
+      "title": "File:EF7 Engine intake manifold.jpg",
+      "rank": 1,
+      "page": "https://commons.wikimedia.org/wiki/File:EF7_Engine_intake_manifold.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/0b/EF7_Engine_intake_manifold.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/0/0b/EF7_Engine_intake_manifold.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 500,
+      "height": 422,
+      "size": 40007,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Original uploaded by Arsi Warrior (Transfered by Finavon)",
+      "credit": "Original uploaded on en.wikipedia",
+      "description": "Intake manifold of EF7 Dual-Fuel Engine",
+      "categories": "PD-user|Intake manifolds",
+      "restrictions": "",
+      "attributionRequired": "false"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:EF7 Engine intake manifold.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:EF7 Engine intake manifold.jpg",
+      "inputSha256": "3001a2e10347faa0af25fd3009b5356ec25ac83ecddc8af0f16d197eb04acf0f",
+      "path": "/modifications/engine/e1bc9b0bfa636db3be3395bd5be6a7fa67eb53799c6f4a910aa6c0838042e04e.webp",
+      "sha256": "e1bc9b0bfa636db3be3395bd5be6a7fa67eb53799c6f4a910aa6c0838042e04e",
+      "bytes": 12908
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:EF7 Engine intake manifold.jpg",
+      "File:M276 intake manifold animated.JPG",
+      "File:Clogged EGR Valve Intake manifold.jpg",
+      "File:Lower-intake-manifold.jpg"
+    ]
+  },
+  "bicos-injetores": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Mostra apenas a extremidade de um injetor, com corte de parte importante da peça.",
+    "source": {
+      "title": "File:Unit injector late prod.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Unit_injector_late_prod.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Unit_injector_late_prod.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Unit_injector_late_prod.jpg/960px-Unit_injector_late_prod.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1524,
+      "height": 2032,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Panoha",
+      "credit": "Own work",
+      "description": "Unit Injector late prod type",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Unit_injector_late_prod.jpg.jpg",
+    "reviewedCandidate": "bicos-injetores--3",
+    "previousSourceTitle": "File:06A906036F Noozle of Fuel Injector.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Unit injector late prod.jpg",
+      "inputSha256": "7f93f48c727d1016c458cf444525ce126803b63c399fd97571aee555e5d38c80",
+      "path": "/modifications/engine/3fd6e88656c36046e0805ae7abd3fee80a77fa8f46625e59d989789063659fc4.webp",
+      "sha256": "3fd6e88656c36046e0805ae7abd3fee80a77fa8f46625e59d989789063659fc4",
+      "bytes": 7238
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:06A906036F Noozle of Fuel Injector.jpg",
+      "File:F-1 fuel injector.JPG",
+      "File:Unit injector early.jpg",
+      "File:Unit injector late prod.jpg"
+    ]
+  },
+  "ecu-modulo": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:An ECM from a 1996 Chevrolet Beretta- 2013-10-24 23-13.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:ECU and wire bundles.JPG",
+      "File:An ECM from a 1996 Chevrolet Beretta- 2013-10-24 23-13.jpg"
+    ],
+    "source": {
+      "title": "File:An ECM from a 1996 Chevrolet Beretta- 2013-10-24 23-13.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:An_ECM_from_a_1996_Chevrolet_Beretta-_2013-10-24_23-13.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/An_ECM_from_a_1996_Chevrolet_Beretta-_2013-10-24_23-13.jpg/500px-An_ECM_from_a_1996_Chevrolet_Beretta-_2013-10-24_23-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b5/An_ECM_from_a_1996_Chevrolet_Beretta-_2013-10-24_23-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 4128,
+      "height": 2322,
+      "size": 3497899,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "User:Mgiardina09\n\n This photo was taken with Samsung Galaxy S4",
+      "credit": "Own work",
+      "description": "An ECM from a 1996 Chevrolet Beretta.",
+      "categories": "Taken with Samsung Galaxy S4|Engine control unit|Self-published work|Uploaded with Mobile/Web",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "public/modifications/engine/36a62c04b812a26d2222def7f83d900a02d0a48603fae68df5a5e6b88ffecb7b.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:An ECM from a 1996 Chevrolet Beretta- 2013-10-24 23-13.jpg",
+      "inputSha256": "36a62c04b812a26d2222def7f83d900a02d0a48603fae68df5a5e6b88ffecb7b",
+      "path": "/modifications/engine/0d0ec4283ebb68275b9ea91b6430667ba1580c2eeb221d04f9b88a683deb5ecc.webp",
+      "sha256": "0d0ec4283ebb68275b9ea91b6430667ba1580c2eeb221d04f9b88a683deb5ecc",
+      "bytes": 21280
+    }
+  },
+  "bobinas": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/engine/48d2b44c9043d2b838741493e0ac6d259b4e54ddc9bbdf1e8f682e8deeb16359.webp",
+    "preservePath": "/modifications/engine/48d2b44c9043d2b838741493e0ac6d259b4e54ddc9bbdf1e8f682e8deeb16359.webp",
+    "source": {
+      "title": "File:Ignition coil module.jpg",
+      "rank": 3,
+      "page": "https://commons.wikimedia.org/wiki/File:Ignition_coil_module.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Ignition_coil_module.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Ignition_coil_module.jpg/960px-Ignition_coil_module.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2444,
+      "height": 1868,
+      "size": 331134,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0 de",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+      "author": "Cschirp",
+      "credit": "Own work",
+      "description": "Ignition Coil / Ignition Module of the motor type Z18XE from Opel. Scale is in Centimeter",
+      "categories": "Family 1 engine|Plug top coils",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Ignition coil module.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Ignition coil module.jpg",
+      "inputSha256": "48d2b44c9043d2b838741493e0ac6d259b4e54ddc9bbdf1e8f682e8deeb16359",
+      "path": "/modifications/engine/b7c58e7e0d9f9132204a87f95236072db111b1bb1766c990303cf15e4f74da0c.webp",
+      "sha256": "b7c58e7e0d9f9132204a87f95236072db111b1bb1766c990303cf15e4f74da0c",
+      "bytes": 11924
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Ignition coils.jpg",
+      "File:Ignition coil.jpg",
+      "File:Ignition Coil Image.png",
+      "File:Aceon Ignition Coil.jpg"
+    ]
+  },
+  "velas": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Vela inteira nítida, porém papel quadriculado como fundo; buscar alternativa neutra.",
+    "source": {
+      "title": "File:Spark plug.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Spark_plug.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Spark_plug.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Spark_plug.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 800,
+      "height": 587,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "",
+      "credit": "",
+      "description": "",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Spark_plug.jpg.jpg",
+    "reviewedCandidate": "velas--1",
+    "previousSourceTitle": "File:Bujía Bosch Yttrium Super Plus.JPG",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Spark plug.jpg",
+      "inputSha256": "a6ba60fa936f5e68e565e66f44620e636df57ae67e4cb809a71d9139213e7c52",
+      "path": "/modifications/engine/97acc1eca03b0678ad34882a8a302cb245d1b832ecae2c3acfb344d0e2d19943.webp",
+      "sha256": "97acc1eca03b0678ad34882a8a302cb245d1b832ecae2c3acfb344d0e2d19943",
+      "bytes": 24100
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Spark plug 2.jpg",
+      "File:Spark plug.jpg",
+      "File:Engine spark plugs.jpg",
+      "File:Mid 20th century Beru spark plug 175 18 U2 Ludwigsburg Germany.jpg"
+    ]
+  },
+  "radiador": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/engine/e3e412b1794b2f3b0a7998f8cf51febc5ef32b0088203d3c0796a93a85ef3b72.webp",
+    "preservePath": "/modifications/engine/e3e412b1794b2f3b0a7998f8cf51febc5ef32b0088203d3c0796a93a85ef3b72.webp",
+    "source": {
+      "title": "File:Automobile radiator.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Automobile_radiator.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Automobile_radiator.jpg/500px-Automobile_radiator.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Automobile_radiator.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 529,
+      "height": 600,
+      "size": 117289,
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "",
+      "credit": "",
+      "description": "",
+      "categories": "Taken with Fujifilm FinePix S602 ZOOM|GPL|PD-user|Radiators (engine cooling)|Files with no machine-readable author|Files with no machine-readable source|Media missing infobox template",
+      "restrictions": "",
+      "attributionRequired": "false"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Automobile radiator.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Automobile radiator.jpg",
+      "inputSha256": "e3e412b1794b2f3b0a7998f8cf51febc5ef32b0088203d3c0796a93a85ef3b72",
+      "path": "/modifications/engine/7c34a74e58b16dd2b2a9511989d0dfdc8b43cc527bac44471bf4fbbc14f71672.webp",
+      "sha256": "7c34a74e58b16dd2b2a9511989d0dfdc8b43cc527bac44471bf4fbbc14f71672",
+      "bytes": 36938
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Automobile radiator.jpg",
+      "File:C5 with ersatz extra scoop to increase air flow to radiator 2017-07-27.jpg",
+      "File:C5 ducting to radiator with cutout for extra air flow 2017-07-25.jpg",
+      "File:Car radiator grille under snow at Gatton, Surrey.jpg"
+    ]
+  },
+  "cabecote": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:K20 head.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Pratt and Whitney R-4360 cylinder head cutout.jpg",
+      "File:Cylinder head 4T.jpg",
+      "File:Princess- Cylinder Head - geograph.org.uk - 2187652.jpg",
+      "File:Cylinder head of a Caterpillar engine.jpg"
+    ],
+    "source": {
+      "title": "File:K20 head.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:K20_head.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/K20_head.jpg/500px-K20_head.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/74/K20_head.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 690,
+      "height": 363,
+      "size": 26260,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Joe Flores",
+      "credit": "http://www.fgcoupe.com/K20Z3.htm",
+      "description": "Image of a cylinder head from a Honda K20 showing components of the i-VTEC system.",
+      "categories": "Cylinder heads|License migration completed|GFDL-en|Honda K engines",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "public/modifications/engine/290ef5d63d9df99bceefd2a0650f54d29e9cab8e13bc12e8841aa57cb2857e84.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:K20 head.jpg",
+      "inputSha256": "290ef5d63d9df99bceefd2a0650f54d29e9cab8e13bc12e8841aa57cb2857e84",
+      "path": "/modifications/engine/e2b3d34656979dd24b56de81bececa02dce3d987a1359972756d7080f013ee58.webp",
+      "sha256": "e2b3d34656979dd24b56de81bececa02dce3d987a1359972756d7080f013ee58",
+      "bytes": 27458
+    }
+  },
+  "pistoes-bielas": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/engine/00222231e09713271dc1c73893c34657b58f042cab78ae987f1711246ab38e51.webp",
+    "preservePath": "/modifications/engine/00222231e09713271dc1c73893c34657b58f042cab78ae987f1711246ab38e51.webp",
+    "source": {
+      "title": "File:Display-Set Ferrari Kolben und Pleuel noBG.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Display-Set_Ferrari_Kolben_und_Pleuel_noBG.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Display-Set_Ferrari_Kolben_und_Pleuel_noBG.jpg/500px-Display-Set_Ferrari_Kolben_und_Pleuel_noBG.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/31/Display-Set_Ferrari_Kolben_und_Pleuel_noBG.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 5000,
+      "height": 2850,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Auge=mit",
+      "credit": "Own work",
+      "description": "Display set: pistons and connecting rods of a Ferrari 458",
+      "categories": "Ferrari 458|Connecting rods|Self-published work|Objects with white background|Images with AA batteries to indicate scale|Internal combustion engine pistons|Images with different perspectives of land vehicles or parts thereof",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Display-Set Ferrari Kolben und Pleuel noBG.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Display-Set Ferrari Kolben und Pleuel noBG.jpg",
+      "inputSha256": "00222231e09713271dc1c73893c34657b58f042cab78ae987f1711246ab38e51",
+      "path": "/modifications/engine/401b76b29dc11112b9d186ee277316afb124c37507d31e55b5164c07a66f3f5a.webp",
+      "sha256": "401b76b29dc11112b9d186ee277316afb124c37507d31e55b5164c07a66f3f5a",
+      "bytes": 12558
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Piston and connecting rod.jpg",
+      "File:Failed piston and connecting rod.jpg",
+      "File:Piston and Conn-rod for NISSAN VQ35DE by HKS 01.jpg",
+      "File:Connecting rods (Army Service Corps Training, Mechanical Transport, 1911).jpg"
+    ]
+  },
+  "coilover": {
+    "status": "approved",
+    "reason": "Fotografia real publicada por Fortune Auto North America: par completo de coilovers, isolado em fundo branco, nítido, licença CC BY-SA 4.0 por arquivo. A marca faz parte da foto original; não é recomendação de aplicação.",
+    "originalReason": "Produto completo, mas fotografia sobre tecido amarrotado com enquadramento inconsistente.",
+    "previousSourceTitle": "File:Coilovers.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Coilovers.jpg",
+      "File:AllJ Frankenlift Rev2 Coilover Left.jpg",
+      "File:AllJ Frankenlift Rev2 Coilover Right.jpg",
+      "File:Jeep Liberty Coilovers 2005.jpg",
+      "File:Deuce coilover detail.jpg",
+      "File:Yellow Deuce roadster coilover detail.jpg",
+      "File:Coilover Stickers (10714083656)(cropped).png"
+    ],
+    "source": {
+      "title": "File:500overview.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:500overview.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/cb/500overview.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1000,
+      "height": 665,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Fortune Auto North America",
+      "description": "Fortune Auto 500 Series Coilovers",
+      "provider": "Wikimedia Commons",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/parts-46415852.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Coilover inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:500overview.jpg",
+      "inputSha256": "9b95ef68630201a1b76dbb36fbfd91e0c0de10e114858f04fe8006d532e3444b",
+      "path": "/modifications/suspension/c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488.webp",
+      "sha256": "c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488",
+      "bytes": 14576
+    }
+  },
+  "suspensao-rosca": {
+    "status": "approved",
+    "reason": "Alias legado do tipo coilover: reutiliza a mesma fotografia aprovada do componente, sem criar uma segunda fotografia ou um novo tipo.",
+    "originalReason": "Mesma foto de Coilover; tecido e iluminação não atendem ao padrão preferencial.",
+    "previousSourceTitle": "File:Coilovers.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Coilovers.jpg",
+      "File:AllJ Frankenlift Rev2 Coilover Left.jpg",
+      "File:AllJ Frankenlift Rev2 Coilover Right.jpg",
+      "File:Jeep Liberty Coilovers 2005.jpg"
+    ],
+    "source": {
+      "title": "File:500overview.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:500overview.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/cb/500overview.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1000,
+      "height": 665,
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Fortune Auto North America",
+      "description": "Fortune Auto 500 Series Coilovers",
+      "provider": "Wikimedia Commons",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/parts-46415852.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Suspensão a rosca inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:500overview.jpg",
+      "inputSha256": "9b95ef68630201a1b76dbb36fbfd91e0c0de10e114858f04fe8006d532e3444b",
+      "path": "/modifications/suspension/c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488.webp",
+      "sha256": "c2992655970edc8f85e09688f1975f958f8f037dee762c5fa22e1b1cccdbe488",
+      "bytes": 14576
+    }
+  },
+  "barra-estabilizadora": {
+    "status": "approved",
+    "reason": "Barra de torção completa com buchas, isolada em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Barra instalada no chassi e pouco distinguível de outros elementos.",
+    "previousSourceTitle": "File:Caterham Roadsport building - 016 - Brake pipes, De Dion tube, drive shafts, Watts linkages, anti-roll bar - Flickr - exfordy.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Caterham Roadsport building - 012 - Steering (almost), anti-roll bar - Flickr - exfordy.jpg",
+      "File:Simca 1200. Longitudinal torsion bar and transverse anti-roll bar.jpg",
+      "File:Caterham Roadsport building - 141 - Anti-roll bar link bracket LH side - Flickr - exfordy.jpg",
+      "File:Caterham Roadsport building - 015 - Brake pipes, De Dion tube, drive shafts, Watts linkages, anti-roll bar - Flickr - exfordy.jpg",
+      "File:Honda 700XX sway bar blueprint.jpg",
+      "File:Marthasville Wheelwright's Wagon Sway Bar Pattern - DPLA - 841b45f086c7ab2cf4cd3cee7350e687 (page 1).jpg",
+      "File:Marthasville Wheelwright's Wagon Sway Bar Pattern - DPLA - 841b45f086c7ab2cf4cd3cee7350e687 (page 2).jpg",
+      "File:Radius rod sway bar.jpg",
+      "File:88 IROC Painted Rear Sway Bar.jpg"
+    ],
+    "source": {
+      "title": "Flickr:52187563435 — Sway Bars",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/52187563435/",
+      "original": "https://live.staticflickr.com/65535/52187563435_e0bfee3c1c_o.jpg",
+      "width": 5386,
+      "height": 3591,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "<a href=\"http://www.spidertrax.com/products/swaybars\" rel=\"noreferrer nofollow\">www.spidertrax.com/products/swaybars</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52187563435.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Barra estabilizadora inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:52187563435 — Sway Bars",
+      "inputSha256": "d86784585da207dfee53e544c205c72f96c9a0169fa2f936490596419f5042c9",
+      "path": "/modifications/suspension/6e816ebb91217a4833ba9603192ae3e35b1e15e40e82faf8e0d61c5e9d1ba2a3.webp",
+      "sha256": "6e816ebb91217a4833ba9603192ae3e35b1e15e40e82faf8e0d61c5e9d1ba2a3",
+      "bytes": 3634
+    }
+  },
+  "bracos": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:Track control arm for a Kia Ceed 02.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Track control arm for a Kia Ceed 02.jpg",
+      "File:Track control arm for a Kia Ceed 01.jpg",
+      "File:Control Arm Fahrwerk.JPG",
+      "File:DETAIL VIEW OF UPSTREAM LOCK GATES. NOTE CONTROL ARM IN FOREGROUND. LOOKING WEST NORTHWEST. - Illinois Waterway, Peoria Lock and Dam, 1071 Wesley Road, Creve Coeur, Tazewell County, HAER IL-164-B-11.tif"
+    ],
+    "source": {
+      "title": "File:Track control arm for a Kia Ceed 02.jpg",
+      "rank": 1,
+      "page": "https://commons.wikimedia.org/wiki/File:Track_control_arm_for_a_Kia_Ceed_02.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/95/Track_control_arm_for_a_Kia_Ceed_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Track_control_arm_for_a_Kia_Ceed_02.jpg/960px-Track_control_arm_for_a_Kia_Ceed_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4000,
+      "height": 3000,
+      "size": 7587449,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "So9q",
+      "credit": "Own work",
+      "description": ".....",
+      "categories": "Self-published work|Files with coordinates missing SDC location of creation|Track control arm",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "public/modifications/suspension/53a499e076fb75a876dff48f5fddf1f7411afa8ab65f5b20decbd91022f9fd91.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Track control arm for a Kia Ceed 02.jpg",
+      "inputSha256": "53a499e076fb75a876dff48f5fddf1f7411afa8ab65f5b20decbd91022f9fd91",
+      "path": "/modifications/suspension/df0a918678366470255aa1471035a165618102430d1b116ecc7421201756663d.webp",
+      "sha256": "df0a918678366470255aa1471035a165618102430d1b116ecc7421201756663d",
+      "bytes": 55022
+    }
+  },
+  "reforcos-estruturais": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Cofre do motor inteiro; reforço pouco evidente.",
+    "source": {
+      "title": "File:Strut Bar.jpg",
+      "rank": 3,
+      "page": "https://commons.wikimedia.org/wiki/File:Strut_Bar.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Strut_Bar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Strut_Bar.jpg/960px-Strut_Bar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1122,
+      "height": 593,
+      "size": 105658,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Techsport at English Wikipedia",
+      "credit": "Transferred from en.wikipedia to Commons.",
+      "description": "T-SPORT PR picture.",
+      "categories": "PD-user|Strut bars",
+      "restrictions": "",
+      "attributionRequired": "false"
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-images-2026-10-26/review/reforcos-estruturais--2.jpg",
+    "reviewedCandidate": "reforcos-estruturais--2",
+    "previousSourceTitle": "File:Strut bar ng sentra.JPG",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Strut Bar.jpg",
+      "inputSha256": "64fa3d2f531a616e38fe7c059f6dfc364a537201c161a54917a1f7cf1f92aa0c",
+      "path": "/modifications/suspension/6278bc560e66605e347985fcaebc97cf967ec5b26ec2e708c2713deed24010d1.webp",
+      "sha256": "6278bc560e66605e347985fcaebc97cf967ec5b26ec2e708c2713deed24010d1",
+      "bytes": 3788
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Strut bar ng sentra.JPG",
+      "File:Explorer strut bar.jpg",
+      "File:Strut Bar.jpg",
+      "File:A-Single-piece-and-b-hinged-type-strut-bar.png"
+    ]
+  },
+  "discos": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:Disk brake dsc03682.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Porsche Boxster 986 Ph. 2 brake disc.JPG",
+      "File:Brake disc polishing.jpg",
+      "File:Brake disc McLaren F1.jpg",
+      "File:Toyota TF103 Front Brake Disc 01.JPG"
+    ],
+    "source": {
+      "title": "File:Disk brake dsc03682.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Disk_brake_dsc03682.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Disk_brake_dsc03682.jpg/500px-Disk_brake_dsc03682.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/72/Disk_brake_dsc03682.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 2260,
+      "height": 1896,
+      "size": 1769166,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "David Monniaux",
+      "credit": "Copyright © 2005 David Monniaux",
+      "description": "",
+      "categories": "GFDL|Files with no machine-readable author|Files with no machine-readable source|License migration completed|Media missing infobox template|Automobile disk brakes|Renault vehicle parts",
+      "restrictions": "",
+      "attributionRequired": "true",
+      "author_verified_from": "https://commons.wikimedia.org/wiki/File:Disk_brake_dsc03682.jpg"
+    },
+    "file": "public/modifications/brakes/70e2625f7dfd61e12d62f0bbe99152c541b560130dc9e63a215ca72bd2b8bdc5.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Disk brake dsc03682.jpg",
+      "inputSha256": "70e2625f7dfd61e12d62f0bbe99152c541b560130dc9e63a215ca72bd2b8bdc5",
+      "path": "/modifications/brakes/cbe3021781b81fdb74c27cdc68bb9548625ead0a091c05c386ef6d42be200477.webp",
+      "sha256": "cbe3021781b81fdb74c27cdc68bb9548625ead0a091c05c386ef6d42be200477",
+      "bytes": 17064
+    }
+  },
+  "pincas": {
+    "status": "approved",
+    "reason": "Par de pinças azuis isoladas, fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Pinças usadas, sujas e com cortes nas extremidades.",
+    "previousSourceTitle": "File:Brake caliper banjos.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Shimano 600 Tricolor brake caliper (Shimano Ultegra 6400).jpg",
+      "File:Brake caliper banjos.jpg",
+      "File:Campagnolo Record brake caliper.jpg",
+      "File:Disk brake dsc03682.jpg"
+    ],
+    "source": {
+      "title": "Flickr:51101678429 — Big Brake Kit - Front",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/hpamotorsports/51101678429/",
+      "original": "https://live.staticflickr.com/65535/51101678429_350a856720_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "HPA Motorsports",
+      "description": "Big Brake Kit - Front",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101678429.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Pinças de freio inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:51101678429 — Big Brake Kit - Front",
+      "inputSha256": "a560af433ff27d793aa374902fadd32ab548e85daeb8f73f48e2a8337055d8b4",
+      "path": "/modifications/brakes/706c4a8965640de828b94ff2ef71bd9cbe608659f7a878428d47849452639392.webp",
+      "sha256": "706c4a8965640de828b94ff2ef71bd9cbe608659f7a878428d47849452639392",
+      "bytes": 11340
+    }
+  },
+  "mangueiras": {
+    "status": "approved",
+    "reason": "Mangueiras de freio e acessórios isolados em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Imagem legada sem fonte e licença de reutilização comprovadas no inventário; retirada do padrão fotográfico.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:51101696002 — Big Brake Kit - Front",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/hpamotorsports/51101696002/",
+      "original": "https://live.staticflickr.com/65535/51101696002_97f99dbc64_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "HPA Motorsports",
+      "description": "Big Brake Kit - Front",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101696002.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Flexíveis de freio não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:51101696002 — Big Brake Kit - Front",
+      "inputSha256": "21463454ec77f191a40fe609d3c0ba6368b25dd95eb2482a4f3317cf8af89a03",
+      "path": "/modifications/brakes/ec945c53e1f16f87a9f477109a7b596257fa05cd27921ee28ca42c65222bd191.webp",
+      "sha256": "ec945c53e1f16f87a9f477109a7b596257fa05cd27921ee28ca42c65222bd191",
+      "bytes": 3016
+    }
+  },
+  "kit-freio": {
+    "status": "approved",
+    "reason": "Conjunto disco e pinça, isolado em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Mesma foto de disco e pinça instalada; não apresenta um kit de upgrade completo.",
+    "previousSourceTitle": "File:Disk brake dsc03682.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Disk brake dsc03682.jpg"
+    ],
+    "source": {
+      "title": "Flickr:51101678789 — Big Brake Kit - Front",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/hpamotorsports/51101678789/",
+      "original": "https://live.staticflickr.com/65535/51101678789_f31e0bda36_o.jpg",
+      "width": 3456,
+      "height": 5184,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "HPA Motorsports",
+      "description": "Big Brake Kit - Front",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101678789.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Kit de freios de performance inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:51101678789 — Big Brake Kit - Front",
+      "inputSha256": "d4942631365a19b7a0290b6c68edb9e9af7b4eb29a1616056c4fe8a30515da61",
+      "path": "/modifications/brakes/da79cc9f35701d60a93644e2995973944ad95895dfe7d2e468715e37a5f85783.webp",
+      "sha256": "da79cc9f35701d60a93644e2995973944ad95895dfe7d2e468715e37a5f85783",
+      "bytes": 9176
+    }
+  },
+  "rodas": {
+    "status": "approved",
+    "reason": "Fotografia próxima da roda inteira, com aro e desenho claramente visíveis e predominantes. Contexto de montagem aceito na ausência de fotografia isolada melhor aprovada.",
+    "originalReason": "Roda instalada no carro com carroceria predominante.",
+    "previousSourceTitle": "File:The alloy wheel of Nissan LEAF X (ZAA-ZE1).jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Alloy wheel mercury.jpg",
+      "File:The alloy wheel of Toyota GR COROLLA RZ (4BA-GZEA14H-BHFRZ).jpg",
+      "File:O.E. alloy wheel Efini MS8.jpg",
+      "File:The alloy wheel of Nissan LEAF X (ZAA-ZE1).jpg",
+      "File:Jaguar XJ Dimple (8x16\", diamond-turned, anthracite) alloy wheel.jpg",
+      "File:Jaguar XF Volans (9.5x20\") alloy wheel.jpg",
+      "File:The alloy wheel of Toyota bZ4X\"Z\"4WD (ZAA-YEAM15-MWDHS).jpg",
+      "File:The alloy wheel of Toyota GR Supra SZ-R (3BA-DB22-ZTRW).jpg",
+      "File:The alloy wheel of Subaru 5AA-SKE FORESTER Advance.jpg"
+    ],
+    "source": {
+      "title": "File:Alloy wheel mercury.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Alloy_wheel_mercury.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Alloy_wheel_mercury.jpg/500px-Alloy_wheel_mercury.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Alloy_wheel_mercury.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1368,
+      "height": 1356,
+      "size": 594641,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Ruben de Rijcke",
+      "credit": "Own work",
+      "description": "Mercury alloy wheel",
+      "categories": "Self-published work|Taken with Nokia N97|Mercury logos|Mercury alloy wheels with tires",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-images-2026-10-26/review/wiki--rodas--0.jpg",
+    "reviewedCandidate": "rodas--0",
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Alloy wheel mercury.jpg",
+      "inputSha256": "2a22e26f920e6e106c38b2c9256005312acaf031c6f250928fc09ee91ea67a5e",
+      "path": "/modifications/wheels/0f693fae5d7b758ea4e67d5cb46088509ec90495312af93545c60d01f7629fde.webp",
+      "sha256": "0f693fae5d7b758ea4e67d5cb46088509ec90495312af93545c60d01f7629fde",
+      "bytes": 63570
+    }
+  },
+  "espacadores": {
+    "status": "approved",
+    "reason": "Espaçador de roda completo isolado em fundo branco, foto do fabricante Spidertrax. Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Espaçador escuro e parcialmente obstruído pela roda.",
+    "previousSourceTitle": "File:Titanium Alloy Wheel Spacer.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:C5 wheel spacer 2017-07-27.jpg",
+      "File:Titanium Alloy Wheel Spacer.jpg"
+    ],
+    "source": {
+      "title": "Flickr:52927828924 — Jeep 5 on 5\" x 1-3/4\" Thick Wheel Spacer Kit",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/52927828924/",
+      "original": "https://live.staticflickr.com/65535/52927828924_07382774c2_o.jpg",
+      "width": 4028,
+      "height": 2685,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "<a href=\"https://www.spidertrax.com/Jeep-5-on-5-1-3-4-Thick-Wheel-Spacer-Kit\" rel=\"noreferrer nofollow\">www.spidertrax.com/Jeep-5-on-5-1-3-4-Thick-Wheel-Spacer-Kit</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52927828924.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Espaçadores de roda inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:52927828924 — Jeep 5 on 5\" x 1-3/4\" Thick Wheel Spacer Kit",
+      "inputSha256": "d1253e43ceb1e0789bbc45f707440d535d015454f3db5606f64fa4c248da50bc",
+      "path": "/modifications/wheels/a8a40207cacece2e6a296f6209b0949fe7645304fd6619d39564a9987eb177db.webp",
+      "sha256": "a8a40207cacece2e6a296f6209b0949fe7645304fd6619d39564a9987eb177db",
+      "bytes": 8458
+    }
+  },
+  "adaptadores": {
+    "status": "approved",
+    "reason": "Adaptador de roda completo isolado em fundo branco, foto do fabricante Spidertrax. Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Imagem legada sem fonte e licença de reutilização comprovadas no inventário; retirada do padrão fotográfico.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:53766352352 — Jeep JL Conversion Adapters",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/53766352352/",
+      "original": "https://live.staticflickr.com/65535/53766352352_aeb88ed5dd_o.jpg",
+      "width": 4701,
+      "height": 3133,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "Wouldn’t it be nice to open up wheel options from different vehicles? Spidertrax 1-1/2&quot; thick, 5 on 4.5&quot; to 5 on 5&quot;, 6061T6 aluminum adapters make it possible to change your wheel bolt pattern. Simply install on a Jeep XJ, YJ, TJ, ZJ, or Liberty axle and this adapter will convert your bolt pattern to the Jeep JL bolt circle.\n\nEach kit comes complete with 2 wheel adapters, 10 M14x1.5 Grade 8+ 4140 wheel studs (pre-installed), 10 1/2-20 lug nuts, and a package of thread locker. Each wheel adapter is anodized in blue, using a double anodizing process for twice the corrosion resistance. In addition, each wheel adapter is wheel and hub centric for a perfect fit.\n\nProudly made in the USA.\n\n<a href=\"https://www.spidertrax.com/whs035\" rel=\"noreferrer nofollow\">www.spidertrax.com/whs035</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-53766352352.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Adaptadores de roda não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:53766352352 — Jeep JL Conversion Adapters",
+      "inputSha256": "c232707ac3974926e7a864578637ab79270ed7b31f026361efb30b8675339637",
+      "path": "/modifications/wheels/91976fcde6d9cb561aea4a15ff750839a4452e04b015884d999a7d1d206d0099.webp",
+      "sha256": "91976fcde6d9cb561aea4a15ff750839a4452e04b015884d999a7d1d206d0099",
+      "bytes": 10762
+    }
+  },
+  "cambio": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:M5OD transmission.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:M5OD transmission.jpg",
+      "File:Closeup view of manual transmission in the car interior.jpg",
+      "File:Manual transmission clutch.png",
+      "File:Opel manual transmission.jpg"
+    ],
+    "source": {
+      "title": "File:M5OD transmission.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:M5OD_transmission.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/M5OD_transmission.jpg/500px-M5OD_transmission.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/49/M5OD_transmission.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 3264,
+      "height": 2448,
+      "size": 652401,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "J.C. Fields (Talk) (Uploads)",
+      "credit": "Own work",
+      "description": "¾ view of Mazda M5OD transmission out of a 1998 Ford Ranger 4WD.",
+      "categories": "GFDL|Automotive manual transmissions|Mazda North American Operations|License migration redundant|Self-published work",
+      "restrictions": "",
+      "attributionRequired": "true",
+      "attribution": "Typhoon at English Wikipedia"
+    },
+    "file": "public/modifications/transmission/b4739c391fdc444c5368354205dfabeda99bad0f6a743979420119a34f02aa4e.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:M5OD transmission.jpg",
+      "inputSha256": "b4739c391fdc444c5368354205dfabeda99bad0f6a743979420119a34f02aa4e",
+      "path": "/modifications/transmission/973d1d9a38c4da44f98e6ccb073e87006c3dc0d3efd21b62d56a114cda3e296a.webp",
+      "sha256": "973d1d9a38c4da44f98e6ccb073e87006c3dc0d3efd21b62d56a114cda3e296a",
+      "bytes": 22132
+    }
+  },
+  "embreagem": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/transmission/8875ca935b0a4e2f7618ceca1ea07e75824f88c74cee3fb049ed4b5e5492665a.webp",
+    "preservePath": "/modifications/transmission/8875ca935b0a4e2f7618ceca1ea07e75824f88c74cee3fb049ed4b5e5492665a.webp",
+    "source": {
+      "title": "File:Clutch disc.JPG",
+      "rank": 4,
+      "page": "https://commons.wikimedia.org/wiki/File:Clutch_disc.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/af/Clutch_disc.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/a/af/Clutch_disc.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 640,
+      "height": 480,
+      "size": 75065,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "100yen 11:57, 1 October 2006 (UTC)",
+      "credit": "100yen 11:57, 1 October 2006 (UTC)",
+      "description": "Clutch disk for Mitsubishi 4G63.",
+      "categories": "GFDL|Taken with Fujifilm FinePix 2300|CC-BY-SA-2.5,2.0,1.0|License migration redundant|Self-published work|Automobile clutches|Friction plate clutches",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Clutch disc.JPG",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Clutch disc.JPG",
+      "inputSha256": "8875ca935b0a4e2f7618ceca1ea07e75824f88c74cee3fb049ed4b5e5492665a",
+      "path": "/modifications/transmission/367f04ce81974b8799a3de2f4a807027b2f6b490b7a8d9ae71350c913bb9f99c.webp",
+      "sha256": "367f04ce81974b8799a3de2f4a807027b2f6b490b7a8d9ae71350c913bb9f99c",
+      "bytes": 14104
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Clutchdisc.jpg",
+      "File:Basket clutch.png",
+      "File:Car clutch.png",
+      "File:Cone clutch (Manual of Driving and Maintenance).jpg"
+    ]
+  },
+  "short-shifter": {
+    "status": "approved",
+    "reason": "Mecanismo short shifter completo com pinos, em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Imagem legada sem fonte e licença de reutilização comprovadas no inventário; retirada do padrão fotográfico.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:51101791473 — 02M Short Shifter 1 - edited",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/hpamotorsports/51101791473/",
+      "original": "https://live.staticflickr.com/65535/51101791473_03d2f32567_o.jpg",
+      "width": 6783,
+      "height": 4522,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "HPA Motorsports",
+      "description": "                               ",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101791473.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Engate rápido de câmbio não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:51101791473 — 02M Short Shifter 1 - edited",
+      "inputSha256": "d8b548da1de5432362ae366e21161716786940c2169d0d186ff84b14fcb29b64",
+      "path": "/modifications/transmission/95181884839923e0dfe00687659c54fa4b2b6dccec23d075e2e4312dc66573ea.webp",
+      "sha256": "95181884839923e0dfe00687659c54fa4b2b6dccec23d075e2e4312dc66573ea",
+      "bytes": 10930
+    }
+  },
+  "roll-cage": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:Suzuki Swift JWRC '05 005.JPG",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Roll Cage Mary -1-.jpg",
+      "File:' 71 - Fiat 131 Mirafiori gialla - yellow - roll cage.jpg",
+      "File:Stoxkart-with roll-cage-and-front-wing.jpg",
+      "File:Roll cage.jpg"
+    ],
+    "source": {
+      "title": "File:Suzuki Swift JWRC '05 005.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Suzuki_Swift_JWRC_%2705_005.JPG",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Suzuki_Swift_JWRC_%2705_005.JPG/500px-Suzuki_Swift_JWRC_%2705_005.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Suzuki_Swift_JWRC_%2705_005.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1020,
+      "height": 680,
+      "size": 349192,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Tennen-Gas",
+      "credit": "Own work",
+      "description": "Suzuki Swift JWRC 05.",
+      "categories": "GFDL|CC-BY-SA-2.5,2.0,1.0|License migration redundant|Self-published work|Suzuki Swift Super 1600|Racing automobile roll cages",
+      "restrictions": "",
+      "attributionRequired": "true",
+      "attribution": "I, 天然ガス"
+    },
+    "file": "public/modifications/interior/31b7e3863f1668ba28bf8043e93df438428715dfff773cbf83674684776a913a.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Suzuki Swift JWRC '05 005.JPG",
+      "inputSha256": "31b7e3863f1668ba28bf8043e93df438428715dfff773cbf83674684776a913a",
+      "path": "/modifications/interior/8455ed9242e99d55bb90be01d6b33d2f92d7dac212be9db6e4382e4de9d7431a.webp",
+      "sha256": "8455ed9242e99d55bb90be01d6b33d2f92d7dac212be9db6e4382e4de9d7431a",
+      "bytes": 33264
+    }
+  },
+  "painel-digital": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Painel instalado; revisão de recorte e melhor alternativa como produto.",
+    "source": {
+      "title": "File:MOD7-R.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:MOD7-R.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/MOD7-R.jpg/500px-MOD7-R.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/10/MOD7-R.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1817,
+      "height": 1024,
+      "size": 310092,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Philippe BALZANO MOD7CE",
+      "credit": "Template:MOD7CE",
+      "description": "Digital dash and data acquisition system for car and motorcycle racing",
+      "categories": "GFDL|Tachometers|CC-BY-SA-3.0,2.5,2.0,1.0|License migration redundant|Self-published work",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-images-2026-10-26/review/wiki--shift-light--0.jpg",
+    "reviewedCandidate": "shift-light--0",
+    "previousSourceTitle": "File:Digital instrument cluster of a Toyota Yaris Hybrid GR Sport.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:MOD7-R.jpg",
+      "inputSha256": "524d2ae081846bf0173b28eccdf84a9f30a9703e465c81945b19c700e115736f",
+      "path": "/modifications/interior/a15a94b2d647aa7cf6713ea809dba87c7f281d042bd6b907e0f61466547527dc.webp",
+      "sha256": "a15a94b2d647aa7cf6713ea809dba87c7f281d042bd6b907e0f61466547527dc",
+      "bytes": 18890
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Digital instrument cluster of a Toyota Yaris Hybrid GR Sport.jpg",
+      "File:First series Fiat Uno Turbo i.e. Digital Instrument Cluster.jpg",
+      "File:Digital instrument cluster of a Toyota Yaris Hybrid displaying the “POWER” screen with vehicle graphic.jpg",
+      "File:Driver’s cockpit of a Toyota Yaris GR Sport, showing the steering wheel, digital instrument cluster, and infotainment screen.jpg"
+    ]
+  },
+  "farois": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/lighting/8ad111e76c3ecd171f444359648e77d4debd791edf7ffee85917c45ace262918.webp",
+    "preservePath": "/modifications/lighting/8ad111e76c3ecd171f444359648e77d4debd791edf7ffee85917c45ace262918.webp",
+    "source": {
+      "title": "File:LED Headlamp inside.jpg",
+      "rank": 4,
+      "page": "https://commons.wikimedia.org/wiki/File:LED_Headlamp_inside.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/8e/LED_Headlamp_inside.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/LED_Headlamp_inside.jpg/960px-LED_Headlamp_inside.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2496,
+      "height": 1395,
+      "size": 508651,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Cschirp",
+      "credit": "Own work",
+      "description": "Insight into an automobile LED Headlamp",
+      "categories": "Automobile headlamps",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:LED Headlamp inside.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:LED Headlamp inside.jpg",
+      "inputSha256": "8ad111e76c3ecd171f444359648e77d4debd791edf7ffee85917c45ace262918",
+      "path": "/modifications/lighting/dfc101433a60f8247201d2d2580cc33515d48b478fcfcc497ec978111a4c9ddc.webp",
+      "sha256": "dfc101433a60f8247201d2d2580cc33515d48b478fcfcc497ec978111a4c9ddc",
+      "bytes": 19746
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Scooter headlights.jpg",
+      "File:Philips H7 headlamp - 1.jpg",
+      "File:Xenon Headlamp Mercedes S550 2009-12.jpg",
+      "File:LED Headlamp inside.jpg"
+    ]
+  },
+  "lanternas": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/lighting/f9feacd8c2492dc4975bc3a799ffe53fa7ad78e9ca43b0db86d12c54125e74e6.webp",
+    "preservePath": "/modifications/lighting/f9feacd8c2492dc4975bc3a799ffe53fa7ad78e9ca43b0db86d12c54125e74e6.webp",
+    "source": {
+      "title": "File:VF8 tail light.jpg",
+      "rank": 2,
+      "page": "https://commons.wikimedia.org/wiki/File:VF8_tail_light.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/f/ff/VF8_tail_light.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/VF8_tail_light.jpg/960px-VF8_tail_light.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4000,
+      "height": 3000,
+      "size": 2944862,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Famster99",
+      "credit": "Own work",
+      "description": "VF8 tail light",
+      "categories": "VinFast VF 8|Self-published work",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:VF8 tail light.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:VF8 tail light.jpg",
+      "inputSha256": "f9feacd8c2492dc4975bc3a799ffe53fa7ad78e9ca43b0db86d12c54125e74e6",
+      "path": "/modifications/lighting/a679ecc34eda31e744398ff5ece9f376b190a672efd0e784b1fb368816b0990c.webp",
+      "sha256": "a679ecc34eda31e744398ff5ece9f376b190a672efd0e784b1fb368816b0990c",
+      "bytes": 16902
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:TC-FHE Airbus A320 Freebird Tail ( Light Blue Tail ) (12291408774).jpg",
+      "File:VF8 tail light.jpg",
+      "File:GAZ-24 (1st generation) \"Volga\" (tail light).jpg",
+      "File:SLR McLaren Roadster (tail light) (3924342219).jpg"
+    ]
+  },
+  "iluminacao-interna": {
+    "status": "approved",
+    "reason": "Aprovada como fotografia representativa em fundo alternativo: a peça permanece claramente identificável e dominante. Foto de estúdio isolada continua como melhoria futura; não substituir por ilustração ou por produto diferente.",
+    "originalReason": "Fotografia real correspondente ao componente, nítida e reconhecível como assunto principal. Fundo de bancada ou contexto de montagem aceito como melhor alternativa real documentada.",
+    "previousSourceTitle": "File:Dome light.jpg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Wyoming State Capitol Dome Light.jpg",
+      "File:Dome light of house No.9-13 at Leysstraat in Antwerp.jpg",
+      "File:Dome light.jpg",
+      "File:Gable of house No.7 and dome light of house No.9-13 at Leysstraat in Antwerp.jpg"
+    ],
+    "source": {
+      "title": "File:Dome light.jpg",
+      "rank": 3,
+      "page": "https://commons.wikimedia.org/wiki/File:Dome_light.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/39/Dome_light.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Dome_light.jpg/960px-Dome_light.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3288,
+      "height": 2456,
+      "size": 2688397,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Lionel Allorge",
+      "credit": "Own work",
+      "description": "Dome light in a Renault Scénic RX4 car.",
+      "categories": "GFDL|Taken with Canon EOS 1000D|FAL|CC-BY-SA-3.0,2.5,2.0,1.0|Dome lights|License migration redundant|Self-published work|Renault Scénic RX4",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "file": "public/modifications/lighting/e26f7e49d234b920313645a9e9d4b704c6c91b0f03be59b6a978675b81cdb6c9.webp",
+    "sourcePreserved": true,
+    "studioPriority": true,
+    "licenseVerifiedOn": "2026-10-27",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Dome light.jpg",
+      "inputSha256": "e26f7e49d234b920313645a9e9d4b704c6c91b0f03be59b6a978675b81cdb6c9",
+      "path": "/modifications/lighting/71e92153f86685b7f640fb10d12947bc1a25d9fa2f8f18bf680fb28d27a15271.webp",
+      "sha256": "71e92153f86685b7f640fb10d12947bc1a25d9fa2f8f18bf680fb28d27a15271",
+      "bytes": 16686
+    }
+  },
+  "fusiveis": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/electrical/b85cdde5f29eeda53e721129e4c1c61efc2082009199392247a9fb4aac53eba9.webp",
+    "preservePath": "/modifications/electrical/b85cdde5f29eeda53e721129e4c1c61efc2082009199392247a9fb4aac53eba9.webp",
+    "source": {
+      "title": "File:Electrical fuses, plug-in type, different sizes.jpeg",
+      "page": "https://commons.wikimedia.org/wiki/File:Electrical_fuses,_plug-in_type,_different_sizes.jpeg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Electrical_fuses%2C_plug-in_type%2C_different_sizes.jpeg/500px-Electrical_fuses%2C_plug-in_type%2C_different_sizes.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/78/Electrical_fuses%2C_plug-in_type%2C_different_sizes.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 794,
+      "height": 560,
+      "size": 245621,
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "havarhen",
+      "credit": "Own work",
+      "description": "Picture of different physically sized electrical fuses, plug-in type. Edited in The Gimp (some parts of this image is scanned)",
+      "categories": "GFDL|License migration completed|Blade type fuses",
+      "restrictions": "",
+      "attributionRequired": "true"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Electrical fuses, plug-in type, different sizes.jpeg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Electrical fuses, plug-in type, different sizes.jpeg",
+      "inputSha256": "b85cdde5f29eeda53e721129e4c1c61efc2082009199392247a9fb4aac53eba9",
+      "path": "/modifications/electrical/6b0381660152e09312ae9f5eb0dd5b804586f4f91aaa3a5d0e6ac159a12cab5f.webp",
+      "sha256": "6b0381660152e09312ae9f5eb0dd5b804586f4f91aaa3a5d0e6ac159a12cab5f",
+      "bytes": 22018
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Electrical fuses, plug-in type, different sizes.jpeg"
+    ]
+  },
+  "alto-falantes": {
+    "status": "approved",
+    "reason": "Alto-falante coaxial isolado em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Fotografia anterior em reavaliação de enquadramento, nitidez e correspondência com o componente.",
+    "previousSourceTitle": "File:Infinity Reference 6022si 6.5inch car speaker top view.jpeg",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Infinity Reference 6022si 6.5inch car speaker top view.jpeg",
+      "File:Infinity Reference 6022si 6.5inch car speaker angle view.jpeg",
+      "File:Car speaker 10cm.jpg",
+      "File:Autoradio panasonic.jpg"
+    ],
+    "source": {
+      "title": "Flickr:9516988372 — BlackAir Co-Axial Speakers",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9516988372/",
+      "original": "https://live.staticflickr.com/5479/9516988372_236800e2f3_o.jpg",
+      "width": 4940,
+      "height": 3293,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackAir 2013",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9516988372.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Alto-falantes automotivos inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:9516988372 — BlackAir Co-Axial Speakers",
+      "inputSha256": "57d376fb6719267a9d9fbcece6f1e47d8f2b740e71f11f16b80ad81c6677e7cf",
+      "path": "/modifications/audio/c523a8a31713375e2730af32395de5eee89dffc597158af9b50579aa7f3056a2.webp",
+      "sha256": "c523a8a31713375e2730af32395de5eee89dffc597158af9b50579aa7f3056a2",
+      "bytes": 21702
+    }
+  },
+  "subwoofer": {
+    "status": "approved",
+    "reason": "Peça identificável como assunto principal, completa e nítida; fotografia real e licença documentada. Fundo alternativo aceito onde não há alternativa melhor aprovada.",
+    "originalReason": "Fotografia anterior aprovada após reinspeção individual.",
+    "file": "public/modifications/audio/1c349af0f103a2f34e495145d44180ac23e99eab0e231a507931d573f435f407.webp",
+    "preservePath": "/modifications/audio/1c349af0f103a2f34e495145d44180ac23e99eab0e231a507931d573f435f407.webp",
+    "source": {
+      "title": "File:Bravox E2k.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Bravox_E2k.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Bravox_E2k.jpg/500px-Bravox_E2k.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bravox_E2k.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 800,
+      "height": 600,
+      "size": 332919,
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Matias.Reccius at English Wikipedia",
+      "credit": "Transferred from en.wikipedia to Commons by Undead_warrior.",
+      "description": "12\" Endurance 2k car subwoofer.",
+      "categories": "PD-user|Subwoofers|Woofers|Car speaker units",
+      "restrictions": "",
+      "attributionRequired": "false"
+    },
+    "sourcePreserved": true,
+    "previousSourceTitle": "File:Bravox E2k.jpg",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Bravox E2k.jpg",
+      "inputSha256": "1c349af0f103a2f34e495145d44180ac23e99eab0e231a507931d573f435f407",
+      "path": "/modifications/audio/10760f83c96093fef551a8ac1fae06c3ab84c6f88fac3584c902b452370bd4df.webp",
+      "sha256": "10760f83c96093fef551a8ac1fae06c3ab84c6f88fac3584c902b452370bd4df",
+      "bytes": 15676
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Subwoofer downfiring.jpg",
+      "File:End-fire Subwoofer Array.png",
+      "File:Peerless XLS subwoofer.jpg",
+      "File:Mackie SWA1801 subwoofer.jpg"
+    ]
+  },
+  "corpo-borboleta": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Jaguar AJ16 throttle body.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Jaguar_AJ16_throttle_body.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Jaguar_AJ16_throttle_body.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Jaguar_AJ16_throttle_body.jpg/960px-Jaguar_AJ16_throttle_body.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1909,
+      "height": 3080,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Magnus Bäck",
+      "credit": "Own work",
+      "description": "The throttle body of a Jaguar AJ16 engine, found in e.g. naturally aspirated 1995-1997 Jaguar XJ (X300).",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Jaguar_AJ16_throttle_body.jpg.jpg",
+    "reviewedCandidate": "corpo-borboleta--T2",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Jaguar AJ16 throttle body.jpg",
+      "inputSha256": "99e75b0d90f629986370c7c9a690de3def59aaa7736aac9af4af1799998518e6",
+      "path": "/modifications/engine/2d34edc6c6e7dfb319e15341085abdf25f15633340cdda7f5eaf1d6b6d935d15.webp",
+      "sha256": "2d34edc6c6e7dfb319e15341085abdf25f15633340cdda7f5eaf1d6b6d935d15",
+      "bytes": 14682
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Throttle body.jpg",
+      "File:Car engine part shows details of throttle body and surrounding components during a repair in a garage.jpg",
+      "File:Jaguar AJ16 throttle body.jpg",
+      "File:Throttle Body.jpg",
+      "File:Throttle Body with Butterfly Vlave.jpg",
+      "File:Overview of throttle body (4218104420).jpg"
+    ]
+  },
+  "carburador": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Holley 2280.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Holley_2280.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Holley_2280.jpg/960px-Holley_2280.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/10/Holley_2280.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1414,
+      "height": 1372,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Scheinwerfermann",
+      "credit": "Own work",
+      "description": "A new Holley model 2280 type R8691 2-barrel carburetor, top view, showing the dual venturi configuration.",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Holley_2280.jpg.jpg",
+    "reviewedCandidate": "carburador--0",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Holley 2280.jpg",
+      "inputSha256": "76a4adc6de35c14bdaa77069cba50c924d82854148d5358cba8901420b8af853",
+      "path": "/modifications/engine/3628d10b860a69d2be2442e1a0ecc6b4e9c13eab358a5f88b418056b3203e94b.webp",
+      "sha256": "3628d10b860a69d2be2442e1a0ecc6b4e9c13eab358a5f88b418056b3203e94b",
+      "bytes": 44908
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Holley 2280.jpg",
+      "File:Norton Dominator 600 cc cooling fins and carburetor.jpg",
+      "File:JASDF T-6F(52-0011) Pratt & Whitney R-1340 engine carburetor air intake left front view at Shizuhama Air Base September 25, 2016.jpg",
+      "File:Carter Carburetor Building and Knights of Pythias Hall, Grand Boulevard, Grand Center, St. Louis, MO - 53237306223.jpg",
+      "File:1962 Volkswagen Beetle Solex 28 PICT Carburetor (3563243745).jpg",
+      "File:Carburetor venturi carburateur.png",
+      "File:Woman Marine Works on Carburetor, circa 1945 (6841490844).jpg"
+    ]
+  },
+  "reservatorio-respiro": {
+    "status": "approved",
+    "reason": "Kit de reservatório respiro de óleo desmontado em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:33283730614 — CTS-CC-MK7GRS3",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/147828111@N02/33283730614/",
+      "original": "https://live.staticflickr.com/3956/33283730614_afe925666f_o.jpg",
+      "width": 5304,
+      "height": 5304,
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "author": "CTS Turbo",
+      "description": "                               ",
+      "restrictions": "",
+      "rightsMark": "Public Domain Mark 1.0"
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-33283730614.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Reservatório de respiro de óleo não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:33283730614 — CTS-CC-MK7GRS3",
+      "inputSha256": "f304ea90df40138d500644391a9ab66ff3fcfb79342cf5de8f40eed16b700161",
+      "path": "/modifications/engine/d11fae7eb5a48ff839d4fb7b88b7f62886eb636fa09569bb8f03093e2e1c5ea9.webp",
+      "sha256": "d11fae7eb5a48ff839d4fb7b88b7f62886eb636fa09569bb8f03093e2e1c5ea9",
+      "bytes": 20370
+    }
+  },
+  "distribuidor": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Spinterogeno.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Spinterogeno.JPG",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Spinterogeno.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Spinterogeno.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 800,
+      "height": 1123,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "Elwood",
+      "credit": "Own work",
+      "description": "spinterogeno_motore_Fiat",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Spinterogeno.JPG.jpg",
+    "reviewedCandidate": "distribuidor--0",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Spinterogeno.JPG",
+      "inputSha256": "890218269dc4ae7bb20ecc9d60172c5c6d3e4b091b502e9ae7d4f01c86909be9",
+      "path": "/modifications/engine/71ab21abf1d5c68e24f3841237c995b50f6be6a9141f59a9821e2b0daf0436c5.webp",
+      "sha256": "71ab21abf1d5c68e24f3841237c995b50f6be6a9141f59a9821e2b0daf0436c5",
+      "bytes": 29544
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Spinterogeno.JPG",
+      "File:Walking ignition distributor (14981086170).jpg"
+    ]
+  },
+  "coxins-motor": {
+    "status": "approved",
+    "reason": "Coxim motor em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Mount Aragats from Aragatsotn Province.jpg",
+      "File:Mount Edgcumbe House (0832).jpg",
+      "File:Mount Hottanjo.JPG",
+      "File:Gifu Sky Wing 37 and Gifu City Tower 43 from Mount Ikeda.jpg",
+      "File:2015-10-31 13 41 41 A grove of Mountain Hemlock along the Mount Rose Trail about 2.1 miles northwest of Mount Rose Summit, Nevada.jpg"
+    ],
+    "source": {
+      "title": "Flickr:34187727953 — CTS-EM-MK45-6-60D",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/147828111@N02/34187727953/",
+      "original": "https://live.staticflickr.com/4249/34187727953_b157e3ae7c_o.jpg",
+      "width": 5022,
+      "height": 5022,
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "author": "CTS Turbo",
+      "description": "                               ",
+      "restrictions": "",
+      "rightsMark": "Public Domain Mark 1.0"
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-34187727953.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Coxins de motor inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:34187727953 — CTS-EM-MK45-6-60D",
+      "inputSha256": "2421902d427c427064c303df1e3740bf55a7218d931da319e9a6d1afe573f750",
+      "path": "/modifications/engine/78e1692f800314c5fbf04af468973888b17b611764e81fe1bed219cf8cb78275.webp",
+      "sha256": "78e1692f800314c5fbf04af468973888b17b611764e81fe1bed219cf8cb78275",
+      "bytes": 10836
+    }
+  },
+  "ponteira-escape": {
+    "status": "approved",
+    "reason": "Ponteira dupla real, isolada, fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Jeep 2.5 liter 4-cylinder engine chromed m.jpg",
+      "File:2021 F-250 Super Duty XLT Tremor in Carbonized Gray (rear). Note the Single Exhaust tip for the 7.3l Godzilla V8.jpg"
+    ],
+    "source": {
+      "title": "Flickr:8641784466 — BENTLEY GT PRIOR DESIGN DUAL OVAL EXHAUST TIPS",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/priordesignna/8641784466/",
+      "original": "https://live.staticflickr.com/8240/8641784466_aa6dbf1384_o.jpg",
+      "width": 3872,
+      "height": 2592,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "PRIOR DESIGN",
+      "description": "BENTLEY GT PRIOR DESIGN DUAL OVAL EXHAUST TIPS\nFor more information and pricing, please call or email us.\nPrior Design North America866-997-2336 ph.866-542-7671 faxwww.PriorDesignNorthAmerica.com ",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-8641784466.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Ponteira de escapamento inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:8641784466 — BENTLEY GT PRIOR DESIGN DUAL OVAL EXHAUST TIPS",
+      "inputSha256": "ebe9ec4b8f4dd9416952731ce7f385c9cfc964f5015704f1c8aad664c23753b3",
+      "path": "/modifications/engine/62e06f6b84a83769126b74c6b400efaf890895a617e5f968f5a4c380bfb816da.webp",
+      "sha256": "62e06f6b84a83769126b74c6b400efaf890895a617e5f968f5a4c380bfb816da",
+      "bytes": 8162
+    }
+  },
+  "manga-eixo": {
+    "status": "approved",
+    "reason": "Manga de eixo completa e isolada em fundo branco, foto do fabricante Spidertrax. Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Suspension.jpg",
+      "File:The steering knuckle of the Gyrfalcon armoured car.jpg",
+      "File:Steering knuckle.jpg"
+    ],
+    "source": {
+      "title": "Flickr:43950723800 — Pro Series Knuckles",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/43950723800/",
+      "original": "https://live.staticflickr.com/1953/43950723800_c35f3cc05a_o.jpg",
+      "width": 5014,
+      "height": 3342,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "<a href=\"http://www.spidertrax.com/products/Pro-Series-Knuckles\" rel=\"noreferrer nofollow\">www.spidertrax.com/products/Pro-Series-Knuckles</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-43950723800.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Manga de eixo inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:43950723800 — Pro Series Knuckles",
+      "inputSha256": "48b225f50b9320c50b51ff87eba4c8b0c1a284f3028704107b5557b6bf80aaf3",
+      "path": "/modifications/suspension/6b52454241e97b5e64d4246f1b7577d28ec706b9e49984a89fd6057f869850d1.webp",
+      "sha256": "6b52454241e97b5e64d4246f1b7577d28ec706b9e49984a89fd6057f869850d1",
+      "bytes": 12572
+    }
+  },
+  "subchassi": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:1963 Jaguar E-Type rear subframe rear view.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:1963_Jaguar_E-Type_rear_subframe_rear_view.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/e9/1963_Jaguar_E-Type_rear_subframe_rear_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/e/e9/1963_Jaguar_E-Type_rear_subframe_rear_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 640,
+      "height": 480,
+      "mime": "image/jpeg",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "author": "Dave Rawle",
+      "credit": "From http://www.davesetype.co.uk with permission",
+      "description": "Rear view of the rear suspension subframe from a 1963 Jaguar E-Type, restored and ready to be refitted.",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_1963_Jaguar_E-Type_rear_subframe_rear_view.jpg.jpg",
+    "reviewedCandidate": "subchassi--T0",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Lamborghini Aventador LP 700-4 chassis - Flickr - J.Smith831.jpg",
+      "File:1963 Jaguar E-Type rear subframe rear view.jpg",
+      "File:1963 Jaguar E-Type rear subframe front view.jpg",
+      "File:Porsche 911 GT1 1996 (993 style) exhaust, subframe, air-jack input, tow-loop, etc. (7526199182).jpg",
+      "File:Safety wiring - Jaguar rear subframe cropped.jpg",
+      "File:Custom Haybusa long swingarm bobbed subframe.jpg",
+      "File:Safety wiring - Jaguar rear subframe.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:1963 Jaguar E-Type rear subframe rear view.jpg",
+      "inputSha256": "20fd668d79bc13b03fa61cc3f5310a1f82be862e9152f82854ca3237924e80b3",
+      "path": "/modifications/suspension/8b1cb8f873472e218d7f24c90d1aa6b5f075d166bdddba4573c268b0ab62238c.webp",
+      "sha256": "8b1cb8f873472e218d7f24c90d1aa6b5f075d166bdddba4573c268b0ab62238c",
+      "bytes": 37560
+    }
+  },
+  "cilindro-roda": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Wheel Cylinder Assembly.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Wheel_Cylinder_Assembly.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Wheel_Cylinder_Assembly.jpg/960px-Wheel_Cylinder_Assembly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Wheel_Cylinder_Assembly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1212,
+      "height": 1728,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Ahmasmi",
+      "credit": "Own work",
+      "description": "The image depicts a wheel cylinder assembly used in a drum brake assembly",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Wheel_Cylinder_Assembly.jpg.jpg",
+    "reviewedCandidate": "cilindro-roda--0",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Wheel Cylinder Assembly.jpg",
+      "inputSha256": "02a76919cd3b9e6e8e1ab138714faf50f14a98e2617345ba83e6315c04e535e6",
+      "path": "/modifications/brakes/9d0b5f550825c1e47e8c0b6e6f746d3406eefa870a0fd75f56ece7b9e8f573dc.webp",
+      "sha256": "9d0b5f550825c1e47e8c0b6e6f746d3406eefa870a0fd75f56ece7b9e8f573dc",
+      "bytes": 7470
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Wheel Cylinder Assembly.jpg"
+    ]
+  },
+  "aneis-centralizadores": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Titanium Alloy Hub Centric Ring.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Titanium_Alloy_Hub_Centric_Ring.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Titanium_Alloy_Hub_Centric_Ring.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Titanium_Alloy_Hub_Centric_Ring.jpg/960px-Titanium_Alloy_Hub_Centric_Ring.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 6000,
+      "height": 4000,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "12600126xy",
+      "credit": "Own work",
+      "description": "Titanium Alloy Hub Centric Ring",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Titanium_Alloy_Hub_Centric_Ring.jpg.jpg",
+    "reviewedCandidate": "aneis-centralizadores--T0",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:WheelMessure.jpg",
+      "File:Titanium Alloy Hub Centric Ring.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Titanium Alloy Hub Centric Ring.jpg",
+      "inputSha256": "ffb06d1f7111f978381800e5d853fbce793bf2bf2e78988a4470a85271f5b097",
+      "path": "/modifications/wheels/61f0ceabc2a5a24996c7c409865701d654cde210a42c82ba7d3b37b0e8172044.webp",
+      "sha256": "61f0ceabc2a5a24996c7c409865701d654cde210a42c82ba7d3b37b0e8172044",
+      "bytes": 12522
+    }
+  },
+  "cubos-roda": {
+    "status": "approved",
+    "reason": "Cubo de roda completo Spidertrax em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:British Army - First World War general service wagon - wheel hub detail.jpg",
+      "File:Moscow, Velobike, Bafang wheel hub motor, Oct 2026 02-1.jpg",
+      "File:CART WHEEL HUB (2977140019).jpg",
+      "File:Iron Wheel Hub, 9th-10th Century (19655967459).jpg",
+      "File:Wooden Wheel Hub (^) - YDEA - 6493.jpg"
+    ],
+    "source": {
+      "title": "Flickr:16162466240 — Spidertrax Ultimate Unit Bearing (6 on 6-1/2\" x 5/8\" Studs x 35 Spline)",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/16162466240/",
+      "original": "https://live.staticflickr.com/7465/16162466240_dd48eace50_o.jpg",
+      "width": 5760,
+      "height": 3840,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "Model No. FUBR66125835 &amp; FUBL66125835",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-16162466240.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Cubos de roda inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:16162466240 — Spidertrax Ultimate Unit Bearing (6 on 6-1/2\" x 5/8\" Studs x 35 Spline)",
+      "inputSha256": "3086ac771a01d385611d45e3dc0d101f509d5d690677cb2ca24b9f71cfa9d471",
+      "path": "/modifications/wheels/f2900b5fb32397b0361894da1981c028f4d738baeaa0f94ae8a2ffe7dc608eb6.webp",
+      "sha256": "f2900b5fb32397b0361894da1981c028f4d738baeaa0f94ae8a2ffe7dc608eb6",
+      "bytes": 7994
+    }
+  },
+  "rolamentos-roda": {
+    "status": "approved",
+    "reason": "Conjunto de rolamento de roda completo e isolado, fundo branco, fabricante Spidertrax. Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Vehicle-Wheel Bearing. - DPLA - 455bc705f2beced235d55c5d6aa4c75f (page 3).jpg",
+      "File:Vehicle-Wheel Bearing. - DPLA - 455bc705f2beced235d55c5d6aa4c75f (page 2).jpg",
+      "File:Vehicle-Wheel Bearing. - DPLA - 455bc705f2beced235d55c5d6aa4c75f (page 4).jpg",
+      "File:Vehicle-Wheel Bearing. - DPLA - 455bc705f2beced235d55c5d6aa4c75f (page 1).jpg",
+      "File:Wheel Bearing Grease.jpg",
+      "File:Train wheel bearing.jpg"
+    ],
+    "source": {
+      "title": "Flickr:52339594635 — Pro Series Hub Socket, Bearing Pack, & ABS Cover",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/52339594635/",
+      "original": "https://live.staticflickr.com/65535/52339594635_9ec5e118a9_o.jpg",
+      "width": 4406,
+      "height": 2937,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "Pro Series Hub Socket, Bearing Pack, & ABS Cover",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52339594635.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Rolamentos de roda inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:52339594635 — Pro Series Hub Socket, Bearing Pack, & ABS Cover",
+      "inputSha256": "450181ad93017ea8e2070d9503aba8fdffb9889744e74c7d9f82cd283220d3b2",
+      "path": "/modifications/wheels/022176cbee56cf4dee9966c69efe3db735e33dd9dd991d9ddd422e690fe3188b.webp",
+      "sha256": "022176cbee56cf4dee9966c69efe3db735e33dd9dd991d9ddd422e690fe3188b",
+      "bytes": 11228
+    }
+  },
+  "valvulas-pneu": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Tire Valve Stem.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Tire_Valve_Stem.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Tire_Valve_Stem.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Tire_Valve_Stem.jpg/960px-Tire_Valve_Stem.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1920,
+      "height": 1080,
+      "mime": "image/jpeg",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "author": "Andrew Pertsev",
+      "credit": "Own work",
+      "description": "Tire Valve Stem",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Tire_Valve_Stem.jpg.jpg",
+    "reviewedCandidate": "valvulas-pneu--T1",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:ImageerMedia-70.jpg",
+      "File:Tire valve cap.jpg",
+      "File:Tire Valve Stem.jpg",
+      "File:Schwalbe tire valve stems, Winschoten (2020).jpg",
+      "File:Tire valve stem-cap off.jpg",
+      "File:Tire valve stem-cap on.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Tire Valve Stem.jpg",
+      "inputSha256": "eb833fe4c45b63fc3166cdc07542c6e46384a3a48510c489fa384db4a4ef3ea6",
+      "path": "/modifications/wheels/bf20e7a7978f0201a0e4e2b344a00d5897645861ba3512c6f543dacc1fcac627.webp",
+      "sha256": "bf20e7a7978f0201a0e4e2b344a00d5897645861ba3512c6f543dacc1fcac627",
+      "bytes": 12506
+    }
+  },
+  "semieixos": {
+    "status": "approved",
+    "reason": "Semieixo dianteiro completo isolado em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Rollingstock axle.jpg"
+    ],
+    "source": {
+      "title": "Flickr:46203756114 — Gun Drilled Front Axle Shafts",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/spidertrax/46203756114/",
+      "original": "https://live.staticflickr.com/4870/46203756114_f4c7f810fb_o.jpg",
+      "width": 5593,
+      "height": 3728,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "Spidertrax Off-Road",
+      "description": "<a href=\"https://www.flickr.com/redirect?url=http://www.spidertrax.com/Pro-Series-Gun-Drilled-300M-Inner-Shaft\">www.spidertrax.com/Pro-Series-Gun-Drilled-300M-Inner-Shaft</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-46203756114.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Semieixos inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:46203756114 — Gun Drilled Front Axle Shafts",
+      "inputSha256": "0c75020690721ff34c8b8db69b641bf45cdb94d78bc347c5ba7c624401474676",
+      "path": "/modifications/transmission/063fad24658b8d67d147f72d6cf0b2701e6d212ae1bb9f27c430c0da55840782.webp",
+      "sha256": "063fad24658b8d67d147f72d6cf0b2701e6d212ae1bb9f27c430c0da55840782",
+      "bytes": 4528
+    }
+  },
+  "coxim-cambio": {
+    "status": "approved",
+    "reason": "Coxim de transmissão isolado e completo em fundo branco Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:34187643523 — CTS-TM-MQB-60D",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/147828111@N02/34187643523/",
+      "original": "https://live.staticflickr.com/4250/34187643523_3ccfd94a46_o.jpg",
+      "width": 5304,
+      "height": 5304,
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "author": "CTS Turbo",
+      "description": "                               ",
+      "restrictions": "",
+      "rightsMark": "Public Domain Mark 1.0"
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-34187643523.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Coxim de câmbio não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:34187643523 — CTS-TM-MQB-60D",
+      "inputSha256": "e859b39785658a3c2b9f22a0d55001443e1ec5640111a6dbd2c2e34bbaddc588",
+      "path": "/modifications/transmission/826a7e990c4b0c7e8b15e597086294cbb0593c588bf6311fb73eee4d22d527db.webp",
+      "sha256": "826a7e990c4b0c7e8b15e597086294cbb0593c588bf6311fb73eee4d22d527db",
+      "bytes": 11552
+    }
+  },
+  "capa-seca": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Miata 6 speed bellhousing.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Miata_6_speed_bellhousing.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Miata_6_speed_bellhousing.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Miata_6_speed_bellhousing.jpg/960px-Miata_6_speed_bellhousing.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3385,
+      "height": 2895,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "GrabberYellow",
+      "credit": "Own work",
+      "description": "Image of an NB series Miata 6 speed manual transmission bellhousing. Input shaft, throw-out bearing, and clutch fork shown as well.",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Miata_6_speed_bellhousing.jpg.jpg",
+    "reviewedCandidate": "capa-seca--T0",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Miata 6 speed bellhousing.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Miata 6 speed bellhousing.jpg",
+      "inputSha256": "cd53f3da4cef5c52b12f90cd5535c7f5c64f4afa776564a1eac838b453eb6997",
+      "path": "/modifications/transmission/39b969249342dd37b8a742948d8ca09dafe17506b8cf001e4e74b5ff9e2ea9cc.webp",
+      "sha256": "39b969249342dd37b8a742948d8ca09dafe17506b8cf001e4e74b5ff9e2ea9cc",
+      "bytes": 36114
+    }
+  },
+  "olhal-reboque": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Jeep Liberty Tow Hook Rear 2005.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Jeep_Liberty_Tow_Hook_Rear_2005.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/af/Jeep_Liberty_Tow_Hook_Rear_2005.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://upload.wikimedia.org/wikipedia/commons/a/af/Jeep_Liberty_Tow_Hook_Rear_2005.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "width": 640,
+      "height": 480,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Michael Robinson (unixxx)",
+      "credit": "Own work",
+      "description": "Jeep Liberty Rear Tow Hook 2005",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Jeep_Liberty_Tow_Hook_Rear_2005.jpg.jpg",
+    "reviewedCandidate": "olhal-reboque--T1",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:JGSDF Patria AMV XP (25-5045) suspension & tow hook right rear view at Camp Tsuchiura September 28, 2025 01.jpg",
+      "File:Jeep Liberty Tow Hook Rear 2005.jpg",
+      "File:JGSDF Patria AMV XP (25-5045) suspension & tow hook behind low-angle view at Camp Tsuchiura September 28, 2025.jpg",
+      "File:JGSDF Patria AMV XP (25-5045) suspension & tow hook left rear view at Camp Tsuchiura September 28, 2025 02.jpg",
+      "File:Wrangler tow hook, Auto 2024, Zurich (PANA0111).jpg",
+      "File:JGSDF Patria AMV XP (25-5045) suspension & tow hook left rear view at Camp Tsuchiura September 28, 2025 01.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Jeep Liberty Tow Hook Rear 2005.jpg",
+      "inputSha256": "b6a4904bdf298c01e4af25777d6e607e544950085477ca87ddb81706c00ff295",
+      "path": "/modifications/exterior/ff049ebcd9f07c7de1e6d15c15af6e22268f4c5a64c4aaddca246a684cc8d667.webp",
+      "sha256": "ff049ebcd9f07c7de1e6d15c15af6e22268f4c5a64c4aaddca246a684cc8d667",
+      "bytes": 22024
+    }
+  },
+  "borrachas-vedacao": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Trunk Weatherstrip 2.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Trunk_Weatherstrip_2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/af/Trunk_Weatherstrip_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Trunk_Weatherstrip_2.jpg/960px-Trunk_Weatherstrip_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Ilcraft",
+      "credit": "Own work",
+      "description": "This is a new 90-96 300zx trunk/hatchback weatherstrip that fits the 2 seat coupe.",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Trunk_Weatherstrip_2.jpg.jpg",
+    "reviewedCandidate": "borrachas-vedacao--T1",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Trunk Weatherstrip 1.jpg",
+      "File:Trunk Weatherstrip 2.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Trunk Weatherstrip 2.jpg",
+      "inputSha256": "54d06bd81e2e59b9b4078cb6fb298fd186647a7e5da4458c821f05ae4f348ae2",
+      "path": "/modifications/exterior/602460f3e10748706e03c7b206d980b9a455b5dde9f14d7c9c6c295cbdfaf00a.webp",
+      "sha256": "602460f3e10748706e03c7b206d980b9a455b5dde9f14d7c9c6c295cbdfaf00a",
+      "bytes": 13476
+    }
+  },
+  "lampadas-farol": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Philips Xtreme Power headlight bulb.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Philips_Xtreme_Power_headlight_bulb.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Philips_Xtreme_Power_headlight_bulb.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Philips_Xtreme_Power_headlight_bulb.JPG/960px-Philips_Xtreme_Power_headlight_bulb.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 1789,
+      "height": 1640,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Schumi4ever",
+      "credit": "Own work",
+      "description": "Bombilla de automóvil tipo H4, modelo Philips Xtreme Power, totalmente nueva",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Philips_Xtreme_Power_headlight_bulb.JPG.jpg",
+    "reviewedCandidate": "lampadas-farol--T1",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Scooter headlights.jpg",
+      "File:045 Replacing car headlight bulb - HIR2 type 12V halogen lightbulb for Toyota Auris.jpg",
+      "File:Philips Xtreme Power headlight bulb.JPG"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Philips Xtreme Power headlight bulb.JPG",
+      "inputSha256": "65d2ec5052d1bc8a03cb00cfa71f71f36c638d4cf2f7f9a562d01d8fdc4203b9",
+      "path": "/modifications/lighting/d89d97ea87a521917b6e2d0c5987b0bb3b2845151889726434674c364157d628.webp",
+      "sha256": "d89d97ea87a521917b6e2d0c5987b0bb3b2845151889726434674c364157d628",
+      "bytes": 24876
+    }
+  },
+  "bateria": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Photo-CarBattery.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Photo-CarBattery.jpg",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Photo-CarBattery.jpg/960px-Photo-CarBattery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Photo-CarBattery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1585,
+      "height": 1515,
+      "mime": "image/jpeg",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "author": "No machine-readable author provided. Shaddack assumed (based on copyright claims).",
+      "credit": "No machine-readable source provided. Own work assumed (based on copyright claims).",
+      "description": "Acumulador para automóvil.",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Photo-CarBattery.jpg.jpg",
+    "reviewedCandidate": "bateria--0",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Photo-CarBattery.jpg",
+      "inputSha256": "9162c4250f66e5eac65a97fbda548efdf4c16f1de182013b5bc9d5df218f8b95",
+      "path": "/modifications/electrical/87e477ed9874b14cd287ac75bb71379e596bb716f26845a3ab6f478e6dc87c4f.webp",
+      "sha256": "87e477ed9874b14cd287ac75bb71379e596bb716f26845a3ab6f478e6dc87c4f",
+      "bytes": 21750
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Photo-CarBattery.jpg",
+      "File:Battery Park City 2025 066.jpg",
+      "File:Officers of 48th Battery, Canadian Field Artillery with one of their guns. June 1918 - MIKAN 3522153.jpg",
+      "File:Outer Works n Battery P6260185.JPG",
+      "File:Alexandra Battery IMG 0327.jpg"
+    ]
+  },
+  "motor-partida": {
+    "status": "approved",
+    "reason": "Inspeção visual: fotografia real, componente completo como assunto principal, nitidez suficiente e licença de reutilização identificada. Fundo alternativo aceito quando necessário.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Automobile starter.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Automobile_starter.JPG",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Automobile_starter.JPG/960px-Automobile_starter.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/83/Automobile_starter.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "author": "Willdre 00:20, 8 February 2007 (UTC)",
+      "credit": "Own work",
+      "description": "Automobile starter motor",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Automobile_starter.JPG.jpg",
+    "reviewedCandidate": "motor-partida--0",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Automobile starter.JPG",
+      "inputSha256": "7f5ece3d1961b6927413d79946a84ea488beb33e1e94b8eb20a434b3366a5eb7",
+      "path": "/modifications/electrical/3628038dc7a52d2896bc94288cce31f78d27752c6a6a1bc2d3bb5d99e28ca04f.webp",
+      "sha256": "3628038dc7a52d2896bc94288cce31f78d27752c6a6a1bc2d3bb5d99e28ca04f",
+      "bytes": 14110
+    },
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Automobile starter.JPG",
+      "File:Automobile starter 2.JPG",
+      "File:Anlasser 1920er Jahre.jpg",
+      "File:Starter motor (239551044).jpg",
+      "File:Starter motor! (2198525982).jpg",
+      "File:Starter motor.JPG",
+      "File:Liquid Starter Motor, Sunrise Dam Gold Mine.jpg",
+      "File:Hammond shaded pole starter motor.jpg",
+      "File:VST, starter motor and solenoides of a Tohatsu MFS30B outboard motor.jpg"
+    ]
+  },
+  "sensor-tps": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:Throttle position sensor.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Throttle_position_sensor.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Throttle_position_sensor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Throttle_position_sensor.jpg/960px-Throttle_position_sensor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 3404,
+      "height": 2216,
+      "mime": "image/jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Ochandwadkar",
+      "credit": "Own work",
+      "description": "Throttle position sensor",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_Throttle_position_sensor.jpg.jpg",
+    "reviewedCandidate": "sensor-tps--T0",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Throttle body.jpg",
+      "File:Throttle position sensor.jpg",
+      "File:Throttle position sensor - 2.jpg",
+      "File:Throttle position sensor - 1.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:Throttle position sensor.jpg",
+      "inputSha256": "9b0facd32a4a85fefac2b3d6f4b92000f716ce5e406bcf939bfb175d542b8ef4",
+      "path": "/modifications/electrical/1af971fb77628cf076f80c1d5fae73afa121ab1176136f77de75823362cc42c7.webp",
+      "sha256": "1af971fb77628cf076f80c1d5fae73afa121ab1176136f77de75823362cc42c7",
+      "bytes": 3164
+    }
+  },
+  "manometro-oleo": {
+    "status": "approved",
+    "reason": "Inspeção individual: componente real e completo como assunto principal, detalhes reconhecíveis e fonte com licença de reutilização. Fundo alternativo aceito como a melhor fotografia aprovada disponível; manter prioridade futura para foto em fundo claro uniforme.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "source": {
+      "title": "File:VDO engine oil pressure gauge.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:VDO_engine_oil_pressure_gauge.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/19/VDO_engine_oil_pressure_gauge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "preview": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/VDO_engine_oil_pressure_gauge.jpg/960px-VDO_engine_oil_pressure_gauge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "width": 2664,
+      "height": 2289,
+      "mime": "image/jpeg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "author": "R. Henrik Nilsson",
+      "credit": "Own work",
+      "description": "Engine oil pressure gauge by German company VDO. Ca 7*6 cm and 164 gr. Back print says \"Made in Germany 4.76\"",
+      "restrictions": ""
+    },
+    "file": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/catalog-expansion-2026-10-27/review/candidates/File_VDO_engine_oil_pressure_gauge.jpg.jpg",
+    "reviewedCandidate": "manometro-oleo--T0",
+    "licenseVerifiedOn": "2026-10-27",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:MAXIMATOR-High-Pressure-Manometer-01a.jpg",
+      "File:Bayard-Alpert gauge.jpg",
+      "File:Digital Pressure Sensor.jpg",
+      "File:Digital Barometer Sensor.jpg",
+      "File:VDO engine oil pressure gauge.jpg"
+    ],
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "File:VDO engine oil pressure gauge.jpg",
+      "inputSha256": "f1ba0f3d6991512109bfd94a9f18dd7c43d9c76b26bf20c992d500f79758e152",
+      "path": "/modifications/electrical/3b7c1e51da63fbad7657ebc8393c3582a1b3b835195e3611032c6861cadfebe4.webp",
+      "sha256": "3b7c1e51da63fbad7657ebc8393c3582a1b3b835195e3611032c6861cadfebe4",
+      "bytes": 24496
+    }
+  },
+  "tweeter": {
+    "status": "approved",
+    "reason": "Tweeter completo e isolado em fundo neutro Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Tweeter.png",
+      "File:Tweeter IMG014EC.jpg",
+      "File:High-Pass-Filter Tweeter-Protection 42678-480x360 (4791854734).jpg",
+      "File:94 Flush Airbag & A pillar tweeter.JPG",
+      "File:Vintage paper cone tweeter.jpg",
+      "File:Loudspeaker-driver-tweeter-closeup.jpg",
+      "File:Tweeter (17929795208).jpg"
+    ],
+    "source": {
+      "title": "Flickr:9517147124 — BlackAir Black Edition",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9517147124/",
+      "original": "https://live.staticflickr.com/3774/9517147124_4448ff5dfe_o.jpg",
+      "width": 2064,
+      "height": 2024,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackAir Black Edition",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9517147124.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Tweeter automotivo inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:9517147124 — BlackAir Black Edition",
+      "inputSha256": "1d09af937039397bf58bc8b01e71381d6a9544e61ebc5a1ee0c56ff6946bbf3b",
+      "path": "/modifications/audio/5c1f81b61198eccb4d10814dd0d61672b1ec9cfca6423f646be5a253719f9b14.webp",
+      "sha256": "5c1f81b61198eccb4d10814dd0d61672b1ec9cfca6423f646be5a253719f9b14",
+      "bytes": 44864
+    }
+  },
+  "midbass": {
+    "status": "approved",
+    "reason": "Woofer de kit duas vias completo e isolado Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:9517108328 — BlackAir Black Edition",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9517108328/",
+      "original": "https://live.staticflickr.com/7407/9517108328_91c85a501e_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackAir 2013",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9517108328.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Midbass automotivo não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:9517108328 — BlackAir Black Edition",
+      "inputSha256": "485ca1a677cfbce07f0bc99491641167ea36aa7b97603f7ac2a71fd84ba04268",
+      "path": "/modifications/audio/7fcc44a768a22d5ad8ed93c097a73a98b56952f703f1fd36e40ba3719136ecdd.webp",
+      "sha256": "7fcc44a768a22d5ad8ed93c097a73a98b56952f703f1fd36e40ba3719136ecdd",
+      "bytes": 19756
+    }
+  },
+  "kit-duas-vias": {
+    "status": "approved",
+    "reason": "Conjunto woofer, tweeter e crossover isolados em fundo neutro Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [],
+    "source": {
+      "title": "Flickr:9516639652 — BlackAir Black Edition",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9516639652/",
+      "original": "https://live.staticflickr.com/3800/9516639652_8f80a7ddc7_o.jpg",
+      "width": 5184,
+      "height": 3456,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "BlackAir 2013",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9516639652.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "A pesquisa de Kit de alto-falantes de duas vias não forneceu candidato fotográfico elegível para aprovação. Falta confirmar fonte real correspondente, enquadramento e licença de reutilização.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:9516639652 — BlackAir Black Edition",
+      "inputSha256": "6e04b9a2d94886098922f443c53e38ceeca115e86bdda4cadcbb316301112718",
+      "path": "/modifications/audio/7efbfd210a0377672f956a5489ae180a2b4059ce3e6bedd0702967093dc8302c.webp",
+      "sha256": "7efbfd210a0377672f956a5489ae180a2b4059ce3e6bedd0702967093dc8302c",
+      "bytes": 17640
+    }
+  },
+  "caixa-subwoofer": {
+    "status": "approved",
+    "reason": "Caixa de subwoofer completa, equipada, isolada em fundo neutro Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Speakers.JPG"
+    ],
+    "source": {
+      "title": "Flickr:9514143577 — SLR10-LEFT45",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/vibeaudio/9514143577/",
+      "original": "https://live.staticflickr.com/7458/9514143577_19de9c69b1_o.jpg",
+      "width": 2380,
+      "height": 2110,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "VIBE Audio",
+      "description": "Slick 2013",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9514143577.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Caixa para subwoofer inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:9514143577 — SLR10-LEFT45",
+      "inputSha256": "deb59abbeb079188a1527f474887c6f6dc68580d11676226af860415c1390247",
+      "path": "/modifications/audio/58c4e1a5a332dcde450f04c0ca4ed2c1e045d40969dafce99fa35630ce43b12f.webp",
+      "sha256": "58c4e1a5a332dcde450f04c0ca4ed2c1e045d40969dafce99fa35630ce43b12f",
+      "bytes": 20388
+    }
+  },
+  "cabos-audio": {
+    "status": "approved",
+    "reason": "Par de cabos RCA completos em fundo neutro Revisão visual do original concluída: fotografia real, componente completo, assunto correto e isolado; licença/condição de domínio público confirmada na página individual.",
+    "originalReason": "Novo tipo de componente; não havia imagem anterior.",
+    "reviewedOn": "2026-10-27",
+    "reviewedCandidateTitles": [
+      "File:Composite-cables.jpg"
+    ],
+    "source": {
+      "title": "Flickr:51107416596 — WBT 5N-OFC RCA Audio Interconnect Cable.",
+      "provider": "Flickr",
+      "page": "https://www.flickr.com/photos/mujitra/51107416596/",
+      "original": "https://live.staticflickr.com/65535/51107416596_8d3deed602_o.jpg",
+      "width": 6387,
+      "height": 3592,
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "author": "MIKI Yoshihito",
+      "description": "<a href=\"https://www.wbt.de\" rel=\"noreferrer nofollow\">www.wbt.de</a>",
+      "restrictions": ""
+    },
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51107416596.jpg",
+    "licenseVerifiedOn": "2026-10-27",
+    "followupBatch": "licensed-photos-followup-2026-10-27",
+    "priorPendingReason": "Candidatos de Cabos de áudio automotivo inspecionados; nenhuma fotografia aprovada reúne correspondência com o componente automotivo, visibilidade integral, nitidez/enquadramento adequados e licença documentada. Permanece em revisão.",
+    "output": {
+      "pipeline": "square-v2",
+      "sourceTitle": "Flickr:51107416596 — WBT 5N-OFC RCA Audio Interconnect Cable.",
+      "inputSha256": "13f838324c2814f1eaa5858337d045bfe03e9c132d83a7e35e75ca05d9f931d8",
+      "path": "/modifications/audio/32dc98b583b0cf5544af0d8203d977b84168c249617f61b59e95b9f6197ab983.webp",
+      "sha256": "32dc98b583b0cf5544af0d8203d977b84168c249617f61b59e95b9f6197ab983",
+      "bytes": 14634
+    }
+  }
+}

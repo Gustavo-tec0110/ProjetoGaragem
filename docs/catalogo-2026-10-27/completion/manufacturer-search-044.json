@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "multimidia",
+    "wastegate",
+    "valvula-blow-off",
+    "atuador-wastegate"
+  ],
+  "queries": [
+    {
+      "q": "\"car stereo head unit\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wastegate\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"blowoff valve\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"wastegate actuator\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Actuators from Mitsubishi Electric - Electric WasteGate Actuators for the Independent Aftermarket. - Mitsubishi Electric Automotive",
+      "url": "https://aftermarket.mitsubishielectric.eu/actuators"
+    },
+    {
+      "title": "PV Clean Mobility - Auto Component Manufacturer In India",
+      "url": "https://pvcleanmobility.com/product/electrical-wastegate-actuator-7"
+    },
+    {
+      "title": "<table id=\"e1\">",
+      "url": "https://device.report/m/0df5eeebaef50865e152c439de9f1a4cdae7189535db3601a02ae92266f34690.pdf"
+    },
+    {
+      "title": "508-1306: Wastegate Actuator | Cat® Parts Store",
+      "url": "https://parts.cat.com/en/catcorp/product/508-1306"
+    },
+    {
+      "title": "INTERNAL WASTEGATE ACTUATORS",
+      "url": "https://www.turbosmart.com/wp-content/uploads/2018/01/TS-Catalog-2018-Web-low-res.pdf"
+    },
+    {
+      "title": "Boiler Bottom Blowdown, Drain, and Vent Valves",
+      "url": "https://www.emerson.com/en/final-control/catalog/solutions/common-applications/boiler-valves/bottom-boiler-blow-down-valves"
+    },
+    {
+      "title": "Wastegate Actuators",
+      "url": "https://turbozentrum.co.uk/media/pdf/TurboZentrumUK-Catalog-2019.pdf"
+    },
+    {
+      "title": "Blowoff v",
+      "url": "https://www.meggittvalves.com/wp-content/uploads/2015/07/C327395-C327755-C423105-Blowoff-valve.pdf"
+    },
+    {
+      "title": "WASTEGATE ACTUATOR FT63405 - Fast Original",
+      "url": "https://fastoriginal.eu/en/product/wastegate-actuator-ft63405-1392227"
+    },
+    {
+      "title": "Electric actuators - MAHLE North America",
+      "url": "https://www.us.mahle.com/en/products-and-services/passenger-cars/mechatronics/electric-actuators/"
+    },
+    {
+      "title": "FMIC Universal Wastegate Turbocharger Actuator RTMG Performance 0.9 bar RTMG-901-0263 - FMIC - RTMG-901-0263",
+      "url": "https://fmic.eu/352819-universal-wastegate-turbocharger-actuator-rtmg-performance-0-9-bar-rtmg-901-0263.html"
+    },
+    {
+      "title": "Product Fitting Instructions – Turbosmart USA",
+      "url": "https://turbosmart.com/pages/product-fitting-instructions"
+    },
+    {
+      "title": "Product Brochure: Blowoff and Blowdown Valves Flier, Yarway, Control Valves (VCFLR-16608-EN)",
+      "url": "https://www.emerson.com/is/content/emerson/en/final-control/documents/product-brochure-blowoff-blowdown-valves-flier-yarway-en-en-7636534.pdf"
+    },
+    {
+      "title": "EFR 6258 EFR 7163 wastegate actuator Medium Boost Short",
+      "url": "https://www.bar-tek.com/efr-wastegate-pressure-box-actuator-efr-6258-medium"
+    },
+    {
+      "title": "TURBO CHARGER SMART WASTE GATE",
+      "url": "https://cdn.norgren.com/pdf/Norgren_123619_CV_brochure.pdf"
+    },
+    {
+      "title": "Car Stereo Head Unit Double DIN Android MP5 Audio Player - Car Audio and Car Electronics",
+      "url": "https://daoancaraudio.en.made-in-china.com/product/pSBJYgwlsmfP/China-Car-Stereo-Head-Unit-Double-DIN-Android-MP5-Audio-Player.html"
+    },
+    {
+      "title": "GZ Motorsports' High Volume Blowoff Valve For Blown Applications",
+      "url": "https://www.enginelabs.com/news/gz-motorsports-high-volume-blowoff-valve-for-blown-applications/"
+    },
+    {
+      "title": "Actuators | Forge Motor Sport USA I High Quality Motor Sport Parts",
+      "url": "https://www.forgemotorsport.com/Actuators.html"
+    },
+    {
+      "title": "Blowoff valve",
+      "url": "https://en.wikipedia.org/wiki/Blowoff_valve"
+    },
+    {
+      "title": "Not too happy with this product thus far",
+      "url": "https://www.reddit.com/r/WRX/comments/1g78sig"
+    },
+    {
+      "title": "Wastegate",
+      "url": "https://en.wikipedia.org/wiki/Wastegate"
+    },
+    {
+      "title": "Vehicle audio",
+      "url": "https://en.wikipedia.org/wiki/Vehicle_audio"
+    },
+    {
+      "title": "Help, need a new Wastegate Actuator (394002C500) but can’t find one that’s not extremely overpriced..",
+      "url": "https://www.reddit.com/r/genesiscoupe/comments/1fqcqgo"
+    },
+    {
+      "title": "Waste Gate problems",
+      "url": "https://www.reddit.com/r/VWAlltrack/comments/135b4wo"
+    },
+    {
+      "title": "Wastegate Actuator? HELP",
+      "url": "https://www.reddit.com/r/F30/comments/1i1m77y"
+    },
+    {
+      "title": "Is this the wastegate actuator mechanism?",
+      "url": "https://www.reddit.com/r/VWMK7/comments/1xgwtgb/is_this_the_wastegate_actuator_mechanism/"
+    },
+    {
+      "title": "Waste gate Actuator Issues",
+      "url": "https://www.reddit.com/r/jetta/comments/1seffex/waste_gate_actuator_issues/"
+    },
+    {
+      "title": "Broken Wastegate Arm",
+      "url": "https://www.reddit.com/r/jetta/comments/vm3gwa/broken_wastegate_arm/"
+    },
+    {
+      "title": "PSA, for mk7 owners give your turbo actuator a good spray of anti sieze.",
+      "url": "https://www.reddit.com/r/GolfGTI/comments/1vfp4yf/psa_for_mk7_owners_give_your_turbo_actuator_a/"
+    },
+    {
+      "title": "Wastegate turbo actuator part number?",
+      "url": "https://www.reddit.com/r/Golf_R/comments/17o41i5"
+    },
+    {
+      "title": "Bad waste gate actuator and flap or look elsewhere???",
+      "url": "https://www.reddit.com/r/GolfGTI/comments/1tzv6oq/bad_waste_gate_actuator_and_flap_or_look_elsewhere/"
+    },
+    {
+      "title": "Help?",
+      "url": "https://www.reddit.com/r/VWMK7/comments/1hfr4m8/help/"
+    },
+    {
+      "title": "Turbo/Wastegate Actuator",
+      "url": "https://www.reddit.com/r/GolfGTI/comments/1t3nq3y/turbowastegate_actuator/"
+    },
+    {
+      "title": "Wastegate",
+      "url": "https://fr.wikipedia.org/wiki/Wastegate"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

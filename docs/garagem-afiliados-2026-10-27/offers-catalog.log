@@ -1,0 +1,10 @@
+
+> projeto-garagem@0.1.0 offers
+> node scripts/manage-catalog-offers.mjs catalog turbo
+
+turbo · Turbocompressor
+controlador-boost · Controlador de pressão do turbo
+flange-turbo · Flange de turbocompressor
+manta-termica-turbo · Manta térmica de turbo
+linha-lubrificacao-turbo · Linha de óleo do turbo
+manometro-turbo · Manômetro de pressão do turbo

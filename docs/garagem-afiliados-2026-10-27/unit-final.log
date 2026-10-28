@@ -1,0 +1,102 @@
+
+> projeto-garagem@0.1.0 test:unit
+> node --test tests/unit/*.test.mjs
+
+✔ all 263 selected images are exact copies, preserving final approval and electrical v3 (3120.088047ms)
+✔ approved resolution respects categories and independently curated database images (338.958552ms)
+(node:151402) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/auth/redirect.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: generated upload path belongs to owner and finalizes to DB-compatible path (17.507054ms)
+✔ A1: malformed paths, formats, folders and traversal are rejected (2.83437ms)
+✔ A2: only internal redirects resolve to the permitted origin (5.409759ms)
+✔ A3: cleanup never removes another user's or referenced photo and fails closed (13.355219ms)
+(node:151408) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/catalog-search.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ editorial inventory preserves every original type with unique slugs and clear category assignments (9.545523ms)
+✔ search finds accentless names, English synonyms and combined category terms (804.1892ms)
+✔ legacy aliases stay editable and remain selectable when their target is unavailable (3.789885ms)
+✔ unapproved legacy defaults cannot reappear while independently curated photos survive (1179.489313ms)
+✔ every displayed default is a licensed, reviewed, decodable 512px WebP with public credits (492.132109ms)
+✔ the 38 previously approved photographs and their audit records remain intact (38.505005ms)
+✔ the 62 approvals present before the completion research remain unchanged (71.699156ms)
+(node:151449) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ offers API validates, rate-limits and isolates local preview from DB reads (834.194505ms)
+✔ offers API hides unreviewed or inactive rows; DB errors return safe unavailable state (238.43818ms)
+✔ local offers flag is ignored in production even when retained (445.99457ms)
+(node:151492) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ store URLs accept only HTTPS destinations belonging to the selected partner (9.286883ms)
+✔ price needs a positive value and a checked date within 24 hours (1.183617ms)
+✔ public projection excludes disabled/unsafe offers and stale prices (2.115362ms)
+✔ demonstration cannot be activated in production, even with its flag retained (2543.487887ms)
+(node:151493) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ offline rotation plan retains every object, every reference and the ownership-compatible folder (16.588603ms)
+✔ cutover plan blocks missing objects, other owners, invalid keys and collisions (12.837463ms)
+(node:151504) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ legacy URLs convert only from the configured origin; encoded traversal is rejected (6.062699ms)
+✔ denied/invalid paths never reach privileged Storage; DB errors fail closed (14.148324ms)
+✔ visibility/reference removal during download prevents serving already fetched bytes (2.906153ms)
+✔ private transition while generating a thumbnail also fails closed (19.79ms)
+✔ public/owner delivery and HEAD never opt into CDN caching, redirects, signed URLs or ETags (110.515186ms)
+✔ Storage outages and unexpected MIME types return no image bytes (8.186694ms)
+(node:151513) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/images/project-image-url.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ project, modification, avatar and cover uploads return only protected URLs and normalized WebP (2911.793173ms)
+✔ lease failures compensate only the newly uploaded object; failed upload releases its reservation (1071.750948ms)
+✔ anonymous, quota failure, injected paths and invalid file bytes never upload (685.813744ms)
+✔ protected responsive thumbnails really resize with Sharp and reject unbounded variants (284.74379ms)
+(node:151538) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ local management creates, reviews, activates, updates and disables; invalid writes preserve state (465.894873ms)
+✔ SQL export is deterministic, local and safely quotes all supplied text (2.202986ms)
+(node:151546) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/photo-path.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ A1: authenticated create moves pending photo and stores only final path (2279.979013ms)
+✔ claimed or unavailable lease prevents moving or saving the photo (698.747528ms)
+✔ A1: failed move keeps database unchanged; failed insert compensates moved photo (1762.84791ms)
+✔ A1: replacement failure preserves old photo; success removes it after saving (192.842077ms)
+✔ A1: deletion removes photo only after row deletion; foreign path and anonymous writes are rejected (591.145064ms)
+✔ Netlify guard runs before simulated cached private images and blocks encoded/nested aliases (193.773376ms)
+✔ Netlify guard preserves shipped assets and existing permitted public external images (58.900531ms)
+✔ missing/duplicate source parameters fail closed (7.713455ms)
+✔ cleanup age and path gate (8.198975ms)
+✔ a populated public projection returns events and explicitly shared expenses (2784.165593ms)
+✔ RPC and related-table failures are reported instead of empty successful projects (2969.663554ms)
+✔ owner uses RLS tables and receives their query errors (696.530162ms)
+✔ revoking shared cost bypasses a warmed public-detail cache (716.070034ms)
+✔ the project page propagates detail failures to its retry boundary (238.747885ms)
+(node:151629) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/project-overview.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ overview joins catalog, preserves legacy records and does not copy private notes or storage paths (5.265312ms)
+✔ overview queries only linked catalog ids and uses public RPC; empty projects skip catalog queries (1438.685598ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27609.940302

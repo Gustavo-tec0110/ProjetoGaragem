@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "trambulador",
+    "cabos-cambio",
+    "cilindro-mestre-embreagem",
+    "atuador-embreagem"
+  ],
+  "queries": [
+    {
+      "q": "\"gear shift linkage\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"gear shift cable\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"clutch master cylinder\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"clutch slave cylinder\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "CLUTCH MASTER CYLINDER",
+      "url": "https://pssao.com/catlog/zfi/ZF%20CVCS%20Catalogue%202023_Final%20Updated_26.10.2023.pdf"
+    },
+    {
+      "title": "Clutch Slave Cylinder",
+      "url": "https://www.exedy.com.au/ts1670626025/attachments/Page/171/Clutch%20Slave%20Cylinder.pdf"
+    },
+    {
+      "title": "Clutch Master Cylinder - Aisin Aftermarket",
+      "url": "https://www.aisinaftermarket.eu/product/clutch-master-cylinder/"
+    },
+    {
+      "title": "Gear Shift Cable – Kongsberg Automotive",
+      "url": "https://aftermarketcatalog.kongsbergautomotive.com/products/gear-shift-systems/gear-shift-cable/"
+    },
+    {
+      "title": "Description | Clutch Slave",
+      "url": "https://www.namcco.com/downloads/MasterAndSlaveCylinder2020.pdf"
+    },
+    {
+      "title": "GEAR SHIFT CABLES",
+      "url": "https://www.kongsbergautomotive.com/contentassets/d2da6f8a399b483da868643872df20ea/am_cables_2022.pdf"
+    },
+    {
+      "title": "Clutch Hydraulics | AISIN aftermarket",
+      "url": "https://www.aisinaftermarket.jp/en/products/hydraulics/index.html"
+    },
+    {
+      "title": "27559103500AM – Kongsberg Automotive",
+      "url": "https://aftermarketcatalog.kongsbergautomotive.com/product/27559103500am/"
+    },
+    {
+      "title": "EN - LuK 0091 - slave cylinder 512 0050 10.indd",
+      "url": "https://vehiclelifetimesolutions.schaeffler.com/medias/LuK-0091-en.PDF?context=bWFzdGVyfGRvY3VtZW50c3w4ODg3NjR8YXBwbGljYXRpb24vcGRmfGRvY3VtZW50cy9oZDAvaDY2LzkzMDYyMTAzMDQwMzAucGRmfGEyZGRlNjUyYWM5NWZkNTVlOWY0NmFhOThlZjczYjU3NWViYzQ3ZGE3OTU5MGQ1MTQzYjFiZDA0ZDk0NDkyMzg"
+    },
+    {
+      "title": "Clutch Master Cylinder - WABCO Catalog",
+      "url": "https://www.wabco-customercentre.com/catalog/en_AU/4700530960"
+    },
+    {
+      "title": "CLUTCH SLAVE CYLINDERS - Push Types",
+      "url": "https://www.msprodimages.com/BrandResources/APB/APB_Catalog_2019.pdf"
+    },
+    {
+      "title": "GEAR SHIFT LINKAGE (29834AP) - Product Details - Applus Otomotiv Yedek Parça San. Tic. A.Ş.",
+      "url": "https://www.aplus-automotive.com/gear-shift-linkage_192244_en_u.html"
+    },
+    {
+      "title": "Clutch Slave Cylinder Kit",
+      "url": "https://betausa.com/ab-80002.html"
+    },
+    {
+      "title": "SURI PRODUCTS (INDIA)",
+      "url": "https://www.suriproducts.com/product-cat/clutch-slave-cylinder"
+    },
+    {
+      "title": "PRODUCT CATEGORIES Speed Changing Cables | YONG HONG IND. CO., LTD.",
+      "url": "https://www.cens.com/ishow/y/yonghong/product/cate_158_1.html"
+    },
+    {
+      "title": "69-5361-27 Clutch Master Cylinder ASSY　MC-M303 〖AXEL GLOBAL〗ASONE",
+      "url": "https://www.axel-gl.com/en/asone/d/69-5361-27/"
+    },
+    {
+      "title": "Clutch Slave Cylinder - FRENLAS",
+      "url": "https://www.frenlas.com.tr/products/clutch-slave-cylinder"
+    },
+    {
+      "title": "Gear Shift Linkage Rod | Parts Europe",
+      "url": "https://www.partseurope.eu/en/product/gear-shift-linkage-rod/16010380"
+    },
+    {
+      "title": "2017 STI - Clutch Master Cylinder Went out. OEM or Aftermarket replacement?",
+      "url": "https://www.reddit.com/r/WRX/comments/119z7u1"
+    },
+    {
+      "title": "I will legit PayPal you $50, if you can help me identify this Clutch Slave Cylinder. The car is a 2G Eclipse, with a custom SRT4 motor swap and a custom mount was made for the slave cylinder (it's not an OEM eclipse one). Rubber boot part # reads 250-3515 and best I can tell the slave part # is ?A03",
+      "url": "https://www.reddit.com/r/AskAMechanic/comments/1is0oog"
+    },
+    {
+      "title": "Is there a better option for T56 slave cylinder?",
+      "url": "https://www.reddit.com/r/LSSwapTheWorld/comments/1p0gdon/is_there_a_better_option_for_t56_slave_cylinder/"
+    },
+    {
+      "title": "New In Box OEM Clutch Master Cylinder",
+      "url": "https://www.reddit.com/r/S2000/comments/1grecht"
+    },
+    {
+      "title": "Clutch Master Cylinder Alternatives",
+      "url": "https://www.reddit.com/r/IS300/comments/1tazacb/clutch_master_cylinder_alternatives/"
+    },
+    {
+      "title": "Clutch Masters parts question",
+      "url": "https://www.reddit.com/r/WRX/comments/1fh1f36"
+    },
+    {
+      "title": "whats the difference between these  rockauto LUK clutch master cylinders vs z1 oem",
+      "url": "https://www.reddit.com/r/370z/comments/1mo5eer"
+    },
+    {
+      "title": "Clutch slave cylinder replacement",
+      "url": "https://www.reddit.com/r/MazdaProtege/comments/1ar3llx"
+    },
+    {
+      "title": "Clutch Master Cylinder Discontinued?",
+      "url": "https://www.reddit.com/r/FiestaST/comments/i4h3fb"
+    },
+    {
+      "title": "Clutch master and slave cylinder question",
+      "url": "https://www.reddit.com/r/WRX/comments/1gfr8ck"
+    },
+    {
+      "title": "Clutch master cylinder the same through all years?",
+      "url": "https://www.reddit.com/r/ft86/comments/1jrv7kd"
+    },
+    {
+      "title": "Clutch Assembly vs Clutch Master Cylinder",
+      "url": "https://www.reddit.com/r/Cartalk/comments/10ru8n5"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

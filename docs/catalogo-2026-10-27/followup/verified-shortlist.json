@@ -1,0 +1,266 @@
+{
+  "pincas": {
+    "candidate": "flickr-51101678429",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101678429.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-51101678429.json",
+    "license": "CC BY 2.0",
+    "author": "HPA Motorsports",
+    "dimensions": [
+      5184,
+      3456
+    ],
+    "inputSha256": "a560af433ff27d793aa374902fadd32ab548e85daeb8f73f48e2a8337055d8b4"
+  },
+  "mangueiras": {
+    "candidate": "flickr-51101696002",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101696002.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-51101696002.json",
+    "license": "CC BY 2.0",
+    "author": "HPA Motorsports",
+    "dimensions": [
+      5184,
+      3456
+    ],
+    "inputSha256": "21463454ec77f191a40fe609d3c0ba6368b25dd95eb2482a4f3317cf8af89a03"
+  },
+  "kit-freio": {
+    "candidate": "flickr-51101678789",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101678789.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-51101678789.json",
+    "license": "CC BY 2.0",
+    "author": "HPA Motorsports",
+    "dimensions": [
+      3456,
+      5184
+    ],
+    "inputSha256": "d4942631365a19b7a0290b6c68edb9e9af7b4eb29a1616056c4fe8a30515da61"
+  },
+  "alto-falantes": {
+    "candidate": "flickr-9516988372",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9516988372.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-9516988372.json",
+    "license": "CC BY 2.0",
+    "author": "VIBE Audio",
+    "dimensions": [
+      4940,
+      3293
+    ],
+    "inputSha256": "57d376fb6719267a9d9fbcece6f1e47d8f2b740e71f11f16b80ad81c6677e7cf"
+  },
+  "ponteira-escape": {
+    "candidate": "flickr-8641784466",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-8641784466.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-8641784466.json",
+    "license": "CC BY 2.0",
+    "author": "PRIOR DESIGN",
+    "dimensions": [
+      3872,
+      2592
+    ],
+    "inputSha256": "ebe9ec4b8f4dd9416952731ce7f385c9cfc964f5015704f1c8aad664c23753b3"
+  },
+  "short-shifter": {
+    "candidate": "manufacturer-51101791473",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51101791473.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-51101791473.json",
+    "license": "CC BY 2.0",
+    "author": "HPA Motorsports",
+    "dimensions": [
+      6783,
+      4522
+    ],
+    "inputSha256": "d8b548da1de5432362ae366e21161716786940c2169d0d186ff84b14fcb29b64"
+  },
+  "coxins-motor": {
+    "candidate": "flickr-34187727953",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-34187727953.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-34187727953.json",
+    "license": "Public Domain Mark",
+    "author": "CTS Turbo",
+    "dimensions": [
+      5022,
+      5022
+    ],
+    "inputSha256": "2421902d427c427064c303df1e3740bf55a7218d931da319e9a6d1afe573f750"
+  },
+  "cubos-roda": {
+    "candidate": "flickr-16162466240",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-16162466240.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-16162466240.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      5760,
+      3840
+    ],
+    "inputSha256": "3086ac771a01d385611d45e3dc0d101f509d5d690677cb2ca24b9f71cfa9d471"
+  },
+  "adaptadores": {
+    "candidate": "product-53766352352",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-53766352352.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-53766352352.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      4701,
+      3133
+    ],
+    "inputSha256": "c232707ac3974926e7a864578637ab79270ed7b31f026361efb30b8675339637"
+  },
+  "cabos-audio": {
+    "candidate": "flickr-51107416596",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-51107416596.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-51107416596.json",
+    "license": "CC BY 2.0",
+    "author": "MIKI Yoshihito",
+    "dimensions": [
+      6387,
+      3592
+    ],
+    "inputSha256": "13f838324c2814f1eaa5858337d045bfe03e9c132d83a7e35e75ca05d9f931d8"
+  },
+  "barra-estabilizadora": {
+    "candidate": "product-52187563435",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52187563435.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-52187563435.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      5386,
+      3591
+    ],
+    "inputSha256": "d86784585da207dfee53e544c205c72f96c9a0169fa2f936490596419f5042c9"
+  },
+  "kit-duas-vias": {
+    "candidate": "flickr-9516639652",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9516639652.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-9516639652.json",
+    "license": "CC BY 2.0",
+    "author": "VIBE Audio",
+    "dimensions": [
+      5184,
+      3456
+    ],
+    "inputSha256": "6e04b9a2d94886098922f443c53e38ceeca115e86bdda4cadcbb316301112718"
+  },
+  "intake-filtro-esportivo": {
+    "candidate": "product-33744455865",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-33744455865.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-33744455865.json",
+    "license": "Public Domain Mark",
+    "author": "CTS Turbo",
+    "dimensions": [
+      4291,
+      4291
+    ],
+    "inputSha256": "d621467dfadc51e8b15b30f9311fba9424cb744a9fecc9669eef642e4f9f6108"
+  },
+  "coxim-cambio": {
+    "candidate": "product-34187643523",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-34187643523.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-34187643523.json",
+    "license": "Public Domain Mark",
+    "author": "CTS Turbo",
+    "dimensions": [
+      5304,
+      5304
+    ],
+    "inputSha256": "e859b39785658a3c2b9f22a0d55001443e1ec5640111a6dbd2c2e34bbaddc588"
+  },
+  "reservatorio-respiro": {
+    "candidate": "product-33283730614",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-33283730614.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-33283730614.json",
+    "license": "Public Domain Mark",
+    "author": "CTS Turbo",
+    "dimensions": [
+      5304,
+      5304
+    ],
+    "inputSha256": "f304ea90df40138d500644391a9ab66ff3fcfb79342cf5de8f40eed16b700161"
+  },
+  "espacadores": {
+    "candidate": "product-52927828924",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52927828924.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-52927828924.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      4028,
+      2685
+    ],
+    "inputSha256": "d1253e43ceb1e0789bbc45f707440d535d015454f3db5606f64fa4c248da50bc"
+  },
+  "semieixos": {
+    "candidate": "product-46203756114",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-46203756114.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-46203756114.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      5593,
+      3728
+    ],
+    "inputSha256": "0c75020690721ff34c8b8db69b641bf45cdb94d78bc347c5ba7c624401474676"
+  },
+  "manga-eixo": {
+    "candidate": "product-43950723800",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-43950723800.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-43950723800.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      5014,
+      3342
+    ],
+    "inputSha256": "48b225f50b9320c50b51ff87eba4c8b0c1a284f3028704107b5557b6bf80aaf3"
+  },
+  "rolamentos-roda": {
+    "candidate": "product-52339594635",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-52339594635.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-52339594635.json",
+    "license": "CC BY 2.0",
+    "author": "Spidertrax Off-Road",
+    "dimensions": [
+      4406,
+      2937
+    ],
+    "inputSha256": "450181ad93017ea8e2070d9503aba8fdffb9889744e74c7d9f82cd283220d3b2"
+  },
+  "tweeter": {
+    "candidate": "sound-9517147124",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9517147124.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-9517147124.json",
+    "license": "CC BY 2.0",
+    "author": "VIBE Audio",
+    "dimensions": [
+      2064,
+      2024
+    ],
+    "inputSha256": "1d09af937039397bf58bc8b01e71381d6a9544e61ebc5a1ee0c56ff6946bbf3b"
+  },
+  "midbass": {
+    "candidate": "sound-9517108328",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9517108328.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-9517108328.json",
+    "license": "CC BY 2.0",
+    "author": "VIBE Audio",
+    "dimensions": [
+      5184,
+      3456
+    ],
+    "inputSha256": "485ca1a677cfbce07f0bc99491641167ea36aa7b97603f7ac2a71fd84ba04268"
+  },
+  "caixa-subwoofer": {
+    "candidate": "sound-9514143577",
+    "file": "artifacts/catalog-photo-followup-2026-10-27/candidates/flickr-9514143577.jpg",
+    "evidence": "artifacts/catalog-photo-followup-2026-10-27/raw/verified-flickr-9514143577.json",
+    "license": "CC BY 2.0",
+    "author": "VIBE Audio",
+    "dimensions": [
+      2380,
+      2110
+    ],
+    "inputSha256": "deb59abbeb079188a1527f474887c6f6dc68580d11676226af860415c1390247"
+  }
+}

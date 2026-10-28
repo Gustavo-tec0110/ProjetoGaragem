@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "instrumentacao-interior",
+    "shift-light",
+    "aerofolio",
+    "spoiler"
+  ],
+  "queries": [
+    {
+      "q": "\"car gauges\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"shift light\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car rear wing\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car rear spoiler\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Microsoft Word - Shift Light –",
+      "url": "https://www.sureshift.com/new04/pdfs/ss2ug5d.pdf"
+    },
+    {
+      "title": "Shiftlight – Support site for JTi products",
+      "url": "https://jti.uk.com/shiftlight/"
+    },
+    {
+      "title": "Shift Light User Guide",
+      "url": "https://www.sureshift.com/new04/userguidess.html"
+    },
+    {
+      "title": "Sequential Shift Light | CARTEK Motorsport Electronics",
+      "url": "https://www.cartekmotorsport.com/sequential-shift-light/"
+    },
+    {
+      "title": "<visual_element id=\"e1\">",
+      "url": "https://parr-uk.co.uk/wp-content/uploads/2021/11/992-Brochure.pdf"
+    },
+    {
+      "title": "Shift Light Sequential | Omex Technology",
+      "url": "https://www.omextechnology.com/product-page/shift-light-sequential"
+    },
+    {
+      "title": "Top banner with",
+      "url": "https://www.mx5parts.co.uk/instructions/mx5parts-catalogue.pdf%3Fsrsltid%3DAfmBOopswDGWqpeG56BnBS-Ll7MCHUvLTTRVGNn_9e8veIsbDa7i6-VD"
+    },
+    {
+      "title": "M_PREVIEW_SWAN_NECK_CARBON_REAR_WING_EMIRA",
+      "url": "https://www.jubu-performance.com/_data/container/container_31/Manual_en.2452/M_PREVIEW_SWAN_NECK_CARBON_REAR_WING_EMIRA_.pdf"
+    },
+    {
+      "title": "CAN Bus LED Shift Light",
+      "url": "https://kaiserengineering.io/products/can-bus-shift-light"
+    },
+    {
+      "title": "Exterior Accessories/Car Exhaust Pipe",
+      "url": "https://www.car-decorations.com/wp-content/uploads/2025/04/Car-Decorations-catalog-c.pdf"
+    },
+    {
+      "title": "VRX Racing Remote Control RC Car Wings",
+      "url": "https://www.vrx-racing.com/products/rc-car-wings/"
+    },
+    {
+      "title": "Speedhut Car Gauges Releases Freedom CAN-BUS Gauges",
+      "url": "https://www.prweb.com/releases/speedhut_car_gauges_releases_freedom_can_bus_gauges/prweb11798379.htm"
+    },
+    {
+      "title": "Car Rear Wing Spoiler Rear Roof Spoiler Car Tail Rear Wing Spoiler - 2026 Three-Section Tail Wing Spoiler, 3 Piece Rear Trunk Spoiler price | Made-in-china.com",
+      "url": "https://magictape.en.made-in-china.com/product/LfkUqAYDVhpl/China-Car-Rear-Wing-Spoiler-Rear-Roof-Spoiler-Car-Tail-Rear-Wing-Spoiler.html"
+    },
+    {
+      "title": "D-Shift – Progressive / Sequential Shift Light – Dauntless Devices LLC",
+      "url": "https://dauntlessdevices.com/product/d-shift-programmable-shift-light/"
+    },
+    {
+      "title": "SHIFT LIGHT, AMBER LED, PEDESTAL, BLACK, QUICK-LITE",
+      "url": "https://www.autometer.com/quick-lite-shift-lite-black.html"
+    },
+    {
+      "title": "Shift Light Indicator - SLI-M",
+      "url": "https://www.leobodnar.com/products/SLI-M/"
+    },
+    {
+      "title": "Carbon Fiber Shiny Black 8 Gen Universal Car Rear Spoiler for All Sedan Cars - 2026 Universal Wing Spoiler, Universal Trunk Spoiler price | Made-in-china.com",
+      "url": "https://haoshengspoiler.en.made-in-china.com/product/uFatLAGdqJhP/China-Carbon-Fiber-Shiny-Black-8-Gen-Universal-Car-Rear-Spoiler-for-All-Sedan-Cars.html"
+    },
+    {
+      "title": "Shift light",
+      "url": "https://en.wikipedia.org/wiki/Shift_light"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

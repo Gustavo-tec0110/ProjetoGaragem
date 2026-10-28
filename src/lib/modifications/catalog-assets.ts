@@ -1,32 +1,16 @@
-const categoryFolders = {
-  "motor-performance": "engine",
-  suspensao: "suspension",
-  freios: "brakes",
-  "rodas-pneus": "wheels",
-  transmissao: "transmission",
-  interior: "interior",
-  exterior: "exterior",
-  iluminacao: "lighting",
-  "eletrica-eletronica": "electrical",
-  som: "audio",
-} as const;
+import assets from "./catalog-assets.json";
 
-const catalogAssetSlugs = new Set([
-  "turbo", "supercharger", "intercooler", "intake-filtro-esportivo", "coletor-admissao", "coletor-escape", "downpipe", "escape", "bicos-injetores", "bomba-combustivel", "regulador-pressao", "ecu-modulo", "bobinas", "velas", "radiador", "motor", "cabecote", "comando", "pistoes-bielas",
-  "coilover", "suspensao-rosca", "suspensao-fixa", "molas", "amortecedores", "barra-estabilizadora", "buchas", "bracos", "camber-alinhamento",
-  "discos", "pincas", "pastilhas", "mangueiras", "kit-freio",
-  "rodas", "pneus", "espacadores", "adaptadores",
-  "cambio", "embreagem", "diferencial", "short-shifter", "alavanca", "relacoes-marcha",
-  "banco-esportivo", "banco-concha", "volante", "manopla", "pedaleiras", "cintos", "roll-cage", "instrumentacao-interior", "painel-digital",
-  "aerofolio", "spoiler", "front-lip", "side-skirts", "difusor", "body-kit", "capo", "para-choque",
-  "farois", "lanternas", "farois-auxiliares", "drl",
-  "chicote", "reles", "fusiveis", "sensores", "wideband", "instrumentacao-eletrica", "sistema-eletrico-customizado",
-  "alto-falantes", "subwoofer", "amplificador", "multimidia",
-]);
+const reviewedAssets: Record<string, { category: string; image: string | null; previousPaths: string[] }> = assets;
 
-/** Returns the packaged default asset, or null when the source sheets have no matching illustration. */
+/** Only photographs that passed the editorial and license review are used as defaults. */
 export function getCatalogAssetPath(categorySlug: string, catalogSlug: string) {
-  const folder = categoryFolders[categorySlug as keyof typeof categoryFolders];
-  if (!folder || !catalogAssetSlugs.has(catalogSlug)) return null;
-  return `/modifications/${folder}/${catalogSlug}.webp`;
+  const item = reviewedAssets[catalogSlug];
+  return item?.category === categorySlug ? item.image : null;
+}
+
+export function resolveCatalogImage(categorySlug: string, catalogSlug: string, databasePath: string | null) {
+  const item = reviewedAssets[catalogSlug];
+  if (!item || item.category !== categorySlug) return databasePath;
+  if (databasePath && !item.previousPaths.includes(databasePath)) return databasePath;
+  return item.image;
 }

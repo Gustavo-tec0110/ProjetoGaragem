@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-27",
+  "mode": "local-only",
+  "productionWrites": 0,
+  "checks": {
+    "build": {
+      "command": "npm run build",
+      "result": "passed",
+      "bundler": "Turbopack",
+      "next": "16.3.3",
+      "includesFinalTypeScriptCheck": true,
+      "log": "artifacts/catalog-photo-completion-2026-10-27/build-final.log"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "finalReleaseTypeScript": "passed inside next build",
+      "log": "artifacts/catalog-photo-completion-2026-10-27/typecheck-final.log"
+    },
+    "unit": {
+      "command": "npm run test:unit",
+      "passed": 37,
+      "failed": 0,
+      "catalogTestsIncluded": {
+        "passed": 7,
+        "scope": "263 component searches, aliases, primary-source evidence, output SHA-256, decodable 512px WebP; exact preservation of both initial 38 and prior 62 approvals"
+      },
+      "log": "artifacts/catalog-photo-completion-2026-10-27/test-unit-final.log"
+    },
+    "sql": {
+      "command": "npm run test:sql",
+      "result": "passed",
+      "imageSecurityFixtureChecks": 68,
+      "backendChecks": 107,
+      "bootstrapMigrations": 45,
+      "catalogMigration": {
+        "originalRows": 79,
+        "finalRows": 263,
+        "categories": 10,
+        "result": "passed",
+        "additionalFinalCommand": "node scripts/test-catalog-migration.mjs",
+        "checks": [
+          "all original UUIDs/slugs and project references retained",
+          "owner attaches new component using its persisted UUID",
+          "another user cannot insert/update that project reference",
+          "custom names/descriptions/photos/cost/compatibility and inactive slug conflicts retained",
+          "idempotent including updated_at",
+          "atomic category preflight",
+          "RLS, ACL and categories unchanged",
+          "anonymous reads and denied catalog writes"
+        ]
+      },
+      "log": "artifacts/catalog-photo-completion-2026-10-27/test-sql-final.log"
+    },
+    "browser": {
+      "command": "PLAYWRIGHT_BASE_URL=http://127.0.0.1:3101 npx playwright test tests/e2e/catalog-expansion.spec.ts tests/e2e/modification-photos.spec.ts tests/e2e/project-modifications.spec.ts --workers=1",
+      "server": "local production build; test-harness flags enabled only locally",
+      "passed": 16,
+      "failed": 0,
+      "consoleAndHydrationErrors": 0,
+      "viewports": {
+        "desktop": {
+          "width": 1280,
+          "height": 720
+        },
+        "mobile": {
+          "width": 393,
+          "height": 727
+        }
+      },
+      "scope": [
+        "new component search/selection and combined filters",
+        "legacy alias visible and editable",
+        "40 initial options, explicit expansion to 80",
+        "dialog portal above navigation and inside viewport",
+        "all 64 distinct approved image URLs and Next.js 96px WebP variants return 200",
+        "visible images decoded",
+        "photo cancellation/replacement/failure cleanup",
+        "read-only integration with an existing published project"
+      ],
+      "log": "artifacts/catalog-photo-completion-2026-10-27/browser-final.log",
+      "durationSeconds": 45.4
+    },
+    "photographs": {
+      "approved": 65,
+      "approvedBindings": 65,
+      "uniqueFiles": 64,
+      "format": "webp",
+      "width": 512,
+      "height": 512,
+      "bytes": 1182964,
+      "proportions": "Full frame, proportional contain, maximum 480px content plus padding; no enlargement/cropping/stretching",
+      "sha256Verified": 64,
+      "individualLicenseEvidenceFiles": 64,
+      "licenseVerifiedOn": "2026-10-27",
+      "credits": "public/modifications/photo-credits.html",
+      "newlyCoveredBindings": 3,
+      "newDistinctPhotographs": 3,
+      "previouslyApprovedPreserved": 62,
+      "pendingBindings": 198,
+      "coveragePercent": 24.71,
+      "brokenApprovedImages": 0,
+      "newPhotographBindings": [
+        "crossover",
+        "manopla",
+        "polia-comando"
+      ],
+      "providersAdded": {
+        "Flickr": 2,
+        "Wikimedia Commons": 1
+      },
+      "visualInspection": "Selected complete input images and three final normalized photographs inspected; final research queues screened in contact sheets. All prior 62 decisions and file bytes preserved, including existing contextual photographs. No claim of exhaustive inspection of every search result.",
+      "newSourceNotes": [
+        "Manopla: licensed cached 500px representation, no enlargement; later original download returned 403.",
+        "Polia-comando: CC BY-ND 2.0, complete frame with technical orientation/resize/format changes only; no creative adaptation."
+      ],
+      "licenseEvidenceNote": "64 distinct source records; earlier Public Domain Mark records retained as such, not relabeled CC0."
+    },
+    "lintChangedFiles": {
+      "command": "npx eslint scripts/catalog/build-catalog.mjs scripts/test-catalog-migration.mjs tests/unit/catalog-expansion.test.mjs tests/e2e/catalog-expansion.spec.ts src/components/projects/catalog-picker.tsx src/components/projects/project-modifications.tsx src/lib/modifications/catalog-assets.ts src/lib/modifications/catalog-search.ts src/lib/modifications/server.ts src/lib/modifications/types.ts src/app/test-harness/catalog/page.tsx playwright.config.ts",
+      "errors": 0,
+      "warnings": 0,
+      "result": "passed",
+      "log": "artifacts/catalog-photo-completion-2026-10-27/lint-changed-final.log"
+    },
+    "lintGlobal": {
+      "command": "npx eslint . --format=json",
+      "result": "failed on preexisting research scripts",
+      "errors": 39,
+      "files": [
+        {
+          "file": "artifacts/catalog-images-2026-10-26/activate-catalog-images.mjs",
+          "errors": 17
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/rollback-catalog-images.mjs",
+          "errors": 9
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/stage-approved.mjs",
+          "errors": 9
+        },
+        {
+          "file": "artifacts/catalog-images-2026-10-26/version-static-assets.mjs",
+          "errors": 4
+        }
+      ],
+      "resolution": "Preexisting scripts were preserved; no global lint exceptions added.",
+      "log": "artifacts/catalog-photo-completion-2026-10-27/lint-global-final.json"
+    },
+    "diffWhitespace": {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    "generatorIdempotence": {
+      "command": "node scripts/catalog/build-catalog.mjs",
+      "result": "passed",
+      "comparison": "No changes to generated manifest, audit, summary, public credits or SQL migration after repeat run.",
+      "approvalApplicationIdempotent": true,
+      "generatorIdempotent": true,
+      "verifiedGeneratedFiles": [
+        "src/lib/modifications/catalog-assets.json",
+        "docs/catalogo-2026-10-27/audit.json",
+        "docs/catalogo-2026-10-27/summary.json",
+        "public/modifications/photo-credits.html",
+        "supabase/migrations/20261027120000_expand_modification_catalog.sql"
+      ]
+    },
+    "localReviewBoard": {
+      "mode": "local-static-review",
+      "result": "passed",
+      "results": [
+        {
+          "viewport": "desktop",
+          "total": 263,
+          "approved": 65,
+          "pending": 198,
+          "loadedImages": 65,
+          "overflow": false,
+          "errors": []
+        },
+        {
+          "viewport": "mobile",
+          "total": 263,
+          "approved": 65,
+          "pending": 198,
+          "loadedImages": 65,
+          "overflow": false,
+          "errors": []
+        }
+      ]
+    },
+    "pythonSyntax": {
+      "command": "python3 -m py_compile scripts/catalog/research-photos.py scripts/catalog/review-photos.py scripts/catalog/finalize-photo-research.py",
+      "result": "passed"
+    }
+  },
+  "limitations": [
+    "Photographic reformulation remains incomplete: 65/263 approved bindings and 198 pending (44 original entries, 154 added entries).",
+    "All prior 62 approvals preserved, including contextual/installation photographs; complete uniform professional product presentation is not achieved.",
+    "621 automated query attempts failed (601 Flickr, 20 PxHere); missing result models are not confirmed empty searches. Search result counts include irrelevant images and duplicates and are not approvals or proof that no licensed alternative exists.",
+    "Additional Commons categories stopped after HTTP 429: 42 attempted, 52 planned categories not executed. Openverse timeout and Unsplash HTTP 401 recorded. No access control bypass.",
+    "No manufacturer authorization or paid stock subscription was available. Public access, search filters, editorial permissions and third-party uploader declarations were not treated as blanket commercial rights.",
+    "No production migration, push, deploy or remote write executed. Persistence and ownership checks use disposable PostgreSQL/WASM fixtures; browser upload actions use mocks.",
+    "39 preexisting global lint errors remain in four untouched research scripts; changed-file lint passed."
+  ],
+  "artifacts": {
+    "report": "README.md",
+    "inventory": "inventory.csv",
+    "pending": "pending-images.csv",
+    "baseline": "baseline.json",
+    "audit": "audit.json",
+    "licenses": "license-evidence.json",
+    "desktop": "catalogo-desktop-chromium.png",
+    "mobile": "catalogo-mobile-chromium.png",
+    "migration": "supabase/migrations/20261027120000_expand_modification_catalog.sql",
+    "followupReport": "followup/README.md",
+    "followupSources": "followup/source-evidence.json",
+    "preserved38": "followup/preserved-38.json",
+    "localLogs": "artifacts/catalog-photo-followup-2026-10-27",
+    "completionReport": "completion/README.md",
+    "completionSources": "completion/source-evidence.json",
+    "preserved62": "completion/preserved-62.json",
+    "blockedItems": "completion/blocked-items.csv",
+    "componentLedger": "completion/component-ledger.json",
+    "localReview": "completion/review.html",
+    "currentLogs": "artifacts/catalog-photo-completion-2026-10-27",
+    "previousValidation": "completion/prior-validation.json"
+  },
+  "round": "licensed-photos-completion-research-2026-10-27",
+  "pushed": false,
+  "published": false,
+  "complete": false,
+  "targetApproved": 263,
+  "actualApproved": 65,
+  "pending": 198
+}

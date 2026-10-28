@@ -1,0 +1,1054 @@
+{
+  "turbo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/turbo.webp"
+  },
+  "supercharger": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/supercharger.webp"
+  },
+  "intercooler": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/intercooler.webp"
+  },
+  "intake-filtro-esportivo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/intake-filtro-esportivo.webp"
+  },
+  "coletor-admissao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/coletor-admissao.webp"
+  },
+  "coletor-escape": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/coletor-escape.webp"
+  },
+  "downpipe": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/downpipe.webp"
+  },
+  "escape": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/escape.webp"
+  },
+  "bicos-injetores": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bicos-injetores.webp"
+  },
+  "bomba-combustivel": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bomba-combustivel.webp"
+  },
+  "regulador-pressao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/regulador-pressao.webp"
+  },
+  "ecu-modulo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/ecu-modulo.webp"
+  },
+  "bobinas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bobinas.webp"
+  },
+  "velas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/velas.webp"
+  },
+  "radiador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/radiador.webp"
+  },
+  "motor": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/motor.webp"
+  },
+  "cabecote": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/cabecote.webp"
+  },
+  "comando": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/comando.webp"
+  },
+  "pistoes-bielas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/pistoes-bielas.webp"
+  },
+  "wastegate": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/wastegate.webp"
+  },
+  "valvula-blow-off": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/valvula-blow-off.webp"
+  },
+  "atuador-wastegate": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/atuador-wastegate.webp"
+  },
+  "controlador-boost": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/controlador-boost.webp"
+  },
+  "pressurizacao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/pressurizacao.webp"
+  },
+  "mangotes-silicone": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/mangotes-silicone.webp"
+  },
+  "flange-turbo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/flange-turbo.webp"
+  },
+  "manta-termica-turbo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/manta-termica-turbo.webp"
+  },
+  "linha-lubrificacao-turbo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/linha-lubrificacao-turbo.webp"
+  },
+  "corpo-borboleta": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/corpo-borboleta.webp"
+  },
+  "carburador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/carburador.webp"
+  },
+  "cornetas-admissao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/cornetas-admissao.webp"
+  },
+  "reservatorio-respiro": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/reservatorio-respiro.webp"
+  },
+  "filtro-combustivel": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/filtro-combustivel.webp"
+  },
+  "flauta-combustivel": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/flauta-combustivel.webp"
+  },
+  "surge-tank": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/surge-tank.webp"
+  },
+  "celula-combustivel": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/celula-combustivel.webp"
+  },
+  "linhas-combustivel": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/linhas-combustivel.webp"
+  },
+  "cabos-vela": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/cabos-vela.webp"
+  },
+  "modulo-ignicao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/modulo-ignicao.webp"
+  },
+  "distribuidor": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/distribuidor.webp"
+  },
+  "virabrequim": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/virabrequim.webp"
+  },
+  "valvulas-motor": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/valvulas-motor.webp"
+  },
+  "molas-valvulas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/molas-valvulas.webp"
+  },
+  "pratos-valvulas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/pratos-valvulas.webp"
+  },
+  "polia-comando": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/polia-comando.webp"
+  },
+  "junta-cabecote": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/junta-cabecote.webp"
+  },
+  "prisioneiros-motor": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/prisioneiros-motor.webp"
+  },
+  "bronzinas": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bronzinas.webp"
+  },
+  "bomba-oleo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bomba-oleo.webp"
+  },
+  "carter": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/carter.webp"
+  },
+  "kit-carter-seco": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/kit-carter-seco.webp"
+  },
+  "radiador-oleo": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/radiador-oleo.webp"
+  },
+  "bomba-agua": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/bomba-agua.webp"
+  },
+  "ventoinha": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/ventoinha.webp"
+  },
+  "valvula-termostatica": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/valvula-termostatica.webp"
+  },
+  "reservatorio-expansao": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/reservatorio-expansao.webp"
+  },
+  "mangueiras-arrefecimento": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/mangueiras-arrefecimento.webp"
+  },
+  "defletor-radiador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/defletor-radiador.webp"
+  },
+  "coxins-motor": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/coxins-motor.webp"
+  },
+  "abafador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/abafador.webp"
+  },
+  "ressonador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/ressonador.webp"
+  },
+  "catalisador": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/catalisador.webp"
+  },
+  "ponteira-escape": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/ponteira-escape.webp"
+  },
+  "valvula-escape": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/valvula-escape.webp"
+  },
+  "fita-termica-escape": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/fita-termica-escape.webp"
+  },
+  "kit-oxido-nitroso": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/kit-oxido-nitroso.webp"
+  },
+  "injecao-agua-metanol": {
+    "category": "motor-performance",
+    "image": "/modifications/approved/injecao-agua-metanol.webp"
+  },
+  "coilover": {
+    "category": "suspensao",
+    "image": "/modifications/approved/coilover.webp"
+  },
+  "suspensao-rosca": {
+    "category": "suspensao",
+    "image": "/modifications/approved/suspensao-rosca.webp"
+  },
+  "suspensao-fixa": {
+    "category": "suspensao",
+    "image": "/modifications/approved/suspensao-fixa.webp"
+  },
+  "molas": {
+    "category": "suspensao",
+    "image": "/modifications/approved/molas.webp"
+  },
+  "amortecedores": {
+    "category": "suspensao",
+    "image": "/modifications/approved/amortecedores.webp"
+  },
+  "barra-estabilizadora": {
+    "category": "suspensao",
+    "image": "/modifications/approved/barra-estabilizadora.webp"
+  },
+  "buchas": {
+    "category": "suspensao",
+    "image": "/modifications/approved/buchas.webp"
+  },
+  "bracos": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bracos.webp"
+  },
+  "camber-alinhamento": {
+    "category": "suspensao",
+    "image": "/modifications/approved/camber-alinhamento.webp"
+  },
+  "reforcos-estruturais": {
+    "category": "suspensao",
+    "image": "/modifications/approved/reforcos-estruturais.webp"
+  },
+  "suspensao-ar": {
+    "category": "suspensao",
+    "image": "/modifications/approved/suspensao-ar.webp"
+  },
+  "bolsas-ar": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bolsas-ar.webp"
+  },
+  "compressor-suspensao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/compressor-suspensao.webp"
+  },
+  "reservatorio-ar": {
+    "category": "suspensao",
+    "image": "/modifications/approved/reservatorio-ar.webp"
+  },
+  "bloco-valvulas-ar": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bloco-valvulas-ar.webp"
+  },
+  "central-suspensao-ar": {
+    "category": "suspensao",
+    "image": "/modifications/approved/central-suspensao-ar.webp"
+  },
+  "bieletas": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bieletas.webp"
+  },
+  "pivos-suspensao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/pivos-suspensao.webp"
+  },
+  "coxins-amortecedor": {
+    "category": "suspensao",
+    "image": "/modifications/approved/coxins-amortecedor.webp"
+  },
+  "batentes-suspensao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/batentes-suspensao.webp"
+  },
+  "manga-eixo": {
+    "category": "suspensao",
+    "image": "/modifications/approved/manga-eixo.webp"
+  },
+  "caixa-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/caixa-direcao.webp"
+  },
+  "terminais-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/terminais-direcao.webp"
+  },
+  "bracos-axiais": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bracos-axiais.webp"
+  },
+  "bomba-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/bomba-direcao.webp"
+  },
+  "reservatorio-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/reservatorio-direcao.webp"
+  },
+  "amortecedor-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/amortecedor-direcao.webp"
+  },
+  "kit-angulo-direcao": {
+    "category": "suspensao",
+    "image": "/modifications/approved/kit-angulo-direcao.webp"
+  },
+  "barra-panhard": {
+    "category": "suspensao",
+    "image": "/modifications/approved/barra-panhard.webp"
+  },
+  "feixe-molas": {
+    "category": "suspensao",
+    "image": "/modifications/approved/feixe-molas.webp"
+  },
+  "subchassi": {
+    "category": "suspensao",
+    "image": "/modifications/approved/subchassi.webp"
+  },
+  "discos": {
+    "category": "freios",
+    "image": "/modifications/approved/discos.webp"
+  },
+  "pincas": {
+    "category": "freios",
+    "image": "/modifications/approved/pincas.webp"
+  },
+  "pastilhas": {
+    "category": "freios",
+    "image": "/modifications/approved/pastilhas.webp"
+  },
+  "mangueiras": {
+    "category": "freios",
+    "image": "/modifications/approved/mangueiras.webp"
+  },
+  "kit-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/kit-freio.webp"
+  },
+  "cilindro-mestre-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/cilindro-mestre-freio.webp"
+  },
+  "servofreio": {
+    "category": "freios",
+    "image": "/modifications/approved/servofreio.webp"
+  },
+  "valvula-proporcao-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/valvula-proporcao-freio.webp"
+  },
+  "freio-mao-hidraulico": {
+    "category": "freios",
+    "image": "/modifications/approved/freio-mao-hidraulico.webp"
+  },
+  "pedal-box": {
+    "category": "freios",
+    "image": "/modifications/approved/pedal-box.webp"
+  },
+  "reservatorio-fluido-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/reservatorio-fluido-freio.webp"
+  },
+  "dutos-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/dutos-freio.webp"
+  },
+  "sapatas-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/sapatas-freio.webp"
+  },
+  "tambores-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/tambores-freio.webp"
+  },
+  "cilindro-roda": {
+    "category": "freios",
+    "image": "/modifications/approved/cilindro-roda.webp"
+  },
+  "cabos-freio-mao": {
+    "category": "freios",
+    "image": "/modifications/approved/cabos-freio-mao.webp"
+  },
+  "linhas-rigidas-freio": {
+    "category": "freios",
+    "image": "/modifications/approved/linhas-rigidas-freio.webp"
+  },
+  "rodas": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/rodas.webp"
+  },
+  "pneus": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/pneus.webp"
+  },
+  "espacadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/espacadores.webp"
+  },
+  "adaptadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/adaptadores.webp"
+  },
+  "prisioneiros-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/prisioneiros-roda.webp"
+  },
+  "porcas-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/porcas-roda.webp"
+  },
+  "parafusos-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/parafusos-roda.webp"
+  },
+  "aneis-centralizadores": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/aneis-centralizadores.webp"
+  },
+  "cubos-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/cubos-roda.webp"
+  },
+  "rolamentos-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/rolamentos-roda.webp"
+  },
+  "valvulas-pneu": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/valvulas-pneu.webp"
+  },
+  "sensor-tpms": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/sensor-tpms.webp"
+  },
+  "travas-roda": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/travas-roda.webp"
+  },
+  "calotas": {
+    "category": "rodas-pneus",
+    "image": "/modifications/approved/calotas.webp"
+  },
+  "cambio": {
+    "category": "transmissao",
+    "image": "/modifications/approved/cambio.webp"
+  },
+  "embreagem": {
+    "category": "transmissao",
+    "image": "/modifications/approved/embreagem.webp"
+  },
+  "diferencial": {
+    "category": "transmissao",
+    "image": "/modifications/approved/diferencial.webp"
+  },
+  "short-shifter": {
+    "category": "transmissao",
+    "image": "/modifications/approved/short-shifter.webp"
+  },
+  "alavanca": {
+    "category": "transmissao",
+    "image": "/modifications/approved/alavanca.webp"
+  },
+  "relacoes-marcha": {
+    "category": "transmissao",
+    "image": "/modifications/approved/relacoes-marcha.webp"
+  },
+  "volante-motor": {
+    "category": "transmissao",
+    "image": "/modifications/approved/volante-motor.webp"
+  },
+  "conversor-torque": {
+    "category": "transmissao",
+    "image": "/modifications/approved/conversor-torque.webp"
+  },
+  "carda": {
+    "category": "transmissao",
+    "image": "/modifications/approved/carda.webp"
+  },
+  "semieixos": {
+    "category": "transmissao",
+    "image": "/modifications/approved/semieixos.webp"
+  },
+  "juntas-homocineticas": {
+    "category": "transmissao",
+    "image": "/modifications/approved/juntas-homocineticas.webp"
+  },
+  "cruzetas": {
+    "category": "transmissao",
+    "image": "/modifications/approved/cruzetas.webp"
+  },
+  "coxim-cambio": {
+    "category": "transmissao",
+    "image": "/modifications/approved/coxim-cambio.webp"
+  },
+  "trambulador": {
+    "category": "transmissao",
+    "image": "/modifications/approved/trambulador.webp"
+  },
+  "cabos-cambio": {
+    "category": "transmissao",
+    "image": "/modifications/approved/cabos-cambio.webp"
+  },
+  "cilindro-mestre-embreagem": {
+    "category": "transmissao",
+    "image": "/modifications/approved/cilindro-mestre-embreagem.webp"
+  },
+  "atuador-embreagem": {
+    "category": "transmissao",
+    "image": "/modifications/approved/atuador-embreagem.webp"
+  },
+  "radiador-oleo-cambio": {
+    "category": "transmissao",
+    "image": "/modifications/approved/radiador-oleo-cambio.webp"
+  },
+  "capa-seca": {
+    "category": "transmissao",
+    "image": "/modifications/approved/capa-seca.webp"
+  },
+  "flange-adaptadora-cambio": {
+    "category": "transmissao",
+    "image": "/modifications/approved/flange-adaptadora-cambio.webp"
+  },
+  "cinta-carda": {
+    "category": "transmissao",
+    "image": "/modifications/approved/cinta-carda.webp"
+  },
+  "banco-esportivo": {
+    "category": "interior",
+    "image": "/modifications/approved/banco-esportivo.webp"
+  },
+  "banco-concha": {
+    "category": "interior",
+    "image": "/modifications/approved/banco-concha.webp"
+  },
+  "volante": {
+    "category": "interior",
+    "image": "/modifications/approved/volante.webp"
+  },
+  "manopla": {
+    "category": "interior",
+    "image": "/modifications/approved/manopla.webp"
+  },
+  "pedaleiras": {
+    "category": "interior",
+    "image": "/modifications/approved/pedaleiras.webp"
+  },
+  "cintos": {
+    "category": "interior",
+    "image": "/modifications/approved/cintos.webp"
+  },
+  "roll-cage": {
+    "category": "interior",
+    "image": "/modifications/approved/roll-cage.webp"
+  },
+  "instrumentacao-interior": {
+    "category": "interior",
+    "image": "/modifications/approved/instrumentacao-interior.webp"
+  },
+  "shift-light": {
+    "category": "interior",
+    "image": "/modifications/approved/shift-light.webp"
+  },
+  "painel-digital": {
+    "category": "interior",
+    "image": "/modifications/approved/painel-digital.webp"
+  },
+  "cubo-volante": {
+    "category": "interior",
+    "image": "/modifications/approved/cubo-volante.webp"
+  },
+  "engate-rapido-volante": {
+    "category": "interior",
+    "image": "/modifications/approved/engate-rapido-volante.webp"
+  },
+  "trilhos-banco": {
+    "category": "interior",
+    "image": "/modifications/approved/trilhos-banco.webp"
+  },
+  "suportes-banco": {
+    "category": "interior",
+    "image": "/modifications/approved/suportes-banco.webp"
+  },
+  "revestimento-bancos": {
+    "category": "interior",
+    "image": "/modifications/approved/revestimento-bancos.webp"
+  },
+  "forros-porta": {
+    "category": "interior",
+    "image": "/modifications/approved/forros-porta.webp"
+  },
+  "carpete": {
+    "category": "interior",
+    "image": "/modifications/approved/carpete.webp"
+  },
+  "tapetes": {
+    "category": "interior",
+    "image": "/modifications/approved/tapetes.webp"
+  },
+  "soleiras": {
+    "category": "interior",
+    "image": "/modifications/approved/soleiras.webp"
+  },
+  "console-central": {
+    "category": "interior",
+    "image": "/modifications/approved/console-central.webp"
+  },
+  "apoio-braco": {
+    "category": "interior",
+    "image": "/modifications/approved/apoio-braco.webp"
+  },
+  "extintor-automotivo": {
+    "category": "interior",
+    "image": "/modifications/approved/extintor-automotivo.webp"
+  },
+  "rede-seguranca": {
+    "category": "interior",
+    "image": "/modifications/approved/rede-seguranca.webp"
+  },
+  "barra-cintos": {
+    "category": "interior",
+    "image": "/modifications/approved/barra-cintos.webp"
+  },
+  "aerofolio": {
+    "category": "exterior",
+    "image": "/modifications/approved/aerofolio.webp"
+  },
+  "spoiler": {
+    "category": "exterior",
+    "image": "/modifications/approved/spoiler.webp"
+  },
+  "front-lip": {
+    "category": "exterior",
+    "image": "/modifications/approved/front-lip.webp"
+  },
+  "side-skirts": {
+    "category": "exterior",
+    "image": "/modifications/approved/side-skirts.webp"
+  },
+  "difusor": {
+    "category": "exterior",
+    "image": "/modifications/approved/difusor.webp"
+  },
+  "body-kit": {
+    "category": "exterior",
+    "image": "/modifications/approved/body-kit.webp"
+  },
+  "capo": {
+    "category": "exterior",
+    "image": "/modifications/approved/capo.webp"
+  },
+  "para-choque": {
+    "category": "exterior",
+    "image": "/modifications/approved/para-choque.webp"
+  },
+  "retrovisores": {
+    "category": "exterior",
+    "image": "/modifications/approved/retrovisores.webp"
+  },
+  "splitter-dianteiro": {
+    "category": "exterior",
+    "image": "/modifications/approved/splitter-dianteiro.webp"
+  },
+  "canards": {
+    "category": "exterior",
+    "image": "/modifications/approved/canards.webp"
+  },
+  "alargadores-paralama": {
+    "category": "exterior",
+    "image": "/modifications/approved/alargadores-paralama.webp"
+  },
+  "paralamas": {
+    "category": "exterior",
+    "image": "/modifications/approved/paralamas.webp"
+  },
+  "grade-dianteira": {
+    "category": "exterior",
+    "image": "/modifications/approved/grade-dianteira.webp"
+  },
+  "entrada-ar-capo": {
+    "category": "exterior",
+    "image": "/modifications/approved/entrada-ar-capo.webp"
+  },
+  "respiros-capo": {
+    "category": "exterior",
+    "image": "/modifications/approved/respiros-capo.webp"
+  },
+  "travas-capo": {
+    "category": "exterior",
+    "image": "/modifications/approved/travas-capo.webp"
+  },
+  "engate-reboque": {
+    "category": "exterior",
+    "image": "/modifications/approved/engate-reboque.webp"
+  },
+  "olhal-reboque": {
+    "category": "exterior",
+    "image": "/modifications/approved/olhal-reboque.webp"
+  },
+  "protetor-carter": {
+    "category": "exterior",
+    "image": "/modifications/approved/protetor-carter.webp"
+  },
+  "bagageiro-teto": {
+    "category": "exterior",
+    "image": "/modifications/approved/bagageiro-teto.webp"
+  },
+  "pelicula-vidros": {
+    "category": "exterior",
+    "image": "/modifications/approved/pelicula-vidros.webp"
+  },
+  "vinil-envelopamento": {
+    "category": "exterior",
+    "image": "/modifications/approved/vinil-envelopamento.webp"
+  },
+  "pelicula-protecao-pintura": {
+    "category": "exterior",
+    "image": "/modifications/approved/pelicula-protecao-pintura.webp"
+  },
+  "emblemas": {
+    "category": "exterior",
+    "image": "/modifications/approved/emblemas.webp"
+  },
+  "frisos": {
+    "category": "exterior",
+    "image": "/modifications/approved/frisos.webp"
+  },
+  "borrachas-vedacao": {
+    "category": "exterior",
+    "image": "/modifications/approved/borrachas-vedacao.webp"
+  },
+  "farois": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/farois.webp"
+  },
+  "lanternas": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/lanternas.webp"
+  },
+  "farois-auxiliares": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/farois-auxiliares.webp"
+  },
+  "drl": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/drl.webp"
+  },
+  "iluminacao-interna": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/iluminacao-interna.webp"
+  },
+  "lampadas-farol": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/lampadas-farol.webp"
+  },
+  "projetor-farol": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/projetor-farol.webp"
+  },
+  "reator-farol": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/reator-farol.webp"
+  },
+  "modulo-led": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/modulo-led.webp"
+  },
+  "setas": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/setas.webp"
+  },
+  "luz-freio-adicional": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/luz-freio-adicional.webp"
+  },
+  "luz-placa": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/luz-placa.webp"
+  },
+  "luz-re": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/luz-re.webp"
+  },
+  "iluminacao-ambiente": {
+    "category": "iluminacao",
+    "image": "/modifications/approved/iluminacao-ambiente.webp"
+  },
+  "chicote": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/chicote.webp"
+  },
+  "reles": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/reles.webp"
+  },
+  "fusiveis": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/fusiveis.webp"
+  },
+  "sensores": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensores.webp"
+  },
+  "wideband": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/wideband.webp"
+  },
+  "instrumentacao-eletrica": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/instrumentacao-eletrica.webp"
+  },
+  "sistema-eletrico-customizado": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sistema-eletrico-customizado.webp"
+  },
+  "bateria": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/bateria.webp"
+  },
+  "alternador": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/alternador.webp"
+  },
+  "motor-partida": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/motor-partida.webp"
+  },
+  "chave-geral": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/chave-geral.webp"
+  },
+  "caixa-fusiveis": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/caixa-fusiveis.webp"
+  },
+  "modulo-distribuicao": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/modulo-distribuicao.webp"
+  },
+  "conectores-eletricos": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/conectores-eletricos.webp"
+  },
+  "sensor-map": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-map.webp"
+  },
+  "sensor-tps": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-tps.webp"
+  },
+  "sensor-temperatura": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-temperatura.webp"
+  },
+  "sensor-rotacao": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-rotacao.webp"
+  },
+  "sensor-fase": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-fase.webp"
+  },
+  "sensor-detonacao": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-detonacao.webp"
+  },
+  "sonda-lambda": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sonda-lambda.webp"
+  },
+  "manometro-turbo": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/manometro-turbo.webp"
+  },
+  "manometro-oleo": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/manometro-oleo.webp"
+  },
+  "termometro-oleo": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/termometro-oleo.webp"
+  },
+  "termometro-agua": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/termometro-agua.webp"
+  },
+  "contagiros": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/contagiros.webp"
+  },
+  "voltimetro": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/voltimetro.webp"
+  },
+  "registrador-dados": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/registrador-dados.webp"
+  },
+  "alarme": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/alarme.webp"
+  },
+  "rastreador": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/rastreador.webp"
+  },
+  "camera-re": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/camera-re.webp"
+  },
+  "sensor-estacionamento": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/sensor-estacionamento.webp"
+  },
+  "camera-veicular": {
+    "category": "eletrica-eletronica",
+    "image": "/modifications/approved/camera-veicular.webp"
+  },
+  "alto-falantes": {
+    "category": "som",
+    "image": "/modifications/approved/alto-falantes.webp"
+  },
+  "subwoofer": {
+    "category": "som",
+    "image": "/modifications/approved/subwoofer.webp"
+  },
+  "amplificador": {
+    "category": "som",
+    "image": "/modifications/approved/amplificador.webp"
+  },
+  "multimidia": {
+    "category": "som",
+    "image": "/modifications/approved/multimidia.webp"
+  },
+  "tweeter": {
+    "category": "som",
+    "image": "/modifications/approved/tweeter.webp"
+  },
+  "midbass": {
+    "category": "som",
+    "image": "/modifications/approved/midbass.webp"
+  },
+  "kit-duas-vias": {
+    "category": "som",
+    "image": "/modifications/approved/kit-duas-vias.webp"
+  },
+  "caixa-subwoofer": {
+    "category": "som",
+    "image": "/modifications/approved/caixa-subwoofer.webp"
+  },
+  "processador-audio": {
+    "category": "som",
+    "image": "/modifications/approved/processador-audio.webp"
+  },
+  "crossover": {
+    "category": "som",
+    "image": "/modifications/approved/crossover.webp"
+  },
+  "manta-acustica": {
+    "category": "som",
+    "image": "/modifications/approved/manta-acustica.webp"
+  },
+  "cabos-audio": {
+    "category": "som",
+    "image": "/modifications/approved/cabos-audio.webp"
+  },
+  "conversor-audio": {
+    "category": "som",
+    "image": "/modifications/approved/conversor-audio.webp"
+  },
+  "interface-volante": {
+    "category": "som",
+    "image": "/modifications/approved/interface-volante.webp"
+  },
+  "antena": {
+    "category": "som",
+    "image": "/modifications/approved/antena.webp"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-27",
+  "items": [
+    "iluminacao-ambiente",
+    "alternador",
+    "chave-geral",
+    "caixa-fusiveis"
+  ],
+  "queries": [
+    {
+      "q": "\"car ambient lighting\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car alternator\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"battery disconnect switch\" manufacturer product -filetype:pdf"
+    },
+    {
+      "q": "\"car fuse box\" manufacturer product -filetype:pdf"
+    }
+  ],
+  "discoveredPages": [
+    {
+      "title": "Car Ambient Lights – Smart Power Better Future",
+      "url": "https://carambientlights.com/"
+    },
+    {
+      "title": "Car Ambient Light Kit User Manual - QIDEWIN Automotive Interior Atmosphere Lamp",
+      "url": "https://manuals.plus/m/0265bd55febd9775d10e1d5e69ef08a6b8511af7b6332cc4ae3d1fd6917bfe5d"
+    },
+    {
+      "title": "CARDI | Ambient Light",
+      "url": "https://www.cardiauto.com/"
+    },
+    {
+      "title": "ALTERNATOR CATALOG 2025 DAH KEE | Car Electric Motor Manufacturer | DK",
+      "url": "https://www.dahkee.com/en/page/Dahkee_2025_e-catalog_ALTERNATOR.html"
+    },
+    {
+      "title": "35.301 - battery disconnect switch - Peerless Electronics",
+      "url": "https://peerlesselectronics.com/35-301-battery-disconnect-switch"
+    },
+    {
+      "title": "BD-Series | Carling Technologies",
+      "url": "https://www.carlingtech.com/battery-disconnect-bd-series"
+    },
+    {
+      "title": "Shenzhen Hujiang Lianchi Technology Co., LtdLED Car Ambient Lighting Manufacturer",
+      "url": "https://www.hjlccarambient.com/"
+    },
+    {
+      "title": "Car Ambient Lighting Manufacturer | OEM ODM - ChasingLite",
+      "url": "https://chasinglite.com/"
+    },
+    {
+      "title": "Product Datasheet",
+      "url": "https://www.littelfuse.com/assetdocs/littelfuse-electrical-battery-disconnect-switches-datasheet-08097360-08097469?assetguid=9cf06fba-1099-46e6-ae28-fa30297248f9"
+    },
+    {
+      "title": "Battery Disconnect Switch (Series 15250) | Eaton",
+      "url": "https://www.eaton.com/gb/en-gb/catalog/emobility/battery-disconnect-switch-series-15250.html"
+    },
+    {
+      "title": "Manual Battery Disconnect Switches",
+      "url": "https://www.littelfuse.com/products/switches/battery-disconnect-switches.aspx"
+    },
+    {
+      "title": "Ambient manual new.cdr",
+      "url": "https://manuals.plus/m/fa1b2bf0330668781db2f09e5cf0c5d7fb1a7ae90244f8fc4601d91e466a91b5.pdf"
+    },
+    {
+      "title": "Car Ambient Lighting - SURPLIFE",
+      "url": "https://www.surplife.net/solutions/car-ambient-lighting"
+    },
+    {
+      "title": "Home",
+      "url": "https://autoambientlight.com/"
+    },
+    {
+      "title": "AUTOMOTIVE FUSE BOX",
+      "url": "https://www.cheyen-fuse.com/pimages/YEN-2025PDF_60947_3205207_5942.pdf"
+    },
+    {
+      "title": "Car alternator specification sheet",
+      "url": "https://img1.wsimg.com/blobby/go/7219dffe-e0ab-4b31-b3e7-77acd35b52f5/downloads/car_alternator_specification_sheet.pdf"
+    },
+    {
+      "title": "Pagine 1_web",
+      "url": "https://www.siriapd.it/storage/downloads/65/z7Wdw10iWZrCXKfS4VRVcEH6fObK2kK79zQRY3o5.pdf"
+    },
+    {
+      "title": "Cob Angel Eyes LED Car Ambient Lights 100MM RED BLUE Fog Lamp 12-18V",
+      "url": "https://www.automotive-ledlight.com/doc/31141933/cob-angel-eyes-led-car-ambient-lights-100mm-red-blue-fog-lamp-12-18v.pdf"
+    },
+    {
+      "title": "CSA Approved Battery Disconnect Switch?",
+      "url": "https://www.reddit.com/r/ElectricalEngineering/comments/pbgisp"
+    },
+    {
+      "title": "48VDC 100A Battery Disconnect Switch Selection?",
+      "url": "https://www.reddit.com/r/batteries/comments/1asne8g"
+    },
+    {
+      "title": "Automotive fuse",
+      "url": "https://en.wikipedia.org/wiki/Automotive_fuse"
+    },
+    {
+      "title": "Interior light",
+      "url": "https://en.wikipedia.org/wiki/Interior_light"
+    }
+  ],
+  "note": "Discovery only; no reuse permission inferred."
+}

@@ -1,0 +1,17 @@
+✔ all 263 selected images are exact copies, preserving final approval and electrical v3 (655.556927ms)
+✔ approved resolution respects categories and independently curated database images (236.918825ms)
+(node:137433) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/gustavo/%C3%81rea%20de%20trabalho/ProjetoGaragem/src/lib/modifications/offers.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/gustavo/Área de trabalho/ProjetoGaragem/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ store URLs accept only HTTPS destinations belonging to the selected partner (9.816671ms)
+✔ price needs a positive value and a checked date within 24 hours (1.008237ms)
+✔ public projection excludes disabled/unsafe offers and stale prices (1.284245ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2307.113787
