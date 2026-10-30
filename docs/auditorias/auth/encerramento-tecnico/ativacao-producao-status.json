@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-30",
+  "productionPublished": true,
+  "publishedDeployId": "6ae4c3551cd90aba1507b9aa",
+  "repositoryHead": "a25e048",
+  "migrationsApplied": [
+    "20261027120000",
+    "20261027210000",
+    "20261028010000",
+    "20261028120000",
+    "20261028121000",
+    "20261028122000",
+    "20261029010000",
+    "20261029181952"
+  ],
+  "captchaActive": false,
+  "backup": {
+    "databaseExportedTlsVerified": true,
+    "isolatedRestoreDataTablesMatched": 61,
+    "storageObjectsBackedUpAndRestored": 90,
+    "managedPlatformDdlTriggersExcludedFromLocalRestoreOnly": 7
+  },
+  "productionValidated": [
+    "public routes",
+    "anonymous protected-route redirect",
+    "Google real first and second login",
+    "owner-confirmed authenticated terms acceptance",
+    "single Google identity and single receipt",
+    "logout and reload",
+    "trusted HTTPS",
+    "Secure SameSite=Lax host-only cookies",
+    "real hosted refresh rotation"
+  ],
+  "callbackQueryFix": {
+    "commit": "a25e048",
+    "focusedTestsPassed": 9,
+    "deployment": "published",
+    "remoteInvalidCodeQueryPassthroughRejected": true,
+    "noStoreVerified": true,
+    "effectiveReferrerPolicy": "strict-origin-when-cross-origin from global hosting headers; callback no-referrer was overridden"
+  },
+  "browserBlocker": "Local browser use disabled in Work settings; owner asked to re-enable",
+  "emailFlows": "not yet validated in production",
+  "retention": "local fixture scheduler only; production deletion registry, actual backup lifecycle and legal basis requirements unresolved",
+  "cleanup": "not started; conditional success gates not yet satisfied"
+}
