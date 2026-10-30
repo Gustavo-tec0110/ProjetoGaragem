@@ -15,6 +15,36 @@ const captcha=load('src/lib/auth/captcha.ts');
 const legal=load('src/lib/auth/legal.ts');
 const redirect=load('src/lib/auth/redirect.ts');
 
+test('callback destinations prevent hosting query passthrough and preserve internal destinations',()=>{
+  const origin='https://projetogaragem.com.br';
+  for(const destination of ['/garagem','/onboarding','/auth/auth-code-error','/reset-password']) {
+    const target=redirect.authCallbackRedirectUrl(destination,origin);
+    assert.equal(target.origin,origin);
+    assert.equal(target.pathname,destination);
+    assert.ok(target.search, 'host must receive an explicit destination query');
+    assert.equal(target.searchParams.has('code'),false);
+    assert.equal(target.searchParams.has('access_token'),false);
+  }
+  const target=redirect.authCallbackRedirectUrl('/garagem?aba=salvos#projetos',origin);
+  assert.equal(target.search,'?aba=salvos');assert.equal(target.hash,'#projetos');
+});
+
+test('callback failure redirects without provider inputs and prevents caching and referrers',async()=>{
+  const origin='https://projetogaragem.com.br';
+  const {GET}=load('src/app/auth/callback/route.ts',{
+    '@/lib/auth/terms-server':{},'@/lib/supabase/cookie-options':{supabaseCookieOptions:()=>({secure:true})},
+    '@/lib/garage/constants':{},'@/lib/auth/redirect':redirect,'@/lib/auth/user':{},
+    '@/lib/supabase/env':{getRequestSiteUrl:()=>origin,isSupabaseConfigured:true,supabaseAnonKey:'fixture',supabaseUrl:'https://fixture.invalid'},
+    '@supabase/ssr':{createServerClient:()=>({auth:{exchangeCodeForSession:async()=>({error:{message:'fixture'}})}})},
+  });
+  const response=await GET({nextUrl:new URL(origin+'/auth/callback?code=fixture-only&next=%2Fgaragem'),cookies:{getAll:()=>[]}});
+  assert.equal(response.status,307);
+  const target=new URL(response.headers.get('location'));
+  assert.equal(target.pathname,'/auth/auth-code-error');assert.equal(target.searchParams.has('code'),false);
+  assert.match(response.headers.get('cache-control'),/no-store/);
+  assert.equal(response.headers.get('referrer-policy'),'no-referrer');
+});
+
 test('CAPTCHA configuration fails closed, dummy keys confined to explicit loopback test mode',()=>{
   for(const host of ['localhost','127.0.0.1','[::1]'])assert.equal(captcha.captchaConfiguration('1x00000000000000000000AA','test',host).error,null);
   for(const [key,mode,host] of [[undefined,undefined,'localhost'],['1x00000000000000000000AA','test','projetogaragem.com.br'],['1x00000000000000000000AA','production','localhost'],['real-site-key','test','localhost'],['real-site-key','off','localhost']])

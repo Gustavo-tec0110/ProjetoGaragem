@@ -1,5 +1,12 @@
 const DEFAULT_AUTH_REDIRECT = "/garagem";
 
+/** A nonempty destination query prevents the host from forwarding OAuth inputs. */
+export function authCallbackRedirectUrl(destination: string, origin: string) {
+  const url = new URL(destination, origin);
+  if (!url.search) url.searchParams.set("auth_redirect", "1");
+  return url;
+}
+
 export function getSafeNextPath(next: string | null | undefined) {
   if (!next?.startsWith("/") || next.startsWith("//") ||
     Array.from(next).some((character) => character === "\\" || character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127)) {

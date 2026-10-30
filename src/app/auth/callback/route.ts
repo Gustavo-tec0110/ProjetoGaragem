@@ -5,7 +5,7 @@ import { createServerClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 
 import { normalizeSlug } from "@/lib/garage/constants";
-import { getPostTermsPath } from "@/lib/auth/redirect";
+import { authCallbackRedirectUrl, getPostTermsPath } from "@/lib/auth/redirect";
 import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import {
   getRequestSiteUrl,
@@ -30,16 +30,23 @@ function usernameFromUser(user: User) {
   return normalizeSlug(`${source}-${user.id.slice(0, 6)}`).slice(0, 24);
 }
 
+function authRedirect(destination: string, origin: string) {
+  const response = NextResponse.redirect(authCallbackRedirectUrl(destination, origin));
+  response.headers.set("Cache-Control", "no-store");
+  response.headers.set("Referrer-Policy", "no-referrer");
+  return response;
+}
+
 export async function GET(request: NextRequest) {
   const origin = getRequestSiteUrl(request.nextUrl.origin);
   const code = request.nextUrl.searchParams.get("code");
   const next = getPostTermsPath(request.nextUrl.searchParams.get("next"));
 
   if (!isSupabaseConfigured) {
-    return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, origin));
+    return authRedirect(`/login?next=${encodeURIComponent(next)}`, origin);
   }
 
-  let response = NextResponse.redirect(new URL(next, origin));
+  let response = authRedirect(next, origin);
 
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookieOptions: supabaseCookieOptions(),
@@ -53,7 +60,7 @@ export async function GET(request: NextRequest) {
           request.cookies.set(name, value);
         }
 
-        response = NextResponse.redirect(new URL(next, origin));
+        response = authRedirect(next, origin);
         for (const { name, value, options } of cookiesToSet) {
           response.cookies.set(name, value, options);
         }
@@ -66,12 +73,12 @@ export async function GET(request: NextRequest) {
   });
 
   if (!code) {
-    return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, origin));
+    return authRedirect(`/login?next=${encodeURIComponent(next)}`, origin);
   }
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
   if (error) {
-    return NextResponse.redirect(new URL("/auth/auth-code-error", origin));
+    return authRedirect("/auth/auth-code-error", origin);
   }
 
   const {
@@ -81,7 +88,7 @@ export async function GET(request: NextRequest) {
   // Recovery must not try profile writes, which RLS refuses before acceptance.
   if (user && new URL(next, origin).pathname === "/reset-password") return response;
   if (user && !await hasCurrentTerms(supabase)) {
-    response.headers.set("Location", new URL(termsDestination(next), origin).toString());
+    response.headers.set("Location", authCallbackRedirectUrl(termsDestination(next), origin).toString());
     response.headers.set("Cache-Control", "no-store");
     return response;
   }
@@ -117,7 +124,7 @@ export async function GET(request: NextRequest) {
         });
 
         if (legacyInsertError) {
-          return NextResponse.redirect(new URL("/onboarding", origin));
+          return authRedirect("/onboarding", origin);
         }
       }
     } else {
