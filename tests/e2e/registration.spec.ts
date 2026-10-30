@@ -11,6 +11,8 @@ test("novo usuario solicita cadastro pelo formulario oficial", async ({ page }) 
   await page.getByLabel("Senha", { exact: true }).fill(signupPassword!);
   await page.getByLabel("Confirmar senha").fill(signupPassword!);
 
+  await page.getByRole("checkbox", { name: /Li e aceito os Termos de Uso/ }).check();
+
   const signupResponsePromise = page.waitForResponse(
     (response) => response.url().includes("/auth/v1/signup") && response.request().method() === "POST"
   );
@@ -32,7 +34,7 @@ test("novo usuario solicita cadastro pelo formulario oficial", async ({ page }) 
   if (signupPayload.access_token) {
     await expect(page).toHaveURL(/\/onboarding$/, { timeout: 30_000 });
   } else {
-    await expect(page.getByText(/Cadastro iniciado.*verifique seu email/i)).toBeVisible();
+    await expect(page.getByText(/Cadastro iniciado.*Confira seu email/i)).toBeVisible();
     await expect(page).toHaveURL(/\/register$/);
   }
 });

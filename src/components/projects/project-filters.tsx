@@ -3,6 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { SlidersHorizontal, X } from "lucide-react";
 import Link from "next/link";
+import * as React from "react";
 
 import { ProjectSearchBox } from "@/components/projects/project-search-box";
 import { Button } from "@/components/ui/button";
@@ -131,6 +132,15 @@ function buildFilterHref(actionPath: string, filters: ProjectFilters, removedKey
 
 export function ProjectFilters(props: FiltersProps) {
   const { filters, actionPath = "/explorar" } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const desktopFiltersRef = React.useRef<HTMLFormElement>(null);
+
+  React.useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = (event: MediaQueryListEvent) => { if (event.matches) setMobileOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
   const categories = uniqueOptions(DEFAULT_STYLES, [...props.availableStyles, ...props.availableCategories]);
   const fuels = uniqueOptions(DEFAULT_FUELS, props.availableFuels);
   const inductions = uniqueOptions(DEFAULT_INDUCTIONS, props.availableInductions);
@@ -152,7 +162,7 @@ export function ProjectFilters(props: FiltersProps) {
 
   return (
     <>
-      <Dialog.Root>
+      <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
         <Card className="border-border/50 bg-card/70 p-3 md:hidden">
           <form data-project-search-form action={actionPath} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
             <ProjectSearchBox defaultValue={filters.q} ariaLabel="Pesquisar catálogo no celular" />
@@ -207,6 +217,12 @@ export function ProjectFilters(props: FiltersProps) {
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm md:hidden" />
           <Dialog.Content
+            onCloseAutoFocus={(event) => {
+              if (window.matchMedia("(min-width: 768px)").matches) {
+                event.preventDefault();
+                desktopFiltersRef.current?.querySelector<HTMLInputElement>('input[name="q"]')?.focus();
+              }
+            }}
             className="fixed inset-x-0 bottom-0 z-[90] max-h-[88dvh] overflow-hidden rounded-t-3xl border border-border/80 bg-card shadow-2xl md:hidden"
           >
             <div className="flex items-start justify-between gap-4 border-b border-border/70 px-4 py-4">
@@ -242,6 +258,7 @@ export function ProjectFilters(props: FiltersProps) {
 
       <Card className="hidden border-border/50 bg-card/65 p-5 md:block">
         <form
+          ref={desktopFiltersRef}
           data-project-search-form
           className="grid gap-3 lg:grid-cols-2 xl:grid-cols-[1.6fr_repeat(4,minmax(0,0.75fr))_auto]"
           action={actionPath}

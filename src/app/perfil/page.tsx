@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { ProfileForm } from "@/components/garage/profile-form";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getCurrentProfile } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
@@ -22,10 +24,11 @@ export default async function PerfilPage() {
         <main className="flex-1 px-4 sm:px-6">
           <div className="mobile-page-shell mx-auto w-full max-w-3xl pb-12 md:pt-24">
             <Card className="p-4 md:p-8">
-              <h1 className="font-title text-2xl tracking-tight">Perfil indisponivel</h1>
+              <h1 className="font-title text-2xl tracking-tight">Perfil indisponível</h1>
               <p className="mt-2 text-sm text-muted">
                 Entre na sua conta para criar ou editar seu perfil.
               </p>
+              <Button asChild className="mt-4"><Link href="/login?next=/perfil">Entrar</Link></Button>
             </Card>
           </div>
         </main>

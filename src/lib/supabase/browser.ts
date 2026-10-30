@@ -1,5 +1,7 @@
 "use client";
 
+import { supabaseCookieOptions } from "@/lib/supabase/cookie-options";
+
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createBrowserClient } from "@supabase/ssr";
 
@@ -13,6 +15,7 @@ export function getSupabaseBrowserClient() {
   if (browserClient) return browserClient;
 
   browserClient = createBrowserClient<Database>(supabaseUrl, supabaseAnonKey, {
+    cookieOptions: supabaseCookieOptions(),
     auth: {
       persistSession: true,
       autoRefreshToken: true,

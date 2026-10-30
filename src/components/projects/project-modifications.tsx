@@ -24,7 +24,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CatalogDetails } from "@/components/projects/catalog-details";
+import { CatalogDetails, CatalogDetailsProvider } from "@/components/projects/catalog-details";
 import { CatalogPicker } from "@/components/projects/catalog-picker";
 import { ProjectImage } from "@/components/projects/project-image";
 import { cn } from "@/lib/utils";
@@ -88,16 +88,18 @@ function formatEstimate(item: ModificationCatalogItem) {
 function ModificationImage({
   item,
   className,
+  eager = false,
 }: {
   item: Pick<ProjectModification, "project_photo_url"> & { catalog: Pick<ModificationCatalogItem, "name" | "default_image_path"> };
   className?: string;
+  eager?: boolean;
 }) {
   const isProjectPhoto = Boolean(item.project_photo_url);
   const image = item.project_photo_url ?? item.catalog.default_image_path;
   return (
     <div className={cn("relative overflow-hidden rounded-2xl border border-border/70", isProjectPhoto ? "bg-background/45" : "bg-[#f5f5f5]", className)}>
       {image ? (
-        <ProjectImage src={image} alt={item.catalog.name} fill sizes="(min-width: 1280px) 370px, (min-width: 640px) calc((100vw - 96px) / 2), calc(100vw - 58px)" fallbackSrc="/modifications/photo-unavailable.svg" className={isProjectPhoto ? "object-cover" : "object-contain p-2"} />
+        <ProjectImage src={image} alt={item.catalog.name} fill loading={eager ? "eager" : "lazy"} fetchPriority={eager ? "high" : undefined} sizes="(min-width: 1280px) 370px, (min-width: 640px) calc((100vw - 96px) / 2), calc(100vw - 58px)" fallbackSrc="/modifications/photo-unavailable.svg" className={isProjectPhoto ? "object-cover" : "object-contain p-2"} />
       ) : (
         <div className="flex size-full items-center justify-center bg-[#f5f5f5]">
           <Wrench className="size-9 text-neutral-400" aria-hidden="true" />
@@ -403,11 +405,11 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
         </Card>
       ) : null}
 
-      {modifications.length ? <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {modifications.map((modification) => {
+      {modifications.length ? <CatalogDetailsProvider><div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {modifications.map((modification, index) => {
           const estimate = formatEstimate(modification.catalog);
           return <Card key={modification.id} className="flex min-h-0 flex-col p-3">
-            <CatalogDetails item={modification.catalog}><button type="button" aria-label={`Ver detalhes de ${modification.catalog.name}`} className="pg-interactive-card block w-full rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-accent"><ModificationImage item={modification} className={modification.project_photo_url ? "aspect-[16/10]" : "aspect-square"} /></button></CatalogDetails>
+            <CatalogDetails item={modification.catalog}><button type="button" aria-label={`Ver detalhes de ${modification.catalog.name}`} className="pg-interactive-card block w-full rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-accent"><ModificationImage item={modification} eager={index === 0} className={modification.project_photo_url ? "aspect-[16/10]" : "aspect-square"} /></button></CatalogDetails>
             <div className="flex flex-1 flex-col px-1 pb-1 pt-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -431,7 +433,7 @@ export function ProjectModifications({ carId, projectName, projectHref, canEdit,
             </div>
           </Card>;
         })}
-      </div> : null}
+      </div></CatalogDetailsProvider> : null}
 
       {!canEdit && carId ? <p className="mt-8 text-center text-sm text-muted">Somente o proprietário pode alterar as modificações deste projeto.</p> : null}
       <ModificationEditor

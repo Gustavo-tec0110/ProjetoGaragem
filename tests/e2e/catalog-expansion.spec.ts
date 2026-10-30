@@ -17,11 +17,11 @@ test("catálogo expandido permite pesquisar, combinar filtros e selecionar peça
   const dialog = page.getByRole("dialog");
   const search = dialog.getByRole("searchbox", { name: "Buscar peça" });
   await expect(dialog.getByLabel("Resultados do catálogo")).toHaveText(`${selectableCount} peças encontradas`);
-  await expect(dialog.getByLabel("Peças do catálogo").locator("button[aria-pressed]")).toHaveCount(40);
+  await expect(dialog.getByLabel("Peças do catálogo").locator("button[aria-pressed]")).toHaveCount(16);
   await expect(dialog.getByRole("button", { name: /Mostrar mais peças/ })).toBeVisible();
   await dialog.getByRole("button", { name: /Mostrar mais peças/ }).click();
-  await expect(dialog.getByRole("button", { name: /80 de/ })).toBeVisible();
-  await expect(dialog.getByLabel("Peças do catálogo").locator("button[aria-pressed]")).toHaveCount(80);
+  await expect(dialog.getByRole("button", { name: /56 de/ })).toBeVisible();
+  await expect(dialog.getByLabel("Peças do catálogo").locator("button[aria-pressed]")).toHaveCount(56);
   await search.fill("suspensao a ar");
   const part = dialog.getByRole("button", { name: /Suspensão a ar Suspensão/ });
   await expect(part).toBeVisible();

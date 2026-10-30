@@ -19,3 +19,26 @@ export function getSafeNextPath(next: string | null | undefined) {
     return DEFAULT_AUTH_REDIRECT;
   }
 }
+
+// Login pages use their requested destination; project invitations use their current URL.
+export function getGoogleNextPath(next: string | null | undefined, pathname: string, search: string) {
+  const authPage = ["/login", "/register", "/forgot-password", "/reset-password"].includes(pathname);
+  const candidate = next ?? (authPage ? new URLSearchParams(search).get("next") : `${pathname}${search}`);
+  const safe = candidate?.startsWith("/accept-terms?") || candidate?.startsWith("/accept-terms/?")
+    ? getPostTermsPath(candidate) : getSafeNextPath(candidate);
+  const destination = new URL(safe, "https://projetogaragem.invalid").pathname.replace(/\/$/, "");
+  return ["/login", "/register", "/forgot-password", "/reset-password"].includes(destination) || destination.startsWith("/auth/")
+    ? DEFAULT_AUTH_REDIRECT : safe;
+}
+
+// Flatten a resumed acceptance URL once, preserving the original safe destination.
+export function getPostTermsPath(next: string | null | undefined) {
+  let candidate = next;
+  if (next?.startsWith("/accept-terms?") || next?.startsWith("/accept-terms/?")) {
+    candidate = new URL(next, "https://projetogaragem.invalid").searchParams.get("next");
+  }
+  const safe = getSafeNextPath(candidate);
+  const pathname = new URL(safe, "https://projetogaragem.invalid").pathname.replace(/\/$/, "");
+  return ["/accept-terms", "/login", "/register", "/forgot-password"].includes(pathname) || pathname.startsWith("/auth/")
+    ? DEFAULT_AUTH_REDIRECT : safe;
+}

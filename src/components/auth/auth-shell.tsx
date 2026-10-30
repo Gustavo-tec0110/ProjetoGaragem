@@ -42,8 +42,8 @@ export function AuthShell({
             </div>
           </aside>
 
-          <section className="flex items-center p-6 sm:p-10 lg:p-12">
-            <div className="mx-auto w-full max-w-md">
+          <section className="flex min-w-0 items-center p-6 sm:p-10 lg:p-12">
+            <div className="mx-auto w-full min-w-0 max-w-md [overflow-wrap:anywhere]">
               <p className="pg-eyebrow">{eyebrow}</p>
               <h1 className="mt-3 font-title text-3xl tracking-tight md:text-4xl">{title}</h1>
               <p className="mt-3 text-sm leading-6 text-muted">{description}</p>

@@ -1,3 +1,5 @@
+import { readBoundedBody } from "@/lib/security/bounded-body";
+import { hasTrustedMutationOrigin } from "@/lib/security/request-origin";
 import { NextResponse } from "next/server";
 
 import {
@@ -12,6 +14,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  if (!hasTrustedMutationOrigin(request)) return NextResponse.json({ message: "Origem inválida." }, { status: 403 });
   const timer = performanceTimer("request", "project.create");
   const rate = allowRequest(request.headers, "project-create", 12, 60_000);
   if (!rate.ok) {
@@ -25,9 +28,10 @@ export async function POST(request: Request) {
 
   try {
     const parseStartedAt = performance.now();
-    formData = await request.formData();
+    formData = await (await readBoundedBody(request, PROJECT_REQUEST_MAX_BYTES)).formData();
     timer.lap("formData", parseStartedAt);
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "body_too_large") return NextResponse.json({ message: "Solicitação muito grande." }, { status: 413 });
     timer.end({ ok: false, status: 400 });
     return NextResponse.json(
       { status: "error", message: "Formulario invalido." },

@@ -4,6 +4,7 @@ import * as React from "react";
 
 export function useCopyCurrentUrl(feedbackDuration = 1600) {
   const [copied, setCopied] = React.useState(false);
+  const [manualUrl, setManualUrl] = React.useState("");
   const timeoutRef = React.useRef<number | null>(null);
 
   React.useEffect(
@@ -16,8 +17,17 @@ export function useCopyCurrentUrl(feedbackDuration = 1600) {
   );
 
   const copyCurrentUrl = React.useCallback(async () => {
-    await navigator.clipboard?.writeText(window.location.href);
-    setCopied(true);
+    setCopied(false);
+    setManualUrl("");
+    if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("clipboard-unavailable");
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+    } catch {
+      setManualUrl(window.location.href);
+      return;
+    }
 
     if (timeoutRef.current !== null) {
       window.clearTimeout(timeoutRef.current);
@@ -29,5 +39,5 @@ export function useCopyCurrentUrl(feedbackDuration = 1600) {
     }, feedbackDuration);
   }, [feedbackDuration]);
 
-  return { copied, copyCurrentUrl };
+  return { copied, copyCurrentUrl, manualUrl };
 }

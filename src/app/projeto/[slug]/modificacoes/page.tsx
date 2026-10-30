@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ProjectModifications } from "@/components/projects/project-modifications";
 import { getProjectModificationData } from "@/lib/modifications/server";
-import { getProjectPageData } from "@/lib/projects/server";
+import { getProjectSummary } from "@/lib/projects/server";
 import { createSeoMetadata } from "@/lib/seo";
 import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
 
@@ -11,7 +11,7 @@ type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { project } = await getProjectPageData(slug);
+  const project = await getProjectSummary(slug);
   if (!project) {
     return createSeoMetadata({
       title: "Projeto não encontrado",
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectModificationsPage({ params }: PageProps) {
   const { slug } = await params;
-  const [{ project }, user] = await Promise.all([getProjectPageData(slug), getSupabaseServerUser()]);
+  const [project, user] = await Promise.all([getProjectSummary(slug), getSupabaseServerUser()]);
   if (!project) notFound();
   const isOwner = Boolean(user && project.ownerId === user.id);
 

@@ -19,15 +19,15 @@ export default function GlobalError({
               Algo saiu do ponto
             </h1>
             <p className="mt-3 text-muted">
-              A pagina encontrou um erro inesperado. Recarregue a experiencia para continuar.
+              A página encontrou um erro inesperado. Recarregue a experiência para continuar.
             </p>
             {error.digest ? (
-              <p className="mt-3 text-xs text-muted">Codigo: {error.digest}</p>
+              <p className="mt-3 text-xs text-muted">Código: {error.digest}</p>
             ) : null}
             <button
               type="button"
               onClick={() => unstable_retry()}
-              className="mt-6 inline-flex h-12 items-center justify-center rounded-3xl bg-accent px-6 font-ui text-sm font-semibold text-foreground shadow-glow transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="mt-6 inline-flex h-12 items-center justify-center rounded-3xl bg-accent-2 px-6 font-ui text-sm font-semibold text-foreground shadow-glow transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Tentar novamente
             </button>

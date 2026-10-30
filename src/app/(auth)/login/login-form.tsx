@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
-import { getSafeNextPath } from "@/lib/auth/redirect";
+import { getPostTermsPath } from "@/lib/auth/redirect";
+
+import { Turnstile, useCaptcha } from "@/components/auth/turnstile";
+import { CAPTCHA_REQUIRED } from "@/lib/auth/captcha";
 
 export function LoginForm() {
   const { signInWithEmail } = useAuth();
+  const captcha = useCaptcha();
+  const submitting = useRef(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,27 +23,36 @@ export function LoginForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (submitting.current) return;
+    if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
+    submitting.current = true;
     setLoading(true);
-    setError("");
+    try {
+      setError("");
 
-    const { error: signInError } = await signInWithEmail(email, password);
+      const { error: signInError } = await signInWithEmail(email, password, captcha.token);
 
-    if (signInError) {
-      setLoading(false);
-      setError("Email ou senha incorretos.");
-      return;
+      if (signInError) {
+        setLoading(false);
+        setError("Não foi possível entrar. Confira email, senha e refaça a verificação de segurança.");
+        return;
+      }
+
+      const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
+      const session = (await sessionResponse.json()) as { authenticated?: boolean };
+      if (!sessionResponse.ok || !session.authenticated) {
+        setLoading(false);
+        setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+        return;
+      }
+
+      const nextPath = new URLSearchParams(window.location.search).get("next");
+      window.location.assign(getPostTermsPath(nextPath));
+    } catch {
+      setError("Não foi possível entrar agora. Tente novamente.");
+    } finally {
+      submitting.current = false; setLoading(false); captcha.reset();
     }
-
-    const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
-    const session = (await sessionResponse.json()) as { authenticated?: boolean };
-    if (!sessionResponse.ok || !session.authenticated) {
-      setLoading(false);
-      setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
-      return;
-    }
-
-    const nextPath = new URLSearchParams(window.location.search).get("next");
-    window.location.assign(getSafeNextPath(nextPath));
   };
 
   return (
@@ -60,6 +74,7 @@ export function LoginForm() {
           Senha
           <Input placeholder="Sua senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
         </label>
+        <Turnstile onToken={captcha.setToken} generation={captcha.generation} />
         {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
         <Button type="submit" disabled={loading} className="mobile-cta-safe w-full">
           {loading ? "Entrando..." : "Entrar"}

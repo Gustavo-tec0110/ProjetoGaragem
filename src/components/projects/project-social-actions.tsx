@@ -21,6 +21,7 @@ import {
 } from "@/app/carros/actions";
 import { LoginPromptDialog } from "@/components/auth/login-prompt-dialog";
 import { Button } from "@/components/ui/button";
+import { CopyLinkFeedback } from "@/components/projects/copy-link-feedback";
 import { useCopyCurrentUrl } from "@/hooks/use-copy-current-url";
 import {
   getLocalProjectSocialState,
@@ -73,7 +74,7 @@ export function ProjectSocialActions({
   const likePendingRef = React.useRef(false);
   const savePendingRef = React.useRef(false);
   const followPendingRef = React.useRef(false);
-  const { copied, copyCurrentUrl } = useCopyCurrentUrl();
+  const { copied, copyCurrentUrl, manualUrl } = useCopyCurrentUrl();
   const [actionError, setActionError] = React.useState<string | null>(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [serverLiked, setServerLiked] = React.useState(initialLiked);
@@ -313,7 +314,7 @@ export function ProjectSocialActions({
           <Button asChild variant="ghost"><Link href={evolutionHref}><Calendar aria-hidden="true" /> Evolução</Link></Button>
         </div>
       </div>
-      <span className="sr-only" role="status" aria-live="polite">{copied ? "Link copiado" : ""}</span>
+      <CopyLinkFeedback copied={copied} manualUrl={manualUrl} />
     </div>
   );
 }

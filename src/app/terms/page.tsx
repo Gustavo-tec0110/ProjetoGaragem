@@ -1,3 +1,4 @@
+import { TERMS_VERSION, LEGAL_VERSION_NOTICE } from "@/lib/auth/legal";
 import type { Metadata } from "next";
 
 import { createSeoMetadata } from "@/lib/seo";
@@ -17,6 +18,7 @@ export default function TermsPage() {
         <p className="font-ui text-xs font-semibold uppercase tracking-[0.18em] text-accent">Projeto Garagem</p>
         <h1 className="mt-3 font-title text-3xl font-bold tracking-tight sm:text-4xl">Termos de Uso</h1>
         <p className="mt-3 text-sm text-muted">Última atualização: {updatedAt}</p>
+        <p className="mt-2 text-xs text-muted">Versão: {TERMS_VERSION}. {LEGAL_VERSION_NOTICE}</p>
 
         <div className="mt-8 space-y-8 text-sm leading-7 text-foreground/85 sm:text-base">
           <section>

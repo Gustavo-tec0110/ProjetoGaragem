@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,12 @@ import { Input } from "@/components/ui/input";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { getSiteUrl } from "@/lib/supabase/env";
 
+import { Turnstile, useCaptcha } from "@/components/auth/turnstile";
+import { CAPTCHA_REQUIRED } from "@/lib/auth/captcha";
+
 export default function ForgotPasswordPage() {
+  const captcha = useCaptcha();
+  const submitting = useRef(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -17,27 +22,33 @@ export default function ForgotPasswordPage() {
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (submitting.current) return;
+    if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
+    submitting.current = true;
     setLoading(true);
-    setError("");
+    try {
+      setError("");
 
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) {
-      setError("Recuperacao indisponivel enquanto o Supabase nao estiver configurado.");
-      setLoading(false);
-      return;
-    }
+      const supabase = getSupabaseBrowserClient();
+      if (!supabase) {
+        setError("Recuperacao indisponivel enquanto o Supabase nao estiver configurado.");
+        setLoading(false);
+        return;
+      }
 
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`,
-    });
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        captchaToken: captcha.token,
+        redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`,
+      });
 
-    if (resetError) {
-      setError("Nao foi possivel enviar o link agora.");
-    } else {
-      setSent(true);
-    }
+      if (resetError) {
+        setError("Nao foi possivel enviar o link agora.");
+      } else {
+        setSent(true);
+      }
 
-    setLoading(false);
+    } catch { setError("Não foi possível enviar o link agora. Refaça a verificação."); }
+    finally { submitting.current = false; setLoading(false); captcha.reset(); }
   }
 
   return (
@@ -64,6 +75,7 @@ export default function ForgotPasswordPage() {
                 required
               />
             </label>
+            <Turnstile onToken={captcha.setToken} generation={captcha.generation} />
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? "Enviando..." : "Enviar link"}
             </Button>

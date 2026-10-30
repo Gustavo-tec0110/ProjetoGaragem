@@ -19,24 +19,24 @@ function param(params: Record<string, string | string[] | undefined>, key: strin
 function metricRows(projectA: Awaited<ReturnType<typeof getProjectsBySlugs>>[number] | null, projectB: Awaited<ReturnType<typeof getProjectsBySlugs>>[number] | null) {
   return [
     {
-      label: "Potencia",
-      left: projectA?.powerCv ? `${projectA.powerCv} cv` : "Nao informado",
-      right: projectB?.powerCv ? `${projectB.powerCv} cv` : "Nao informado",
+      label: "Potência",
+      left: projectA?.powerCv ? `${projectA.powerCv} cv` : "Não informado",
+      right: projectB?.powerCv ? `${projectB.powerCv} cv` : "Não informado",
     },
     {
       label: "Torque",
-      left: projectA?.torqueNm ? `${projectA.torqueNm} Nm` : "Nao informado",
-      right: projectB?.torqueNm ? `${projectB.torqueNm} Nm` : "Nao informado",
+      left: projectA?.torqueNm ? `${projectA.torqueNm} Nm` : "Não informado",
+      right: projectB?.torqueNm ? `${projectB.torqueNm} Nm` : "Não informado",
     },
     {
       label: "Peso",
-      left: projectA?.weightKg ? `${projectA.weightKg} kg` : "Nao informado",
-      right: projectB?.weightKg ? `${projectB.weightKg} kg` : "Nao informado",
+      left: projectA?.weightKg ? `${projectA.weightKg} kg` : "Não informado",
+      right: projectB?.weightKg ? `${projectB.weightKg} kg` : "Não informado",
     },
     {
       label: "Ano",
-      left: projectA?.year ?? "Nao informado",
-      right: projectB?.year ?? "Nao informado",
+      left: projectA?.year ?? "Não informado",
+      right: projectB?.year ?? "Não informado",
     },
     {
       label: "Valor investido",
@@ -44,14 +44,14 @@ function metricRows(projectA: Awaited<ReturnType<typeof getProjectsBySlugs>>[num
       right: formatProjectCurrency(projectB?.totalInvested ?? projectB?.estimatedCost),
     },
     {
-      label: "Numero de modificacoes",
+      label: "Número de modificações",
       left: projectA?.modificationsCount ?? 0,
       right: projectB?.modificationsCount ?? 0,
     },
     {
       label: "Status",
-      left: projectA?.status ?? "Nao informado",
-      right: projectB?.status ?? "Nao informado",
+      left: projectA?.status ?? "Não informado",
+      right: projectB?.status ?? "Não informado",
     },
   ];
 }
@@ -64,7 +64,7 @@ function ProjectCompareCard({
   if (!project) {
     return (
       <Card className="p-6 text-center text-sm text-muted">
-        Selecione um projeto para preencher esta coluna da comparacao.
+        Selecione um projeto para preencher esta coluna da comparação.
       </Card>
     );
   }
@@ -103,7 +103,7 @@ function ProjectCompareCard({
           <div className="rounded-3xl border border-border/70 bg-background/25 p-4">
             <p className="text-xs text-muted">Meta</p>
             <p className="mt-1 font-ui text-sm font-semibold">
-              {project.projectGoal ?? "Nao informada"}
+              {project.projectGoal ?? "Não informada"}
             </p>
           </div>
         </div>
@@ -128,7 +128,7 @@ export async function generateMetadata({
   return createSeoMetadata({
     title: selected.length ? `Comparar projetos: ${selected.join(" vs ")}` : "Comparar projetos",
     description:
-      "Compare potencia, torque, peso, ano, valor investido, numero de modificacoes e status lado a lado.",
+      "Compare potência, torque, peso, ano, valor investido, número de modificações e status lado a lado.",
     path:
       selected.length
         ? `/comparar?${new URLSearchParams({ ...(left ? { left } : {}), ...(right ? { right } : {}) }).toString()}`
@@ -160,23 +160,26 @@ export default async function CompararPage({
         <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs text-muted">Comparacao</p>
+              <p className="text-xs text-muted">Comparação</p>
               <h1 className="mt-2 font-title text-3xl tracking-tight md:text-5xl">
                 Compare dois projetos lado a lado
               </h1>
               <p className="mt-3 max-w-3xl text-muted">
-                Veja potencia, torque, peso, ano, investimento, modificacoes e status
-                em um layout responsivo pensado para consulta rapida.
+                Veja potência, torque, peso, ano, investimento, modificações e status
+                em um layout responsivo pensado para consulta rápida.
               </p>
             </div>
           </div>
 
           <Card className="mt-8 p-5">
-            <form className="grid gap-3 md:grid-cols-[1fr_1fr_auto]">
+            <form className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-end">
+              <div className="grid min-w-0 gap-2 text-sm font-semibold">
+                <label htmlFor="compare-left">Projeto A</label>
               <select
+                id="compare-left"
                 name="left"
                 defaultValue={left}
-                className="pg-control h-12 rounded-3xl px-4 text-sm"
+                className="pg-control h-12 w-full min-w-0 rounded-3xl px-4 text-sm"
               >
                 <option value="">Selecione o projeto A</option>
                 {catalog.allProjects.map((project) => (
@@ -185,10 +188,14 @@ export default async function CompararPage({
                   </option>
                 ))}
               </select>
+              </div>
+              <div className="grid min-w-0 gap-2 text-sm font-semibold">
+                <label htmlFor="compare-right">Projeto B</label>
               <select
+                id="compare-right"
                 name="right"
                 defaultValue={right}
-                className="pg-control h-12 rounded-3xl px-4 text-sm"
+                className="pg-control h-12 w-full min-w-0 rounded-3xl px-4 text-sm"
               >
                 <option value="">Selecione o projeto B</option>
                 {catalog.allProjects.map((project) => (
@@ -197,6 +204,7 @@ export default async function CompararPage({
                   </option>
                 ))}
               </select>
+              </div>
               <Button type="submit">Comparar</Button>
             </form>
           </Card>
@@ -208,22 +216,24 @@ export default async function CompararPage({
 
           <section className="mt-10">
             <div className="mb-4">
-              <p className="text-xs text-muted">Metricas lado a lado</p>
-              <h2 className="mt-1 font-title text-2xl tracking-tight">Tabela de comparacao</h2>
+              <p className="text-xs text-muted">Métricas lado a lado</p>
+              <h2 className="mt-1 font-title text-2xl tracking-tight">Tabela de comparação</h2>
             </div>
 
             <div className="grid gap-3">
               {rows.map((row) => (
-                <Card key={row.label} className="p-4">
-                  <div className="grid gap-3 md:grid-cols-[1fr_0.8fr_0.8fr] md:items-center">
-                    <p className="text-sm font-semibold">{row.label}</p>
-                    <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm">
+                <Card key={row.label} className="p-4" role="group" aria-label={row.label}>
+                  <dl className="grid gap-3 md:grid-cols-[1fr_0.8fr_0.8fr] md:items-center">
+                    <dt className="text-sm font-semibold">{row.label}</dt>
+                    <dd className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm">
+                      <span className="mb-1 block text-xs font-semibold text-muted md:sr-only">Projeto A{leftProject ? ` · ${leftProject.title}` : ""}</span>
                       {row.left}
-                    </div>
-                    <div className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm">
+                    </dd>
+                    <dd className="rounded-3xl border border-border/70 bg-background/25 px-4 py-3 text-sm">
+                      <span className="mb-1 block text-xs font-semibold text-muted md:sr-only">Projeto B{rightProject ? ` · ${rightProject.title}` : ""}</span>
                       {row.right}
-                    </div>
-                  </div>
+                    </dd>
+                  </dl>
                 </Card>
               ))}
             </div>

@@ -12,17 +12,17 @@ export default function AppError({
   unstable_retry: () => void;
 }) {
   return (
-    <div className="min-h-screen grid place-items-center bg-background px-6 py-16">
+    <main className="min-h-screen grid place-items-center bg-background px-6 py-16">
       <div className="w-full max-w-lg rounded-4xl border border-border/70 bg-card/80 p-8 text-center shadow-elevated md:p-10">
         <p className="text-sm text-muted">Erro inesperado</p>
         <h1 className="mt-2 font-title text-3xl tracking-tight md:text-4xl">
-          Nao conseguimos carregar esta area
+          Não conseguimos carregar esta área
         </h1>
         <p className="mt-3 text-muted">
           Tente novamente. Se continuar acontecendo, volte para explorar os projetos.
         </p>
         {error.digest ? (
-          <p className="mt-3 text-xs text-muted">Codigo: {error.digest}</p>
+          <p className="mt-3 text-xs text-muted">Código: {error.digest}</p>
         ) : null}
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <Button type="button" onClick={() => unstable_retry()}>
@@ -33,6 +33,6 @@ export default function AppError({
           </Button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

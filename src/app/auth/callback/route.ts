@@ -1,9 +1,11 @@
+import { hasCurrentTerms, termsDestination } from "@/lib/auth/terms-server";
+import { supabaseCookieOptions } from "@/lib/supabase/cookie-options";
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { User } from "@supabase/supabase-js";
 
 import { normalizeSlug } from "@/lib/garage/constants";
-import { getSafeNextPath } from "@/lib/auth/redirect";
+import { getPostTermsPath } from "@/lib/auth/redirect";
 import { getAuthUserAvatar, getAuthUserName } from "@/lib/auth/user";
 import {
   getRequestSiteUrl,
@@ -31,7 +33,7 @@ function usernameFromUser(user: User) {
 export async function GET(request: NextRequest) {
   const origin = getRequestSiteUrl(request.nextUrl.origin);
   const code = request.nextUrl.searchParams.get("code");
-  const next = getSafeNextPath(request.nextUrl.searchParams.get("next"));
+  const next = getPostTermsPath(request.nextUrl.searchParams.get("next"));
 
   if (!isSupabaseConfigured) {
     return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, origin));
@@ -40,6 +42,7 @@ export async function GET(request: NextRequest) {
   let response = NextResponse.redirect(new URL(next, origin));
 
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
+    cookieOptions: supabaseCookieOptions(),
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -74,6 +77,14 @@ export async function GET(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  // Recovery must not try profile writes, which RLS refuses before acceptance.
+  if (user && new URL(next, origin).pathname === "/reset-password") return response;
+  if (user && !await hasCurrentTerms(supabase)) {
+    response.headers.set("Location", new URL(termsDestination(next), origin).toString());
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  }
 
   if (user) {
     const { data: profile } = await supabase

@@ -33,5 +33,5 @@ test("cidade editada aparece no projeto e persiste após recarga", async ({ page
   await page.getByRole("button", { name: /Excluir projeto/i }).click();
   await expect(page).not.toHaveURL(/\/editar$/);
   await page.goto(projectUrl);
-  await expect(page.getByRole("heading", { name: "Essa ficha nao esta mais na pista" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Essa ficha não está mais na pista" })).toBeVisible();
 });

@@ -16,7 +16,7 @@ function clientKey(headers: Headers) {
  */
 export function allowRequest(headers: Headers, action: string, max: number, windowMs: number) {
   const now = Date.now();
-  if (buckets.size > MAX_BUCKETS) {
+  if (buckets.size >= MAX_BUCKETS) {
     for (const [key, bucket] of buckets) {
       if (bucket.resetAt <= now) buckets.delete(key);
     }
@@ -25,6 +25,7 @@ export function allowRequest(headers: Headers, action: string, max: number, wind
   const key = `${action}:${clientKey(headers)}`;
   const current = buckets.get(key);
   if (!current || current.resetAt <= now) {
+    if (!current && buckets.size >= MAX_BUCKETS) return { ok: false, retryAfter: Math.ceil(windowMs / 1000) } as const;
     buckets.set(key, { count: 1, resetAt: now + windowMs });
     return { ok: true, retryAfter: 0 } as const;
   }

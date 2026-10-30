@@ -3,10 +3,11 @@
 import { Copy, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CopyLinkFeedback } from "@/components/projects/copy-link-feedback";
 import { useCopyCurrentUrl } from "@/hooks/use-copy-current-url";
 
 export function ProjectShareActions({ title }: { title: string }) {
-  const { copied, copyCurrentUrl } = useCopyCurrentUrl();
+  const { copied, copyCurrentUrl, manualUrl } = useCopyCurrentUrl();
 
   async function shareProject() {
     const payload = {
@@ -37,6 +38,7 @@ export function ProjectShareActions({ title }: { title: string }) {
         <Share2 className="size-4" />
         Compartilhar projeto
       </Button>
+      <CopyLinkFeedback copied={copied} manualUrl={manualUrl} />
     </div>
   );
 }

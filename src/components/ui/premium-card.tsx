@@ -34,11 +34,11 @@ export function PremiumCard({ className, children, ...props }: PremiumCardProps)
     <div
       ref={ref}
       onPointerEnter={(e) => {
-        if (e.pointerType !== "mouse") return;
+        if (e.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         rectRef.current = ref.current?.getBoundingClientRect() ?? null;
       }}
       onPointerMove={(e) => {
-        if (e.pointerType !== "mouse") return;
+        if (e.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         pointerRef.current = { x: e.clientX, y: e.clientY };
         if (frameRef.current === null) {
           frameRef.current = requestAnimationFrame(updatePointerEffect);

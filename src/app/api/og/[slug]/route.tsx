@@ -3,27 +3,33 @@ import { createClient } from "@supabase/supabase-js";
 
 import { isSupabaseConfigured, supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env";
 import type { Database } from "@/types/supabase";
-import { protectedImageUrl, projectImagePathFromUrl } from "@/lib/images/project-image-url";
+import { ogHeroImage } from "@/lib/images/og-image";
+import { allowRequest } from "@/lib/security/request-rate-limit";
+import { readBoundedBody } from "@/lib/security/bounded-body";
 import { MEDIA_NO_STORE_HEADERS } from "@/lib/images/delivery";
 
 export const dynamic = "force-dynamic";
 
-export const contentType = "image/png";
-
-function fallbackImage() {
-  return "/ref/hero-car.jpg";
-}
+export const runtime = "nodejs";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const rate = allowRequest(request.headers, "og-render", 30, 60_000);
+  if (!rate.ok) return new Response(null, { status: 429, headers: { ...MEDIA_NO_STORE_HEADERS, "Retry-After": String(rate.retryAfter) } });
   if (!isSupabaseConfigured) {
     return new Response(null, { status: 503, headers: MEDIA_NO_STORE_HEADERS });
   }
 
   const { slug } = await params;
   const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    global: { fetch: async (input, init) => {
+      // Even configured Storage must not redirect the renderer to another host.
+      const response = await fetch(input, { ...init, redirect: "error", cache: "no-store", signal: AbortSignal.timeout(8000) });
+      const bounded = await readBoundedBody(new Request("http://body.invalid", { method: "POST", body: response.body, duplex: "half" } as RequestInit), 6 * 1024 * 1024);
+      return new Response(await bounded.arrayBuffer(), { status: response.status, headers: response.headers });
+    } },
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
   });
 
@@ -41,14 +47,19 @@ export async function GET(
     supabase.from("car_parts").select("name, category, status").eq("car_id", car.id).limit(4),
   ]);
 
-  let hero = protectedImageUrl(car.main_photo_url);
-  const heroPath = hero ? projectImagePathFromUrl(hero) : null;
-  if (heroPath) {
-    const { data: allowed, error } = await supabase.rpc("can_read_project_image", { p_path: heroPath });
-    if (error) return new Response(null, { status: 503, headers: MEDIA_NO_STORE_HEADERS });
-    if (allowed !== true) hero = null;
-  }
-  const heroSrc = new URL(hero ?? fallbackImage(), request.url).toString();
+  const authorizeImage = async (key: string) => {
+    const { data, error } = await supabase.rpc("can_read_project_image", { p_path: key });
+    return !error && data === true;
+  };
+  // This is an anonymous client: request cookies and private signed URLs are never used.
+  const hero = await ogHeroImage(car.main_photo_url, {
+    authorize: authorizeImage,
+    download: async (key) => {
+      const { data, error } = await supabase.storage.from("project-images").download(key);
+      return error ? null : data;
+    },
+  });
+  const heroSrc = hero.src;
   const accent = "#FF2A2A";
 
   const response = new ImageResponse(
@@ -86,11 +97,11 @@ export async function GET(
               <span style={{ color: accent, fontWeight: 900 }}>Projeto Garagem</span>
               <span style={{ opacity: 0.7 }}>@{owner?.username ?? "garagem"}</span>
             </div>
-            <div style={{ fontSize: 58, fontWeight: 900, lineHeight: 1.02 }}>{car.name}</div>
-            <div style={{ fontSize: 28, opacity: 0.86 }}>
+            <div style={{ display: "flex", fontSize: 58, fontWeight: 900, lineHeight: 1.02 }}>{car.name}</div>
+            <div style={{ display: "flex", fontSize: 28, opacity: 0.86 }}>
               {car.brand} {car.model} {car.year} - {car.category}
             </div>
-            <div style={{ fontSize: 22, opacity: 0.75 }}>
+            <div style={{ display: "flex", fontSize: 22, opacity: 0.75 }}>
               {owner?.display_name ?? "Membro"} compartilhou uma ficha publica com fotos, pecas e especificacoes.
             </div>
           </div>
@@ -121,7 +132,7 @@ export async function GET(
                   </div>
                 ))
               ) : (
-                <div style={{ fontSize: 20, opacity: 0.72 }}>Ficha pronta para receber pecas e planos futuros.</div>
+                <div style={{ display: "flex", fontSize: 20, opacity: 0.72 }}>Ficha pronta para receber pecas e planos futuros.</div>
               )}
             </div>
           </div>
@@ -134,6 +145,7 @@ export async function GET(
   const { data: stillPublic, error } = await supabase.from("cars").select("id")
     .eq("id", car.id).eq("is_public", true).maybeSingle();
   if (error || !stillPublic) return new Response(null, { status: error ? 503 : 404, headers: MEDIA_NO_STORE_HEADERS });
+  if (hero.key && !await authorizeImage(hero.key)) return new Response(null, { status: 404, headers: MEDIA_NO_STORE_HEADERS });
   return new Response(body, { headers: response.headers });
 }
 

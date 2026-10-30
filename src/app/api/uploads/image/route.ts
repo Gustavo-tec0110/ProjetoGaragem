@@ -1,3 +1,5 @@
+import { readBoundedBody } from "@/lib/security/bounded-body";
+import { hasTrustedMutationOrigin } from "@/lib/security/request-origin";
 import { NextResponse } from "next/server";
 
 import { enforceActionRateLimit } from "@/lib/security/action-rate-limit";
@@ -26,6 +28,7 @@ function contentLengthIsTooLarge(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!hasTrustedMutationOrigin(request)) return NextResponse.json({ message: "Origem inválida." }, { status: 403 });
   if (contentLengthIsTooLarge(request)) {
     return NextResponse.json({ message: "O arquivo excede o limite permitido." }, { status: 413 });
   }
@@ -40,8 +43,9 @@ export async function POST(request: Request) {
 
   let formData: FormData;
   try {
-    formData = await request.formData();
-  } catch {
+    formData = await (await readBoundedBody(request, UPLOAD_REQUEST_MAX_BYTES)).formData();
+  } catch (error) {
+    if (error instanceof Error && error.message === "body_too_large") return NextResponse.json({ message: "Solicitação muito grande." }, { status: 413 });
     return NextResponse.json({ message: "Upload inválido." }, { status: 400 });
   }
 
@@ -129,13 +133,15 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  if (!hasTrustedMutationOrigin(request)) return NextResponse.json({ message: "Origem inválida." }, { status: 403 });
   const auth = await requireSupabaseUser();
   if (!auth.supabase || !auth.user) return NextResponse.json({ message: "Entre para continuar." }, { status: 401 });
   let path: unknown;
   try {
     if (Number(request.headers.get("content-length")) > 1024) throw new Error("large request");
-    path = (await request.json() as { path?: unknown }).path;
-  } catch {
+    path = (await (await readBoundedBody(request, 1024)).json() as { path?: unknown }).path;
+  } catch (error) {
+    if (error instanceof Error && error.message === "body_too_large") return NextResponse.json({ message: "Solicitação muito grande." }, { status: 413 });
     return NextResponse.json({ message: "Solicitação inválida." }, { status: 400 });
   }
   if (typeof path !== "string" || !isOwnedModificationPhotoPath(path, auth.user.id, true)) {
@@ -148,13 +154,15 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  if (!hasTrustedMutationOrigin(request)) return NextResponse.json({ message: "Origem inválida." }, { status: 403 });
   const auth = await requireSupabaseUser();
   if (!auth.user) return NextResponse.json({ message: "Entre para continuar." }, { status: 401 });
   let path: unknown;
   try {
     if (Number(request.headers.get("content-length")) > 1024) throw new Error("large request");
-    path = (await request.json() as { path?: unknown }).path;
-  } catch {
+    path = (await (await readBoundedBody(request, 1024)).json() as { path?: unknown }).path;
+  } catch (error) {
+    if (error instanceof Error && error.message === "body_too_large") return NextResponse.json({ message: "Solicitação muito grande." }, { status: 413 });
     return NextResponse.json({ message: "Solicitação inválida." }, { status: 400 });
   }
   if (typeof path !== "string" || !isOwnedModificationPhotoPath(path, auth.user.id, true)) {

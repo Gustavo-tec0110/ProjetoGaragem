@@ -34,6 +34,7 @@ export function CommentForm({
   viewerLoggedIn: boolean;
   onCommentCreated?: (comment: CarCommentWithAuthor) => void;
 }) {
+  const commentId = React.useId();
   const formRef = React.useRef<HTMLFormElement>(null);
   const [state, formAction, pending] = useActionState(createCommentAction, initialActionState);
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -71,12 +72,14 @@ export function CommentForm({
     <form ref={formRef} action={formAction} className="space-y-3">
       <input type="hidden" name="car_id" value={carId} />
       <input type="hidden" name="slug" value={slug} />
+      <label htmlFor={commentId} className="block text-sm font-medium text-foreground/85">Comentário</label>
       <textarea
+        id={commentId}
         name="content"
         required
         minLength={2}
         maxLength={1000}
-        placeholder="Comente sobre o setup, tire uma duvida ou deixe uma sugestao."
+        placeholder="Comente sobre o setup, tire uma dúvida ou deixe uma sugestão."
         className="pg-control min-h-24 w-full resize-none rounded-3xl px-4 py-3 text-sm md:min-h-28"
       />
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -111,7 +114,7 @@ export function CommentsList({
   if (!comments.length) {
     return (
       <div className="rounded-3xl border border-border/70 bg-background/25 p-3 text-sm text-muted md:rounded-4xl md:p-4">
-        Nenhum comentario ainda. Seja a primeira pessoa a ajudar esse projeto.
+        Nenhum comentário ainda. Seja a primeira pessoa a ajudar esse projeto.
       </div>
     );
   }

@@ -35,7 +35,7 @@
 .heroDescription { max-width: 480px; margin-top: 25px; color: var(--secondary); font-size: 15px; line-height: 1.9; }
 .exploreLink { display: inline-flex; align-items: center; gap: 32px; min-height: 48px; margin-top: 28px; border-bottom: 1px solid #606168; font-size: 12px; font-weight: 600; transition: color 180ms, gap 180ms; }
 .exploreLink:hover { color: var(--color-accent); gap: 40px; }
-.heroArtwork { min-width: 0; padding-top: 0; animation: arrive 850ms 100ms var(--pg-ease-out) both; }
+.heroArtwork { min-width: 0; padding-top: 0; animation: arrive 400ms var(--pg-ease-out) both; }
 .creatorHighlight { display: flex; align-items: center; gap: 16px; margin: 0; padding: 20px 24px; border: 1px solid #ffffff0d; border-radius: 8px; background: linear-gradient(110deg, #ffffff04, #ffffff01); }
 .creatorHighlight + .section { padding-top: 32px; }
 .creatorHighlight > svg { flex-shrink: 0; color: #54a9ff; }

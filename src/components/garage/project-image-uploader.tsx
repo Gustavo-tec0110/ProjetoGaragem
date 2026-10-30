@@ -38,7 +38,7 @@ function moveItem(items: string[], from: number, to: number) {
 }
 
 function uploadErrorMessage(uploadError: unknown) {
-  const fallback = "Nao foi possivel enviar a imagem agora.";
+  const fallback = "Não foi possível enviar a imagem agora.";
   if (!(uploadError instanceof Error)) return fallback;
   return uploadError.message || fallback;
 }
@@ -59,6 +59,7 @@ export function ProjectImageUploader({
   onMainPhotoChange,
   onPhotoUrlsChange,
 }: ProjectImageUploaderProps) {
+  const fallbackId = React.useId();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const { user, loading } = useAuth();
   const [resolvedUser, setResolvedUser] = React.useState<User | null>(user);
@@ -81,7 +82,7 @@ export function ProjectImageUploader({
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setError("Supabase nao configurado para enviar imagens.");
+      setError("O envio de imagens está temporariamente indisponível.");
       return;
     }
 
@@ -211,9 +212,10 @@ export function ProjectImageUploader({
           </div>
 
           <div className="mt-5 grid gap-2">
-            <p className="text-xs text-muted">Fallback por URL</p>
+            <label htmlFor={fallbackId} className="text-xs text-muted">Imagem por URL</label>
             <div className="flex gap-2">
               <Input
+                id={fallbackId}
                 value={fallbackUrl}
                 onChange={(event) => setFallbackUrl(event.target.value)}
                 placeholder="https://..."

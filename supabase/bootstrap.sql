@@ -52,4 +52,9 @@
 \ir migrations/20261027120000_expand_modification_catalog.sql
 \ir migrations/20261027210000_modification_offers.sql
 \ir migrations/20261028010000_reviewed_catalog_offers.sql
+\ir migrations/20261028120000_protect_derived_counters.sql
+\ir migrations/20261028121000_lock_legacy_tables.sql
+\ir migrations/20261028122000_notification_event_limits.sql
+\ir migrations/20261029010000_require_terms_acceptance.sql
+\ir migrations/20261029181952_approved_legal_versions_and_account_closure.sql
 \ir bootstrap-finish.sql

@@ -52,3 +52,6 @@ next-env.d.ts
 
 # Local research, generated candidates, and review captures
 /artifacts/
+
+# Local Netlify folder
+.netlify

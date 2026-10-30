@@ -48,7 +48,7 @@ test("footer acompanha skeletons, conteúdo carregado e histórico de rotas", as
 test("slugs removidos retornam o estado de projeto inexistente", async ({ page }) => {
   const response = await page.goto("/projeto/projeto-de-catalogo-removido");
   expect(response?.status()).toBeLessThan(500);
-  await expect(page.getByRole("heading", { name: "Essa ficha nao esta mais na pista" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Essa ficha não está mais na pista" })).toBeVisible();
 });
 
 test("busca vazia preserva o termo e oferece recuperação", async ({ page }) => {

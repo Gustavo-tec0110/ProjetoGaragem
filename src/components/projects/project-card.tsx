@@ -167,7 +167,7 @@ export function ProjectCard({
         <div className="order-last grid grid-cols-[1fr_2.75rem] gap-1 pt-2 md:order-none md:flex md:gap-2 md:pt-0">
           <Link
             href={projectHref}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-xs font-semibold text-white outline-none transition hover:brightness-105 focus-visible:ring-2 focus-visible:ring-accent md:min-h-9 md:border md:border-border/70 md:bg-transparent md:text-foreground md:hover:bg-background/45"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent-2 px-3 text-xs font-semibold text-white outline-none transition hover:brightness-105 focus-visible:ring-2 focus-visible:ring-accent md:min-h-9 md:border md:border-border/70 md:bg-transparent md:text-foreground md:hover:bg-background/45"
           >
             <span className="md:hidden">Ver projeto</span>
             <span className="hidden md:inline">Abrir</span>

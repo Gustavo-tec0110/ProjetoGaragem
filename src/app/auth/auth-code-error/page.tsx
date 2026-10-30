@@ -22,9 +22,9 @@ export default function AuthCodeErrorPage() {
               <div className="flex items-start gap-3">
                 <CircleAlert className="mt-0.5 size-5 text-danger" />
                 <div className="min-w-0">
-                  <p className="font-ui font-semibold tracking-tight">Erro no callback</p>
+                  <p className="font-ui font-semibold tracking-tight">Link de entrada indisponível</p>
                   <p className="mt-1 text-sm text-muted">
-                    Tente novamente. Se o erro persistir, verifique o provedor (Google) e as URLs de redirecionamento no Supabase.
+                    O link de entrada pode ter expirado ou já ter sido usado. Volte para entrar e tente novamente.
                   </p>
                 </div>
               </div>

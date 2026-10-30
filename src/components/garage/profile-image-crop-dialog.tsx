@@ -137,26 +137,13 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
   React.useEffect(() => () => cropCleanupRef.current(), []);
 
   React.useEffect(() => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      if (typeof reader.result === "string") setPreviewUrl(reader.result);
-    });
-    reader.addEventListener("error", () => {
-      setError("Não foi possível ler esta imagem. Escolha outro arquivo.");
-    });
-    reader.readAsDataURL(file);
-    return () => {
-      if (reader.readyState === FileReader.LOADING) reader.abort();
-    };
-  }, [file]);
-
-  React.useEffect(() => {
-    if (!previewUrl) return;
+    const url = URL.createObjectURL(file);
     let cancelled = false;
     const image = new Image();
-    image.src = previewUrl;
+    image.src = url;
     void image.decode().then(() => {
       if (cancelled) return;
+      setPreviewUrl(url);
       setImageSize({ width: image.naturalWidth, height: image.naturalHeight });
       setError("");
     }).catch(() => {
@@ -164,8 +151,9 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
     });
     return () => {
       cancelled = true;
+      URL.revokeObjectURL(url);
     };
-  }, [previewUrl]);
+  }, [file]);
 
   const layout = imageSize && cropSize
     ? getProfileImageLayout(imageSize, cropSize, zoom, position)

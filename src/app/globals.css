@@ -762,7 +762,10 @@
       animation: none !important;
     }
 
-    .pg-premium-card {
+    .pg-premium-card,
+    .pg-premium-card:hover,
+    .pg-premium-card:active {
+      transform: none !important;
       transition: none !important;
     }
   }

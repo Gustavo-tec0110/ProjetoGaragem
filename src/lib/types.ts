@@ -566,6 +566,9 @@ export interface Database {
       public_profiles: Table<PublicProfileRow, never, never>;
     };
     Functions: {
+      has_current_terms_acceptance: { Args: Record<string, never>; Returns: boolean };
+      accept_current_terms: { Args: { p_terms_version: string; p_privacy_version: string }; Returns: undefined };
+
       can_read_project_image: {
         Args: { p_path: string };
         Returns: boolean;

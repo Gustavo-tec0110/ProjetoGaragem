@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-29",
+  "remoteReadOnly": true,
+  "remoteLastMigration": "20261014020000_activate_private_project_images",
+  "postgresVersion": "17.6",
+  "atomicSourceMd5": "15701d0fe6677e752c58cbef63bf3ab1",
+  "missingOptionalLegacyTables": [
+    "parts_catalog",
+    "part_vehicle_compatibility",
+    "part_dependencies",
+    "project_parts",
+    "build_budgets",
+    "part_alert_rules",
+    "part_recommendation_rules"
+  ],
+  "missingOptionalHelper": "public.refresh_profile_cars_count(uuid)",
+  "legalSchemaExistsRemotely": false,
+  "migrations": [
+    {
+      "file": "supabase/migrations/20261027120000_expand_modification_catalog.sql",
+      "sha256": "677889fd7c6424ea8bb43c774530663adc8e0e5186be0e932384c2192515aa46"
+    },
+    {
+      "file": "supabase/migrations/20261027210000_modification_offers.sql",
+      "sha256": "6bd233e7bab1a0a618506e2a2dfb1e5b76617fb2d4eb70bcc65f729556932741"
+    },
+    {
+      "file": "supabase/migrations/20261028010000_reviewed_catalog_offers.sql",
+      "sha256": "fdae25571a834f406d0e2bceff1b5a7b58f7d87530f869917985269c5054a78f"
+    },
+    {
+      "file": "supabase/migrations/20261028120000_protect_derived_counters.sql",
+      "sha256": "d71f861f119b9fdee5f2a9b37d1865e2303b35030085b1cd7d45f563d3727550"
+    },
+    {
+      "file": "supabase/migrations/20261028121000_lock_legacy_tables.sql",
+      "sha256": "59715b50c32e252b7602d2d4cca92a1fa39b007e85bb7f1e93883eafe2ec8855"
+    },
+    {
+      "file": "supabase/migrations/20261028122000_notification_event_limits.sql",
+      "sha256": "7717b88609753ec28a1797d7ef6648ab7971b039e2e1dd647ca2b6c296eaa1a1"
+    },
+    {
+      "file": "supabase/migrations/20261029010000_require_terms_acceptance.sql",
+      "sha256": "17a0d6927dc1fc6b6d1dec34c35a58a949e345a207eec370b8ccb339dfc710d2"
+    },
+    {
+      "file": "supabase/migrations/20261029181952_approved_legal_versions_and_account_closure.sql",
+      "sha256": "863a0ea4edff66e0d4e5b754465c07466233e67680de066d9035faee57f5a4fc"
+    }
+  ],
+  "remoteWrites": 0,
+  "compatibilityScope": "metadata and isolated replay; not a full production clone or data/lock simulation"
+}

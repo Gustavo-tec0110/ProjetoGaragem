@@ -1,3 +1,4 @@
+import { PRIVACY_VERSION, LEGAL_VERSION_NOTICE } from "@/lib/auth/legal";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -10,7 +11,7 @@ export const metadata: Metadata = createSeoMetadata({
   path: "/privacy",
 });
 
-const updatedAt = "13 de outubro de 2026";
+const updatedAt = "29 de outubro de 2026";
 const sections = [
   ["visao-geral", "Visão geral"], ["dados", "Dados tratados"], ["finalidades", "Finalidades e bases"],
   ["publico", "Conteúdo público"], ["cookies", "Cookies e armazenamento"], ["compartilhamento", "Operadores e compartilhamento"],
@@ -28,6 +29,7 @@ export default function PrivacyPage() {
         <p className="font-ui text-xs font-semibold uppercase tracking-[0.18em] text-accent">Projeto Garagem</p>
         <h1 className="mt-3 font-title text-3xl font-bold tracking-tight sm:text-4xl">Política de Privacidade</h1>
         <p className="mt-3 text-sm text-muted">Última atualização: {updatedAt}</p>
+        <p className="mt-2 text-xs text-muted">Versão: {PRIVACY_VERSION}. {LEGAL_VERSION_NOTICE}</p>
         <p className="mt-5 max-w-3xl text-sm leading-7 text-foreground/85 sm:text-base">Esta Política descreve, em linguagem direta, como o Projeto Garagem trata dados pessoais para oferecer uma plataforma de projetos automotivos e comunidade.</p>
 
         <nav aria-label="Índice da política" className="mt-8 rounded-2xl border border-border/70 bg-background/35 p-4 sm:p-5">
@@ -64,6 +66,7 @@ export default function PrivacyPage() {
           </Section>
           <Section id="compartilhamento" title="6. Operadores e compartilhamento">
             <p className="mt-3">Utilizamos o Supabase para autenticação, banco de dados e Storage; o Netlify para hospedagem e execução da aplicação; e o Google somente quando você escolhe entrar com Google. Esses fornecedores operam dados para viabilizar o serviço. Conteúdo público é compartilhado com os visitantes da plataforma por sua própria natureza.</p>
+            <p className="mt-3">Utilizamos também o Cloudflare Turnstile para prevenir acessos automatizados e abuso nos formulários de cadastro, login por e-mail e recuperação de senha. A Cloudflare processa sinais técnicos, como endereço IP, informações da conexão e cabeçalhos do navegador, para distinguir pessoas de robôs e aperfeiçoar sua detecção de bots, conforme o seu Adendo de Privacidade do Turnstile. Não armazenamos tokens CAPTCHA no histórico de aceite dos documentos.</p>
             <p className="mt-3">As categorias envolvidas nesses serviços podem incluir dados de conta e sessão, conteúdo enviado e dados técnicos necessários à entrega do site. Não encontramos integração do Google Analytics ou de publicidade na aplicação atual.</p>
           </Section>
           <Section id="retencao" title="7. Retenção, exclusão e segurança">

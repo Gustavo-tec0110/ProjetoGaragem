@@ -25,8 +25,7 @@ export function GoogleSigninButton({ nextPath }: { nextPath?: string | null }) {
   if (!configured) {
     return (
       <div className="rounded-3xl border border-warning/30 bg-warning/10 p-4 text-sm text-muted">
-        Para ativar Login Google, configure <span className="text-foreground font-semibold">Supabase</span> em{" "}
-        <span className="text-foreground font-semibold">.env.local</span> (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY).
+        A entrada com Google está temporariamente indisponível. Tente entrar com email e senha.
       </div>
     );
   }
@@ -43,11 +42,7 @@ export function GoogleSigninButton({ nextPath }: { nextPath?: string | null }) {
           setError(null);
           setBusy(true);
 
-          const currentPath =
-            typeof window !== "undefined"
-              ? `${window.location.pathname}${window.location.search}`
-              : null;
-          const { error } = await signInWithGoogle(nextPath ?? currentPath);
+          const { error } = await signInWithGoogle(nextPath);
 
           if (error) {
             setError(error.message);

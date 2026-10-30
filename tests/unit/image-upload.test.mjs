@@ -29,6 +29,11 @@ runInNewContext(compile("../../src/lib/images/resize.ts"), {
   exports: resizing, Buffer, Blob, require: (name) => name === "sharp" ? sharp : name === "server-only" ? {} : limits,
 });
 
+const bodyReader = {};
+runInNewContext(compile("../../src/lib/security/bounded-body.ts"), { exports: bodyReader, Response, Uint8Array });
+const originGuard = {};
+runInNewContext(compile("../../src/lib/security/request-origin.ts"), { exports: originGuard, URL });
+
 function harness(options = {}) {
   const objects = new Map();
   const events = [];
@@ -53,6 +58,8 @@ function harness(options = {}) {
     getPublicUrl: () => { throw new Error("Public URL must never be emitted"); },
   }) } };
   const imports = {
+    "@/lib/security/bounded-body": bodyReader,
+    "@/lib/security/request-origin": originGuard,
     "next/server": { NextResponse: { json: (body, init) => Response.json(body, init) } },
     "@/lib/security/action-rate-limit": { enforceActionRateLimit: async () => ({ ok: true }) },
     "@/lib/security/limits": limits,

@@ -1,3 +1,4 @@
+import { RankingAtmosphere } from "@/components/projects/ranking-atmosphere";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -528,9 +529,7 @@ export function ProjectRankingsBoard({
   return (
     <div className="mobile-page-shell mx-auto w-full max-w-6xl pb-12 md:pt-24">
       <section className="relative overflow-hidden rounded-4xl border border-border/70 bg-background/35 p-4 shadow-elevated md:rounded-5xl md:p-8">
-        <div className="absolute inset-0 pg-grid-bg opacity-80" aria-hidden="true" />
-        <div className="absolute inset-0 pg-scanlines opacity-20" aria-hidden="true" />
-        <div className="absolute inset-0 pg-particles opacity-35" aria-hidden="true" />
+        <RankingAtmosphere />
 
         <div className="relative">
           <div className="flex flex-col gap-4 md:gap-6 xl:flex-row xl:items-end xl:justify-between">

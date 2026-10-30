@@ -273,6 +273,11 @@ export async function getProjectPageData(slug: string) {
   };
 }
 
+export const getProjectSummary = cache(async (slug: string) => {
+  const card = await getSupabaseProjectCardBySlug(slug);
+  return card ? mapCarCardToProject(card) : null;
+});
+
 export async function getProjectCriticalData(slug: string) {
   return getPublicRouteProjectCardBySlug(slug);
 }

@@ -1,3 +1,5 @@
+import { hasCurrentTerms, termsDestination } from "@/lib/auth/terms-server";
+import { supabaseCookieOptions } from "@/lib/supabase/cookie-options";
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
@@ -55,6 +57,7 @@ export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request: { headers: request.headers } });
 
   const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
+    cookieOptions: supabaseCookieOptions(),
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -96,6 +99,15 @@ export async function proxy(request: NextRequest) {
     const durationMs = timer.end({ authenticated: false, outcome: "redirect" });
     redirectResponse.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
     return redirectResponse;
+  }
+
+  if (user && isProtectedPath(pathname) && !await hasCurrentTerms(supabase)) {
+    const blocked = request.method === "GET" || request.method === "HEAD"
+      ? NextResponse.redirect(new URL(termsDestination(nextParam), request.url))
+      : NextResponse.json({ message: "Conclua o aceite dos Termos de Uso.", redirectTo: termsDestination(nextParam) }, { status: 403 });
+    for (const cookie of response.cookies.getAll()) blocked.cookies.set(cookie);
+    blocked.headers.set("Cache-Control", "no-store");
+    return blocked;
   }
 
   if (request.method === "POST" && pathname === "/criar-projeto") {

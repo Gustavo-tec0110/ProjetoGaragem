@@ -1,0 +1,14 @@
+{
+  "terms-v1": {
+    "kind": "terms",
+    "file": "docs/legal/terms-v1.html",
+    "sha256": "5dca42de5535df159ac261e030a5f90c5008bcac940f84b542954f858b8c706e",
+    "approvedByOwnerOn": "2026-10-29"
+  },
+  "privacy-v1": {
+    "kind": "privacy",
+    "file": "docs/legal/privacy-v1.html",
+    "sha256": "5ff4de04c16a71120abfb6ba934ca39813c3393431ce5afbd1e54266421f4ab5",
+    "approvedByOwnerOn": "2026-10-29"
+  }
+}

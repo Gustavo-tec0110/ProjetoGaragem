@@ -181,9 +181,9 @@ test("busca, categorias, paginação e edição legada continuam funcionando", a
   await page.getByRole("button", { name: "Adicionar modificação", exact: true }).click();
   const editor = page.getByRole("dialog", { name: "Adicionar modificação", exact: true });
   const list = editor.getByLabel("Peças do catálogo");
-  await expect(list.locator("button[aria-pressed]")).toHaveCount(40);
+  await expect(list.locator("button[aria-pressed]")).toHaveCount(16);
   await editor.getByRole("button", { name: /Mostrar mais peças/ }).click();
-  await expect(list.locator("button[aria-pressed]")).toHaveCount(80);
+  await expect(list.locator("button[aria-pressed]")).toHaveCount(56);
   const search = editor.getByRole("searchbox");
   await search.fill("turbina");
   await expect(editor.getByRole("button", { name: "Turbocompressor Motor / Performance", exact: true })).toBeVisible();

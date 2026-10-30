@@ -57,7 +57,7 @@ function WhereToBuy({ catalogId, slug }: { catalogId: string; slug: string }) {
         const url = safeOfferUrl(offer.store, offer.destination_url);
         if (!offer.demonstration && !url) return null;
         const price = freshOfferPrice(offer.price, offer.price_checked_at);
-        return <div key={offer.id} className="flex min-w-0 flex-wrap items-center gap-3 rounded-xl border border-border/80 p-3">
+        return <div key={offer.id} className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-3 rounded-xl sm:flex sm:flex-wrap sm:items-center border border-border/80 p-3">
           <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-lg bg-foreground/5 font-ui text-xs font-bold text-muted">{store.monogram}</span>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold">{store.name}</p>
@@ -66,8 +66,8 @@ function WhereToBuy({ catalogId, slug }: { catalogId: string; slug: string }) {
             {offer.demonstration ? <p className="mt-0.5 text-[10px] font-semibold tracking-wide text-muted">DEMONSTRAÇÃO</p> : offer.is_affiliate ? <p className="mt-0.5 text-xs text-muted">Link de afiliado</p> : null}
             {price !== null && !offer.demonstration ? <p className="mt-1 text-sm">{new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(price)}<span className="mt-0.5 block text-[10px] text-muted">Verificado em {new Date(offer.price_checked_at!).toLocaleString("pt-BR", { timeZone: "America/Bahia", dateStyle: "short", timeStyle: "short" })}</span></p> : null}
           </div>
-          {offer.demonstration ? <Button variant="outline" size="sm" className="h-11 shrink-0 px-3 text-xs" aria-label={`Ver na loja ${store.name} — demonstração`} onClick={() => setDemoNotice(`Demonstração: ${store.name}. Nenhuma loja foi aberta e nenhuma compra foi iniciada.`)}>Ver na loja <ArrowUpRight className="size-3.5" aria-hidden="true" /></Button>
-            : <Button asChild variant="outline" size="sm" className="h-11 shrink-0 px-3 text-xs"><a href={url!} target="_blank" rel={`noopener noreferrer${offer.is_affiliate ? " sponsored" : ""}`} aria-label={`Ver na loja ${store.name} (abre em nova aba)`}>Ver na loja <ArrowUpRight className="size-3.5" aria-hidden="true" /></a></Button>}
+          {offer.demonstration ? <Button variant="outline" size="sm" className="col-span-2 h-11 shrink-0 px-3 text-xs sm:w-auto" aria-label={`Ver na loja ${store.name} — demonstração`} onClick={() => setDemoNotice(`Demonstração: ${store.name}. Nenhuma loja foi aberta e nenhuma compra foi iniciada.`)}>Ver na loja <ArrowUpRight className="size-3.5" aria-hidden="true" /></Button>
+            : <Button asChild variant="outline" size="sm" className="col-span-2 h-11 shrink-0 px-3 text-xs sm:w-auto"><a href={url!} target="_blank" rel={`noopener noreferrer${offer.is_affiliate ? " sponsored" : ""}`} aria-label={`Ver na loja ${store.name} (abre em nova aba)`}>Ver na loja <ArrowUpRight className="size-3.5" aria-hidden="true" /></a></Button>}
         </div>;
       })}
     </div>
@@ -76,12 +76,41 @@ function WhereToBuy({ catalogId, slug }: { catalogId: string; slug: string }) {
   </section>;
 }
 
+const DetailsContext = React.createContext<((item: ModificationCatalogItem, trigger: HTMLElement) => void) | null>(null);
+
+/** One modal per catalogue surface, with focus restored to the trigger actually used. */
+export function CatalogDetailsProvider({ children }: { children: React.ReactNode }) {
+  const [item, setItem] = React.useState<ModificationCatalogItem | null>(null);
+  const [open, setOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
+  const select = React.useCallback((next: ModificationCatalogItem, trigger: HTMLElement) => {
+    triggerRef.current = trigger;
+    setItem(next);
+  }, []);
+  return <DetailsContext.Provider value={select}>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      {children}
+      {item ? <CatalogDetailsContent item={item} onCloseAutoFocus={(event) => {
+        event.preventDefault();
+        if (triggerRef.current?.isConnected) triggerRef.current.focus();
+      }} /> : null}
+    </Dialog.Root>
+  </DetailsContext.Provider>;
+}
+
 export function CatalogDetails({ item, children }: { item: ModificationCatalogItem; children: React.ReactElement }) {
-  return <Dialog.Root>
-    <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-    <Dialog.Portal>
+  const select = React.useContext(DetailsContext);
+  if (!select) return <CatalogDetailsProvider><CatalogDetails item={item}>{children}</CatalogDetails></CatalogDetailsProvider>;
+  return <Dialog.Trigger asChild onClick={(event) => select(item, event.currentTarget)}>{children}</Dialog.Trigger>;
+}
+
+function CatalogDetailsContent({ item, onCloseAutoFocus }: {
+  item: ModificationCatalogItem;
+  onCloseAutoFocus: (event: Event) => void;
+}) {
+  return <Dialog.Portal>
       <Dialog.Overlay data-testid="catalog-details-overlay" className="fixed inset-0 z-[95] bg-black/75" />
-      <Dialog.Content className="fixed inset-x-0 bottom-0 z-[96] flex max-h-[94dvh] min-w-0 flex-col overflow-hidden rounded-t-3xl border border-border bg-card text-foreground shadow-elevated outline-none sm:inset-x-6 sm:bottom-auto sm:top-1/2 sm:mx-auto sm:max-h-[90dvh] sm:max-w-[1000px] sm:-translate-y-1/2 sm:rounded-3xl" aria-describedby={undefined}>
+      <Dialog.Content onCloseAutoFocus={onCloseAutoFocus} className="fixed inset-x-0 bottom-0 z-[96] flex max-h-[94dvh] min-w-0 flex-col overflow-hidden rounded-t-3xl border border-border bg-card text-foreground shadow-elevated outline-none sm:inset-x-6 sm:bottom-auto sm:top-1/2 sm:mx-auto sm:max-h-[90dvh] sm:max-w-[1000px] sm:-translate-y-1/2 sm:rounded-3xl" aria-describedby={undefined}>
         <header className="flex shrink-0 items-start justify-between gap-3 border-b border-border px-5 py-4 sm:px-7 sm:py-5">
           <div className="min-w-0 self-center">
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">Catálogo PG · {item.category.name}</p>
@@ -101,11 +130,10 @@ export function CatalogDetails({ item, children }: { item: ModificationCatalogIt
               <h3 className="font-title text-base font-semibold">Sobre o componente</h3>
               {item.short_description ? <p className="mt-2 whitespace-pre-line break-words text-sm leading-relaxed text-foreground/85">{item.short_description}</p> : <p className="mt-2 text-sm text-muted">Informações detalhadas ainda não disponíveis para este componente.</p>}
               {item.compatibility_notes ? <div className="mt-4"><h3 className="text-xs font-semibold text-foreground">Aplicação e instalação</h3><p className="mt-1 break-words text-xs leading-relaxed text-muted">{item.compatibility_notes}</p></div> : null}
-              <WhereToBuy catalogId={item.id} slug={item.slug} />
+              <WhereToBuy key={item.id} catalogId={item.id} slug={item.slug} />
             </div>
           </div>
         </div>
       </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root>;
+    </Dialog.Portal>;
 }

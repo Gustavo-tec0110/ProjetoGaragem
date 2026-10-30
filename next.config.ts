@@ -58,6 +58,9 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         headers: [
+          // Baseline CSP without changing Next's script/style rendering or OAuth.
+          // A strict script-src policy requires a separate nonce rollout.
+          { key: "Content-Security-Policy", value: "object-src 'none'; base-uri 'self'; frame-ancestors 'none'" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

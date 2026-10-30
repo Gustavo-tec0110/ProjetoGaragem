@@ -2,13 +2,14 @@
 
 import * as React from "react";
 import { Check, Search, Wrench, X } from "lucide-react";
-import { CatalogDetails } from "@/components/projects/catalog-details";
+import { CatalogDetails, CatalogDetailsProvider } from "@/components/projects/catalog-details";
 import { ProjectImage } from "@/components/projects/project-image";
 import { filterCatalog, selectableCatalog } from "@/lib/modifications/catalog-search";
 import type { ModificationCatalogItem } from "@/lib/modifications/types";
 import type { ModificationCategoryRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+const INITIAL_PAGE_SIZE = 16;
 const PAGE_SIZE = 40;
 
 export function CatalogPicker({ categories, catalog, selectedId, onSelect }: {
@@ -19,29 +20,29 @@ export function CatalogPicker({ categories, catalog, selectedId, onSelect }: {
 }) {
   const [categoryId, setCategoryId] = React.useState("");
   const [query, setQuery] = React.useState("");
-  const [limit, setLimit] = React.useState(PAGE_SIZE);
+  const [limit, setLimit] = React.useState(INITIAL_PAGE_SIZE);
   const listRef = React.useRef<HTMLDivElement>(null);
   const searchId = React.useId();
   const selectable = React.useMemo(() => selectableCatalog(catalog, selectedId), [catalog, selectedId]);
   const filtered = React.useMemo(() => filterCatalog(selectable, categories, categoryId, query), [selectable, categories, categoryId, query]);
-  const resetPage = () => { setLimit(PAGE_SIZE); listRef.current?.scrollTo(0, 0); };
-  const chooseCategory = (id: string) => { setCategoryId(id); resetPage(); };
+  const resetPage = (nextQuery = query) => { setLimit(nextQuery.trim() ? PAGE_SIZE : INITIAL_PAGE_SIZE); listRef.current?.scrollTo(0, 0); };
+  const chooseCategory = (id: string, nextQuery = query) => { setCategoryId(id); resetPage(nextQuery); };
 
-  return <div className="min-w-0 space-y-3">
+  return <CatalogDetailsProvider><div className="min-w-0 space-y-3">
     <label htmlFor={searchId} className="block text-xs font-semibold text-muted">Buscar peça</label>
     <div className="relative">
       <Search className="pointer-events-none absolute left-3 top-3.5 size-4 text-muted" aria-hidden="true" />
-      <input id={searchId} type="search" value={query} onChange={(event) => { setQuery(event.target.value); resetPage(); }}
+      <input id={searchId} type="search" value={query} onChange={(event) => { setQuery(event.target.value); resetPage(event.target.value); }}
         placeholder="Nome ou termo, ex.: turbina, suspensão a ar…"
         className="h-11 w-full min-w-0 rounded-xl border border-border/80 bg-background pl-10 pr-3 text-sm text-foreground outline-none focus:border-accent" />
     </div>
     <div className="grid min-w-0 gap-4 lg:grid-cols-[12rem_minmax(0,1fr)]">
       <nav aria-label="Categorias de peças" className="flex min-w-0 gap-2 overflow-x-auto pb-2 lg:block lg:space-y-1 lg:overflow-visible">
         <button type="button" onClick={() => chooseCategory("")} aria-pressed={!categoryId}
-          className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors lg:w-full", !categoryId ? "bg-accent text-white" : "bg-surface text-muted hover:text-foreground")}>Todas</button>
+          className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors lg:w-full", !categoryId ? "bg-accent-2 text-white" : "bg-surface text-muted hover:text-foreground")}>Todas</button>
         {categories.filter((category) => !category.parent_id).map((category) => <button type="button" key={category.id}
           onClick={() => chooseCategory(category.id)} aria-pressed={categoryId === category.id}
-          className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors lg:w-full", categoryId === category.id ? "bg-accent text-white" : "bg-surface text-muted hover:text-foreground")}>{category.name}</button>)}
+          className={cn("shrink-0 rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors lg:w-full", categoryId === category.id ? "bg-accent-2 text-white" : "bg-surface text-muted hover:text-foreground")}>{category.name}</button>)}
       </nav>
       <div className="min-w-0">
         <p aria-label="Resultados do catálogo" aria-live="polite" aria-atomic="true" className="mb-2 text-xs text-muted">{filtered.length} {filtered.length === 1 ? "peça encontrada" : "peças encontradas"}</p>
@@ -63,11 +64,11 @@ export function CatalogPicker({ categories, catalog, selectedId, onSelect }: {
           </div>)}
           {!filtered.length ? <div className="p-4 text-sm text-muted sm:col-span-2">
             <p>Nenhuma peça encontrada. Tente outro termo ou categoria.</p>
-            <button type="button" onClick={() => { setQuery(""); chooseCategory(""); }} className="mt-3 inline-flex items-center gap-1 font-semibold text-accent"><X className="size-3" aria-hidden="true" /> Limpar filtros</button>
+            <button type="button" onClick={() => { setQuery(""); chooseCategory("", ""); }} className="mt-3 inline-flex items-center gap-1 font-semibold text-accent"><X className="size-3" aria-hidden="true" /> Limpar filtros</button>
           </div> : null}
           {filtered.length > limit ? <button type="button" onClick={() => setLimit((value) => value + PAGE_SIZE)} className="rounded-xl border border-border p-3 text-sm font-semibold hover:border-accent sm:col-span-2">Mostrar mais peças ({Math.min(limit, filtered.length)} de {filtered.length})</button> : null}
         </div>
       </div>
     </div>
-  </div>;
+  </div></CatalogDetailsProvider>;
 }

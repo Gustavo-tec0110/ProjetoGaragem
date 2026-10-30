@@ -328,7 +328,7 @@ function DetailAnswerGroup({
         {DETAIL_ANSWER_OPTIONS.map((option) => (
           <label
             key={option.value}
-            className="flex min-h-11 items-center justify-center rounded-3xl border border-border/70 bg-background/25 px-3 text-center text-xs text-foreground"
+            className="has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background flex min-h-11 items-center justify-center rounded-3xl border border-border/70 bg-background/25 px-3 text-center text-xs text-foreground"
           >
             <input
               type="radio"
@@ -356,6 +356,7 @@ function ProjectTagsField({
   onDraftChange: (value: string) => void;
   onTagsChange: (value: string[]) => void;
 }) {
+  const tagsId = React.useId();
   const remaining = Math.max(0, 20 - tags.length);
 
   function addTags(value: string) {
@@ -372,12 +373,13 @@ function ProjectTagsField({
   return (
     <div className="grid gap-3 text-sm text-muted">
       <div className="flex items-center justify-between gap-3">
-        <span>Tags do projeto</span>
+        <label htmlFor={tagsId}>Tags do projeto</label>
         <span className="text-xs">{remaining} restantes</span>
       </div>
       <input type="hidden" name="tags_csv" value={tags.join(", ")} />
       <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <Input
+          id={tagsId}
           value={draft}
           onChange={(event) => {
             const nextValue = event.target.value;
@@ -673,7 +675,7 @@ export function CarForm({
           message:
             payload?.status === "error" && payload.message
               ? payload.message
-              : "Nao foi possivel criar o projeto.",
+              : "Não foi possível criar o projeto.",
         });
         return;
       }
@@ -682,7 +684,7 @@ export function CarForm({
     } catch {
       setCreateState({
         status: "error",
-        message: "Nao foi possivel conectar ao servidor. Tente novamente.",
+        message: "Não foi possível conectar ao servidor. Tente novamente.",
       });
     } finally {
       setCreatePending(false);
@@ -714,7 +716,7 @@ export function CarForm({
           message:
             payload?.status === "error" && payload.message
               ? payload.message
-              : "Nao foi possivel salvar o projeto.",
+              : "Não foi possível salvar o projeto.",
         });
         return;
       }
@@ -723,7 +725,7 @@ export function CarForm({
     } catch {
       setEditState({
         status: "error",
-        message: "Nao foi possivel conectar ao servidor. Tente novamente.",
+        message: "Não foi possível conectar ao servidor. Tente novamente.",
       });
     } finally {
       setEditPending(false);
@@ -818,7 +820,7 @@ export function CarForm({
             Crie o projeto com o que você sabe agora
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Marca, modelo, ano e nome bastam. A foto e a parte tecnica podem ser confirmadas depois.
+            Marca, modelo, ano e nome bastam. A foto e a parte técnica podem ser confirmadas depois.
           </p>
 
           <div className="mt-4 grid gap-3 md:mt-6 md:gap-4">
@@ -1030,7 +1032,7 @@ export function CarForm({
       <Card className="p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-xs text-muted">Ficha publica do carro</p>
+            <p className="text-xs text-muted">Ficha pública do carro</p>
             <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">
               {mode === "edit" ? "Editar projeto" : "Adicionar meu projeto"}
             </h1>
@@ -1124,7 +1126,7 @@ export function CarForm({
                     }}
                     className="pg-control h-12 rounded-3xl px-4 text-sm"
                   >
-                    <option value={UNKNOWN_VERSION_VALUE}>Nao sei</option>
+                    <option value={UNKNOWN_VERSION_VALUE}>Não sei</option>
                     {catalogMatches.map((version) => (
                       <option key={version.id} value={version.id}>
                         {version.version}
@@ -1255,7 +1257,7 @@ export function CarForm({
       </Card>
 
       <Card className="p-5 md:p-6">
-        <h2 className="font-title text-xl tracking-tight">Especificacoes e objetivo</h2>
+        <h2 className="font-title text-xl tracking-tight">Especificações e objetivo</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-4">
           <Field label="Motor">
             <Input name="engine" defaultValue={car?.engine ?? ""} placeholder="AP 1.8 Turbo" />
@@ -1314,7 +1316,7 @@ export function CarForm({
               ))}
             </select>
           </Field>
-          <Field label="Data de inicio">
+          <Field label="Data de início">
             <Input name="started_at" type="date" defaultValue={isoDate(car?.started_at)} />
           </Field>
           <Field label="Planejamento privado" className="md:col-span-2">
@@ -1605,25 +1607,29 @@ export function CarForm({
               </div>
 
               <div className="mt-3 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-                <Input
-                  value={part.image_url}
-                  onChange={(event) =>
-                    updatePart(part.localId, { image_url: event.target.value })
-                  }
-                  placeholder="Imagem da peça (URL ou upload da galeria)"
-                />
-                <Input
-                  value={part.description}
-                  onChange={(event) =>
-                    updatePart(part.localId, { description: event.target.value })
-                  }
-                  placeholder="Observação rápida"
-                />
+                <Field label="Imagem da peça (URL)">
+                  <Input
+                    value={part.image_url}
+                    onChange={(event) =>
+                      updatePart(part.localId, { image_url: event.target.value })
+                    }
+                    placeholder="Imagem da peça (URL ou upload da galeria)"
+                  />
+                </Field>
+                <Field label="Observação da peça">
+                  <Input
+                    value={part.description}
+                    onChange={(event) =>
+                      updatePart(part.localId, { description: event.target.value })
+                    }
+                    placeholder="Observação rápida"
+                  />
+                </Field>
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
-                  aria-label="Remover peca"
+                  aria-label="Remover peça"
                   onClick={() => removePart(part.localId)}
                 >
                   <Trash2 className="size-4" />

@@ -18,7 +18,7 @@ import { CarGrid } from "@/components/garage/car-card";
 import { EditProfileDialog } from "@/components/garage/edit-profile-dialog";
 import { ProfileSaveFeedback } from "@/components/garage/profile-save-feedback";
 import { FollowProfileButton } from "@/components/garage/follow-profile-button";
-import { InspirationPlanner } from "@/components/garage/inspiration-planner";
+import { LazyInspirationPlanner } from "@/components/garage/lazy-inspiration-planner";
 import { ProjectImage } from "@/components/projects/project-image";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +28,6 @@ import {
   type SocialPlatform,
 } from "@/lib/profile/social-links";
 import { Card } from "@/components/ui/card";
-import { getProjectCollection, getProjectsBySlugs } from "@/lib/projects/server";
 import {
   qCarsByOwner,
   qFollowingProfiles,
@@ -182,7 +181,7 @@ function ProfileTabs({
 }) {
   return (
     <nav className="mt-4 border-b border-border/70" aria-label="Conteúdo do perfil">
-      <div className="-mx-2 flex overflow-x-auto px-2" role="tablist">
+      <div className="-mx-2 flex overflow-x-auto px-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = tab.key === activeTab;
@@ -191,8 +190,7 @@ function ProfileTabs({
               key={tab.key}
               href={tab.href}
               scroll={false}
-              role="tab"
-              aria-selected={active}
+              aria-current={active ? "page" : undefined}
               className={cn(
                 "relative flex min-w-max items-center gap-2 px-4 py-3 font-ui text-xs font-semibold transition sm:px-6 sm:text-sm",
                 active ? "text-foreground" : "text-muted hover:text-foreground"
@@ -249,11 +247,15 @@ export async function ProfileExperience({
 }: ProfileExperienceProps) {
   const canSeeSaved = isOwner || profile.is_saves_public;
   const canSeeLiked = isOwner || profile.is_likes_public;
+  const activeTab = requestedTab === "salvos" && canSeeSaved ? "salvos"
+    : requestedTab === "curtidos" && canSeeLiked ? "curtidos"
+      : requestedTab === "seguindo" && isOwner ? "seguindo" : "projetos";
+  const needsPlanner = showPrivateTools && isOwner && activeTab === "projetos";
   const [carsResult, savedResult, likedResult, followingResult] = await Promise.all([
     qCarsByOwner(profile.id, isOwner),
-    canSeeSaved ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
-    canSeeLiked ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
-    isOwner ? qFollowingProfiles(profile.id) : Promise.resolve({ data: [], error: null }),
+    activeTab === "salvos" ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    activeTab === "curtidos" ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
+    activeTab === "seguindo" ? qFollowingProfiles(profile.id) : Promise.resolve({ data: [], error: null }),
   ]);
   const cars = carsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
@@ -268,7 +270,6 @@ export async function ProfileExperience({
     ...(canSeeLiked ? [{ key: "curtidos" as const, label: "Curtidos", icon: Heart }] : []),
     ...(isOwner ? [{ key: "seguindo" as const, label: "Seguindo", icon: Users }] : []),
   ].map((tab) => ({ ...tab, href: tab.key === "projetos" ? baseHref : `${baseHref}?aba=${tab.key}` }));
-  const activeTab = tabs.some((tab) => tab.key === requestedTab) ? requestedTab : "projetos";
 
   const content = activeTab === "salvos"
     ? { title: "Projetos salvos", cars: savedCars, emptyTitle: "Nenhum projeto salvo.", emptyDescription: isOwner ? "Explore projetos e salve suas referências favoritas." : "Este usuário não possui projetos salvos visíveis." }
@@ -276,30 +277,6 @@ export async function ProfileExperience({
       ? { title: "Projetos curtidos", cars: likedCars, emptyTitle: "Nenhum projeto curtido.", emptyDescription: isOwner ? "Os projetos que você curtir aparecerão aqui." : "Este usuário não possui projetos curtidos visíveis." }
       : { title: isOwner ? "Meus projetos" : "Projetos", cars, emptyTitle: isOwner ? "Você ainda não cadastrou nenhum projeto." : "Este usuário ainda não cadastrou projetos públicos.", emptyDescription: isOwner ? "Crie seu primeiro projeto para começar sua garagem." : "Volte em breve para conferir as novidades desta garagem." };
 
-  let inspiration: React.ReactNode = null;
-  if (showPrivateTools && isOwner && activeTab === "projetos") {
-    const myCarSlugs = cars.map((car) => car.slug);
-    const catalog = await getProjectCollection();
-    const referenceSlugs = (savedCars.length
-      ? savedCars.map((car) => car.slug)
-      : catalog.allProjects.filter((project) => !myCarSlugs.includes(project.slug)).slice(0, 12).map((project) => project.slug)
-    ).filter(Boolean);
-    const [myProjects, referenceProjects] = await Promise.all([
-      getProjectsBySlugs(myCarSlugs),
-      getProjectsBySlugs(referenceSlugs),
-    ]);
-    inspiration = (
-      <details className="mt-8 rounded-2xl border border-border/70 bg-background/25 p-4 open:bg-card/35 sm:p-5">
-        <summary className="cursor-pointer list-none font-ui text-sm font-semibold text-foreground marker:hidden">
-          Ferramenta privada: similaridade com inspiração
-          <span className="ml-2 text-xs font-normal text-muted">Abrir planejador</span>
-        </summary>
-        <div className="mt-5">
-          <InspirationPlanner mode="supabase" storageScope={profile.id} currentProjects={myProjects} inspirationProjects={referenceProjects} referenceSourceLabel={savedCars.length ? "Projetos salvos" : "Projetos em destaque"} />
-        </div>
-      </details>
-    );
-  }
 
   return (
     <>
@@ -327,7 +304,7 @@ export async function ProfileExperience({
           />
         )}
       </section>
-      {inspiration}
+      {needsPlanner ? <LazyInspirationPlanner /> : null}
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { GoogleSigninButton } from "@/components/auth/google-signin-button";
 import { AuthShell } from "@/components/auth/auth-shell";
@@ -9,9 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/components/AuthProvider";
 
+import { Turnstile, useCaptcha } from "@/components/auth/turnstile";
+import { TermsCheckbox } from "@/components/auth/terms-checkbox";
+import { CAPTCHA_REQUIRED } from "@/lib/auth/captcha";
+import { TERMS_REQUIRED_MESSAGE, TERMS_VERSION, PRIVACY_VERSION } from "@/lib/auth/legal";
+
 export default function RegisterPage() {
   const { signUpWithEmail } = useAuth();
 
+  const captcha = useCaptcha();
+  const submitting = useRef(false);
+  const [accepted, setAccepted] = useState(false);
+  const [termsError, setTermsError] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,39 +31,56 @@ export default function RegisterPage() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (submitting.current) return;
     setError("");
+    setTermsError(!accepted);
+    if (!accepted) { setError(TERMS_REQUIRED_MESSAGE); return; }
+    if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
     if (password.length < 6) {
       setError("A senha deve ter ao menos 6 caracteres.");
       return;
     }
     if (password !== confirmPassword) {
-      setError("As senhas nao coincidem.");
+      setError("As senhas não coincidem.");
       return;
     }
 
+    submitting.current = true;
     setLoading(true);
-    const { error: signUpError, hasSession } = await signUpWithEmail(email, password, fullName);
+    try {
+      const { error: signUpError, hasSession } = await signUpWithEmail(email, password, fullName, captcha.token);
 
-    if (signUpError) {
-      setLoading(false);
-      setError(signUpError.message ?? "Erro ao cadastrar.");
-      return;
-    }
-
-    if (hasSession) {
-      const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
-      const session = (await sessionResponse.json()) as { authenticated?: boolean };
-      if (!sessionResponse.ok || !session.authenticated) {
+      if (signUpError) {
         setLoading(false);
-        setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+        setError(signUpError.message ?? "Erro ao cadastrar.");
         return;
       }
-      window.location.assign("/onboarding");
-      return;
-    }
 
-    setLoading(false);
-    setSuccess(true);
+      if (hasSession) {
+        const sessionResponse = await fetch("/api/auth/session", { cache: "no-store" });
+        const session = (await sessionResponse.json()) as { authenticated?: boolean };
+        if (!sessionResponse.ok || !session.authenticated) {
+          setLoading(false);
+          setError("A sessão não pôde ser confirmada. Tente entrar novamente.");
+          return;
+        }
+        const acceptance = await fetch("/api/auth/terms", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ termsVersion: TERMS_VERSION, privacyVersion: PRIVACY_VERSION, accepted: true }),
+        });
+        window.location.assign(acceptance.ok ? "/onboarding" : "/accept-terms?next=%2Fonboarding");
+        return;
+      }
+
+      setLoading(false);
+      setSuccess(true);
+    } catch {
+      setError("Não foi possível concluir o cadastro. Tente novamente com uma nova verificação.");
+    } finally {
+      submitting.current = false;
+      setLoading(false);
+      captcha.reset();
+    }
   };
 
   return (
@@ -65,7 +91,7 @@ export default function RegisterPage() {
     >
             {success ? (
               <p className="mt-4 text-sm text-muted">
-                Cadastro iniciado. Se o Supabase exigir confirmacao, verifique seu email.
+                Cadastro iniciado. Confira seu email para confirmar a conta. Depois, entre para confirmar o aceite dos documentos na sua sessão e continuar.
               </p>
             ) : (
               <>
@@ -96,7 +122,9 @@ export default function RegisterPage() {
                       <Input placeholder="Repita a senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" required />
                     </label>
                   </div>
-                  {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
+                  <Turnstile onToken={captcha.setToken} generation={captcha.generation} />
+                  <TermsCheckbox checked={accepted} onChange={(value) => { setAccepted(value); if (value) { setTermsError(false); if (error === TERMS_REQUIRED_MESSAGE) setError(""); } }} invalid={termsError && !accepted} />
+                  {error ? <p id="terms-error" role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
                   <Button type="submit" disabled={loading} className="w-full">
                     {loading ? "Cadastrando..." : "Criar conta"}
                   </Button>

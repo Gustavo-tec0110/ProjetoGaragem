@@ -4,7 +4,8 @@ import * as React from "react";
 import type { AuthError, User } from "@supabase/supabase-js";
 
 import { getSiteUrl, isSupabaseConfigured } from "@/lib/supabase/env";
-import { getSafeNextPath } from "@/lib/auth/redirect";
+import { requireCaptchaToken } from "@/lib/auth/captcha";
+import { getGoogleNextPath } from "@/lib/auth/redirect";
 
 async function getSupabaseBrowserClient() {
   const browserModule = await import("@/lib/supabase/browser");
@@ -19,12 +20,13 @@ type AuthContextValue = {
   user: User | null;
   loading: boolean;
   configured: boolean;
-  signInWithEmail: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signInWithEmail: (email: string, password: string, captchaToken?: string) => Promise<{ error: AuthError | null }>;
   signInWithGoogle: (nextPath?: string | null) => Promise<{ error: AuthError | null }>;
   signUpWithEmail: (
     email: string,
     password: string,
-    fullName?: string
+    fullName?: string,
+    captchaToken?: string
   ) => Promise<{ error: AuthError | null; hasSession: boolean }>;
   signOut: () => Promise<void>;
 };
@@ -38,6 +40,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     let mounted = true;
     let unsubscribe: (() => void) | null = null;
+
+    // GoTrue falls back to site_url when state validation fails before it can
+    // recover redirectTo. Do not present that return as a successful login or
+    // copy the provider's description/query into the error page.
+    const query = new URLSearchParams(window.location.search);
+    if (window.location.pathname === "/" && query.get("error") && query.get("error_code")) {
+      window.location.replace("/auth/auth-code-error");
+      return;
+    }
 
     if (!isSupabaseConfigured || !hasSupabaseAuthCookie()) {
       return;
@@ -75,12 +86,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signInWithEmail = React.useCallback(async (email: string, password: string) => {
+  const signInWithEmail = React.useCallback(async (email: string, password: string, captchaToken?: string) => {
     const supabase = await getSupabaseBrowserClient();
     if (!supabase) {
       return { error: new Error("Supabase nao configurado") as AuthError };
     }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: requireCaptchaToken(captchaToken) } });
     if (!error) setUser(data.user);
     return { error };
   }, []);
@@ -91,11 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { error: new Error("Supabase nao configurado") as AuthError };
     }
 
-    const queryNext =
-      typeof window !== "undefined"
-        ? new URLSearchParams(window.location.search).get("next")
-        : null;
-    const next = getSafeNextPath(nextPath ?? queryNext);
+    const next = getGoogleNextPath(nextPath, window.location.pathname, window.location.search);
     const redirectUrl = new URL("/auth/callback", getSiteUrl());
     redirectUrl.searchParams.set("next", next);
 
@@ -110,7 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUpWithEmail = React.useCallback(
-    async (email: string, password: string, fullName?: string) => {
+    async (email: string, password: string, fullName?: string, captchaToken?: string) => {
       const supabase = await getSupabaseBrowserClient();
       if (!supabase) {
         return { error: new Error("Supabase nao configurado") as AuthError, hasSession: false };
@@ -124,6 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password,
         options: {
           emailRedirectTo: emailRedirectTo.toString(),
+          captchaToken: requireCaptchaToken(captchaToken),
           data: {
             full_name: fullName,
           },

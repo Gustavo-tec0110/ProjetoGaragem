@@ -1,4 +1,6 @@
 import { ProfileForm } from "@/components/garage/profile-form";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getCurrentProfile } from "@/lib/supabase/queries";
 import { getSupabaseServerUser } from "@/lib/supabase/auth-server";
@@ -19,8 +21,9 @@ export default async function OnboardingPage() {
             <Card className="p-6 md:p-8">
               <h1 className="font-title text-2xl tracking-tight">Entre para criar seu perfil</h1>
               <p className="mt-2 text-sm text-muted">
-                Depois disso voce cadastra o primeiro carro da sua garagem.
+                Depois disso você cadastra o primeiro carro da sua garagem.
               </p>
+              <Button asChild className="mt-4"><Link href="/login?next=/onboarding">Entrar</Link></Button>
             </Card>
           ) : (
             <ProfileForm profile={current?.profile ?? null} defaultEmail={user.email} />

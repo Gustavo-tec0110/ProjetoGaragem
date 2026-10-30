@@ -1,4 +1,5 @@
 import "server-only";
+import { hasCurrentTerms } from "@/lib/auth/terms-server";
 
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { cache } from "react";
@@ -41,6 +42,9 @@ export async function requireSupabaseUser() {
   if (!user) {
     timer.end({ authenticated: false });
     return { supabase, user: null, error: "Entre para continuar." };
+  }
+  if (!await hasCurrentTerms(supabase)) {
+    return { supabase, user: null, error: "Conclua o aceite dos Termos de Uso em /accept-terms para continuar." };
   }
   timer.end({ authenticated: true });
   return { supabase, user, error: null };

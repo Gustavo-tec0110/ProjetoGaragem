@@ -30,6 +30,9 @@ export function ProjectSearchBox({
   const [isFocused, setIsFocused] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [status, setStatus] = React.useState("");
+  const [activeIndex, setActiveIndex] = React.useState(-1);
+  const dismissedRef = React.useRef(false);
+  const expanded = isOpen && value.trim().length >= 2;
 
   React.useEffect(() => {
     const query = value.trim();
@@ -40,8 +43,9 @@ export function ProjectSearchBox({
     const cached = suggestionCacheRef.current.get(query);
     if (cached) {
       setSuggestions(cached);
-      setIsOpen(isFocused);
-      setStatus(cached.length ? `${cached.length} sugestoes encontradas.` : "Nenhuma sugestao encontrada.");
+      setIsOpen(isFocused && !dismissedRef.current);
+      setActiveIndex(-1);
+      setStatus(cached.length ? `${cached.length} sugestões encontradas.` : "Nenhuma sugestão encontrada.");
       return;
     }
 
@@ -60,16 +64,17 @@ export function ProjectSearchBox({
         if (cache.size >= 20) cache.delete(cache.keys().next().value ?? "");
         cache.set(query, nextSuggestions);
         setSuggestions(nextSuggestions);
-        setIsOpen(isFocused);
+        setIsOpen(isFocused && !dismissedRef.current);
+        setActiveIndex(-1);
         setStatus(
           nextSuggestions.length
-            ? `${nextSuggestions.length} sugestoes encontradas.`
-            : "Nenhuma sugestao encontrada."
+            ? `${nextSuggestions.length} sugestões encontradas.`
+            : "Nenhuma sugestão encontrada."
         );
       } catch {
         if (!controller.signal.aborted) {
           setSuggestions([]);
-          setStatus("Nao foi possivel carregar sugestoes agora.");
+          setStatus("Não foi possível carregar sugestões agora.");
         }
       } finally {
         if (!controller.signal.aborted) setIsLoading(false);
@@ -87,12 +92,16 @@ export function ProjectSearchBox({
   }, []);
 
   function submitSuggestion(suggestion: Suggestion) {
+    dismissedRef.current = true;
+    setActiveIndex(-1);
     setValue(suggestion.term);
     setIsOpen(false);
     window.setTimeout(() => formRef.current?.requestSubmit(), 0);
   }
 
   function updateSearchValue(nextValue: string) {
+    dismissedRef.current = false;
+    setActiveIndex(-1);
     setValue(nextValue);
 
     if (nextValue.trim().length < 2) {
@@ -112,12 +121,36 @@ export function ProjectSearchBox({
         value={value}
         onChange={(event) => updateSearchValue(event.target.value)}
         onFocus={() => {
+          dismissedRef.current = false;
           setIsFocused(true);
           setIsOpen(value.trim().length >= 2);
         }}
         onBlur={() => {
           setIsFocused(false);
-          window.setTimeout(() => setIsOpen(false), 120);
+          dismissedRef.current = true;
+          setIsOpen(false);
+          setActiveIndex(-1);
+        }}
+        onKeyDown={(event) => {
+          if (event.nativeEvent.isComposing) return;
+          if (event.key === "Escape") {
+            if (expanded) event.preventDefault();
+            dismissedRef.current = true;
+            setIsOpen(false);
+            setActiveIndex(-1);
+          } else if ((event.key === "ArrowDown" || event.key === "ArrowUp") && suggestions.length && value.trim().length >= 2) {
+            event.preventDefault();
+            dismissedRef.current = false;
+            setIsOpen(true);
+            const next = event.key === "ArrowDown"
+              ? (activeIndex + 1) % suggestions.length
+              : (activeIndex <= 0 ? suggestions.length - 1 : activeIndex - 1);
+            setActiveIndex(next);
+            document.getElementById(`${listboxId}-${next}`)?.scrollIntoView({ block: "nearest" });
+          } else if (event.key === "Enter" && expanded && activeIndex >= 0) {
+            event.preventDefault();
+            document.getElementById(`${listboxId}-${activeIndex}`)?.click();
+          }
         }}
         placeholder="Busque por Gol AP, orbital, daily, Civic K20..."
         className="pl-11 pr-10"
@@ -125,8 +158,9 @@ export function ProjectSearchBox({
         aria-label={ariaLabel}
         role="combobox"
         aria-autocomplete="list"
-        aria-expanded={isOpen && value.trim().length >= 2}
-        aria-controls={listboxId}
+        aria-expanded={expanded}
+        aria-activedescendant={expanded && activeIndex >= 0 ? `${listboxId}-${activeIndex}` : undefined}
+        aria-controls={expanded ? listboxId : undefined}
         aria-describedby={`${inputId}-status`}
       />
       {isLoading ? (
@@ -138,14 +172,14 @@ export function ProjectSearchBox({
       <span id={`${inputId}-status`} className="sr-only" aria-live="polite">
         {status}
       </span>
-      {isOpen && value.trim().length >= 2 ? (
+      {expanded ? (
         <div
           id={listboxId}
           role="listbox"
           className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 overflow-hidden rounded-3xl border border-border/80 bg-background shadow-xl"
         >
           {suggestions.length && value.trim().length >= 2 ? (
-            suggestions.map((suggestion) => {
+            suggestions.map((suggestion, index) => {
               const content = (
                 <>
                   <span className="font-medium text-foreground">{suggestion.term}</span>
@@ -153,7 +187,7 @@ export function ProjectSearchBox({
                 </>
               );
               const className =
-                "flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm hover:bg-muted/10";
+                `flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm hover:bg-muted/10 ${activeIndex === index ? "bg-muted/10" : ""}`;
               const key = `${suggestion.source}-${suggestion.term}`;
 
               if (suggestion.href) {
@@ -162,9 +196,14 @@ export function ProjectSearchBox({
                     key={key}
                     href={suggestion.href}
                     role="option"
-                    aria-selected="false"
+                    aria-selected={activeIndex === index}
+                    id={`${listboxId}-${index}`}
+                    tabIndex={-1}
+                    onMouseEnter={() => setActiveIndex(index)}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => {
+                      dismissedRef.current = true;
+                      setActiveIndex(-1);
                       setIsOpen(false);
                     }}
                     className={className}
@@ -179,7 +218,10 @@ export function ProjectSearchBox({
                   key={key}
                   type="button"
                   role="option"
-                  aria-selected="false"
+                  aria-selected={activeIndex === index}
+                  id={`${listboxId}-${index}`}
+                  tabIndex={-1}
+                  onMouseEnter={() => setActiveIndex(index)}
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={() => submitSuggestion(suggestion)}
                   className={className}
