@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-31T01:47:24.325212+00:00",
+  "cleanupExecuted": false,
+  "temporaryResourcesPreservedForPendingValidation": true,
+  "testGoogleClientDiffersFromProduction": true,
+  "resources": [
+    {
+      "path": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/auth-local-private/google-oauth-test.private.json",
+      "present": true,
+      "mode": "0o600",
+      "scope": "isolated-test-or-release"
+    },
+    {
+      "path": "/tmp/garagem-auth-real-20261029",
+      "present": false,
+      "mode": null,
+      "scope": "isolated-test-or-release"
+    },
+    {
+      "path": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/auth-release/candidate-9Smm6K",
+      "present": true,
+      "mode": "0o700",
+      "scope": "isolated-test-or-release"
+    },
+    {
+      "path": "/home/gustavo/Área de trabalho/ProjetoGaragem/artifacts/production-activation/pre-migrations-backup",
+      "present": true,
+      "mode": "0o700",
+      "scope": "production-backup-preserve"
+    }
+  ],
+  "productionResourcesExcludedFromCleanup": true,
+  "fixtureTimers": [
+    "garagem-retention-fixture.timer",
+    "garagem-retention-fixture-health.timer"
+  ],
+  "providerCredentialsRevokedThisRun": false
+}

@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-10-31T01:47:24.325212+00:00",
+  "productionChangedThisRun": true,
+  "testAccount": {
+    "recreated": false,
+    "emailConfirmed": true,
+    "authenticatedProfileObserved": true,
+    "sessionsAtInspection": 1,
+    "receipts": 1,
+    "validApprovedCurrentReceipts": 1,
+    "logoutValidated": true,
+    "sessionsAfterLogout": 0,
+    "receiptPreservedAfterLogout": true,
+    "protectedGarageRejectedAfterLogout": true
+  },
+  "productionMigrationsConfirmed": 8,
+  "captcha": {
+    "hostedEnabled": false,
+    "widgetDomainConfirmed": true,
+    "siteAndSecretPairComparedPrivately": true,
+    "browserError": "300030",
+    "legitimateBackendValidationCompleted": false,
+    "reasonNotEnabled": "Legitimate challenge has not issued token in the available browser; email login/recovery smoke remains incomplete."
+  },
+  "backup": {
+    "databaseHashMatches": true,
+    "storageObjects": 90,
+    "storageHashMatches": 90,
+    "priorRestoreEvidencePreserved": true,
+    "newRestoreRepeated": false
+  },
+  "retention": {
+    "eligibleProductionReceipts": 0,
+    "detachedProductionReceipts": 0,
+    "clientCanExecutePurge": false,
+    "productionScheduleInstalled": false,
+    "blockers": [
+      "External deletion ledger destination and retention undefined",
+      "Actual backup retention lifecycle undefined",
+      "Reviewed retention grounds and periods unresolved"
+    ],
+    "localFixtureTimersHealthy": true
+  },
+  "cleanup": {
+    "executed": false,
+    "reason": "Production authentication smoke incomplete; preserve fixtures until closure",
+    "testGoogleClientDiffersFromProduction": true,
+    "preserveProductionBackup": true
+  },
+  "humanStepPending": "Complete challenge on prepared forgot-password tab; credential change must be performed by owner.",
+  "productionChangesScope": "Authorized test authentication only: disposable account logout; existing Google identity login/logout. No code, config, migrations or user records edited.",
+  "google": {
+    "existingIdentityLoginAfterCallbackFix": true,
+    "destination": "/garagem?auth_redirect=1",
+    "newAcceptanceRequested": false,
+    "authenticatedReload": true,
+    "logoutPerformed": true,
+    "sessionsAfterLogout": 0,
+    "identitiesForAuthorizedAccount": 1,
+    "receiptsForAuthorizedAccount": 1
+  }
+}

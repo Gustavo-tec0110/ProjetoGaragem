@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-31T01:45:35.718Z",
+  "anonymous": true,
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "location": null,
+      "hsts": true
+    },
+    {
+      "path": "/terms",
+      "status": 200,
+      "location": null,
+      "hsts": true
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "location": null,
+      "hsts": true
+    },
+    {
+      "path": "/garagem",
+      "status": 307,
+      "location": "/login?next=%2Fgaragem",
+      "hsts": true
+    },
+    {
+      "path": "/criar-projeto",
+      "status": 307,
+      "location": "/login?next=%2Fcriar-projeto",
+      "hsts": true
+    },
+    {
+      "path": "/notificacoes",
+      "status": 200,
+      "location": null,
+      "hsts": true
+    }
+  ]
+}
