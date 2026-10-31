@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-31T02:06:22.689Z",
+  "method": "Anonymous HTTP asset inspection; not browser network trace",
+  "routes": [
+    {
+      "path": "/login",
+      "status": 200,
+      "csp": "object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "cspReportOnly": null,
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "scriptCount": 14,
+      "scriptsFailed": [],
+      "siteKeyMatchesExistingWidget": true,
+      "turnstileApiUrlPresent": true,
+      "captchaTokenPresent": true,
+      "singleUseResetPresent": true,
+      "metaCspPresent": false
+    },
+    {
+      "path": "/register",
+      "status": 200,
+      "csp": "object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "cspReportOnly": null,
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "scriptCount": 14,
+      "scriptsFailed": [],
+      "siteKeyMatchesExistingWidget": true,
+      "turnstileApiUrlPresent": true,
+      "captchaTokenPresent": true,
+      "singleUseResetPresent": true,
+      "metaCspPresent": false
+    },
+    {
+      "path": "/forgot-password",
+      "status": 200,
+      "csp": "object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "cspReportOnly": null,
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "scriptCount": 15,
+      "scriptsFailed": [],
+      "siteKeyMatchesExistingWidget": true,
+      "turnstileApiUrlPresent": true,
+      "captchaTokenPresent": true,
+      "singleUseResetPresent": true,
+      "metaCspPresent": false
+    }
+  ],
+  "cloudflareApi": {
+    "status": 200,
+    "contentType": "application/javascript; charset=UTF-8"
+  },
+  "browserControl": "unavailable at inspection",
+  "challengeRetriesPerformed": 0,
+  "productionChanged": false,
+  "authCorsPreflight": [
+    {
+      "path": "/auth/v1/recover",
+      "status": 200,
+      "allowOrigin": "*",
+      "allowMethods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE,CONNECT",
+      "allowHeaders": "apikey,content-type,x-client-info"
+    },
+    {
+      "path": "/auth/v1/token?grant_type=password",
+      "status": 200,
+      "allowOrigin": "*",
+      "allowMethods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE,CONNECT",
+      "allowHeaders": "apikey,content-type,x-client-info"
+    },
+    {
+      "path": "/auth/v1/signup",
+      "status": 200,
+      "allowOrigin": "*",
+      "allowMethods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,TRACE,CONNECT",
+      "allowHeaders": "apikey,content-type,x-client-info"
+    }
+  ],
+  "realAuthPostSent": false
+}

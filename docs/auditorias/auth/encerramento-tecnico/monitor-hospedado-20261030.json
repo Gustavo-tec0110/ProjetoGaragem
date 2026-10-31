@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-31T02:41:33.661815+00:00",
+  "nativeCronRuns": [
+    {
+      "status": "succeeded",
+      "startTime": "2026-10-31 02:35:52.197922+00",
+      "endTime": "2026-10-31 02:35:52.202035+00"
+    },
+    {
+      "status": "succeeded",
+      "startTime": "2026-10-31 02:35:47.185004+00",
+      "endTime": "2026-10-31 02:35:47.189128+00"
+    },
+    {
+      "status": "succeeded",
+      "startTime": "2026-10-31 02:35:42.171567+00",
+      "endTime": "2026-10-31 02:35:42.176+00"
+    }
+  ],
+  "finalSchedule": "0 * * * *",
+  "health": "healthy",
+  "eligible": 0,
+  "clientsCanAccessOperationsSchema": false,
+  "receiptsDeleted": 0,
+  "externalPushNotificationsConfigured": false
+}

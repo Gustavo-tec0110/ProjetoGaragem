@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-10-31T02:24:11.712Z",
+  "method": "Public hosted Auth endpoints, existing disposable email; no admin API",
+  "results": [
+    {
+      "flow": "login",
+      "variant": "missing",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    },
+    {
+      "flow": "login",
+      "variant": "invalid",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    },
+    {
+      "flow": "signup",
+      "variant": "missing",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    },
+    {
+      "flow": "signup",
+      "variant": "invalid",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    },
+    {
+      "flow": "recovery",
+      "variant": "missing",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    },
+    {
+      "flow": "recovery",
+      "variant": "invalid",
+      "http": 400,
+      "errorCode": "captcha_failed",
+      "captchaRejected": true
+    }
+  ]
+}

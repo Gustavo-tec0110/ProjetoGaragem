@@ -1,3 +1,5 @@
+> Atualização posterior: controle do navegador recuperado por reinicialização suportada; recuperação e senha concluídas; CAPTCHA hospedado ativado e validado. Ver `fechamento-autenticacao-20261030.md`. As pendências de autenticação descritas abaixo são históricas.
+
 # Continuação efetiva em produção — 30/10/2026
 
 Etapa ainda aberta. Este registro complementa `ativacao-20261030.md` e prevalece sobre os relatos históricos que dizem que as oito migrations ainda não foram aplicadas. Não foram criados usuários, widgets ou clientes OAuth nesta execução.

@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-31T02:40:09.227041+00:00",
+  "accountRecreated": false,
+  "frontendChanged": false,
+  "hostedCaptcha": {
+    "enabled": true,
+    "provider": "turnstile",
+    "legitimatePasswordLoginPassed": true,
+    "legitimateRecoveryRequestPassed": true,
+    "negativeCases": 6,
+    "errorCode": "captcha_failed",
+    "googleAfterActivationPassed": true,
+    "configurationOutsideCaptchaUnchanged": true
+  },
+  "recovery": {
+    "publicRequestEmailReceived": true,
+    "officialRedirectToResetForm": true,
+    "passwordChangedByOwner": true,
+    "passwordNeverReadOrRecorded": true,
+    "loginAfterChange": true,
+    "secondLoginAfterCaptchaActivation": true
+  },
+  "accounts": {
+    "disposableEmail": {
+      "sessionsAfterLogout": 0,
+      "approvedReceipts": 1
+    },
+    "authorizedGoogle": {
+      "sessionsAfterLogout": 0,
+      "approvedReceipts": 1
+    }
+  },
+  "retention": {
+    "purgeActivated": false,
+    "eligible": 0,
+    "monitorActivated": true,
+    "monitorSchedule": "0 * * * *",
+    "nativeScheduledRunsPassed": true,
+    "telemetryContainsPersonalIdentifiers": false,
+    "telemetryRetentionDays": 30,
+    "failuresRecordedBy": "cron.job_run_details",
+    "attentionWarnings": "Postgres warning logs",
+    "externalPushNotificationsConfigured": false,
+    "legalAndDeletionLedgerGatesRemain": true,
+    "migrationVersion": "20261031023347"
+  },
+  "cleanup": {
+    "fixtureTimersStoppedAndDisabled": 2,
+    "derivedReleaseCandidateRemoved": true,
+    "sharedDependencySymlinksFollowed": false,
+    "productionBackupsPreserved": true,
+    "testOAuthSecretsCurrentlyActive": 2,
+    "testOAuthRevocationPrepared": true,
+    "testCloudflareWidgetPreserved": true,
+    "localCredentialCopyPreservedUntilProviderRevocation": true
+  },
+  "testLimits": [
+    "No additional account or new signup created",
+    "Positive post-activation signup creation not repeated",
+    "Production CAPTCHA token replay not exercised",
+    "Conventional-browser comparison not independently observed; integrated browser later accepted legitimate challenges"
+  ]
+}
