@@ -354,43 +354,6 @@ async function uniqueCarSlug(supabase: ServerSupabaseClient, base: string, curre
   return `${base}-${Date.now().toString(36)}`.slice(0, 90);
 }
 
-async function notifyProjectFollowers({
-  supabase,
-  carId,
-  ownerId,
-  carName,
-  updateTitle,
-}: {
-  supabase: ServerSupabaseClient;
-  carId: string;
-  ownerId: string;
-  carName: string;
-  updateTitle: string;
-}) {
-  const { data: follows } = await supabase
-    .from("project_follows")
-    .select("user_id")
-    .eq("car_id", carId);
-
-  const recipients = ((follows ?? []) as Array<{ user_id: string }>)
-    .map((follow) => follow.user_id)
-    .filter((userId) => userId !== ownerId);
-
-  await Promise.all(
-    recipients.map((recipientId) =>
-      supabase.rpc("create_notification", {
-        p_recipient_id: recipientId,
-        p_notification_type: "project_update",
-        p_car_id: carId,
-        p_notification_title: `${carName} publicou uma nova evolucao`,
-        p_notification_body: updateTitle,
-        p_dedupe: false,
-      })
-    )
-  );
-
-}
-
 function buildCarPayload(formData: FormData, ownerId: string, slug: string) {
   const name = text(formData, "name");
   const brand = text(formData, "brand");
@@ -730,18 +693,12 @@ export async function updateCarProject(
     }
 
     const requestedSlug = normalizeSlug(text(formData, "slug") || `${name}-${brand}-${model}-${year}`);
-    const [slug, { data: previousUpdates }] = await Promise.all([
-      uniqueCarSlug(auth.supabase, requestedSlug, carId),
-      auth.supabase
-        .from("car_build_updates")
-        .select("title, happened_at")
-        .eq("car_id", carId),
-    ]);
+    const slug = await uniqueCarSlug(auth.supabase, requestedSlug, carId);
     const payload = buildCarPayload(formData, auth.user.id, slug);
     const parsedRelated = parseRelatedPayload(formData);
     if (parsedRelated.error) return { ok: false, status: 400, message: parsedRelated.error };
     const related = buildRelatedPayload(formData, parsedRelated);
-    const { data, error } = await auth.supabase.rpc("save_car_project_atomic", {
+    const { data, error } = await auth.supabase.rpc("save_car_project_with_notifications", {
       p_car_id: carId,
       p_car: payload,
       p_photos: related.photos,
@@ -759,25 +716,8 @@ export async function updateCarProject(
       };
     }
 
-    const previousUpdateKeys = new Set(
-      ((previousUpdates ?? []) as Array<{ title: string; happened_at: string }>).map(
-        (update) => `${update.title.trim()}|${update.happened_at}`
-      )
-    );
-
-    const newUpdate = parsedRelated.updates.find(
-      (update) => !previousUpdateKeys.has(`${update.title.trim()}|${update.happened_at}`)
-    );
-    if (newUpdate) {
-      await notifyProjectFollowers({
-        supabase: auth.supabase,
-        carId: car.id,
-        ownerId: auth.user.id,
-        carName: car.name ?? current.name,
-        updateTitle: newUpdate.title,
-      });
-    }
-
+    // The atomic SQL save also delivers every new evolution to its followers.
+    // A delivery error aborts the save, preserving a safe, idempotent retry.
     return {
       ok: true,
       slug: car.slug,

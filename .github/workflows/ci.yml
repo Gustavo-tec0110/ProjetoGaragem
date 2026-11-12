@@ -55,4 +55,8 @@ jobs:
       - name: Gerar build para os testes E2E
         run: npm run build
       - name: Executar testes públicos
-        run: npm run test:e2e
+        env:
+          PLAYWRIGHT_DEV_SERVER: "1"
+        run: npm run test:e2e -- --workers=2
+      - name: Verificar guarda de ofertas em produção
+        run: npm run test:e2e -- --grep "production offers API"

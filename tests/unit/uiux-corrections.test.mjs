@@ -1,3 +1,4 @@
+/* global FormData */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -69,7 +70,7 @@ test('UIUX-01: actual Google button and AuthProvider preserve destination withou
 test('UIUX-14: successful registration gives email guidance without infrastructure details', () => {
   let stateIndex = 0;
   const { default: RegisterPage } = loadTs('src/app/(auth)/register/page.tsx', {
-    react: { useRef: value => ({current:value}), useState: value => [++stateIndex === 9 ? true : value, () => {}] },
+    react: { useRef: value => ({current:value}), useState: value => [++stateIndex === 4 ? true : value, () => {}] },
     '@/components/auth/turnstile': { Turnstile:'captcha',useCaptcha:()=>({}) },
     '@/components/auth/terms-checkbox': { TermsCheckbox:'terms' },
     '@/lib/auth/captcha': { CAPTCHA_REQUIRED }, '@/lib/auth/legal':legal,
@@ -80,25 +81,27 @@ test('UIUX-14: successful registration gives email guidance without infrastructu
     '@/components/AuthProvider': { useAuth: () => ({ signUpWithEmail: () => { throw new Error('No registration allowed'); } }) },
   });
   const text = RegisterPage().props.children[0].props.children;
-  assert.match(text, /Confira seu email para confirmar a conta/);
+  assert.match(text, /Se a conta precisar de confirmação, você receberá um link por email/);
+  assert.match(text, /Se já tiver uma conta, entre ou solicite a recuperação de senha/);
   assert.doesNotMatch(text, /Supabase|NEXT_PUBLIC|redirecionamento/);
 });
 
 for (const [password, confirm, field, shouldSubmit] of [['a','a','password',false], ['abcdef','abcdeg','confirm',false], ['abcdef','abcdef',null,true]]) {
   test(`UIUX-08: reset validates locally (${field ?? 'valid minimum'})`, async () => {
-    const states = [password, confirm, false, '', null];
+    const states = [false, '', null];
     const changes = [];
-    let focus, updates = 0, pushed;
+    let focus, updates = 0, pushed, submittedPassword;
     const { default: ResetPage } = loadTs('src/app/(auth)/reset-password/page.tsx', {
       react: { useState: () => [states.shift(), value => changes.push(value)] },
       'react/jsx-runtime': jsx, 'next/navigation': { useRouter: () => ({ push: path => { pushed = path; } }) },
       '@/components/auth/auth-shell': { AuthShell:'shell' },
       '@/components/ui/button': { Button:'button' }, '@/components/ui/input': { Input:'input' },
-      '@/lib/supabase/browser': { getSupabaseBrowserClient: () => ({auth:{updateUser: async () => {updates++;return {error:null};}}}) },
+      '@/lib/supabase/browser': { getSupabaseBrowserClient: () => ({auth:{updateUser: async (data) => {updates++;submittedPassword=data.password;return {error:null};}}}) },
     }, { document: { getElementById: id => ({ focus: () => { focus = id; } }) } });
-    await ResetPage().props.children.props.onSubmit({ preventDefault() {} });
+    const data = new FormData(); data.set('password', password); data.set('confirm', confirm);
+    await ResetPage().props.children.props.action(data);
     assert.equal(updates, shouldSubmit ? 1 : 0);
     if (field) { assert.ok(changes.includes(field)); assert.equal(focus, field === 'password' ? 'new-password' : 'confirm-password'); }
-    else assert.equal(pushed, '/login');
+    else { assert.equal(pushed, '/login'); assert.equal(submittedPassword, password); }
   });
 }

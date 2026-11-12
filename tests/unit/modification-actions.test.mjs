@@ -17,7 +17,10 @@ const pending = `${owner}/pending-modifications/16c00ae1-10cb-46e2-b3d1-63d9710f
 const replacement = `${owner}/pending-modifications/58fe74b5-c9b7-4ab7-8cf1-13ee87f89d70.webp`;
 const final = paths.finalizedModificationPhotoPath(pending, owner);
 const replacementFinal = paths.finalizedModificationPhotoPath(replacement, owner);
-const draft = (photoPath) => ({ catalogId, status: "installed", paidAmount: 10, note: "Teste", photoPath });
+const draft = (photoPath) => ({
+  catalogId, status: "installed", paidAmount: 10, note: "Teste", photoPath,
+  photoPaths: [], photoCrop: null, preserveLegacyPhoto: false, isFeatured: false,
+});
 
 function actionHarness(options = {}) {
   const state = {

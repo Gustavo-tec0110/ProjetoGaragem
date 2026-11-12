@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useSyncExternalStore } from "react";
+
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 // Test-only DOM marker: do not interact with server-rendered controls before hydration.
 export function CatalogHarnessReady() {
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => { ref.current?.setAttribute("data-catalog-ready", "true"); }, []);
-  return <span ref={ref} hidden data-catalog-ready="false" />;
+  const ready = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot);
+  return <span hidden data-catalog-ready={String(ready)} />;
 }

@@ -1,8 +1,10 @@
+import { ModificationCover } from "@/components/projects/modification-photo";
 import Link from "next/link";
 import {
   Bookmark,
   CarFront,
   Heart,
+  Star,
   AtSign,
   CirclePlay,
   MapPin,
@@ -35,6 +37,8 @@ import {
   qSavedCars,
   type ProfileSummary,
 } from "@/lib/supabase/queries";
+import { protectedImageUrl } from "@/lib/images/project-image-url";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { ProfileRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -251,11 +255,14 @@ export async function ProfileExperience({
     : requestedTab === "curtidos" && canSeeLiked ? "curtidos"
       : requestedTab === "seguindo" && isOwner ? "seguindo" : "projetos";
   const needsPlanner = showPrivateTools && isOwner && activeTab === "projetos";
-  const [carsResult, savedResult, likedResult, followingResult] = await Promise.all([
+  const [carsResult, savedResult, likedResult, followingResult, highlights] = await Promise.all([
     qCarsByOwner(profile.id, isOwner),
     activeTab === "salvos" ? qSavedCars(profile.id) : Promise.resolve({ data: [], error: null }),
     activeTab === "curtidos" ? qLikedCars(profile.id) : Promise.resolve({ data: [], error: null }),
     activeTab === "seguindo" ? qFollowingProfiles(profile.id) : Promise.resolve({ data: [], error: null }),
+    activeTab === "projetos" ? getSupabaseServerClient().then((client) =>
+      client?.rpc("list_garage_highlights", { p_owner_id: profile.id }),
+    ) : null,
   ]);
   const cars = carsResult.data ?? [];
   const savedCars = savedResult.data ?? [];
@@ -283,6 +290,14 @@ export async function ProfileExperience({
       <ProfileSaveFeedback />
       <ProfileHeader profile={profile} isOwner={isOwner} viewerLoggedIn={viewerLoggedIn} viewerFollows={viewerFollows} coverImage={coverImage} projectsCount={cars.length} likesReceived={likesReceived} defaultEmail={defaultEmail} />
       <ProfileTabs tabs={tabs} activeTab={activeTab} />
+
+      {activeTab === "projetos" && (Boolean(highlights?.data?.length) || isOwner) ? <section className="mt-6" aria-label="Destaques da garagem">
+        <h2 className="font-title text-xl font-semibold">Destaques da garagem</h2>
+        {highlights?.data?.length ? <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{highlights.data.map((item) => <Link key={item.id} href={`/projeto/${item.project_slug}/modificacoes#peca-${item.id}`} className="overflow-hidden rounded-xl border border-border/70 bg-card focus-visible:outline-2 focus-visible:outline-accent">
+          <div className="relative aspect-[16/10] bg-background/60">{item.photo_url ? item.photo_gallery?.crop ? <ModificationCover src={protectedImageUrl(item.photo_url)!} crop={item.photo_gallery.crop} /> : <ProjectImage src={protectedImageUrl(item.photo_url)!} alt="" fill sizes="(min-width: 1024px) 260px, 50vw" className="object-cover" /> : <Wrench className="absolute inset-0 m-auto size-8 text-muted" />}</div>
+          <div className="p-3"><span className="inline-flex items-center gap-1 text-xs font-semibold text-accent"><Star className="size-3" /> Em destaque</span><h3 className="mt-1 font-semibold">{item.component_name}</h3><p className="mt-1 text-xs text-muted">{item.project_name}</p></div>
+        </Link>)}</div> : <p className="mt-2 text-sm text-muted">{highlights?.error ? "Não foi possível carregar os destaques agora." : "Destaque seus componentes favoritos nas modificações de um projeto."}</p>}
+      </section> : null}
 
       <section className="mt-5 sm:mt-6">
         <div className="mb-4 flex items-center justify-between gap-3">

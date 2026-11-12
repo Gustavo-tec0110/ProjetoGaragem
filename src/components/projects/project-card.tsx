@@ -92,11 +92,15 @@ function ProfileProjectCard({
 export function ProjectCard({
   project,
   imageLoading = "lazy",
+  imageFetchPriority,
+  imageSizes = "(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 46vw",
   imageIndex = 0,
   variant = "default",
 }: {
   project: Project;
   imageLoading?: "eager" | "lazy";
+  imageFetchPriority?: "high";
+  imageSizes?: string;
   imageIndex?: number;
   variant?: "default" | "profile";
 }) {
@@ -125,8 +129,9 @@ export function ProjectCard({
             alt={`Foto do projeto ${project.title}`}
             fill
             loading={imageLoading}
+            fetchPriority={imageFetchPriority}
             className="object-cover opacity-90 transition duration-300 md:group-hover:scale-105"
-            sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 46vw"
+            sizes={imageSizes}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25 md:from-black/90 md:via-black/35 md:to-transparent" />
           <Badge className="absolute left-2 top-2 max-w-[70%] truncate px-2 py-0.5 text-[11px] md:left-4 md:top-4 md:max-w-none md:px-2.5 md:py-1">

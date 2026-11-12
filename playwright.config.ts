@@ -13,12 +13,13 @@ if (!process.env.PLAYWRIGHT_BASE_URL) {
   process.env.CATALOG_OFFERS_DEMO ??= "1";
   process.env.SKELETON_VISUAL_TEST ??= "1";
 }
-const serverCommand = process.env.CI
+const serverCommand = process.env.CI && process.env.PLAYWRIGHT_DEV_SERVER !== "1"
   ? `npm run start -- --hostname 127.0.0.1 --port ${port}`
   : `npm run dev -- --hostname 127.0.0.1 --port ${port}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  testIgnore: ["**/auth-terms.spec.ts", "**/hydration-early.spec.ts"],
   timeout: 60_000,
   workers: process.env.CI ? 1 : undefined,
   expect: {

@@ -81,8 +81,7 @@ export default function Home() {
                 alt="Chevrolet Opala SS preto preparado em uma oficina"
                 fill
                 preload
-                fetchPriority="high"
-                quality={88}
+                quality={85}
                 sizes="(min-width: 1280px) 1280px, 100vw"
                 className="object-cover object-[38%_center]"
               />
@@ -153,8 +152,7 @@ export default function Home() {
                 alt="Chevrolet Opala SS preto preparado em uma oficina"
                 fill
                 preload
-                fetchPriority="high"
-                quality={88}
+                quality={85}
                 sizes="(min-width: 1280px) 1280px, 100vw"
                 className="object-cover object-[38%_center] sm:object-[68%_center] md:object-[68%_35%]"
               />

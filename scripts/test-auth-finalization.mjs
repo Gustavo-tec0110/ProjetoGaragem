@@ -8,6 +8,7 @@ import { citext } from "@electric-sql/pglite/contrib/citext";
 import { pgcrypto } from "@electric-sql/pglite/contrib/pgcrypto";
 import { pg_trgm } from "@electric-sql/pglite/contrib/pg_trgm";
 import { unaccent } from "@electric-sql/pglite/contrib/unaccent";
+import { applyLocalMigration } from '../tests/fixtures/cron-local.mjs';
 
 const db = new PGlite({ extensions: { citext, pgcrypto, pg_trgm, unaccent } });
 try {
@@ -41,7 +42,7 @@ try {
         drop table public.parts_catalog,public.part_vehicle_compatibility,public.part_dependencies,
           public.project_parts,public.build_budgets,public.part_alert_rules,public.part_recommendation_rules cascade;`);
     }
-    await db.exec(readFileSync('supabase/' + path, 'utf8'));
+    await applyLocalMigration(db, readFileSync('supabase/' + path, 'utf8'));
   }
   console.info('PASS pending migration chain with absent hosted legacy tables/helper');
   const query = async sql => {

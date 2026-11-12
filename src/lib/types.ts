@@ -208,7 +208,9 @@ export type ModificationCatalogRow = {
 export type ProjectModificationRow = {
   id: string;
   car_id: string;
-  catalog_id: string;
+  catalog_id: string | null;
+  custom_name?: string | null;
+  is_featured?: boolean;
   status: ProjectModificationStatus;
   paid_amount: number | null;
   note: string | null;
@@ -216,6 +218,7 @@ export type ProjectModificationRow = {
   show_paid_amount: boolean;
   project_photo_url: string | null;
   project_photo_storage_path: string | null;
+  photo_gallery?: { paths: string[]; crop: { zoom: number; x: number; y: number } | null };
   installed_at: string | null;
   created_at: string;
   updated_at: string;
@@ -468,7 +471,9 @@ export interface Database {
         {
           id?: string;
           car_id: string;
-          catalog_id: string;
+          catalog_id: string | null;
+          custom_name?: string | null;
+          is_featured?: boolean;
           status?: ProjectModificationStatus;
           paid_amount?: number | null;
           note?: string | null;
@@ -476,6 +481,7 @@ export interface Database {
           show_paid_amount?: boolean;
           project_photo_url?: string | null;
           project_photo_storage_path?: string | null;
+          photo_gallery?: { paths: string[]; crop: { zoom: number; x: number; y: number } | null };
           installed_at?: string | null;
         }
       >;
@@ -585,6 +591,7 @@ export interface Database {
         Args: { p_car_ids: string[] };
         Returns: CarBuildUpdateRow[];
       };
+      list_garage_highlights: { Args: { p_owner_id: string }; Returns: Array<{ id: string; project_slug: string; project_name: string; component_name: string; photo_url: string | null; photo_gallery: ProjectModificationRow["photo_gallery"] }> };
       touch_pending_modification_photo: {
         Args: { p_path: string };
         Returns: boolean;
@@ -592,8 +599,8 @@ export interface Database {
       list_public_project_modifications: {
         Args: { p_car_id: string };
         Returns: Array<Pick<ProjectModificationRow,
-          "id" | "car_id" | "catalog_id" | "status" | "paid_amount" |
-          "public_description" | "project_photo_url" | "installed_at" | "created_at" | "updated_at">>;
+          "id" | "car_id" | "catalog_id" | "custom_name" | "is_featured" | "status" | "paid_amount" |
+          "public_description" | "project_photo_url" | "photo_gallery" | "installed_at" | "created_at" | "updated_at">>;
       };
       save_car_project_atomic: {
         Args: {
@@ -616,6 +623,10 @@ export interface Database {
         Args: { target_car_id: string };
         Returns: Array<{ incremented: boolean; views_count: number | null }>;
       };
+      save_car_project_with_notifications: {
+        Args: Database["public"]["Functions"]["save_car_project_atomic"]["Args"];
+        Returns: Database["public"]["Functions"]["save_car_project_atomic"]["Returns"];
+      };
       search_car_projects: {
         Args: {
           p_query?: string | null;
@@ -632,6 +643,10 @@ export interface Database {
           p_limit?: number | null;
         };
         Returns: Array<{ term: string; source: string; rank: number }>;
+      };
+      project_search_suggestions: {
+        Args: { p_query: string; p_limit?: number };
+        Returns: Array<{ term: string; source: string; rank: number; project_slug: string | null }>;
       };
       create_notification: {
         Args: {

@@ -16,13 +16,14 @@ export function LoginForm() {
   const { signInWithEmail } = useAuth();
   const captcha = useCaptcha();
   const submitting = useRef(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (data: FormData) => {
+    // React replays early submissions with the native controls, including pre-hydration typing.
+    // Cancel automatic action resets below to keep those controls on validation/API errors.
+    const email = String(data.get("email") ?? "");
+    const password = String(data.get("password") ?? "");
     if (submitting.current) return;
     if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
     submitting.current = true;
@@ -65,14 +66,15 @@ export function LoginForm() {
         <span className="h-px flex-1 bg-border/70" />
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Keep entered values on validation/API errors; success leaves this form. */}
+      <form action={handleSubmit} onReset={(event) => event.preventDefault()} className="space-y-4">
         <label className="grid gap-2 text-sm font-medium text-foreground/85">
           Email
-          <Input placeholder="voce@email.com" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+          <Input placeholder="voce@email.com" type="email" name="email" autoComplete="email" required />
         </label>
         <label className="grid gap-2 text-sm font-medium text-foreground/85">
           Senha
-          <Input placeholder="Sua senha" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
+          <Input placeholder="Sua senha" type="password" name="password" autoComplete="current-password" required />
         </label>
         <Turnstile onToken={captcha.setToken} generation={captcha.generation} />
         {error ? <p role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}

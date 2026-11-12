@@ -158,7 +158,7 @@ export function ProfileContentSkeleton({ owner = false }: { owner?: boolean }) {
 
 export function ProfilePageSkeleton() { return <StandardSkeletonShell><ProfileContentSkeleton /></StandardSkeletonShell>; }
 
-function DiscoveryFiltersSkeleton() {
+export function DiscoveryFiltersSkeleton() {
   return (
     <div className="mt-5 md:mt-8">
       <div className="rounded-2xl border border-border/70 bg-card/35 p-3 md:hidden">

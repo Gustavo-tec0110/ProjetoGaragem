@@ -510,6 +510,7 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
         if (filters.fuel?.trim()) rankedQuery = rankedQuery.ilike("fuel_type", `%${cleanLike(filters.fuel)}%`);
         if (filters.induction?.trim()) rankedQuery = rankedQuery.ilike("current_induction", `%${cleanLike(filters.induction)}%`);
         if (filters.drivetrain?.trim()) rankedQuery = rankedQuery.ilike("drivetrain", `%${cleanLike(filters.drivetrain)}%`);
+        if (filters.state?.trim()) rankedQuery = rankedQuery.ilike("state", filters.state.trim());
         if (filters.category?.trim()) rankedQuery = rankedQuery.eq("category", filters.category.trim());
         if (filters.engine?.trim()) rankedQuery = rankedQuery.ilike("engine", `%${cleanLike(filters.engine)}%`);
         if (filters.tag?.trim()) {
@@ -545,6 +546,7 @@ async function qExploreCarsPublic(filters: ExploreFilters = {}): Promise<QueryRe
     if (filters.fuel?.trim()) fallbackQuery = fallbackQuery.ilike("fuel_type", `%${cleanLike(filters.fuel)}%`);
     if (filters.induction?.trim()) fallbackQuery = fallbackQuery.ilike("current_induction", `%${cleanLike(filters.induction)}%`);
     if (filters.drivetrain?.trim()) fallbackQuery = fallbackQuery.ilike("drivetrain", `%${cleanLike(filters.drivetrain)}%`);
+    if (filters.state?.trim()) fallbackQuery = fallbackQuery.ilike("state", filters.state.trim());
     if (filters.engine?.trim()) fallbackQuery = fallbackQuery.ilike("engine", `%${filters.engine.trim()}%`);
     if (filters.tag?.trim()) {
       const tag = filters.tag.trim().startsWith("#") ? filters.tag.trim() : `#${filters.tag.trim()}`;
@@ -683,6 +685,25 @@ export async function qExploreCars(
 }
 
 export async function qProjectSearchSuggestions(query: string, limit = 8): Promise<QueryResult<ProjectSearchSuggestion[]>> {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) return { data: [], error: null };
+  const term = query.trim().slice(0, 80);
+  const safeLimit = Number.isFinite(limit) ? Math.max(1, Math.min(12, Math.floor(limit))) : 8;
+  if (term.length < 2 || !normalizeSearchTerm(term)) return { data: [], error: null };
+  const { data, error } = await supabase.rpc("project_search_suggestions", { p_query: term, p_limit: safeLimit });
+  // Keep a rollout-compatible path only for an unapplied migration/schema cache.
+  if (error?.code === "PGRST202" || error?.code === "42883") return legacyProjectSearchSuggestions(term, safeLimit);
+  if (error) return { data: null, error: error.message };
+  return {
+    data: (data ?? []).map((item) => ({
+      term: item.term, source: item.source, rank: item.rank,
+      href: item.project_slug ? `/projeto/${item.project_slug}` : `/explorar?q=${encodeURIComponent(item.term)}`,
+    })),
+    error: null,
+  };
+}
+
+async function legacyProjectSearchSuggestions(query: string, limit = 8): Promise<QueryResult<ProjectSearchSuggestion[]>> {
   const supabase = await getSupabaseServerClient();
   if (!supabase) return { data: [], error: null };
 

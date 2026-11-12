@@ -42,6 +42,7 @@ export type ProjectPart = {
   id: string;
   name: string;
   category: string;
+  special?: boolean;
   brand?: string | null;
   description?: string | null;
   status: ProjectPartStatus;
@@ -51,6 +52,7 @@ export type ProjectPart = {
   wishlist?: boolean;
   installedAt?: string | null;
   imageUrl?: string | null;
+  imageCrop?: { zoom: number; x: number; y: number } | null;
   externalUrl?: string | null;
 };
 

@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
     proxyClientMaxBodySize: "6mb",
   },
   images: {
+    // Match the desktop hero's 1280px cap before stepping up to 1920px.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1280, 1920, 2048, 3840],
     qualities: [75, 85],
     // Only shipped assets can use the local optimizer. Dynamic media (including
     // encoded path aliases and generated OG images) never enters its cache.

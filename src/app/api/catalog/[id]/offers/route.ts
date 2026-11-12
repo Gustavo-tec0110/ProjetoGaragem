@@ -1,7 +1,7 @@
 import { localOffersEnabled, localCatalogOffers } from "@/lib/modifications/local-offers";
 import { getSupabasePublicClient } from "@/lib/supabase/server";
 import { catalogOfferDemoEnabled, demoCatalogOffers } from "@/lib/modifications/demo-offers";
-import { publicOffer } from "@/lib/modifications/offers";
+import { MAX_CATALOG_OFFERS, publicOffer } from "@/lib/modifications/offers";
 import { allowRequest } from "@/lib/security/request-rate-limit";
 import { serverLog } from "@/lib/server-log";
 
@@ -36,5 +36,5 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     serverLog.warn("catalog-offers", { action: "read.failed", code: error.code });
     return Response.json({ offers: [], demonstration: false, unavailable: true }, { headers });
   }
-  return Response.json({ offers: (data ?? []).flatMap((row) => { const offer = publicOffer(row); return offer ? [offer] : []; }), demonstration: false }, { headers });
+  return Response.json({ offers: (data ?? []).flatMap((row) => { const offer = publicOffer(row); return offer ? [offer] : []; }).slice(0, MAX_CATALOG_OFFERS), demonstration: false }, { headers });
 }

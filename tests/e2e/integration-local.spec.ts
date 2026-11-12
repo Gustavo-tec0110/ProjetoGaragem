@@ -1,5 +1,43 @@
 import { expect, test } from "./fixtures";
 
+test("Minha Garagem conserva projeto criado no modo local após recarga", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("projeto-garagem:cookie-consent", JSON.stringify({
+    version: 1, necessary: true, analytics: false, marketing: false, decidedAt: "2026-11-04T12:00:00Z",
+  })));
+  await page.goto("/criar-projeto");
+  await page.getByLabel("Nome do projeto", { exact: true }).fill("Auditoria local de garagem");
+  await page.getByLabel("Carro", { exact: true }).fill("Volkswagen Gol");
+  await page.getByLabel("Ano", { exact: true }).fill("1994");
+  await page.getByLabel("Imagem principal", { exact: true }).fill("/ref/hero-opala-ss.webp");
+  await page.getByRole("button", { name: "Criar projeto local", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Auditoria local de garagem", exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1, name: "Auditoria local de garagem", exact: true })).toBeVisible();
+  await page.goto("/garagem");
+  await expect(page.getByRole("heading", { name: "Auditoria local de garagem", exact: true })).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("pg-local-projects:v1")!).length)).toBe(1);
+});
+
+test("HTML do servidor e navegação a partir do convite permanecem disponíveis", async ({ page, request }) => {
+  const home = await request.get("/");
+  const html = await home.text();
+  expect(home.status()).toBe(200);
+  expect(html).toContain("Sua garagem.");
+  expect(html.replace(/<[^>]*>/g, "")).toContain("Seu projeto.");
+  expect(html).toContain("<nav");
+  expect(html).toContain("<footer");
+
+  await page.goto("/parcerias/criadores");
+  await expect(page.getByRole("navigation")).toHaveCount(0);
+  await page.getByRole("link", { name: "Projeto Garagem — início", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Sua garagem. Seu projeto." })).toBeVisible();
+  await expect(page.getByRole("navigation").first()).toBeVisible();
+  await expect(page.locator("footer")).toBeVisible();
+  await page.goBack();
+  await expect(page.locator("main[data-creator-partnership]")).toBeVisible();
+  await expect(page.getByRole("navigation")).toHaveCount(0);
+});
+
 test("login remains clickable before the optional cookie choice", async ({ page }) => {
   await page.goto("/login");
   const banner = page.getByRole("region", { name: "Preferências de cookies" });

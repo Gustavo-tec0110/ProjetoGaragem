@@ -71,7 +71,7 @@ for (const [width, height] of [[320,568],[390,844],[430,932],[768,1024],[1366,76
 }
 
 test('ranking decorative animations pause outside viewport and on hidden document, then resume', async ({ page }) => {
-  await page.goto('/test-harness/performance?view=ranking');
+  await page.goto('/rankings');
   const layer = page.locator('.pg-scanlines');
   await expect(layer).toHaveCSS('animation-play-state', 'running');
   await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
@@ -85,6 +85,7 @@ test('ranking decorative animations pause outside viewport and on hidden documen
 });
 
 test('production offers API preserves the development-only demonstration guard', async ({ request }) => {
+  test.skip(!process.env.CI || process.env.PLAYWRIGHT_DEV_SERVER === '1', 'Requires the production build.');
   expect((await request.get('/api/catalog/invalid/offers')).status()).toBe(400);
   const response = await request.get('/api/catalog/74f41706-15c6-470c-9c55-0b426e72e209/offers?demonstration=1');
   expect(response.headers()['cache-control']).toBe('no-store');

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useHydrationInput } from "@/lib/hooks/use-hydration-input";
 import { useActionState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -273,6 +274,7 @@ function ModelField({
   const selectValue = value ? (options.includes(value) ? value : OTHER_MODEL_VALUE) : "";
   const isOther = selectValue === OTHER_MODEL_VALUE;
 
+  const adoptModel = useHydrationInput(onChange);
   return (
     <Field label="Modelo">
       <select
@@ -302,6 +304,7 @@ function ModelField({
       {isOther ? (
         <Input
           name="model"
+          ref={adoptModel}
           value={value === OTHER_MODEL_VALUE ? "" : value}
           onChange={(event) => onChange(event.target.value)}
           placeholder="Digite o modelo"
@@ -359,6 +362,8 @@ function ProjectTagsField({
   const tagsId = React.useId();
   const remaining = Math.max(0, 20 - tags.length);
 
+  const adoptDraft = useHydrationInput(onDraftChange);
+
   function addTags(value: string) {
     const nextTags = parseTagString(value);
     if (!nextTags.length) return;
@@ -380,6 +385,7 @@ function ProjectTagsField({
       <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <Input
           id={tagsId}
+          ref={adoptDraft}
           value={draft}
           onChange={(event) => {
             const nextValue = event.target.value;
@@ -487,11 +493,12 @@ export function CarForm({
     parseTagString(safeStringArray(car?.tags).join(", "))
   );
   const [tagDraft, setTagDraft] = React.useState("");
-  const [projectNameInput, setProjectNameInput] = React.useState(car?.name ?? "");
   const [brandInput, setBrandInput] = React.useState(car?.brand ?? "");
   const [modelInput, setModelInput] = React.useState(car?.model ?? "");
   const [yearInput, setYearInput] = React.useState(car?.year ? String(car.year) : "");
+  const adoptYear = useHydrationInput(setYearInput);
   const [editManualVersion, setEditManualVersion] = React.useState(car?.version ?? "");
+  const adoptManualVersion = useHydrationInput(setEditManualVersion);
   const [editVersionConfidence, setEditVersionConfidence] = React.useState<DataConfidence>(
     car?.version_confidence ?? "unknown"
   );
@@ -827,8 +834,7 @@ export function CarForm({
             <Field label="Nome do projeto">
               <Input
                 name="name"
-                value={projectNameInput}
-                onChange={(event) => setProjectNameInput(event.target.value)}
+                defaultValue={car?.name ?? ""}
                 placeholder="Gol do Gustavo"
                 required
               />
@@ -857,6 +863,7 @@ export function CarForm({
               <Field label="Ano">
                 <Input
                   name="year"
+                ref={adoptYear}
                   type="number"
                   value={yearInput}
                   onChange={(event) => setYearInput(event.target.value)}
@@ -1100,6 +1107,7 @@ export function CarForm({
             <Field label="Ano">
               <Input
                 name="year"
+                ref={adoptYear}
                 type="number"
                 value={yearInput}
                 onChange={(event) => setYearInput(event.target.value)}
@@ -1145,6 +1153,7 @@ export function CarForm({
                   {versionSelectValue === OTHER_VERSION_VALUE ? (
                     <Input
                       name="version"
+                      ref={adoptManualVersion}
                       value={editManualVersion}
                       onChange={(event) => setEditManualVersion(event.target.value)}
                       placeholder="Digite a versao"
@@ -1154,6 +1163,7 @@ export function CarForm({
               ) : (
                 <Input
                   name="version"
+                  ref={adoptManualVersion}
                   value={editManualVersion}
                   onChange={(event) => setEditManualVersion(event.target.value)}
                   placeholder="1.8 AP"

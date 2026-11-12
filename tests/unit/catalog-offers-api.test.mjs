@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { URL } from 'node:url';
 import ts from 'typescript';
-import { publicOffer } from '../../src/lib/modifications/offers.ts';
+import { MAX_CATALOG_OFFERS, publicOffer } from '../../src/lib/modifications/offers.ts';
 
 function routeHarness({local=false,demo=false,data=[],error=null,rate=true}={}) {
   const exports={};
@@ -15,7 +15,7 @@ function routeHarness({local=false,demo=false,data=[],error=null,rate=true}={}) 
     '@/lib/modifications/local-offers':{localOffersEnabled:()=>local,localCatalogOffers:async slug=>({offers:[],demonstration:false,slug})},
     '@/lib/modifications/demo-offers':{catalogOfferDemoEnabled:()=>demo,demoCatalogOffers:()=>({offers:[],demonstration:true})},
     '@/lib/supabase/server':{getSupabasePublicClient:()=>({from:table=>{queries.push(table);return query}})},
-    '@/lib/modifications/offers':{publicOffer}, '@/lib/security/request-rate-limit':{allowRequest:()=>({ok:rate,retryAfter:12})},
+    '@/lib/modifications/offers':{MAX_CATALOG_OFFERS,publicOffer}, '@/lib/security/request-rate-limit':{allowRequest:()=>({ok:rate,retryAfter:12})},
     '@/lib/server-log':{serverLog:{warn(){}}},
   };
   runInNewContext(ts.transpileModule(readFileSync('src/app/api/catalog/[id]/offers/route.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports,Response,URL,require:name=>{assert.ok(name in imports,name);return imports[name]}});
@@ -70,7 +70,7 @@ test('local manifest serves only reviewed offers for the requested slug and neve
   const {validateManagedOffer}=await import('../../src/lib/modifications/offers.ts');
   const exports={};
   let manifest={version:1,offers:[row,{...row,id:'22222222-2222-4222-8222-222222222222',catalog_slug:'radiador'}]};
-  const imports={'server-only':{},'node:fs/promises':{readFile:async()=>JSON.stringify(manifest)},'node:path':{join:(...segments)=>segments.join('/')},'./catalog-definitions.json':[{slug:'turbo'},{slug:'radiador'}],'./offers':{publicOffer,validateManagedOffer}};
+  const imports={'server-only':{},'node:fs/promises':{readFile:async()=>JSON.stringify(manifest)},'node:path':{join:(...segments)=>segments.join('/')},'./catalog-definitions.json':[{slug:'turbo'},{slug:'radiador'}],'./offers':{MAX_CATALOG_OFFERS,publicOffer,validateManagedOffer}};
   const code=ts.transpileModule(readFileSync('src/lib/modifications/local-offers.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,esModuleInterop:true,target:ts.ScriptTarget.ES2022}}).outputText;
   runInNewContext(code,{exports,process:{env:{},cwd:()=>'/local'},require:name=>imports[name]});
   const turbo=await exports.localCatalogOffers('turbo');
@@ -79,6 +79,18 @@ test('local manifest serves only reviewed offers for the requested slug and neve
   assert.equal((await exports.localCatalogOffers('coilover')).offers.length,0);
   manifest={version:1,offers:[{...row,is_active:false}]};
   assert.equal((await exports.localCatalogOffers('turbo')).offers.length,0);
+  manifest={version:1,offers:Array.from({length:5},(_,i)=>({...row,id:`00000000-0000-4000-8000-${String(i).padStart(12,'0')}`}))};
+  assert.equal((await exports.localCatalogOffers('turbo')).offers.length,3);
+  assert.equal(manifest.offers.length,5,'legacy rows are preserved');
   manifest={version:99,offers:[]};
   await assert.rejects(exports.localCatalogOffers('turbo'),/Invalid local offers/);
+});
+
+test('API caps legacy offers after filtering invalid rows',async()=>{
+  const row={id,catalog_id:id,store:'amazon',destination_url:'https://amzn.to/test-fixture',product_url:'https://amazon.com.br/test-fixture',is_active:true,is_affiliate:true,product_name:'Fixture de componente',compatibility_notes:'Fixture de aplicação',verified_at:'2026-01-01T12:00:00Z',price:null,price_checked_at:null};
+  const data=[{...row,is_active:false},...Array.from({length:5},(_,i)=>({...row,id:String(i)}))];
+  const result=await (await routeHarness({data}).get(id)).json();
+  assert.equal(result.offers.length,3);
+  assert.deepEqual(result.offers.map(row=>row.id),['0','1','2']);
+  assert.equal(data.length,6);
 });

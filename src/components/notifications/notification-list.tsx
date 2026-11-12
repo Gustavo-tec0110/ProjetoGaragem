@@ -17,39 +17,55 @@ export function NotificationList({
 }) {
   const [items, setItems] = React.useState(notifications);
   const [isPending, startTransition] = React.useTransition();
+  const [error, setError] = React.useState<string | null>(null);
   const unreadIdsRef = React.useRef<Set<string>>(new Set());
+  const listMountedRef = React.useRef(false);
 
   React.useEffect(() => {
     unreadIdsRef.current = new Set(items.filter((item) => !item.read_at).map((item) => item.id));
   }, [items]);
 
   React.useEffect(() => {
+    listMountedRef.current = true;
     return () => {
-      const ids = Array.from(unreadIdsRef.current);
-      if (!ids.length) return;
+      listMountedRef.current = false;
+      // Strict Mode reconnects effects immediately while the list is still open.
+      queueMicrotask(() => {
+        if (listMountedRef.current) return;
 
-      unreadIdsRef.current.clear();
-      void markNotificationsReadAction(ids).then((result) => {
-        if (result.ok) {
-          window.dispatchEvent(new Event("notifications:read"));
-        }
+        const ids = Array.from(unreadIdsRef.current);
+        if (!ids.length) return;
+
+        unreadIdsRef.current.clear();
+        void markNotificationsReadAction(ids).then((result) => {
+          if (result.ok) {
+            window.dispatchEvent(new Event("notifications:read"));
+          }
+        }).catch(() => undefined);
       });
     };
   }, []);
 
   function markAsRead(notificationId: string) {
+    setError(null);
     startTransition(async () => {
-      const result = await markNotificationReadAction(notificationId);
-      if (result.ok) {
-        unreadIdsRef.current.delete(notificationId);
-        setItems((current) =>
-          current.map((item) =>
-            item.id === notificationId
-              ? { ...item, read_at: new Date().toISOString() }
-              : item
-          )
-        );
-        window.dispatchEvent(new Event("notifications:read"));
+      try {
+        const result = await markNotificationReadAction(notificationId);
+        if (result.ok) {
+          unreadIdsRef.current.delete(notificationId);
+          setItems((current) =>
+            current.map((item) =>
+              item.id === notificationId
+                ? { ...item, read_at: new Date().toISOString() }
+                : item
+            )
+          );
+          window.dispatchEvent(new Event("notifications:read"));
+        } else {
+          setError("Não foi possível marcar a notificação como lida. Tente novamente.");
+        }
+      } catch {
+        setError("Não foi possível marcar a notificação como lida. Tente novamente.");
       }
     });
   }
@@ -64,6 +80,7 @@ export function NotificationList({
 
   return (
     <div className="grid gap-3">
+      {error ? <p role="alert" className="text-sm text-muted">{error}</p> : null}
       {items.map((notification) => {
         const href = notification.car ? buildProjectHref(notification.car.slug) : "/garagem";
         const unread = !notification.read_at;

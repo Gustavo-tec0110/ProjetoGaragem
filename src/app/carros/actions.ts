@@ -327,7 +327,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
   const mutation = existing ? "delete" : "insert";
   const mutationAction = `${config.table}.${mutation}`;
   const mutationStartedAt = performance.now();
-  const { error } = existing
+  const { data: inserted, error } = existing
     ? await auth.supabase
         .from(config.table)
         .delete()
@@ -335,7 +335,9 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
         .eq("user_id", auth.user.id)
     : await auth.supabase
         .from(config.table)
-        .insert({ car_id: carId, user_id: auth.user.id });
+        .upsert({ car_id: carId, user_id: auth.user.id }, { onConflict: "car_id,user_id", ignoreDuplicates: true })
+        .select("car_id")
+        .maybeSingle();
   timer.lap("mutation", mutationStartedAt, { mutation });
 
   if (error) {
@@ -352,7 +354,7 @@ async function toggleCarSocialAction(carId: string, config: CarSocialToggleConfi
   const finalizeStartedAt = performance.now();
   const [counts] = await Promise.all([
     readCarSocialCounts(auth.supabase, carId),
-    shouldExist
+    inserted
       ? notifyCarOwner({
           supabase: auth.supabase,
           actorId: auth.user.id,
@@ -552,17 +554,19 @@ export async function toggleFollowUserAction(profileId: string) {
   }
 
   const mutationStartedAt = performance.now();
-  const { error } = await auth.supabase.from("user_follows").insert({
+  const { data: inserted, error } = await auth.supabase.from("user_follows").upsert({
     follower_id: auth.user.id,
     following_id: profileId,
-  });
+  }, { onConflict: "follower_id,following_id", ignoreDuplicates: true })
+    .select("following_id")
+    .maybeSingle();
   timer.lap("mutation", mutationStartedAt, { mutation: "insert" });
 
   if (error) {
     logSupabaseActionError("user_follows.insert", { followerId: auth.user.id, followingId: profileId }, error);
   }
 
-  if (!error) {
+  if (inserted) {
     const notificationStartedAt = performance.now();
     await notifyProfileFollow({
       supabase: auth.supabase,
@@ -571,8 +575,8 @@ export async function toggleFollowUserAction(profileId: string) {
       actorName: actorProfile?.display_name ?? actorProfile?.username ?? "Alguem",
     });
     timer.lap("notification", notificationStartedAt);
-    updateTag(PUBLIC_PROFILE_CACHE_TAG);
   }
+  if (!error) updateTag(PUBLIC_PROFILE_CACHE_TAG);
 
   timer.end({ ok: !error, active: !error });
   return {
@@ -713,6 +717,8 @@ export async function markNotificationReadAction(notificationId: string) {
     .update({ read_at: new Date().toISOString() })
     .eq("id", notificationId)
     .eq("user_id", auth.user.id);
+
+  if (!error) revalidatePath("/notificacoes");
 
   return { ok: !error, message: error ? "Não foi possível atualizar a notificação agora." : undefined };
 }

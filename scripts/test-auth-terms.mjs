@@ -30,7 +30,9 @@ try {
   `);
   const migration = 'migrations/20261029010000_require_terms_acceptance.sql';
   const paths = readFileSync('supabase/bootstrap.sql','utf8').split('\n').filter(l=>l.startsWith('\\ir ')).map(l=>l.slice(4));
-  for (const path of paths.filter(p=>p!==migration&&!p.includes('approved_legal_versions_and_account_closure'))) await db.exec(readFileSync('supabase/'+path,'utf8'));
+  // This historical gate test intentionally installs the first legal migration later.
+  // The operational monitor needs the final legal schema and is tested independently.
+  for (const path of paths.filter(p=>p!==migration&&!p.includes('approved_legal_versions_and_account_closure')&&!p.includes('retention_operational_monitor'))) await db.exec(readFileSync('supabase/'+path,'utf8'));
   const A='11111111-1111-4111-8111-111111111111', B='22222222-2222-4222-8222-222222222222';
   const C='33333333-3333-4333-8333-333333333333';
   await db.query("insert into auth.users(id,email) values($1,'old@fixture.invalid'),($2,'new@fixture.invalid')",[A,B]);

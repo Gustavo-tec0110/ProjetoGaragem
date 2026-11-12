@@ -57,4 +57,10 @@
 \ir migrations/20261028122000_notification_event_limits.sql
 \ir migrations/20261029010000_require_terms_acceptance.sql
 \ir migrations/20261029181952_approved_legal_versions_and_account_closure.sql
+\ir migrations/20261031023347_retention_operational_monitor.sql
+\ir migrations/20261031120000_notification_lock_before_context.sql
+\ir migrations/20261031121000_project_suggestion_candidates.sql
+\ir migrations/20261031122000_atomic_follower_notifications.sql
+\ir migrations/20261112121647_special_parts.sql
+\ir migrations/20261112125628_modification_photos.sql
 \ir bootstrap-finish.sql

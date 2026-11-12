@@ -15,13 +15,14 @@ import { CAPTCHA_REQUIRED } from "@/lib/auth/captcha";
 export default function ForgotPasswordPage() {
   const captcha = useCaptcha();
   const submitting = useRef(false);
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  async function handleSubmit(data: FormData) {
+    // React replays early submissions with the native controls, including pre-hydration typing.
+    // Cancel automatic action resets below to keep those controls on validation/API errors.
+    const email = String(data.get("email") ?? "");
     if (submitting.current) return;
     if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
     submitting.current = true;
@@ -62,15 +63,14 @@ export default function ForgotPasswordPage() {
             Se o email estiver cadastrado, você receberá um link de redefinição.
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form action={handleSubmit} onReset={(event) => event.preventDefault()} className="space-y-4">
             {error ? <p role="alert" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
             <label className="grid gap-2 text-sm font-medium text-foreground/85">
               Email
               <Input
                 type="email"
                 placeholder="voce@email.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                name="email"
                 autoComplete="email"
                 required
               />

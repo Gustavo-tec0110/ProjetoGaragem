@@ -1,4 +1,6 @@
 // Shared validation for persisted offers and their external links. No outbound requests.
+export const MAX_CATALOG_OFFERS = 3;
+
 export const offerStores = {
   mercado_livre: { name: "Mercado Livre", monogram: "ML", hosts: ["mercadolivre.com.br", "mercadolivre.com", "meli.la"] },
   shopee: { name: "Shopee", monogram: "S", hosts: ["shopee.com.br", "shope.ee"] },

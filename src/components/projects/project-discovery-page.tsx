@@ -1,16 +1,13 @@
 import Link from "next/link";
-import { Suspense } from "react";
 
 import { ProjectFilters } from "@/components/projects/project-filters";
-import { ProjectGrid } from "@/components/projects/project-grid";
+import { ProjectDiscoveryGrid } from "@/components/projects/project-discovery-grid";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { SkeletonProjectGrid } from "@/components/ui/page-skeletons";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getProjectCollection } from "@/lib/projects/server";
+import { searchPublicProfiles } from "@/lib/search/public-profiles";
 import type { Project, ProjectFilters as ProjectFiltersType } from "@/lib/projects/types";
 import {
-  normalizeProjectFilters,
   paginateProjects,
   sortProjects,
 } from "@/lib/projects/utils";
@@ -35,6 +32,9 @@ function buildHref(basePath: string, filters: ProjectFiltersType, page?: number)
 }
 
 const QUICK_SEARCHES = ["JDM", "off-road", "Turbo", "Stance", "Track day"] as const;
+// The listing is capped at 1152px, with three columns and 20px gaps from xl.
+const DISCOVERY_IMAGE_SIZES =
+  "(min-width: 1280px) 371px, (min-width: 1200px) 566px, (min-width: 768px) calc(50vw - 34px), (min-width: 640px) calc(50vw - 29px), calc(50vw - 21px)";
 
 function DiscoverySection({
   title,
@@ -56,41 +56,13 @@ function DiscoverySection({
           <Link href={moreHref}>Ver lista</Link>
         </Button>
       </div>
-      <ProjectGrid
+      <ProjectDiscoveryGrid
         projects={projects}
+        imageSizes={DISCOVERY_IMAGE_SIZES}
         imageIndex={1}
         emptyTitle="Sem projetos suficientes nesta categoria por enquanto."
       />
     </section>
-  );
-}
-
-function DiscoveryFallback({ basePath }: { basePath: string }) {
-  return (
-    <div aria-label="Carregando catálogo público" aria-busy="true">
-      <div className="mt-5 md:mt-8">
-        <ProjectFilters
-          filters={normalizeProjectFilters({})}
-          availableStyles={[]}
-          availableEngines={[]}
-          availableBrands={[]}
-          availableModels={[]}
-          availableYears={[]}
-          availableFuels={[]}
-          availableInductions={[]}
-          availableDrivetrains={[]}
-          availableCategories={[]}
-          actionPath={basePath}
-        />
-      </div>
-      <section className="mt-7 md:mt-10">
-        <div className="mb-4">
-          <Skeleton className="h-4 w-24 rounded-full" />
-          <Skeleton className="mt-2 h-8 w-64" />
-        </div>
-        <SkeletonProjectGrid />
-      </section>
-    </div>
   );
 }
 
@@ -102,7 +74,9 @@ async function ProjectDiscoveryResults({
   filters: Promise<{ filters: ProjectFiltersType; page: number }>;
 }) {
   const { filters: resolvedFilters, page } = await filters;
-  const result = await getProjectCollection(resolvedFilters, false);
+  const [result, profiles] = await Promise.all([
+    getProjectCollection(resolvedFilters, false), searchPublicProfiles(resolvedFilters.q ?? ""),
+  ]);
   const filtersValue = resolvedFilters;
   const hasFilters = Boolean(
     filtersValue.q ||
@@ -139,6 +113,21 @@ async function ProjectDiscoveryResults({
           actionPath={basePath}
         />
       </div>
+
+      {filtersValue.q.trim().replace(/^@/, "").length >= 2 ? (
+        <section aria-label="Usuários encontrados" className="mt-6">
+          <h2 className="font-title text-xl tracking-tight">Usuários</h2>
+          {profiles.error ? <p role="status" className="mt-2 text-sm text-muted">Não foi possível consultar usuários agora. Tente novamente.</p>
+            : profiles.data.length ? <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {profiles.data.map(profile => <li key={profile.username} className="min-w-0">
+                <Link href={`/perfil/${encodeURIComponent(profile.username)}`} className="block min-h-11 rounded-xl border border-border p-3 hover:bg-muted/10 focus-visible:outline-2 focus-visible:outline-accent">
+                  <span className="block break-words text-sm font-semibold">{profile.display_name || profile.username}</span>
+                  <span className="block break-words text-xs text-muted">@{profile.username}</span>
+                </Link>
+              </li>)}
+            </ul> : <p className="mt-2 text-sm text-muted">Nenhum usuário encontrado para essa busca.</p>}
+        </section>
+      ) : null}
 
       {hasFilters ? (
         <Card className="mt-6 hidden border-border/70 bg-background/30 p-5 md:block">
@@ -192,38 +181,7 @@ async function ProjectDiscoveryResults({
         </div>
       ) : null}
 
-      <div className="flex flex-col">
-      {!hasFilters ? (
-        <div className="order-2 mt-12 grid gap-12">
-          <DiscoverySection
-            title="Projetos em alta"
-            projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filtersValue, sort: "popular" })}
-          />
-          <DiscoverySection
-            title="Mais curtidos"
-            projects={sortProjects(result.allProjects, "likes").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filtersValue, sort: "likes" })}
-          />
-          <DiscoverySection
-            title="Mais comentados"
-            projects={sortProjects(result.allProjects, "comments").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filtersValue, sort: "comments" })}
-          />
-          <DiscoverySection
-            title="Recentemente atualizados"
-            projects={sortProjects(result.allProjects, "updated").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filtersValue, sort: "updated" })}
-          />
-          <DiscoverySection
-            title="Novos projetos"
-            projects={sortProjects(result.allProjects, "recent").slice(0, 3)}
-            moreHref={buildHref(basePath, { ...filtersValue, sort: "recent" })}
-          />
-        </div>
-      ) : null}
-
-      <section className="order-1 mt-7 md:mt-10">
+      <section className="mt-7 md:mt-10">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs text-muted">
@@ -244,9 +202,10 @@ async function ProjectDiscoveryResults({
           </Button>
         </div>
 
-        <ProjectGrid
+        <ProjectDiscoveryGrid
           projects={pageData.items}
           eagerFirstImage
+          imageSizes={DISCOVERY_IMAGE_SIZES}
           emptyTitle={emptyTitle}
           emptyDescription={
             hasFilters
@@ -328,7 +287,37 @@ async function ProjectDiscoveryResults({
           </Card>
         ) : null}
       </section>
-      </div>
+
+      {!hasFilters ? (
+        <div className="mt-12 grid gap-12">
+          <DiscoverySection
+            title="Projetos em alta"
+            projects={sortProjects(result.allProjects, "popular").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "popular" })}
+          />
+          <DiscoverySection
+            title="Mais curtidos"
+            projects={sortProjects(result.allProjects, "likes").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "likes" })}
+          />
+          <DiscoverySection
+            title="Mais comentados"
+            projects={sortProjects(result.allProjects, "comments").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "comments" })}
+          />
+          <DiscoverySection
+            title="Recentemente atualizados"
+            projects={sortProjects(result.allProjects, "updated").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "updated" })}
+          />
+          <DiscoverySection
+            title="Novos projetos"
+            projects={sortProjects(result.allProjects, "recent").slice(0, 3)}
+            moreHref={buildHref(basePath, { ...filtersValue, sort: "recent" })}
+          />
+        </div>
+      ) : null}
+
     </>
   );
 }
@@ -358,9 +347,7 @@ export function ProjectDiscoveryPage({
           <Link href="/criar-projeto" prefetch={false}>Adicionar meu projeto</Link>
         </Button>
       </div>
-      <Suspense fallback={<DiscoveryFallback basePath={basePath} />}>
-        <ProjectDiscoveryResults basePath={basePath} filters={filters} />
-      </Suspense>
+      <ProjectDiscoveryResults basePath={basePath} filters={filters} />
     </div>
   );
 }

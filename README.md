@@ -91,6 +91,15 @@ NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
 
 Somente a chave `anon` pode ser usada no frontend. A chave `service_role` nunca deve ser exposta ao navegador. Valores vazios permitem a navegação pública com catálogo vazio e formulários locais.
 
+Ao usar o Supabase nativo em uma stack local já configurada, pare a stack se
+ela estiver em execução e inicie com `supabase stack start --runtime native --eager`.
+Assim, o Storage fica pronto antes da primeira foto e segue ativo entre requisições.
+
+Para servir as fotos dos projetos do bucket privado, o deploy publicado na
+Netlify precisa de `SUPABASE_SERVICE_ROLE_KEY` no escopo Functions do contexto
+em que foi criado. Publique um deploy do contexto `production` e confirme que
+uma foto pública de projeto retorna HTTP 200 em `/api/media/project/…`.
+
 ## Qualidade e testes
 
 ```bash

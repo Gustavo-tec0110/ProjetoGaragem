@@ -8,11 +8,11 @@ const db=new PGlite();
 try {
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
     create function public.set_updated_at() returns trigger language plpgsql as $$begin new.updated_at=now();return new;end$$;
-    create table public.modification_categories(id uuid primary key,is_active boolean);
+    create table public.modification_categories(id uuid primary key,is_active boolean,slug text);
     create table public.modification_catalog(id uuid primary key,category_id uuid references public.modification_categories(id),is_active boolean,slug text unique);
     grant usage on schema public to anon,authenticated,service_role;
     grant select on public.modification_catalog,public.modification_categories to anon,authenticated,service_role;
-    insert into public.modification_categories values ('11111111-1111-4111-8111-111111111111',true);
+    insert into public.modification_categories values ('11111111-1111-4111-8111-111111111111',true,'motor-performance');
     insert into public.modification_catalog values ('22222222-2222-4222-8222-222222222222','11111111-1111-4111-8111-111111111111',true,'turbo');`);
   const before=(await db.query('select * from modification_catalog')).rows;
   await db.exec(readFileSync('supabase/migrations/20261027210000_modification_offers.sql','utf8'));

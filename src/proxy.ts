@@ -96,6 +96,8 @@ export async function proxy(request: NextRequest) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", nextParam);
     const redirectResponse = NextResponse.redirect(loginUrl);
+    for (const cookie of response.cookies.getAll()) redirectResponse.cookies.set(cookie);
+    redirectResponse.headers.set("Cache-Control", "private, no-store");
     const durationMs = timer.end({ authenticated: false, outcome: "redirect" });
     redirectResponse.headers.set("Server-Timing", `pg-proxy;dur=${durationMs.toFixed(1)}`);
     return redirectResponse;

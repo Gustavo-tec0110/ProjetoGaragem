@@ -1,7 +1,7 @@
 import { test, expect } from "./fixtures";
 import definitions from "../../src/lib/modifications/catalog-definitions.json";
 
-test.skip(Boolean(process.env.CI) && !process.env.PLAYWRIGHT_BASE_URL, "A demonstração exige servidor local de desenvolvimento; produção é verificada separadamente.");
+test.skip(Boolean(process.env.CI) && process.env.PLAYWRIGHT_DEV_SERVER !== "1" && !process.env.PLAYWRIGHT_BASE_URL, "A demonstração exige servidor local de desenvolvimento; produção é verificada separadamente.");
 
 const output = process.env.CATALOG_DETAILS_SCREENSHOT_DIR ?? "docs/catalog-details-2026-10-27";
 const screenshotStyle = "nextjs-portal { display: none !important; }";

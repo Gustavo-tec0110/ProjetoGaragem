@@ -17,6 +17,7 @@ import {
   zoomProfileImageAtPoint,
 } from "@/lib/profile/image-crop";
 import { cn } from "@/lib/utils";
+import { prepareProfileImagePreview } from "@/lib/profile/image-preview";
 
 type PointerGesture = {
   points: Map<number, CropPoint>;
@@ -73,6 +74,7 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
   const gestureRef = React.useRef<PointerGesture | null>(null);
   const stateRef = React.useRef({ zoom: PROFILE_CROP_MIN_ZOOM, position: { x: 0, y: 0 } });
   const [previewUrl, setPreviewUrl] = React.useState("");
+  const [originalUrl, setOriginalUrl] = React.useState("");
   const [imageSize, setImageSize] = React.useState<CropSize | null>(null);
   const [cropSize, setCropSize] = React.useState<CropSize | null>(null);
   const [position, setPositionState] = React.useState<CropPoint>({ x: 0, y: 0 });
@@ -137,21 +139,22 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
   React.useEffect(() => () => cropCleanupRef.current(), []);
 
   React.useEffect(() => {
-    const url = URL.createObjectURL(file);
     let cancelled = false;
-    const image = new Image();
-    image.src = url;
-    void image.decode().then(() => {
-      if (cancelled) return;
-      setPreviewUrl(url);
-      setImageSize({ width: image.naturalWidth, height: image.naturalHeight });
+    let dispose = () => {};
+    void prepareProfileImagePreview(file).then((preview) => {
+      if (cancelled) { preview.dispose(); return; }
+      dispose = preview.dispose;
+      setOriginalUrl(preview.originalUrl);
+      setPreviewUrl(preview.previewUrl);
+      setImageSize({ width: preview.width, height: preview.height });
       setError("");
-    }).catch(() => {
-      if (!cancelled) setError("Não foi possível ler esta imagem. Escolha outro arquivo.");
+    }).catch((error: unknown) => {
+      if (!cancelled) setError(error instanceof Error && /^Escolha uma imagem de até /.test(error.message)
+        ? error.message : "Não foi possível ler esta imagem. Escolha outro arquivo.");
     });
     return () => {
       cancelled = true;
-      URL.revokeObjectURL(url);
+      dispose();
     };
   }, [file]);
 
@@ -286,9 +289,9 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
   }
 
   async function createCroppedFile() {
-    if (!imageSize || !previewUrl) throw new Error("Não foi possível preparar o recorte.");
+    if (!imageSize || !originalUrl) throw new Error("Não foi possível preparar o recorte.");
     const image = new Image();
-    image.src = previewUrl;
+    image.src = originalUrl;
     await image.decode();
 
     const output = PROFILE_CROP_OUTPUT_SIZES[kind];
@@ -301,7 +304,10 @@ function ProfileImageCropEditor({ file, kind, onReplace, onCancel, onApply }: {
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = "high";
     context.drawImage(image, outputLayout.left, outputLayout.top, outputLayout.width, outputLayout.height);
+    image.src = "";
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/webp", 0.9));
+    canvas.width = 0;
+    canvas.height = 0;
     if (!blob) throw new Error("Não foi possível preparar o recorte.");
     return new File([blob], kind === "avatar" ? "avatar.webp" : "capa.webp", { type: "image/webp" });
   }

@@ -18,6 +18,8 @@ export function CreatorProfilePreview() {
             fill
             sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1000px) 43vw, 500px"
             quality={85}
+            loading="eager"
+            fetchPriority="high"
           />
         </div>
         <div className={styles.profilePreviewBody}>
@@ -26,8 +28,9 @@ export function CreatorProfilePreview() {
               src="/partnerships/creators/perfil-exemplo-avatar.webp"
               alt="Foto de perfil ilustrativa de um criador fictício, gerada por IA."
               fill
-              sizes="96px"
+              sizes="(max-width: 700px) 80px, 88px"
               quality={85}
+              loading="eager"
             />
           </div>
           <div className={styles.profilePreviewName}>

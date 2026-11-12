@@ -10,19 +10,24 @@ import { getSupabaseServiceRoleClient } from "@/lib/supabase/service-role";
 import { requireSupabaseUser } from "@/lib/supabase/auth-server";
 import type { ServerSupabaseClient } from "@/lib/supabase/auth-server";
 import type { ProjectModificationStatus } from "@/lib/types";
-import { projectImageUrl } from "@/lib/images/project-image-url";
+import { projectImagePathFromUrl, projectImageUrl } from "@/lib/images/project-image-url";
 
 const STATUSES = new Set<ProjectModificationStatus>(["installed", "planned", "wishlist", "removed"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type ModificationDraftInput = {
   catalogId: string;
+  specialName?: string;
   status: ProjectModificationStatus;
   paidAmount: number | null;
   note: string;
   publicDescription: string;
   showPaidAmount: boolean;
   photoPath: string | null;
+  photoPaths: string[];
+  photoCrop: { zoom: number; x: number; y: number } | null;
+  preserveLegacyPhoto: boolean;
+  isFeatured: boolean;
 };
 
 type ActionResult = { ok: boolean; message: string };
@@ -32,7 +37,8 @@ function validateDraft(input: ModificationDraftInput, userId: string) {
       (input.publicDescription != null && typeof input.publicDescription !== "string")) {
     return { error: "Dados da modificação inválidos." } as const;
   }
-  if (!UUID.test(input.catalogId) || !STATUSES.has(input.status)) {
+  const specialName = typeof input.specialName === "string" ? input.specialName.trim() : "";
+  if ((!specialName && !UUID.test(input.catalogId)) || (specialName && (specialName.length < 2 || specialName.length > 120)) || !STATUSES.has(input.status)) {
     return { error: "A modificação ou o status informado é inválido." } as const;
   }
   if (
@@ -47,13 +53,25 @@ function validateDraft(input: ModificationDraftInput, userId: string) {
   if (publicDescription.length > 1000) return { error: "A descrição pública pode ter no máximo 1.000 caracteres." } as const;
   if (input.showPaidAmount != null && typeof input.showPaidAmount !== "boolean") return { error: "Visibilidade do valor inválida." } as const;
 
+  if (input.photoPath != null && typeof input.photoPath !== "string") return { error: "Foto inválida." } as const;
   const photoPath = input.photoPath?.trim() || null;
   if (photoPath && !isOwnedModificationPhotoPath(photoPath, userId, false) &&
     !isOwnedModificationPhotoPath(photoPath, userId, true)) {
     return { error: "A foto enviada não é válida para esta conta." } as const;
   }
 
-  return { note: note || null, publicDescription: publicDescription || null, photoPath } as const;
+  if (!Array.isArray(input.photoPaths) || input.photoPaths.length > 2 || (!photoPath && input.photoPaths.length) ||
+      input.photoPaths.some((path) => typeof path !== "string" || (!isOwnedModificationPhotoPath(path, userId, false) && !isOwnedModificationPhotoPath(path, userId, true))) ||
+      new Set([...(photoPath ? [photoPath] : []), ...input.photoPaths]).size !== input.photoPaths.length + (photoPath ? 1 : 0)) {
+    return { error: "Selecione até três fotos válidas e distintas." } as const;
+  }
+  if (typeof input.preserveLegacyPhoto !== "boolean" || (input.preserveLegacyPhoto && (photoPath || input.photoPaths.length))) return { error: "Foto inválida." } as const;
+  const crop = input.photoCrop;
+  if (crop !== null && (!crop || ![crop.zoom, crop.x, crop.y].every(Number.isFinite) || crop.zoom < 1 || crop.zoom > 4 || Math.abs(crop.x) > 4 || Math.abs(crop.y) > 4)) {
+    return { error: "Recorte inválido." } as const;
+  }
+  if (typeof input.isFeatured !== "boolean") return { error: "Destaque inválido." } as const;
+  return { note: note || null, publicDescription: publicDescription || null, photoPath, photoPaths: input.photoPaths, crop, specialName } as const;
 }
 
 function modificationPhotoUrl(path: string | null) {
@@ -85,6 +103,24 @@ async function cleanupMovedPhoto(originalPath: string | null, finalPath: string 
   }
 }
 
+async function finalizePhotos(paths: string[], userId: string, supabase: ServerSupabaseClient) {
+  const result: string[] = [];
+  for (const path of paths) {
+    let finalized: Awaited<ReturnType<typeof finalizePhoto>>;
+    try { finalized = await finalizePhoto(path, userId, supabase); } catch { finalized = { path: null, error: true }; }
+    if (finalized.error || !finalized.path) {
+      await Promise.all(result.map((value, index) => cleanupMovedPhoto(paths[index], value, userId)));
+      return null;
+    }
+    result.push(finalized.path);
+  }
+  return result;
+}
+
+async function cleanupMovedPhotos(originals: string[], finalized: string[], userId: string) {
+  await Promise.all(finalized.map((value, index) => cleanupMovedPhoto(originals[index], value, userId)));
+}
+
 async function getOwnedCar(carId: string) {
   const auth = await requireSupabaseUser();
   if (!auth.supabase || !auth.user) return { error: auth.error ?? "Entre para continuar." } as const;
@@ -104,6 +140,8 @@ async function getOwnedCar(carId: string) {
 function refreshModificationPage(slug: string) {
   revalidatePath(`/projeto/${slug}/modificacoes`);
   revalidatePath(`/projeto/${slug}`);
+  revalidatePath("/garagem");
+  revalidatePath("/perfil/[handle]", "page");
 }
 
 export async function createProjectModification(carId: string, input: ModificationDraftInput): Promise<ActionResult> {
@@ -112,10 +150,11 @@ export async function createProjectModification(carId: string, input: Modificati
 
   const draft = validateDraft(input, owned.auth.user.id);
   if ("error" in draft) return { ok: false, message: draft.error ?? "Dados inválidos." };
-  if (draft.photoPath && !isOwnedModificationPhotoPath(draft.photoPath, owned.auth.user.id, true)) {
+  if (input.preserveLegacyPhoto) return { ok: false, message: "Foto inválida." };
+  if ([...(draft.photoPath ? [draft.photoPath] : []), ...draft.photoPaths].some((path) => !isOwnedModificationPhotoPath(path, owned.auth.user.id, true))) {
     return { ok: false, message: "Envie uma nova foto para esta modificação." };
   }
-  const { data: catalogItem } = await owned.auth.supabase
+  const { data: catalogItem } = draft.specialName ? { data: { id: "special" } } : await owned.auth.supabase
     .from("modification_catalog")
     .select("id")
     .eq("id", input.catalogId)
@@ -123,24 +162,28 @@ export async function createProjectModification(carId: string, input: Modificati
     .maybeSingle();
   if (!catalogItem) return { ok: false, message: "Esta modificação não está disponível no catálogo." };
 
-  const finalized = await finalizePhoto(draft.photoPath, owned.auth.user.id, owned.auth.supabase);
-  if (finalized.error) return { ok: false, message: "Não foi possível preparar a foto agora." };
-  const projectPhotoUrl = modificationPhotoUrl(finalized.path);
-  if (draft.photoPath && !projectPhotoUrl) {
-    await cleanupMovedPhoto(draft.photoPath, finalized.path, owned.auth.user.id);
+  const originals = [...(draft.photoPath ? [draft.photoPath] : []), ...draft.photoPaths];
+  const finalized = await finalizePhotos(originals, owned.auth.user.id, owned.auth.supabase);
+  if (!finalized) return { ok: false, message: "Não foi possível preparar as fotos agora." };
+  const projectPhotoUrl = modificationPhotoUrl(finalized[0] ?? null);
+  if (originals.length && !projectPhotoUrl) {
+    await cleanupMovedPhotos(originals, finalized, owned.auth.user.id);
     return { ok: false, message: "O serviço de fotos está indisponível agora." };
   }
   let saveFailed: boolean;
   try {
     const { data, error } = await owned.auth.supabase.from("project_modifications").insert({
       car_id: carId,
-      catalog_id: input.catalogId,
+      catalog_id: draft.specialName ? null : input.catalogId,
+      custom_name: draft.specialName || null,
+      is_featured: input.isFeatured,
       status: input.status,
       paid_amount: input.paidAmount,
       note: draft.note,
       public_description: draft.publicDescription,
       show_paid_amount: input.showPaidAmount === true,
-      project_photo_storage_path: finalized.path,
+      project_photo_storage_path: finalized[0] ?? null,
+      photo_gallery: { paths: finalized.slice(1), crop: draft.crop },
       project_photo_url: projectPhotoUrl,
     }).select("id").maybeSingle();
     saveFailed = Boolean(error || !data);
@@ -149,7 +192,7 @@ export async function createProjectModification(carId: string, input: Modificati
     saveFailed = true;
   }
   if (saveFailed) {
-    await cleanupMovedPhoto(draft.photoPath, finalized.path, owned.auth.user.id);
+    await cleanupMovedPhotos(originals, finalized, owned.auth.user.id);
     return { ok: false, message: "Não foi possível salvar a modificação agora." };
   }
 
@@ -171,11 +214,11 @@ export async function updateProjectModification(
   const [{ data: current }, { data: catalogItem }] = await Promise.all([
     owned.auth.supabase
       .from("project_modifications")
-      .select("id, project_photo_storage_path")
+      .select("id, project_photo_storage_path, project_photo_url, photo_gallery, custom_name, updated_at")
       .eq("id", modificationId)
       .eq("car_id", carId)
       .maybeSingle(),
-    owned.auth.supabase
+    draft.specialName ? Promise.resolve({ data: { id: "special" } }) : owned.auth.supabase
       .from("modification_catalog")
       .select("id")
       .eq("id", input.catalogId)
@@ -183,17 +226,19 @@ export async function updateProjectModification(
       .maybeSingle(),
   ]);
   if (!current) return { ok: false, message: "Modificação não encontrada." };
+  if (Boolean(current.custom_name) !== Boolean(draft.specialName)) return { ok: false, message: "Tipo de peça inválido." };
   if (!catalogItem) return { ok: false, message: "Esta modificação não está disponível no catálogo." };
-  if (draft.photoPath && draft.photoPath !== current.project_photo_storage_path &&
-    !isOwnedModificationPhotoPath(draft.photoPath, owned.auth.user.id, true)) {
+  const existingPaths = [current.project_photo_storage_path ?? (current.project_photo_url ? projectImagePathFromUrl(current.project_photo_url) : null), ...(current.photo_gallery?.paths ?? [])].filter((path): path is string => Boolean(path));
+  const originals = [...(draft.photoPath ? [draft.photoPath] : []), ...draft.photoPaths];
+  if (originals.some((path) => !existingPaths.includes(path) && !isOwnedModificationPhotoPath(path, owned.auth.user.id, true))) {
     return { ok: false, message: "Envie uma nova foto para esta modificação." };
   }
-
-  const finalized = await finalizePhoto(draft.photoPath, owned.auth.user.id, owned.auth.supabase);
-  if (finalized.error) return { ok: false, message: "Não foi possível preparar a foto agora." };
-  const projectPhotoUrl = modificationPhotoUrl(finalized.path);
-  if (draft.photoPath && !projectPhotoUrl) {
-    await cleanupMovedPhoto(draft.photoPath, finalized.path, owned.auth.user.id);
+  const finalized = await finalizePhotos(originals, owned.auth.user.id, owned.auth.supabase);
+  if (!finalized) return { ok: false, message: "Não foi possível preparar as fotos agora." };
+  if (input.preserveLegacyPhoto && (current.project_photo_storage_path || !current.project_photo_url)) return { ok: false, message: "Foto original indisponível." };
+  const projectPhotoUrl = input.preserveLegacyPhoto ? current.project_photo_url : modificationPhotoUrl(finalized[0] ?? null);
+  if (originals.length && !projectPhotoUrl) {
+    await cleanupMovedPhotos(originals, finalized, owned.auth.user.id);
     return { ok: false, message: "O serviço de fotos está indisponível agora." };
   }
   let updateFailed: boolean;
@@ -201,17 +246,21 @@ export async function updateProjectModification(
     const { data, error } = await owned.auth.supabase
       .from("project_modifications")
       .update({
-        catalog_id: input.catalogId,
+        catalog_id: draft.specialName ? null : input.catalogId,
+        custom_name: draft.specialName || null,
+        is_featured: input.isFeatured,
         status: input.status,
         paid_amount: input.paidAmount,
         note: draft.note,
         public_description: draft.publicDescription,
         show_paid_amount: input.showPaidAmount === true,
-        project_photo_storage_path: finalized.path,
+        project_photo_storage_path: finalized[0] ?? null,
+        photo_gallery: { paths: finalized.slice(1), crop: draft.crop },
         project_photo_url: projectPhotoUrl,
       })
       .eq("id", modificationId)
       .eq("car_id", carId)
+      .eq("updated_at", current.updated_at)
       .select("id")
       .maybeSingle();
     updateFailed = Boolean(error || !data);
@@ -220,13 +269,11 @@ export async function updateProjectModification(
     updateFailed = true;
   }
   if (updateFailed) {
-    await cleanupMovedPhoto(draft.photoPath, finalized.path, owned.auth.user.id);
+    await cleanupMovedPhotos(originals, finalized, owned.auth.user.id);
     return { ok: false, message: "Não foi possível atualizar a modificação agora." };
   }
 
-  if (current.project_photo_storage_path && current.project_photo_storage_path !== finalized.path) {
-    await removeUnreferencedModificationPhoto(current.project_photo_storage_path, owned.auth.user.id, false);
-  }
+  await Promise.all(existingPaths.filter((path) => !finalized.includes(path)).map((path) => removeUnreferencedModificationPhoto(path, owned.auth.user.id, false)));
   refreshModificationPage(owned.car.slug);
   return { ok: true, message: "Modificação atualizada." };
 }
@@ -238,7 +285,7 @@ export async function deleteProjectModification(carId: string, modificationId: s
 
   const { data: current } = await owned.auth.supabase
     .from("project_modifications")
-    .select("id, project_photo_storage_path")
+    .select("id, project_photo_storage_path, photo_gallery, updated_at")
     .eq("id", modificationId)
     .eq("car_id", carId)
     .maybeSingle();
@@ -249,13 +296,13 @@ export async function deleteProjectModification(carId: string, modificationId: s
     .delete()
     .eq("id", modificationId)
     .eq("car_id", carId)
+    .eq("updated_at", current.updated_at)
     .select("id")
     .maybeSingle();
   if (error || !deleted) return { ok: false, message: "Não foi possível excluir a modificação agora." };
 
-  if (current.project_photo_storage_path) {
-    await removeUnreferencedModificationPhoto(current.project_photo_storage_path, owned.auth.user.id, false);
-  }
+  const paths = [current.project_photo_storage_path, ...(current.photo_gallery?.paths ?? [])].filter((path): path is string => Boolean(path));
+  await Promise.all(paths.map((path) => removeUnreferencedModificationPhoto(path, owned.auth.user.id, false)));
   refreshModificationPage(owned.car.slug);
   return { ok: true, message: "Modificação excluída." };
 }

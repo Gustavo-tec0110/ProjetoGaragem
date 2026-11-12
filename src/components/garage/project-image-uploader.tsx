@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useHydrationInput } from "@/lib/hooks/use-hydration-input";
 import type { User } from "@supabase/supabase-js";
 import { ArrowDown, ArrowUp, ImagePlus, Star, Trash2, Upload } from "lucide-react";
 
@@ -66,6 +67,7 @@ export function ProjectImageUploader({
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState("");
   const [fallbackUrl, setFallbackUrl] = React.useState("");
+  const adoptFallback = useHydrationInput(setFallbackUrl);
   const uploadUser = user ?? resolvedUser;
   const displayName = getAuthUserName(uploadUser) ?? "sua garagem";
   const gallery = uniqueUrls([mainPhotoUrl, ...photoUrls]);
@@ -216,6 +218,7 @@ export function ProjectImageUploader({
             <div className="flex gap-2">
               <Input
                 id={fallbackId}
+                ref={adoptFallback}
                 value={fallbackUrl}
                 onChange={(event) => setFallbackUrl(event.target.value)}
                 placeholder="https://..."

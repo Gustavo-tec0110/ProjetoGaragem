@@ -53,10 +53,9 @@ export function ProfileImageEditorHarness() {
         }}
         onCancel={() => setFile(null)}
         onApply={async (croppedFile) => {
-          setResult((current) => {
-            if (current) URL.revokeObjectURL(current.url);
-            return { url: URL.createObjectURL(croppedFile), name: croppedFile.name };
-          });
+          // Strict Mode can call state updaters twice: allocate once, outside it.
+          // The effect above releases the previous result on replacement/unmount.
+          setResult({ url: URL.createObjectURL(croppedFile), name: croppedFile.name });
         }}
       />
     </main>

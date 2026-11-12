@@ -12,8 +12,10 @@ export function withCatalogModifications(project: Project, modifications: Projec
       status: item.status === "wishlist" ? "planned" : item.status,
       wishlist: item.status === "wishlist", description: item.public_description,
       imageUrl: item.project_photo_url || item.catalog.default_image_path,
+      imageCrop: item.project_photo_url ? item.photo_gallery?.crop : null,
       installedAt: item.installed_at, priceEstimate: null, paidAmount: item.paid_amount,
-      catalog: item.catalog,
+      catalog: item.custom_name ? undefined : item.catalog,
+      special: item.is_featured,
     }];
   });
   // Legacy parts have no catalog foreign key. Keep their independent records; never guess matches by name.

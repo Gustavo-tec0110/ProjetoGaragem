@@ -1,7 +1,40 @@
 import { expect, test } from "./fixtures";
 
+test.beforeEach(async ({ context, baseURL }) => {
+  await context.route('**/*', route => new URL(route.request().url()).origin === new URL(baseURL!).origin ? route.continue() : route.abort());
+});
 const partnershipPath = "/parcerias/criadores";
 const partnershipTitle = "Faça parte de quem está construindo o futuro do Projeto Garagem.";
+const whatsappNumber = process.env.CREATOR_CONTACT_WHATSAPP_NUMBER?.trim();
+const hasWhatsApp = /^[1-9]\d{7,14}$/.test(whatsappNumber ?? "");
+
+test("Media Kit preserva preço, contratação opcional e contato nas larguras de lançamento", async ({ page }) => {
+  for (const width of [320, 390, 430, 768, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(partnershipPath);
+    const section = page.locator("section").filter({ has: page.locator("#media-kit-titulo") });
+    await section.scrollIntoViewIfNeeded();
+    await expect(section.getByRole("heading", { level: 2 })).toBeVisible();
+    await expect(section.getByText("R$ 100", { exact: true })).toBeVisible();
+    await expect(section).toContainText("A contratação é opcional e independente da aprovação da parceria.");
+    const contact = section.getByRole("link", { name: "Quero meu Media Kit", exact: true });
+    const destination = new URL((await contact.getAttribute("href"))!);
+    if (hasWhatsApp) {
+      expect(destination.origin).toBe("https://wa.me");
+      expect(destination.pathname).toBe(`/${whatsappNumber}`);
+      expect(destination.searchParams.get("text")).toBe("Olá! Tenho interesse no serviço de criação de Media Kit do Projeto Garagem e gostaria de saber mais.");
+    } else {
+      expect(destination.protocol).toBe("mailto:");
+      expect(destination.pathname).toBe("parcerias@projetogaragem.com.br");
+      expect(destination.searchParams.get("subject")).toBe("Criação de Media Kit");
+    }
+    const box = await contact.boundingBox();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
 
 test("convite abre anonimamente sem navegação global, cadastro ou inscrições", async ({ page, context }) => {
   expect(await context.cookies()).toEqual([]);
@@ -48,12 +81,35 @@ test("programa apresenta os benefícios, limites e convite com contato oficial",
     name: "Cultura automotiva. Projetos que conectam pessoas.",
   })).toBeInViewport();
 
-  const contactLink = page.getByRole("link", { name: "Conversar sobre a parceria", exact: true });
-  await expect(contactLink).toHaveAttribute("href", /^mailto:parcerias@projetogaragem\.com\.br\?subject=.+/);
+  const contactLink = page.getByRole("link", { name: hasWhatsApp ? "Conversar pelo WhatsApp" : "Conversar sobre a parceria", exact: true });
   const contact = new URL((await contactLink.getAttribute("href"))!);
-  expect(contact.protocol).toBe("mailto:");
-  expect(contact.pathname).toBe("parcerias@projetogaragem.com.br");
-  expect(contact.searchParams.get("subject")?.trim()).toBeTruthy();
+  if (hasWhatsApp) {
+    expect(contact.origin).toBe("https://wa.me");
+    expect(contact.pathname).toBe(`/${whatsappNumber}`);
+    expect(contact.searchParams.get("text")).toBe("Olá! Conheci o Projeto Garagem e gostaria de conversar sobre uma possível parceria.");
+  } else {
+    expect(contact.protocol).toBe("mailto:");
+    expect(contact.pathname).toBe("parcerias@projetogaragem.com.br");
+    expect(contact.searchParams.get("subject")?.trim()).toBeTruthy();
+    await expect(page.locator('a[href^="https://wa.me/"]')).toHaveCount(0);
+  }
+});
+
+test("os dois contatos de WhatsApp navegam para seus destinos em mobile e desktop", async ({ page }) => {
+  test.skip(!hasWhatsApp, "Requer número fictício na build isolada.");
+  await page.route("https://wa.me/**", route => route.fulfill({ body: "Destino interceptado no teste local." }));
+
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const name of ["Conversar pelo WhatsApp", "Quero meu Media Kit"]) {
+      await page.goto(partnershipPath);
+      const contact = page.getByRole("link", { name, exact: true });
+      const destination = await contact.getAttribute("href");
+      expect(destination).toMatch(/^https:\/\/wa\.me\/[1-9]\d+\?text=/);
+      await contact.click();
+      await expect(page).toHaveURL(destination!);
+    }
+  }
 });
 
 test("produtos da parceria apresentam os conceitos e imagens ampliadas sem fluxo de compra", async ({ page, request }) => {

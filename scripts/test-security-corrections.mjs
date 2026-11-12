@@ -9,13 +9,24 @@ import { citext } from "@electric-sql/pglite/contrib/citext";
 import { pgcrypto } from "@electric-sql/pglite/contrib/pgcrypto";
 import { pg_trgm } from "@electric-sql/pglite/contrib/pg_trgm";
 import { unaccent } from "@electric-sql/pglite/contrib/unaccent";
+import { applyLocalMigration } from '../tests/fixtures/cron-local.mjs';
 
 const output = process.env.AUDIT_OUT ?? "results/security-corrections";
 mkdirSync(output, { recursive: true });
-const db = new PGlite({ extensions: { citext, pgcrypto, pg_trgm, unaccent } });
+const db = process.env.GARAGEM_TEST_PG_SOCKET
+  ? await (await import('./local-postgres-fixture.mjs')).nativeFixture()
+  : new PGlite({ extensions: { citext, pgcrypto, pg_trgm, unaccent } });
 try {
+  if (db.native) writeFileSync(output+'/ambiente-postgres.json',JSON.stringify({
+    ...(await db.query("select version() version,current_setting('transaction_isolation') isolation,inet_server_addr() address")).rows[0],
+    scheduler:'interface fixture only; no running pg_cron',independentSessions:16,productionConnections:0,
+  },null,2));
   await db.exec(`
-    create role anon; create role authenticated; create role service_role bypassrls;
+    do $$ begin
+      if not exists(select 1 from pg_roles where rolname='anon') then create role anon; end if;
+      if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated; end if;
+      if not exists(select 1 from pg_roles where rolname='service_role') then create role service_role bypassrls; end if;
+    end $$;
     create schema auth; create schema storage; create schema extensions;
     create extension pgcrypto with schema extensions;
     create table auth.users(id uuid primary key, email text, raw_user_meta_data jsonb default '{}');
@@ -40,13 +51,48 @@ try {
   const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql")).sort();
   assert.deepEqual(paths, ["bootstrap-empty-guard.sql", "schema.sql", "bootstrap-snapshot-compatibility.sql",
     ...migrations.map((name) => `migrations/${name}`), "bootstrap-finish.sql"]);
+  let launchWindowApplied=false;
   for (const path of paths) {
+    if (launchWindowApplied && /2026103112[012]000_/.test(path)) continue;
     try {
-      await db.exec(readFileSync(`supabase/${path}`, "utf8"));
+      if (db.native && path.endsWith('20261031120000_notification_lock_before_context.sql')) {
+        await db.exec(`insert into auth.users(id,email) values ('f9999999-9999-4999-8999-999999999999','upgrade@example.invalid');
+          insert into legal_private.terms_acceptances(user_id,terms_version,privacy_version) values ('f9999999-9999-4999-8999-999999999999','terms-v1','privacy-v1');
+          insert into cars(id,owner_id,slug,name,brand,model,year,category,is_public) values
+            ('f8888888-8888-4888-8888-888888888888','f9999999-9999-4999-8999-999999999999','upgrade-public','Upgrade acentuação','VW','Gol',2000,'Projeto',true),
+            ('f7777777-7777-4777-8777-777777777777','f9999999-9999-4999-8999-999999999999','upgrade-private','Private upgrade','VW','Gol',2000,'Projeto',false);`);
+        db.upgradeFingerprint = async () => (await db.query(`select
+          (select md5(jsonb_agg(to_jsonb(c) order by c.id)::text) from cars c) cars,
+          (select md5(jsonb_agg(to_jsonb(p) order by p.id)::text) from profiles p) profiles,
+          (select md5(jsonb_agg(to_jsonb(t) order by t.id)::text) from legal_private.terms_acceptances t) terms,
+          (select md5(jsonb_agg(to_jsonb(m) order by m.id)::text) from modification_catalog m) catalog`)).rows[0];
+        db.upgradeBefore = await db.upgradeFingerprint();
+        if (process.env.GARAGEM_TEST_LAUNCH_WINDOW === '1') {
+          await (await import('./test-launch-migration-window.mjs')).testLaunchMigrationWindow(db,output);
+          launchWindowApplied=true;
+          continue;
+        }
+      }
+      if (db.native && path.endsWith('20261031122000_atomic_follower_notifications.sql')) {
+        db.previousAtomicDefinition = (await db.query("select pg_get_functiondef('public.save_car_project_atomic(uuid,jsonb,jsonb,jsonb,jsonb,jsonb)'::regprocedure) definition")).rows[0].definition;
+      }
+      await applyLocalMigration(db, readFileSync(`supabase/${path}`, "utf8"));
     } catch (error) {
       throw new Error(`Bootstrap failed in ${path}: ${error.message}`, { cause: error });
     }
     console.info(`PASS bootstrap: ${path}`);
+  }
+  if (db.native) {
+    const after=await db.upgradeFingerprint();assert.deepEqual(after,db.upgradeBefore);
+    const documents=(await db.query('select car_id from search_support.public_project_documents order by car_id')).rows;
+    assert.deepEqual(documents,[{car_id:'f8888888-8888-4888-8888-888888888888'}]);
+    writeFileSync(output+'/upgrade-preservacao.json',JSON.stringify({before:db.upgradeBefore,after,
+      backfilledPublicDocuments:documents.length,privateDocumentAbsent:true,legacyRowsPreserved:true},null,2));
+  }
+  // Optional isolated regression overlay; never changes the default runner or hosted state.
+  if (process.env.GARAGEM_TEST_STAGE9 === '1') {
+    const report = await (await import('./stage9-permission-fixture.mjs')).applyStage9AndCheck(db);
+    writeFileSync(output+'/stage9-permissions.json',JSON.stringify(report,null,2)+'\n');
   }
   const tables = (await db.query("select c.relname,c.relrowsecurity,c.relacl from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','storage') and c.relkind='r' order by c.relname")).rows;
   const policies = (await db.query("select * from pg_policies where schemaname in ('public','storage') order by tablename,policyname")).rows;
@@ -57,6 +103,7 @@ try {
   const A='11111111-1111-4111-8111-111111111111', B='22222222-2222-4222-8222-222222222222';
   const C='33333333-3333-4333-8333-333333333333', P='44444444-4444-4444-8444-444444444444';
   const results=[];
+  if (db.native) results.push({label:'native: populated upgrade preserves existing cars, profiles, legal receipts and catalog; backfills public documents only',result:'pass'});
   async function role(r,u,sql,args=[]) {await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[u||'']);await db.exec('set role '+r);return db.query(sql,args);}
   async function check(label,fn) {try {const evidence=await fn();results.push({label,result:'pass',evidence});}catch(e){results.push({label,result:'unexpected',code:e.code,message:e.message});} }
   const zero=async(r,u,sql,args=[])=>assert.equal((await role(r,u,sql,args)).rows.length,0);
@@ -64,7 +111,7 @@ try {
   await db.exec(`insert into auth.users(id,email) values ('${A}','a@fixture.invalid'),('${B}','b@fixture.invalid');
     -- Only isolated fixture users: simulate owner approval and real server-side acceptance.
     insert into legal_private.terms_acceptances(user_id,terms_version,privacy_version)
-      select id,'terms-v1','privacy-v1' from auth.users;
+      select id,'terms-v1','privacy-v1' from auth.users where id in ('${A}','${B}');
     insert into cars(id,owner_id,slug,name,brand,model,year,category,is_public) values
     ('${C}','${A}','audit-public','Fixture','VW','Gol',2000,'Projeto',true),
     ('${P}','${A}','audit-private','Private','VW','Gol',2000,'Projeto',false);`);
@@ -105,6 +152,8 @@ try {
   await check('probe arbitrary remote image URL persists',async()=>{const rows=(await role('authenticated',A,"update cars set main_photo_url='http://127.0.0.1:3199/audit-image.png' where id=$1 returning main_photo_url",[C])).rows;assert.equal(rows.length,1);return rows;});
   await check('probe invalid external part URL persists',async()=>{const rows=(await role('authenticated',A,"insert into car_parts(car_id,name,category,status,external_url) values($1,'fixture','Outros','planned','javascript:alert(1)') returning external_url",[C])).rows;return rows;});
   await check('RPC update other owner blocked',()=>denied('authenticated',B,"select * from save_car_project_atomic($1,'{}','[]','[]','[]','[]')",[C]));
+  await check('new notifying save denies anonymous access',()=>denied('anon',null,"select * from save_car_project_with_notifications($1,'{}','[]','[]','[]','[]')",[C]));
+  await check('new notifying save preserves ownership RLS',()=>denied('authenticated',B,"select * from save_car_project_with_notifications($1,'{}','[]','[]','[]','[]')",[C]));
   await check('anon public search injection treated as text',async()=>{const rows=(await role('anon',null,"select * from search_car_projects($1,null,null,null,10)",["'; select * from profiles; --"])).rows;assert.equal(rows.length,0);});
   await db.exec('reset role');
   for(const [t,cols,values] of [
@@ -227,6 +276,9 @@ try {
     assert.equal((await role('anon',null,'select can_read_project_image($1) as ok',[path])).rows[0].ok,false);
     assert.equal((await role('authenticated',A,'select can_read_project_image($1) as ok',[path])).rows[0].ok,true);
   });
+  if (db.native) await (await import('./test-notification-concurrency.mjs')).testNotificationConcurrency(db, check);
+  if (db.native) await (await import('./test-follower-fanout.mjs')).testFollowerFanout(db, check, output);
+  if (db.native && process.env.GARAGEM_TEST_PERFORMANCE === '1') await (await import('./test-search-postgres.mjs')).testSearchPostgres(db, check, output);
   writeFileSync(output+'/testes-banco.json',JSON.stringify(results,null,2));
   console.info(JSON.stringify({tests:results.length,unexpected:results.filter(x=>x.result!=='pass')}));
   assert.equal(results.filter(x=>x.result!=='pass').length,0);

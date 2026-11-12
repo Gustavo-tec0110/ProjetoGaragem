@@ -20,6 +20,7 @@ export function ProjectSearchBox({
   ariaLabel?: string;
 }) {
   const inputId = React.useId();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const listboxId = React.useId();
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const formRef = React.useRef<HTMLFormElement | null>(null);
@@ -31,17 +32,25 @@ export function ProjectSearchBox({
   const [isOpen, setIsOpen] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const [activeIndex, setActiveIndex] = React.useState(-1);
+  // The browser may already contain a focused query before React attaches handlers.
+  const adoptInput = React.useCallback((input: HTMLInputElement | null) => {
+    inputRef.current = input;
+    if (!input) return;
+    setValue(input.value);
+    setIsFocused(document.activeElement === input);
+  }, []);
   const dismissedRef = React.useRef(false);
   const expanded = isOpen && value.trim().length >= 2;
 
   React.useEffect(() => {
     const query = value.trim();
-    if (query.length < 2) {
+    if (!isFocused || query.length < 2) {
       return;
     }
 
     const cached = suggestionCacheRef.current.get(query);
     if (cached) {
+      setIsLoading(false);
       setSuggestions(cached);
       setIsOpen(isFocused && !dismissedRef.current);
       setActiveIndex(-1);
@@ -59,6 +68,7 @@ export function ProjectSearchBox({
         );
         if (!response.ok) throw new Error(`suggestions_${response.status}`);
         const payload = (await response.json()) as { suggestions?: Suggestion[] };
+        if (controller.signal.aborted) return;
         const nextSuggestions = payload.suggestions ?? [];
         const cache = suggestionCacheRef.current;
         if (cache.size >= 20) cache.delete(cache.keys().next().value ?? "");
@@ -94,6 +104,7 @@ export function ProjectSearchBox({
   function submitSuggestion(suggestion: Suggestion) {
     dismissedRef.current = true;
     setActiveIndex(-1);
+    if (inputRef.current) inputRef.current.value = suggestion.term;
     setValue(suggestion.term);
     setIsOpen(false);
     window.setTimeout(() => formRef.current?.requestSubmit(), 0);
@@ -103,6 +114,10 @@ export function ProjectSearchBox({
     dismissedRef.current = false;
     setActiveIndex(-1);
     setValue(nextValue);
+    // A previous query must never remain selectable while this query is pending.
+    setSuggestions([]);
+    setIsLoading(false);
+    setStatus("");
 
     if (nextValue.trim().length < 2) {
       setSuggestions([]);
@@ -118,15 +133,18 @@ export function ProjectSearchBox({
       <Input
         id={inputId}
         name="q"
-        value={value}
+        ref={adoptInput}
+        defaultValue={defaultValue}
         onChange={(event) => updateSearchValue(event.target.value)}
-        onFocus={() => {
+        onFocus={(event) => {
+          updateSearchValue(event.currentTarget.value);
           dismissedRef.current = false;
           setIsFocused(true);
-          setIsOpen(value.trim().length >= 2);
+          setIsOpen(event.currentTarget.value.trim().length >= 2);
         }}
         onBlur={() => {
           setIsFocused(false);
+          setIsLoading(false);
           dismissedRef.current = true;
           setIsOpen(false);
           setActiveIndex(-1);
@@ -152,7 +170,7 @@ export function ProjectSearchBox({
             document.getElementById(`${listboxId}-${activeIndex}`)?.click();
           }
         }}
-        placeholder="Busque por Gol AP, orbital, daily, Civic K20..."
+        placeholder="Busque projetos ou @usuários..."
         className="pl-11 pr-10"
         autoComplete="off"
         aria-label={ariaLabel}
@@ -182,8 +200,8 @@ export function ProjectSearchBox({
             suggestions.map((suggestion, index) => {
               const content = (
                 <>
-                  <span className="font-medium text-foreground">{suggestion.term}</span>
-                  <span className="text-xs text-muted">{suggestion.source}</span>
+                  <span className="min-w-0 break-words font-medium text-foreground">{suggestion.term}</span>
+                  <span className="max-w-[45%] break-words text-right text-xs text-muted">{suggestion.source}</span>
                 </>
               );
               const className =

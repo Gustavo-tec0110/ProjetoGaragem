@@ -6,7 +6,7 @@ import { ArrowUpRight, Info, LoaderCircle, Wrench, X } from "lucide-react";
 import { ProjectImage } from "@/components/projects/project-image";
 import { Button } from "@/components/ui/button";
 import type { ModificationCatalogItem } from "@/lib/modifications/types";
-import { freshOfferPrice, offerStores, safeOfferUrl, type CatalogOffersResponse } from "@/lib/modifications/offers";
+import { MAX_CATALOG_OFFERS, freshOfferPrice, offerStores, safeOfferUrl, type CatalogOffersResponse } from "@/lib/modifications/offers";
 
 // Reuse concurrent reads (including development Strict Mode mounts), without retaining stale prices.
 const pendingOffers = new Map<string, Promise<CatalogOffersResponse>>();
@@ -51,7 +51,7 @@ function WhereToBuy({ catalogId, slug }: { catalogId: string; slug: string }) {
     </div> : null}
     {result && !result.unavailable && !result.offers.length ? <p className="mt-4 rounded-xl bg-surface p-4 text-sm leading-relaxed text-muted">Opções de compra ainda não disponíveis para este componente.</p> : null}
     <div className="mt-4 space-y-2">
-      {result?.offers.map((offer) => {
+      {result?.offers.slice(0, MAX_CATALOG_OFFERS).map((offer) => {
         if (!Object.hasOwn(offerStores, offer.store)) return null;
         const store = offerStores[offer.store];
         const url = safeOfferUrl(offer.store, offer.destination_url);

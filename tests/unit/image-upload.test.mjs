@@ -141,6 +141,7 @@ test("protected responsive thumbnails really resize with Sharp and reject unboun
   assert.equal(metadata.format, "webp");
   assert.ok(thumbnail.size < original.byteLength);
   assert.equal(resizing.imageResizeOptions(new URLSearchParams()), null);
+  assert.equal(resizing.imageResizeOptions(new URLSearchParams("w=1280&q=75")).width, 1280);
   for (const search of ["w=99999", "w=640&q=1", "w=640&w=128", "w=128&token=secret", "q=75"]) {
     assert.throws(() => resizing.imageResizeOptions(new URLSearchParams(search)));
   }

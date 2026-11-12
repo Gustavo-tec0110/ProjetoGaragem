@@ -22,10 +22,14 @@ for(const [tab,owner,visible,expected] of [
  const query=name=>async(...args)=>{calls.push(name);if(name==='cars')assert.deepEqual(args,['fixture-owner',owner]);return{data:name==='cars'?cars:Array.from({length:80},(_,i)=>({slug:`reference-${i}`})),error:null};};
  const {ProfileExperience}=load('src/components/garage/profile-experience.tsx',{
   'react/jsx-runtime':jsx,'@/lib/supabase/queries':{qCarsByOwner:query('cars'),qSavedCars:query('saved'),qLikedCars:query('liked'),qFollowingProfiles:query('following')},
+  '@/lib/supabase/server':{getSupabaseServerClient:async()=>({rpc:async(name,args)=>{
+   assert.equal(name,'list_garage_highlights');assert.equal(args.p_owner_id,profile.id);
+   calls.push('highlights');return{data:[],error:null};
+  }})},
   '@/lib/projects/server':{getProjectCollection:()=>assert.fail('Unrequested planner'),getProjectsBySlugs:()=>assert.fail('Unrequested planner')},
  });
  const result=await ProfileExperience({profile:{...profile,is_saves_public:visible,is_likes_public:visible},isOwner:owner,activeTab:tab,baseHref:'/perfil/fixture',showPrivateTools:true});
- assert.deepEqual(calls,expected);
+ assert.deepEqual(calls,expected.length===1?[...expected,'highlights']:expected);
  const header=result.props.children[1];assert.equal(header.props.projectsCount,25);assert.equal(header.props.likesReceived,300);assert.equal(header.props.coverImage,'/fixture.webp');
 });
 test('PERF-04: summary uses the existing authorized card and skips details and recommendations',async()=>{

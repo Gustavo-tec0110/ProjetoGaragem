@@ -1,4 +1,5 @@
 .page {
+  --font-title: var(--font-creator-title), ui-sans-serif, system-ui, sans-serif;
   --ink: #f3f3f4;
   --secondary: #a5a6ae;
   --rule: #ffffff14;
@@ -35,7 +36,7 @@
 .heroDescription { max-width: 480px; margin-top: 25px; color: var(--secondary); font-size: 15px; line-height: 1.9; }
 .exploreLink { display: inline-flex; align-items: center; gap: 32px; min-height: 48px; margin-top: 28px; border-bottom: 1px solid #606168; font-size: 12px; font-weight: 600; transition: color 180ms, gap 180ms; }
 .exploreLink:hover { color: var(--color-accent); gap: 40px; }
-.heroArtwork { min-width: 0; padding-top: 0; animation: arrive 400ms var(--pg-ease-out) both; }
+.heroArtwork { min-width: 0; padding-top: 0; animation: arriveArtwork 400ms var(--pg-ease-out) both; }
 .creatorHighlight { display: flex; align-items: center; gap: 16px; margin: 0; padding: 20px 24px; border: 1px solid #ffffff0d; border-radius: 8px; background: linear-gradient(110deg, #ffffff04, #ffffff01); }
 .creatorHighlight + .section { padding-top: 32px; }
 .creatorHighlight > svg { flex-shrink: 0; color: #54a9ff; }
@@ -138,6 +139,21 @@
 .firstSteps li::before { counter-increment: partnership-step; content: counter(partnership-step, decimal-leading-zero); position: absolute; left: 0; top: 4px; color: #bab9c2; font-family: var(--font-ui); font-size: 9px; }
 .firstSteps h4 { font-size: 12px; font-weight: 600; line-height: 1.8; }
 .firstSteps li p { margin-top: 9px; color: var(--secondary); font-size: 12px; line-height: 1.9; }
+.mediaKit { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: center; margin-top: 28px; padding: clamp(22px, 4vw, 48px); border: 1px solid var(--rule); border-radius: 10px; background: linear-gradient(120deg, #ffffff04, #ff352f04); }
+.mediaKitCopy, .mediaKitService { min-width: 0; }
+.mediaKitEyebrow { margin-bottom: 18px; color: var(--color-accent); font-size: 9px; font-weight: 600; letter-spacing: .14em; }
+.mediaKitCopy > p:not(.mediaKitEyebrow) { margin-top: 20px; color: var(--secondary); font-size: 13px; line-height: 1.9; }
+.mediaKitCopy > .mediaKitNote { padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12px; }
+.mediaKitService { padding-left: 32px; border-left: 1px solid var(--rule); }
+.mediaKitService > p:first-child { font-size: 12px; font-weight: 500; line-height: 1.8; }
+.mediaKitPrice { margin-top: 12px; font-family: var(--font-title); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -.04em; line-height: 1.2; }
+.mediaKitService > .contactButton { margin-top: 24px; }
+.mediaKitContact { margin-top: 16px; color: var(--secondary); font-size: 11px; line-height: 1.9; }
+@media (max-width: 700px) {
+  .mediaKit { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .mediaKitService { border-left: 0; border-top: 1px solid var(--rule); padding: 24px 0 0; }
+  .mediaKitService > .contactButton { width: 100%; }
+}
 .faq { display: grid; grid-template-columns: .9fr 1.2fr; gap: 72px; }
 .faq h2 { max-width: 340px; margin-top: 25px; }
 .faq > div > p:not(.sectionLabel) { max-width: 320px; margin-top: 22px; color: var(--secondary); font-size: 13px; line-height: 1.9; }
@@ -288,9 +304,27 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes arriveArtwork {
+  from { transform: translateY(14px); }
+  to { transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; }
  .contactButton:hover { transform: none; }
 }
 
 .verifiedBadge { display: inline-flex; flex-shrink: 0; align-items: center; color: #54a9ff; }
+
+/* Keep offscreen sections in the document while deferring their layout/paint.
+   Anchor navigation, find-in-page and the accessibility tree remain available. */
+.section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
+/* The merchandise section starts near the desktop fold; defer its deeper grids too. */
+.collection, .merchGrid {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}

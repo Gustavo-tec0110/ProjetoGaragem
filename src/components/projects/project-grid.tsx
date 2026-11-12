@@ -9,6 +9,7 @@ export function ProjectGrid({
   emptyDescription = "Ajuste os filtros ou adicione um projeto para ver novas fichas aqui.",
   emptyAction,
   eagerFirstImage = false,
+  imageSizes,
   imageIndex = 0,
   variant = "default",
 }: {
@@ -17,6 +18,7 @@ export function ProjectGrid({
   emptyDescription?: string;
   emptyAction?: ReactNode;
   eagerFirstImage?: boolean;
+  imageSizes?: string;
   imageIndex?: number;
   variant?: "default" | "profile";
 }) {
@@ -40,6 +42,8 @@ export function ProjectGrid({
           key={project.slug}
           project={project}
           imageLoading={eagerFirstImage && index < 3 ? "eager" : "lazy"}
+          imageFetchPriority={eagerFirstImage && index === 0 ? "high" : undefined}
+          imageSizes={imageSizes}
           imageIndex={imageIndex}
           variant={variant}
         />

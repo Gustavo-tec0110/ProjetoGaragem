@@ -12,6 +12,7 @@ import {
   Eye,
   Fuel,
   Gauge,
+  Gem,
   Heart,
   MessageCircle,
   Settings,
@@ -25,6 +26,7 @@ import { CatalogDetails } from "@/components/projects/catalog-details";
 import { ProjectFinanceChart } from "@/components/projects/project-finance-chart";
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ProjectGrid } from "@/components/projects/project-grid";
+import { ModificationCover } from "@/components/projects/modification-photo";
 import { ProjectImage } from "@/components/projects/project-image";
 import { ProjectShareActions } from "@/components/projects/project-share-actions";
 import { ProjectTimeline } from "@/components/projects/project-timeline";
@@ -259,12 +261,12 @@ function ProjectPartsShowcase({
                       {part.catalog ? (
                         <CatalogDetails item={part.catalog}>
                           <button type="button" aria-label={`Ver detalhes de ${part.name}`} className="pg-interactive-card relative aspect-square overflow-hidden rounded-xl border border-border/70 bg-white outline-none focus-visible:ring-2 focus-visible:ring-accent">
-                            <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={part.name} fill className="object-contain p-1" sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />
+                            {part.imageCrop && part.imageUrl ? <ModificationCover src={part.imageUrl} crop={part.imageCrop} alt={part.name} /> : <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={part.name} fill className="object-contain p-1" sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />}
                           </button>
                         </CatalogDetails>
                       ) : (
                         <div className="relative aspect-square overflow-hidden rounded-xl border border-border/70 bg-surface">
-                          <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={`Imagem de ${part.name}`} fill className={compact ? "object-contain p-1" : "object-cover"} sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />
+                          {part.imageCrop && part.imageUrl ? <ModificationCover src={part.imageUrl} crop={part.imageCrop} alt={part.name} /> : <ProjectImage src={part.imageUrl} fallbackSrc="/modifications/photo-unavailable.svg" alt={`Imagem de ${part.name}`} fill className={compact ? "object-contain p-1" : "object-cover"} sizes={compact ? "(min-width: 1024px) 100px, 96px" : "(min-width: 768px) 96px, (min-width: 640px) 80px, 64px"} />}
                         </div>
                       )}
 
@@ -285,6 +287,7 @@ function ProjectPartsShowcase({
                               ? "Removida"
                               : part.wishlist ? "Wishlist" : "Planejada"}
                         </Badge>
+                        {part.special ? <div className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-accent"><Gem className="size-3.5" /> Em destaque</div> : null}
                         <h4 className={compact ? "pg-part-name font-title text-sm leading-snug tracking-tight sm:text-base" : "mt-2 font-title text-base leading-snug tracking-tight md:text-lg"}>
                           {part.brand ? `${part.brand} ` : ""}
                           {part.name}
@@ -784,11 +787,12 @@ export function ProjectDetail({
             <Button asChild variant="outline" size="sm"><Link href={`${buildProjectHref(project.slug)}/modificacoes`}>{canEdit ? "Gerenciar modificações" : "Ver todas as modificações"}</Link></Button>
           </div>
           {modificationsUnavailable ? <p role="status" className="rounded-xl border border-border/70 p-4 text-sm text-muted">Não foi possível carregar as modificações do catálogo. Tente atualizar a página em instantes.</p> : null}
+          {[...project.installedParts, ...project.plannedParts, ...project.removedParts].some((part) => part.special) ? <ProjectPartsShowcase title="Peças em destaque" eyebrow="Escolhas do proprietário" parts={[...project.installedParts, ...project.plannedParts, ...project.removedParts].filter((part) => part.special)} emptyText="" /> : null}
           <ProjectPartsShowcase
             title="Modificações atuais"
             compact
             eyebrow="Instaladas no projeto"
-            parts={project.installedParts}
+            parts={project.installedParts.filter((part) => !part.special)}
             emptyText={modificationsUnavailable ? "Os registros do catálogo estão temporariamente indisponíveis." : "Nenhuma modificação instalada cadastrada."}
           />
           {project.source === "supabase" && project.databaseId ? <details onToggle={(event) => setAlertsExpanded(event.currentTarget.open)} className="rounded-2xl border border-border/70 bg-background/25 p-4">
@@ -904,12 +908,12 @@ export function ProjectDetail({
           <ProjectPartsShowcase
             title="Planos futuros"
             eyebrow="Próximos passos"
-            parts={project.plannedParts}
+            parts={project.plannedParts.filter((part) => !part.special)}
             emptyText="Nenhum plano futuro cadastrado."
           />
         {project.removedParts.length ? <details className="rounded-3xl border border-border/70 p-4">
           <summary className="cursor-pointer text-sm font-semibold">Modificações removidas · {project.removedParts.length}</summary>
-          <div className="mt-4"><ProjectPartsShowcase title="Histórico de peças" eyebrow="Fora da configuração atual" parts={project.removedParts} emptyText="Nenhuma peça removida." /></div>
+          <div className="mt-4"><ProjectPartsShowcase title="Histórico de peças" eyebrow="Fora da configuração atual" parts={project.removedParts.filter((part) => !part.special)} emptyText="Nenhuma peça removida." /></div>
         </details> : null}
         <section id="compartilhar">
           <Card className="grid gap-3 p-3 md:grid-cols-[1fr_auto] md:items-center md:p-6">

@@ -77,7 +77,8 @@ export function SiteNavbar() {
   const { user, loading, signOut } = useAuth();
   const displayName = getAuthUserName(user) ?? "Membro Projeto Garagem";
   const avatarUrl = getAuthUserAvatar(user);
-  const deferCreatePrefetch = pathname === "/" || pathname === "/login" || pathname === "/register" || pathname === "/explorar";
+  const isExplore = pathname === "/explorar";
+  const deferCreatePrefetch = pathname === "/" || pathname === "/login" || pathname === "/register" || isExplore;
   const isActive = React.useCallback(
     (href: string) => pathname === href || pathname.startsWith(`${href}/`),
     [pathname]
@@ -93,11 +94,11 @@ export function SiteNavbar() {
       <DropdownMenu.Trigger asChild>
         <button
           type="button"
-          className="flex min-w-0 max-w-[230px] items-center gap-2 rounded-xl border border-border/70 bg-background/35 px-2 py-1.5 text-left transition hover:bg-background/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex min-w-0 max-w-[230px] items-center gap-2 rounded-xl border border-border/70 bg-background/35 px-2 py-1.5 text-left transition hover:bg-background/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background max-lg:size-10 max-lg:max-w-none max-lg:p-1"
           aria-label="Abrir menu do perfil"
         >
           <UserAvatar avatarUrl={avatarUrl} displayName={displayName} />
-          <span className="min-w-0 leading-tight">
+          <span className="hidden min-w-0 leading-tight lg:block">
             <span className="block truncate text-sm font-ui font-semibold text-foreground">
               {displayName}
             </span>
@@ -105,7 +106,7 @@ export function SiteNavbar() {
               <span className="block truncate text-[11px] text-muted">{user.email}</span>
             ) : null}
           </span>
-          <ChevronDown className="size-4 shrink-0 text-muted" aria-hidden="true" />
+          <ChevronDown className="hidden size-4 shrink-0 text-muted lg:block" aria-hidden="true" />
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
@@ -141,7 +142,7 @@ export function SiteNavbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/50 bg-background/88 backdrop-blur-xl">
+      <header className={cn("fixed inset-x-0 top-0 z-50 border-b border-border/50", isExplore ? "bg-background" : "bg-background/88 backdrop-blur-xl")}>
         <div className="px-4 sm:px-6">
           <div className="mx-auto w-full max-w-[85rem]">
               <div className="flex min-h-16 items-center justify-between gap-2 lg:gap-4">
@@ -161,42 +162,32 @@ export function SiteNavbar() {
                   ))}
                 </nav>
 
-                <div className="hidden items-center gap-2 lg:flex">
+                <div className="flex shrink-0 items-center gap-1.5 lg:shrink lg:gap-2">
                   {user ? (
                     <>
                       <NotificationBell userId={user.id} />
                       {profileMenu}
                     </>
                   ) : (
-                    <Button asChild variant="ghost" size="sm">
-                      <Link href="/login">Entrar</Link>
-                    </Button>
+                    <>
+                      <Button asChild variant="ghost" size="sm" className="hidden lg:inline-flex">
+                        <Link href="/login">Entrar</Link>
+                      </Button>
+                      <Button asChild variant="outline" size="sm" className="h-10 px-3 lg:hidden">
+                        <Link href="/login">Entrar</Link>
+                      </Button>
+                    </>
                   )}
-                  <Button asChild size="sm">
+                  <Button asChild size="sm" className="hidden lg:inline-flex">
                     <Link href="/criar-projeto" prefetch={deferCreatePrefetch ? false : undefined}>Criar projeto</Link>
                   </Button>
-                </div>
-
-                <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
-                  {user ? (
-                    <NotificationBell userId={user.id} />
-                  ) : null}
-                  {user ? (
-                    <div className="[&>button]:size-10 [&>button]:max-w-none [&>button]:rounded-xl [&>button]:p-1 [&>button>span:nth-child(2)]:hidden [&>button>svg]:hidden">
-                      {profileMenu}
-                    </div>
-                  ) : (
-                    <Button asChild size="sm" variant="outline" className="h-10 px-3">
-                      <Link href="/login">Entrar</Link>
-                    </Button>
-                  )}
                 </div>
               </div>
           </div>
         </div>
       </header>
 
-      <nav aria-label="Navegação principal mobile" className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-card/94 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl lg:hidden">
+      <nav aria-label="Navegação principal mobile" className={cn("fixed inset-x-0 bottom-0 z-50 border-t border-border/60 pb-[env(safe-area-inset-bottom,0px)] lg:hidden", isExplore ? "bg-card" : "bg-card/94 backdrop-blur-xl")}>
         <div className="mx-auto w-full max-w-2xl">
             <div className="grid grid-cols-5 gap-0.5 px-2 py-1.5 sm:px-4">
               {bottomNav.map((item) => {

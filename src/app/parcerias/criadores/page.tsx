@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import localFont from "next/font/local";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Eye, Megaphone, MessageCircle, Plus } from "lucide-react";
 
@@ -9,6 +10,17 @@ import { foundingCreators, minimumVisibleCreators } from "./creators";
 import { MerchShowcase } from "./merch-showcase";
 import { CreatorProfilePreview } from "./profile-preview";
 import styles from "./page.module.css";
+
+// The existing title face is small; discover it with this route, before its CSS is parsed.
+const creatorTitle = localFont({
+  src: "../../../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2",
+  variable: "--font-creator-title",
+  weight: "700",
+  style: "normal",
+  display: "swap",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   ...createSeoMetadata({
@@ -52,11 +64,19 @@ const firstSteps = [
   { title: "Combinamos o começo", text: "Registramos os acordos e os próximos passos antes de iniciar qualquer ação da parceria." },
 ];
 
+function creatorWhatsAppUrl(message: string) {
+  const number = process.env.CREATOR_CONTACT_WHATSAPP_NUMBER?.trim();
+  if (!number || !/^[1-9]\d{7,14}$/.test(number)) return undefined;
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
+
 export default function CreatorPartnershipPage() {
   const confirmedCreators = foundingCreators.filter((creator) => creator.publicationAuthorized);
+  const partnershipWhatsApp = creatorWhatsAppUrl("Olá! Conheci o Projeto Garagem e gostaria de conversar sobre uma possível parceria.");
+  const mediaKitWhatsApp = creatorWhatsAppUrl("Olá! Tenho interesse no serviço de criação de Media Kit do Projeto Garagem e gostaria de saber mais.");
 
   return (
-    <main className={styles.page} data-creator-partnership>
+    <main className={`${styles.page} ${creatorTitle.variable}`} data-creator-partnership>
       <a href="#programa" className={styles.skipLink}>Pular para o programa</a>
       <div className={styles.container}>
         <header className={styles.header}>
@@ -161,6 +181,26 @@ export default function CreatorPartnershipPage() {
           </section>
         )}
 
+        <section className={styles.section} aria-labelledby="media-kit-titulo">
+          <p className={styles.sectionLabel}>PARA QUEM CRIA CONTEÚDO</p>
+          <div className={styles.mediaKit}>
+            <div className={styles.mediaKitCopy}>
+              <p className={styles.mediaKitEyebrow}>SERVIÇO OPCIONAL</p>
+              <h2 id="media-kit-titulo">Seu conteúdo merece <span>uma boa apresentação.</span></h2>
+              <p>Criamos seu Media Kit profissional: uma apresentação que reúne seu perfil, seu público e seus formatos de conteúdo para facilitar conversas com marcas e possíveis parceiros.</p>
+              <p className={styles.mediaKitNote}>Disponível aos interessados no Projeto Garagem. A contratação é opcional e independente da aprovação da parceria. Não é requisito nem garante sua participação no programa.</p>
+            </div>
+            <div className={styles.mediaKitService}>
+              <p>Criação de Media Kit profissional</p>
+              <p className={styles.mediaKitPrice}>R$ 100</p>
+              <a className={styles.contactButton} href={mediaKitWhatsApp ?? "mailto:parcerias@projetogaragem.com.br?subject=Cria%C3%A7%C3%A3o%20de%20Media%20Kit"}>
+                Quero meu Media Kit <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+              <p className={styles.mediaKitContact}>Converse com a gente por {mediaKitWhatsApp ? "WhatsApp" : "e-mail"} para alinhar o conteúdo e os próximos passos.</p>
+            </div>
+          </div>
+        </section>
+
         <section id="duvidas" className={`${styles.section} ${styles.faq}`} aria-labelledby="duvidas-titulo">
           <div><p className={styles.sectionLabel}><span>05</span> ANTES DA CONVERSA</p><h2 id="duvidas-titulo">Para começar <span>com clareza.</span></h2><p>Algumas respostas sobre esta fase do programa e as possibilidades que queremos explorar.</p></div>
           <div className={styles.faqList}>
@@ -175,7 +215,9 @@ export default function CreatorPartnershipPage() {
           <p className={styles.eyebrow}>O PRÓXIMO CAPÍTULO COMEÇA COM UMA CONVERSA</p>
           <h2 id="final-titulo">Vamos conectar sua marca à <span>cultura automotiva.</span></h2>
           <p>Queremos construir algo relevante para a cultura automotiva. Queremos parceiros que compartilhem essa paixão.</p>
-          <a className={styles.contactButton} href="mailto:parcerias@projetogaragem.com.br?subject=Parceria%20%E2%80%94%20Criadores%20Parceiros">Conversar sobre a parceria <ArrowUpRight size={18} aria-hidden="true" /></a>
+          <a className={styles.contactButton} href={partnershipWhatsApp ?? "mailto:parcerias@projetogaragem.com.br?subject=Parceria%20%E2%80%94%20Criadores%20Parceiros"}>
+            {partnershipWhatsApp ? "Conversar pelo WhatsApp" : "Conversar sobre a parceria"} <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
           <a className={styles.contactEmail} href="mailto:parcerias@projetogaragem.com.br">parcerias@projetogaragem.com.br</a>
           <span className={styles.inviteNote}>Um convite para nos conhecermos e pensar os próximos passos juntos.</span>
         </section>

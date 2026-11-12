@@ -19,20 +19,21 @@ export default function RegisterPage() {
 
   const captcha = useCaptcha();
   const submitting = useRef(false);
-  const [accepted, setAccepted] = useState(false);
   const [termsError, setTermsError] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (data: FormData) => {
+    // React replays early submissions with the native controls, including pre-hydration typing.
+    // Cancel automatic action resets below to keep those controls on validation/API errors.
+    const fullName = String(data.get("fullName") ?? "");
+    const email = String(data.get("email") ?? "");
+    const password = String(data.get("password") ?? "");
+    const confirmPassword = String(data.get("confirmPassword") ?? "");
     if (submitting.current) return;
     setError("");
+    const accepted = data.get("acceptTerms") === "on";
     setTermsError(!accepted);
     if (!accepted) { setError(TERMS_REQUIRED_MESSAGE); return; }
     if (!captcha.token) { setError(CAPTCHA_REQUIRED); return; }
@@ -51,8 +52,11 @@ export default function RegisterPage() {
       const { error: signUpError, hasSession } = await signUpWithEmail(email, password, fullName, captcha.token);
 
       if (signUpError) {
-        setLoading(false);
-        setError(signUpError.message ?? "Erro ao cadastrar.");
+        if (signUpError.code === "user_already_exists" || signUpError.code === "email_exists") {
+          setSuccess(true);
+          return;
+        }
+        setError("Não foi possível iniciar o cadastro. Confira os dados e refaça a verificação de segurança.");
         return;
       }
 
@@ -91,7 +95,8 @@ export default function RegisterPage() {
     >
             {success ? (
               <p className="mt-4 text-sm text-muted">
-                Cadastro iniciado. Confira seu email para confirmar a conta. Depois, entre para confirmar o aceite dos documentos na sua sessão e continuar.
+                Cadastro iniciado. Se a conta precisar de confirmação, você receberá um link por email.
+                Se já tiver uma conta, entre ou solicite a recuperação de senha.
               </p>
             ) : (
               <>
@@ -103,27 +108,27 @@ export default function RegisterPage() {
                   <span className="h-px flex-1 bg-border/70" />
                 </div>
 
-                <form onSubmit={handleSubmit} className="grid gap-4">
+                <form action={handleSubmit} onReset={(event) => event.preventDefault()} className="grid gap-4">
                   <label className="grid gap-2 text-sm font-medium text-foreground/85">
                     Nome completo
-                    <Input placeholder="Como você quer ser chamado" value={fullName} onChange={(event) => setFullName(event.target.value)} autoComplete="name" required />
+                    <Input placeholder="Como você quer ser chamado" name="fullName" autoComplete="name" required />
                   </label>
                   <label className="grid gap-2 text-sm font-medium text-foreground/85">
                     Email
-                    <Input placeholder="voce@email.com" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+                    <Input placeholder="voce@email.com" type="email" name="email" autoComplete="email" required />
                   </label>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label className="grid gap-2 text-sm font-medium text-foreground/85">
                       Senha
-                      <Input placeholder="Mínimo de 6 caracteres" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" required />
+                      <Input placeholder="Mínimo de 6 caracteres" type="password" name="password" autoComplete="new-password" required />
                     </label>
                     <label className="grid gap-2 text-sm font-medium text-foreground/85">
                       Confirmar senha
-                      <Input placeholder="Repita a senha" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" required />
+                      <Input placeholder="Repita a senha" type="password" name="confirmPassword" autoComplete="new-password" required />
                     </label>
                   </div>
                   <Turnstile onToken={captcha.setToken} generation={captcha.generation} />
-                  <TermsCheckbox checked={accepted} onChange={(value) => { setAccepted(value); if (value) { setTermsError(false); if (error === TERMS_REQUIRED_MESSAGE) setError(""); } }} invalid={termsError && !accepted} />
+                  <TermsCheckbox onChange={(value) => { if (value) { setTermsError(false); if (error === TERMS_REQUIRED_MESSAGE) setError(""); } }} invalid={termsError} />
                   {error ? <p id="terms-error" role="alert" aria-live="polite" className="rounded-xl border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p> : null}
                   <Button type="submit" disabled={loading} className="w-full">
                     {loading ? "Cadastrando..." : "Criar conta"}

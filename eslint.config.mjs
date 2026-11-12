@@ -4,9 +4,9 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "out/**", "build/**", "coverage/**", "next-env.d.ts",
+    ignores: [".next/**", "out/**", "build/**", "coverage/**", "next-env.d.ts", ".netlify/**", "artifacts/**", "results/**", "test-results/**", "playwright-report/**",
       // Immutable scripts from the historical audit, not application tooling.
-      "docs/origens/**", "docs/evidencias-performance-2026-10-12/**/*.cjs"],
+      "docs/auditorias/**/*.{mjs,cjs}", "docs/origens/**", "docs/evidencias-performance-2026-10-12/**/*.cjs"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

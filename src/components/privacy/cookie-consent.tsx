@@ -1,6 +1,5 @@
 "use client";
 
-import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import * as React from "react";
 import { X } from "lucide-react";
@@ -54,53 +53,92 @@ function CookiePreferencesDialog({
   onAnalyticsChange: (enabled: boolean) => void;
   onSave: () => void;
 }) {
+  const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+
+  React.useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!open || !dialog) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousPadding = document.body.style.paddingRight;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbar > 0) {
+      document.body.style.paddingRight = `${parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar}px`;
+    }
+    document.body.style.overflow = "hidden";
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+      document.body.style.paddingRight = previousPadding;
+    };
+  }, [open]);
+
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[90] bg-black/65 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in" />
-        <Dialog.Content className="fixed inset-x-4 bottom-4 z-[91] mx-auto max-h-[calc(100dvh-2rem)] w-auto max-w-lg overflow-y-auto rounded-3xl border border-border bg-card p-5 shadow-elevated outline-none sm:inset-0 sm:bottom-auto sm:m-auto sm:h-fit sm:p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <Dialog.Title className="font-title text-xl tracking-tight">Preferências de cookies</Dialog.Title>
-              <Dialog.Description className="mt-1 text-sm leading-6 text-muted">
-                Escolha o uso de estatísticas. Cookies essenciais permanecem ativos para a conta e para lembrar sua escolha.
-              </Dialog.Description>
-            </div>
-            <Dialog.Close asChild>
-              <button type="button" className="rounded-xl p-2 text-muted hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" aria-label="Fechar preferências de cookies">
-                <X className="size-4" />
-              </button>
-            </Dialog.Close>
-          </div>
+    <dialog
+      ref={dialogRef}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      onCancel={(event) => { event.preventDefault(); onOpenChange(false); }}
+      onKeyDown={(event) => {
+        if (event.key !== "Tab") return;
+        // Keep keyboard cycling inside the modal rather than the browser chrome.
+        const controls = event.currentTarget.querySelectorAll<HTMLElement>("button:not([disabled]), input:not([disabled])");
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }}
+      onClick={(event) => {
+        if (event.target !== event.currentTarget) return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) onOpenChange(false);
+      }}
+      className="pg-cookie-dialog fixed inset-x-4 top-auto bottom-4 z-[91] mx-auto max-h-[calc(100dvh-2rem)] w-auto max-w-lg overflow-y-auto rounded-3xl border border-border bg-card p-5 shadow-elevated text-foreground outline-none backdrop:bg-black/65 backdrop:backdrop-blur-sm sm:inset-0 sm:bottom-auto sm:m-auto sm:h-fit sm:p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 id={titleId} className="font-title text-xl tracking-tight">Preferências de cookies</h2>
+          <p id={descriptionId} className="mt-1 text-sm leading-6 text-muted">
+            Escolha o uso de estatísticas. Cookies essenciais permanecem ativos para a conta e para lembrar sua escolha.
+          </p>
+        </div>
+        <button type="button" className="rounded-xl p-2 text-muted hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" onClick={() => onOpenChange(false)} aria-label="Fechar preferências de cookies">
+          <X className="size-4" />
+        </button>
+      </div>
 
-          <div className="mt-5 space-y-3 text-sm">
-            <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-ui font-semibold">Essenciais</p>
-                <span className="rounded-full bg-success/10 px-2 py-1 text-xs font-semibold text-success">Sempre ativos</span>
-              </div>
-              <p className="mt-2 leading-6 text-muted">Mantêm a sessão e registram sua preferência de cookies.</p>
-            </div>
-            <label className="flex cursor-pointer items-start justify-between gap-4 rounded-2xl border border-border/70 bg-background/30 p-4">
-              <span>
-                <span className="block font-ui font-semibold">Estatísticas de acesso</span>
-                <span className="mt-1 block leading-6 text-muted">Opcional e desligado por padrão. Nenhum serviço de analytics está integrado no momento; sua escolha pode ser alterada aqui depois.</span>
-              </span>
-              <input
-                type="checkbox"
-                checked={analyticsEnabled}
-                onChange={(event) => onAnalyticsChange(event.target.checked)}
-                className="mt-1 size-5 shrink-0 accent-accent"
-              />
-            </label>
+      <div className="mt-5 space-y-3 text-sm">
+        <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-ui font-semibold">Essenciais</p>
+            <span className="rounded-full bg-success/10 px-2 py-1 text-xs font-semibold text-success">Sempre ativos</span>
           </div>
+          <p className="mt-2 leading-6 text-muted">Mantêm a sessão e registram sua preferência de cookies.</p>
+        </div>
+        <label className="flex cursor-pointer items-start justify-between gap-4 rounded-2xl border border-border/70 bg-background/30 p-4">
+          <span>
+            <span className="block font-ui font-semibold">Estatísticas de acesso</span>
+            <span className="mt-1 block leading-6 text-muted">Opcional e desligado por padrão. Nenhum serviço de analytics está integrado no momento; sua escolha pode ser alterada aqui depois.</span>
+          </span>
+          <input
+            type="checkbox"
+            checked={analyticsEnabled}
+            onChange={(event) => onAnalyticsChange(event.target.checked)}
+            className="mt-1 size-5 shrink-0 accent-accent"
+          />
+        </label>
+      </div>
 
-          <div className="mt-5 flex justify-end">
-            <Button type="button" onClick={onSave}>Salvar preferência</Button>
-          </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+      <div className="mt-5 flex justify-end">
+        <Button type="button" onClick={onSave}>Salvar preferência</Button>
+      </div>
+    </dialog>
   );
 }
 

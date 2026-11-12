@@ -158,10 +158,7 @@ export function ProfileForm({
   const [avatarUrl, setAvatarUrl] = React.useState(profile?.avatar_url ?? "");
   const [coverUrl, setCoverUrl] = React.useState(profile?.cover_url ?? "");
   const [username, setUsername] = React.useState(profile?.username ?? "");
-  const [socialLinks, setSocialLinks] = React.useState<Record<SocialPlatform, string>>(() => {
-    const links = getProfileSocialLinks(profile?.social_links, profile?.instagram_handle);
-    return Object.fromEntries(SOCIAL_PLATFORMS.map((platform) => [platform, links[platform] ?? ""])) as Record<SocialPlatform, string>;
-  });
+  const socialLinks = getProfileSocialLinks(profile?.social_links, profile?.instagram_handle);
   const [socialErrors, setSocialErrors] = React.useState<Partial<Record<SocialPlatform, string>>>({});
   const router = useRouter();
   const pathname = usePathname();
@@ -182,18 +179,16 @@ export function ProfileForm({
     router.refresh();
   }, [onSaved, pathname, profile, router, state, username]);
 
-  function validateSocialLinks() {
+  function validateSocialLinks(form: HTMLFormElement) {
     const errors: Partial<Record<SocialPlatform, string>> = {};
-    const normalized: Partial<Record<SocialPlatform, string>> = {};
     for (const platform of SOCIAL_PLATFORMS) {
-      const result = normalizeSocialLink(platform, socialLinks[platform]);
+      const input = form.elements.namedItem(`social_${platform}`) as HTMLInputElement;
+      const result = normalizeSocialLink(platform, input.value);
       if (!result.ok) errors[platform] = result.message;
-      else normalized[platform] = result.value ?? "";
+      else input.value = result.value ?? "";
     }
     setSocialErrors(errors);
-    if (Object.keys(errors).length) return false;
-    setSocialLinks((current) => ({ ...current, ...normalized }));
-    return true;
+    return Object.keys(errors).length === 0;
   }
 
   const content = (
@@ -206,7 +201,7 @@ export function ProfileForm({
         </>
       ) : null}
 
-      <form action={formAction} onSubmit={(event) => { if (!validateSocialLinks()) event.preventDefault(); }} className={cn("grid gap-4", !embedded && "mt-5 md:mt-6")}>
+      <form action={formAction} onSubmit={(event) => { if (!validateSocialLinks(event.currentTarget)) event.preventDefault(); else setUsername(String(new FormData(event.currentTarget).get("username") ?? "")); }} className={cn("grid gap-4", !embedded && "mt-5 md:mt-6")}>
         <div className="grid gap-4 sm:grid-cols-[auto_1fr]">
           <ProfileImageField kind="avatar" label="Foto de perfil" value={avatarUrl} onChange={setAvatarUrl} />
           <ProfileImageField kind="cover" label="Imagem de capa" value={coverUrl} onChange={setCoverUrl} />
@@ -219,7 +214,7 @@ export function ProfileForm({
           </label>
           <label className="grid gap-2 text-sm text-muted">
             Username
-            <Input name="username" value={username} onChange={(event) => setUsername(event.target.value)} placeholder="ex: gustavo-garage" required minLength={3} maxLength={24} autoCapitalize="none" />
+            <Input name="username" defaultValue={profile?.username ?? ""} placeholder="ex: gustavo-garage" required minLength={3} maxLength={24} autoCapitalize="none" />
           </label>
         </div>
 
@@ -249,15 +244,14 @@ export function ProfileForm({
                   <Input
                     id={inputId}
                     name={`social_${platform}`}
-                    value={socialLinks[platform]}
-                    onChange={(event) => {
-                      setSocialLinks((current) => ({ ...current, [platform]: event.target.value }));
+                    defaultValue={socialLinks[platform] ?? ""}
+                    onChange={() => {
                       setSocialErrors((current) => ({ ...current, [platform]: undefined }));
                     }}
-                    onBlur={() => {
-                      const result = normalizeSocialLink(platform, socialLinks[platform]);
+                    onBlur={(event) => {
+                      const result = normalizeSocialLink(platform, event.currentTarget.value);
                       setSocialErrors((current) => ({ ...current, [platform]: result.ok ? undefined : result.message }));
-                      if (result.ok && result.value) setSocialLinks((current) => ({ ...current, [platform]: result.value }));
+                      if (result.ok) event.currentTarget.value = result.value ?? "";
                     }}
                     placeholder={platform === "instagram" ? "instagram.com/sua-garagem" : platform === "tiktok" ? "tiktok.com/@sua-garagem" : "youtube.com/@sua-garagem"}
                     inputMode="url"

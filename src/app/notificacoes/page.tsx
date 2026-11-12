@@ -39,7 +39,7 @@ export default async function NotificationsPage() {
               </p>
             </div>
             <Card className="self-start px-3 py-2 text-xs text-muted md:px-4 md:py-3 md:text-sm">
-              {(unreadResult.data ?? 0).toLocaleString("pt-BR")} não lidas
+              {unreadResult.error || unreadResult.data === null ? "Contagem indisponível" : `${(unreadResult.data ?? 0).toLocaleString("pt-BR")} não lidas`}
             </Card>
           </div>
 
@@ -52,6 +52,13 @@ export default async function NotificationsPage() {
                 </p>
                 <Button asChild className="mt-6">
                   <Link href="/login?next=/notificacoes">Entrar</Link>
+                </Button>
+              </Card>
+            ) : notificationsResult.error || notificationsResult.data === null ? (
+              <Card className="p-4 text-sm text-muted md:p-6">
+                <p role="alert">Não foi possível carregar suas notificações. Tente novamente.</p>
+                <Button asChild variant="outline" className="mt-4">
+                  <a href="/notificacoes">Tentar novamente</a>
                 </Button>
               </Card>
             ) : (
