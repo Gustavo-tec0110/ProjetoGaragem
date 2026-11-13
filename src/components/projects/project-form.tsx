@@ -64,11 +64,9 @@ export function ProjectForm({
     return <CarForm mode="create" catalogVersions={catalogVersions ?? []} />;
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleSubmit(formData: FormData) {
     setError("");
 
-    const formData = new FormData(event.currentTarget);
     const title = String(formData.get("title") ?? "").trim();
     const ownerName = String(formData.get("owner_name") ?? "").trim() || "Sua garagem";
     const carModel = String(formData.get("car_model") ?? "").trim();
@@ -147,7 +145,7 @@ export function ProjectForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+    <form action={handleSubmit} onReset={(event) => event.preventDefault()} className="space-y-4 md:space-y-6">
       <Card className="p-4 md:p-6">
         <p className="text-xs text-warning">Modo local</p>
         <h1 className="mt-2 font-title text-2xl tracking-tight md:text-3xl">

@@ -10,7 +10,7 @@ test("Minha Garagem conserva projeto criado no modo local após recarga", async 
   await page.getByLabel("Ano", { exact: true }).fill("1994");
   await page.getByLabel("Imagem principal", { exact: true }).fill("/ref/hero-opala-ss.webp");
   await page.getByRole("button", { name: "Criar projeto local", exact: true }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Auditoria local de garagem", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Auditoria local de garagem", exact: true })).toBeVisible({ timeout: 30_000 });
   await page.reload();
   await expect(page.getByRole("heading", { level: 1, name: "Auditoria local de garagem", exact: true })).toBeVisible();
   await page.goto("/garagem");

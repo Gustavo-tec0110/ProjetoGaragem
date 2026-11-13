@@ -41,7 +41,7 @@ test.describe("skeletons responsivos", () => {
         await expect(page.locator("main").first()).toBeVisible();
         await expect(page.locator('[aria-busy="true"]')).toHaveCount(0);
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width);
-        await page.screenshot({ path: screenshotPath(testInfo, `${skeleton}-${viewport.name}-real.png`), fullPage: true });
+        await page.screenshot({ path: screenshotPath(testInfo, `${skeleton}-${viewport.name}-real.png`), fullPage: true, caret: "initial" });
 
         await page.goto(`/dev-skeletons/${skeleton}`, { waitUntil: "domcontentloaded" });
         await expect(page.locator('[aria-busy="true"]')).toBeVisible();

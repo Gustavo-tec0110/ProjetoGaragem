@@ -21,6 +21,7 @@ export function ModificationCover({ src, crop, alt = "" }: { src: string; crop?:
 export function ModificationCropDialog({ src, initial, onCancel, onSave }: { src: string; initial: PhotoCrop | null; onCancel: () => void; onSave: (crop: PhotoCrop) => void }) {
   const [crop, setCrop] = React.useState<PhotoCrop>(initial ?? DEFAULT_PHOTO_CROP);
   const [size, setSize] = React.useState<{ width: number; height: number } | null>(null);
+  const zoomInput = React.useRef<HTMLInputElement>(null);
   const gesture = React.useRef<{ id: number; x: number; y: number; crop: PhotoCrop; width: number } | null>(null);
   const clamp = (next: PhotoCrop) => {
     if (!size) return next;
@@ -43,8 +44,8 @@ export function ModificationCropDialog({ src, initial, onCancel, onSave }: { src
         <ModificationCover src={src} crop={crop} alt="Prévia do recorte" />
         <img src={src} alt="" className="hidden" onLoad={(event) => setSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })} />
       </div>
-      <label className="mt-4 block text-sm font-medium">Zoom <input className="mt-2 w-full" type="range" min="1" max="4" step="0.01" value={crop.zoom} onChange={(event) => setCrop(clamp({ ...crop, zoom: Number(event.target.value) }))} /></label>
-      <div className="mt-4 flex justify-end gap-2"><Button type="button" variant="outline" onClick={onCancel}>Cancelar</Button><Button type="button" disabled={!size} onClick={() => onSave(clamp(crop))}>Salvar recorte</Button></div>
+      <label className="mt-4 block text-sm font-medium">Zoom <input ref={zoomInput} className="mt-2 w-full" type="range" min="1" max="4" step="0.01" value={crop.zoom} onInput={(event) => setCrop(clamp({ ...crop, zoom: event.currentTarget.valueAsNumber }))} /></label>
+      <div className="mt-4 flex justify-end gap-2"><Button type="button" variant="outline" onClick={onCancel}>Cancelar</Button><Button type="button" disabled={!size} onClick={() => onSave(clamp({ ...crop, zoom: zoomInput.current?.valueAsNumber ?? crop.zoom }))}>Salvar recorte</Button></div>
     </Dialog.Content>
   </Dialog.Portal></Dialog.Root>;
 }

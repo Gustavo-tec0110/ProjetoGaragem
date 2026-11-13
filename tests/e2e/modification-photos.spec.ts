@@ -56,6 +56,28 @@ test("cancelar edição não exclui foto persistida", async ({ page }) => {
   expect(deletes).toEqual([]);
 });
 
+test("reabrir o recorte preserva o zoom alterado com o teclado", async ({ page }) => {
+  await page.route("**/api/uploads/image", (route) => route.fulfill({
+    status: route.request().method() === "POST" ? 201 : 200,
+    json: { path: pending, url: preview },
+  }));
+  await page.goto("/test-harness/modification-photos");
+  await page.getByRole("button", { name: "Adicionar modificação" }).click();
+  await page.getByLabel("Adicionar fotos").setInputFiles({ name: "cover.webp", mimeType: "image/webp", buffer: Buffer.from("fixture") });
+  const dialog = page.getByRole("dialog", { name: "Ajustar capa" });
+  await expect(dialog.getByRole("button", { name: "Salvar recorte" })).toBeEnabled();
+  await dialog.getByRole("slider", { name: "Zoom" }).press("End");
+  await confirmCover(page);
+  const reopen = page.getByRole("button", { name: "Ajustar recorte" });
+  await reopen.click();
+  await expect(dialog.getByRole("slider", { name: "Zoom" })).toHaveValue("4");
+  await dialog.getByRole("slider", { name: "Zoom" }).press("Home");
+  await dialog.getByRole("slider", { name: "Zoom" }).press("ArrowRight");
+  await confirmCover(page);
+  await reopen.click();
+  await expect(dialog.getByRole("slider", { name: "Zoom" })).toHaveValue("1.01");
+});
+
 test("substituir foto descarta a anterior e cancelar descarta a nova", async ({ page }) => {
   const nextPending = `${owner}/pending-modifications/1fae4c91-4c7f-48b5-a738-9037eec21608.webp`;
   const deletes: string[] = [];
