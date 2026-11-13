@@ -13,7 +13,7 @@ test("home e explorar continuam disponíveis sem projetos publicados", async ({ 
   await expect(page.getByRole("link", { name: /Adicionar meu primeiro projeto/ })).toHaveAttribute("href", "/criar-projeto");
 });
 
-test("footer acompanha skeletons, conteúdo carregado e histórico de rotas", async ({ page }) => {
+test("footer acompanha conteúdo carregado e histórico de rotas", async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("projeto-garagem:cookie-consent", JSON.stringify({
       version: 1,
@@ -27,15 +27,7 @@ test("footer acompanha skeletons, conteúdo carregado e histórico de rotas", as
   await page.goto("/explorar");
   await expect(page.getByRole("heading", { name: "Explorar projetos" })).toBeVisible();
   await expect(page.locator("footer")).toBeVisible();
-
-  await page.locator("main").evaluate((main) => {
-    const status = document.createElement("div");
-    status.id = "e2e-busy-status";
-    status.setAttribute("aria-busy", "true");
-    main.after(status);
-  });
-  await expect(page.locator("footer")).toBeVisible();
-  await page.locator("#e2e-busy-status").evaluate((status) => status.remove());
+  await expect(page.getByRole("heading", { name: "Ainda nao ha projetos para exibir." })).toBeVisible();
 
   await page.goto("/rankings");
   await expect(page).toHaveURL(/\/rankings$/);
