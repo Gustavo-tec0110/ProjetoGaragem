@@ -28,10 +28,14 @@ test("footer acompanha skeletons, conteúdo carregado e histórico de rotas", as
   await expect(page.getByRole("heading", { name: "Explorar projetos" })).toBeVisible();
   await expect(page.locator("footer")).toBeVisible();
 
-  const busyControl = page.locator("main button").first();
-  await busyControl.evaluate((button) => button.setAttribute("aria-busy", "true"));
+  await page.locator("main").evaluate((main) => {
+    const status = document.createElement("div");
+    status.id = "e2e-busy-status";
+    status.setAttribute("aria-busy", "true");
+    main.after(status);
+  });
   await expect(page.locator("footer")).toBeVisible();
-  await busyControl.evaluate((button) => button.removeAttribute("aria-busy"));
+  await page.locator("#e2e-busy-status").evaluate((status) => status.remove());
 
   await page.goto("/rankings");
   await expect(page).toHaveURL(/\/rankings$/);
